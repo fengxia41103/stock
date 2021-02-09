@@ -3,16 +3,15 @@ import classNames from "classnames";
 import { map, filter, sortBy } from "lodash";
 import { Jumbotron } from "react-bootstrap";
 import { DebounceInput } from "react-debounce-input";
-import { randomId } from "./helper.jsx";
-import HighchartGraphBox from "./shared/graph-highchart.jsx";
-import ToggleDetails from "./shared/toggle_details.jsx";
-import Fetch from "./shared/fetch.jsx";
+import ToggleDetails from "../shared/toggle_details.jsx";
+import Fetch from "../shared/fetch.jsx";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   NavLink,
 } from "react-router-dom";
+import StockDetail from "./detail.jsx";
 
 class StockList extends Fetch {
   constructor(props) {
@@ -96,24 +95,6 @@ class StockList extends Fetch {
           <Switch>{details}</Switch>
         </div>
       </Router>
-    );
-  }
-}
-
-class StockDetail extends Fetch {
-  constructor(props) {
-    super(props);
-    const { id } = this.props;
-    this.state.resource = "/api/v1/stocks/" + id;
-  }
-
-  render_data(stock) {
-    const { api } = this.props;
-
-    return (
-      <div>
-        <h1>{stock.symbol}</h1>
-      </div>
     );
   }
 }

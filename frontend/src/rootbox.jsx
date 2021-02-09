@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import TopNavBox from "./shared/top_nav.jsx";
-import StockList from "./stocks.jsx";
+import StockList from "./stocks/list.jsx";
 
 class RootBox extends Component {
   constructor(props) {
