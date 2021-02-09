@@ -217,9 +217,7 @@ SILENCED_SYSTEM_CHECKS = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-    "http://10.240.43.48:8080",
     "http://localhost:8080",
-    "http://localhost:8002",
 ]
 
 PASSWORD_HASHERS = (

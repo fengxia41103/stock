@@ -40,7 +40,7 @@ class MyStockHistorical(models.Model):
     """Historical stock data."""
 
     stock = models.ForeignKey(
-        "MyStock", on_delete=models.CASCADE, related_name="stocks"
+        "MyStock", on_delete=models.CASCADE, related_name="historicals"
     )
     on = models.DateField(verbose_name=u"Date")
     open_price = models.FloatField()
