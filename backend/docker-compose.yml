@@ -1,0 +1,110 @@
+# docker-compose version
+version: '3.3'
+
+# network
+networks:
+  data:
+  management:
+
+# storage
+volumes:
+  stock-data:
+  redis-data:
+
+# computes
+services:
+  nginx:
+    image: nginx
+    ports:
+      # host port mapped to 8003
+      - "8003:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - web
+    command: [nginx-debug, '-g', 'daemon off;']
+    networks:
+      - data
+
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    #ports:
+    #  - "3306:3306"
+    volumes:
+      - stock-data:/var/lib/mysql # persisted volume
+      - ./mysql.cnf:/etc/mysql/conf.d/feng.cnf
+    environment:
+      MYSQL_DATABASE: stock
+      MYSQL_USER: fengxia
+      MYSQL_PASSWORD: natalie
+      MYSQL_ROOT_HOST: "%" # allow remote conn from these hosts
+      MYSQL_ROOT_PASSWORD: natalie
+    networks:
+      - data
+
+
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile-web
+    image: mystock
+    volumes:
+      - .:/code
+      - type: bind
+        source: ./static
+        target: /code/static
+    environment:
+      PYTHONUNBUFFERED: 1
+      DJANGO_DEBUG: "true" # 0 or 1
+      MYSQL_DATABASE: stock
+      DEPLOY_TYPE: dev # dev or prod
+      DJANGO_DB_USER: fengxia
+      DJANGO_DB_PWD: natalie
+      DJANGO_DB_HOST: db
+      DJANGO_DB_PORT: 3306
+      DJANGO_REDIS_HOST: redis
+    #ports:
+    #  - "8001:8001"
+    command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py runserver 0.0.0.0:8001"
+    # command:
+    #   "gunicorn --workers=8 --timeout=300 --log-level=info
+    #   --bind=0.0.0.0:8001 fin.wsgi:application"
+
+    networks:
+      - data
+      - management
+    depends_on:
+      - db
+      - redis
+
+  celery:
+    image: mystock
+    environment:
+      DJANGO_DEBUG: "false" # 0 or 1
+      DEPLOY_TYPE: dev # dev or prod
+      DJANGO_DB_USER: fengxia
+      DJANGO_DB_PWD: natalie
+      DJANGO_DB_HOST: db
+      DJANGO_DB_PORT: 3306
+      DJANGO_REDIS_HOST: redis
+      MYSQL_DATABASE: stock
+    command: celery -A fin.celery worker -l INFO
+    volumes:
+      - .:/code
+    networks:
+      - data
+    depends_on:
+      - web
+      - db
+      - redis
+
+  redis:
+    image: redis
+    #ports:
+    #  - '6379:6379'
+    volumes:
+      - redis-data:/data
+    networks:
+      - data
