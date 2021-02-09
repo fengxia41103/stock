@@ -1,0 +1,278 @@
+body {
+  font-family: 'Jaldi', sans-serif;
+  font-size: 14pt;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Baloo Paaji', cursive;
+}
+
+.my-nobreak {
+  overflow: hidden;
+  /* Fix for firefox and IE 10-11  */
+  -webkit-column-break-inside: avoid;
+  /* Chrome, Safari, Opera */
+  page-break-inside: avoid;
+  /* Deprecated Firefox */
+  -moz-column-break-inside: avoid;
+  /* Current Firefox */
+  column-break-inside: avoid;
+  break-inside: avoid;
+  /* IE 10+ */
+  break-inside: avoid-column;
+}
+
+.my-multicol-2 {
+  -moz-columns: 2;
+  -webkit-columns: 2;
+  columns: 2;
+}
+
+.my-multicol-3 {
+  -moz-columns: 3;
+  -webkit-columns: 3;
+  columns: 3;
+}
+
+
+.flabel {
+  display: inline-block;
+  padding: 0 10px;
+  border: 1px solid #d7d7d7;
+  font: 13px/28px Universcom57Condensed, Arial, Helvetica, sans-serif;
+  font-family: Universcom57Condensed, Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  line-height: 28px;
+  color: #8c8c8c;
+  text-decoration: none;
+  transition: border-color 0.3s ease-out;
+  transition-property: border-color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
+  transition-delay: initial;
+}
+
+.flabel:hover {
+  border: 1px solid #d52349;
+}
+
+
+.mylabel {
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: 300;
+}
+
+article p {
+  line-height: 1.5em;
+  margin-bottom: 2em;
+}
+
+
+.myheader {
+  background: url("/images/DSC_1190237.JPG") no-repeat;
+  min-height: 100vh;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  color: #efefef;
+  //color: #d52349;
+  padding: 3em 0em;
+  margin-bottom: 2em;
+  overflow-x: hidden;
+}
+
+.myhighlight {
+  color: #d52349;
+}
+
+
+figure {
+  counter-increment: figures;
+}
+
+figcaption {
+  margin-bottom: 1em;
+  color: #545454;
+  text-align: center;
+}
+
+figcaption:before {
+  content: 'Fig.'counter(figures) ': ';
+}
+
+figure img {
+  max-width: 100%;
+}
+
+li.waves-effect a:hover {
+  text-decoration: underline;
+}
+
+video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translateX(-50%) translateY(-50%);
+  background: url('//demosthenes.info/assets/images/polina.jpg') no-repeat;
+  background-size: cover;
+  transition: 1s opacity;
+  opacity: 0.2;
+}
+
+
+/* highchart tooltip box */
+
+.highcharts-tooltip span {
+  height: auto !important;
+  width: 200px !important;
+  max-width: 250px !important;
+  overflow: auto !important;
+  white-space: normal !important;
+}
+
+
+
+
+.quotation {
+  font-size: 30px;
+  //margin: 0 auto;
+  quotes: "\201C""\201D""\2018""\2019";
+  padding: 10px 20px;
+  line-height: 1.4;
+}
+
+.quotation:before {
+  content: open-quote;
+  display: inline;
+  height: 0;
+  line-height: 0;
+  left: -10px;
+  position: relative;
+  top: 30px;
+  color: #ccc;
+  font-size: 3em;
+}
+
+.quotation::after {
+  content: close-quote;
+  display: inline;
+  height: 0;
+  line-height: 0;
+  left: 10px;
+  position: relative;
+  top: 35px;
+  color: #ccc;
+  font-size: 3em;
+}
+
+input[type=text] {
+  color: #d52349;
+  font-size: 2em;
+}
+
+.bottom-border {
+  border-bottom: 1px solid #f5f5f5;
+}
+
+/* status code */
+.status>.done {
+  color: green;
+}
+
+.status>.verify {
+  color: #d52349;
+}
+
+.status>.canceled {
+  color: #1D8CE0;
+}
+
+.status>.backlog {
+  color: black;
+}
+
+.status>.open {
+  color: #13CE66;
+}
+
+.status>.inprogress {
+  color: #F7BA2A;
+}
+
+.pin-card {
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #efefef;
+  margin: 10px 0;
+  display: inline-block;
+  padding: 1em 1.75em;
+}
+
+.pin-card h1 {
+  font-size: 1.5em;
+}
+
+.pin-card .btn {
+  margin-top: 1em;
+}
+
+pre,
+code {
+  /* margin: 0; */
+  /* padding: 0; */
+  border: 0;
+  /* font-size: 100%; */
+  /* font: inherit; */
+  /* vertical-align: baseline; */
+}
+
+code {
+  font-family: 'Inconsolata', monospace;
+}
+
+.my-showing {
+  color: #607d8b;
+  font-weight: bolder;
+}
+
+.my-key {
+  color: #1D8CE0;
+}
+
+.jumbotron {
+  background-color: #eff2f7;
+}
+
+a.active {
+  color: #eff2f7;
+  background-color: #607d8b;
+  padding: 0 1em;
+  text-decoration: none;
+}
+
+.my-sidenav {
+  border-right: 1px dotted #1D8CE0;
+}
+
+footer.page-footer {
+  background-color: #f5f5f5;
+}
+
+footer {
+  /* Set the fixed height of the footer here */
+  color: #607d8b;
+}
+
+footer.page-footer .footer-copyright {
+  color: #607d8b;
+}
