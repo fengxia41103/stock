@@ -57,7 +57,7 @@ services:
         target: /code/static
     environment:
       PYTHONUNBUFFERED: 1
-      DJANGO_DEBUG: "true" # 0 or 1
+      DJANGO_DEBUG: 1 # 0 or 1
       MYSQL_DATABASE: stock
       DEPLOY_TYPE: dev # dev or prod
       DJANGO_DB_USER: fengxia
@@ -82,7 +82,7 @@ services:
   celery:
     image: mystock
     environment:
-      DJANGO_DEBUG: "false" # 0 or 1
+      DJANGO_DEBUG: 0 # 0 or 1
       DEPLOY_TYPE: dev # dev or prod
       DJANGO_DB_USER: fengxia
       DJANGO_DB_PWD: natalie

@@ -11,7 +11,7 @@ import {
   Route,
   NavLink,
 } from "react-router-dom";
-import StockDetail from "./detail.jsx";
+import RangeFilter from "./filter.jsx";
 
 class StockList extends Fetch {
   constructor(props) {
@@ -19,23 +19,18 @@ class StockList extends Fetch {
     this.state.resource = "/api/v1/stocks";
 
     this.state.searching = "AAPL";
-    this.state.changed = true;
 
     // binding
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
-    const changed = !(this.state.searching === event.target.value);
-
     this.setState({
       searching: event.target.value,
-      changed: changed,
     });
   }
 
   render_data(data) {
-    const { api } = this.props;
     const stocks = data.objects;
 
     // filter based on search string
@@ -46,11 +41,15 @@ class StockList extends Fetch {
     // routing to detail page
     const details = map(stocks, v => {
       const tmp = "/stock/" + v.id;
+      const resource = this.state.resource+"/"+v.id;
       return (
         <Route
           key={v.id}
           path={tmp}
-          children={props => <StockDetail key={v.id} id={v.id} api={api} />}
+          children={props => <RangeFilter key={v.id}
+                                          id={v.id}
+                                          resource={resource}
+                                          {...this.props}/>}
         />
       );
     });

@@ -17,7 +17,7 @@ import os
 # for django-pagination, very COOL!
 from django.conf import global_settings
 
-DJANGO_DEBUG = os.environ.get("DJANGO_DEBUG")
+DJANGO_DEBUG = bool(int(os.environ.get("DJANGO_DEBUG")))
 DATABASE = os.environ.get("MYSQL_DATABASE")
 DEPLOY_TYPE = os.environ.get("DEPLOY_TYPE", "dev")
 DB_USER = os.environ.get("DJANGO_DB_USER")
@@ -195,6 +195,7 @@ CELERY_RESULT_SERIALIZER = "json"
 # Just ignore the results, in case you're not consuming results.
 CELERY_IGNORE_RESULT = True
 CELERY_STORE_ERRORS_EVEN_IF_IGNORED = False
+CELERY_RESULT_BACKEND = "redis://" + REDIS_HOST + ":6379/0"
 
 # django-debug-toolbar
 INTERNAL_IPS = ("127.0.0.1",)

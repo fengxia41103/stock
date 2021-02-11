@@ -2,6 +2,8 @@
 
 
 import logging
+from datetime import date
+from datetime import timedelta
 
 from django.db import models
 
@@ -22,7 +24,7 @@ class MySector(models.Model):
     description = models.TextField(null=True, blank=True)
     stocks = models.ManyToManyField("MyStock")
 
-    def __unicode__(self):
+    def __str__(self):
         if self.name:
             return u"{0} ({1})".format(self.name, self.code)
         else:
@@ -32,12 +34,25 @@ class MySector(models.Model):
 class MyStock(models.Model):
     symbol = models.CharField(max_length=8)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.symbol
+
+
+class MyHistoricalCustomManager(models.Manager):
+    def by_date_range(self, start, end):
+        """Filter by a date range."""
+        if not end:
+            end = date.today()
+        if not start:
+            start = end - timedelta(weeks=1)
+
+        return MyStockHistorical.objects.filter(on__gte=start, on__lte=end)
 
 
 class MyStockHistorical(models.Model):
     """Historical stock data."""
+
+    objects = MyHistoricalCustomManager()
 
     stock = models.ForeignKey(
         "MyStock", on_delete=models.CASCADE, related_name="historicals"
@@ -59,9 +74,23 @@ class MyStrategyValue(models.Model):
     """Derived values of a stock.
 
     These are computed from historical values.
+
+    1. daily return: how much it grew in one day? Val is %.
+    2. overnight return: how much it grew from last night to today's
+       openning? Value is %.
+    3. night day consistency: daily trend is the same as overnight,
+       either both > 0 or both < 0.
+    4. trend: yesterday->today trend
     """
 
-    METHOD_CHOICES = ((1, "daily return"), (2, "overnight return"))
-    hist = models.ForeignKey("MyStockHistorical", on_delete=models.CASCADE)
+    METHOD_CHOICES = (
+        (1, "daily return"),
+        (2, "overnight return"),
+        (3, "night day consistency"),
+        (4, "trend"),
+    )
+    hist = models.ForeignKey(
+        "MyStockHistorical", on_delete=models.CASCADE, related_name="indexes"
+    )
     method = models.IntegerField(choices=METHOD_CHOICES, default=1)
     val = models.FloatField(null=True, blank=True, default=-1)

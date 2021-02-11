@@ -1,10 +1,14 @@
 import os
 import os.path
 
+from celery import chord
 from django.core.management.base import BaseCommand
 
 from stock.models import MyStock
 from stock.tasks import compute_daily_return_consumer
+from stock.tasks import compute_night_day_consistency_consumer
+from stock.tasks import compute_nightly_return_consumer
+from stock.tasks import compute_trend_consumer
 
 
 class Command(BaseCommand):
@@ -24,3 +28,6 @@ class Command(BaseCommand):
 
         for s in symbols:
             compute_daily_return_consumer.delay(s)
+            compute_nightly_return_consumer.delay(s)
+            compute_night_day_consistency_consumer.delay(s)
+            compute_trend_consumer.delay(s)

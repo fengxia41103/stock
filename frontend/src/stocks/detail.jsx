@@ -1,18 +1,22 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import HighchartGraphBox from "../shared/graph-highchart.jsx";
 import Fetch from "../shared/fetch.jsx";
 import { map } from "lodash";
+import { StrategyValueChart } from "./charts.jsx";
 
 class StockDetail extends Fetch {
   constructor(props) {
     super(props);
-    const { id } = this.props;
-    this.state.resource = "/api/v1/stocks/" + id;
+
+    // resource is composed by its caller
+    const { resource, start, end } = this.props;
+    const range_filter = "?start=" + start + "&end=" + end;
+    this.state.resource = resource + range_filter;
   }
 
   render_data(stock) {
-    const { api } = this.props;
+    const { start, end } = this.props;
+
     const historicals = map(stock.olds, h => {
       return (
         <tr key={h.id}>
@@ -29,6 +33,15 @@ class StockDetail extends Fetch {
     return (
       <div>
         <h1>{stock.symbol}</h1>
+        <span className="myhighlight">{start}</span>
+        &mdash;
+        <span className="myhighlight">{end}</span>
+        <StrategyValueChart name="Daily Return %" data={stock.indexes.daily} />
+        <StrategyValueChart
+          name="Overnight Return %"
+          data={stock.indexes.overnight}
+        />
+        // daily trading data
         <table className="table highlight striped">
           <thead>
             <th>Date</th>
