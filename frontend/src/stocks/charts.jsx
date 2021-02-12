@@ -42,19 +42,28 @@ class PriceChart extends Component {
     const containerId = randomId();
     const { data } = this.props;
     const categories = map(data, d => d.on);
-    const chart_data = [{
+    const chart_data = [
+      {
         name: "Open Price",
         data: map(data, d => d.open_price),
-      },{
+        lineWidth: 5,
+      },
+      {
         name: "Close Price",
         data: map(data, d => d.close_price),
-      },{
+        lineWidth: 5,
+      },
+      {
         name: "High Price",
         data: map(data, d => d.high_price),
-      },{
+        visible: false,
+      },
+      {
         name: "Low Price",
         data: map(data, d => d.low_price),
-    }];
+        visible: false,
+      },
+    ];
 
     return (
       <HighchartGraphBox
@@ -79,18 +88,19 @@ class RangeChart extends Component {
     const containerId = randomId();
     const { data } = this.props;
     const categories = map(data, d => d.on);
-    const range_data = map(data, d=>[d.on, d.open_price,d.close_price]);
+    const range_data = map(data, d => [d.on, d.open_price, d.close_price]);
 
-    const chart_data = [{
+    const chart_data = [
+      {
         name: "Price",
-        data: range_data
-    }];
+        data: range_data,
+      },
+    ];
 
     console.log(range_data);
 
-    return <StockGraphBox containerId={containerId} title="this"/>;
+    return <StockGraphBox containerId={containerId} title="this" />;
   }
 }
-
 
 export { StrategyValueChart, PriceChart, RangeChart };
