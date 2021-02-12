@@ -178,6 +178,7 @@ class NightDayConsistency(MyStockStrategyValue):
 
     This is depending on we first have computed the daily
     return & overnight return.
+
     """
 
     def __init__(self, symbol):
@@ -210,10 +211,10 @@ class NightDayConsistency(MyStockStrategyValue):
         elif (daily.val > 0 and overnight.val > 0) or (
             daily.val < 0 and overnight.val < 0
         ):
-            # as TRUE
+            # consistent night -> day
             strategy.val = 1
         else:
-            # as FALSE
+            # flip
             strategy.val = 0
 
         strategy.save()
@@ -225,7 +226,8 @@ class Trend(MyStockStrategyValue):
     1: if both days went up.
     2: if both wend down.
     3: if a flip.
-    -1: can not determine.
+    -1: can not determine, eg. first data point ever.
+    -99: we hit an **unhandled** case.
     """
 
     def __init__(self, symbol):
@@ -253,12 +255,16 @@ class Trend(MyStockStrategyValue):
         yesterday_daily = MyStrategyValue.objects.get(hist=window[0], method=1)
 
         if t0_daily.val == -1 or yesterday_daily.val == -1:
+            # not enough data to determine
             strategy.val = -1
         elif t0_daily.val > 0 and yesterday_daily.val > 0:
+            # continuously up
             strategy.val = 1
         elif t0_daily.val < 0 and yesterday_daily.val < 0:
+            # continuously down
             strategy.val = 2
         elif t0_daily.val * yesterday_daily.val < 0:
+            # flip
             strategy.val = 3
         else:
             # Bogus error value that should never occur!

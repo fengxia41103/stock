@@ -10,7 +10,7 @@ class RangeFilter extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { start: "2021-02-01", end: "2021-02-08" };
+    this.state = { start: "2021-02-01", end: "2021-02-11" };
 
     // binding
     this.start_change = this.start_change.bind(this);
@@ -36,28 +36,30 @@ class RangeFilter extends Component {
 
     return (
       <div className="row">
-        <label htmlFor="start" className="col l3 m3 s12 mylabel">
-          Start date:
-        </label>
-        <input
-          type="date"
-          id="start"
-          name="start"
-          value={start}
-          onChange={this.start_change}
-          className="col l3 m3 s12"
-        />
-        <label htmlFor="end" className="col l3 m3 s12 mylabel">
-          End date:
-        </label>
-        <input
-          type="date"
-          id="end"
-          name="end"
-          value={end}
-          onChange={this.end_change}
-          className="col l3 m3 s12"
-        />
+        <div className="pin-card">
+          <span className="col l2 m2 s12" style={{ fontSize: "1em" }}>
+            Start date:
+          </span>
+          <input
+            className="col l4 m4 s12"
+            type="date"
+            id="start"
+            name="start"
+            value={start}
+            onChange={this.start_change}
+          />
+          <span className="col l2 m2 s12" style={{ fontSize: "1em" }}>
+            End date:
+          </span>
+          <input
+            className="col l4 m4 s12"
+            type="date"
+            id="end"
+            name="end"
+            value={end}
+            onChange={this.end_change}
+          />
+        </div>
         <StockDetail key={key} start={start} end={end} {...this.props} />
       </div>
     );

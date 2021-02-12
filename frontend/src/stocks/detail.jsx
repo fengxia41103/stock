@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import Fetch from "../shared/fetch.jsx";
 import { map } from "lodash";
-import { StrategyValueChart } from "./charts.jsx";
+import { StrategyValueChart, PriceChart } from "./charts.jsx";
+import Stats from "./stats.jsx";
 
 class StockDetail extends Fetch {
   constructor(props) {
@@ -36,10 +37,15 @@ class StockDetail extends Fetch {
         <span className="myhighlight">{start}</span>
         &mdash;
         <span className="myhighlight">{end}</span>
-        <StrategyValueChart name="Daily Return %" data={stock.indexes.daily} />
+        <Stats stats={stock.stats} />
+        <PriceChart data={stock.olds} />
+        <StrategyValueChart
+          name="Daily Return %"
+          data={stock.indexes["daily return"]}
+        />
         <StrategyValueChart
           name="Overnight Return %"
-          data={stock.indexes.overnight}
+          data={stock.indexes["overnight return"]}
         />
         // daily trading data
         <table className="table highlight striped">

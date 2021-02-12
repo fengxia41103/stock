@@ -16,7 +16,7 @@ class HighchartGraphBox extends Component {
 
     this.state = {
       // per data line so chart height will scale
-      height_step: 25,
+      height_step: 0,
       full_height: 0,
     };
 
