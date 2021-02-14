@@ -12,6 +12,7 @@ from stock.models import IncomeStatement
 from stock.models import MyStock
 from stock.models import MyStockHistorical
 from stock.models import MyStrategyValue
+from stock.models import ValuationRatio
 
 logger = logging.getLogger("stock")
 
@@ -31,6 +32,13 @@ class StockResource(ModelResource):
     cashes = fields.ToManyField(
         "stock.api.CashFlowResource",
         "cashes",
+        null=True,
+        use_in="detail",
+        full=True,
+    )
+    ratios = fields.ToManyField(
+        "stock.api.ValuationRatioResource",
+        "ratios",
         null=True,
         use_in="detail",
         full=True,
@@ -171,4 +179,11 @@ class CashFlowResource(ModelResource):
     class Meta:
         queryset = CashFlow.objects.all()
         resources_name = "cashes"
+        ordering = ["on"]
+
+
+class ValuationRatioResource(ModelResource):
+    class Meta:
+        queryset = ValuationRatio.objects.all()
+        resources_name = "ratios"
         ordering = ["on"]

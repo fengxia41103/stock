@@ -4,6 +4,7 @@ from fin.tor_handler import PlainUtility
 from stock.workers.get_cash_flow_statement import MyCashFlowStatement
 from stock.workers.get_historical import MyStockHistoricalYahoo
 from stock.workers.get_income_statement import MyIncomeStatement
+from stock.workers.get_valuation_ratio import MyValuationRatio
 from stock.workers.strategy_values import DailyReturn
 from stock.workers.strategy_values import NightDayConsistency
 from stock.workers.strategy_values import OvernightReturn
@@ -19,6 +20,12 @@ def income_statement_consumer(symbol):
 @shared_task
 def cash_flow_statement_consumer(symbol):
     crawler = MyCashFlowStatement(symbol)
+    crawler.get()
+
+
+@shared_task
+def valuation_ratio_consumer(symbol):
+    crawler = MyValuationRatio(symbol)
     crawler.get()
 
 

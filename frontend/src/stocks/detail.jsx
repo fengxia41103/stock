@@ -7,6 +7,7 @@ import Stats from "./stats.jsx";
 import Income from "./income.jsx";
 import Cash from "./cash.jsx";
 import StockDaily from "./daily.jsx";
+import ValuationRatio from "./ratio.jsx";
 
 class StockDetail extends Fetch {
   constructor(props) {
@@ -24,6 +25,7 @@ class StockDetail extends Fetch {
     return (
       <div>
         <h1>{stock.symbol}</h1>
+        <ValuationRatio ratios={stock.ratios} />
         <Income incomes={stock.incomes} />
         <Cash cashes={stock.cashes} />
         <span className="myhighlight">{start}</span>

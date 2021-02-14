@@ -325,3 +325,21 @@ class CashFlow(models.Model):
             )
         except ZeroDivisionError:
             return 0
+
+
+class ValuationRatio(models.Model):
+    """Pre-computed valuation ratios.
+
+    Save me the work to compute them from raw data.
+    """
+
+    stock = models.ForeignKey(
+        "MyStock", on_delete=models.CASCADE, related_name="ratios"
+    )
+    on = models.DateField(null=True, blank=True)
+
+    forward_pe = models.FloatField(null=True, blank=True, default=0)
+    pe = models.FloatField(null=True, blank=True, default=0)
+    pb = models.FloatField(null=True, blank=True, default=0)
+    peg = models.FloatField(null=True, blank=True, default=0)
+    ps = models.FloatField(null=True, blank=True, default=0)
