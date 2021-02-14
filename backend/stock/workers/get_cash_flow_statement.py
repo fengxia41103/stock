@@ -40,24 +40,30 @@ class MyCashFlowStatement:
             i.operating_cash_flow = float(row.OperatingCashFlow) / B
             i.da = float(row.DepreciationAndAmortization) / B
             i.capex = float(row.CapitalExpenditure) / B
-            i.dividend_paid = float(row.CashDividendsPaid) / B
             i.from_continuing_financing_activity = (
                 float(row.CashFlowFromContinuingFinancingActivities) / B
             )
-            i.change_in_inventory = float(row.ChangeInInventory) / B
-            i.change_in_account_payable = float(row.ChangeInAccountPayable) / B
             i.change_in_working_capital = float(row.ChangeInWorkingCapital) / B
-            i.change_in_account_receivable = (
-                float(row.ChangesInAccountReceivables) / B
+            i.stock_based_compensation = float(row.StockBasedCompensation) / B
+            i.change_in_cash_supplemental_as_reported = (
+                float(row.ChangeInCashSupplementalAsReported) / B
             )
+
+            try:
+                i.sale_of_investment = float(row.SaleOfInvestment) / B
+            except AttributeError:
+                i.sale_of_investment = 0
+
+            try:
+                i.purchase_of_investment = float(row.PurchaseOfInvestment) / B
+
+            except AttributeError:
+                i.purchase_of_investment = 0
 
             try:
                 i.common_stock_issuance = float(row.CommonStockIssuance) / B
             except AttributeError:
                 i.common_stock_issuance = 0
-
-            i.purchase_of_business = float(row.PurchaseOfBusiness) / B
-            i.purchase_of_investment = float(row.PurchaseOfInvestment) / B
 
             try:
                 i.repurchase_of_capital_stock = (
@@ -66,16 +72,49 @@ class MyCashFlowStatement:
             except AttributeError:
                 i.repurchase_of_capital_stock = 0
 
-            i.sale_of_investment = float(row.SaleOfInvestment) / B
-            i.stock_based_compensation = float(row.StockBasedCompensation) / B
-            i.net_other_financing_charges = (
-                float(row.NetOtherFinancingCharges) / B
-            )
-            i.net_other_investing_changes = (
-                float(row.NetOtherInvestingChanges) / B
-            )
-            i.change_in_cash_supplemental_as_reported = (
-                float(row.ChangeInCashSupplementalAsReported) / B
-            )
+            try:
+                i.change_in_inventory = float(row.ChangeInInventory) / B
+            except AttributeError:
+                i.change_in_inventory = 0
+
+            try:
+                i.dividend_paid = float(row.CashDividendsPaid) / B
+            except AttributeError:
+                i.dividend_paid = 0
+
+            try:
+                i.change_in_account_payable = (
+                    float(row.ChangeInAccountPayable) / B
+                )
+            except AttributeError:
+                i.change_in_account_payable = 0
+
+            try:
+                i.change_in_account_receivable = (
+                    float(row.ChangesInAccountReceivables) / B
+                )
+            except AttributeError:
+                i.change_in_account_receivable = 0
+
+            try:
+                i.purchase_of_business = float(row.PurchaseOfBusiness) / B
+
+            except AttributeError:
+                i.purchase_of_business = 0
+
+            try:
+                i.net_other_financing_charges = (
+                    float(row.NetOtherFinancingCharges) / B
+                )
+
+            except AttributeError:
+                i.net_other_financing_charges = 0
+
+            try:
+                i.net_other_investing_changes = (
+                    float(row.NetOtherInvestingChanges) / B
+                )
+            except AttributeError:
+                i.net_other_investing_changes = 0
 
             i.save()

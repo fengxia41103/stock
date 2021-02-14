@@ -46,6 +46,6 @@ class Command(BaseCommand):
                 candidates = [symbol]
 
             for symbol in candidates:
-                # yahoo_consumer.delay(symbol)
-                # income_statement_consumer.delay(symbol)
+                yahoo_consumer.delay(symbol)
+                income_statement_consumer.delay(symbol)
                 cash_flow_statement_consumer.delay(symbol)

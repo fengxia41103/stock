@@ -100,7 +100,14 @@ class DailyReturn(MyStockStrategyValue):
         )
 
         # compute daily return
-        strategy.val = (t0.close_price - t0.open_price) / t0.open_price * 100
+        try:
+            strategy.val = (
+                (t0.close_price - t0.open_price) / t0.open_price * 100
+            )
+        except ZeroDivisionError:
+            # eg. AMD 1982-07-29 had open price = 0!
+            strategy.val = 0
+            logger.exception(t0.id)
         strategy.save()
 
 

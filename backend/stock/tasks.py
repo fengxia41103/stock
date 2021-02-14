@@ -42,12 +42,12 @@ def compute_nightly_return_consumer(symbol):
 
 
 @shared_task
-def compute_night_day_consistency_consumer(symbol):
+def compute_night_day_consistency_consumer(whatever, symbol):
     crawler = NightDayConsistency(symbol)
     crawler.run(window_length=1)
 
 
 @shared_task
-def compute_trend_consumer(symbol):
+def compute_trend_consumer(whatever, symbol):
     crawler = Trend(symbol)
     crawler.run(window_length=2)

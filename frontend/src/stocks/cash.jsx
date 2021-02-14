@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { map } from "lodash";
+import { map, isEmpty } from "lodash";
 
 class Cash extends Component {
   constructor(props) {
@@ -10,14 +10,27 @@ class Cash extends Component {
   render() {
     const { cashes } = this.props;
 
-    const dates = map(cashes, i => <th key={i.on}>{i.on}</th>);
+    if (isEmpty(cashes)) {
+      return null;
+    }
 
+    const dates = map(cashes, i => <th key={i.on}>{i.on}</th>);
     const interests = {
+      beginning_cash: "Beggining Cash",
+      ending_cash: "Ending Cash",
+      cash_change_pcnt: "Cash Change (%)",
       free_cash_flow: "Free Cash Flow",
+      net_income: "Net Income",
+      operating_cash_flow: "Operating Cash Flow",
+      capex: "CAPEX",
     };
 
     const rows = Object.entries(interests).map(([key, description]) => {
-      const row = map(cashes, c => <td key={c.on}>{c[key].toFixed(2)}</td>);
+      const row = map(cashes, c => (
+        <td key={c.on} className={c[key] < 0 ? "negative" : null}>
+          {c[key].toFixed(2)}
+        </td>
+      ));
       return (
         <tr key={key}>
           <td>{description}</td>

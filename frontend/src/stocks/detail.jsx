@@ -6,6 +6,7 @@ import { StrategyValueChart, PriceChart, VolChart } from "./charts.jsx";
 import Stats from "./stats.jsx";
 import Income from "./income.jsx";
 import Cash from "./cash.jsx";
+import StockDaily from "./daily.jsx";
 
 class StockDetail extends Fetch {
   constructor(props) {
@@ -19,19 +20,6 @@ class StockDetail extends Fetch {
 
   render_data(stock) {
     const { start, end } = this.props;
-
-    const historicals = map(stock.olds, h => {
-      return (
-        <tr key={h.id}>
-          <td>{h.on}</td>
-          <td>{h.high_price}</td>
-          <td>{h.low_price}</td>
-          <td>{h.open_price}</td>
-          <td>{h.adj_close}</td>
-          <td>{h.vol}</td>
-        </tr>
-      );
-    });
 
     return (
       <div>
@@ -53,17 +41,7 @@ class StockDetail extends Fetch {
           data={stock.indexes["overnight return"]}
         />
         // daily trading data
-        <table className="table highlight striped">
-          <thead>
-            <th>Date</th>
-            <th>High</th>
-            <th>Low</th>
-            <th>Open</th>
-            <th>Adj Close</th>
-            <th>Vol (000)</th>
-          </thead>
-          <tbody>{historicals}</tbody>
-        </table>
+        <StockDaily historicals={stock.olds} />
       </div>
     );
   }

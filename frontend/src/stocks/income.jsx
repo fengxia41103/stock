@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { map } from "lodash";
+import { map, isEmpty } from "lodash";
 
 class Income extends Component {
   constructor(props) {
@@ -9,6 +9,9 @@ class Income extends Component {
 
   render() {
     const { incomes } = this.props;
+    if (isEmpty(incomes)) {
+      return null;
+    }
 
     const dates = map(incomes, i => <th key={i.on}>{i.on}</th>);
     const interests = {
@@ -19,7 +22,11 @@ class Income extends Component {
       expense_margin: "Expense Margin (%)",
     };
     const rows = Object.entries(interests).map(([key, description]) => {
-      const row = map(incomes, c => <td key={c.on}>{c[key].toFixed(2)}</td>);
+      const row = map(incomes, c => (
+        <td key={c.on} className={c[key] < 0 ? "negative" : null}>
+          {c[key].toFixed(2)}
+        </td>
+      ));
       return (
         <tr key={key}>
           <td>{description}</td>

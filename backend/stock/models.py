@@ -120,7 +120,11 @@ class MyStrategyValueCustomManager(models.Manager):
         close_prices = list(historicals.values_list("close_price", flat=True))
         vols = list(historicals.values_list("vol", flat=True))
 
-        range_return = close_prices[-1] / open_prices[0] * 100
+        # AMD 1982-07-29 had 0 open price
+        try:
+            range_return = close_prices[-1] / open_prices[0] * 100
+        except ZeroDivisionError:
+            range_return = 0
 
         # count frequency
         tmp = collections.Counter(
@@ -309,3 +313,15 @@ class CashFlow(models.Model):
     change_in_cash_supplemental_as_reported = models.FloatField(
         null=True, blank=True, default=0
     )
+
+    @property
+    def cash_change_pcnt(self):
+        # could be division zero
+        try:
+            return (
+                (self.ending_cash - self.beginning_cash)
+                / self.beginning_cash
+                * 100
+            )
+        except ZeroDivisionError:
+            return 0

@@ -164,6 +164,10 @@ class IncomeStatementResource(ModelResource):
 
 
 class CashFlowResource(ModelResource):
+    cash_change_pcnt = fields.FloatField(
+        "cash_change_pcnt", null=True, use_in="detail"
+    )
+
     class Meta:
         queryset = CashFlow.objects.all()
         resources_name = "cashes"
