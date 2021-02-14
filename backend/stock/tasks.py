@@ -1,11 +1,25 @@
 from celery import shared_task
 
 from fin.tor_handler import PlainUtility
+from stock.workers.get_cash_flow_statement import MyCashFlowStatement
 from stock.workers.get_historical import MyStockHistoricalYahoo
+from stock.workers.get_income_statement import MyIncomeStatement
 from stock.workers.strategy_values import DailyReturn
 from stock.workers.strategy_values import NightDayConsistency
 from stock.workers.strategy_values import OvernightReturn
 from stock.workers.strategy_values import Trend
+
+
+@shared_task
+def income_statement_consumer(symbol):
+    crawler = MyIncomeStatement(symbol)
+    crawler.get()
+
+
+@shared_task
+def cash_flow_statement_consumer(symbol):
+    crawler = MyCashFlowStatement(symbol)
+    crawler.get()
 
 
 @shared_task

@@ -7,6 +7,8 @@ from tastypie import fields
 from tastypie.constants import ALL
 from tastypie.resources import ModelResource
 
+from stock.models import CashFlow
+from stock.models import IncomeStatement
 from stock.models import MyStock
 from stock.models import MyStockHistorical
 from stock.models import MyStrategyValue
@@ -19,6 +21,20 @@ class StockResource(ModelResource):
     olds = fields.ListField("olds", null=True, use_in="detail")
     indexes = fields.DictField("indexes", null=True, use_in="detail")
     stats = fields.DictField("stats", null=True, use_in="detail")
+    incomes = fields.ToManyField(
+        "stock.api.IncomeStatementResource",
+        "incomes",
+        null=True,
+        use_in="detail",
+        full=True,
+    )
+    cashes = fields.ToManyField(
+        "stock.api.CashFlowResource",
+        "cashes",
+        null=True,
+        use_in="detail",
+        full=True,
+    )
 
     class Meta:
         queryset = MyStock.objects.all()
@@ -105,20 +121,13 @@ class StockResource(ModelResource):
 
         # already sorted by date
         historicals = self._get_selected_historicals(bundle)
-        return MyStockHistorical.objects.stats(historicals)
+        return MyStrategyValue.objects.stats(historicals)
 
 
 class HistoricalResource(ModelResource):
     stock = fields.ForeignKey(
         "stock.api.StockResource", "stock", use_in="detail"
     )
-    on = fields.DateField("on")
-    open_p = fields.FloatField("open_price")
-    close_p = fields.FloatField("close_price")
-    high_p = fields.FloatField("high_price")
-    low_p = fields.FloatField("low_price")
-    adj_close = fields.FloatField("adj_close")
-    vol = fields.IntegerField("vol")
 
     class Meta:
         queryset = MyStockHistorical.objects.all()
@@ -130,10 +139,32 @@ class StrategyValueResource(ModelResource):
     hist = fields.ForeignKey(
         "stock.api.HistoricalResource", "hist", use_in="detail"
     )
-    method = fields.IntegerField("method")
-    val = fields.FloatField("val")
 
     class Meta:
         queryset = MyStrategyValue.objects.all()
         filtering = {"method": ALL, "hist__stock__symbol": ALL}
         resource_name = "indexes"
+
+
+class IncomeStatementResource(ModelResource):
+    stock = fields.ForeignKey(
+        "stock.api.StockResource", "stock", use_in="detail"
+    )
+
+    net_income_margin = fields.FloatField("net_income_margin", use_in="detail")
+    gross_margin = fields.FloatField("gross_margin", use_in="detail")
+    opex_margin = fields.FloatField("opex_margin", use_in="detail")
+    ebit_margin = fields.FloatField("ebit_margin", use_in="detail")
+    expense_margin = fields.FloatField("expense_margin", use_in="detail")
+
+    class Meta:
+        queryset = IncomeStatement.objects.all()
+        resource_name = "incomes"
+        ordering = ["on"]
+
+
+class CashFlowResource(ModelResource):
+    class Meta:
+        queryset = CashFlow.objects.all()
+        resources_name = "cashes"
+        ordering = ["on"]

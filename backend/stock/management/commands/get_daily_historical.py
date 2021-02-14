@@ -4,6 +4,8 @@ import os.path
 
 from django.core.management.base import BaseCommand
 
+from stock.tasks import cash_flow_statement_consumer
+from stock.tasks import income_statement_consumer
 from stock.tasks import yahoo_consumer
 
 SYMBOLS = "VOO,SPY,AAPL,SBUX,MSFT,AMZN,BFAM,VMW,ABNB,RDFN,JNJ,PYPL,AMD,EBAY,TGT,NET,TSM"
@@ -39,7 +41,11 @@ class Command(BaseCommand):
                 self.dump_symbol(dest, symbol)
         else:
             if symbol == "all":
-                for s in SYMBOLS.split(","):
-                    yahoo_consumer.delay(s)
+                candidates = SYMBOLS.split(",")
             else:
-                yahoo_consumer.delay(symbol)
+                candidates = [symbol]
+
+            for symbol in candidates:
+                # yahoo_consumer.delay(symbol)
+                # income_statement_consumer.delay(symbol)
+                cash_flow_statement_consumer.delay(symbol)

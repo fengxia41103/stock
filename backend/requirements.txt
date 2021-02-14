@@ -37,3 +37,4 @@ six>=1.9.0
 mysqlclient>=1.4.6
 numpy
 selenium
+yahooquery

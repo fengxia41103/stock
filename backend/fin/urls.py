@@ -4,6 +4,7 @@ from django.urls import path
 from tastypie.api import Api
 
 from stock.api import HistoricalResource
+from stock.api import IncomeStatementResource
 from stock.api import StockResource
 from stock.api import StrategyValueResource
 
@@ -11,6 +12,7 @@ v1_api = Api(api_name="v1")
 v1_api.register(StockResource())
 v1_api.register(HistoricalResource())
 v1_api.register(StrategyValueResource())
+v1_api.register(IncomeStatementResource())
 
 urlpatterns = [
     path("api/", include(v1_api.urls)),

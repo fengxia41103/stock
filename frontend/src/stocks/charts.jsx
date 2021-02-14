@@ -97,10 +97,38 @@ class RangeChart extends Component {
       },
     ];
 
-    console.log(range_data);
-
     return <StockGraphBox containerId={containerId} title="this" />;
   }
 }
 
-export { StrategyValueChart, PriceChart, RangeChart };
+class VolChart extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const containerId = randomId();
+    const { data } = this.props;
+    const categories = map(data, d => d.on);
+    const chart_data = [
+      {
+        name: "Vols",
+        data: map(data, d => d.vol),
+      },
+    ];
+
+    return (
+      <HighchartGraphBox
+        containerId={containerId}
+        type="column"
+        categories={categories}
+        yLabel=""
+        title=""
+        legendEnabled={true}
+        data={chart_data}
+      />
+    );
+  }
+}
+
+export { StrategyValueChart, PriceChart, RangeChart, VolChart };

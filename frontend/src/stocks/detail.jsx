@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import Fetch from "../shared/fetch.jsx";
 import { map } from "lodash";
-import { StrategyValueChart, PriceChart } from "./charts.jsx";
+import { StrategyValueChart, PriceChart, VolChart } from "./charts.jsx";
 import Stats from "./stats.jsx";
+import Income from "./income.jsx";
+import Cash from "./cash.jsx";
 
 class StockDetail extends Fetch {
   constructor(props) {
@@ -34,6 +36,8 @@ class StockDetail extends Fetch {
     return (
       <div>
         <h1>{stock.symbol}</h1>
+        <Income incomes={stock.incomes} />
+        <Cash cashes={stock.cashes} />
         <span className="myhighlight">{start}</span>
         &mdash;
         <span className="myhighlight">{end}</span>
@@ -43,6 +47,7 @@ class StockDetail extends Fetch {
           name="Daily Return %"
           data={stock.indexes["daily return"]}
         />
+        <VolChart data={stock.olds} />
         <StrategyValueChart
           name="Overnight Return %"
           data={stock.indexes["overnight return"]}
