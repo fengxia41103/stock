@@ -37,6 +37,14 @@ class MySector(models.Model):
 
 class MyStock(models.Model):
     symbol = models.CharField(max_length=8)
+    beta = models.FloatField(null=True, default=5)
+    roa = models.FloatField(
+        null=True, default=0, verbose_name="Return on Assets"
+    )
+    roe = models.FloatField(
+        null=True, default=0, verbose_name="Return on Equity"
+    )
+    top_ten_institution_ownership = models.FloatField(null=True, default=-1)
 
     def __str__(self):
         return self.symbol
@@ -253,6 +261,10 @@ class IncomeStatement(models.Model):
     def expense_margin(self):
         return self.total_expenses / self.total_revenue * 100
 
+    @property
+    def operating_margin(self):
+        return self.operating_income / self.total_revenue * 100
+
 
 class CashFlow(models.Model):
     stock = models.ForeignKey(
@@ -327,6 +339,23 @@ class CashFlow(models.Model):
         except ZeroDivisionError:
             return 0
 
+    @property
+    def operating_cash_flow_growth(self):
+        last = (
+            CashFlow.objects.filter(stock=self.stock, on__lt=self.on)
+            .exclude(operating_cash_flow=0)
+            .order_by("-on")
+        )
+        if not last:
+            # I'm the first, one, thus is the base, which we set to 0
+            return 0
+        else:
+            return (
+                (self.operating_cash_flow - last[0].operating_cash_flow)
+                / last[0].operating_cash_flow
+                * 100
+            )
+
 
 class ValuationRatio(models.Model):
     """Pre-computed valuation ratios.
@@ -366,6 +395,7 @@ class BalanceSheet(models.Model):
     cash_equivalents = models.FloatField(null=True, blank=True, default=0)
     cash_financial = models.FloatField(null=True, blank=True, default=0)
     commercial_paper = models.FloatField(null=True, blank=True, default=0)
+    common_stock = models.FloatField(null=True, blank=True, default=0)
     common_stock_equity = models.FloatField(null=True, blank=True, default=0)
     current_assets = models.FloatField(null=True, blank=True, default=0)
     current_debt = models.FloatField(null=True, blank=True, default=0)
@@ -441,3 +471,139 @@ class BalanceSheet(models.Model):
     @property
     def debt_to_equity_ratio(self):
         return self.total_debt / self.common_stock_equity
+
+    @property
+    def debt_growth_rate(self):
+        """Compute how much total debt has grown over last report."""
+        # find last period's debt
+        last = (
+            BalanceSheet.objects.filter(stock=self.stock, on__lt=self.on)
+            .exclude(total_debt=0)
+            .order_by("-on")
+        )
+        if not last:
+            # I'm the first, one, thus is the base, which we set to 0
+            return 0
+        else:
+            return (
+                (self.total_debt - last[0].total_debt)
+                / last[0].total_debt
+                * 100
+            )
+
+    @property
+    def ap_growth_rate(self):
+        """Compute AP growth over last report.
+
+        The more AP there is, the liability it has. Also, it could be
+        that the business is harming its vendors to boost its own
+        position, which, IMHO, is a terrible strategy.
+
+        """
+        last = (
+            BalanceSheet.objects.filter(stock=self.stock, on__lt=self.on)
+            .exclude(ap=0)
+            .order_by("-on")
+        )
+        if not last:
+            # I'm the first, one, thus is the base, which we set to 0
+            return 0
+        else:
+            return (self.ap - last[0].ap) / last[0].ap * 100
+
+    @property
+    def ac_growth_rate(self):
+        """Compute AC growth over last report.
+
+        I'm hoping this will show how well its customers are willing
+        to pay. If it's growing, it should be a trouble sign that:
+
+        - customers are not happy, thus unwilling to pay.
+        - customers are themselves having problem, which indicates a
+          troubled environment for this company.
+        - management is not working well to collect the money, negligence?
+        """
+        last = (
+            BalanceSheet.objects.filter(stock=self.stock, on__lt=self.on)
+            .exclude(ac=0)
+            .order_by("-on")
+        )
+        if not last:
+            # I'm the first, one, thus is the base, which we set to 0
+            return 0
+        else:
+            return (self.ac - last[0].ac) / last[0].ac * 100
+
+    @property
+    def all_cash_growth_rate(self):
+        """Compute how much Cash & equivalents has grown over last report.
+
+        I'm thinking this indicates how they are using the cash,
+        eg. squandering them, accumulating them for good reason (or
+        bad reason, eg. no investment opportunity?).
+
+        Anyway, the more cash it has, the less likely it will go down,
+        right?
+
+        """
+        # find last period's debt
+        last = (
+            BalanceSheet.objects.filter(stock=self.stock, on__lt=self.on)
+            .exclude(cash_cash_equivalents_and_short_term_investments=0)
+            .order_by("-on")
+        )
+        if not last:
+            # I'm the first, one, thus is the base, which we set to 0
+            return 0
+        else:
+            return (
+                (
+                    self.cash_cash_equivalents_and_short_term_investments
+                    - last[0].cash_cash_equivalents_and_short_term_investments
+                )
+                / last[0].cash_cash_equivalents_and_short_term_investments
+                * 100
+            )
+
+    @property
+    def working_capital_growth_rate(self):
+        """Compute how much WorkingCapital has grown over last report."""
+        # find last period's debt
+        last = (
+            BalanceSheet.objects.filter(stock=self.stock, on__lt=self.on)
+            .exclude(working_capital=0)
+            .order_by("-on")
+        )
+        if not last:
+            # I'm the first, one, thus is the base, which we set to 0
+            return 0
+        else:
+            return (
+                (self.working_capital - last[0].working_capital)
+                / last[0].working_capital
+                * 100
+            )
+
+    @property
+    def net_ppe_growth_rate(self):
+        """Compute how much PPE has grown over last report.
+
+        PP&E is a long-term investment. It's a signal how much they
+        are investing into the future production.
+
+        Think about this. If you are going to run away, will u want to
+        invest into a factory, or keep cash? So, I think a positive
+        change is a good thing.
+
+        """
+        # find last period's debt
+        last = (
+            BalanceSheet.objects.filter(stock=self.stock, on__lt=self.on)
+            .exclude(net_ppe=0)
+            .order_by("-on")
+        )
+        if not last:
+            # I'm the first, one, thus is the base, which we set to 0
+            return 0
+        else:
+            return (self.net_ppe - last[0].net_ppe) / last[0].net_ppe * 100

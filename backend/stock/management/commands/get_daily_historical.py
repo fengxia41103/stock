@@ -7,10 +7,12 @@ from django.core.management.base import BaseCommand
 from stock.tasks import balance_sheet_consumer
 from stock.tasks import cash_flow_statement_consumer
 from stock.tasks import income_statement_consumer
+from stock.tasks import summary_consumer
 from stock.tasks import valuation_ratio_consumer
 from stock.tasks import yahoo_consumer
 
-SYMBOLS = "VOO,SPY,AAPL,SBUX,MSFT,AMZN,BFAM,VMW,ABNB,RDFN,JNJ,PYPL,AMD,EBAY,TGT,NET,TSM"
+SYMBOLS = """VOO, SPY, AAPL, SBUX, MSFT, AMZN, BFAM, VMW, ABNB, RDFN, JNJ, PYPL,
+AMD, EBAY, TGT, NET, TSM, GME, BBBY, AMC, TSLA, SQ"""
 
 logger = logging.getLogger("stock")
 
@@ -38,12 +40,12 @@ class Command(BaseCommand):
             dest = options["dest"]
             if symbol == "all":
                 for s in SYMBOLS.split(","):
-                    self.dump_symbol(dest, s)
+                    self.dump_symbol(dest, s.strip())
             else:
-                self.dump_symbol(dest, symbol)
+                self.dump_symbol(dest, symbol.strip())
         else:
             if symbol.lower() == "all":
-                candidates = SYMBOLS.split(",")
+                candidates = [x.strip() for x in SYMBOLS.split(",")]
             else:
                 candidates = [symbol]
 
@@ -53,3 +55,4 @@ class Command(BaseCommand):
                 cash_flow_statement_consumer.delay(symbol)
                 valuation_ratio_consumer.delay(symbol)
                 balance_sheet_consumer.delay(symbol)
+                summary_consumer.delay(symbol)

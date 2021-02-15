@@ -38,6 +38,7 @@ class MyBalanceSheet:
             i.cash_cash_equivalents_and_short_term_investments = (
                 float(row.CashCashEquivalentsAndShortTermInvestments) / B
             )
+            i.common_stock = float(row.CommonStock) / B
             i.common_stock_equity = float(row.CommonStockEquity) / B
             i.current_assets = float(row.CurrentAssets) / B
             i.current_liabilities = float(row.CurrentLiabilities) / B
@@ -51,14 +52,10 @@ class MyBalanceSheet:
             )
             i.net_ppe = float(row.NetPPE) / B
             i.net_tangible_assets = float(row.NetTangibleAssets) / B
-            i.other_short_term_investments = (
-                float(row.OtherShortTermInvestments) / B
-            )
             i.payables = float(row.Payables) / B
             i.payables_and_accrued_expenses = (
                 float(row.PayablesAndAccruedExpenses) / B
             )
-            i.receivables = float(row.Receivables) / B
             i.retained_earnings = float(row.RetainedEarnings) / B
             i.stockholders_equity = float(row.StockholdersEquity) / B
             i.tangible_book_value = float(row.TangibleBookValue) / B
@@ -67,6 +64,18 @@ class MyBalanceSheet:
             i.total_debt = float(row.TotalDebt) / B
             i.total_non_current_assets = float(row.TotalNonCurrentAssets) / B
             i.working_capital = float(row.WorkingCapital) / B
+
+            try:
+                i.receivables = float(row.Receivables) / B
+            except AttributeError:
+                i.receivables = 0
+
+            try:
+                i.other_short_term_investments = (
+                    float(row.OtherShortTermInvestments) / B
+                )
+            except AttributeError:
+                i.other_short_term_investments = 0
 
             try:
                 i.long_term_debt = float(row.LongTermDebt) / B

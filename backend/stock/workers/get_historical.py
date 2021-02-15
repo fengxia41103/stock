@@ -68,7 +68,7 @@ class MyStockHistoricalYahoo:
         records = []
         for cnt, vals in enumerate(csv.reader(f)):
             if not self._are_vals_valid(symbol, vals):
-                logger.error("invalid vals: {}".format(vals))
+                logger.debug("invalid vals: {}".format(vals))
                 continue
 
             # stamp = [int(v) for v in vals[0].split('-')]

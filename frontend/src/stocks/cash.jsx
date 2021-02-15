@@ -11,17 +11,26 @@ class Cash extends Component {
   render() {
     const { cashes } = this.props;
 
-    const interests = {
+    const reported = {
       beginning_cash: "Beggining Cash",
       ending_cash: "Ending Cash",
-      cash_change_pcnt: "Cash Change (%)",
       free_cash_flow: "Free Cash Flow",
       net_income: "Net Income",
       operating_cash_flow: "Operating Cash Flow",
       capex: "CAPEX",
     };
 
-    return <DictTable data={cashes} interests={interests} />;
+    const analysis = {
+      cash_change_pcnt: "Cash Growth from Beginning (%)",
+      operating_cash_flow_growth: "Operating Cash from Prev (%)",
+    };
+
+    return (
+      <div>
+        <DictTable data={cashes} interests={reported} />
+        <DictTable data={cashes} interests={analysis} />
+      </div>
+    );
   }
 }
 

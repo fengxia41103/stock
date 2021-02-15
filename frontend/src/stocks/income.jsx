@@ -10,16 +10,17 @@ class Income extends Component {
 
   render() {
     const { incomes } = this.props;
-    const interests = {
+    const analysis = {
       basic_eps: "Basic EPS",
       gross_margin: "Gross Margin (%)",
       net_income_margin: "Net Income Margin (%)",
+      operating_margin: "Operating Margin (%)",
       opex_margin: "OPEX Margin (%)",
       ebit_margin: "EBIT Margin (%)",
       expense_margin: "Expense Margin (%)",
     };
 
-    return <DictTable data={incomes} interests={interests} />;
+    return <DictTable data={incomes} interests={analysis} />;
   }
 }
 

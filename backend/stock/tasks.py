@@ -5,11 +5,18 @@ from stock.workers.get_balance_sheet import MyBalanceSheet
 from stock.workers.get_cash_flow_statement import MyCashFlowStatement
 from stock.workers.get_historical import MyStockHistoricalYahoo
 from stock.workers.get_income_statement import MyIncomeStatement
+from stock.workers.get_summary import MySummary
 from stock.workers.get_valuation_ratio import MyValuationRatio
 from stock.workers.strategy_values import DailyReturn
 from stock.workers.strategy_values import NightDayConsistency
 from stock.workers.strategy_values import OvernightReturn
 from stock.workers.strategy_values import Trend
+
+
+@shared_task
+def summary_consumer(symbol):
+    crawler = MySummary(symbol)
+    crawler.get()
 
 
 @shared_task

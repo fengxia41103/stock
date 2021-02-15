@@ -11,17 +11,23 @@ class DictTable extends Component {
     const { data, interests } = this.props;
 
     if (isEmpty(data)) {
-      return null;
+      return <div className="positive">No data found.</div>;
     }
 
     const dates = map(data, i => <th key={i.on}>{i.on}</th>);
 
     const rows = Object.entries(interests).map(([key, description]) => {
-      const row = map(data, c => (
-        <td key={c.on} className={c[key] < 0 ? "negative" : null}>
-          {c[key].toFixed(2)}
-        </td>
-      ));
+      const row = map(data, c => {
+        const decor = classNames(
+          c[key] < 0 ? "negative" : null,
+          c[key] == 0 ? "is-zero" : null
+        );
+        return (
+          <td key={c.on} className={decor}>
+            {c[key].toFixed(2)}
+          </td>
+        );
+      });
       return (
         <tr key={key}>
           <td className="my-key">{description}</td>

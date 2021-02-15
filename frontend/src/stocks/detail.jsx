@@ -11,6 +11,50 @@ import ValuationRatio from "./ratio.jsx";
 import Balance from "./balance.jsx";
 import RangeFilter from "./filter.jsx";
 
+class StockSummary extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    const { stock } = this.props;
+    const ROA = (
+      <div className="col l3 m4 s12 card">
+        <h4 className="mylabel">ROA</h4>
+        <div className="quotation">{stock.roa.toFixed(2)}</div>
+      </div>
+    );
+    const ROE = (
+      <div className="col l3 m4 s12 card">
+        <h4 className="mylabel">ROE</h4>
+        <div className="quotation">{stock.roe.toFixed(2)}</div>
+      </div>
+    );
+    const BETA = (
+      <div className="col l3 m4 s12 card">
+        <h4 className="mylabel">BETA</h4>
+        <div className="quotation">{stock.beta.toFixed(2)}</div>
+      </div>
+    );
+    const institution_ownership = (
+      <div className="col l3 m4 s12 card">
+        <h4 className="mylabel">Top 10 Institution Owned (%)</h4>
+        <div className="quotation">
+          {stock.top_ten_institution_ownership.toFixed(2)}
+        </div>
+      </div>
+    );
+
+    return (
+      <div className="row">
+        {ROA}
+        {ROE}
+        {BETA}
+        {institution_ownership}
+      </div>
+    );
+  }
+}
+
 class StockFinancial extends Fetch {
   constructor(props) {
     super(props);
@@ -21,7 +65,7 @@ class StockFinancial extends Fetch {
     return (
       <div>
         <h2>{stock.symbol}</h2>
-        Balance Sheet
+        <StockSummary stock={stock} />
         <Balance balances={stock.balances} />
         Valuation Ratios
         <ValuationRatio ratios={stock.ratios} />

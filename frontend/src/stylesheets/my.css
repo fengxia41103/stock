@@ -174,6 +174,10 @@ input[type=date] {
   color: #d52349;
 }
 
+.is-zero {
+ color: #FDD837;
+}
+
 .pin-card {
   width: 100%;
   border-radius: 5px;

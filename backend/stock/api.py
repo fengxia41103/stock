@@ -172,6 +172,7 @@ class IncomeStatementResource(ModelResource):
     opex_margin = fields.FloatField("opex_margin", use_in="detail")
     ebit_margin = fields.FloatField("ebit_margin", use_in="detail")
     expense_margin = fields.FloatField("expense_margin", use_in="detail")
+    operating_margin = fields.FloatField("operating_margin", use_in="detail")
 
     class Meta:
         queryset = IncomeStatement.objects.all()
@@ -182,6 +183,9 @@ class IncomeStatementResource(ModelResource):
 class CashFlowResource(ModelResource):
     cash_change_pcnt = fields.FloatField(
         "cash_change_pcnt", null=True, use_in="detail"
+    )
+    operating_cash_flow_growth = fields.FloatField(
+        "operating_cash_flow_growth", null=True, use_in="detail"
     )
 
     class Meta:
@@ -202,6 +206,24 @@ class BalanceSheetResource(ModelResource):
     quick_ratio = fields.FloatField("quick_ratio", use_in="detail")
     debt_to_equity_ratio = fields.FloatField(
         "debt_to_equity_ratio", use_in="detail"
+    )
+    debt_growth_rate = fields.FloatField(
+        "debt_growth_rate", null=True, use_in="detail"
+    )
+    ap_growth_rate = fields.FloatField(
+        "ap_growth_rate", null=True, use_in="detail"
+    )
+    ac_growth_rate = fields.FloatField(
+        "ac_growth_rate", null=True, use_in="detail"
+    )
+    all_cash_growth_rate = fields.FloatField(
+        "all_cash_growth_rate", null=True, use_in="detail"
+    )
+    working_capital_growth_rate = fields.FloatField(
+        "working_capital_growth_rate", null=True, use_in="detail"
+    )
+    net_ppe_growth_rate = fields.FloatField(
+        "net_ppe_growth_rate", null=True, use_in="detail"
     )
 
     class Meta:
