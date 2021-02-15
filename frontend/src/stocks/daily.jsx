@@ -26,12 +26,14 @@ class StockDaily extends Component {
       // daily trading data
       <table className="table highlight striped">
         <thead>
-          <th>Date</th>
-          <th>High</th>
-          <th>Low</th>
-          <th>Open</th>
-          <th>Adj Close</th>
-          <th>Vol (000)</th>
+          <tr>
+            <th>Date</th>
+            <th>High</th>
+            <th>Low</th>
+            <th>Open</th>
+            <th>Adj Close</th>
+            <th>Vol (000)</th>
+          </tr>
         </thead>
         <tbody>{rows}</tbody>
       </table>

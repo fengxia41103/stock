@@ -4,6 +4,7 @@ import os.path
 
 from django.core.management.base import BaseCommand
 
+from stock.tasks import balance_sheet_consumer
 from stock.tasks import cash_flow_statement_consumer
 from stock.tasks import income_statement_consumer
 from stock.tasks import valuation_ratio_consumer
@@ -41,7 +42,7 @@ class Command(BaseCommand):
             else:
                 self.dump_symbol(dest, symbol)
         else:
-            if symbol == "all":
+            if symbol.lower() == "all":
                 candidates = SYMBOLS.split(",")
             else:
                 candidates = [symbol]
@@ -51,3 +52,4 @@ class Command(BaseCommand):
                 income_statement_consumer.delay(symbol)
                 cash_flow_statement_consumer.delay(symbol)
                 valuation_ratio_consumer.delay(symbol)
+                balance_sheet_consumer.delay(symbol)

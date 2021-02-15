@@ -1,6 +1,7 @@
 from celery import shared_task
 
 from fin.tor_handler import PlainUtility
+from stock.workers.get_balance_sheet import MyBalanceSheet
 from stock.workers.get_cash_flow_statement import MyCashFlowStatement
 from stock.workers.get_historical import MyStockHistoricalYahoo
 from stock.workers.get_income_statement import MyIncomeStatement
@@ -9,6 +10,12 @@ from stock.workers.strategy_values import DailyReturn
 from stock.workers.strategy_values import NightDayConsistency
 from stock.workers.strategy_values import OvernightReturn
 from stock.workers.strategy_values import Trend
+
+
+@shared_task
+def balance_sheet_consumer(symbol):
+    crawler = MyBalanceSheet(symbol)
+    crawler.get()
 
 
 @shared_task

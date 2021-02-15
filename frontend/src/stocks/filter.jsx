@@ -4,7 +4,7 @@ import { map, filter, sortBy } from "lodash";
 import { Jumbotron } from "react-bootstrap";
 import { DebounceInput } from "react-debounce-input";
 
-import StockDetail from "./detail.jsx";
+import { StockHistorical } from "./detail.jsx";
 
 class RangeFilter extends Component {
   constructor(props) {
@@ -35,8 +35,9 @@ class RangeFilter extends Component {
     const key = start + end;
 
     return (
-      <div className="row">
-        <div className="pin-card">
+      <div>
+        <h2>My Analysis</h2>
+        <div className="row pin-card">
           <span className="col l2 m2 s12" style={{ fontSize: "1em" }}>
             Start date:
           </span>
@@ -60,7 +61,7 @@ class RangeFilter extends Component {
             onChange={this.end_change}
           />
         </div>
-        <StockDetail key={key} start={start} end={end} {...this.props} />
+        <StockHistorical key={key} start={start} end={end} {...this.props} />
       </div>
     );
   }

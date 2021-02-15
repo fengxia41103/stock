@@ -104,7 +104,7 @@ class Stats extends Component {
     );
 
     return (
-      <div>
+      <div className="row">
         {total_days}
         {total_return}
         {compounded_return}

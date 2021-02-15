@@ -7,6 +7,7 @@ from tastypie import fields
 from tastypie.constants import ALL
 from tastypie.resources import ModelResource
 
+from stock.models import BalanceSheet
 from stock.models import CashFlow
 from stock.models import IncomeStatement
 from stock.models import MyStock
@@ -39,6 +40,13 @@ class StockResource(ModelResource):
     ratios = fields.ToManyField(
         "stock.api.ValuationRatioResource",
         "ratios",
+        null=True,
+        use_in="detail",
+        full=True,
+    )
+    balances = fields.ToManyField(
+        "stock.api.BalanceSheetResource",
+        "balances",
         null=True,
         use_in="detail",
         full=True,
@@ -186,4 +194,17 @@ class ValuationRatioResource(ModelResource):
     class Meta:
         queryset = ValuationRatio.objects.all()
         resources_name = "ratios"
+        ordering = ["on"]
+
+
+class BalanceSheetResource(ModelResource):
+    current_ratio = fields.FloatField("current_ratio", use_in="detail")
+    quick_ratio = fields.FloatField("quick_ratio", use_in="detail")
+    debt_to_equity_ratio = fields.FloatField(
+        "debt_to_equity_ratio", use_in="detail"
+    )
+
+    class Meta:
+        queryset = BalanceSheet.objects.all()
+        resources_name = "balances"
         ordering = ["on"]

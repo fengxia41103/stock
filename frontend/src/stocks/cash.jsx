@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import { map, isEmpty } from "lodash";
+import DictTable from "../shared/dict_table.jsx";
 
 class Cash extends Component {
   constructor(props) {
@@ -10,11 +11,6 @@ class Cash extends Component {
   render() {
     const { cashes } = this.props;
 
-    if (isEmpty(cashes)) {
-      return null;
-    }
-
-    const dates = map(cashes, i => <th key={i.on}>{i.on}</th>);
     const interests = {
       beginning_cash: "Beggining Cash",
       ending_cash: "Ending Cash",
@@ -25,31 +21,7 @@ class Cash extends Component {
       capex: "CAPEX",
     };
 
-    const rows = Object.entries(interests).map(([key, description]) => {
-      const row = map(cashes, c => (
-        <td key={c.on} className={c[key] < 0 ? "negative" : null}>
-          {c[key].toFixed(2)}
-        </td>
-      ));
-      return (
-        <tr key={key}>
-          <td>{description}</td>
-          {row}
-        </tr>
-      );
-    });
-
-    return (
-      <table className="table striped">
-        <thead>
-          <tr>
-            <th></th>
-            {dates}
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </table>
-    );
+    return <DictTable data={cashes} interests={interests} />;
   }
 }
 

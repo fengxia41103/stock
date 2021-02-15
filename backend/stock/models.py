@@ -231,6 +231,7 @@ class IncomeStatement(models.Model):
         null=True, blank=True, default=0
     )
     total_revenue = models.FloatField(null=True, blank=True, default=0)
+    basic_eps = models.FloatField(null=True, blank=True, default=0)
 
     @property
     def net_income_margin(self):
@@ -343,3 +344,100 @@ class ValuationRatio(models.Model):
     pb = models.FloatField(null=True, blank=True, default=0)
     peg = models.FloatField(null=True, blank=True, default=0)
     ps = models.FloatField(null=True, blank=True, default=0)
+
+
+class BalanceSheet(models.Model):
+    stock = models.ForeignKey(
+        "MyStock", on_delete=models.CASCADE, related_name="balances"
+    )
+    on = models.DateField(null=True, blank=True)
+    ap = models.FloatField(
+        null=True, blank=True, default=0, verbose_name="Account Payable"
+    )
+    ac = models.FloatField(
+        null=True, blank=True, default=0, verbose_name="Account Receivable"
+    )
+    cash_and_cash_equivalent = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    cash_cash_equivalents_and_short_term_investments = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    cash_equivalents = models.FloatField(null=True, blank=True, default=0)
+    cash_financial = models.FloatField(null=True, blank=True, default=0)
+    commercial_paper = models.FloatField(null=True, blank=True, default=0)
+    common_stock_equity = models.FloatField(null=True, blank=True, default=0)
+    current_assets = models.FloatField(null=True, blank=True, default=0)
+    current_debt = models.FloatField(null=True, blank=True, default=0)
+    current_deferred_liabilities = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    current_deferred_revenue = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    current_liabilities = models.FloatField(null=True, blank=True, default=0)
+    gross_ppe = models.FloatField(null=True, blank=True, default=0)
+    inventory = models.FloatField(null=True, blank=True, default=0)
+    invested_capital = models.FloatField(null=True, blank=True, default=0)
+    investmentin_financial_assets = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    investments_and_advances = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    land_and_improvements = models.FloatField(null=True, blank=True, default=0)
+    leases = models.FloatField(null=True, blank=True, default=0)
+    long_term_debt = models.FloatField(null=True, blank=True, default=0)
+    long_term_debt_and_capital_lease_obligation = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    machinery_furniture_equipment = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    net_debt = models.FloatField(null=True, blank=True, default=0)
+    net_ppe = models.FloatField(null=True, blank=True, default=0)
+    net_tangible_assets = models.FloatField(null=True, blank=True, default=0)
+    other_current_assets = models.FloatField(null=True, blank=True, default=0)
+    other_current_borrowings = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    other_current_liabilities = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    other_receivables = models.FloatField(null=True, blank=True, default=0)
+    other_short_term_investments = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    payables = models.FloatField(null=True, blank=True, default=0)
+    payables_and_accrued_expenses = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    receivables = models.FloatField(null=True, blank=True, default=0)
+    retained_earnings = models.FloatField(null=True, blank=True, default=0)
+    stockholders_equity = models.FloatField(null=True, blank=True, default=0)
+    tangible_book_value = models.FloatField(null=True, blank=True, default=0)
+    total_assets = models.FloatField(null=True, blank=True, default=0)
+    total_capitalization = models.FloatField(null=True, blank=True, default=0)
+    total_debt = models.FloatField(null=True, blank=True, default=0)
+    total_non_current_assets = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    working_capital = models.FloatField(null=True, blank=True, default=0)
+    available_for_sale_securities = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    total_tax_payable = models.FloatField(null=True, blank=True, default=0)
+
+    @property
+    def current_ratio(self):
+        return self.current_assets / self.current_liabilities
+
+    @property
+    def quick_ratio(self):
+        return (
+            self.cash_cash_equivalents_and_short_term_investments + self.ac
+        ) / self.current_liabilities
+
+    @property
+    def debt_to_equity_ratio(self):
+        return self.total_debt / self.common_stock_equity

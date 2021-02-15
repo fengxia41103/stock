@@ -8,8 +8,33 @@ import Income from "./income.jsx";
 import Cash from "./cash.jsx";
 import StockDaily from "./daily.jsx";
 import ValuationRatio from "./ratio.jsx";
+import Balance from "./balance.jsx";
+import RangeFilter from "./filter.jsx";
 
-class StockDetail extends Fetch {
+class StockFinancial extends Fetch {
+  constructor(props) {
+    super(props);
+    this.state.resource = this.props.resource;
+  }
+
+  render_data(stock) {
+    return (
+      <div>
+        <h2>{stock.symbol}</h2>
+        Balance Sheet
+        <Balance balances={stock.balances} />
+        Valuation Ratios
+        <ValuationRatio ratios={stock.ratios} />
+        Income Statement
+        <Income incomes={stock.incomes} />
+        Cash Flow Statement
+        <Cash cashes={stock.cashes} />
+      </div>
+    );
+  }
+}
+
+class StockHistorical extends Fetch {
   constructor(props) {
     super(props);
 
@@ -21,32 +46,58 @@ class StockDetail extends Fetch {
 
   render_data(stock) {
     const { start, end } = this.props;
-
-    return (
+    const period = (
       <div>
-        <h1>{stock.symbol}</h1>
-        <ValuationRatio ratios={stock.ratios} />
-        <Income incomes={stock.incomes} />
-        <Cash cashes={stock.cashes} />
         <span className="myhighlight">{start}</span>
         &mdash;
         <span className="myhighlight">{end}</span>
+      </div>
+    );
+
+    return (
+      <div>
+        <h3>My Indicators</h3>
+        {period}
         <Stats stats={stock.stats} />
+
+        <h3>Daily & Overnight Returns</h3>
+        <div className="col s6">
+          {period}
+          <StrategyValueChart
+            name="Overnight Return %"
+            data={stock.indexes["overnight return"]}
+          />
+        </div>
+
+        <div className="col s6">
+          {period}
+          <StrategyValueChart
+            name="Daily Return %"
+            data={stock.indexes["daily return"]}
+          />
+        </div>
+
+        <h2>Price History</h2>
+        {period}
         <PriceChart data={stock.olds} />
-        <StrategyValueChart
-          name="Daily Return %"
-          data={stock.indexes["daily return"]}
-        />
         <VolChart data={stock.olds} />
-        <StrategyValueChart
-          name="Overnight Return %"
-          data={stock.indexes["overnight return"]}
-        />
-        // daily trading data
         <StockDaily historicals={stock.olds} />
       </div>
     );
   }
 }
 
-export default StockDetail;
+class StockDetail extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <StockFinancial {...this.props} />
+        <RangeFilter {...this.props} />
+      </div>
+    );
+  }
+}
+export { StockDetail, StockHistorical };

@@ -32,7 +32,21 @@ class MyIncomeStatement:
             i, created = IncomeStatement.objects.get_or_create(
                 stock=self.stock, on=row.asOfDate.date()
             )
+            i.basic_eps = float(row.BasicEPS)
             i.ebit = float(row.EBIT) / B
+            i.gross_profit = float(row.GrossProfit) / B
+            i.net_income = float(row.NetIncome) / B
+            i.normalized_ebitda = float(row.NormalizedEBITDA) / B
+            i.operating_expense = float(row.OperatingExpense) / B
+            i.operating_income = float(row.OperatingIncome) / B
+            i.operating_revenue = float(row.OperatingRevenue) / B
+            i.pretax_income = float(row.PretaxIncome) / B
+
+            i.selling_general_and_administration = (
+                float(row.SellingGeneralAndAdministration) / B
+            )
+            i.total_expenses = float(row.TotalExpenses) / B
+            i.total_revenue = float(row.TotalRevenue) / B
 
             # some don't have this field!?
             try:
@@ -62,20 +76,6 @@ class MyIncomeStatement:
                 )
             except AttributeError:
                 i.total_operating_income_as_reported = 0
-
-            i.gross_profit = float(row.GrossProfit) / B
-            i.net_income = float(row.NetIncome) / B
-            i.normalized_ebitda = float(row.NormalizedEBITDA) / B
-            i.operating_expense = float(row.OperatingExpense) / B
-            i.operating_income = float(row.OperatingIncome) / B
-            i.operating_revenue = float(row.OperatingRevenue) / B
-            i.pretax_income = float(row.PretaxIncome) / B
-
-            i.selling_general_and_administration = (
-                float(row.SellingGeneralAndAdministration) / B
-            )
-            i.total_expenses = float(row.TotalExpenses) / B
-            i.total_revenue = float(row.TotalRevenue) / B
 
             # COGS
             if row.ReconciledCostOfRevenue > 0:

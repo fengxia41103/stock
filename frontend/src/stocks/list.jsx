@@ -11,7 +11,7 @@ import {
   Route,
   NavLink,
 } from "react-router-dom";
-import RangeFilter from "./filter.jsx";
+import { StockDetail } from "./detail.jsx";
 
 class StockList extends Fetch {
   constructor(props) {
@@ -41,15 +41,19 @@ class StockList extends Fetch {
     // routing to detail page
     const details = map(stocks, v => {
       const tmp = "/stock/" + v.id;
-      const resource = this.state.resource+"/"+v.id;
+      const resource = this.state.resource + "/" + v.id;
       return (
         <Route
           key={v.id}
           path={tmp}
-          children={props => <RangeFilter key={v.id}
-                                          id={v.id}
-                                          resource={resource}
-                                          {...this.props}/>}
+          children={props => (
+            <StockDetail
+              key={v.id}
+              id={v.id}
+              resource={resource}
+              {...this.props}
+            />
+          )}
         />
       );
     });

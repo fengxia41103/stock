@@ -13,36 +13,31 @@ class ValuationRatio extends Component {
       return null;
     }
 
-    const dates = map(ratios, i => <th key={i.on}>{i.on}</th>);
-    const interests = {
-      forward_pe: "Forward P/E",
-      pe: "P/E",
-      pb: "P/B",
-      peg: "PEG",
-      ps: "P/S",
-    };
-    const rows = Object.entries(interests).map(([key, description]) => {
-      const row = map(ratios, c => (
-        <td key={c.on} className={c[key] < 0 ? "negative" : null}>
-          {c[key].toFixed(2)}
-        </td>
-      ));
-      return (
-        <tr key={key}>
-          <td>{description}</td>
-          {row}
-        </tr>
-      );
-    });
+    const headers = (
+      <tr>
+        <th>Date</th>
+        <th>Forward P/E</th>
+        <th>P/E</th>
+        <th>P/B</th>
+        <th>P/E-2-G</th>
+        <th>P/S</th>
+      </tr>
+    );
+
+    const rows = map(ratios, r => (
+      <tr key={r.on}>
+        <td>{r.on}</td>
+        <td>{r.forward_pe.toFixed(2)}</td>
+        <td>{r.pe.toFixed(2)}</td>
+        <td>{r.pb.toFixed(2)}</td>
+        <td>{r.peg.toFixed(2)}</td>
+        <td>{r.ps.toFixed(2)}</td>
+      </tr>
+    ));
 
     return (
       <table className="table striped">
-        <thead>
-          <tr>
-            <th></th>
-            {dates}
-          </tr>
-        </thead>
+        <thead>{headers}</thead>
         <tbody>{rows}</tbody>
       </table>
     );
