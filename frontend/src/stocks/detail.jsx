@@ -10,6 +10,7 @@ import StockDaily from "./daily.jsx";
 import ValuationRatio from "./ratio.jsx";
 import Balance from "./balance.jsx";
 import RangeFilter from "./filter.jsx";
+import DictCard from "../shared/dict_card.jsx";
 
 class StockSummary extends Component {
   constructor(props) {
@@ -17,41 +18,19 @@ class StockSummary extends Component {
   }
   render() {
     const { stock } = this.props;
-    const ROA = (
-      <div className="col l3 m4 s12 card">
-        <h4 className="mylabel">ROA</h4>
-        <div className="quotation">{stock.roa.toFixed(2)}</div>
-      </div>
-    );
-    const ROE = (
-      <div className="col l3 m4 s12 card">
-        <h4 className="mylabel">ROE</h4>
-        <div className="quotation">{stock.roe.toFixed(2)}</div>
-      </div>
-    );
-    const BETA = (
-      <div className="col l3 m4 s12 card">
-        <h4 className="mylabel">BETA</h4>
-        <div className="quotation">{stock.beta.toFixed(2)}</div>
-      </div>
-    );
-    const institution_ownership = (
-      <div className="col l3 m4 s12 card">
-        <h4 className="mylabel">Top 10 Institution Owned (%)</h4>
-        <div className="quotation">
-          {stock.top_ten_institution_ownership.toFixed(2)}
-        </div>
-      </div>
-    );
+    const interests = {
+      dcf: "My Evaluation",
+      profit_margin: "Profit Margin %",
+      roa: "ROA",
+      roe: "ROE",
+      beta: "BETA",
+      top_ten_institution_ownership: "Top 10 Institution Owned %",
+      cost_of_equity: "Cost of Equity",
+      cost_of_debt: "Cost of Debt",
+      wacc: "WACC",
+    };
 
-    return (
-      <div className="row">
-        {ROA}
-        {ROE}
-        {BETA}
-        {institution_ownership}
-      </div>
-    );
+    return <DictCard data={stock} interests={interests} />;
   }
 }
 

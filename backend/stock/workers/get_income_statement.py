@@ -47,6 +47,7 @@ class MyIncomeStatement:
             )
             i.total_expenses = float(row.TotalExpenses) / B
             i.total_revenue = float(row.TotalRevenue) / B
+            i.tax_rate = row.TaxRateForCalcs
 
             # some don't have this field!?
             try:

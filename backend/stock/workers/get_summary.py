@@ -18,6 +18,7 @@ class MySummary:
         self.stock = MyStock.objects.get(symbol=symbol)
 
     def get(self):
+        B = 10 ** 9
         s = Ticker(self.stock.symbol)
 
         df = s.financial_data[self.stock.symbol]
@@ -29,12 +30,17 @@ class MySummary:
             self.stock.roe = df.get("returnOnEquity", 0) * 100
             self.stock.save()
 
-        df = s.summary_detail[self.stock.symbol]
+        df = s.key_stats[self.stock.symbol]
         if NA in df:
             logger.error(df)
             return
         else:
             self.stock.beta = df.get("beta", 0)
+            self.stock.top_ten_institution_ownership = df.get(
+                "heldPercentInstitutions", 0
+            )
+            self.stock.shares_outstanding = df.get("sharesOutstanding", 0) / B
+            self.stock.profit_margin = df.get("profitMargins", 0) * 100
             self.stock.save()
 
         # This will either return a data frame (if a valid stock),

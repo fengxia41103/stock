@@ -45,9 +45,82 @@ class MyStock(models.Model):
         null=True, default=0, verbose_name="Return on Equity"
     )
     top_ten_institution_ownership = models.FloatField(null=True, default=-1)
+    profit_margin = models.FloatField(null=True, default=0)
+    shares_outstanding = models.FloatField(null=True, default=0)
 
     def __str__(self):
         return self.symbol
+
+    @property
+    def tax_rate(self):
+        income = (
+            IncomeStatement.objects.filter(stock=self)
+            .exclude(tax_rate=0)
+            .order_by("-on")
+        )
+        if not income:
+            return 0
+        else:
+            return income[0].tax_rate
+
+    @property
+    def cost_of_equity(self):
+        RISK_FREE_RATE = 0.01242
+        MARKET_RISK_PREMIUM = 0.07
+        return RISK_FREE_RATE + self.beta * MARKET_RISK_PREMIUM
+
+    @property
+    def cost_of_debt(self):
+        # TODO: how to compute this one!?
+        cost_of_debt = 0.05
+        return cost_of_debt * (1 - self.tax_rate)
+
+    @property
+    def wacc(self):
+        balance = (
+            BalanceSheet.objects.filter(stock=self)
+            .exclude(total_debt=0)
+            .order_by("-on")
+        )
+        if not balance:
+            # maybe a fund that has no balance sheet
+            return 0
+
+        DEBT_ADJUSTMENT = 0.09
+        debt_weight = balance[0].capital_structure * DEBT_ADJUSTMENT
+        return (
+            self.cost_of_equity * (1 - debt_weight / 100)
+            + self.cost_of_debt * debt_weight / 100
+        )
+
+    @property
+    def dcf(self):
+        """DCF model for intrinsic value."""
+
+        GROWTH_RATE = 0.07
+
+        fcf = (
+            CashFlow.objects.filter(stock=self)
+            .exclude(operating_cash_flow=0)
+            .order_by("-on")
+        )
+        if not fcf:
+            # maybe a fund that has no balance sheet
+            return 0
+        else:
+            fcf = fcf[0].operating_cash_flow
+
+        total_income = 0
+        # year 1-5
+        for i in range(0, 6):
+            total_income += fcf * (1 + GROWTH_RATE) ** i / (1 + self.wacc) ** i
+
+        # year 6-10 growing at half the rate
+        for i in range(5, 11):
+            total_income += (
+                fcf * (1 + GROWTH_RATE * 0.5) ** i / (1 + self.wacc) ** i
+            )
+        return total_income / self.shares_outstanding
 
 
 class MyHistoricalCustomManager(models.Manager):
@@ -240,6 +313,7 @@ class IncomeStatement(models.Model):
     )
     total_revenue = models.FloatField(null=True, blank=True, default=0)
     basic_eps = models.FloatField(null=True, blank=True, default=0)
+    tax_rate = models.FloatField(null=True, blank=True, default=0)
 
     @property
     def net_income_margin(self):
@@ -460,17 +534,38 @@ class BalanceSheet(models.Model):
 
     @property
     def current_ratio(self):
-        return self.current_assets / self.current_liabilities
+        try:
+            return self.current_assets / self.current_liabilities
+        except ZeroDivisionError:
+            logger.exception("-" * 50)
+            logger.exception(self.id)
+            return 0
 
     @property
     def quick_ratio(self):
-        return (
-            self.cash_cash_equivalents_and_short_term_investments + self.ac
-        ) / self.current_liabilities
+        try:
+            return (
+                self.cash_cash_equivalents_and_short_term_investments + self.ac
+            ) / self.current_liabilities
+        except ZeroDivisionError:
+            return 0
 
     @property
     def debt_to_equity_ratio(self):
         return self.total_debt / self.common_stock_equity
+
+    @property
+    def capital_structure(self):
+        """Current capital structure in term of debt % of (debt+equity).
+
+        TODO
+        ----
+        1. Needs to estimate the market value of the debt, not just
+           repoted debt.
+        """
+        return (
+            self.total_debt / (self.total_debt + self.common_stock_equity) * 100
+        )
 
     @property
     def debt_growth_rate(self):

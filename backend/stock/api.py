@@ -52,6 +52,14 @@ class StockResource(ModelResource):
         full=True,
     )
 
+    tax_rate = fields.FloatField("tax_rate", null=True, use_in="detail")
+    cost_of_equity = fields.FloatField(
+        "cost_of_equity", null=True, use_in="detail"
+    )
+    cost_of_debt = fields.FloatField("cost_of_debt", null=True, use_in="detail")
+    wacc = fields.FloatField("wacc", null=True, use_in="detail")
+    dcf = fields.FloatField("dcf", null=True, use_in="detail")
+
     class Meta:
         queryset = MyStock.objects.all()
         resource_name = "stocks"
@@ -202,8 +210,10 @@ class ValuationRatioResource(ModelResource):
 
 
 class BalanceSheetResource(ModelResource):
-    current_ratio = fields.FloatField("current_ratio", use_in="detail")
-    quick_ratio = fields.FloatField("quick_ratio", use_in="detail")
+    current_ratio = fields.FloatField(
+        "current_ratio", null=True, use_in="detail"
+    )
+    quick_ratio = fields.FloatField("quick_ratio", null=True, use_in="detail")
     debt_to_equity_ratio = fields.FloatField(
         "debt_to_equity_ratio", use_in="detail"
     )
