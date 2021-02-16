@@ -35,7 +35,9 @@ class MySummary:
             logger.error(df)
             return
         else:
-            self.stock.beta = df.get("beta", 0)
+            # BETA default to 5!
+            self.stock.beta = df.get("beta", 5)
+
             self.stock.top_ten_institution_ownership = df.get(
                 "heldPercentInstitutions", 0
             )

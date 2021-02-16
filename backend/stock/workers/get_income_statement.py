@@ -62,7 +62,7 @@ class MyIncomeStatement:
 
                 # if tmp is a large number, it's unlikely a rate,
                 # eg. tax rate, thus convert it to B.
-                if tmp > M:
+                if abs(tmp) > M:
                     tmp = tmp / B
 
                 # set value

@@ -1,6 +1,3 @@
-import os
-import os.path
-
 from celery import chain
 from celery import group
 from django.core.management.base import BaseCommand
@@ -19,9 +16,8 @@ class Command(BaseCommand):
         parser.add_argument("symbol", help="Symbol or ALL")
 
     def handle(self, *args, **options):
-        self.stdout.write(os.path.dirname(__file__), ending="")
 
-        candidate = options["symbol"].lower()
+        candidate = options["symbol"].lower().strip()
         if candidate == "all":
             symbols = MyStock.objects.values_list("symbol", flat=True)
         else:

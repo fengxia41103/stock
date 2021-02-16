@@ -16,9 +16,10 @@ import { StockDetail } from "./detail.jsx";
 class StockList extends Fetch {
   constructor(props) {
     super(props);
-    this.state.resource = "/api/v1/stocks";
-
-    this.state.searching = "TSM";
+    const filter = "?limit=50";
+    this.state.stock = "/api/v1/stocks";
+    this.state.resource = this.state.stock + filter;
+    this.state.searching = "MSFT";
 
     // binding
     this.handleChange = this.handleChange.bind(this);
@@ -41,7 +42,7 @@ class StockList extends Fetch {
     // routing to detail page
     const details = map(stocks, v => {
       const tmp = "/stock/" + v.id;
-      const resource = this.state.resource + "/" + v.id;
+      const resource = this.state.stock + "/" + v.id;
       return (
         <Route
           key={v.id}

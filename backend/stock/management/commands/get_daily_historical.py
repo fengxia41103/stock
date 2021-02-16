@@ -4,6 +4,7 @@ import os.path
 
 from django.core.management.base import BaseCommand
 
+from stock.models import MyStock
 from stock.tasks import balance_sheet_consumer
 from stock.tasks import cash_flow_statement_consumer
 from stock.tasks import income_statement_consumer
@@ -12,7 +13,7 @@ from stock.tasks import valuation_ratio_consumer
 from stock.tasks import yahoo_consumer
 
 SYMBOLS = """VOO, SPY, AAPL, SBUX, MSFT, AMZN, BFAM, VMW, ABNB, RDFN, JNJ, PYPL,
-AMD, EBAY, TGT, NET, TSM, GME, BBBY, AMC, TSLA, SQ"""
+AMD, EBAY, TGT, NET, TSM, GME, BBBY, AMC, TSLA, SQ, LFC, BBY"""
 
 logger = logging.getLogger("stock")
 

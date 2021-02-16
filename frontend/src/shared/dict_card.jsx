@@ -23,7 +23,7 @@ class DictCard extends Component {
       return (
         <div key={key} className="col l3 m4 s12 card">
           <h4 className="mylabel">{description}</h4>
-          <div className="decor">{val.toFixed(2)}</div>
+          <div className="quotation decor">{val.toFixed(2)}</div>
         </div>
       );
     });
