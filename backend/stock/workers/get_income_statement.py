@@ -8,6 +8,7 @@ from yahooquery import Ticker
 
 logger = logging.getLogger("stock")
 
+M = 10 ** 6
 B = 10 ** 9
 
 
@@ -27,63 +28,44 @@ class MyIncomeStatement:
         # DB doesn't like NaN
         df = df.where(pd.notnull(df), 0)
 
+        mapping = {
+            "basic_eps": "BasicEPS",
+            "ebit": "EBIT",
+            "net_income": "NetIncome",
+            "normalized_ebitda": "NormalizedEBITDA",
+            "operating_expense": "OperatingExpense",
+            "operating_income": "OperatingIncome",
+            "operating_revenue": "OperatingRevenue",
+            "pretax_income": "PretaxIncome",
+            "selling_general_and_administration": "SellingGeneralAndAdministration",
+            "total_expenses": "TotalExpenses",
+            "total_revenue": "TotalRevenue",
+            "tax_rate": "TaxRateForCalcs",
+            "gross_profit": "GrossProfit",
+            "general_and_administrative_expense": "GeneralAndAdministrativeExpense",
+            "research_and_development": "ResearchAndDevelopment",
+            "selling_and_marketing_expense": "SellingAndMarketingExpense",
+            "total_operating_income_as_reported": "TotalOperatingIncomeAsReported",
+            "reconciled_cost_of_revenue": "ReconciledCostOfRevenue",
+        }
         # enumerate data frame
         for row in df.itertuples(index=False):
             i, created = IncomeStatement.objects.get_or_create(
                 stock=self.stock, on=row.asOfDate.date()
             )
-            i.basic_eps = float(row.BasicEPS)
-            i.ebit = float(row.EBIT) / B
-            i.gross_profit = float(row.GrossProfit) / B
-            i.net_income = float(row.NetIncome) / B
-            i.normalized_ebitda = float(row.NormalizedEBITDA) / B
-            i.operating_expense = float(row.OperatingExpense) / B
-            i.operating_income = float(row.OperatingIncome) / B
-            i.operating_revenue = float(row.OperatingRevenue) / B
-            i.pretax_income = float(row.PretaxIncome) / B
 
-            i.selling_general_and_administration = (
-                float(row.SellingGeneralAndAdministration) / B
-            )
-            i.total_expenses = float(row.TotalExpenses) / B
-            i.total_revenue = float(row.TotalRevenue) / B
-            i.tax_rate = row.TaxRateForCalcs
+            for key, val in mapping.items():
+                try:
+                    tmp = float(getattr(row, val))
+                except AttributeError:
+                    tmp = 0
 
-            # some don't have this field!?
-            try:
-                i.general_and_administrative_expense = (
-                    float(row.GeneralAndAdministrativeExpense) / B
-                )
-            except AttributeError:
-                i.general_and_administrative_expense = 0
+                # if tmp is a large number, it's unlikely a rate,
+                # eg. tax rate, thus convert it to B.
+                if tmp > M:
+                    tmp = tmp / B
 
-            try:
-                i.research_and_development = (
-                    float(row.ResearchAndDevelopment) / B
-                )
-            except AttributeError:
-                i.research_and_development = 0
-
-            try:
-                i.selling_and_marketing_expense = (
-                    float(row.SellingAndMarketingExpense) / B
-                )
-            except AttributeError:
-                i.selling_and_marketing_expense = 0
-
-            try:
-                i.total_operating_income_as_reported = (
-                    float(row.TotalOperatingIncomeAsReported) / B
-                )
-            except AttributeError:
-                i.total_operating_income_as_reported = 0
-
-            # COGS
-            if row.ReconciledCostOfRevenue > 0:
-                i.reconciled_cost_of_revenue = (
-                    float(row.ReconciledCostOfRevenue) / B
-                )
-            else:
-                i.reconciled_cost_of_revenue = i.total_revenue - i.gross_profit
+                # set value
+                setattr(i, key, tmp)
 
             i.save()

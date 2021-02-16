@@ -9,6 +9,7 @@ logger = logging.getLogger("stock")
 
 
 NA = "No fundamentals data found"
+B = 10 ** 9
 
 
 class MySummary:
@@ -18,7 +19,6 @@ class MySummary:
         self.stock = MyStock.objects.get(symbol=symbol)
 
     def get(self):
-        B = 10 ** 9
         s = Ticker(self.stock.symbol)
 
         df = s.financial_data[self.stock.symbol]

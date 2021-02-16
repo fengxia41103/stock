@@ -8,6 +8,7 @@ from yahooquery import Ticker
 
 logger = logging.getLogger("stock")
 
+M = 10 ** 6
 B = 10 ** 9
 
 
@@ -27,166 +28,72 @@ class MyBalanceSheet:
         # DB doesn't like NaN
         df = df.where(pd.notnull(df), 0)
 
+        mapping = {
+            "ap": "AccountsPayable",
+            "cash_and_cash_equivalent": "CashAndCashEquivalents",
+            "cash_cash_equivalents_and_short_term_investments": "CashCashEquivalentsAndShortTermInvestments",
+            "common_stock": "CommonStock",
+            "common_stock_equity": "CommonStockEquity",
+            "invested_capital": "InvestedCapital",
+            "long_term_debt_and_capital_lease_obligation": "LongTermDebtAndCapitalLeaseObligation",
+            "machinery_furniture_equipment": "MachineryFurnitureEquipment",
+            "net_ppe": "NetPPE",
+            "net_tangible_assets": "NetTangibleAssets",
+            "payables": "Payables",
+            "payables_and_accrued_expenses": "PayablesAndAccruedExpenses",
+            "retained_earnings": "RetainedEarnings",
+            "stockholders_equity": "StockholdersEquity",
+            "tangible_book_value": "TangibleBookValue",
+            "total_assets": "TotalAssets",
+            "total_capitalization": "TotalCapitalization",
+            "total_debt": "TotalDebt",
+            "total_non_current_assets": "TotalNonCurrentAssets",
+            "working_capital": "WorkingCapital",
+            "gross_ppe": "GrossPPE",
+            "current_assets": "CurrentAssets",
+            "current_liabilities": "CurrentLiabilities",
+            "receivables": "Receivables",
+            "other_short_term_investments": "OtherShortTermInvestments",
+            "long_term_debt": "LongTermDebt",
+            "other_current_liabilities": "OtherCurrentLiabilities",
+            "land_and_improvements": "LandAndImprovements",
+            "ac": "AccountsReceivable",
+            "other_current_assets": "OtherCurrentAssets",
+            "investments_and_advances": "InvestmentsAndAdvances",
+            "current_debt": "CurrentDebt",
+            "inventory": "Inventory",
+            "total_tax_payable": "TotalTaxPayable",
+            "available_for_sale_securities": "AvailableForSaleSecurities",
+            "other_receivables": "OtherReceivables",
+            "other_current_borrowings": "OtherCurrentBorrowings",
+            "investmentin_financial_assets": "InvestmentinFinancialAssets",
+            "cash_equivalents": "CashEquivalents",
+            "cash_financial": "CashFinancial",
+            "commercial_paper": "CommercialPaper",
+            "current_deferred_liabilities": "CurrentDeferredLiabilities",
+            "current_deferred_revenue": "CurrentDeferredRevenue",
+            "leases": "Leases",
+            "net_debt": "NetDebt",
+        }
+
         # enumerate data frame
         for row in df.itertuples(index=False):
             i, created = BalanceSheet.objects.get_or_create(
                 stock=self.stock, on=row.asOfDate.date()
             )
-            i.ap = float(row.AccountsPayable) / B
 
-            i.cash_and_cash_equivalent = float(row.CashAndCashEquivalents) / B
-            i.cash_cash_equivalents_and_short_term_investments = (
-                float(row.CashCashEquivalentsAndShortTermInvestments) / B
-            )
-            i.common_stock = float(row.CommonStock) / B
-            i.common_stock_equity = float(row.CommonStockEquity) / B
-            i.current_assets = float(row.CurrentAssets) / B
-            i.current_liabilities = float(row.CurrentLiabilities) / B
-            i.gross_ppe = float(row.GrossPPE) / B
-            i.invested_capital = float(row.InvestedCapital) / B
-            i.long_term_debt_and_capital_lease_obligation = (
-                float(row.LongTermDebtAndCapitalLeaseObligation) / B
-            )
-            i.machinery_furniture_equipment = (
-                float(row.MachineryFurnitureEquipment) / B
-            )
-            i.net_ppe = float(row.NetPPE) / B
-            i.net_tangible_assets = float(row.NetTangibleAssets) / B
-            i.payables = float(row.Payables) / B
-            i.payables_and_accrued_expenses = (
-                float(row.PayablesAndAccruedExpenses) / B
-            )
-            i.retained_earnings = float(row.RetainedEarnings) / B
-            i.stockholders_equity = float(row.StockholdersEquity) / B
-            i.tangible_book_value = float(row.TangibleBookValue) / B
-            i.total_assets = float(row.TotalAssets) / B
-            i.total_capitalization = float(row.TotalCapitalization) / B
-            i.total_debt = float(row.TotalDebt) / B
-            i.total_non_current_assets = float(row.TotalNonCurrentAssets) / B
-            i.working_capital = float(row.WorkingCapital) / B
+            for key, val in mapping.items():
+                try:
+                    tmp = float(getattr(row, val))
+                except AttributeError:
+                    tmp = 0
 
-            try:
-                i.receivables = float(row.Receivables) / B
-            except AttributeError:
-                i.receivables = 0
+                # if tmp is a large number, it's unlikely a rate,
+                # eg. tax rate, thus convert it to B.
+                if tmp > M:
+                    tmp = tmp / B
 
-            try:
-                i.other_short_term_investments = (
-                    float(row.OtherShortTermInvestments) / B
-                )
-            except AttributeError:
-                i.other_short_term_investments = 0
-
-            try:
-                i.long_term_debt = float(row.LongTermDebt) / B
-            except AttributeError:
-                i.long_term_debt = 0
-            try:
-                i.other_current_liabilities = (
-                    float(row.OtherCurrentLiabilities) / B
-                )
-            except AttributeError:
-                i.other_current_liabilities = 0
-
-            try:
-                i.land_and_improvements = float(row.LandAndImprovements) / B
-            except AttributeError:
-                i.land_and_improvements = 0
-            try:
-                i.ac = float(row.AccountsReceivable) / B
-            except:
-                i.ac = 0
-
-            try:
-                i.other_current_assets = float(row.OtherCurrentAssets) / B
-            except AttributeError:
-                i.other_current_assets = 0
-
-            try:
-                i.investments_and_advances = (
-                    float(row.InvestmentsAndAdvances) / B
-                )
-            except AttributeError:
-                i.investments_and_advances = 0
-
-            try:
-                i.current_debt = float(row.CurrentDebt) / B
-            except AttributeError:
-                i.current_debt = 0
-
-            try:
-                i.inventory = float(row.Inventory) / B
-            except AttributeError:
-                i.inventory = 0
-
-            try:
-                i.total_tax_payable = float(row.TotalTaxPayable) / B
-            except AttributeError:
-                i.total_tax_payable = 0
-
-            try:
-                i.available_for_sale_securities = (
-                    float(row.AvailableForSaleSecurities) / B
-                )
-            except AttributeError:
-                i.available_for_sale_securities = 0
-
-            try:
-                i.other_receivables = float(row.OtherReceivables) / B
-            except AttributeError:
-                i.other_receivables = 0
-
-            try:
-                i.other_current_borrowings = (
-                    float(row.OtherCurrentBorrowings) / B
-                )
-            except AttributeError:
-                i.other_current_borrowings = 0
-
-            try:
-                i.investmentin_financial_assets = (
-                    float(row.InvestmentinFinancialAssets) / B
-                )
-            except AttributeError:
-                i.investmentin_financial_assets = 0
-
-            try:
-                i.cash_equivalents = float(row.CashEquivalents) / B
-            except AttributeError:
-                i.cash_equivalents = 0
-
-            try:
-                i.cash_financial = float(row.CashFinancial) / B
-            except AttributeError:
-                i.cash_financial = 0
-
-            try:
-                i.commercial_paper = float(row.CommercialPaper) / B
-            except AttributeError:
-                i.commercial_paper = 0
-
-            try:
-                i.current_deferred_liabilities = (
-                    float(row.CurrentDeferredLiabilities) / B
-                )
-            except AttributeError:
-                i.current_deferred_liabilities = 0
-
-            try:
-                i.current_deferred_revenue = (
-                    float(row.CurrentDeferredRevenue) / B
-                )
-            except AttributeError:
-                i.current_deferred_revenue = 0
-
-            try:
-                i.leases = float(row.Leases) / B
-            except AttributeError:
-                i.leases = 0
-
-            try:
-                i.net_debt = float(row.NetDebt) / B
-            except AttributeError:
-                i.net_debt = 0
+                # set value
+                setattr(i, key, tmp)
 
             i.save()

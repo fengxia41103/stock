@@ -25,33 +25,28 @@ class MyValuationRatio:
         # DB doesn't like NaN
         df = df.where(pd.notnull(df), 0)
 
+        mapping = {
+            "forward_pe": "ForwardPeRatio",
+            "pb": "PbRatio",
+            "pe": "PeRatio",
+            "peg": "PegRatio",
+            "ps": "PsRatio",
+        }
+
         # enumerate data frame
         for row in df.itertuples(index=False):
             i, created = ValuationRatio.objects.get_or_create(
                 stock=self.stock, on=row.asOfDate.date()
             )
 
-            try:
-                i.forward_pe = row.ForwardPeRatio
-            except AttributeError:
-                i.forward_pe = 0
+            for key, val in mapping.items():
+                try:
+                    tmp = float(getattr(row, val))
+                except AttributeError:
+                    tmp = 0
 
-            try:
-                i.pb = row.PbRatio
-            except AttributeError:
-                i.pb = 0
-
-            try:
-                i.pe = row.PeRatio
-            except AttributeError:
-                i.pe = 0
-
-            try:
-                i.peg = row.PegRatio
-            except AttributeError:
-                i.peg = 0
-
-            i.ps = row.PsRatio
+                # set value
+                setattr(i, key, tmp)
             i.save()
 
         # if all values are 0, discard the record
