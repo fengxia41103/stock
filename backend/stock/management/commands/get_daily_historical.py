@@ -13,7 +13,7 @@ from stock.tasks import valuation_ratio_consumer
 from stock.tasks import yahoo_consumer
 
 SYMBOLS = """VOO, SPY, AAPL, SBUX, MSFT, AMZN, BFAM, VMW, ABNB, RDFN, JNJ, PYPL,
-AMD, EBAY, TGT, NET, TSM, GME, BBBY, AMC, TSLA, SQ, LFC, BBY"""
+AMD, EBAY, TGT, NET, TSM, GME, BBBY, AMC, TSLA, SQ, LFC, BBY, RCL,PLTR,BYD"""
 
 logger = logging.getLogger("stock")
 

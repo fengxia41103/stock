@@ -19,7 +19,7 @@ class StockList extends Fetch {
     const filter = "?limit=50";
     this.state.stock = "/api/v1/stocks";
     this.state.resource = this.state.stock + filter;
-    this.state.searching = "MSFT";
+    this.state.searching = "TSM";
 
     // binding
     this.handleChange = this.handleChange.bind(this);

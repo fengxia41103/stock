@@ -11,6 +11,7 @@ import ValuationRatio from "./ratio.jsx";
 import Balance from "./balance.jsx";
 import RangeFilter from "./filter.jsx";
 import DictCard from "../shared/dict_card.jsx";
+import DCF from "./dcf.jsx";
 
 class StockSummary extends Component {
   constructor(props) {
@@ -19,15 +20,12 @@ class StockSummary extends Component {
   render() {
     const { stock } = this.props;
     const interests = {
-      dcf: "My Evaluation",
+      latest_close_price: "Latest Close Price",
       profit_margin: "Profit Margin %",
       roa: "ROA",
       roe: "ROE",
       beta: "BETA",
       top_ten_institution_ownership: "Top 10 Institution Owned %",
-      cost_of_equity: "Cost of Equity",
-      cost_of_debt: "Cost of Debt",
-      wacc: "WACC",
     };
 
     return <DictCard data={stock} interests={interests} />;
@@ -45,13 +43,11 @@ class StockFinancial extends Fetch {
       <div>
         <h2>{stock.symbol}</h2>
         <StockSummary stock={stock} />
+        <DCF stock={stock} />
         <Balance balances={stock.balances} />
-        Valuation Ratios
-        <ValuationRatio ratios={stock.ratios} />
-        Income Statement
         <Income incomes={stock.incomes} />
-        Cash Flow Statement
         <Cash cashes={stock.cashes} />
+        <ValuationRatio ratios={stock.ratios} />
       </div>
     );
   }

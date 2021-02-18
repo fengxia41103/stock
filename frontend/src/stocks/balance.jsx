@@ -10,26 +10,33 @@ class Balance extends Component {
 
   render() {
     const { balances } = this.props;
+
+    // if ETF, skip
+    if (isEmpty(balances)) {
+      return null;
+    }
+
     const reported = {
       current_ratio: "Current Ratio",
       quick_ratio: "Quick Ratio",
       debt_to_equity_ratio: "Debt/Equity Ratio",
+      capital_structure: "Debt % of Capital",
     };
 
     const analysis = {
-      debt_growth_rate: "Debt Growth from Prev (%)",
-      ap_growth_rate: "AP Growth from Prev (%)",
-      ac_growth_rate: "AC Growth from Prev (%)",
-      all_cash_growth_rate: "Cash & Equivalents from Prev (%)",
-      working_capital_growth_rate: "Working Capital from Prev (%)",
-      net_ppe_growth_rate: "Net PP&E from Prev (%)",
+      debt_growth_rate: "Debt(%)",
+      ap_growth_rate: "AP(%)",
+      ac_growth_rate: "AC(%)",
+      all_cash_growth_rate: "Cashes (%)",
+      working_capital_growth_rate: "Working Capital (%)",
+      net_ppe_growth_rate: "Net PP&E (%)",
     };
 
     return (
       <div>
         Balance Sheet
         <DictTable data={balances} interests={reported} />
-        Balance Sheet Period-to-Period
+        Period-to-Period Changes
         <DictTable data={balances} interests={analysis} />
       </div>
     );

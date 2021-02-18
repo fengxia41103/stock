@@ -64,63 +64,18 @@ class MyStock(models.Model):
             return income[0].tax_rate
 
     @property
-    def cost_of_equity(self):
-        RISK_FREE_RATE = 0.01242
-        MARKET_RISK_PREMIUM = 0.07
-        return RISK_FREE_RATE + self.beta * MARKET_RISK_PREMIUM
+    def latest_close_price(self):
+        """The latest close price.
 
-    @property
-    def cost_of_debt(self):
-        # TODO: how to compute this one!?
-        cost_of_debt = 0.05
-        return cost_of_debt * (1 - self.tax_rate)
+        We can use this to compare to our DCF evaluation so to measure
+        a premium.
 
-    @property
-    def wacc(self):
-        balance = (
-            BalanceSheet.objects.filter(stock=self)
-            .exclude(total_debt=0)
-            .order_by("-on")
-        )
-        if not balance:
-            # maybe a fund that has no balance sheet
-            return 0
-
-        DEBT_ADJUSTMENT = 0.09
-        debt_weight = balance[0].capital_structure * DEBT_ADJUSTMENT
+        """
         return (
-            self.cost_of_equity * (1 - debt_weight / 100)
-            + self.cost_of_debt * debt_weight / 100
+            MyStockHistorical.objects.filter(stock=self)
+            .order_by("-on")[0]
+            .close_price
         )
-
-    @property
-    def dcf(self):
-        """DCF model for intrinsic value."""
-
-        GROWTH_RATE = 0.07
-
-        fcf = (
-            CashFlow.objects.filter(stock=self)
-            .exclude(operating_cash_flow=0)
-            .order_by("-on")
-        )
-        if not fcf:
-            # maybe a fund that has no balance sheet
-            return 0
-        else:
-            fcf = fcf[0].operating_cash_flow
-
-        total_income = 0
-        # year 1-5
-        for i in range(0, 6):
-            total_income += fcf * (1 + GROWTH_RATE) ** i / (1 + self.wacc) ** i
-
-        # year 6-10 growing at half the rate
-        for i in range(5, 11):
-            total_income += (
-                fcf * (1 + GROWTH_RATE * 0.5) ** i / (1 + self.wacc) ** i
-            )
-        return total_income / self.shares_outstanding
 
 
 class MyHistoricalCustomManager(models.Manager):
@@ -182,8 +137,9 @@ class MyStrategyValueCustomManager(models.Manager):
 
         two day trend
         -------------
-        Count occurance of two day trend values. This is a probability
-        indicator.
+        Count occurance of two day trend values, whether I got two day
+        in a row of the same direction or a flip. This is a
+        probability indicator.
 
         avg up return
         -------------
@@ -201,45 +157,71 @@ class MyStrategyValueCustomManager(models.Manager):
         close_prices = list(historicals.values_list("close_price", flat=True))
         vols = list(historicals.values_list("vol", flat=True))
 
-        # AMD 1982-07-29 had 0 open price
+        # eg. AMD 1982-07-29 had 0 open price. This is happening quite
+        # a bit on data that are _too_ old to be useful for me. But
+        # since I'm keeping these data, I have to handle them.
         try:
             range_return = close_prices[-1] / open_prices[0] * 100
         except ZeroDivisionError:
             range_return = 0
 
-        # count frequency
-        tmp = collections.Counter(
-            indexes.filter(method=3).values_list("val", flat=True)
+        # nightly trends
+        nightly_return = indexes.filter(method=3)
+        nightly_ups = nightly_return.filter(val__gt=0).values_list(
+            "val", flat=True
         )
+        nightly_downs = nightly_return.filter(val__lt=0).values_list(
+            "val", flat=True
+        )
+        tmp = collections.Counter(nightly_return.values_list("val", flat=True))
         night_day_consistency = dict(
             [(int(key), val) for (key, val) in tmp.items()]
         )
 
-        tmp = collections.Counter(
-            indexes.filter(method=4).values_list("val", flat=True)
-        )
-        trend = dict([(int(key), val) for (key, val) in tmp.items()])
-
+        # daily trends
         daily_return = indexes.filter(method=1)
         daily_ups = daily_return.filter(val__gt=0).values_list("val", flat=True)
         daily_downs = daily_return.filter(val__lt=0).values_list(
             "val", flat=True
         )
 
+        # if I trade daily, what's the return?
         compound_return = (
             prod(list(map(lambda x: 1 + x.val / 100, daily_return))) * 100
         )
+
+        # pre-computed trends, eg. two-day up/down/flip
+        tmp = collections.Counter(
+            indexes.filter(method=4).values_list("val", flat=True)
+        )
+        two_day_trend = dict([(int(key), val) for (key, val) in tmp.items()])
+
+        # night-day flipt vs. their compounded return
+        night_day_flips = indexes.filter(method=3, val=0).values_list(
+            "hist", flat=True
+        )
+        positive_compounds = indexes.filter(
+            method=5, val__gt=0, hist__in=night_day_flips
+        ).count()
+        negative_compounds = indexes.filter(
+            method=5, val__lt=0, hist__in=night_day_flips
+        ).count()
 
         return {
             "days": historicals.count(),
             "return": "%.2f" % range_return,
             "close price rsd": "%.2f"
             % (std(close_prices) / average(close_prices) * 100),
-            "trend": trend,
+            "two_day_trend": two_day_trend,
             "overnight": night_day_consistency,
-            "ups": "%.0f" % (daily_ups.count() / daily_return.count() * 100.0),
-            "downs": "%.0f"
+            "daily_ups": "%.0f"
+            % (daily_ups.count() / daily_return.count() * 100.0),
+            "daily_downs": "%.0f"
             % (daily_downs.count() / daily_return.count() * 100.0),
+            "nightly_ups": "%.0f"
+            % (nightly_ups.count() / nightly_return.count() * 100.0),
+            "nightly_downs": "%.0f"
+            % (nightly_downs.count() / nightly_return.count() * 100.0),
             "avg daily up": "%.2f" % average(daily_ups),
             "daily up rsd": "%.2f"
             % (std(daily_ups) / average(daily_ups) * 100),
@@ -248,6 +230,13 @@ class MyStrategyValueCustomManager(models.Manager):
             % (std(daily_downs) / abs(average(daily_downs)) * 100),
             "compounded return": "%.2f" % compound_return,
             "vols": vols,
+            "night day flips": night_day_flips.count(),
+            "night day flip positive": positive_compounds
+            / night_day_flips.count()
+            * 100,
+            "night day flip negative": negative_compounds
+            / night_day_flips.count()
+            * 100,
         }
 
 
@@ -261,14 +250,20 @@ class MyStrategyValue(models.Model):
        openning? Value is %.
     3. night day consistency: daily trend is the same as overnight,
        either both > 0 or both < 0.
-    4. trend: yesterday->today trend
+    4. trend: two day daily trend, yesterday's -> today's, how many
+       upup,downdown, or a flip?
+    5. night-day compound: compounded return from last night to end of
+       today. This is especially useful if I saw a lot of flip, eg. up
+       last night, but down today. Then what? Can overnight's up
+       compensate this down?
     """
 
     METHOD_CHOICES = (
         (1, "daily return"),
         (2, "overnight return"),
         (3, "night day consistency"),
-        (4, "trend"),
+        (4, "two daily trend"),
+        (5, "night day compounded return"),
     )
     objects = MyStrategyValueCustomManager()
     hist = models.ForeignKey(
@@ -324,20 +319,44 @@ class IncomeStatement(models.Model):
         return self.gross_profit / self.total_revenue * 100
 
     @property
+    def cogs_margin(self):
+        return self.reconciled_cost_of_revenue / self.total_revenue * 100
+
+    @property
     def opex_margin(self):
+        """OPEX is expense. Lower is better."""
         return self.operating_expense / self.total_revenue * 100
 
     @property
     def ebit_margin(self):
+        """EBIT is an income indicator. Higher is better."""
         return self.ebit / self.total_revenue * 100
 
     @property
-    def expense_margin(self):
+    def total_expense_margin(self):
+        """How much expense to achieve the sales. Lower is better."""
         return self.total_expenses / self.total_revenue * 100
 
     @property
-    def operating_margin(self):
-        return self.operating_income / self.total_revenue * 100
+    def operating_income_margin(self):
+        """How much sales became operating income. Higher is better.
+
+        We are using operating_revenue if possible because this is to
+        measure its operating efficiency.
+
+        """
+        if self.operating_revenue:
+            return self.operating_income / self.operating_revenue * 100
+        else:
+            return self.operating_income / self.total_revenue * 100
+
+    @property
+    def operating_expense_margin(self):
+        """How much expense in operation. The lower, the better."""
+        if self.operating_revenue:
+            return self.operating_expense / self.operating_revenue * 100
+        else:
+            return self.operating_expense / self.total_revenue * 100
 
 
 class CashFlow(models.Model):
@@ -537,8 +556,6 @@ class BalanceSheet(models.Model):
         try:
             return self.current_assets / self.current_liabilities
         except ZeroDivisionError:
-            logger.exception("-" * 50)
-            logger.exception(self.id)
             return 0
 
     @property

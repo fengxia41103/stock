@@ -53,12 +53,9 @@ class StockResource(ModelResource):
     )
 
     tax_rate = fields.FloatField("tax_rate", null=True, use_in="detail")
-    cost_of_equity = fields.FloatField(
-        "cost_of_equity", null=True, use_in="detail"
+    latest_close_price = fields.FloatField(
+        "latest_close_price", null=True, use_in="detail"
     )
-    cost_of_debt = fields.FloatField("cost_of_debt", null=True, use_in="detail")
-    wacc = fields.FloatField("wacc", null=True, use_in="detail")
-    dcf = fields.FloatField("dcf", null=True, use_in="detail")
 
     class Meta:
         queryset = MyStock.objects.all()
@@ -175,12 +172,20 @@ class IncomeStatementResource(ModelResource):
         "stock.api.StockResource", "stock", use_in="detail"
     )
 
+    cogs_margin = fields.FloatField("cogs_margin", use_in="detail")
     net_income_margin = fields.FloatField("net_income_margin", use_in="detail")
     gross_margin = fields.FloatField("gross_margin", use_in="detail")
     opex_margin = fields.FloatField("opex_margin", use_in="detail")
     ebit_margin = fields.FloatField("ebit_margin", use_in="detail")
-    expense_margin = fields.FloatField("expense_margin", use_in="detail")
-    operating_margin = fields.FloatField("operating_margin", use_in="detail")
+    total_expense_margin = fields.FloatField(
+        "total_expense_margin", use_in="detail"
+    )
+    operating_income_margin = fields.FloatField(
+        "operating_income_margin", use_in="detail"
+    )
+    operating_expense_margin = fields.FloatField(
+        "operating_expense_margin", use_in="detail"
+    )
 
     class Meta:
         queryset = IncomeStatement.objects.all()
@@ -217,6 +222,7 @@ class BalanceSheetResource(ModelResource):
     debt_to_equity_ratio = fields.FloatField(
         "debt_to_equity_ratio", use_in="detail"
     )
+    capital_structure = fields.FloatField("capital_structure", use_in="detail")
     debt_growth_rate = fields.FloatField(
         "debt_growth_rate", null=True, use_in="detail"
     )

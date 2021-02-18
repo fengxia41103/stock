@@ -39,7 +39,7 @@ class RangeFilter extends Component {
 
     return (
       <div>
-        <h2>My Analysis</h2>
+        <h2>My Trend Analysis</h2>
         <div className="row pin-card">
           <span className="col l2 m2 s12" style={{ fontSize: "1em" }}>
             Start date:

@@ -11,6 +11,12 @@ class ValuationRatioChart extends Component {
 
   render() {
     const { ratios } = this.props;
+
+    // if ETF, skip
+    if (isEmpty(ratios)) {
+      return null;
+    }
+
     const containerId = randomId();
     const categories = map(ratios, r => r.on);
     const forward_pe = map(ratios, r => r.forward_pe);
@@ -110,6 +116,7 @@ class ValuationRatio extends Component {
     }
     return (
       <div>
+        Valuation Ratios
         <ValuationRatioChart {...this.props} />
         <ValuationRatioTable {...this.props} />
       </div>

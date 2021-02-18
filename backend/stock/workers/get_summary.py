@@ -21,6 +21,7 @@ class MySummary:
     def get(self):
         s = Ticker(self.stock.symbol)
 
+        # https://yahooquery.dpguthrie.com/guide/ticker/modules/#financial_data
         df = s.financial_data[self.stock.symbol]
         if NA in df:
             logger.error(df)
@@ -30,6 +31,7 @@ class MySummary:
             self.stock.roe = df.get("returnOnEquity", 0) * 100
             self.stock.save()
 
+        # https://yahooquery.dpguthrie.com/guide/ticker/modules/#key_stats
         df = s.key_stats[self.stock.symbol]
         if NA in df:
             logger.error(df)

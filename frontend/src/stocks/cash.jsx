@@ -11,6 +11,11 @@ class Cash extends Component {
   render() {
     const { cashes } = this.props;
 
+    // if ETF, skip
+    if (isEmpty(cashes)) {
+      return null;
+    }
+
     const reported = {
       beginning_cash: "Beggining Cash",
       ending_cash: "Ending Cash",
@@ -27,6 +32,7 @@ class Cash extends Component {
 
     return (
       <div>
+        Cash Flow Statement
         <DictTable data={cashes} interests={reported} />
         <DictTable data={cashes} interests={analysis} />
       </div>

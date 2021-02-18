@@ -16,6 +16,7 @@ class StockDaily extends Component {
           <td>{h.high_price.toFixed(2)}</td>
           <td>{h.low_price.toFixed(2)}</td>
           <td>{h.open_price.toFixed(2)}</td>
+          <td>{h.close_price.toFixed(2)}</td>
           <td>{h.adj_close.toFixed(2)}</td>
           <td>{h.vol.toFixed(0)}</td>
         </tr>
@@ -31,6 +32,7 @@ class StockDaily extends Component {
             <th>High</th>
             <th>Low</th>
             <th>Open</th>
+            <th>Close</th>
             <th>Adj Close</th>
             <th>Vol (000)</th>
           </tr>

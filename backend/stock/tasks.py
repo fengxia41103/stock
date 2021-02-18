@@ -8,9 +8,10 @@ from stock.workers.get_income_statement import MyIncomeStatement
 from stock.workers.get_summary import MySummary
 from stock.workers.get_valuation_ratio import MyValuationRatio
 from stock.workers.strategy_values import DailyReturn
+from stock.workers.strategy_values import NightDayCompoundedReturn
 from stock.workers.strategy_values import NightDayConsistency
 from stock.workers.strategy_values import OvernightReturn
-from stock.workers.strategy_values import Trend
+from stock.workers.strategy_values import TwoDailyTrend
 
 
 @shared_task
@@ -69,6 +70,12 @@ def compute_night_day_consistency_consumer(whatever, symbol):
 
 
 @shared_task
-def compute_trend_consumer(whatever, symbol):
-    crawler = Trend(symbol)
+def compute_night_day_compounded_return_consumer(whatever, symbol):
+    crawler = NightDayCompoundedReturn(symbol)
+    crawler.run(window_length=1)
+
+
+@shared_task
+def compute_two_daily_trend_consumer(whatever, symbol):
+    crawler = TwoDailyTrend(symbol)
     crawler.run(window_length=2)

@@ -156,7 +156,7 @@ input[type=text] {
   font-size: 2em;
 }
 
-input[type=date] {
+input[type=date], input[type=number] {
   color: #42A5F5;
   font-size: 1.2em;
 }

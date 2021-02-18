@@ -43,6 +43,20 @@ class Stats extends Component {
         </div>
       </div>
     );
+    const night_day_flip_return = (
+      <div className="col l3 m4 s12 card">
+        <h4 className="mylabel">
+          Overnight Flip Returns&mdash;
+          <span className="positive">UP %</span>/DOWN %
+        </h4>
+        <div className="quotation">
+          <span className="positive">
+            {stats["night day flip positive"].toFixed(0)}
+          </span>
+          /{stats["night day flip negative"].toFixed(0)}
+        </div>
+      </div>
+    );
 
     const two_day_trend = (
       <div className="col l3 m4 s12 card">
@@ -52,8 +66,22 @@ class Stats extends Component {
           <span className="negative">Down</span>/Flip
         </h4>
         <div className="quotation">
-          <span className="positive">{stats.trend[1]}</span>/
-          <span className="negative">{stats.trend[2]}</span>/{stats.trend[3]}
+          <span className="positive">{stats.two_day_trend[1]}</span>/
+          <span className="negative">{stats.two_day_trend[2]}</span>/
+          {stats.two_day_trend[3]}
+        </div>
+      </div>
+    );
+
+    const nightly_return = (
+      <div className="col l3 m4 s12 card">
+        <h4 className="mylabel">
+          Nightly Return&mdash;
+          <span className="positive">UP %</span>/DOWN %
+        </h4>
+        <div className="quotation">
+          <span className="positive">{stats.nightly_ups}</span>/
+          {stats.nightly_downs}
         </div>
       </div>
     );
@@ -65,7 +93,8 @@ class Stats extends Component {
           <span className="positive">UP %</span>/DOWN %
         </h4>
         <div className="quotation">
-          <span className="positive">{stats.ups}</span>/{stats.downs}
+          <span className="positive">{stats.daily_ups}</span>/
+          {stats.daily_downs}
         </div>
       </div>
     );
@@ -110,8 +139,10 @@ class Stats extends Component {
         {compounded_return}
         {close_price_rsd}
         {overnight_trend}
+        {night_day_flip_return}
         {two_day_trend}
         {daily_return}
+        {nightly_return}
         {up_trend}
         {down_trend}
       </div>

@@ -227,7 +227,7 @@ class NightDayConsistency(MyStockStrategyValue):
         strategy.save()
 
 
-class Trend(MyStockStrategyValue):
+class TwoDailyTrend(MyStockStrategyValue):
     """Trend from yesterday to today.
 
     1: if both days went up.
@@ -238,7 +238,7 @@ class Trend(MyStockStrategyValue):
     """
 
     def __init__(self, symbol):
-        super(Trend, self).__init__(symbol)
+        super(TwoDailyTrend, self).__init__(symbol)
 
     def compute_value(self, t0, window):
         """
@@ -277,6 +277,47 @@ class Trend(MyStockStrategyValue):
             # Bogus error value that should never occur!
             # Use to catch any computation error.
             strategy.val = -99
+        strategy.save()
+
+
+class NightDayCompoundedReturn(MyStockStrategyValue):
+    """Compounded return last night+today's.
+
+    Since I'm seeing flips from night to today's, I want to know
+    whether the compounded return is > 1. I mean, if I saw a drop last
+    night, but up today, is the up large enough to compensate the
+    drop?
+
+    So really, the interests are the flips, and see how the return
+    farewell from this flip.
+
+    """
+
+    def __init__(self, symbol):
+        super(NightDayCompoundedReturn, self).__init__(symbol)
+
+    def compute_value(self, t0, window):
+        """
+        Args
+        ----
+
+          :t0: MyStockHistorical
+          Represents today/this/me.
+
+          :window: list[MyStockHistorical]
+          For this computation, it is [today] only. We are to use this
+          to look up its daily return and overnight return.
+        """
+        strategy, created = MyStrategyValue.objects.get_or_create(
+            hist=t0, method=5
+        )
+
+        # get daily and overnight return
+        daily = MyStrategyValue.objects.get(hist=t0, method=1)
+        overnight = MyStrategyValue.objects.get(hist=t0, method=2)
+        strategy.val = (
+            ((1 + daily.val / 100) * (1 + overnight.val / 100)) - 1
+        ) * 100
         strategy.save()
 
 

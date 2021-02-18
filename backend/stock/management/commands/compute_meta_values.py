@@ -4,9 +4,10 @@ from django.core.management.base import BaseCommand
 
 from stock.models import MyStock
 from stock.tasks import compute_daily_return_consumer
+from stock.tasks import compute_night_day_compounded_return_consumer
 from stock.tasks import compute_night_day_consistency_consumer
 from stock.tasks import compute_nightly_return_consumer
-from stock.tasks import compute_trend_consumer
+from stock.tasks import compute_two_daily_trend_consumer
 
 
 class Command(BaseCommand):
@@ -30,7 +31,8 @@ class Command(BaseCommand):
             )
             trend_sig = group(
                 compute_night_day_consistency_consumer.s(s),
-                compute_trend_consumer.s(s),
+                compute_two_daily_trend_consumer.s(s),
+                compute_night_day_compounded_return_consumer.s(s),
             )
             task = chain(daily_return_sig, trend_sig)
             task.apply_async()

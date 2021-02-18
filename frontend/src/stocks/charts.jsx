@@ -22,7 +22,7 @@ class StrategyValueChart extends Component {
     return (
       <HighchartGraphBox
         containerId={containerId}
-        type="column"
+        type="bar"
         categories={categories}
         yLabel=""
         title=""
