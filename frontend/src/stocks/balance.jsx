@@ -16,17 +16,19 @@ class Balance extends Component {
       return null;
     }
 
-    const reported = {
+    const analysis = {
       current_ratio: "Current Ratio",
       quick_ratio: "Quick Ratio",
       debt_to_equity_ratio: "Debt/Equity Ratio",
-      capital_structure: "Debt % of Capital",
+      equity_multiplier: "Equity Multipler",
+      liability_pcnt: "Liability/Asset (%)",
     };
 
-    const analysis = {
+    const p2p_changes = {
+      capital_structure: "Debt % of Capital",
       debt_growth_rate: "Debt(%)",
-      ap_growth_rate: "AP(%)",
-      ac_growth_rate: "AC(%)",
+      ap_growth_rate: "Account Payable (%)",
+      ar_growth_rate: "Account Receivable (%)",
       all_cash_growth_rate: "Cashes (%)",
       working_capital_growth_rate: "Working Capital (%)",
       net_ppe_growth_rate: "Net PP&E (%)",
@@ -35,9 +37,9 @@ class Balance extends Component {
     return (
       <div>
         Balance Sheet
-        <DictTable data={balances} interests={reported} />
-        Period-to-Period Changes
         <DictTable data={balances} interests={analysis} />
+        Period-to-Period Changes
+        <DictTable data={balances} interests={p2p_changes} />
       </div>
     );
   }

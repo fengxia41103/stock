@@ -16,10 +16,8 @@ import { StockDetail } from "./detail.jsx";
 class StockList extends Fetch {
   constructor(props) {
     super(props);
-    const filter = "?limit=50";
-    this.state.stock = "/api/v1/stocks";
-    this.state.resource = this.state.stock + filter;
-    this.state.searching = "TSM";
+    this.state.resource = "/api/v1/stocks";
+    this.state.searching = "BFAM";
 
     // binding
     this.handleChange = this.handleChange.bind(this);
@@ -32,6 +30,8 @@ class StockList extends Fetch {
   }
 
   render_data(data) {
+    const url_root = this.state.resource;
+
     const stocks = data.objects;
 
     // filter based on search string
@@ -41,8 +41,10 @@ class StockList extends Fetch {
 
     // routing to detail page
     const details = map(stocks, v => {
+      // this value must match w/ NavLink `to` value!
       const tmp = "/stock/" + v.id;
-      const resource = this.state.stock + "/" + v.id;
+
+      const resource = url_root + "/" + v.id;
       return (
         <Route
           key={v.id}
@@ -63,12 +65,13 @@ class StockList extends Fetch {
     const selectors = map(
       sortBy(filtered, x => x.symbol),
       v => {
+        const url = "/stock/" + v.id;
         return (
           <NavLink
             activeClassName="active"
             className="col l4 m6 s12 "
             key={v.id}
-            to={"/stock/" + v.id}
+            to={url}
           >
             <i className="fa fa-code-fork"></i>
             &nbsp;{v.symbol}

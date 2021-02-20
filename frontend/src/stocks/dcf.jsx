@@ -98,29 +98,29 @@ class DCF extends Component {
       <div className="row jumbotron">
         DCF Valuation
         <br />
-        <div className="col l6 m6 s12 card">
+        <div className="col l4 m6 s12 card">
           <h4 className="mylabel">My Valuation</h4>
           <div className="quotation">{dcf.toFixed(2)}</div>
         </div>
-        <div className="col l6 m6 s12 card">
+        <div className="col l4 m6 s12 card">
           <h4 className="mylabel">WACC %</h4>
           <div className="quotation">{(wacc * 100).toFixed(2)}</div>
         </div>
-        <div className="col l6 m6 s12 card">
+        <div className="col l4 m6 s12 card">
           <h4 className="mylabel">Cost of Equity %</h4>
           <div className="quotation">{(cost_of_equity * 100).toFixed(2)}</div>
         </div>
-        <div className="col l6 m6 s12 card">
+        <div className="col l4 m6 s12 card">
           <h4 className="mylabel">Debt Weight %</h4>
           <div className="quotation">
             {(capital_structure * 100).toFixed(2)}
           </div>
         </div>
-        <div className="col l6 m6 s12 card">
+        <div className="col l4 m6 s12 card">
           <h4 className="mylabel">Today's Cash Flow</h4>
           <div className="quotation">{cash_flow.toFixed(2)}</div>
         </div>
-        <div className="col l6 m6 s12 card">
+        <div className="col l4 m6 s12 card">
           <h4 className="mylabel">10-yr Projected CF</h4>
           <div className="quotation">{income.toFixed(2)}</div>
         </div>

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import TopNavBox from "./shared/top_nav.jsx";
 import StockList from "./stocks/list.jsx";
+import Summary from "./all/summary.jsx";
 
 class RootBox extends Component {
   constructor(props) {
@@ -16,6 +17,12 @@ class RootBox extends Component {
   render() {
     const { api } = this.state;
     const routes = [
+      {
+        path: "/summary",
+        exact: true,
+        sidebar: "Summary",
+        main: props => <Summary api={api} />,
+      },
       {
         path: "/",
         exact: true,

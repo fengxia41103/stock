@@ -57,7 +57,7 @@ class MyBalanceSheet:
             "long_term_debt": "LongTermDebt",
             "other_current_liabilities": "OtherCurrentLiabilities",
             "land_and_improvements": "LandAndImprovements",
-            "ac": "AccountsReceivable",
+            "ar": "AccountsReceivable",
             "other_current_assets": "OtherCurrentAssets",
             "investments_and_advances": "InvestmentsAndAdvances",
             "current_debt": "CurrentDebt",

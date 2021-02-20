@@ -12,6 +12,7 @@ import Balance from "./balance.jsx";
 import RangeFilter from "./filter.jsx";
 import DictCard from "../shared/dict_card.jsx";
 import DCF from "./dcf.jsx";
+import DuPont from "./dupont.jsx";
 
 class StockSummary extends Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class StockFinancial extends Fetch {
       <div>
         <h2>{stock.symbol}</h2>
         <StockSummary stock={stock} />
+        <DuPont dupont={stock.dupont_model} />
         <DCF stock={stock} />
         <Balance balances={stock.balances} />
         <Income incomes={stock.incomes} />
@@ -80,7 +82,7 @@ class StockHistorical extends Fetch {
         <Stats stats={stock.stats} />
 
         <h3>Daily & Overnight Returns</h3>
-        <div className="col s6">
+        <div className="col l6 m12 s12">
           {period}
           <StrategyValueChart
             name="Overnight Return %"
@@ -88,7 +90,7 @@ class StockHistorical extends Fetch {
           />
         </div>
 
-        <div className="col s6">
+        <div className="col l6 m12 s12">
           {period}
           <StrategyValueChart
             name="Daily Return %"

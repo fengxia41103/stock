@@ -22,11 +22,11 @@ class Income extends Component {
       basic_eps: "Basic EPS",
     };
     const analysis = {
+      net_income_margin: "Net Profit Margin (%)",
       cogs_margin: "COGS Margin (%)",
       gross_margin: "Gross Margin (%)",
       operating_income_margin: "Operating Income Margin (%)",
       operating_expense_margin: "Operating Expense Margin (%)",
-      net_income_margin: "Net Income Margin (%)",
       opex_margin: "OPEX Margin (%)",
       ebit_margin: "EBIT Margin (%)",
       total_expense_margin: "Total Expense Margin (%)",

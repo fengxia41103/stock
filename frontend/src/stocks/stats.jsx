@@ -12,27 +12,27 @@ class Stats extends Component {
     };
 
     const total_days = (
-      <div className="col l3 m4 s12 card">
+      <div className="col l3 m6 s12 card">
         <h4 className="mylabel">Trading Days</h4>
         <div className="quotation">{stats.days}</div>
       </div>
     );
 
     const total_return = (
-      <div className="col l3 m4 s12 card">
+      <div className="col l3 m6 s12 card">
         <h4 className="mylabel">End-to-End Return %</h4>
         <div className={my_class(stats.return, 100)}>{stats.return}</div>
       </div>
     );
     const close_price_rsd = (
-      <div className="col l3 m4 s12 card">
+      <div className="col l3 m6 s12 card">
         <h4 className="mylabel">Close Price RSD %</h4>
         <div className="quotation">{stats["close price rsd"]}</div>
       </div>
     );
 
     const overnight_trend = (
-      <div className="col l3 m4 s12 card">
+      <div className="col l3 m6 s12 card">
         <h4 className="mylabel">
           Overnight&mdash;
           <span className="negative">Flip</span>/Consistency
@@ -44,7 +44,7 @@ class Stats extends Component {
       </div>
     );
     const night_day_flip_return = (
-      <div className="col l3 m4 s12 card">
+      <div className="col l3 m6 s12 card">
         <h4 className="mylabel">
           Overnight Flip Returns&mdash;
           <span className="positive">UP %</span>/DOWN %
@@ -59,7 +59,7 @@ class Stats extends Component {
     );
 
     const two_day_trend = (
-      <div className="col l3 m4 s12 card">
+      <div className="col l3 m6 s12 card">
         <h4 className="mylabel">
           Two-day Trend&mdash;
           <span className="positive">Up</span>/
@@ -74,7 +74,7 @@ class Stats extends Component {
     );
 
     const nightly_return = (
-      <div className="col l3 m4 s12 card">
+      <div className="col l3 m6 s12 card">
         <h4 className="mylabel">
           Nightly Return&mdash;
           <span className="positive">UP %</span>/DOWN %
@@ -87,7 +87,7 @@ class Stats extends Component {
     );
 
     const daily_return = (
-      <div className="col l3 m4 s12 card">
+      <div className="col l3 m6 s12 card">
         <h4 className="mylabel">
           Daily Return&mdash;
           <span className="positive">UP %</span>/DOWN %
@@ -99,7 +99,7 @@ class Stats extends Component {
       </div>
     );
     const compounded_return = (
-      <div className="col l3 m4 s12 card">
+      <div className="col l3 m6 s12 card">
         <h4 className="mylabel">Compounded Return %</h4>
         <div className={my_class(stats["compounded return"], 100)}>
           {stats["compounded return"]}
@@ -108,7 +108,7 @@ class Stats extends Component {
     );
 
     const up_trend = (
-      <div className="col l3 m4 s12 card">
+      <div className="col l3 m6 s12 card">
         <h4 className="mylabel">
           UP Daily Return&mdash;
           <span className="negative">Avg</span>/RSD %
@@ -120,7 +120,7 @@ class Stats extends Component {
       </div>
     );
     const down_trend = (
-      <div className="col l3 m4 s12 card">
+      <div className="col l3 m6 s12 card">
         <h4 className="mylabel">
           DOWN Daily Return&mdash;
           <span className="negative">Avg</span>/RSD %

@@ -77,6 +77,44 @@ class MyStock(models.Model):
             .close_price
         )
 
+    @property
+    def dupont_model(self):
+        """Build DuPont ROE model.
+
+        We are assuming the reporting dates are consistent among:
+        - balance sheet
+        - income statement
+
+        So that we could extract the three factors needed in the
+        DuPont model.
+
+        """
+
+        vals = []
+        for b in self.balances.order_by("on"):
+            leverage = b.equity_multiplier
+
+            i = self.incomes.get(on=b.on)
+            net_profit_margin = i.net_income_margin
+
+            turnover = i.total_revenue / b.total_assets
+            roe = net_profit_margin * turnover * leverage
+            vals.append(
+                {
+                    "on": b.on,
+                    "net_profit_margin": net_profit_margin,
+                    "asset_turnover": turnover * 100,
+                    "equity_multiplier": leverage,
+                    "roe": roe,
+                    # reported data
+                    "revenue": i.total_revenue,
+                    "assets": b.total_assets,
+                    "debts": b.total_debt,
+                    "equity": b.stockholders_equity,
+                }
+            )
+        return vals
+
 
 class MyHistoricalCustomManager(models.Manager):
     def by_date_range(self, start, end):
@@ -203,9 +241,22 @@ class MyStrategyValueCustomManager(models.Manager):
         positive_compounds = indexes.filter(
             method=5, val__gt=0, hist__in=night_day_flips
         ).count()
+        if night_day_flips.count():
+            flip_positive_pcnt = (
+                positive_compounds / night_day_flips.count() * 100
+            )
+        else:
+            flip_positive_pcnt = 0
+
         negative_compounds = indexes.filter(
             method=5, val__lt=0, hist__in=night_day_flips
         ).count()
+        if night_day_flips.count():
+            flip_negative_pcnt = (
+                negative_compounds / night_day_flips.count() * 100
+            )
+        else:
+            flip_negative_pcnt = 0
 
         return {
             "days": historicals.count(),
@@ -231,12 +282,8 @@ class MyStrategyValueCustomManager(models.Manager):
             "compounded return": "%.2f" % compound_return,
             "vols": vols,
             "night day flips": night_day_flips.count(),
-            "night day flip positive": positive_compounds
-            / night_day_flips.count()
-            * 100,
-            "night day flip negative": negative_compounds
-            / night_day_flips.count()
-            * 100,
+            "night day flip positive": flip_positive_pcnt,
+            "night day flip negative": flip_negative_pcnt,
         }
 
 
@@ -306,12 +353,20 @@ class IncomeStatement(models.Model):
     total_operating_income_as_reported = models.FloatField(
         null=True, blank=True, default=0
     )
-    total_revenue = models.FloatField(null=True, blank=True, default=0)
+    total_revenue = models.FloatField(
+        null=True, blank=True, default=0, verbose_name="Sales"
+    )
     basic_eps = models.FloatField(null=True, blank=True, default=0)
     tax_rate = models.FloatField(null=True, blank=True, default=0)
 
     @property
     def net_income_margin(self):
+        """Als knowns as net profit margin.
+
+        The net profit margin is the after-tax profit a company
+        generated for each dollar of revenue.
+
+        """
         return self.net_income / self.total_revenue * 100
 
     @property
@@ -449,6 +504,59 @@ class CashFlow(models.Model):
                 * 100
             )
 
+    @property
+    def fcf_over_ocf(self):
+        """FCF vs. operating cash flow.
+
+        How much of operating cash flow became FCF in the end.  The
+        higher, the better, meaning I don't have much to pay the $ I
+        earned.
+
+        """
+
+        # if you get negative cash flow, no point then since
+        # you shouldn't even count FCF.
+        if self.operating_cash_flow < 0:
+            return 0
+
+        try:
+            return self.free_cash_flow / self.operating_cash_flow * 100
+        except ZeroDivisionError:
+            return 0
+
+    @property
+    def fcf_over_net_income(self):
+        """FCF vs. net income.
+
+        How much of net income are in form of cash.
+        """
+
+        # if you have negative income, well.
+        if self.net_income < 0:
+            return 0
+
+        try:
+            return self.free_cash_flow / self.net_income * 100
+        except ZeroDivisionError:
+            return 0
+
+    @property
+    def ocf_over_net_income(self):
+        """Operating cash flow vs. net income.
+
+        How much operating cash flow became net income. This is a
+        ratio, the higher the better.
+
+        """
+
+        if self.net_income < 0:
+            return 0
+
+        try:
+            return self.operating_cash_flow / self.net_income
+        except ZeroDivisionError:
+            return 0
+
 
 class ValuationRatio(models.Model):
     """Pre-computed valuation ratios.
@@ -476,7 +584,7 @@ class BalanceSheet(models.Model):
     ap = models.FloatField(
         null=True, blank=True, default=0, verbose_name="Account Payable"
     )
-    ac = models.FloatField(
+    ar = models.FloatField(
         null=True, blank=True, default=0, verbose_name="Account Receivable"
     )
     cash_and_cash_equivalent = models.FloatField(
@@ -552,6 +660,10 @@ class BalanceSheet(models.Model):
     total_tax_payable = models.FloatField(null=True, blank=True, default=0)
 
     @property
+    def total_liability(self):
+        return self.total_assets - self.stockholders_equity
+
+    @property
     def current_ratio(self):
         try:
             return self.current_assets / self.current_liabilities
@@ -562,14 +674,14 @@ class BalanceSheet(models.Model):
     def quick_ratio(self):
         try:
             return (
-                self.cash_cash_equivalents_and_short_term_investments + self.ac
+                self.cash_cash_equivalents_and_short_term_investments + self.ar
             ) / self.current_liabilities
         except ZeroDivisionError:
             return 0
 
     @property
     def debt_to_equity_ratio(self):
-        return self.total_debt / self.common_stock_equity
+        return self.total_debt / self.stockholders_equity
 
     @property
     def capital_structure(self):
@@ -624,8 +736,8 @@ class BalanceSheet(models.Model):
             return (self.ap - last[0].ap) / last[0].ap * 100
 
     @property
-    def ac_growth_rate(self):
-        """Compute AC growth over last report.
+    def ar_growth_rate(self):
+        """Compute AR growth over last report.
 
         I'm hoping this will show how well its customers are willing
         to pay. If it's growing, it should be a trouble sign that:
@@ -637,14 +749,14 @@ class BalanceSheet(models.Model):
         """
         last = (
             BalanceSheet.objects.filter(stock=self.stock, on__lt=self.on)
-            .exclude(ac=0)
+            .exclude(ar=0)
             .order_by("-on")
         )
         if not last:
             # I'm the first, one, thus is the base, which we set to 0
             return 0
         else:
-            return (self.ac - last[0].ac) / last[0].ac * 100
+            return (self.ar - last[0].ar) / last[0].ar * 100
 
     @property
     def all_cash_growth_rate(self):
@@ -719,3 +831,28 @@ class BalanceSheet(models.Model):
             return 0
         else:
             return (self.net_ppe - last[0].net_ppe) / last[0].net_ppe * 100
+
+    @property
+    def equity_multiplier(self):
+        """Equity Multiplier = Assets / Shareholder Equity.
+
+        Another factor of DuPont model.
+
+         The equity multiplier, which is a measure of financial
+        leverage, allows the investor to see what portion of the ROE
+        is the result of debt.
+
+        """
+        try:
+            return self.total_assets / self.stockholders_equity
+        except ZeroDivisionError:
+            return 0
+
+    @property
+    def liability_pcnt(self):
+        """Total liability/total assets.
+
+        Similar to equity multiplier, this is measuring how much liability is
+        in the total asset. The higher, the more troublesome it smells.
+        """
+        return self.total_liability / self.total_assets * 100
