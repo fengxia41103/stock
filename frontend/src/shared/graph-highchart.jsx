@@ -49,6 +49,7 @@ class HighchartGraphBox extends Component {
         plotBorderWidth: 0,
         plotShadow: false,
         height: height,
+        styleMode: true,
       },
       title: {
         text: title,
@@ -78,6 +79,10 @@ class HighchartGraphBox extends Component {
         column: {
           pointPadding: 0.2,
           borderWidth: 0,
+          negativeColor: "#d52349",
+        },
+        bar: {
+          negativeColor: "#d52349",
         },
         pie: {
           dataLabels: {

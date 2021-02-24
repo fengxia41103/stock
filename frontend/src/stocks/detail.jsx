@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import Fetch from "../shared/fetch.jsx";
 import { map } from "lodash";
-import { StrategyValueChart, PriceChart, VolChart } from "./charts.jsx";
+import { StrategyValueChart, PriceChart, IndicatorChart } from "./charts.jsx";
 import Stats from "./stats.jsx";
 import Income from "./income.jsx";
 import Cash from "./cash.jsx";
@@ -13,6 +13,12 @@ import RangeFilter from "./filter.jsx";
 import DictCard from "../shared/dict_card.jsx";
 import DCF from "./dcf.jsx";
 import DuPont from "./dupont.jsx";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink,
+} from "react-router-dom";
 
 class StockSummary extends Component {
   constructor(props) {
@@ -40,17 +46,59 @@ class StockFinancial extends Fetch {
   }
 
   render_data(stock) {
+    const { id } = stock;
+    const navs = [
+      {
+        title: "DuPont",
+        content: <DuPont dupont={stock.dupont_model} />,
+      },
+      {
+        title: "DCF",
+        content: <DCF stock={stock} />,
+      },
+      {
+        title: "Balance Sheet",
+        content: <Balance balances={stock.balances} />,
+      },
+      {
+        title: "Income Statement",
+        content: <Income incomes={stock.incomes} />,
+      },
+      {
+        title: "Cash Flow Statement",
+        content: <Cash cashes={stock.cashes} />,
+      },
+      {
+        title: "Valuation Ratios",
+        content: <ValuationRatio ratios={stock.ratios} />,
+      },
+    ];
+
+    const routes = map(navs, n => {
+      const key = n.title.replace(" ", "_").toLowerCase();
+      const path = "/stock/" + id + "/" + key;
+      return <Route key={key} path={path} children={props => n.content} />;
+    });
+
+    const tabs = map(navs, n => {
+      const key = n.title.replace(" ", "_").toLowerCase();
+      const path = "/stock/" + id + "/" + key;
+      return (
+        <NavLink key={key} activeClassName="side-active" to={path}>
+          &nbsp;|&nbsp;{n.title}
+        </NavLink>
+      );
+    });
+
     return (
-      <div>
-        <h2>{stock.symbol}</h2>
-        <StockSummary stock={stock} />
-        <DuPont dupont={stock.dupont_model} />
-        <DCF stock={stock} />
-        <Balance balances={stock.balances} />
-        <Income incomes={stock.incomes} />
-        <Cash cashes={stock.cashes} />
-        <ValuationRatio ratios={stock.ratios} />
-      </div>
+      <Router>
+        <div>
+          <h2>{stock.symbol}</h2>
+          <div className="row">{tabs}</div>
+          <StockSummary stock={stock} />
+          <Switch>{routes}</Switch>
+        </div>
+      </Router>
     );
   }
 }
@@ -67,6 +115,7 @@ class StockHistorical extends Fetch {
 
   render_data(stock) {
     const { start, end } = this.props;
+    const { olds: historicals, stats, indexes, id } = stock;
     const period = (
       <div>
         <span className="myhighlight">{start}</span>
@@ -75,35 +124,64 @@ class StockHistorical extends Fetch {
       </div>
     );
 
-    return (
-      <div>
-        <h3>My Indicators</h3>
-        {period}
-        <Stats stats={stock.stats} />
-
-        <h3>Daily & Overnight Returns</h3>
-        <div className="col l6 m12 s12">
-          {period}
+    const navs = [
+      {
+        title: "Price History",
+        content: (
+          <div>
+            <PriceChart data={historicals} period={period} />
+            <StockDaily historicals={historicals} />
+          </div>
+        ),
+      },
+      {
+        title: "Tech Indicators",
+        content: <IndicatorChart data={historicals} period={period} />,
+      },
+      {
+        title: "Overnight Return",
+        content: (
           <StrategyValueChart
             name="Overnight Return %"
-            data={stock.indexes["overnight return"]}
+            data={indexes["overnight return"]}
           />
-        </div>
-
-        <div className="col l6 m12 s12">
-          {period}
+        ),
+      },
+      {
+        title: "Daily Return",
+        content: (
           <StrategyValueChart
             name="Daily Return %"
-            data={stock.indexes["daily return"]}
+            data={indexes["daily return"]}
           />
-        </div>
+        ),
+      },
+    ];
 
-        <h2>Price History</h2>
-        {period}
-        <PriceChart data={stock.olds} />
-        <VolChart data={stock.olds} />
-        <StockDaily historicals={stock.olds} />
-      </div>
+    const routes = map(navs, n => {
+      const key = n.title.replace(" ", "_").toLowerCase();
+      const path = "/stock/" + id + "/" + key;
+      return <Route key={key} path={path} children={props => n.content} />;
+    });
+
+    const tabs = map(navs, n => {
+      const key = n.title.replace(" ", "_").toLowerCase();
+      const path = "/stock/" + id + "/" + key;
+      return (
+        <NavLink key={key} activeClassName="side-active" to={path}>
+          &nbsp;|&nbsp;{n.title}
+        </NavLink>
+      );
+    });
+
+    return (
+      <Router>
+        <div>
+          <div className="row">{tabs}</div>
+          <Stats stats={stats} />
+          <Switch>{routes}</Switch>
+        </div>
+      </Router>
     );
   }
 }

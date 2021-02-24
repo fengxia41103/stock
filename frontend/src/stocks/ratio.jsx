@@ -40,7 +40,7 @@ class ValuationRatioChart extends Component {
         visible: false,
       },
       {
-        name: "P/E-2-G",
+        name: "PEG",
         data: peg,
         visible: false,
       },
@@ -79,7 +79,7 @@ class ValuationRatioTable extends Component {
         <th>Forward P/E</th>
         <th>P/E</th>
         <th>P/B</th>
-        <th>P/E-2-G</th>
+        <th>PEG</th>
         <th>P/S</th>
       </tr>
     );

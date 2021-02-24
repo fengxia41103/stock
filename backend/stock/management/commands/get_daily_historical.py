@@ -14,7 +14,7 @@ from stock.tasks import yahoo_consumer
 
 SYMBOLS = """VOO, SPY, AAPL, SBUX, MSFT, AMZN, BFAM, VMW, ABNB, RDFN,
 JNJ, PYPL, AMD, EBAY, TGT, NET, TSM, GME, BBBY, AMC, TSLA, SQ, LFC,
-BBY, RCL,PLTR,BYD, EDV, ROKU, WMT, RXT, SHOP,BIDU,IQ,CVS"""
+BBY, RCL,PLTR,BYD, EDV, ROKU, WMT, RXT, SHOP,BIDU,IQ,CVS, CROC, NOK"""
 
 logger = logging.getLogger("stock")
 
@@ -51,6 +51,10 @@ class Command(BaseCommand):
             else:
                 candidates = [symbol]
 
+            # Delete un-monitored stocks
+            # MyStock.objects.exclude(symbol__in=candidates).delete()
+
+            # now, get info I want
             for symbol in candidates:
                 yahoo_consumer.delay(symbol)
                 income_statement_consumer.delay(symbol)

@@ -24,8 +24,10 @@ class StockList extends Fetch {
   }
 
   handleChange(event) {
+    const tmp = event.target.value.trim().toUpperCase();
+
     this.setState({
-      searching: event.target.value,
+      searching: tmp,
     });
   }
 
@@ -85,7 +87,7 @@ class StockList extends Fetch {
       <Jumbotron className="row">
         <DebounceInput
           className="input-field"
-          debounceTimeout={2000}
+          debounceTimeout={500}
           value={this.state.searching}
           onChange={this.handleChange}
         />

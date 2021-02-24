@@ -65,7 +65,7 @@ class StockResource(ModelResource):
         queryset = MyStock.objects.all()
         resource_name = "stocks"
         filtering = {"symbol": ALL}
-        limit = 100
+        limit = 1000
 
     def _get_date_range(self, bundle):
         """Helper func to determine date range by URL parameter.
@@ -280,6 +280,8 @@ class StatSummary:
 
 
 class SummaryResource(Resource):
+    UNIQUE_COUNT = 9
+
     id = fields.IntegerField("id")
     name = fields.CharField("name", null=True)
     stats = fields.ListField("stats")
@@ -328,7 +330,7 @@ class SummaryResource(Resource):
                 {"symbol": symbol, "on": x.on, "val": getattr(x, sort_by)}
             )
             counted.append(symbol)
-            if len(vals) == 10:
+            if len(vals) == self.UNIQUE_COUNT:
                 break
 
         return vals
@@ -392,6 +394,11 @@ class RankBalanceResource(SummaryResource):
             (2, "debt_to_equity_ratio", False),
             (3, "equity_multiplier", True),
             (4, "liability_pcnt", False),
+            (5, "debt_growth_rate", False),
+            (6, "ap_growth_rate", False),
+            (7, "ar_growth_rate", False),
+            (8, "all_cash_growth_rate", False),
+            (9, "working_capital_growth_rate", False),
         ]
         return self._get_ranks(BalanceSheet.objects, attrs)
 
@@ -406,5 +413,26 @@ class RankCashFlowResource(SummaryResource):
         attrs = [
             (0, "operating_cash_flow_growth", True),
             (1, "cash_change_pcnt", True),
+            (2, "fcf_over_ocf", True),
+            (3, "fcf_over_net_income", True),
+            (4, "ocf_over_net_income", True),
         ]
         return self._get_ranks(CashFlow.objects, attrs)
+
+
+class RankIncomeResource(SummaryResource):
+    """Ranking by values of IncomeStatement model."""
+
+    class Meta:
+        resource_name = "income-ranks"
+
+    def get_object_list(self, request):
+        attrs = [
+            (0, "gross_margin", True),
+            (1, "cogs_margin", True),
+            (2, "net_income_margin", True),
+            (3, "ebit_margin", True),
+            (4, "total_expense_margin", False),
+            (5, "operating_income_margin", True),
+        ]
+        return self._get_ranks(IncomeStatement.objects, attrs)

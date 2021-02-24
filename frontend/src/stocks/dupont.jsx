@@ -34,8 +34,8 @@ class DuPont extends Component {
       <div>
         DuPont Model
         <DupontChart interests={analysis} {...this.props} />
-        <DictTable data={dupont} interests={reported} />
         <DictTable data={dupont} interests={analysis} />
+        <DictTable data={dupont} interests={reported} />
       </div>
     );
   }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import Fetch from "../shared/fetch.jsx";
 import { map } from "lodash";
+import Row from "./row.jsx";
 
 class RankByROE extends Fetch {
   constructor(props) {
@@ -10,20 +11,19 @@ class RankByROE extends Fetch {
   }
 
   render_data(data) {
+    const { highlights } = this.props;
+
     const roe = data.objects[0].stats;
-    const tmp = roe.slice(0, 10);
-    const vals = map(tmp, r => {
-      return (
-        <span key={r.symbol} className="bottom-border col s1">
-          {r.symbol}
-        </span>
-      );
+    const tmp = map(roe.slice(0, 12), r => {
+      let aa = r;
+      aa.val = r.roe;
+      return aa;
     });
 
     return (
-      <div className="row">
-        <div className="myhighlight bottom-border col s2">ROE</div>
-        {vals}
+      <div className="jumbotron">
+        <div className="myhighlight">ROE</div>
+        <Row category="" ranks={tmp} {...this.props} />
       </div>
     );
   }
