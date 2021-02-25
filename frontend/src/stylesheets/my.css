@@ -174,6 +174,12 @@ input[type=date], input[type=number] {
   color: #d52349;
 }
 
+td.negative {
+  color: #d52349;
+  background-color: #D8E5E5;
+
+}
+
 .is-zero {
  color: #FDD837;
 }

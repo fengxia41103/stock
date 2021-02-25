@@ -84,6 +84,9 @@ class HighchartGraphBox extends Component {
         bar: {
           negativeColor: "#d52349",
         },
+        line:{
+          negativeColor: "#d52349",
+        },
         pie: {
           dataLabels: {
             enabled: true,

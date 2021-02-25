@@ -217,9 +217,7 @@ SILENCED_SYSTEM_CHECKS = [
     "admin.E408",
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8080",
-]
+CORS_ORIGIN_WHITELIST = ["http://localhost:8080", "http://192.168.68.107:8080"]
 
 PASSWORD_HASHERS = (
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",

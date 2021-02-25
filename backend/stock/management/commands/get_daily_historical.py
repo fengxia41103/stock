@@ -13,8 +13,8 @@ from stock.tasks import valuation_ratio_consumer
 from stock.tasks import yahoo_consumer
 
 SYMBOLS = """VOO, SPY, AAPL, SBUX, MSFT, AMZN, BFAM, VMW, ABNB, RDFN,
-JNJ, PYPL, AMD, EBAY, TGT, NET, TSM, GME, BBBY, AMC, TSLA, SQ, LFC,
-BBY, RCL,PLTR,BYD, EDV, ROKU, WMT, RXT, SHOP,BIDU,IQ,CVS, CROC, NOK"""
+PYPL, AMD, EBAY, TGT, NET, TSM, GME, BBBY, AMC, TSLA, SQ,
+BBY, RCL,PLTR,ROKU, SHOP,NIO,IQ,CVS, CROC, NOK,VNT,BABA,"""
 
 logger = logging.getLogger("stock")
 
@@ -48,11 +48,10 @@ class Command(BaseCommand):
         else:
             if symbol.lower() == "all":
                 candidates = [x.strip() for x in SYMBOLS.split(",")]
+                # Delete un-monitored stocks
+                MyStock.objects.exclude(symbol__in=candidates).delete()
             else:
                 candidates = [symbol]
-
-            # Delete un-monitored stocks
-            # MyStock.objects.exclude(symbol__in=candidates).delete()
 
             # now, get info I want
             for symbol in candidates:

@@ -17,6 +17,13 @@ import CandleStickChartWithRSIIndicator from "../shared/CandleStickChartWithRSII
 
 import CandleStickChartWithBollingerBandOverlay from "../shared/CandleStickChartWithBollingerBandOverlay.jsx";
 
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink,
+} from "react-router-dom";
+
 class StrategyValueChart extends Component {
   constructor(props) {
     super(props);
@@ -127,6 +134,8 @@ class IndicatorChart extends Component {
     const { data, period } = this.props;
     const parseDate = timeParse("%Y-%m-%d");
 
+    // TODO: backend data point naming is different from what these
+    // charts want. So need to do a mapping here.
     const chart_data = map(data, d => {
       return {
         date: parseDate(d.on),
@@ -138,67 +147,115 @@ class IndicatorChart extends Component {
       };
     });
 
+    const navs = [
+      {
+        title: "Bollinger Band",
+        content: (
+          <ContainerDimensions>
+            {({ width, height }) => (
+              <CandleStickChartWithBollingerBandOverlay
+                data={chart_data}
+                width={width}
+              />
+            )}
+          </ContainerDimensions>
+        ),
+      },
+      {
+        title: "Elder Ray",
+        content: (
+          <ContainerDimensions>
+            {({ width, height }) => (
+              <OHLCChartWithElderRayIndicator data={chart_data} width={width} />
+            )}
+          </ContainerDimensions>
+        ),
+      },
+      {
+        title: "SAR",
+        content: (
+          <ContainerDimensions>
+            {({ width, height }) => (
+              <CandleStickChartWithSAR data={chart_data} width={width} />
+            )}
+          </ContainerDimensions>
+        ),
+      },
+      {
+        title: "Full Stochastics",
+        content: (
+          <ContainerDimensions>
+            {({ width, height }) => (
+              <CandleStickChartWithFullStochasticsIndicator
+                data={chart_data}
+                width={width}
+              />
+            )}
+          </ContainerDimensions>
+        ),
+      },
+      {
+        title: "Heikin-Ashi",
+        content: (
+          <ContainerDimensions>
+            {({ width, height }) => (
+              <HeikinAshi data={chart_data} width={width} />
+            )}
+          </ContainerDimensions>
+        ),
+      },
+
+      {
+        title: "MACD",
+        content: (
+          <ContainerDimensions>
+            {({ width, height }) => (
+              <CandleStickChartWithMACDIndicator
+                data={chart_data}
+                width={width}
+              />
+            )}
+          </ContainerDimensions>
+        ),
+      },
+      {
+        title: "RS",
+        content: (
+          <ContainerDimensions>
+            {({ width, height }) => (
+              <CandleStickChartWithRSIIndicator
+                data={chart_data}
+                width={width}
+              />
+            )}
+          </ContainerDimensions>
+        ),
+      },
+    ];
+
+    const routes = map(navs, n => {
+      const key = n.title.replace(" ", "_").toLowerCase();
+      const path = "/stock/" + key;
+      return <Route key={key} path={path} children={props => n.content} />;
+    });
+
+    const tabs = map(navs, n => {
+      const key = n.title.replace(" ", "_").toLowerCase();
+      const path = "/stock/" + key;
+      return (
+        <NavLink key={key} activeClassName="side-active" to={path}>
+          |&nbsp;{n.title}&nbsp;
+        </NavLink>
+      );
+    });
+
     return (
-      <div>
-        Bollinger Band
-        {period}
-        <ContainerDimensions>
-          {({ width, height }) => (
-            <CandleStickChartWithBollingerBandOverlay
-              data={chart_data}
-              width={width}
-            />
-          )}
-        </ContainerDimensions>
-        SAR Indicator
-        {period}
-        <ContainerDimensions>
-          {({ width, height }) => (
-            <CandleStickChartWithSAR data={chart_data} width={width} />
-          )}
-        </ContainerDimensions>
-        Elder Ray Indicator
-        {period}
-        <ContainerDimensions>
-          {({ width, height }) => (
-            <OHLCChartWithElderRayIndicator data={chart_data} width={width} />
-          )}
-        </ContainerDimensions>
-        Full Stochastics Indicator
-        {period}
-        <ContainerDimensions>
-          {({ width, height }) => (
-            <CandleStickChartWithFullStochasticsIndicator
-              data={chart_data}
-              width={width}
-            />
-          )}
-        </ContainerDimensions>
-        Heikin-Ashi Indicator
-        {period}
-        <ContainerDimensions>
-          {({ width, height }) => (
-            <HeikinAshi data={chart_data} width={width} />
-          )}
-        </ContainerDimensions>
-        MACD Indicator
-        {period}
-        <ContainerDimensions>
-          {({ width, height }) => (
-            <CandleStickChartWithMACDIndicator
-              data={chart_data}
-              width={width}
-            />
-          )}
-        </ContainerDimensions>
-        RS Indicator
-        {period}
-        <ContainerDimensions>
-          {({ width, height }) => (
-            <CandleStickChartWithRSIIndicator data={chart_data} width={width} />
-          )}
-        </ContainerDimensions>
-      </div>
+      <Router>
+        <div>
+          <div className="row">{tabs}</div>
+          <Switch>{routes}</Switch>
+        </div>
+      </Router>
     );
   }
 }

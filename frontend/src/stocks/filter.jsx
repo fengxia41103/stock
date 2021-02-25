@@ -11,7 +11,7 @@ class RangeFilter extends Component {
     super(props);
 
     this.state = {
-      start: "2020-02-01",
+      start: "2021-02-01",
       end: new Date().toLocaleDateString("en-CA"),
     };
 

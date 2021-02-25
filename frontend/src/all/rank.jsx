@@ -11,8 +11,6 @@ class Rank extends Fetch {
   }
 
   render_data(data) {
-    const { highlights } = this.props;
-
     const rows = map(data.objects, d => {
       const name = d.name.replace(/_/g, " ");
       return (

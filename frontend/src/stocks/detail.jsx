@@ -13,6 +13,7 @@ import RangeFilter from "./filter.jsx";
 import DictCard from "../shared/dict_card.jsx";
 import DCF from "./dcf.jsx";
 import DuPont from "./dupont.jsx";
+import NetAsset from "./nav.jsx";
 import {
   BrowserRouter as Router,
   Switch,
@@ -53,6 +54,10 @@ class StockFinancial extends Fetch {
         content: <DuPont dupont={stock.dupont_model} />,
       },
       {
+        title: "Net Asset",
+        content: <NetAsset nav={stock.nav_model} />,
+      },
+      {
         title: "DCF",
         content: <DCF stock={stock} />,
       },
@@ -85,7 +90,7 @@ class StockFinancial extends Fetch {
       const path = "/stock/" + id + "/" + key;
       return (
         <NavLink key={key} activeClassName="side-active" to={path}>
-          &nbsp;|&nbsp;{n.title}
+          |&nbsp;{n.title}&nbsp;
         </NavLink>
       );
     });
@@ -126,7 +131,7 @@ class StockHistorical extends Fetch {
 
     const navs = [
       {
-        title: "Price History",
+        title: "Price",
         content: (
           <div>
             <PriceChart data={historicals} period={period} />
@@ -169,7 +174,7 @@ class StockHistorical extends Fetch {
       const path = "/stock/" + id + "/" + key;
       return (
         <NavLink key={key} activeClassName="side-active" to={path}>
-          &nbsp;|&nbsp;{n.title}
+          |&nbsp;{n.title}&nbsp;
         </NavLink>
       );
     });

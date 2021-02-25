@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { map } from "lodash";
+import { map, isNil } from "lodash";
 
 class Cell extends Component {
   constructor(props) {
@@ -19,13 +19,24 @@ class Cell extends Component {
   }
 
   render() {
-    const { highlights, text, val } = this.props;
     const { hide } = this.state;
-    const color = highlights[text];
+    const { highlights, text, val } = this.props;
+
+    let bk_color = "",
+      font_color = "";
+    if (!isNil(highlights[text])) {
+      bk_color = "#" + highlights[text].background;
+      font_color = highlights[text].font;
+    }
+
     return (
       <span
-        className="bottom-border col s1 text-center"
-        style={{ backgroundColor: color }}
+        className="bottom-border col l1 m2 s6 text-center"
+        style={{
+          backgroundColor: bk_color,
+          mixBlendMode: "hard-light",
+          color: font_color,
+        }}
         onMouseOver={this.handle_hide}
         onMouseLeave={this.handle_hide}
       >
@@ -51,7 +62,7 @@ class Row extends Component {
     return (
       <div className="row bottom-border">
         {category ? (
-          <div className="my-key col s3 text-right">{category}</div>
+          <div className="my-key col l3 m4 s12 text-right">{category}</div>
         ) : null}
         {vals}
       </div>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { map, random } from "lodash";
+import { map } from "lodash";
 import { DebounceInput } from "react-debounce-input";
 import RankByROE from "./roe.jsx";
 import Rank from "./rank.jsx";
@@ -13,6 +13,7 @@ class Summary extends Component {
     };
 
     this.handle_change = this.handle_change.bind(this);
+    this.get_contrast = this.get_contrast.bind(this);
   }
 
   handle_change(event) {
@@ -28,27 +29,26 @@ class Summary extends Component {
     });
   }
 
+  get_contrast(background) {
+    return parseInt(background, 16) > 0xffffff / 2 ? "#212121" : "#f5f5f5";
+  }
+
   render() {
     const { interests } = this.state;
 
-    // highlight color choices
-    const colors = [
-      "#fDD837",
-      "#fbeeac",
-      "#f1d1d0",
-      "#fbaccc",
-      "#f875aa",
-      "#f0a500",
-      "#e45826",
-      "#007965",
-      "#42AF5F",
-      "#607DB8",
-    ];
+    // func to compute font color to contrast w/ background color
 
-    // randomly assign a color to a symbol
-    let highlights = map(interests, s => {
-      const index = random(0, colors.length);
-      return [s, colors[index]];
+    // highlight background color choices
+    let highlights = map(interests, i => {
+      const bk_color = Math.floor(Math.random() * 16777215).toString(16);
+      const font_color = this.get_contrast(bk_color);
+      return [
+        i,
+        {
+          background: bk_color,
+          font: font_color,
+        },
+      ];
     });
     highlights = Object.fromEntries(highlights);
 
@@ -57,7 +57,7 @@ class Summary extends Component {
       <div>
         <DebounceInput
           className="input-field"
-          debounceTimeout={5000}
+          debounceTimeout={500}
           value={interests.join(" ")}
           onChange={this.handle_change}
         />

@@ -99,6 +99,7 @@ class MyStock(models.Model):
 
             turnover = i.total_revenue / b.total_assets
             roe = net_profit_margin * turnover * leverage
+
             vals.append(
                 {
                     "on": b.on,
@@ -111,6 +112,26 @@ class MyStock(models.Model):
                     "assets": b.total_assets,
                     "debts": b.total_debt,
                     "equity": b.stockholders_equity,
+                }
+            )
+        return vals
+
+    @property
+    def nav_model(self):
+        """Net Asset model.
+
+        This is pretty stragithforward:
+
+        (total asset - total liabilities)/shares
+        """
+
+        vals = []
+        for b in self.balances.order_by("on"):
+            vals.append(
+                {
+                    "on": b.on,
+                    "nav": (b.total_assets - b.total_liability)
+                    / self.shares_outstanding,
                 }
             )
         return vals
@@ -681,7 +702,10 @@ class BalanceSheet(models.Model):
 
     @property
     def debt_to_equity_ratio(self):
-        return self.total_debt / self.stockholders_equity
+        if self.stockholders_equity < 0:
+            return 0
+        else:
+            return abs(self.total_debt) / self.stockholders_equity
 
     @property
     def capital_structure(self):
@@ -690,11 +714,9 @@ class BalanceSheet(models.Model):
         TODO
         ----
         1. Needs to estimate the market value of the debt, not just
-           repoted debt.
+           reported debt.
         """
-        return (
-            self.total_debt / (self.total_debt + self.common_stock_equity) * 100
-        )
+        return abs(self.total_debt) / self.total_assets * 100
 
     @property
     def debt_growth_rate(self):

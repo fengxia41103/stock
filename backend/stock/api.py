@@ -60,6 +60,7 @@ class StockResource(ModelResource):
     )
 
     dupont_model = fields.ListField("dupont_model", null=True, use_in="detail")
+    nav_model = fields.ListField("nav_model", null=True, use_in="detail")
 
     class Meta:
         queryset = MyStock.objects.all()
@@ -280,6 +281,7 @@ class StatSummary:
 
 
 class SummaryResource(Resource):
+    # The number of targets I want to see, eg. top 9
     UNIQUE_COUNT = 9
 
     id = fields.IntegerField("id")
@@ -308,28 +310,72 @@ class SummaryResource(Resource):
         return kwargs
 
     def _get_object_list_helper(self, objects, sort_by, high_to_low):
+        """Helper to build a list.
+
+        Args
+        ----
+          :param: objects, Queryset or ModelManager
+
+          This represents the overall data set I'm going to work w/,
+          eg. MyStock.objects.
+
+          :param: sort_by, str
+
+          Should be a model field name so we can sort the queryset by
+          it.
+
+          :param: high_to_low, bool
+
+          True if we are to sort the values high to low. False will be
+          low to high.
+
+        Return
+        ------
+          list: [{}]
+
+          Return value will be a list of the following dict:
+          {
+            "symbol": stock symbol,
+            "on": the date when these values were originated,
+            "val": the value
+          }
+
+        """
+
+        # Hardcode to limit data set to be within the last 180 days.
         start = date.today() - timedelta(days=180)
+
+        # Get the data based on time range and sort them.
         valid_entries = list(
             filter(
                 lambda x: getattr(x, sort_by) and getattr(x, sort_by) != -100,
                 objects.filter(on__gte=start),
             )
         )
-        tmp = sorted(
+        data_set = sorted(
             valid_entries,
             key=lambda x: getattr(x, sort_by),
             reverse=high_to_low,
         )
+
+        # result
         vals = []
-        counted = []  # remember symbol I have counted
-        for x in tmp:
+
+        # remember symbol I have counted because I only want to count
+        # a symbol once.
+        counted = []
+        for x in data_set:
             symbol = x.stock.symbol
             if symbol in counted:
                 continue
             vals.append(
                 {"symbol": symbol, "on": x.on, "val": getattr(x, sort_by)}
             )
+
+            # keep tracking which symbol I have counted
             counted.append(symbol)
+
+            # stop when I have enough in the list
             if len(vals) == self.UNIQUE_COUNT:
                 break
 
@@ -340,33 +386,22 @@ class SummaryResource(Resource):
         Args
         ----
 
-        :attrs: list[(id, attr, name)]
-        - id: int, unique within this list, used as REST resource id.
-        - attr: str, attribute name of the object.
-        - name: str, name of the resource
+          :attrs: list[(id, attr, name)]
+
+          - id: int, unique within this list, used as REST resource id.
+          - attr: str, attribute name of the object.
+          - name: str, name of the resource
 
         Return
         ------
 
-        list[StatSummary]
+          list[StatSummary]
         """
         ranks = []
         for (id, attr, high_to_low) in attrs:
             vals = self._get_object_list_helper(objs, attr, high_to_low)
             ranks.append(StatSummary(id, attr, vals))
         return ranks
-
-
-class RoeResource(SummaryResource):
-    ID = 0
-
-    class Meta:
-        resource_name = "roes"
-
-    def get_object_list(self, request):
-        vals = MyStock.objects.values("symbol", "roe").order_by("-roe")
-
-        return [StatSummary(self.ID, "roe", vals)]
 
 
 class RankStockResource(SummaryResource):
