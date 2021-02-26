@@ -30,13 +30,12 @@ class Summary extends Component {
   }
 
   get_contrast(background) {
-    return parseInt(background, 16) > 0xffffff / 2 ? "#212121" : "#f5f5f5";
+    // func to compute font color to contrast w/ background color
+    return parseInt(background, 16) > 0xffffff / 2 ? "black" : "white";
   }
 
   render() {
     const { interests } = this.state;
-
-    // func to compute font color to contrast w/ background color
 
     // highlight background color choices
     let highlights = map(interests, i => {
@@ -61,13 +60,17 @@ class Summary extends Component {
           value={interests.join(" ")}
           onChange={this.handle_change}
         />
-        <RankByROE highlights={highlights} {...this.props} />
+
+        <Rank resource="stock-ranks" highlights={highlights} {...this.props} />
+        <h4 className="bottom-border">Balance Sheet</h4>
         <Rank
           resource="balance-ranks"
           highlights={highlights}
           {...this.props}
         />
+        <h4 className="bottom-border">Cash Flow</h4>
         <Rank resource="cash-ranks" highlights={highlights} {...this.props} />
+        <h4 className="bottom-border">Income Statement</h4>
         <Rank resource="income-ranks" highlights={highlights} {...this.props} />
       </div>
     );

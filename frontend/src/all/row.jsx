@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import { map, isNil } from "lodash";
+import { randomId } from "../helper.jsx";
+import HighchartGraphBox from "../shared/graph-highchart.jsx";
 
 class Cell extends Component {
   constructor(props) {
@@ -34,7 +36,6 @@ class Cell extends Component {
         className="bottom-border col l1 m2 s6 text-center"
         style={{
           backgroundColor: bk_color,
-          mixBlendMode: "hard-light",
           color: font_color,
         }}
         onMouseOver={this.handle_hide}
@@ -50,21 +51,62 @@ class Cell extends Component {
 class Row extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      show_graph: false,
+    };
+    this.handle_show_graph = this.handle_show_graph.bind(this);
+  }
+
+  handle_show_graph(event) {
+    // set values
+    this.setState({
+      show_graph: !this.state.show_graph,
+    });
   }
 
   render() {
+    const { show_graph } = this.state;
+
     const { highlights, category, ranks } = this.props;
 
     const vals = map(ranks, r => (
       <Cell key={r.symbol} text={r.symbol} val={r.val} {...this.props} />
     ));
 
+    const containerId = randomId();
+    const chart_categories = map(ranks, r => r.symbol);
+    const chart_data = [
+      {
+        name: category,
+        data: map(ranks, r => r.val),
+      },
+    ];
+
     return (
       <div className="row bottom-border">
         {category ? (
-          <div className="my-key col l3 m4 s12 text-right">{category}</div>
+          <div className="my-key col l3 m12 s12">
+            <i
+              className="fa fa-bar-chart-o right"
+              onClick={this.handle_show_graph}
+            />
+            {category}
+          </div>
         ) : null}
         {vals}
+
+        {show_graph ? (
+          <HighchartGraphBox
+            containerId={containerId}
+            type="bar"
+            categories={chart_categories}
+            yLabel=""
+            title=""
+            legendEnabled={true}
+            data={chart_data}
+          />
+        ) : null}
       </div>
     );
   }

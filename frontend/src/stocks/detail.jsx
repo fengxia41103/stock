@@ -132,12 +132,11 @@ class StockHistorical extends Fetch {
     const navs = [
       {
         title: "Price",
-        content: (
-          <div>
-            <PriceChart data={historicals} period={period} />
-            <StockDaily historicals={historicals} />
-          </div>
-        ),
+        content: <StockDaily historicals={historicals} />,
+      },
+      {
+        title: "My Indicators",
+        content: <Stats stats={stats} />,
       },
       {
         title: "Tech Indicators",
@@ -183,7 +182,7 @@ class StockHistorical extends Fetch {
       <Router>
         <div>
           <div className="row">{tabs}</div>
-          <Stats stats={stats} />
+          <PriceChart data={historicals} period={period} />
           <Switch>{routes}</Switch>
         </div>
       </Router>

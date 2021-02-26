@@ -3,7 +3,6 @@ import { randomId } from "../helper.jsx";
 import HighchartGraphBox from "../shared/graph-highchart.jsx";
 import { map } from "lodash";
 import { render } from "react-dom";
-import ContainerDimensions from "react-container-dimensions";
 import { timeParse } from "d3-time-format";
 
 import CandleStickChartWithSAR from "../shared/CandleStickChartWithSAR.jsx";
@@ -43,7 +42,7 @@ class StrategyValueChart extends Component {
     return (
       <HighchartGraphBox
         containerId={containerId}
-        type="bar"
+        type="column"
         categories={categories}
         yLabel=""
         title=""
@@ -150,86 +149,34 @@ class IndicatorChart extends Component {
     const navs = [
       {
         title: "Bollinger Band",
-        content: (
-          <ContainerDimensions>
-            {({ width, height }) => (
-              <CandleStickChartWithBollingerBandOverlay
-                data={chart_data}
-                width={width}
-              />
-            )}
-          </ContainerDimensions>
-        ),
+        content: <CandleStickChartWithBollingerBandOverlay data={chart_data} />,
       },
       {
         title: "Elder Ray",
-        content: (
-          <ContainerDimensions>
-            {({ width, height }) => (
-              <OHLCChartWithElderRayIndicator data={chart_data} width={width} />
-            )}
-          </ContainerDimensions>
-        ),
+        content: <OHLCChartWithElderRayIndicator data={chart_data} />,
       },
       {
         title: "SAR",
-        content: (
-          <ContainerDimensions>
-            {({ width, height }) => (
-              <CandleStickChartWithSAR data={chart_data} width={width} />
-            )}
-          </ContainerDimensions>
-        ),
+        content: <CandleStickChartWithSAR data={chart_data} />,
       },
       {
         title: "Full Stochastics",
         content: (
-          <ContainerDimensions>
-            {({ width, height }) => (
-              <CandleStickChartWithFullStochasticsIndicator
-                data={chart_data}
-                width={width}
-              />
-            )}
-          </ContainerDimensions>
+          <CandleStickChartWithFullStochasticsIndicator data={chart_data} />
         ),
       },
       {
         title: "Heikin-Ashi",
-        content: (
-          <ContainerDimensions>
-            {({ width, height }) => (
-              <HeikinAshi data={chart_data} width={width} />
-            )}
-          </ContainerDimensions>
-        ),
+        content: <HeikinAshi data={chart_data} />,
       },
 
       {
         title: "MACD",
-        content: (
-          <ContainerDimensions>
-            {({ width, height }) => (
-              <CandleStickChartWithMACDIndicator
-                data={chart_data}
-                width={width}
-              />
-            )}
-          </ContainerDimensions>
-        ),
+        content: <CandleStickChartWithMACDIndicator data={chart_data} />,
       },
       {
         title: "RS",
-        content: (
-          <ContainerDimensions>
-            {({ width, height }) => (
-              <CandleStickChartWithRSIIndicator
-                data={chart_data}
-                width={width}
-              />
-            )}
-          </ContainerDimensions>
-        ),
+        content: <CandleStickChartWithRSIIndicator data={chart_data} />,
       },
     ];
 
@@ -253,6 +200,7 @@ class IndicatorChart extends Component {
       <Router>
         <div>
           <div className="row">{tabs}</div>
+          {period}
           <Switch>{routes}</Switch>
         </div>
       </Router>

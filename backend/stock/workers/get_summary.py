@@ -54,6 +54,10 @@ class MySummary:
         if msg is not None and NA in msg:
             logger.error(df)
             return
-        elif msg is None:
-            self.stock.top_ten_institution_ownership = sum(df["pctHeld"]) * 100
+
+        elif msg is None and not df.empty:
+            self.stock.top_ten_institution_ownership = (
+                sum(df.get("pctHeld", 0)) * 100
+            )
+
             self.stock.save()

@@ -14,7 +14,7 @@ from stock.tasks import yahoo_consumer
 
 SYMBOLS = """VOO, SPY, AAPL, SBUX, MSFT, AMZN, BFAM, VMW, ABNB, RDFN,
 PYPL, AMD, EBAY, TGT, NET, TSM, GME, BBBY, AMC, TSLA, SQ,
-BBY, RCL,PLTR,ROKU, SHOP,NIO,IQ,CVS, CROC, NOK,VNT,BABA,"""
+BBY, RCL,PLTR,ROKU, SHOP,NIO,IQ,CVS, CROC, NOK,VNT,BABA, CRM, WOOF, QCOM"""
 
 logger = logging.getLogger("stock")
 

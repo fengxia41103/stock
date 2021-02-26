@@ -7,6 +7,7 @@ from datetime import date
 from datetime import timedelta
 
 from django.db import models
+from django.db.models import Avg
 from numpy import average
 from numpy import prod
 from numpy import std
@@ -35,7 +36,25 @@ class MySector(models.Model):
             return self.code
 
 
+class MyStockCustomManager(models.Manager):
+    def rank_by(self, attr, high_to_low, count=9):
+        vals = [
+            {"symbol": s.symbol, "val": getattr(s, attr)}
+            for s in MyStock.objects.all()
+        ]
+        valid_entries = list(
+            filter(lambda x: x["val"] and x["val"] != -100, vals)
+        )
+        data_set = sorted(
+            valid_entries, key=lambda x: x["val"], reverse=high_to_low
+        )
+
+        return data_set[:count]
+
+
 class MyStock(models.Model):
+    objects = MyStockCustomManager()
+
     symbol = models.CharField(max_length=8)
     beta = models.FloatField(null=True, default=5)
     roa = models.FloatField(
@@ -78,6 +97,72 @@ class MyStock(models.Model):
         )
 
     @property
+    def dupont_roe(self):
+        """ROE by Dupont model.
+
+        This is to compute ROE using Dupont model, but use the avg
+        aseet and avg equity.
+
+        This can be a problem when the company's asset or equity had
+        large changes. I don't understand yet what that kind of
+        changes mean, good or bad?
+
+        Also, large change was seen a 2017 figure was 62B, then
+        following three ones were 30s. This makes me wonder that
+        either they changed accounting, or acquired/sold some
+        division. Either way, such large delta will skew the avg. So
+        one way is to limit the numbers to some more recent ones,
+        assuming that dramatic changes didn't happen recently.
+
+        """
+
+        # hmm... so some symbol has no balance sheet info
+        if not self.balances.all():
+            return 0
+
+        avgs = self.balances.all().aggregate(
+            Avg("total_assets"), Avg("stockholders_equity")
+        )
+
+        # leverage is avg asset / avg equity
+        equity_multiplier = (
+            avgs["total_assets__avg"] / avgs["stockholders_equity__avg"]
+        )
+
+        # turn over is latest revenue / avg asset
+        last_reporting_date = self.balances.order_by("-on")[0].on
+        last_income = self.incomes.get(on=last_reporting_date)
+        turnover = last_income.total_revenue / avgs["total_assets__avg"]
+
+        return last_income.net_income_margin * turnover * equity_multiplier
+
+    @property
+    def roe_dupont_reported_gap(self):
+        """My Dupont ROE vs. reported.
+
+        This comparison serves multiple purposes:
+
+        - how accurate the balance/income data I'm getting since ROE
+          is an aggregation of them. If mine is quite different from
+          actual, my number will be quite off, which will then make
+          all other analysis suspicious.
+        - is there sth I don't know? Reported number represents some
+          external work which may be reflecting info I don't
+          know. Therefore, if there is a big gap, I need to raise a
+          flag that my analysis of this stock is unlikely reliable.
+
+        Return
+        ------
+          % : how far off the dupont one vs. reported. The higher, the
+            more diff. If it's < 0, I'm being too optmistic (you
+            should be more conservative).
+        """
+        if self.roe:
+            return (self.roe - self.dupont_roe) / self.roe * 100
+        else:
+            return 0
+
+    @property
     def dupont_model(self):
         """Build DuPont ROE model.
 
@@ -88,6 +173,9 @@ class MyStock(models.Model):
         So that we could extract the three factors needed in the
         DuPont model.
 
+        Note that this is to compute ROE of each reporting period, not
+        the _official_ ROE which uses avg(asset) and avg(equity).
+
         """
 
         vals = []
@@ -97,7 +185,7 @@ class MyStock(models.Model):
             i = self.incomes.get(on=b.on)
             net_profit_margin = i.net_income_margin
 
-            turnover = i.total_revenue / b.total_assets
+            turnover = i.total_revenue / self.total_assets
             roe = net_profit_margin * turnover * leverage
 
             vals.append(
@@ -396,6 +484,12 @@ class IncomeStatement(models.Model):
 
     @property
     def cogs_margin(self):
+        """How much cost to make a sale.
+
+        The higher, the worse. If it's 0, there is 0 cost for the
+        money you just made!
+
+        """
         return self.reconciled_cost_of_revenue / self.total_revenue * 100
 
     @property
@@ -701,13 +795,6 @@ class BalanceSheet(models.Model):
             return 0
 
     @property
-    def debt_to_equity_ratio(self):
-        if self.stockholders_equity < 0:
-            return 0
-        else:
-            return abs(self.total_debt) / self.stockholders_equity
-
-    @property
     def capital_structure(self):
         """Current capital structure in term of debt % of (debt+equity).
 
@@ -860,15 +947,47 @@ class BalanceSheet(models.Model):
 
         Another factor of DuPont model.
 
-         The equity multiplier, which is a measure of financial
+        The equity multiplier, which is a measure of financial
         leverage, allows the investor to see what portion of the ROE
         is the result of debt.
 
+        Since asset=debt+equity, the higher this multiplier is, the
+        more debt this company is taking, thus more leveraged. This,
+        of course, is a double edged sword. It can mean that it has
+        capability to raise debt (w/ lenders), thus using less equity
+        to do business; it an also mean it's loaded w/ debt and is in
+        trouble.
+
+        What is the proper level then?
         """
+
+        # Having negative equity value is a clear trouble sign that
+        # this company is in debt! eg. SBUX, its asset is < its
+        # liability, bad.
+        if self.stockholders_equity < 0:
+            return 0
+
         try:
             return self.total_assets / self.stockholders_equity
         except ZeroDivisionError:
             return 0
+
+    @property
+    def debt_to_equity_ratio(self):
+        """This is measuring relative ratio between debt and equity.
+
+        Similar to the equity multiplier, I'm trying to understand how
+        bad the company is relyin gon debt. So, if debt is 60%, and
+        equity is 40%, it will be 6:4=1.5. Therefore, the higher this
+        number is, the more leveraged this comapany is -- this will
+        have the same meaning as equity multiplier, just different
+        value.
+
+        """
+        if self.stockholders_equity < 0:
+            return 0
+        else:
+            return abs(self.total_debt) / self.stockholders_equity
 
     @property
     def liability_pcnt(self):

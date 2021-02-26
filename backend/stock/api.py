@@ -61,6 +61,10 @@ class StockResource(ModelResource):
 
     dupont_model = fields.ListField("dupont_model", null=True, use_in="detail")
     nav_model = fields.ListField("nav_model", null=True, use_in="detail")
+    dupont_roe = fields.FloatField("dupont_roe", null=True, use_in="detail")
+    roe_dupont_reported_gap = fields.FloatField(
+        "roe_dupont_reported_gap", null=True, use_in="detail"
+    )
 
     class Meta:
         queryset = MyStock.objects.all()
@@ -411,9 +415,21 @@ class RankStockResource(SummaryResource):
         resource_name = "stock-ranks"
 
     def get_object_list(self, request):
-        vals = MyStock.objects.values("symbol", "roe").order_by("-roe")
+        attrs = [
+            ("roe", True),
+            ("dupont_roe", True),
+            ("roe_dupont_reported_gap", False),
+        ]
 
-        return [StatSummary(0, "roe", vals)]
+        attrs = [
+            (index, name, high_to_low)
+            for index, (name, high_to_low) in enumerate(attrs)
+        ]
+
+        return [
+            StatSummary(index, attr, MyStock.objects.rank_by(attr, high_to_low))
+            for (index, attr, high_to_low) in attrs
+        ]
 
 
 class RankBalanceResource(SummaryResource):
@@ -424,16 +440,20 @@ class RankBalanceResource(SummaryResource):
 
     def get_object_list(self, request):
         attrs = [
-            (0, "current_ratio", True),
-            (1, "quick_ratio", True),
-            (2, "debt_to_equity_ratio", False),
-            (3, "equity_multiplier", True),
-            (4, "liability_pcnt", False),
-            (5, "debt_growth_rate", False),
-            (6, "ap_growth_rate", False),
-            (7, "ar_growth_rate", False),
-            (8, "all_cash_growth_rate", False),
-            (9, "working_capital_growth_rate", False),
+            ("current_ratio", True),
+            ("quick_ratio", True),
+            ("debt_to_equity_ratio", False),
+            ("equity_multiplier", False),
+            ("liability_pcnt", False),
+            ("debt_growth_rate", False),
+            ("ap_growth_rate", False),
+            ("ar_growth_rate", False),
+            ("all_cash_growth_rate", True),
+            ("working_capital_growth_rate", False),
+        ]
+        attrs = [
+            (index, name, high_to_low)
+            for index, (name, high_to_low) in enumerate(attrs)
         ]
         return self._get_ranks(BalanceSheet.objects, attrs)
 
@@ -446,11 +466,15 @@ class RankCashFlowResource(SummaryResource):
 
     def get_object_list(self, request):
         attrs = [
-            (0, "operating_cash_flow_growth", True),
-            (1, "cash_change_pcnt", True),
-            (2, "fcf_over_ocf", True),
-            (3, "fcf_over_net_income", True),
-            (4, "ocf_over_net_income", True),
+            ("operating_cash_flow_growth", True),
+            ("cash_change_pcnt", True),
+            ("fcf_over_ocf", True),
+            ("fcf_over_net_income", True),
+            ("ocf_over_net_income", True),
+        ]
+        attrs = [
+            (index, name, high_to_low)
+            for index, (name, high_to_low) in enumerate(attrs)
         ]
         return self._get_ranks(CashFlow.objects, attrs)
 
@@ -463,11 +487,17 @@ class RankIncomeResource(SummaryResource):
 
     def get_object_list(self, request):
         attrs = [
-            (0, "gross_margin", True),
-            (1, "cogs_margin", True),
-            (2, "net_income_margin", True),
-            (3, "ebit_margin", True),
-            (4, "total_expense_margin", False),
-            (5, "operating_income_margin", True),
+            ("gross_margin", True),
+            ("net_income_margin", True),
+            ("cogs_margin", False),
+            ("opex_margin", False),
+            ("ebit_margin", True),
+            ("total_expense_margin", False),
+            ("operating_income_margin", True),
+        ]
+
+        attrs = [
+            (index, name, high_to_low)
+            for index, (name, high_to_low) in enumerate(attrs)
         ]
         return self._get_ranks(IncomeStatement.objects, attrs)
