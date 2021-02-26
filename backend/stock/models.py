@@ -177,15 +177,14 @@ class MyStock(models.Model):
         the _official_ ROE which uses avg(asset) and avg(equity).
 
         """
-
         vals = []
-        for b in self.balances.order_by("on"):
+        for b in self.balances.all():
             leverage = b.equity_multiplier
 
             i = self.incomes.get(on=b.on)
             net_profit_margin = i.net_income_margin
 
-            turnover = i.total_revenue / self.total_assets
+            turnover = i.total_revenue / b.total_assets
             roe = net_profit_margin * turnover * leverage
 
             vals.append(
@@ -202,6 +201,7 @@ class MyStock(models.Model):
                     "equity": b.stockholders_equity,
                 }
             )
+
         return vals
 
     @property

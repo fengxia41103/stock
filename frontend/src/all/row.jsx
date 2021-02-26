@@ -22,7 +22,7 @@ class Cell extends Component {
 
   render() {
     const { hide } = this.state;
-    const { highlights, text, val } = this.props;
+    const { highlights, text, val, threshold } = this.props;
 
     let bk_color = "",
       font_color = "";
@@ -31,9 +31,15 @@ class Cell extends Component {
       font_color = highlights[text].font;
     }
 
+    const threshold_decor = classNames(
+      "bottom-border col l1 m2 s6 text-center",
+      threshold == val ? "threshold" : null
+    );
+
     return (
       <span
         className="bottom-border col l1 m2 s6 text-center"
+        className={threshold_decor}
         style={{
           backgroundColor: bk_color,
           color: font_color,
@@ -70,10 +76,31 @@ class Row extends Component {
 
     const { highlights, category, ranks } = this.props;
 
+    // func to compute median value
+    const median = array => {
+      array.sort((a, b) => b - a);
+      const length = array.length;
+      if (length % 2 == 0) {
+        return (arr[length / 2] + arr[length / 2 - 1]) / 2;
+      } else {
+        return array[Math.floor(length / 2)];
+      }
+    };
+    const median_val = median(map(ranks, r => r.val));
+
     const vals = map(ranks, r => (
-      <Cell key={r.symbol} text={r.symbol} val={r.val} {...this.props} />
+      <Cell
+        key={r.symbol}
+        text={r.symbol}
+        val={r.val}
+        threshold={median_val}
+        {...this.props}
+      />
     ));
 
+    // charting the vals. I found using chart is easier to gauge
+    // relative strength. However, it takes a lot of screen
+    // space. Thus I'm making it toggle.
     const containerId = randomId();
     const chart_categories = map(ranks, r => r.symbol);
     const chart_data = [

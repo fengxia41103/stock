@@ -62,6 +62,8 @@ class Summary extends Component {
         />
 
         <Rank resource="stock-ranks" highlights={highlights} {...this.props} />
+        <h4 className="bottom-border">Income Statement</h4>
+        <Rank resource="income-ranks" highlights={highlights} {...this.props} />
         <h4 className="bottom-border">Balance Sheet</h4>
         <Rank
           resource="balance-ranks"
@@ -70,8 +72,6 @@ class Summary extends Component {
         />
         <h4 className="bottom-border">Cash Flow</h4>
         <Rank resource="cash-ranks" highlights={highlights} {...this.props} />
-        <h4 className="bottom-border">Income Statement</h4>
-        <Rank resource="income-ranks" highlights={highlights} {...this.props} />
       </div>
     );
   }

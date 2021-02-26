@@ -257,3 +257,7 @@ footer {
 footer.page-footer .footer-copyright {
   color: #607d8b;
 }
+
+span.threshold {
+    border-right: 1px solid #d52349;
+}
