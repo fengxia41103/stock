@@ -30,10 +30,12 @@ class StockSummary extends Component {
     const interests = {
       latest_close_price: "Latest Close Price",
       profit_margin: "Profit Margin %",
-      roa: "ROA",
       roe: "ROE",
+      dupont_roe: "DuPont ROE",
+      roe_dupont_reported_gap: "ROE Gap %",
       beta: "BETA",
       top_ten_institution_ownership: "Top 10 Institution Owned %",
+      roa: "ROA",
     };
 
     return <DictCard data={stock} interests={interests} />;

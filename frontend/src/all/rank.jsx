@@ -11,11 +11,12 @@ class Rank extends Fetch {
   }
 
   render_data(data) {
+    const { top } = this.props;
+
     const rows = map(data.objects, d => {
       const name = d.name.replace(/_/g, " ");
-      return (
-        <Row key={d.name} category={name} ranks={d.stats} {...this.props} />
-      );
+      const ranks = d.stats.slice(0, top);
+      return <Row key={d.name} category={name} ranks={ranks} {...this.props} />;
     });
 
     return <div>{rows}</div>;

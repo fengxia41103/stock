@@ -285,9 +285,6 @@ class StatSummary:
 
 
 class SummaryResource(Resource):
-    # The number of targets I want to see, eg. top 9
-    UNIQUE_COUNT = 9
-
     id = fields.IntegerField("id")
     name = fields.CharField("name", null=True)
     stats = fields.ListField("stats")
@@ -378,10 +375,6 @@ class SummaryResource(Resource):
 
             # keep tracking which symbol I have counted
             counted.append(symbol)
-
-            # stop when I have enough in the list
-            if len(vals) == self.UNIQUE_COUNT:
-                break
 
         return vals
 

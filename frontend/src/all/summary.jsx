@@ -10,9 +10,13 @@ class Summary extends Component {
     super(props);
     this.state = {
       interests: [],
+
+      // how many in a rank I'm interested in, eg. top 10
+      top: 9,
     };
 
     this.handle_change = this.handle_change.bind(this);
+    this.handle_top = this.handle_top.bind(this);
     this.get_contrast = this.get_contrast.bind(this);
   }
 
@@ -29,13 +33,20 @@ class Summary extends Component {
     });
   }
 
+  handle_top(event) {
+    // set values
+    this.setState({
+      top: event.target.value,
+    });
+  }
+
   get_contrast(background) {
     // func to compute font color to contrast w/ background color
     return parseInt(background, 16) > 0xffffff / 2 ? "black" : "white";
   }
 
   render() {
-    const { interests } = this.state;
+    const { interests, top } = this.state;
 
     // highlight background color choices
     let highlights = map(interests, i => {
@@ -54,24 +65,53 @@ class Summary extends Component {
     // render
     return (
       <div>
-        <DebounceInput
-          className="input-field"
-          debounceTimeout={500}
-          value={interests.join(" ")}
-          onChange={this.handle_change}
-        />
+        <div className="col l9 m7 s12">
+          Symbol
+          <DebounceInput
+            className="input-field"
+            debounceTimeout={500}
+            value={interests.join(" ")}
+            onChange={this.handle_change}
+          />
+        </div>
+        <div className="col l3 m5 s12">
+          Top
+          <DebounceInput
+            className="input-field"
+            debounceTimeout={1000}
+            value={top}
+            type="number"
+            onChange={this.handle_top}
+          />
+        </div>
 
-        <Rank resource="stock-ranks" highlights={highlights} {...this.props} />
+        <Rank
+          resource="stock-ranks"
+          highlights={highlights}
+          top={top}
+          {...this.props}
+        />
         <h4 className="bottom-border">Income Statement</h4>
-        <Rank resource="income-ranks" highlights={highlights} {...this.props} />
+        <Rank
+          resource="income-ranks"
+          highlights={highlights}
+          top={top}
+          {...this.props}
+        />
         <h4 className="bottom-border">Balance Sheet</h4>
         <Rank
           resource="balance-ranks"
           highlights={highlights}
+          top={top}
           {...this.props}
         />
         <h4 className="bottom-border">Cash Flow</h4>
-        <Rank resource="cash-ranks" highlights={highlights} {...this.props} />
+        <Rank
+          resource="cash-ranks"
+          highlights={highlights}
+          top={top}
+          {...this.props}
+        />
       </div>
     );
   }

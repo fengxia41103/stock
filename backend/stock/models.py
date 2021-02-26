@@ -37,7 +37,7 @@ class MySector(models.Model):
 
 
 class MyStockCustomManager(models.Manager):
-    def rank_by(self, attr, high_to_low, count=9):
+    def rank_by(self, attr, high_to_low):
         vals = [
             {"symbol": s.symbol, "val": getattr(s, attr)}
             for s in MyStock.objects.all()
@@ -49,7 +49,7 @@ class MyStockCustomManager(models.Manager):
             valid_entries, key=lambda x: x["val"], reverse=high_to_low
         )
 
-        return data_set[:count]
+        return data_set
 
 
 class MyStock(models.Model):
