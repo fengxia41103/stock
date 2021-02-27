@@ -90,16 +90,26 @@ class Row extends Component {
       vals.length <= 9 ? "l3" : "l12"
     );
 
+    const rank_chart_toggle_decor = classNames(
+      "fa fa-bar-chart-o right",
+      show_rank_graph ? "myhighlight" : null
+    );
+
+    const historical_chart_toggle_decor = classNames(
+      "fa fa-line-chart right",
+      show_historical_graph ? "myhighlight" : null
+    );
+
     return (
       <div className="row bottom-border">
         {category ? (
           <div className={category_decor}>
             <i
-              className="fa fa-bar-chart-o right"
+              className={rank_chart_toggle_decor}
               onClick={this.handle_show_rank_graph}
             />
             <i
-              className="fa fa-line-chart right"
+              className={historical_chart_toggle_decor}
               onClick={this.handle_show_historical_graph}
             />
             {category}
@@ -167,7 +177,7 @@ class RowNormalizedHistoricalChart extends Component {
     const chart_data = map(ranks, r => {
       return {
         name: r.symbol,
-        data: map(r.normalized_historicals, n => n.open_price),
+        data: map(r.normalized_historicals, n => n.close_price),
       };
     });
 
