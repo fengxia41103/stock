@@ -17,7 +17,7 @@ class StockList extends Fetch {
   constructor(props) {
     super(props);
     this.state.resource = "/api/v1/stocks";
-    this.state.searching = "SBUX";
+    this.state.searching = "BFAM";
 
     // binding
     this.handleChange = this.handleChange.bind(this);

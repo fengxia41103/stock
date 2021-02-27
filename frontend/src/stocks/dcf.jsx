@@ -1,20 +1,35 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { map, last, reverse, filter, isEmpty } from "lodash";
+import { map, last, reverse, filter, isEmpty, isNull } from "lodash";
+import { DebounceInput } from "react-debounce-input";
 
 class DCF extends Component {
   constructor(props) {
     super(props);
+
+    // get capital structure from the latest balance sheet
+    const { stock } = props;
+    let capital_structure;
+    let tmp = map(stock.balances, b => b.capital_structure);
+    tmp = filter(reverse(tmp), x => x > 0);
+    if (isEmpty(tmp)) {
+      capital_structure = 0;
+    } else {
+      capital_structure = Math.floor(tmp[0]);
+    }
+
     this.state = {
       risk_free: 1.242,
       market_premium: 7,
-      cost_of_debt: 5,
+      cost_of_debt: 10,
       growth_rate: 7,
+      capital_structure: capital_structure,
     };
 
     this.market_premium_change = this.market_premium_change.bind(this);
     this.cost_of_debt_change = this.cost_of_debt_change.bind(this);
     this.growth_rate_change = this.growth_rate_change.bind(this);
+    this.capital_structure_change = this.capital_structure_change.bind(this);
   }
 
   market_premium_change(event) {
@@ -32,22 +47,25 @@ class DCF extends Component {
       growth_rate: event.target.value,
     });
   }
+  capital_structure_change(event) {
+    this.setState({
+      capital_structure: event.target.value,
+    });
+  }
 
   render() {
     const { stock } = this.props;
-    const { risk_free, market_premium, cost_of_debt, growth_rate } = this.state;
+    const {
+      risk_free,
+      market_premium,
+      cost_of_debt,
+      growth_rate,
+      capital_structure,
+    } = this.state;
 
     // if this is a ETF, skip
     if (isEmpty(stock.balances)) {
       return null;
-    }
-
-    let capital_structure = map(stock.balances, b => b.capital_structure);
-    capital_structure = filter(reverse(capital_structure), x => x > 0);
-    if (isEmpty(capital_structure)) {
-      capital_structure = 0;
-    } else {
-      capital_structure = capital_structure[0] / 100;
     }
 
     const cost_of_equity =
@@ -55,7 +73,8 @@ class DCF extends Component {
     const debt_cost = (cost_of_debt / 100) * (1 - stock.tax_rate);
 
     const wacc =
-      cost_of_equity * (1 - capital_structure) + debt_cost * capital_structure;
+      cost_of_equity * (1 - capital_structure / 100) +
+      (debt_cost * capital_structure) / 100;
 
     // latest reporting cash flow can be 0!
     // So we look backwards till we find a positive value. If the company
@@ -95,64 +114,71 @@ class DCF extends Component {
     let dcf = income / stock.shares_outstanding;
 
     return (
-      <div className="row jumbotron">
+      <div className="jumbotron">
         DCF Valuation
-        <br />
-        <div className="col l4 m6 s12 card">
-          <h4 className="mylabel">My Valuation</h4>
-          <div className="quotation">{dcf.toFixed(2)}</div>
-        </div>
-        <div className="col l4 m6 s12 card">
-          <h4 className="mylabel">WACC %</h4>
-          <div className="quotation">{(wacc * 100).toFixed(2)}</div>
-        </div>
-        <div className="col l4 m6 s12 card">
-          <h4 className="mylabel">Cost of Equity %</h4>
-          <div className="quotation">{(cost_of_equity * 100).toFixed(2)}</div>
-        </div>
-        <div className="col l4 m6 s12 card">
-          <h4 className="mylabel">Debt Weight %</h4>
-          <div className="quotation">
-            {(capital_structure * 100).toFixed(2)}
+        <div className="row">
+          <div className="col l4 m6 s12 card">
+            <h4 className="mylabel">My Valuation</h4>
+            <div className="quotation">{dcf.toFixed(2)}</div>
+          </div>
+          <div className="col l4 m6 s12 card">
+            <h4 className="mylabel">WACC %</h4>
+            <div className="quotation">{(wacc * 100).toFixed(2)}</div>
+          </div>
+          <div className="col l4 m6 s12 card">
+            <h4 className="mylabel">Cost of Equity %</h4>
+            <div className="quotation">{(cost_of_equity * 100).toFixed(2)}</div>
+          </div>
+          <div className="col l4 m6 s12 card">
+            <h4 className="mylabel">Today's Cash Flow</h4>
+            <div className="quotation">{cash_flow.toFixed(2)}</div>
+          </div>
+          <div className="col l4 m6 s12 card">
+            <h4 className="mylabel">10-yr Projected CF</h4>
+            <div className="quotation">{income.toFixed(2)}</div>
           </div>
         </div>
-        <div className="col l4 m6 s12 card">
-          <h4 className="mylabel">Today's Cash Flow</h4>
-          <div className="quotation">{cash_flow.toFixed(2)}</div>
-        </div>
-        <div className="col l4 m6 s12 card">
-          <h4 className="mylabel">10-yr Projected CF</h4>
-          <div className="quotation">{income.toFixed(2)}</div>
-        </div>
-        <div className="col l4 m4 s12">
-          <h4 className="mylabel">Growth Rate %</h4>
-          <input
-            type="number"
-            id="growth-rate"
-            name="growth-rate"
-            value={growth_rate}
-            onChange={this.growth_rate_change}
-          />
-        </div>
-        <div className="col l4 m4 s12">
-          <h4 className="mylabel">Market Premium %</h4>
-          <input
-            type="number"
-            id="market-premium"
-            name="market-premium"
-            value={market_premium}
-            onChange={this.market_premium_change}
-          />
-        </div>
-        <div className="col l4 m4 s12">
-          <h4 className="mylabel">Cost of Debt %</h4>
-          <input
-            type="number"
-            id="cost-of-debt"
-            name="cost-of-debt"
-            value={cost_of_debt}
-            onChange={this.cost_of_debt_change}
-          />
+        <div className="row">
+          <div className="col l3 m6 s12">
+            <h4 className="mylabel">Growth Rate %</h4>
+            <DebounceInput
+              className="input-field"
+              debounceTimeout={1000}
+              value={growth_rate}
+              type="number"
+              onChange={this.growth_rate_change}
+            />
+          </div>
+          <div className="col l3 m6 s12">
+            <h4 className="mylabel">Debt/Asset %</h4>
+            <DebounceInput
+              className="input-field"
+              debounceTimeout={1000}
+              value={capital_structure}
+              type="number"
+              onChange={this.capital_structure_change}
+            />
+          </div>
+          <div className="col l3 m6 s12">
+            <h4 className="mylabel">Market Premium %</h4>
+            <DebounceInput
+              className="input-field"
+              debounceTimeout={1000}
+              value={market_premium}
+              type="number"
+              onChange={this.market_premium_change}
+            />
+          </div>
+          <div className="col l3 m6 s12">
+            <h4 className="mylabel">Cost of Debt %</h4>
+            <DebounceInput
+              className="input-field"
+              debounceTimeout={1000}
+              value={cost_of_debt}
+              type="number"
+              onChange={this.cost_of_debt_change}
+            />
+          </div>
         </div>
       </div>
     );

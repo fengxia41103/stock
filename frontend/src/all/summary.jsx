@@ -12,7 +12,7 @@ class Summary extends Component {
       interests: [],
 
       // how many in a rank I'm interested in, eg. top 10
-      top: 9,
+      top: 5,
     };
 
     this.handle_change = this.handle_change.bind(this);

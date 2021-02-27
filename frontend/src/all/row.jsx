@@ -24,6 +24,7 @@ class Cell extends Component {
     const { hide } = this.state;
     const { highlights, text, val } = this.props;
 
+    // assing a special color to text I'm interested in
     let bk_color = "",
       font_color = "";
     if (!isNil(highlights[text])) {

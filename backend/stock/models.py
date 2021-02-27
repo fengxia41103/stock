@@ -835,6 +835,8 @@ class BalanceSheet(models.Model):
     def capital_structure(self):
         """Current capital structure in term of debt % of (debt+equity).
 
+        Remember that debt = long-term liability.
+
         TODO
         ----
         1. Needs to estimate the market value of the debt, not just
