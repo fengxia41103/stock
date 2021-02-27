@@ -36,15 +36,26 @@ class MySector(models.Model):
             return self.code
 
 
-class MyStockCustomManager(models.Manager):
+class MyStockRankManager(models.Manager):
     def rank_by(self, attr, high_to_low):
-        vals = [
-            {"symbol": s.symbol, "val": getattr(s, attr)}
-            for s in MyStock.objects.all()
-        ]
+        vals = []
+
+        for s in MyStock.objects.all():
+            vals.append(
+                {
+                    "symbol": s.symbol,
+                    "val": getattr(s, attr),
+                    "normalized_historicals": s.normalized_historicals,
+                }
+            )
+
+        # eliminate 0 and -100, which are _invalid_ or _unknown_
+        # internally becase some data anomalies.
         valid_entries = list(
             filter(lambda x: x["val"] and x["val"] != -100, vals)
         )
+
+        # sort is low->high by default, high-to-low will be a reverse.
         data_set = sorted(
             valid_entries, key=lambda x: x["val"], reverse=high_to_low
         )
@@ -53,7 +64,8 @@ class MyStockCustomManager(models.Manager):
 
 
 class MyStock(models.Model):
-    objects = MyStockCustomManager()
+    objects = models.Manager()
+    rank_manager = MyStockRankManager()
 
     symbol = models.CharField(max_length=8)
     beta = models.FloatField(null=True, default=5)
@@ -66,6 +78,9 @@ class MyStock(models.Model):
     top_ten_institution_ownership = models.FloatField(null=True, default=-1)
     profit_margin = models.FloatField(null=True, default=0)
     shares_outstanding = models.FloatField(null=True, default=0)
+
+    class Meta:
+        base_manager_name = "rank_manager"
 
     def __str__(self):
         return self.symbol
@@ -224,9 +239,31 @@ class MyStock(models.Model):
             )
         return vals
 
+    @property
+    def normalized_historicals(self):
+        end = date.today()
+        start = end - timedelta(days=30)
+
+        # get historicals
+        hist = list(
+            MyStockHistorical.objects.by_date_range(start, end)
+            .filter(stock=self)
+            .values("on", "open_price", "close_price")
+            .order_by("on")
+        )
+
+        # for ranking purpose, I'm going to normalize these prices
+        # so that they are relative to the first one, the `base`.
+        for attr in ["open_price", "close_price"]:
+            base = hist[0].get(attr)
+            for h in hist:
+                h[attr] = h[attr] / base
+
+        return hist
+
 
 class MyHistoricalCustomManager(models.Manager):
-    def by_date_range(self, start, end):
+    def by_date_range(self, start=None, end=None):
         """Filter by a date range."""
         if not end:
             end = date.today()

@@ -84,7 +84,6 @@ class Summary extends Component {
             onChange={this.handle_top}
           />
         </div>
-
         <Rank
           resource="stock-ranks"
           highlights={highlights}

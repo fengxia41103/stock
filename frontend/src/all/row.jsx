@@ -53,38 +53,37 @@ class Row extends Component {
     super(props);
 
     this.state = {
-      show_graph: false,
+      show_rank_graph: false,
+      show_historical_graph: false,
     };
-    this.handle_show_graph = this.handle_show_graph.bind(this);
+    this.handle_show_rank_graph = this.handle_show_rank_graph.bind(this);
+    this.handle_show_historical_graph = this.handle_show_historical_graph.bind(
+      this
+    );
   }
 
-  handle_show_graph(event) {
+  handle_show_rank_graph(event) {
     // set values
     this.setState({
-      show_graph: !this.state.show_graph,
+      show_rank_graph: !this.state.show_rank_graph,
+    });
+  }
+
+  handle_show_historical_graph(event) {
+    // set values
+    this.setState({
+      show_historical_graph: !this.state.show_historical_graph,
     });
   }
 
   render() {
-    const { show_graph } = this.state;
+    const { show_rank_graph, show_historical_graph } = this.state;
 
     const { highlights, category, ranks } = this.props;
 
     const vals = map(ranks, r => (
       <Cell key={r.symbol} text={r.symbol} val={r.val} {...this.props} />
     ));
-
-    // charting the vals. I found using chart is easier to gauge
-    // relative strength. However, it takes a lot of screen
-    // space. Thus I'm making it toggle.
-    const containerId = randomId();
-    const chart_categories = map(ranks, r => r.symbol);
-    const chart_data = [
-      {
-        name: category,
-        data: map(ranks, r => r.val),
-      },
-    ];
 
     const category_decor = classNames(
       "my-key col m12 s12",
@@ -97,25 +96,91 @@ class Row extends Component {
           <div className={category_decor}>
             <i
               className="fa fa-bar-chart-o right"
-              onClick={this.handle_show_graph}
+              onClick={this.handle_show_rank_graph}
+            />
+            <i
+              className="fa fa-line-chart right"
+              onClick={this.handle_show_historical_graph}
             />
             {category}
           </div>
         ) : null}
         {vals}
-
-        {show_graph ? (
-          <HighchartGraphBox
-            containerId={containerId}
-            type="bar"
-            categories={chart_categories}
-            yLabel=""
-            title=""
-            legendEnabled={true}
-            data={chart_data}
-          />
+        {show_rank_graph ? (
+          <RowRankChart ranks={ranks} {...this.props} />
+        ) : null}
+        {show_historical_graph ? (
+          <RowNormalizedHistoricalChart rank={ranks} {...this.props} />
         ) : null}
       </div>
+    );
+  }
+}
+
+class RowRankChart extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { category, ranks } = this.props;
+
+    // charting the vals. I found using chart is easier to gauge
+    // relative strength. However, it takes a lot of screen
+    // space. Thus I'm making it toggle.
+    const containerId = randomId();
+    const categories = map(ranks, r => r.symbol);
+    const chart_data = [
+      {
+        name: category,
+        data: map(ranks, r => r.val),
+      },
+    ];
+
+    return (
+      <HighchartGraphBox
+        containerId={containerId}
+        type="bar"
+        categories={categories}
+        yLabel=""
+        title=""
+        legendEnabled={true}
+        data={chart_data}
+      />
+    );
+  }
+}
+
+class RowNormalizedHistoricalChart extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { ranks } = this.props;
+
+    // charting the vals. I found using chart is easier to gauge
+    // relative strength. However, it takes a lot of screen
+    // space. Thus I'm making it toggle.
+    const containerId = randomId();
+    const categories = map(ranks[0].normalized_historicals, r => r.on);
+    const chart_data = map(ranks, r => {
+      return {
+        name: r.symbol,
+        data: map(r.normalized_historicals, n => n.open_price),
+      };
+    });
+
+    return (
+      <HighchartGraphBox
+        containerId={containerId}
+        type="line"
+        categories={categories}
+        yLabel=""
+        title=""
+        legendEnabled={true}
+        data={chart_data}
+      />
     );
   }
 }

@@ -65,6 +65,9 @@ class StockResource(ModelResource):
     roe_dupont_reported_gap = fields.FloatField(
         "roe_dupont_reported_gap", null=True, use_in="detail"
     )
+    normalized_historicals = fields.ListField(
+        "normalized_historicals", null=True, use_in="detail"
+    )
 
     class Meta:
         queryset = MyStock.objects.all()
@@ -370,7 +373,12 @@ class SummaryResource(Resource):
             if symbol in counted:
                 continue
             vals.append(
-                {"symbol": symbol, "on": x.on, "val": getattr(x, sort_by)}
+                {
+                    "symbol": symbol,
+                    "on": x.on,
+                    "val": getattr(x, sort_by),
+                    "normalized_historicals": x.stock.normalized_historicals,
+                }
             )
 
             # keep tracking which symbol I have counted
@@ -420,7 +428,9 @@ class RankStockResource(SummaryResource):
         ]
 
         return [
-            StatSummary(index, attr, MyStock.objects.rank_by(attr, high_to_low))
+            StatSummary(
+                index, attr, MyStock.rank_manager.rank_by(attr, high_to_low)
+            )
             for (index, attr, high_to_low) in attrs
         ]
 
