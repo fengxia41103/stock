@@ -66,6 +66,7 @@ class IncomeChangeChart extends Component {
         title=""
         legendEnabled={true}
         data={chart_data}
+        normalize={true}
       />
     );
   }

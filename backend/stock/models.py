@@ -45,7 +45,7 @@ class MyStockRankManager(models.Manager):
                 {
                     "symbol": s.symbol,
                     "val": getattr(s, attr),
-                    "normalized_historicals": s.normalized_historicals,
+                    "one_month_historicals": s.one_month_historicals,
                 }
             )
 
@@ -240,7 +240,7 @@ class MyStock(models.Model):
         return vals
 
     @property
-    def normalized_historicals(self):
+    def one_month_historicals(self):
         end = date.today()
         start = end - timedelta(days=30)
 
@@ -251,13 +251,6 @@ class MyStock(models.Model):
             .values("on", "open_price", "close_price")
             .order_by("on")
         )
-
-        # for ranking purpose, I'm going to normalize these prices
-        # so that they are relative to the first one, the `base`.
-        for attr in ["open_price", "close_price"]:
-            base = hist[0].get(attr)
-            for h in hist:
-                h[attr] = h[attr] / base
 
         return hist
 
@@ -712,7 +705,18 @@ class CashFlow(models.Model):
             return 0
 
         try:
-            return self.operating_cash_flow / self.net_income
+            return self.operating_cash_flow / self.net_income * 100
+        except ZeroDivisionError:
+            return 0
+
+    @property
+    def dividend_payout_ratio(self):
+        """Dividend paid / net income"""
+        if self.net_income < 0:
+            return 0
+
+        try:
+            return abs(self.dividend_paid) / self.net_income * 100
         except ZeroDivisionError:
             return 0
 

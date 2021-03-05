@@ -65,8 +65,8 @@ class StockResource(ModelResource):
     roe_dupont_reported_gap = fields.FloatField(
         "roe_dupont_reported_gap", null=True, use_in="detail"
     )
-    normalized_historicals = fields.ListField(
-        "normalized_historicals", null=True, use_in="detail"
+    one_month_historicals = fields.ListField(
+        "one_month_historicals", null=True, use_in="detail"
     )
     last_reporting_date = fields.DateField(
         "last_reporting_date", null=True, use_in="detail"
@@ -225,6 +225,9 @@ class CashFlowResource(ModelResource):
     ocf_over_net_income = fields.FloatField(
         "ocf_over_net_income", null=True, use_in="detail"
     )
+    dividend_payout_ratio = fields.FloatField(
+        "dividend_payout_ratio", null=True, use_in="detail"
+    )
 
     class Meta:
         queryset = CashFlow.objects.all()
@@ -380,7 +383,7 @@ class SummaryResource(Resource):
                     "symbol": symbol,
                     "on": x.on,
                     "val": getattr(x, sort_by),
-                    "normalized_historicals": x.stock.normalized_historicals,
+                    "one_month_historicals": x.stock.one_month_historicals,
                 }
             )
 
@@ -477,6 +480,7 @@ class RankCashFlowResource(SummaryResource):
             ("fcf_over_ocf", True),
             ("fcf_over_net_income", True),
             ("ocf_over_net_income", True),
+            ("dividend_payout_ratio", True),
         ]
         attrs = [
             (index, name, high_to_low)

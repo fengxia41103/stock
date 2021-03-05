@@ -265,3 +265,7 @@ span.threshold {
 .card{
     padding: 2em;
 }
+
+.cutoff {
+    border-left: 2px solid red;
+}

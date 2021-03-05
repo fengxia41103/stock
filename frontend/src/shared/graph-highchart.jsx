@@ -105,20 +105,6 @@ class HighchartGraphBox extends Component {
         line: {
           negativeColor: "#d52349",
         },
-        pie: {
-          dataLabels: {
-            enabled: true,
-            distance: -50,
-            style: {
-              fontWeight: "bold",
-              color: "white",
-            },
-          },
-          startAngle: -90,
-          endAngle: 90,
-          center: ["50%", "85%"],
-          showInLegend: true,
-        },
       },
       legend: {
         enabled: legendEnabled,

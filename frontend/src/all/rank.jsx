@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import Fetch from "../shared/fetch.jsx";
-import { map } from "lodash";
+import { map, filter } from "lodash";
 import Row from "./row.jsx";
 
 class Rank extends Fetch {
@@ -11,12 +11,40 @@ class Rank extends Fetch {
   }
 
   render_data(data) {
-    const { top } = this.props;
-
+    const { top, thresholds } = this.props;
     const rows = map(data.objects, d => {
-      const name = d.name.replace(/_/g, " ");
-      const ranks = d.stats.slice(0, top);
-      return <Row key={d.name} category={name} ranks={ranks} {...this.props} />;
+      let stats = d.stats;
+      let threshold = null;
+
+      if (thresholds.hasOwnProperty(d.name)) {
+        threshold = thresholds[d.name];
+        const tmp = threshold.split("=");
+
+        // if malformat, do nothing!
+        if (tmp.length != 2) return;
+
+        const sign = tmp[0];
+        const threshold_value = parseFloat(tmp[1]);
+
+        stats = filter(stats, s => {
+          if (sign == ">") {
+            return s.val >= threshold_value;
+          } else {
+            return s.val <= threshold_value;
+          }
+        });
+      }
+
+      const ranks = stats.slice(0, top);
+      return (
+        <Row
+          key={d.name}
+          category={d.name}
+          ranks={ranks}
+          threshold={threshold}
+          {...this.props}
+        />
+      );
     });
 
     return <div>{rows}</div>;
