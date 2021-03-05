@@ -54,12 +54,13 @@ class ValuationRatioChart extends Component {
     return (
       <HighchartGraphBox
         containerId={containerId}
-        type="bar"
+        type="line"
         categories={categories}
         yLabel=""
         title=""
         legendEnabled={true}
         data={chart_data}
+        normalize={true}
       />
     );
   }

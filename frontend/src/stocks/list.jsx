@@ -11,7 +11,7 @@ import {
   Route,
   NavLink,
 } from "react-router-dom";
-import { StockDetail } from "./detail.jsx";
+import StockDetail from "./detail.jsx";
 
 class StockList extends Fetch {
   constructor(props) {

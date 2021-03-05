@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import Highcharts from "highcharts";
 import addFunnel from "highcharts/modules/funnel";
+import { map } from "lodash";
 
 //****************************************
 //
@@ -22,6 +23,12 @@ class HighchartGraphBox extends Component {
 
     //binding
     this.makeViz = this.makeViz.bind(this);
+    this._normalize = this._normalize.bind(this);
+  }
+
+  _normalize(data) {
+    const base = data[0];
+    return map(data, d => d / base);
   }
 
   makeViz() {
@@ -33,7 +40,18 @@ class HighchartGraphBox extends Component {
       yLabel,
       legendEnabled,
       data,
+      normalize,
     } = this.props;
+
+    // chart data can be normalized for comparison purpose
+    let chart_data = data;
+    if (normalize) {
+      chart_data = map(chart_data, d => {
+        let tmp = d;
+        tmp.data = this._normalize(d.data);
+        return tmp;
+      });
+    }
 
     // Set chart height dynamically
     const height = Math.max(500, this.state.height_step * categories.length);
@@ -105,7 +123,7 @@ class HighchartGraphBox extends Component {
       legend: {
         enabled: legendEnabled,
       },
-      series: data,
+      series: chart_data,
     };
 
     // Render chart

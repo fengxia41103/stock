@@ -4,7 +4,7 @@ import { map, filter, sortBy } from "lodash";
 import { Jumbotron } from "react-bootstrap";
 import { DebounceInput } from "react-debounce-input";
 
-import { StockHistorical } from "./detail.jsx";
+import StockHistorical from "./historical.jsx";
 
 class RangeFilter extends Component {
   constructor(props) {
