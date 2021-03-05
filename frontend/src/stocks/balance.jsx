@@ -25,7 +25,7 @@ class Balance extends Component {
     };
 
     const p2p_changes = {
-      capital_structure: "Debt % of Capital",
+      capital_structure: "Debt % of Asset",
       debt_growth_rate: "Debt(%)",
       ap_growth_rate: "Account Payable (%)",
       ar_growth_rate: "Account Receivable (%)",

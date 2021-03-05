@@ -144,6 +144,11 @@ class DCF extends Component {
 
     // Note: we are assuming no. of stocks dont' change in 10 years!
     let dcf = (income + terminal_value) / stock.shares_outstanding;
+    let dcf_last_price = dcf / stock.latest_close_price;
+    const dcf_premium_decor = classNames(
+      "right",
+      dcf_last_price > 1 ? "positive" : "negative"
+    );
 
     return (
       <div className="jumbotron">
@@ -151,7 +156,12 @@ class DCF extends Component {
         <div className="row">
           <div className="col l4 m6 s12 card">
             <h4 className="mylabel">My Valuation</h4>
-            <div className="quotation">{dcf.toFixed(2)}</div>
+            <div className="quotation">
+              {dcf.toFixed(2)}
+              <span className={dcf_premium_decor}>
+                / {dcf_last_price.toFixed(2)}
+              </span>
+            </div>
           </div>
           <div className="col l4 m6 s12 card">
             <h4 className="mylabel">WACC %</h4>

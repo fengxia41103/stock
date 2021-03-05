@@ -68,6 +68,9 @@ class StockResource(ModelResource):
     normalized_historicals = fields.ListField(
         "normalized_historicals", null=True, use_in="detail"
     )
+    last_reporting_date = fields.DateField(
+        "last_reporting_date", null=True, use_in="detail"
+    )
 
     class Meta:
         queryset = MyStock.objects.all()

@@ -57,6 +57,7 @@ INSTALLED_APPS = (
     # custom packages
     "tastypie",  # django-tastypie
     "corsheaders",
+    "django_extensions",
     "stock",
 )
 
@@ -217,7 +218,11 @@ SILENCED_SYSTEM_CHECKS = [
     "admin.E408",
 ]
 
-CORS_ORIGIN_WHITELIST = ["http://localhost:8080", "http://192.168.68.107:8080"]
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:8080",
+    "http://192.168.68.107:8080",
+    "http://192.168.1.114:8084",
+]
 
 PASSWORD_HASHERS = (
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",

@@ -261,6 +261,10 @@ class MyStock(models.Model):
 
         return hist
 
+    @property
+    def last_reporting_date(self):
+        return BalanceSheet.objects.filter(stock=self).order_by("-on")[0].on
+
 
 class MyHistoricalCustomManager(models.Manager):
     def by_date_range(self, start=None, end=None):
@@ -627,6 +631,22 @@ class CashFlow(models.Model):
         null=True, blank=True, default=0
     )
 
+    def _prevs(self):
+        return CashFlow.objects.filter(
+            stock=self.stock, on__lt=self.on
+        ).order_by("on")
+
+    def _growth_rate(self, attr):
+        prevs = self._prevs().values(attr)
+        valids = list(filter(lambda x: x[attr], prevs))
+
+        if not valids:
+            return 0
+        else:
+            me = getattr(self, attr)
+            prev = valids[0][attr]
+            return (me - prev) / prev * 100
+
     @property
     def cash_change_pcnt(self):
         # could be division zero
@@ -641,20 +661,7 @@ class CashFlow(models.Model):
 
     @property
     def operating_cash_flow_growth(self):
-        last = (
-            CashFlow.objects.filter(stock=self.stock, on__lt=self.on)
-            .exclude(operating_cash_flow=0)
-            .order_by("-on")
-        )
-        if not last:
-            # I'm the first, one, thus is the base, which we set to 0
-            return 0
-        else:
-            return (
-                (self.operating_cash_flow - last[0].operating_cash_flow)
-                / last[0].operating_cash_flow
-                * 100
-            )
+        return self._growth_rate("operating_cash_flow")
 
     @property
     def fcf_over_ocf(self):

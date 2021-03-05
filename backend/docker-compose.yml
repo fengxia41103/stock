@@ -24,7 +24,7 @@ services:
       - web
     command: [nginx-debug, '-g', 'daemon off;']
     networks:
-      - data
+      - management
 
   db:
     image: mysql:5.7

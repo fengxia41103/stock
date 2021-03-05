@@ -3,7 +3,7 @@ version: '3.3'
 
 # network
 networks:
-  data:
+  management:
 
 # computes
 services:
@@ -19,4 +19,4 @@ services:
       - "8084:80"
     command: [nginx-debug, '-g', 'daemon off;']
     networks:
-      - data
+      - management

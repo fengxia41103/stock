@@ -261,3 +261,7 @@ footer.page-footer .footer-copyright {
 span.threshold {
     border-right: 1px solid #d52349;
 }
+
+.card{
+    padding: 2em;
+}
