@@ -57,9 +57,11 @@ class Row extends Component {
     this.state = {
       show_rank_graph: false,
       show_1m_graph: false,
+      show_threshold: false,
     };
     this.handle_show_rank_graph = this.handle_show_rank_graph.bind(this);
     this.handle_show_1m_graph = this.handle_show_1m_graph.bind(this);
+    this.handle_show_threshold = this.handle_show_threshold.bind(this);
   }
 
   handle_show_rank_graph(event) {
@@ -75,9 +77,15 @@ class Row extends Component {
       show_1m_graph: !this.state.show_1m_graph,
     });
   }
+  handle_show_threshold(event) {
+    // set values
+    this.setState({
+      show_threshold: !this.state.show_threshold,
+    });
+  }
 
   render() {
-    const { show_rank_graph, show_1m_graph } = this.state;
+    const { show_rank_graph, show_1m_graph, show_threshold } = this.state;
 
     const { highlights, category, ranks, threshold, handle_ratio } = this.props;
     const category_name = category.replace(/_/g, " ");
@@ -92,7 +100,7 @@ class Row extends Component {
     if (threshold) {
       cutoff = (
         <DebounceInput
-          className="input-field col l1 m2 s6"
+          className="input-field"
           name={category}
           debounceTimeout={1000}
           type="text"
@@ -118,10 +126,23 @@ class Row extends Component {
       show_1m_graph ? "myhighlight" : null
     );
 
+    const threshold_toggle_decor = classNames(
+      "fa fa-calculator right",
+      show_threshold ? "myhighlight" : null
+    );
+
     return (
       <div className="row bottom-border">
         {category ? (
           <div className={category_decor}>
+            {cutoff ? (
+              <i
+                className={threshold_toggle_decor}
+                onClick={this.handle_show_threshold}
+                title="threshold"
+              />
+            ) : null}
+
             <i
               className={rank_chart_toggle_decor}
               onClick={this.handle_show_rank_graph}
@@ -133,10 +154,10 @@ class Row extends Component {
               title="1m historical price"
             />
             {category_name}
+            {show_threshold && cutoff ? cutoff : null}
           </div>
         ) : null}
         {vals}
-        {cutoff}
         {show_rank_graph ? (
           <RowRankChart ranks={ranks} {...this.props} />
         ) : null}
