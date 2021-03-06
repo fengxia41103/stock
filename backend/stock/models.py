@@ -3,9 +3,12 @@
 
 import collections
 import logging
+from abc import ABC
 from datetime import date
 from datetime import timedelta
 
+from django.apps import AppConfig
+from django.apps import apps
 from django.db import models
 from django.db.models import Avg
 from numpy import average
@@ -472,7 +475,70 @@ class MyStrategyValue(models.Model):
     val = models.FloatField(null=True, blank=True, default=-1)
 
 
-class IncomeStatement(models.Model):
+class StatementBase(models.Model):
+    class Meta:
+        abstract = True
+
+    def _as_of_ratio(self, attr1, attr2):
+        """Attr1/ attr2.
+
+        This is a measure of scale, thus am converting all values
+        using `abs()`.
+
+        """
+
+        tmp = getattr(self, attr2)
+
+        if not tmp:
+            # if 0 or none
+            return 0
+        else:
+            return abs(getattr(self, attr1) / tmp)
+
+    def _as_of_pcnt(self, attr1, attr2):
+        """Attr1 as % of attr2."""
+        return self._as_of_ratio(attr1, attr2) * 100
+
+    def _prevs(self, model_name, app_name="stock"):
+        """Get available model records.
+
+        TODO: hardcoded application name. This is necessary to look up
+        Django model by its string name.
+
+        Once we obtain the model, we have access to `.objects` and
+        then all its queryset power. Of course, we are assuming it has
+        attribute `self.stock` and `self.on`, both are not defined in
+        this class, but in those statement models.
+
+        """
+        the_model = apps.get_model(app_name, model_name)
+        return the_model.objects.filter(
+            stock=self.stock, on__lt=self.on
+        ).order_by("on")
+
+    def _growth_rate(self, model_name, attr):
+        """Compute growth of an attr from one period to the next."""
+
+        # look up previous records of asked attr's value
+        prevs = self._prevs(model_name).values(attr)
+
+        # filter out 0s. 0 means that I don't have a valid value here to use.
+        valids = list(filter(lambda x: x[attr], prevs))
+
+        if not valids:
+            return 0
+        else:
+            me = getattr(self, attr)
+            prev = valids[0][attr]
+
+            if not prev:
+                # if prev == 0
+                return 0
+            else:
+                return (me - prev) / prev * 100
+
+
+class IncomeStatement(StatementBase):
     stock = models.ForeignKey(
         "MyStock", on_delete=models.CASCADE, related_name="incomes"
     )
@@ -519,11 +585,11 @@ class IncomeStatement(models.Model):
         generated for each dollar of revenue.
 
         """
-        return self.net_income / self.total_revenue * 100
+        return self._as_of_pcnt("net_income", "total_revenue")
 
     @property
     def gross_margin(self):
-        return self.gross_profit / self.total_revenue * 100
+        return self._as_of_pcnt("gross_profit", "total_revenue")
 
     @property
     def cogs_margin(self):
@@ -533,22 +599,22 @@ class IncomeStatement(models.Model):
         money you just made!
 
         """
-        return self.reconciled_cost_of_revenue / self.total_revenue * 100
+        return self._as_of_pcnt("reconciled_cost_of_revenue", "total_revenue")
 
     @property
     def opex_margin(self):
         """OPEX is expense. Lower is better."""
-        return self.operating_expense / self.total_revenue * 100
+        return self._as_of_pcnt("operating_expense", "total_revenue")
 
     @property
     def ebit_margin(self):
         """EBIT is an income indicator. Higher is better."""
-        return self.ebit / self.total_revenue * 100
+        return self._as_of_pcnt("ebit", "total_revenue")
 
     @property
     def total_expense_margin(self):
         """How much expense to achieve the sales. Lower is better."""
-        return self.total_expenses / self.total_revenue * 100
+        return self._as_of_pcnt("total_expenses", "total_revenue")
 
     @property
     def operating_income_margin(self):
@@ -559,20 +625,20 @@ class IncomeStatement(models.Model):
 
         """
         if self.operating_revenue:
-            return self.operating_income / self.operating_revenue * 100
+            return self._as_of_pcnt("operating_income", "operating_revenue")
         else:
-            return self.operating_income / self.total_revenue * 100
+            return self._as_of_pcnt("operating_income", "total_revenue")
 
     @property
     def operating_expense_margin(self):
         """How much expense in operation. The lower, the better."""
         if self.operating_revenue:
-            return self.operating_expense / self.operating_revenue * 100
+            return self._as_of_pcnt("operating_expense", "operating_revenue")
         else:
-            return self.operating_expense / self.total_revenue * 100
+            return self._as_of_pcnt("operating_expense", "total_revenue")
 
 
-class CashFlow(models.Model):
+class CashFlow(StatementBase):
     stock = models.ForeignKey(
         "MyStock", on_delete=models.CASCADE, related_name="cashes"
     )
@@ -633,22 +699,6 @@ class CashFlow(models.Model):
         null=True, blank=True, default=0
     )
 
-    def _prevs(self):
-        return CashFlow.objects.filter(
-            stock=self.stock, on__lt=self.on
-        ).order_by("on")
-
-    def _growth_rate(self, attr):
-        prevs = self._prevs().values(attr)
-        valids = list(filter(lambda x: x[attr], prevs))
-
-        if not valids:
-            return 0
-        else:
-            me = getattr(self, attr)
-            prev = valids[0][attr]
-            return (me - prev) / prev * 100
-
     @property
     def cash_change_pcnt(self):
         # could be division zero
@@ -663,7 +713,7 @@ class CashFlow(models.Model):
 
     @property
     def operating_cash_flow_growth(self):
-        return self._growth_rate("operating_cash_flow")
+        return self._growth_rate("CashFlow", "operating_cash_flow")
 
     @property
     def fcf_over_ocf(self):
@@ -680,10 +730,7 @@ class CashFlow(models.Model):
         if self.operating_cash_flow < 0:
             return 0
 
-        try:
-            return self.free_cash_flow / self.operating_cash_flow * 100
-        except ZeroDivisionError:
-            return 0
+        return self._as_of_pcnt("free_cash_flow", "operating_cash_flow")
 
     @property
     def fcf_over_net_income(self):
@@ -695,11 +742,7 @@ class CashFlow(models.Model):
         # if you have negative income, well.
         if self.net_income < 0:
             return 0
-
-        try:
-            return self.free_cash_flow / self.net_income * 100
-        except ZeroDivisionError:
-            return 0
+        return self._as_of_pcnt("free_cash_flow", "net_income")
 
     @property
     def ocf_over_net_income(self):
@@ -712,22 +755,14 @@ class CashFlow(models.Model):
 
         if self.net_income < 0:
             return 0
-
-        try:
-            return self.operating_cash_flow / self.net_income * 100
-        except ZeroDivisionError:
-            return 0
+        return self._as_of_pcnt("operating_cash_flow", "net_income")
 
     @property
     def dividend_payout_ratio(self):
         """Dividend paid / net income"""
         if self.net_income < 0:
             return 0
-
-        try:
-            return abs(self.dividend_paid) / self.net_income * 100
-        except ZeroDivisionError:
-            return 0
+        return self._as_of_pcnt("dividend_paid", "net_income")
 
 
 class ValuationRatio(models.Model):
@@ -748,7 +783,7 @@ class ValuationRatio(models.Model):
     ps = models.FloatField(null=True, blank=True, default=0)
 
 
-class BalanceSheet(models.Model):
+class BalanceSheet(StatementBase):
     stock = models.ForeignKey(
         "MyStock", on_delete=models.CASCADE, related_name="balances"
     )
@@ -837,19 +872,16 @@ class BalanceSheet(models.Model):
 
     @property
     def current_ratio(self):
-        try:
-            return self.current_assets / self.current_liabilities
-        except ZeroDivisionError:
-            return 0
+        return self._as_of_ratio("current_assets", "current_liabilities")
 
     @property
     def quick_ratio(self):
-        try:
-            return (
-                self.cash_cash_equivalents_and_short_term_investments + self.ar
-            ) / self.current_liabilities
-        except ZeroDivisionError:
+        if not self.current_liabilities:
             return 0
+
+        return (
+            self.cash_cash_equivalents_and_short_term_investments + self.ar
+        ) / self.current_liabilities
 
     @property
     def capital_structure(self):
@@ -862,26 +894,12 @@ class BalanceSheet(models.Model):
         1. Needs to estimate the market value of the debt, not just
            reported debt.
         """
-        return abs(self.total_debt) / self.total_assets * 100
+        return self._as_of_pcnt("total_debt", "total_assets")
 
     @property
     def debt_growth_rate(self):
         """Compute how much total debt has grown over last report."""
-        # find last period's debt
-        last = (
-            BalanceSheet.objects.filter(stock=self.stock, on__lt=self.on)
-            .exclude(total_debt=0)
-            .order_by("-on")
-        )
-        if not last:
-            # I'm the first, one, thus is the base, which we set to 0
-            return 0
-        else:
-            return (
-                (self.total_debt - last[0].total_debt)
-                / last[0].total_debt
-                * 100
-            )
+        return self._growth_rate("BalanceSheet", "total_debt")
 
     @property
     def ap_growth_rate(self):
@@ -892,16 +910,7 @@ class BalanceSheet(models.Model):
         position, which, IMHO, is a terrible strategy.
 
         """
-        last = (
-            BalanceSheet.objects.filter(stock=self.stock, on__lt=self.on)
-            .exclude(ap=0)
-            .order_by("-on")
-        )
-        if not last:
-            # I'm the first, one, thus is the base, which we set to 0
-            return 0
-        else:
-            return (self.ap - last[0].ap) / last[0].ap * 100
+        return self._growth_rate("BalanceSheet", "ap")
 
     @property
     def ar_growth_rate(self):
@@ -915,16 +924,7 @@ class BalanceSheet(models.Model):
           troubled environment for this company.
         - management is not working well to collect the money, negligence?
         """
-        last = (
-            BalanceSheet.objects.filter(stock=self.stock, on__lt=self.on)
-            .exclude(ar=0)
-            .order_by("-on")
-        )
-        if not last:
-            # I'm the first, one, thus is the base, which we set to 0
-            return 0
-        else:
-            return (self.ar - last[0].ar) / last[0].ar * 100
+        return self._growth_rate("BalanceSheet", "ar")
 
     @property
     def all_cash_growth_rate(self):
@@ -938,43 +938,14 @@ class BalanceSheet(models.Model):
         right?
 
         """
-        # find last period's debt
-        last = (
-            BalanceSheet.objects.filter(stock=self.stock, on__lt=self.on)
-            .exclude(cash_cash_equivalents_and_short_term_investments=0)
-            .order_by("-on")
+        return self._growth_rate(
+            "BalanceSheet", "cash_cash_equivalents_and_short_term_investments"
         )
-        if not last:
-            # I'm the first, one, thus is the base, which we set to 0
-            return 0
-        else:
-            return (
-                (
-                    self.cash_cash_equivalents_and_short_term_investments
-                    - last[0].cash_cash_equivalents_and_short_term_investments
-                )
-                / last[0].cash_cash_equivalents_and_short_term_investments
-                * 100
-            )
 
     @property
     def working_capital_growth_rate(self):
         """Compute how much WorkingCapital has grown over last report."""
-        # find last period's debt
-        last = (
-            BalanceSheet.objects.filter(stock=self.stock, on__lt=self.on)
-            .exclude(working_capital=0)
-            .order_by("-on")
-        )
-        if not last:
-            # I'm the first, one, thus is the base, which we set to 0
-            return 0
-        else:
-            return (
-                (self.working_capital - last[0].working_capital)
-                / last[0].working_capital
-                * 100
-            )
+        return self._growth_rate("BalanceSheet", "working_capital")
 
     @property
     def net_ppe_growth_rate(self):
@@ -988,17 +959,7 @@ class BalanceSheet(models.Model):
         change is a good thing.
 
         """
-        # find last period's debt
-        last = (
-            BalanceSheet.objects.filter(stock=self.stock, on__lt=self.on)
-            .exclude(net_ppe=0)
-            .order_by("-on")
-        )
-        if not last:
-            # I'm the first, one, thus is the base, which we set to 0
-            return 0
-        else:
-            return (self.net_ppe - last[0].net_ppe) / last[0].net_ppe * 100
+        return self._growth_rate("BalanceSheet", "net_ppe")
 
     @property
     def equity_multiplier(self):
@@ -1026,10 +987,7 @@ class BalanceSheet(models.Model):
         if self.stockholders_equity < 0:
             return 0
 
-        try:
-            return self.total_assets / self.stockholders_equity
-        except ZeroDivisionError:
-            return 0
+        return self._as_of_ratio("total_assets", "stockholders_equity")
 
     @property
     def debt_to_equity_ratio(self):
@@ -1046,7 +1004,7 @@ class BalanceSheet(models.Model):
         if self.stockholders_equity < 0:
             return 0
         else:
-            return abs(self.total_debt) / self.stockholders_equity
+            return self._as_of_ratio("total_debt", "stockholders_equity")
 
     @property
     def liability_pcnt(self):
@@ -1055,7 +1013,7 @@ class BalanceSheet(models.Model):
         Similar to equity multiplier, this is measuring how much liability is
         in the total asset. The higher, the more troublesome it smells.
         """
-        return self.total_liability / self.total_assets * 100
+        return self._as_of_pcnt("total_liability", "total_assets")
 
     @property
     def working_capital_to_current_liabilities(self):
@@ -1065,4 +1023,4 @@ class BalanceSheet(models.Model):
         trouble, owners of current liabilities would have claim on
         this amount. So the higher this ratio, the more cushion there is.
         """
-        return self.working_capital / self.current_liabilities
+        return self._as_of_ratio("working_capital", "current_liabilities")
