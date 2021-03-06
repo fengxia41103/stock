@@ -21,9 +21,13 @@ class Summary extends Component {
       // key: API rank data's key
       // val: ">=" or "<="
       thresholds: {
+        roe: ">=20",
         current_ratio: ">=2",
         equity_multiplier: "<=2.5",
         dividend_payout_ratio: ">=25",
+        net_income_margin: ">=20",
+        gross_margin: ">=40",
+        ocf_over_net_income: ">=100",
       },
     };
 

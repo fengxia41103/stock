@@ -22,6 +22,7 @@ class Balance extends Component {
       debt_to_equity_ratio: "Debt/Equity Ratio",
       equity_multiplier: "Equity Multipler",
       liability_pcnt: "Liability/Asset (%)",
+      working_capital_to_current_liabilities: "Working Capital/Current Liabilities"
     };
 
     const p2p_changes = {

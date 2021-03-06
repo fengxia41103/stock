@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import { map, isEmpty } from "lodash";
 import DictTable from "../shared/dict_table.jsx";
+import { randomId } from "../helper.jsx";
+import HighchartGraphBox from "../shared/graph-highchart.jsx";
 
 class Cash extends Component {
   constructor(props) {
@@ -39,9 +41,39 @@ class Cash extends Component {
     return (
       <div>
         Cash Flow Statement
+        <CashFlowChart interests={reported} {...this.props} />
         <DictTable data={cashes} interests={reported} />
         <DictTable data={cashes} interests={analysis} />
       </div>
+    );
+  }
+}
+
+class CashFlowChart extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const containerId = randomId();
+    const { cashes, interests } = this.props;
+    const dates = map(cashes, i => i.on);
+    const chart_data = Object.entries(interests).map(([key, description]) => {
+      const vals = map(cashes, i => i[key]);
+      return { name: description, data: vals };
+    });
+
+    return (
+      <HighchartGraphBox
+        containerId={containerId}
+        type="line"
+        categories={dates}
+        yLabel=""
+        title=""
+        legendEnabled={true}
+        data={chart_data}
+        normalize={true}
+      />
     );
   }
 }

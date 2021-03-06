@@ -354,6 +354,14 @@ class MyStrategyValueCustomManager(models.Manager):
         nightly_downs = nightly_return.filter(val__lt=0).values_list(
             "val", flat=True
         )
+        if nightly_return.count():
+            nightly_up_pcnt = nightly_ups.count() / nightly_return.count() * 100
+            nightly_down_pcnt = (
+                nightly_downs.count() / nightly_return.count() * 100
+            )
+        else:
+            nightly_up_pcnt = nightly_down_pcnt = 0
+
         tmp = collections.Counter(nightly_return.values_list("val", flat=True))
         night_day_consistency = dict(
             [(int(key), val) for (key, val) in tmp.items()]
@@ -365,6 +373,11 @@ class MyStrategyValueCustomManager(models.Manager):
         daily_downs = daily_return.filter(val__lt=0).values_list(
             "val", flat=True
         )
+        if daily_return.count():
+            daily_up_pcnt = daily_ups.count() / daily_return.count() * 100
+            daily_down_pcnt = daily_downs.count() / daily_return.count() * 100
+        else:
+            daily_up_pcnt = daily_down_pcnt = 0
 
         # if I trade daily, what's the return?
         compound_return = (
@@ -408,14 +421,10 @@ class MyStrategyValueCustomManager(models.Manager):
             % (std(close_prices) / average(close_prices) * 100),
             "two_day_trend": two_day_trend,
             "overnight": night_day_consistency,
-            "daily_ups": "%.0f"
-            % (daily_ups.count() / daily_return.count() * 100.0),
-            "daily_downs": "%.0f"
-            % (daily_downs.count() / daily_return.count() * 100.0),
-            "nightly_ups": "%.0f"
-            % (nightly_ups.count() / nightly_return.count() * 100.0),
-            "nightly_downs": "%.0f"
-            % (nightly_downs.count() / nightly_return.count() * 100.0),
+            "daily_ups": "%.0f" % daily_up_pcnt,
+            "daily_downs": "%.0f" % daily_down_pcnt,
+            "nightly_ups": "%.0f" % nightly_up_pcnt,
+            "nightly_downs": "%.0f" % nightly_down_pcnt,
             "avg daily up": "%.2f" % average(daily_ups),
             "daily up rsd": "%.2f"
             % (std(daily_ups) / average(daily_ups) * 100),
@@ -1047,3 +1056,13 @@ class BalanceSheet(models.Model):
         in the total asset. The higher, the more troublesome it smells.
         """
         return self.total_liability / self.total_assets * 100
+
+    @property
+    def working_capital_to_current_liabilities(self):
+        """Working capital health.
+
+        Working capital is the _current equity_. Thefore, in time of
+        trouble, owners of current liabilities would have claim on
+        this amount. So the higher this ratio, the more cushion there is.
+        """
+        return self.working_capital / self.current_liabilities
