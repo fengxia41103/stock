@@ -259,7 +259,12 @@ class MyStock(models.Model):
 
     @property
     def last_reporting_date(self):
-        return BalanceSheet.objects.filter(stock=self).order_by("-on")[0].on
+        tmp = IncomeStatement.objects.filter(stock=self).order_by("-on")
+        if tmp:
+            # Symbol such as ETF does not have balance sheet
+            return tmp[0].on
+        else:
+            return None
 
 
 class MyHistoricalCustomManager(models.Manager):

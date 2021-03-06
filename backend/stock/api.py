@@ -68,9 +68,7 @@ class StockResource(ModelResource):
     one_month_historicals = fields.ListField(
         "one_month_historicals", null=True, use_in="detail"
     )
-    last_reporting_date = fields.DateField(
-        "last_reporting_date", null=True, use_in="detail"
-    )
+    last_reporting_date = fields.DateField("last_reporting_date", null=True)
 
     class Meta:
         queryset = MyStock.objects.all()

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { map, filter, sortBy } from "lodash";
+import { map, filter, sortBy, groupBy } from "lodash";
 import { Jumbotron } from "react-bootstrap";
 import { DebounceInput } from "react-debounce-input";
 import ToggleDetails from "../shared/toggle_details.jsx";
@@ -32,9 +32,8 @@ class StockList extends Fetch {
   }
 
   render_data(data) {
-    const url_root = this.state.resource;
-
     const stocks = data.objects;
+    const { resource: url_root } = this.state;
 
     // filter based on search string
     const filtered = filter(stocks, x =>
@@ -42,7 +41,7 @@ class StockList extends Fetch {
     );
 
     // routing to detail page
-    const details = map(stocks, v => {
+    const details = map(filtered, v => {
       // this value must match w/ NavLink `to` value!
       const tmp = "/stock/" + v.id;
 
@@ -64,23 +63,34 @@ class StockList extends Fetch {
     });
 
     // when select
-    const selectors = map(
-      sortBy(filtered, x => x.symbol),
-      v => {
+    const grouped = groupBy(filtered, v => v.last_reporting_date);
+    const selectors = map(grouped, (symbols, reporting_date) => {
+      const sorted = sortBy(symbols, s => s.symbol);
+      const links = map(sorted, v => {
         const url = "/stock/" + v.id;
         return (
           <NavLink
-            activeClassName="active"
-            className="col l4 m6 s12 "
             key={v.id}
+            activeClassName="active"
+            className="col l3 m4 s6 "
             to={url}
           >
-            <i className="fa fa-code-fork"></i>
-            &nbsp;{v.symbol}
+            {v.symbol}
           </NavLink>
         );
-      }
-    );
+      });
+
+      return (
+        <div key={reporting_date} className="row card">
+          <div className="col s12" title="Latest financial reporting date">
+            <i className="fa fa-microphone"></i>
+            &nbsp;
+            {reporting_date == "null" ? "ETF/Index" : reporting_date}
+          </div>
+          {links}
+        </div>
+      );
+    });
 
     // presentation of the selector
     const pick = (
