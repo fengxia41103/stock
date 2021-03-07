@@ -793,83 +793,293 @@ class BalanceSheet(StatementBase):
         "MyStock", on_delete=models.CASCADE, related_name="balances"
     )
     on = models.DateField(null=True, blank=True)
-    ap = models.FloatField(
-        null=True, blank=True, default=0, verbose_name="Account Payable"
-    )
-    ar = models.FloatField(
-        null=True, blank=True, default=0, verbose_name="Account Receivable"
+
+    # Total assets
+    # 1. current_assets
+    # 2. total_non_current_assets
+    #
+    # Eq.
+    # - total_assets = sum(1,2)
+    total_assets = models.FloatField(null=True, blank=True, default=0)
+
+    # Current Assets
+    #
+    # Eq.  current assets =
+    # sum(cash_cash_equivalents_and_short_term_investments,
+    # receivables, inventory, other_current_assets)
+    current_assets = models.FloatField(null=True, blank=True, default=0)
+
+    # Cash related
+    #
+    # 1. cash & cash equivalents & short-term investment
+    # 2. cash_and_cash_equivalent
+    # 3. other_short_term_investments
+    # 4. cash_equivalents
+    #
+    # Eq.
+    # - 1 = 2+3, 4 not used
+    cash_cash_equivalents_and_short_term_investments = models.FloatField(
+        null=True, blank=True, default=0
     )
     cash_and_cash_equivalent = models.FloatField(
         null=True, blank=True, default=0
     )
-    cash_cash_equivalents_and_short_term_investments = models.FloatField(
+    other_short_term_investments = models.FloatField(
         null=True, blank=True, default=0
     )
     cash_equivalents = models.FloatField(null=True, blank=True, default=0)
-    cash_financial = models.FloatField(null=True, blank=True, default=0)
-    commercial_paper = models.FloatField(null=True, blank=True, default=0)
-    common_stock = models.FloatField(null=True, blank=True, default=0)
-    common_stock_equity = models.FloatField(null=True, blank=True, default=0)
-    current_assets = models.FloatField(null=True, blank=True, default=0)
-    current_debt = models.FloatField(null=True, blank=True, default=0)
-    current_deferred_liabilities = models.FloatField(
+
+    # Receivables
+    # 1. receivables
+    # 2. ar
+    # 3. other receivables
+    #
+    # Eq.
+    # - 1=2=3+4
+    receivables = models.FloatField(null=True, blank=True, default=0)
+
+    # Account receivalbes
+    # 1. gross_accounts_receivable
+    # 2. allowance_for_doubtful_accounts_receivable: it's < 0
+    ar = models.FloatField(
+        null=True, blank=True, default=0, verbose_name="Account Receivable"
+    )
+    gross_accounts_receivable = models.FloatField(
         null=True, blank=True, default=0
     )
-    current_deferred_revenue = models.FloatField(
+    allowance_for_doubtful_accounts_receivable = models.FloatField(
         null=True, blank=True, default=0
     )
-    current_liabilities = models.FloatField(null=True, blank=True, default=0)
-    gross_ppe = models.FloatField(null=True, blank=True, default=0)
+
+    other_receivables = models.FloatField(null=True, blank=True, default=0)
+
+    # Inventory
+    # TODO: Unfortunately I don't have source for breakdowns:
+    # - raw materials
+    # - work in process
+    # - finished goods
+    #
+    # Eq.
+    # - inventory = sum(those three)
     inventory = models.FloatField(null=True, blank=True, default=0)
-    invested_capital = models.FloatField(null=True, blank=True, default=0)
-    investmentin_financial_assets = models.FloatField(
-        null=True, blank=True, default=0
+
+    other_current_assets = models.FloatField(null=True, blank=True, default=0)
+
+    # Fixed assets
+    #
+    # Eq. fixed assets = sum(net_ppe, goodwill,
+    # investments_and_advances, other_non_current_assets)
+    total_non_current_assets = models.FloatField(
+        null=True, blank=True, default=0, verbose_name="Fixed Assets"
     )
-    investments_and_advances = models.FloatField(
-        null=True, blank=True, default=0
-    )
+
+    # Net PPE
+    # 1. gross_ppe
+    # 2. accmulated depreciation: is negative
+    #
+    # Eq.
+    # - net_ppe = gross_ppe+accumulated_depreciation
+    net_ppe = models.FloatField(null=True, blank=True, default=0)
+
+    # Gross PPE
+    # 1. properties
+    # 2. land_and_improvements
+    # 3. buildings and improvements: N/A!
+    # 4. machinery_furniture_equipment
+    # 5. other properties: N/A!
+    # 6. leases
+    #
+    # Eq.
+    # - gross_ppe = sum(1,2,3,4,5,6)
+    gross_ppe = models.FloatField(null=True, blank=True, default=0)
+    properties = models.FloatField(null=True, blank=True, default=0)
     land_and_improvements = models.FloatField(null=True, blank=True, default=0)
-    leases = models.FloatField(null=True, blank=True, default=0)
-    long_term_debt = models.FloatField(null=True, blank=True, default=0)
-    long_term_debt_and_capital_lease_obligation = models.FloatField(
-        null=True, blank=True, default=0
-    )
     machinery_furniture_equipment = models.FloatField(
         null=True, blank=True, default=0
     )
-    net_debt = models.FloatField(null=True, blank=True, default=0)
-    net_ppe = models.FloatField(null=True, blank=True, default=0)
-    net_tangible_assets = models.FloatField(null=True, blank=True, default=0)
-    other_current_assets = models.FloatField(null=True, blank=True, default=0)
-    other_current_borrowings = models.FloatField(
+    leases = models.FloatField(null=True, blank=True, default=0)
+
+    accumulated_depreciation = models.FloatField(
+        null=True, blank=True, default=0
+    )
+
+    # Goodwill
+    # 1. goodwill & other intangible
+    # 2. goodwill
+    # 3. other intangible assets
+    #
+    # Eq.
+    # - 1=2+3
+    goodwill_and_other_intangible_assets = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    goodwill = models.FloatField(null=True, blank=True, default=0)
+    other_intangible_assets = models.FloatField(
+        null=True, blank=True, default=0
+    )
+
+    # investments_and_advances, Long-term investment
+    # 1. available_for_sale_securities
+    # 2. investmentin_financial_assets
+    #
+    # Eq.
+    # - investments_and_advances=1=2
+    investments_and_advances = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    investmentin_financial_assets = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    available_for_sale_securities = models.FloatField(
+        null=True, blank=True, default=0
+    )
+
+    other_non_current_assets = models.FloatField(
+        null=True, blank=True, default=0
+    )
+
+    # Current liabilities
+    # 1. payables_and_accrued_expenses
+    # 2. Pension & Other Post Retirement Benefit Plans Current: N/A!
+    # 3. current debt & capital lease obligation
+    # 4. current_deferred_liabilities
+    # 5. other_current_liabilities
+    #
+    # Eq.
+    # current_liabilities = sum(1,2,3,4,5)
+    current_liabilities = models.FloatField(null=True, blank=True, default=0)
+    current_deferred_liabilities = models.FloatField(
         null=True, blank=True, default=0
     )
     other_current_liabilities = models.FloatField(
         null=True, blank=True, default=0
     )
-    other_receivables = models.FloatField(null=True, blank=True, default=0)
-    other_short_term_investments = models.FloatField(
+
+    # current_debt_and_capital_lease_obligation
+    # 1. current_debt
+    #
+    # Eq. == current_debt
+    current_debt_and_capital_lease_obligation = models.FloatField(
         null=True, blank=True, default=0
     )
-    payables = models.FloatField(null=True, blank=True, default=0)
+
+    # current_debt
+    # 1. commercial_paper
+    # 2. other_current_borrowings
+    #
+    # Eq.
+    # - current_debt = sum(1,2)
+    current_debt = models.FloatField(null=True, blank=True, default=0)
+    commercial_paper = models.FloatField(null=True, blank=True, default=0)
+    other_current_borrowings = models.FloatField(
+        null=True, blank=True, default=0
+    )
+
+    # PayablesAndAccruedExpenses
+    # 1. payables
+    #
+    # Eq.
+    # - payables_and_accrued_expenses = payables
     payables_and_accrued_expenses = models.FloatField(
         null=True, blank=True, default=0
     )
-    receivables = models.FloatField(null=True, blank=True, default=0)
-    retained_earnings = models.FloatField(null=True, blank=True, default=0)
-    stockholders_equity = models.FloatField(null=True, blank=True, default=0)
-    tangible_book_value = models.FloatField(null=True, blank=True, default=0)
-    total_assets = models.FloatField(null=True, blank=True, default=0)
-    total_capitalization = models.FloatField(null=True, blank=True, default=0)
-    total_debt = models.FloatField(null=True, blank=True, default=0)
-    total_non_current_assets = models.FloatField(
-        null=True, blank=True, default=0
+
+    # Payables
+    # 1. AP
+    # 2. total tax payable
+    # 3. other payables: N/A!
+    #
+    # Eq.
+    # - payables = sum(1,2,3)
+    payables = models.FloatField(null=True, blank=True, default=0)
+    ap = models.FloatField(
+        null=True, blank=True, default=0, verbose_name="Account Payable"
     )
-    working_capital = models.FloatField(null=True, blank=True, default=0)
-    available_for_sale_securities = models.FloatField(
-        null=True, blank=True, default=0
-    )
+    # aka. Income tax payable
     total_tax_payable = models.FloatField(null=True, blank=True, default=0)
+
+    # == current deferred liability
+    current_deferred_revenue = models.FloatField(
+        null=True, blank=True, default=0
+    )
+
+    other_current_liabilities = models.FloatField(
+        null=True, blank=True, default=0
+    )
+
+    # Total non current liabilities
+    # 1. long_term_debt_and_capital_lease_obligation
+    # 2. non current deffered liabilities
+    # 3. tradeand_other_payables_non_current
+    # 4. other_non_current_liabilities
+    #
+    # Eq.
+    # - total non current liabilities = sum(1,2,3,4)
+    total_non_current_liabilities_net_minority_interest = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    tradeand_other_payables_non_current = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    other_non_current_liabilities = models.FloatField(
+        null=True, blank=True, default=0
+    )
+
+    # long_term_debt_and_capital_lease_obligation
+    # 1. long_term_debt
+    # 2. long term leas: N/A!
+    #
+    # Eq.
+    # - long_term_debt_and_capital_lease_obligation = sum(1,2)
+    long_term_debt_and_capital_lease_obligation = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    long_term_debt = models.FloatField(null=True, blank=True, default=0)
+
+    # non_current_deferred_liabilities
+    # 1. non_current_deferred_taxes_liabilities
+    # 2. non_current_deferred_revenue
+    #
+    # Eq.
+    # - non_current_deferred_liabilities = sum(1,2)
+    non_current_deferred_liabilities = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    non_current_deferred_taxes_liabilities = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    non_current_deferred_revenue = models.FloatField(
+        null=True, blank=True, default=0
+    )
+
+    # TotalEquityGrossMinorityInterest = stockholders_equity
+    # 1. common stock: aka. capital stock
+    # 2. retained_earnings
+    # 3. gains_losses_not_affecting_retained_earnings
+    #
+    # Eq.
+    # - total equity = sum(1,2,3)
+    stockholders_equity = models.FloatField(null=True, blank=True, default=0)
+    # == capital stock
+    common_stock = models.FloatField(null=True, blank=True, default=0)
+    retained_earnings = models.FloatField(null=True, blank=True, default=0)
+    gains_losses_not_affecting_retained_earnings = models.FloatField(
+        null=True, blank=True, default=0
+    )
+
+    # Some summary values below
+    # I suppose they are computed from values above
+    total_capitalization = models.FloatField(null=True, blank=True, default=0)
+    # == stockholders_equity
+    common_stock_equity = models.FloatField(null=True, blank=True, default=0)
+    net_tangible_assets = models.FloatField(null=True, blank=True, default=0)
+    working_capital = models.FloatField(null=True, blank=True, default=0)
+    invested_capital = models.FloatField(null=True, blank=True, default=0)
+    tangible_book_value = models.FloatField(null=True, blank=True, default=0)
+    total_debt = models.FloatField(null=True, blank=True, default=0)
+    net_debt = models.FloatField(null=True, blank=True, default=0)
+
+    cash_financial = models.FloatField(null=True, blank=True, default=0)
 
     @property
     def total_liability(self):

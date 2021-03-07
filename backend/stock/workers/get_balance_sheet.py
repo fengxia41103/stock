@@ -28,6 +28,7 @@ class MyBalanceSheet:
         # DB doesn't like NaN
         df = df.where(pd.notnull(df), 0)
 
+        # mapping between model field (left) and data json key (right)
         mapping = {
             "ap": "AccountsPayable",
             "cash_and_cash_equivalent": "CashAndCashEquivalents",
@@ -74,6 +75,21 @@ class MyBalanceSheet:
             "current_deferred_revenue": "CurrentDeferredRevenue",
             "leases": "Leases",
             "net_debt": "NetDebt",
+            "accumulated_depreciation": "AccumulatedDepreciation",
+            "allowance_for_doubtful_accounts_receivable": "AllowanceForDoubtfulAccountsReceivable",
+            "properties": "Properties",
+            "goodwill": "Goodwill",
+            "goodwill_and_other_intangible_assets": "GoodwillAndOtherIntangibleAssets",
+            "other_intangible_assets": "OtherIntangibleAssets",
+            "other_non_current_assets": "OtherNonCurrentAssets",
+            "current_debt_and_capital_lease_obligation": "CurrentDebtAndCapitalLeaseObligation",
+            "other_current_liabilities": "OtherCurrentLiabilities",
+            "total_non_current_liabilities_net_minority_interest": "TotalNonCurrentLiabilitiesNetMinorityInterest",
+            "non_current_deferred_liabilities": "NonCurrentDeferredLiabilities",
+            "tradeand_other_payables_non_current": "TradeandOtherPayablesNonCurrent",
+            "other_non_current_liabilities": "OtherNonCurrentLiabilities",
+            "non_current_deferred_taxes_liabilities": "NonCurrentDeferredTaxesLiabilities",
+            "non_current_deferred_revenue": "NonCurrentDeferredRevenue",
         }
 
         # enumerate data frame
@@ -84,6 +100,7 @@ class MyBalanceSheet:
 
             for key, val in mapping.items():
                 try:
+                    # value can be None
                     tmp = float(getattr(row, val))
                 except AttributeError:
                     tmp = 0
