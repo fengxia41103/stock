@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import TopNavBox from "./shared/top_nav.jsx";
 import StockList from "./stocks/list.jsx";
-import Summary from "./all/summary.jsx";
+import Ranking from "./all/ranking.jsx";
 
 class RootBox extends Component {
   constructor(props) {
@@ -18,10 +18,10 @@ class RootBox extends Component {
     const { api } = this.state;
     const routes = [
       {
-        path: "/summary",
+        path: "/ranking",
         exact: true,
-        sidebar: "Summary",
-        main: props => <Summary api={api} />,
+        sidebar: "Rankiing",
+        main: props => <Ranking api={api} />,
       },
       {
         path: "/",

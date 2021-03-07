@@ -1087,15 +1087,37 @@ class BalanceSheet(StatementBase):
 
     @property
     def current_ratio(self):
+        """Test of 12m health.
+
+        Assuming current assets will turn into cash, or creditors are
+        willing to take assets as payment.
+
+        This is different from quick ratio in which only cash is
+        considered.
+
+        """
         return self._as_of_ratio("current_assets", "current_liabilities")
 
     @property
     def quick_ratio(self):
+        """Acid test. Test of 12m health using cashes only.
+
+        This ratio, if > 1, meaning company can easily payoff all
+        short-term liabilities w/ cash.
+
+        Here, I'm deciding to add Account Receivable. But, they need
+        to be discounted! To be conservative, I should really consider
+        discounting them to 0. But for a reasonable scenario, let me
+        to cut to 50%.
+
+        """
+        AR_LOSS_RATIO = 0.5
         if not self.current_liabilities:
             return 0
 
         return (
-            self.cash_cash_equivalents_and_short_term_investments + self.ar
+            self.cash_cash_equivalents_and_short_term_investments
+            + self.ar * AR_LOSS_RATIO
         ) / self.current_liabilities
 
     @property
@@ -1215,6 +1237,12 @@ class BalanceSheet(StatementBase):
         have the same meaning as equity multiplier, just different
         value.
 
+        By Analyzing Financial Statement, page 342:
+
+        > The debt to worth ratio reflects the relationship of the
+        > creditors' equity to the owners' equity.
+
+        Btw, total debt = long-term liabilities
         """
         if self.stockholders_equity < 0:
             return 0
@@ -1239,3 +1267,17 @@ class BalanceSheet(StatementBase):
         this amount. So the higher this ratio, the more cushion there is.
         """
         return self._as_of_ratio("working_capital", "current_liabilities")
+
+    @property
+    def non_current_to_equity(self):
+        """Based on book Analyziing Financial Statements", page 342.
+
+        > The fised assets to net worth ratio shows the percentage of
+        > net worth invested in fixed assets.
+
+        Fixed assets = total non current assets
+        net worth = stockholders_equity
+        """
+        return self._as_of_ratio(
+            "total_non_current_assets", "stockholders_equity"
+        )

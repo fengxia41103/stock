@@ -281,6 +281,10 @@ class BalanceSheetResource(ModelResource):
         "working_capital_to_current_liabilities", null=True, use_in="detail"
     )
 
+    non_current_to_equity = fields.FloatField(
+        "non_current_to_equity", null=True, use_in="detail"
+    )
+
     class Meta:
         queryset = BalanceSheet.objects.all()
         resources_name = "balances"
@@ -461,6 +465,7 @@ class RankBalanceResource(SummaryResource):
             ("all_cash_growth_rate", True),
             ("working_capital_growth_rate", False),
             ("working_capital_to_current_liabilities", True),
+            ("non_current_to_equity", True),
         ]
         attrs = [
             (index, name, high_to_low)

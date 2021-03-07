@@ -28,9 +28,9 @@ class DCF extends Component {
       market_premium: 7,
       cost_of_debt: 10,
       growth_rate: 7,
-      project_year: 10,
+      project_year: 5,
       fcf: free_cash_flow,
-      terminal_growth_rate: 5,
+      terminal_growth_rate: 1,
       capital_structure: capital_structure,
     };
 

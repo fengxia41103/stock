@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import { map } from "lodash";
 import { DebounceInput } from "react-debounce-input";
-import RankByROE from "./roe.jsx";
 import Rank from "./rank.jsx";
 
-class Summary extends Component {
+class Ranking extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -88,66 +87,56 @@ class Summary extends Component {
     });
     highlights = Object.fromEntries(highlights);
 
+    const ranking_mapping = {
+      ROE: "stock-ranks",
+      "Balance Sheet": "balance-ranks",
+      "Income Statement": "income-ranks",
+      "Cash Flow Statement": "cash-ranks",
+    };
+    const rankings = map(ranking_mapping, (resource, title) => {
+      return (
+        <div className="card">
+          <h4 className="bottom-border">{title}</h4>
+          <Rank
+            resource={resource}
+            highlights={highlights}
+            top={top}
+            thresholds={thresholds}
+            handle_ratio={this.handle_ratio}
+            {...this.props}
+          />
+        </div>
+      );
+    });
+
     // render
     return (
       <div>
-        <div className="col l9 m7 s12">
-          Symbol
-          <DebounceInput
-            className="input-field"
-            debounceTimeout={500}
-            value={interests.join(" ")}
-            onChange={this.handle_change}
-          />
+        <div className="row">
+          <div className="col l9 m7 s12">
+            Symbol
+            <DebounceInput
+              className="input-field"
+              debounceTimeout={500}
+              value={interests.join(" ")}
+              onChange={this.handle_change}
+            />
+          </div>
+          <div className="col l3 m5 s12">
+            Top
+            <DebounceInput
+              className="input-field"
+              debounceTimeout={1000}
+              value={top}
+              type="number"
+              onChange={this.handle_top}
+            />
+          </div>
         </div>
-        <div className="col l3 m5 s12">
-          Top
-          <DebounceInput
-            className="input-field"
-            debounceTimeout={1000}
-            value={top}
-            type="number"
-            onChange={this.handle_top}
-          />
-        </div>
-        <Rank
-          resource="stock-ranks"
-          highlights={highlights}
-          top={top}
-          thresholds={thresholds}
-          handle_ratio={this.handle_ratio}
-          {...this.props}
-        />
-        <h4 className="bottom-border">Income Statement</h4>
-        <Rank
-          resource="income-ranks"
-          highlights={highlights}
-          top={top}
-          thresholds={thresholds}
-          handle_ratio={this.handle_ratio}
-          {...this.props}
-        />
-        <h4 className="bottom-border">Balance Sheet</h4>
-        <Rank
-          resource="balance-ranks"
-          highlights={highlights}
-          top={top}
-          thresholds={thresholds}
-          handle_ratio={this.handle_ratio}
-          {...this.props}
-        />
-        <h4 className="bottom-border">Cash Flow</h4>
-        <Rank
-          resource="cash-ranks"
-          highlights={highlights}
-          top={top}
-          thresholds={thresholds}
-          handle_ratio={this.handle_ratio}
-          {...this.props}
-        />
+        {rankings}
       </div>
     );
   }
 }
 
-export default Summary;
+export default Ranking;
