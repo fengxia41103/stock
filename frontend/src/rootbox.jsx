@@ -7,7 +7,7 @@ import Ranking from "./all/ranking.jsx";
 class RootBox extends Component {
   constructor(props) {
     super(props);
-    const SERVER = "192.168.68.107";
+    const SERVER = "192.168.1.114";
     const PORT = "8003";
     this.state = {
       api: "http://" + SERVER + ":" + PORT,
@@ -20,7 +20,7 @@ class RootBox extends Component {
       {
         path: "/ranking",
         exact: true,
-        sidebar: "Rankiing",
+        sidebar: "Ranking",
         main: props => <Ranking api={api} />,
       },
       {

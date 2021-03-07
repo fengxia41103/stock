@@ -90,15 +90,9 @@ class MyStock(models.Model):
 
     @property
     def tax_rate(self):
-        income = (
-            IncomeStatement.objects.filter(stock=self)
-            .exclude(tax_rate=0)
-            .order_by("-on")
-        )
-        if not income:
-            return 0
-        else:
-            return income[0].tax_rate
+        return IncomeStatement.objects.all().aggregate(Avg("tax_rate"))[
+            "tax_rate__avg"
+        ]
 
     @property
     def latest_close_price(self):
@@ -251,7 +245,7 @@ class MyStock(models.Model):
         hist = list(
             MyStockHistorical.objects.by_date_range(start, end)
             .filter(stock=self)
-            .values("on", "open_price", "close_price")
+            .values("on", "close_price")
             .order_by("on")
         )
 
@@ -548,37 +542,120 @@ class IncomeStatement(StatementBase):
         "MyStock", on_delete=models.CASCADE, related_name="incomes"
     )
     on = models.DateField(null=True, blank=True)
-    ebit = models.FloatField(null=True, blank=True, default=0)
-    general_and_administrative_expense = models.FloatField(
+
+    # == operating_revenume
+    total_revenue = models.FloatField(
+        null=True, blank=True, default=0, verbose_name="Sales"
+    )
+    operating_revenue = models.FloatField(null=True, blank=True, default=0)
+    cost_of_revenue = models.FloatField(null=True, blank=True, default=0)
+
+    # = total_revenue-cost_of_revenue
+    gross_profit = models.FloatField(null=True, blank=True, default=0)
+
+    # Operating expense
+    # 1. selling_general_and_administration
+    # 2. research_and_development
+    #
+    # Eq.
+    # - operating_expense = sum(1,2)
+    operating_expense = models.FloatField(null=True, blank=True, default=0)
+    research_and_development = models.FloatField(
         null=True, blank=True, default=0
     )
-    gross_profit = models.FloatField(null=True, blank=True, default=0)
-    net_income = models.FloatField(null=True, blank=True, default=0)
-    normalized_ebitda = models.FloatField(null=True, blank=True, default=0)
-    normalized_income = models.FloatField(null=True, blank=True, default=0)
-    operating_expense = models.FloatField(null=True, blank=True, default=0)
-    operating_income = models.FloatField(null=True, blank=True, default=0)
-    operating_revenue = models.FloatField(null=True, blank=True, default=0)
-    reconciled_cost_of_revenue = models.FloatField(
-        null=True, blank=True, default=0, verbose_name="COGS"
+
+    # SellingGeneralAndAdministration
+    # 1. general_and_administrative_expense
+    # 2. selling_and_marketing_expense
+    #
+    # Eq.
+    # - selling_general_and_administration = sum(1,2)
+    selling_general_and_administration = models.FloatField(
+        null=True, blank=True, default=0
     )
-    pretax_income = models.FloatField(null=True, blank=True, default=0)
-    research_and_development = models.FloatField(
+    general_and_administrative_expense = models.FloatField(
         null=True, blank=True, default=0
     )
     selling_and_marketing_expense = models.FloatField(
         null=True, blank=True, default=0
     )
-    selling_general_and_administration = models.FloatField(
+
+    # operating_income = gross_profit - operating_expense
+    operating_income = models.FloatField(null=True, blank=True, default=0)
+
+    # NetNonOperatingInterestIncomeExpense
+    # 1. interest income non operating
+    # 2. interest expense non operating
+    #
+    # Eq.
+    # - net = 1-2. However, the numbers don't add up. So use them individually!
+    net_non_operating_interest_income_expense = models.FloatField(
         null=True, blank=True, default=0
     )
-    total_expenses = models.FloatField(null=True, blank=True, default=0)
+    interest_income_non_operating = models.FloatField(
+        null=True, blank=True, default=0
+    )
+    interest_expense_non_operating = models.FloatField(
+        null=True, blank=True, default=0
+    )
+
+    # Other income expenses
+    # 1. gain on sale of security: N/A!
+    # 2. special income charges: N/A!
+    # 3. other non operating income expenses
+    #
+    # Eq.
+    # other income expenses = sum(1,2,3)
+    other_income_expense = models.FloatField(null=True, blank=True, default=0)
+    other_non_operating_income_expenses = models.FloatField(
+        null=True, blank=True, default=0
+    )
+
+    # pretax_income=operating_income+net_non_operating_interest_income_expense+other_income_expense
+    pretax_income = models.FloatField(null=True, blank=True, default=0)
+
+    tax_provision = models.FloatField(null=True, blank=True, default=0)
+
+    # = pretax_income-tax_provision
+    net_income_common_stockholders = models.FloatField(
+        null=True, blank=True, default=0
+    )
+
+    # Some summaries
+    # == operating_income
     total_operating_income_as_reported = models.FloatField(
         null=True, blank=True, default=0
     )
-    total_revenue = models.FloatField(
-        null=True, blank=True, default=0, verbose_name="Sales"
+    total_expenses = models.FloatField(null=True, blank=True, default=0)
+
+    net_income_from_continuing_and_discontinued_operation = models.FloatField(
+        null=True, blank=True, default=0
     )
+    normalized_income = models.FloatField(null=True, blank=True, default=0)
+    interest_income = models.FloatField(null=True, blank=True, default=0)
+    interest_expense = models.FloatField(null=True, blank=True, default=0)
+    net_interest_income = models.FloatField(null=True, blank=True, default=0)
+
+    ebit = models.FloatField(null=True, blank=True, default=0)
+
+    # could be null!
+    ebitda = models.FloatField(null=True, blank=True, default=0)
+
+    # = cost_of_revenue
+    reconciled_cost_of_revenue = models.FloatField(
+        null=True, blank=True, default=0, verbose_name="COGS"
+    )
+
+    reconciled_depreciation = models.FloatField(
+        null=True, blank=True, default=0
+    )
+
+    net_income_from_continuing_operation_net_minority_interest = (
+        models.FloatField(null=True, blank=True, default=0)
+    )
+
+    net_income = models.FloatField(null=True, blank=True, default=0)
+    normalized_ebitda = models.FloatField(null=True, blank=True, default=0)
     basic_eps = models.FloatField(null=True, blank=True, default=0)
     tax_rate = models.FloatField(null=True, blank=True, default=0)
 

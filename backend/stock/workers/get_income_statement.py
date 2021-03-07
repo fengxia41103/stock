@@ -47,6 +47,20 @@ class MyIncomeStatement:
             "selling_and_marketing_expense": "SellingAndMarketingExpense",
             "total_operating_income_as_reported": "TotalOperatingIncomeAsReported",
             "reconciled_cost_of_revenue": "ReconciledCostOfRevenue",
+            "cost_of_revenue": "CostOfRevenue",
+            "interest_expense_non_operating": "InterestExpenseNonOperating",
+            "interest_income_non_operating": "InterestIncomeNonOperating",
+            "other_income_expense": "OtherIncomeExpense",
+            "other_non_operating_income_expenses": "OtherNonOperatingIncomeExpenses",
+            "tax_provision": "TaxProvision",
+            "net_income_common_stockholders": "NetIncomeCommonStockholders",
+            "net_income_from_continuing_and_discontinued_operation": "NetIncomeFromContinuingAndDiscontinuedOperation",
+            "interest_income": "InterestIncome",
+            "interest_expense": "InterestExpense",
+            "net_interest_income": "NetInterestIncome",
+            "ebitda": "EBITDA",
+            "reconciled_depreciation": "ReconciledDepreciation",
+            "net_income_from_continuing_operation_net_minority_interest": "NetIncomeFromContinuingOperationNetMinorityInterest",
         }
         # enumerate data frame
         for row in df.itertuples(index=False):
