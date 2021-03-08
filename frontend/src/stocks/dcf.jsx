@@ -192,7 +192,7 @@ class DCF extends Component {
               debounceTimeout={1000}
               value={project_year}
               type="number"
-              min={2}
+              min={0}
               onChange={this.project_year}
             />
           </div>

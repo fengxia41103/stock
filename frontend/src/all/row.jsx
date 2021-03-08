@@ -158,7 +158,9 @@ class Row extends Component {
           </div>
         ) : null}
         {vals}
-        {cutoff ? <i className="fa fa-flag" title={threshold} /> : null}
+        {cutoff ? (
+          <i className="fa fa-flag myhighlight" title={threshold} />
+        ) : null}
 
         {show_rank_graph ? (
           <RowRankChart ranks={ranks} {...this.props} />

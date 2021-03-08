@@ -21,6 +21,7 @@ class Income extends Component {
     };
     const analysis = {
       net_income_margin: "Net Profit Margin (%)",
+      net_income_growth_rate: "NetIncome Growth (%)",
       cogs_margin: "COGS Margin (%)",
       gross_margin: "Gross Margin (%)",
       operating_income_margin: "Operating Income Margin (%)",
@@ -33,8 +34,8 @@ class Income extends Component {
     return (
       <div>
         Income Statement
-        <DictTable data={incomes} interests={reported} chart={true} />
-        <DictTable data={incomes} interests={analysis} />
+        <DictTable data={incomes} interests={reported} />
+        <DictTable data={incomes} interests={analysis} chart={true} />
       </div>
     );
   }

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import Highcharts from "highcharts";
 import addFunnel from "highcharts/modules/funnel";
-import { map } from "lodash";
+import { map, filter } from "lodash";
 
 //****************************************
 //
@@ -27,7 +27,13 @@ class HighchartGraphBox extends Component {
   }
 
   _normalize(data) {
-    const base = data[0];
+    // Some may have 0s or all 0s.
+    const tmp = filter(data, d => d != 0);
+
+    // if all 0s
+    if (tmp.length == 0) return data;
+
+    const base = tmp[0];
     return map(data, d => d / base);
   }
 

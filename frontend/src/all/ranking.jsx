@@ -22,6 +22,7 @@ class Ranking extends Component {
       thresholds: {
         roe: ">=20",
         current_ratio: ">=2",
+        quick_ratio: ">=2",
         equity_multiplier: "<=2.5",
         dividend_payout_ratio: ">=25",
         net_income_margin: ">=20",

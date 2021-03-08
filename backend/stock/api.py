@@ -226,6 +226,9 @@ class CashFlowResource(ModelResource):
     dividend_payout_ratio = fields.FloatField(
         "dividend_payout_ratio", null=True, use_in="detail"
     )
+    net_income_growth_rate = fields.FloatField(
+        "net_income_growth_rate", null=True, use_in="detail"
+    )
 
     class Meta:
         queryset = CashFlow.objects.all()
@@ -482,8 +485,9 @@ class RankCashFlowResource(SummaryResource):
 
     def get_object_list(self, request):
         attrs = [
-            ("operating_cash_flow_growth", True),
+            ("net_income_growth_rate", True),
             ("cash_change_pcnt", True),
+            ("operating_cash_flow_growth", True),
             ("fcf_over_ocf", True),
             ("fcf_over_net_income", True),
             ("ocf_over_net_income", True),

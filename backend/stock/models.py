@@ -513,7 +513,7 @@ class StatementBase(models.Model):
         the_model = apps.get_model(app_name, model_name)
         return the_model.objects.filter(
             stock=self.stock, on__lt=self.on
-        ).order_by("on")
+        ).order_by("-on")
 
     def _growth_rate(self, model_name, attr):
         """Compute growth of an attr from one period to the next."""
@@ -845,6 +845,10 @@ class CashFlow(StatementBase):
         if self.net_income < 0:
             return 0
         return self._as_of_pcnt("dividend_paid", "net_income")
+
+    @property
+    def net_income_growth_rate(self):
+        return self._growth_rate("CashFlow", "net_income")
 
 
 class ValuationRatio(models.Model):

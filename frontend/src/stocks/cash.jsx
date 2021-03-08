@@ -28,6 +28,7 @@ class Cash extends Component {
     };
 
     const analysis = {
+      net_income_growth_rate: "Net Income Growth (%)",
       cash_change_pcnt: "Cash Growth from Beginning (%)",
       operating_cash_flow_growth: "Operating Cash from Prev (%)",
       fcf_over_ocf: "FCF/Operating CF (%)",
