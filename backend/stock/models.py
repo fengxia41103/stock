@@ -70,7 +70,7 @@ class MyStock(models.Model):
     objects = models.Manager()
     rank_manager = MyStockRankManager()
 
-    symbol = models.CharField(max_length=8)
+    symbol = models.CharField(max_length=32)
     beta = models.FloatField(null=True, default=5)
     roa = models.FloatField(
         null=True, default=0, verbose_name="Return on Assets"
@@ -613,7 +613,6 @@ class IncomeStatement(StatementBase):
 
     # pretax_income=operating_income+net_non_operating_interest_income_expense+other_income_expense
     pretax_income = models.FloatField(null=True, blank=True, default=0)
-
     tax_provision = models.FloatField(null=True, blank=True, default=0)
 
     # = pretax_income-tax_provision
@@ -684,11 +683,6 @@ class IncomeStatement(StatementBase):
         return self._as_of_pcnt("reconciled_cost_of_revenue", "total_revenue")
 
     @property
-    def opex_margin(self):
-        """OPEX is expense. Lower is better."""
-        return self._as_of_pcnt("operating_expense", "total_revenue")
-
-    @property
     def ebit_margin(self):
         """EBIT is an income indicator. Higher is better."""
         return self._as_of_pcnt("ebit", "total_revenue")
@@ -706,18 +700,31 @@ class IncomeStatement(StatementBase):
         measure its operating efficiency.
 
         """
-        if self.operating_revenue:
-            return self._as_of_pcnt("operating_income", "operating_revenue")
-        else:
-            return self._as_of_pcnt("operating_income", "total_revenue")
+        return self._as_of_pcnt("operating_income", "total_revenue")
 
     @property
     def operating_expense_margin(self):
         """How much expense in operation. The lower, the better."""
-        if self.operating_revenue:
-            return self._as_of_pcnt("operating_expense", "operating_revenue")
-        else:
-            return self._as_of_pcnt("operating_expense", "total_revenue")
+        return self._as_of_pcnt("operating_expense", "total_revenue")
+
+    @property
+    def selling_ga_margin(self):
+        """Lower is better."""
+        return self._as_of_pcnt(
+            "selling_general_and_administration", "total_revenue"
+        )
+
+    @property
+    def interest_income_margin(self):
+        return self._as_of_pcnt("interest_income", "total_revenue")
+
+    @property
+    def other_income_expense_margin(self):
+        return self._as_of_pcnt("other_income_expense", "total_revenue")
+
+    @property
+    def pretax_income_margin(self):
+        return self._as_of_pcnt("pretax_income", "total_revenue")
 
 
 class CashFlow(StatementBase):
@@ -770,7 +777,6 @@ class CashFlow(StatementBase):
     change_in_account_receivable = models.FloatField(
         null=True, blank=True, default=0
     )
-
     net_other_financing_charges = models.FloatField(
         null=True, blank=True, default=0
     )
@@ -834,7 +840,6 @@ class CashFlow(StatementBase):
         ratio, the higher the better.
 
         """
-
         if self.net_income < 0:
             return 0
         return self._as_of_pcnt("operating_cash_flow", "net_income")

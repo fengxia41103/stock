@@ -183,14 +183,11 @@ class StrategyValueResource(ModelResource):
 
 
 class IncomeStatementResource(ModelResource):
-    stock = fields.ForeignKey(
-        "stock.api.StockResource", "stock", use_in="detail"
-    )
 
+    # as of pcnt
     cogs_margin = fields.FloatField("cogs_margin", use_in="detail")
     net_income_margin = fields.FloatField("net_income_margin", use_in="detail")
     gross_margin = fields.FloatField("gross_margin", use_in="detail")
-    opex_margin = fields.FloatField("opex_margin", use_in="detail")
     ebit_margin = fields.FloatField("ebit_margin", use_in="detail")
     total_expense_margin = fields.FloatField(
         "total_expense_margin", use_in="detail"
@@ -201,6 +198,22 @@ class IncomeStatementResource(ModelResource):
     operating_expense_margin = fields.FloatField(
         "operating_expense_margin", use_in="detail"
     )
+    selling_ga_margin = fields.FloatField("selling_ga_margin", use_in="detail")
+
+    interest_income_margin = fields.FloatField(
+        "interest_income_margin", use_in="detail"
+    )
+
+    other_income_expense_margin = fields.FloatField(
+        "other_income_expense_margin", use_in="detail"
+    )
+    pretax_income_margin = fields.FloatField(
+        "pretax_income_margin", use_in="detail"
+    )
+
+    # growth rates
+
+    # ratios
 
     class Meta:
         queryset = IncomeStatement.objects.all()
@@ -209,13 +222,7 @@ class IncomeStatementResource(ModelResource):
 
 
 class CashFlowResource(ModelResource):
-    cash_change_pcnt = fields.FloatField(
-        "cash_change_pcnt", null=True, use_in="detail"
-    )
-    operating_cash_flow_growth = fields.FloatField(
-        "operating_cash_flow_growth", null=True, use_in="detail"
-    )
-
+    # as of pcnt
     fcf_over_ocf = fields.FloatField("fcf_over_ocf", null=True, use_in="detail")
     fcf_over_net_income = fields.FloatField(
         "fcf_over_net_income", null=True, use_in="detail"
@@ -223,11 +230,21 @@ class CashFlowResource(ModelResource):
     ocf_over_net_income = fields.FloatField(
         "ocf_over_net_income", null=True, use_in="detail"
     )
-    dividend_payout_ratio = fields.FloatField(
-        "dividend_payout_ratio", null=True, use_in="detail"
+
+    # growth rates
+    cash_change_pcnt = fields.FloatField(
+        "cash_change_pcnt", null=True, use_in="detail"
+    )
+    operating_cash_flow_growth = fields.FloatField(
+        "operating_cash_flow_growth", null=True, use_in="detail"
     )
     net_income_growth_rate = fields.FloatField(
         "net_income_growth_rate", null=True, use_in="detail"
+    )
+
+    # ratio
+    dividend_payout_ratio = fields.FloatField(
+        "dividend_payout_ratio", null=True, use_in="detail"
     )
 
     class Meta:
@@ -236,14 +253,8 @@ class CashFlowResource(ModelResource):
         ordering = ["on"]
 
 
-class ValuationRatioResource(ModelResource):
-    class Meta:
-        queryset = ValuationRatio.objects.all()
-        resources_name = "ratios"
-        ordering = ["on"]
-
-
 class BalanceSheetResource(ModelResource):
+    # ratio
     current_ratio = fields.FloatField(
         "current_ratio", null=True, use_in="detail"
     )
@@ -252,6 +263,22 @@ class BalanceSheetResource(ModelResource):
         "debt_to_equity_ratio", use_in="detail"
     )
     capital_structure = fields.FloatField("capital_structure", use_in="detail")
+    equity_multiplier = fields.FloatField(
+        "equity_multiplier", null=True, use_in="detail"
+    )
+
+    # as of pcnt
+    liability_pcnt = fields.FloatField(
+        "liability_pcnt", null=True, use_in="detail"
+    )
+    working_capital_to_current_liabilities = fields.FloatField(
+        "working_capital_to_current_liabilities", null=True, use_in="detail"
+    )
+    non_current_to_equity = fields.FloatField(
+        "non_current_to_equity", null=True, use_in="detail"
+    )
+
+    # growth rates
     debt_growth_rate = fields.FloatField(
         "debt_growth_rate", null=True, use_in="detail"
     )
@@ -271,26 +298,21 @@ class BalanceSheetResource(ModelResource):
         "net_ppe_growth_rate", null=True, use_in="detail"
     )
 
-    equity_multiplier = fields.FloatField(
-        "equity_multiplier", null=True, use_in="detail"
-    )
+    # computed values
     total_liability = fields.FloatField(
         "total_liability", null=True, use_in="detail"
-    )
-    liability_pcnt = fields.FloatField(
-        "liability_pcnt", null=True, use_in="detail"
-    )
-    working_capital_to_current_liabilities = fields.FloatField(
-        "working_capital_to_current_liabilities", null=True, use_in="detail"
-    )
-
-    non_current_to_equity = fields.FloatField(
-        "non_current_to_equity", null=True, use_in="detail"
     )
 
     class Meta:
         queryset = BalanceSheet.objects.all()
         resources_name = "balances"
+        ordering = ["on"]
+
+
+class ValuationRatioResource(ModelResource):
+    class Meta:
+        queryset = ValuationRatio.objects.all()
+        resources_name = "ratios"
         ordering = ["on"]
 
 

@@ -21,14 +21,16 @@ class Income extends Component {
     };
     const analysis = {
       net_income_margin: "Net Profit Margin (%)",
-      net_income_growth_rate: "NetIncome Growth (%)",
       cogs_margin: "COGS Margin (%)",
       gross_margin: "Gross Margin (%)",
       operating_income_margin: "Operating Income Margin (%)",
       operating_expense_margin: "Operating Expense Margin (%)",
-      opex_margin: "OPEX Margin (%)",
+      selling_ga_margin: "Selling G&A Margin (%)",
       ebit_margin: "EBIT Margin (%)",
       total_expense_margin: "Total Expense Margin (%)",
+      interest_income_margin: "Interest Income (%)",
+      other_income_expense_margin: "Other Income Expense Margin (%)",
+      pretax_income_margin: "Pretax Income Margin (%)",
     };
 
     return (

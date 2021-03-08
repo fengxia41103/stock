@@ -3,6 +3,8 @@ from __future__ import absolute_import
 
 import logging
 
+from selenium import webdriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from urllib3 import PoolManager
 from urllib3 import Retry
 from urllib3 import Timeout
@@ -29,10 +31,6 @@ class PlainUtility:
             return r.data.decode("utf-8")
         else:
             logger.error("status %s" % r.status)
-
-
-from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
 class SeleniumUtility:

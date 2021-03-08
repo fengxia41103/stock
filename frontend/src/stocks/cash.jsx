@@ -33,8 +33,8 @@ class Cash extends Component {
       operating_cash_flow_growth: "Operating Cash from Prev (%)",
       fcf_over_ocf: "FCF/Operating CF (%)",
       fcf_over_net_income: "FCF/Net Income (%)",
-      ocf_over_net_income: "Operating CF/Net Income",
-      dividend_payout_ratio: "Dividend Paid/Net Income",
+      ocf_over_net_income: "Operating CF/Net Income (%)",
+      dividend_payout_ratio: "Dividend Paid/Net Income (%)",
     };
 
     return (

@@ -2,6 +2,8 @@ import logging
 import os
 import os.path
 
+from celery import chain
+from celery import group
 from django.core.management.base import BaseCommand
 from django.http import Http404
 from django.shortcuts import get_object_or_404
@@ -17,7 +19,7 @@ from stock.tasks import yahoo_consumer
 
 SYMBOLS = """VOO, SPY, AAPL, SBUX, MSFT, AMZN, BFAM, VMW, ABNB, PYPL, AMD, EBAY,
 TGT, NET, TSM, GME, BBBY, AMC, TSLA, SQ, BBY, RCL,PLTR,ROKU,
-SHOP,IQ,CVS, NOK,VNT,BABA, CRM, WOOF, QCOM, KO, ORCL, HD"""
+SHOP,IQ,CVS, NOK,VNT,BABA, CRM, WOOF, QCOM, KO, ORCL, HD, 600000.SS"""
 
 logger = logging.getLogger("stock")
 
@@ -58,12 +60,16 @@ class Command(BaseCommand):
 
             # now, get info I want
             for symbol in candidates:
-                yahoo_consumer.delay(symbol)
-                income_statement_consumer.delay(symbol)
-                cash_flow_statement_consumer.delay(symbol)
-                valuation_ratio_consumer.delay(symbol)
-                balance_sheet_consumer.delay(symbol)
-                summary_consumer.delay(symbol)
+                history_sig = yahoo_consumer.s(symbol)
+                financials_sig = group(
+                    income_statement_consumer.s(symbol),
+                    cash_flow_statement_consumer.s(symbol),
+                    valuation_ratio_consumer.s(symbol),
+                    balance_sheet_consumer.s(symbol),
+                    summary_consumer.s(symbol),
+                )
+                task = chain(history_sig, financials_sig)
+                task.apply_async()
 
     def _dump_symbol(self, dest, symbol):
         header = "Date,Open,High,Low,Close,Adj Close,Volume"
