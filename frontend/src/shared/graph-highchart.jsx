@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import Highcharts from "highcharts";
 import addFunnel from "highcharts/modules/funnel";
-import { map, filter } from "lodash";
+import { map, filter, isNull } from "lodash";
 
 //****************************************
 //
@@ -136,6 +136,7 @@ class HighchartGraphBox extends Component {
   }
 
   componentWillUnmount() {
+    if (isNull(this.chart)) return;
     this.chart.destroy();
   }
 

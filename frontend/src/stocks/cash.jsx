@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import classNames from "classnames";
-import { map, isEmpty } from "lodash";
-import DictTable from "../shared/dict_table.jsx";
+import Financials from "./financials.jsx";
 
 class Cash extends Component {
   constructor(props) {
@@ -9,12 +7,7 @@ class Cash extends Component {
   }
 
   render() {
-    const { cashes } = this.props;
-
-    // if ETF, skip
-    if (isEmpty(cashes)) {
-      return null;
-    }
+    const { cashes: data } = this.props;
 
     const reported = {
       beginning_cash: "Beggining Cash",
@@ -27,22 +20,29 @@ class Cash extends Component {
       dividend_paid: "Dividend Paid",
     };
 
-    const analysis = {
-      net_income_growth_rate: "Net Income Growth (%)",
-      cash_change_pcnt: "Cash Growth from Beginning (%)",
-      operating_cash_flow_growth: "Operating Cash from Prev (%)",
-      fcf_over_ocf: "FCF/Operating CF (%)",
-      fcf_over_net_income: "FCF/Net Income (%)",
-      ocf_over_net_income: "Operating CF/Net Income (%)",
-      dividend_payout_ratio: "Dividend Paid/Net Income (%)",
+    const in_period_change = {
+      cash_change_pcnt: "Cash from Beginning",
+    };
+    const p2p_growth = {
+      net_income_growth_rate: "Net Income Growth",
+      operating_cash_flow_growth: "Operating Cash from Prev",
+    };
+    const pcnt = {
+      fcf_over_ocf: "FCF/Operating CF",
+      fcf_over_net_income: "FCF/Net Income",
+      ocf_over_net_income: "Operating CF/Net Income",
+      dividend_payout_ratio: "Dividend Paid/Net Income",
     };
 
     return (
-      <div>
-        Cash Flow Statement
-        <DictTable data={cashes} interests={reported} chart={true} />
-        <DictTable data={cashes} interests={analysis} />
-      </div>
+      <Financials
+        title="Cash Flow Statement"
+        data={data}
+        reported={reported}
+        in_period_change={in_period_change}
+        p2p_growth={p2p_growth}
+        pcnt={pcnt}
+      />
     );
   }
 }

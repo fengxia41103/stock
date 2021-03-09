@@ -1173,7 +1173,7 @@ class BalanceSheet(StatementBase):
 
     @property
     def current_ratio(self):
-        """Test of 12m health.
+        """Test of 12m health, 流动比率.
 
         Assuming current assets will turn into cash, or creditors are
         willing to take assets as payment.
@@ -1186,7 +1186,7 @@ class BalanceSheet(StatementBase):
 
     @property
     def quick_ratio(self):
-        """Acid test. Test of 12m health using cashes only.
+        """Acid test. Test of 12m health using cashes only. 速动比率.
 
         This ratio, if > 1, meaning company can easily payoff all
         short-term liabilities w/ cash.
@@ -1202,8 +1202,11 @@ class BalanceSheet(StatementBase):
             return 0
 
         return (
-            self.cash_cash_equivalents_and_short_term_investments
-            + self.ar * AR_LOSS_RATIO
+            (
+                self.cash_cash_equivalents_and_short_term_investments
+                + self.ar * AR_LOSS_RATIO
+                - self.inventory
+            )
         ) / self.current_liabilities
 
     @property
@@ -1337,7 +1340,7 @@ class BalanceSheet(StatementBase):
 
     @property
     def liability_to_asset(self):
-        """Total liability/total assets.
+        """Total liability/total assets, 资产负债率.
 
         Similar to equity multiplier, this is measuring how much liability is
         in the total asset. The higher, the more troublesome it smells.
@@ -1375,3 +1378,29 @@ class BalanceSheet(StatementBase):
     @property
     def retained_earnings_to_equity(self):
         return self._as_of_pcnt("retained_earnings", "stockholders_equity")
+
+    @property
+    def inventory_to_current_asset(self):
+        """How much current asset is inventory."""
+        return self._as_of_pcnt("inventory", "current_assets")
+
+    @property
+    def cash_cash_equivalents_and_short_term_investments_to_current_asset(self):
+        return self._as_of_pcnt(
+            "cash_cash_equivalents_and_short_term_investments", "current_assets"
+        )
+
+    @property
+    def equity_growth_rate(self):
+        """资本积累率。
+
+        There is a similar concept, 资本保值增值率=today's equity /
+        prev's equity.  Essentially it's also measure a growth rate,
+        thus is the same thing.
+
+        Using the other one, you still need to eyeball whether pcnt is
+        growing or shrinking. Instead, using this one, >0 is
+        growing. Easy.
+
+        """
+        return self._growth_rate("BalanceSheet", "stockholders_equity")

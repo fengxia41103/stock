@@ -38,10 +38,16 @@ class DCF extends Component {
     this.cost_of_debt_change = this.cost_of_debt_change.bind(this);
     this.growth_rate_change = this.growth_rate_change.bind(this);
     this.capital_structure_change = this.capital_structure_change.bind(this);
-    this.project_year = this.project_year.bind(this);
-    this.terminal_growth = this.terminal_growth.bind(this);
+    this.project_year_change = this.project_year_change.bind(this);
+    this.terminal_growth_change = this.terminal_growth_change.bind(this);
+    this.risk_free_change = this.risk_free_change.bind(this);
   }
 
+  risk_free_change(event) {
+    this.setState({
+      risk_free: event.target.value,
+    });
+  }
   market_premium_change(event) {
     this.setState({
       market_premium: event.target.value,
@@ -62,12 +68,12 @@ class DCF extends Component {
       capital_structure: event.target.value,
     });
   }
-  project_year(event) {
+  project_year_change(event) {
     this.setState({
       project_year: event.target.value,
     });
   }
-  terminal_growth(event) {
+  terminal_growth_change(event) {
     this.setState({
       terminal_growth_rate: event.target.value,
     });
@@ -150,6 +156,24 @@ class DCF extends Component {
       dcf_last_price > 1 ? "positive" : "negative"
     );
 
+    const input_mappings = [
+      {
+        title: "Risk Free",
+        value: risk_free,
+        min: 0,
+        max: 100,
+        on_change: this.risk_free_change,
+      },
+      {
+        title: "Project Year",
+        value: project_year,
+        min: 0,
+        max: 100,
+        on_change: this.project_year_change,
+      },
+      {},
+    ];
+
     return (
       <div className="jumbotron">
         DCF Valuation
@@ -186,6 +210,17 @@ class DCF extends Component {
         </div>
         <div className="row">
           <div className="col l3 m6 s12">
+            <h4 className="mylabel">Risk Free Rate</h4>
+            <DebounceInput
+              className="input-field"
+              debounceTimeout={1000}
+              value={risk_free}
+              type="number"
+              min={0}
+              onChange={this.risk_free_change}
+            />
+          </div>
+          <div className="col l3 m6 s12">
             <h4 className="mylabel">Project Years</h4>
             <DebounceInput
               className="input-field"
@@ -193,7 +228,7 @@ class DCF extends Component {
               value={project_year}
               type="number"
               min={0}
-              onChange={this.project_year}
+              onChange={this.project_year_change}
             />
           </div>
           <div className="col l3 m6 s12">
@@ -214,7 +249,7 @@ class DCF extends Component {
               value={terminal_growth_rate}
               type="number"
               max={(wacc * 100).toFixed(2)}
-              onChange={this.terminal_growth}
+              onChange={this.terminal_growth_change}
             />
           </div>
           <div className="col l3 m6 s12">

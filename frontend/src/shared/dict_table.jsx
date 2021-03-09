@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { map, isEmpty } from "lodash";
+import { map, isEmpty, isNull } from "lodash";
 import { randomId } from "../helper.jsx";
 import HighchartGraphBox from "./graph-highchart.jsx";
 
@@ -24,6 +24,12 @@ class DictTable extends Component {
           c[key] < 0 ? "negative" : null,
           c[key] == 0 ? "is-zero" : null
         );
+
+        //if(isNull(c[key])){
+        //  console.log(c);
+        //  console.log(key);
+        //}
+
         return (
           <td key={c.on} className={decor}>
             {c[key].toFixed(2)}

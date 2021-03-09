@@ -283,8 +283,21 @@ class BalanceSheetResource(ModelResource):
     retained_earnings_to_equity = fields.FloatField(
         "retained_earnings_to_equity", null=True, use_in="detail"
     )
+    inventory_to_current_asset = fields.FloatField(
+        "inventory_to_current_asset", null=True, use_in="detail"
+    )
+    cash_cash_equivalents_and_short_term_investments_to_current_asset = (
+        fields.FloatField(
+            "cash_cash_equivalents_and_short_term_investments_to_current_asset",
+            null=True,
+            use_in="detail",
+        )
+    )
 
     # growth rates
+    equity_growth_rate = fields.FloatField(
+        "equity_growth_rate", null=True, use_in="detail"
+    )
     debt_growth_rate = fields.FloatField(
         "debt_growth_rate", null=True, use_in="detail"
     )
