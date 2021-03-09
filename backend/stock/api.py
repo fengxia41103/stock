@@ -268,14 +268,20 @@ class BalanceSheetResource(ModelResource):
     )
 
     # as of pcnt
-    liability_pcnt = fields.FloatField(
-        "liability_pcnt", null=True, use_in="detail"
+    liability_to_asset = fields.FloatField(
+        "liability_to_asset", null=True, use_in="detail"
+    )
+    current_asset_to_total_asset = fields.FloatField(
+        "current_asset_to_total_asset", null=True, use_in="detail"
     )
     working_capital_to_current_liabilities = fields.FloatField(
         "working_capital_to_current_liabilities", null=True, use_in="detail"
     )
     non_current_to_equity = fields.FloatField(
         "non_current_to_equity", null=True, use_in="detail"
+    )
+    retained_earnings_to_equity = fields.FloatField(
+        "retained_earnings_to_equity", null=True, use_in="detail"
     )
 
     # growth rates

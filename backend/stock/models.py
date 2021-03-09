@@ -1113,7 +1113,7 @@ class BalanceSheet(StatementBase):
 
     # long_term_debt_and_capital_lease_obligation
     # 1. long_term_debt
-    # 2. long term leas: N/A!
+    # 2. long term lease: N/A!
     #
     # Eq.
     # - long_term_debt_and_capital_lease_obligation = sum(1,2)
@@ -1336,7 +1336,7 @@ class BalanceSheet(StatementBase):
             return self._as_of_ratio("total_debt", "stockholders_equity")
 
     @property
-    def liability_pcnt(self):
+    def liability_to_asset(self):
         """Total liability/total assets.
 
         Similar to equity multiplier, this is measuring how much liability is
@@ -1367,3 +1367,11 @@ class BalanceSheet(StatementBase):
         return self._as_of_ratio(
             "total_non_current_assets", "stockholders_equity"
         )
+
+    @property
+    def current_asset_to_total_asset(self):
+        return self._as_of_pcnt("current_assets", "total_assets")
+
+    @property
+    def retained_earnings_to_equity(self):
+        return self._as_of_pcnt("retained_earnings", "stockholders_equity")
