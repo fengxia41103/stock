@@ -146,7 +146,7 @@ class MyStock(models.Model):
         last_income = self.incomes.get(on=last_reporting_date)
         turnover = last_income.total_revenue / avgs["total_assets__avg"]
 
-        return last_income.net_income_margin * turnover * equity_multiplier
+        return last_income.net_income_to_revenue * turnover * equity_multiplier
 
     @property
     def roe_dupont_reported_gap(self):
@@ -499,7 +499,7 @@ class StatementBase(models.Model):
         return self._as_of_ratio(attr1, attr2) * 100
 
     def _prevs(self, model_name, app_name="stock"):
-        """Get available model records.
+        """Get available model records whose `on` < mine.
 
         TODO: hardcoded application name. This is necessary to look up
         Django model by its string name.
@@ -535,6 +535,44 @@ class StatementBase(models.Model):
                 return 0
             else:
                 return (me - prev) / prev * 100
+
+    def _as_of_his_ratio(self, attr1, model_name, attr2, app_name="stock"):
+        """My Attr1 as % of model B's attr2.
+
+        Some rates/ratios are computed using values across two models,
+        eg. asset ebit margin = ebit/total_assets, so to measure how
+        the busines's asset is managed.
+
+        """
+        the_model = apps.get_model(app_name, model_name)
+
+        # We are to look same period, if all possible, but will settle
+        # on a previous report if the current period's is not
+        # available. At least we could take the assumption things
+        # didn't change. Well, of course, this assumption is usually
+        # qutie wrong! For example, I have seen some have balance
+        # sheet 1 year behind its income statement. Therefore, ratios
+        # involving the two will be skewed, thus make them rather
+        # misleading.
+        b = the_model.objects.filter(stock=self.stock, on__lte=self.on).values(
+            attr2
+        )
+
+        # if no corresponding B, return 0
+        valids = list(filter(lambda x: x[attr2], b))
+        print(valids)
+        if not valids:
+            return 0
+
+        b_val = valids[0][attr2]
+        if not b_val:
+            # if b's value is invalid, return 0
+            return 0
+
+        return abs(getattr(self, attr1)) / b_val
+
+    def _as_of_his_pcnt(self, attr1, model_name, attr2, app_name="stock"):
+        return self._as_of_his_ratio(attr1, model_name, attr2, app_name) * 100
 
 
 class IncomeStatement(StatementBase):
@@ -659,7 +697,7 @@ class IncomeStatement(StatementBase):
     tax_rate = models.FloatField(null=True, blank=True, default=0)
 
     @property
-    def net_income_margin(self):
+    def net_income_to_revenue(self):
         """Als knowns as net profit margin.
 
         The net profit margin is the after-tax profit a company
@@ -669,11 +707,11 @@ class IncomeStatement(StatementBase):
         return self._as_of_pcnt("net_income", "total_revenue")
 
     @property
-    def gross_margin(self):
+    def gross_profit_to_revenue(self):
         return self._as_of_pcnt("gross_profit", "total_revenue")
 
     @property
-    def cogs_margin(self):
+    def cogs_to_revenue(self):
         """How much cost to make a sale.
 
         The higher, the worse. If it's 0, there is 0 cost for the
@@ -683,48 +721,115 @@ class IncomeStatement(StatementBase):
         return self._as_of_pcnt("reconciled_cost_of_revenue", "total_revenue")
 
     @property
-    def ebit_margin(self):
+    def ebit_to_revenue(self):
         """EBIT is an income indicator. Higher is better."""
         return self._as_of_pcnt("ebit", "total_revenue")
 
     @property
-    def total_expense_margin(self):
+    def total_expense_to_revenue(self):
         """How much expense to achieve the sales. Lower is better."""
         return self._as_of_pcnt("total_expenses", "total_revenue")
 
     @property
-    def operating_income_margin(self):
-        """How much sales became operating income. Higher is better.
-
-        We are using operating_revenue if possible because this is to
-        measure its operating efficiency.
-
-        """
+    def operating_income_to_revenue(self):
+        """How much sales became operating income. Higher is better."""
         return self._as_of_pcnt("operating_income", "total_revenue")
 
     @property
-    def operating_expense_margin(self):
+    def operating_expense_to_revenue(self):
         """How much expense in operation. The lower, the better."""
         return self._as_of_pcnt("operating_expense", "total_revenue")
 
     @property
-    def selling_ga_margin(self):
+    def selling_ga_to_revenue(self):
         """Lower is better."""
         return self._as_of_pcnt(
             "selling_general_and_administration", "total_revenue"
         )
 
     @property
-    def interest_income_margin(self):
+    def interest_income_to_revenue(self):
         return self._as_of_pcnt("interest_income", "total_revenue")
 
     @property
-    def other_income_expense_margin(self):
+    def other_income_expense_to_revenue(self):
+        """As an expense, lower is better."""
         return self._as_of_pcnt("other_income_expense", "total_revenue")
 
     @property
-    def pretax_income_margin(self):
+    def pretax_income_to_revenue(self):
         return self._as_of_pcnt("pretax_income", "total_revenue")
+
+    @property
+    def operating_profit(self):
+        return self.operating_income - self.operating_expense
+
+    @property
+    def operating_profit_to_operating_income(self):
+        """主营业务毛利率
+
+        Operating profit margin, focusing on operating revenue & expense.
+        So should be a good number for its operation. Higher is better.
+        """
+        return self._as_of_pcnt("operating_profit", "operating_income")
+
+    @property
+    def net_income_to_operating_income(self):
+        """主营业务净利率
+
+        How much operating income becomes NI eventually. Higher is better.
+        """
+        return self._as_of_pcnt("net_income", "operating_income")
+
+    @property
+    def ebit_to_total_asset(self):
+        """资产净利率
+
+        Because this is using value of BalanceSheet, I'm putting this
+        computation here with IncomeStatement because it has more
+        reporting records than BalanceSheet, eg. I can see a income
+        statement of 9/30/2020, but the last BalanceSheet of this
+        company was at 12/31/2019.
+
+        """
+        return self._as_of_his_pcnt("ebit", "BalanceSheet", "total_assets")
+
+    @property
+    def net_income_to_equity(self):
+        """净资产收益率
+
+        Return on equity essentially using NI as numerator.
+        """
+        return self._as_of_his_pcnt(
+            "net_income", "BalanceSheet", "stockholders_equity"
+        )
+
+    @property
+    def net_income_growth_rate(self):
+        return self._growth_rate("IncomeStatement", "net_income")
+
+    @property
+    def operating_income_growth_rate(self):
+        return self._growth_rate("IncomeStatement", "operating_income")
+
+    @property
+    def cogs_to_inventory(self):
+        """库存周转率 = COGS/inventory.
+
+        Ratio.
+
+        Well, I don't have running inventory number. Therefore, this
+        is an assumption that reported inventory is representing an
+        avg.
+        """
+        return self._as_of_his_ratio(
+            "reconciled_cost_of_revenue", "BalanceSheet", "inventory"
+        )
+
+    @property
+    def interest_coverage_ratio(self):
+        """Howe well it can afford interest."""
+        return self._as_of_ratio("ebit", "interest_expense")
 
 
 class CashFlow(StatementBase):
@@ -850,10 +955,6 @@ class CashFlow(StatementBase):
         if self.net_income < 0:
             return 0
         return self._as_of_pcnt("dividend_paid", "net_income")
-
-    @property
-    def net_income_growth_rate(self):
-        return self._growth_rate("CashFlow", "net_income")
 
 
 class ValuationRatio(models.Model):

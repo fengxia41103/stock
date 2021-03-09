@@ -185,35 +185,67 @@ class StrategyValueResource(ModelResource):
 class IncomeStatementResource(ModelResource):
 
     # as of pcnt
-    cogs_margin = fields.FloatField("cogs_margin", use_in="detail")
-    net_income_margin = fields.FloatField("net_income_margin", use_in="detail")
-    gross_margin = fields.FloatField("gross_margin", use_in="detail")
-    ebit_margin = fields.FloatField("ebit_margin", use_in="detail")
-    total_expense_margin = fields.FloatField(
-        "total_expense_margin", use_in="detail"
+    net_income_to_revenue = fields.FloatField(
+        "net_income_to_revenue", use_in="detail"
     )
-    operating_income_margin = fields.FloatField(
-        "operating_income_margin", use_in="detail"
+    gross_profit_to_revenue = fields.FloatField(
+        "gross_profit_to_revenue", use_in="detail"
     )
-    operating_expense_margin = fields.FloatField(
-        "operating_expense_margin", use_in="detail"
-    )
-    selling_ga_margin = fields.FloatField("selling_ga_margin", use_in="detail")
+    cogs_to_revenue = fields.FloatField("cogs_to_revenue", use_in="detail")
 
-    interest_income_margin = fields.FloatField(
-        "interest_income_margin", use_in="detail"
+    ebit_to_revenue = fields.FloatField("ebit_to_revenue", use_in="detail")
+    total_expense_to_revenue = fields.FloatField(
+        "total_expense_to_revenue", use_in="detail"
+    )
+    operating_income_to_revenue = fields.FloatField(
+        "operating_income_to_revenue", use_in="detail"
+    )
+    operating_expense_to_revenue = fields.FloatField(
+        "operating_expense_to_revenue", use_in="detail"
+    )
+    selling_ga_to_revenue = fields.FloatField(
+        "selling_ga_to_revenue", use_in="detail"
     )
 
-    other_income_expense_margin = fields.FloatField(
-        "other_income_expense_margin", use_in="detail"
+    interest_income_to_revenue = fields.FloatField(
+        "interest_income_to_revenue", use_in="detail"
     )
-    pretax_income_margin = fields.FloatField(
-        "pretax_income_margin", use_in="detail"
+
+    other_income_expense_to_revenue = fields.FloatField(
+        "other_income_expense_to_revenue", use_in="detail"
+    )
+    pretax_income_to_revenue = fields.FloatField(
+        "pretax_income_to_revenue", use_in="detail"
+    )
+    operating_profit = fields.FloatField("operating_profit", use_in="detail")
+    operating_profit_to_operating_income = fields.FloatField(
+        "operating_profit_to_operating_income", use_in="detail"
+    )
+    net_income_to_operating_income = fields.FloatField(
+        "net_income_to_operating_income", use_in="detail"
+    )
+    ebit_to_total_asset = fields.FloatField(
+        "ebit_to_total_asset", use_in="detail"
+    )
+    net_income_to_equity = fields.FloatField(
+        "net_income_to_equity", use_in="detail"
     )
 
     # growth rates
+    net_income_growth_rate = fields.FloatField(
+        "net_income_growth_rate", null=True, use_in="detail"
+    )
+    operating_income_growth_rate = fields.FloatField(
+        "operating_income_growth_rate", null=True, use_in="detail"
+    )
 
     # ratios
+    cogs_to_inventory = fields.FloatField(
+        "cogs_to_inventory", null=True, use_in="detail"
+    )
+    interest_coverage_ratio = fields.FloatField(
+        "interest_coverage_ratio", null=True, use_in="detail"
+    )
 
     class Meta:
         queryset = IncomeStatement.objects.all()
@@ -237,9 +269,6 @@ class CashFlowResource(ModelResource):
     )
     operating_cash_flow_growth = fields.FloatField(
         "operating_cash_flow_growth", null=True, use_in="detail"
-    )
-    net_income_growth_rate = fields.FloatField(
-        "net_income_growth_rate", null=True, use_in="detail"
     )
 
     # ratio
@@ -537,7 +566,6 @@ class RankCashFlowResource(SummaryResource):
     def get_object_list(self, request):
         attrs = [
             # growth
-            ("net_income_growth_rate", True),
             ("operating_cash_flow_growth", True),
             # pcnt
             ("cash_change_pcnt", True),
@@ -561,18 +589,28 @@ class RankIncomeResource(SummaryResource):
 
     def get_object_list(self, request):
         attrs = [
+            # growth rate
+            ("net_income_growth_rate", True),
+            ("operating_income_growth_rate", True),
             # pcnt
-            ("gross_margin", True),
-            ("pretax_income_margin", True),
-            ("net_income_margin", True),
-            ("cogs_margin", False),
-            ("ebit_margin", True),
-            ("total_expense_margin", False),
-            ("operating_income_margin", True),
-            ("operating_expense_margin", False),
-            ("selling_ga_margin", False),
-            ("interest_income_margin", False),
-            ("other_income_expense_margin", False),
+            ("gross_profit_to_revenue", True),
+            ("net_income_to_revenue", True),
+            ("operating_profit_to_operating_income", True),
+            ("net_income_to_operating_income", True),
+            ("pretax_income_to_revenue", True),
+            ("cogs_to_revenue", False),
+            ("ebit_to_revenue", True),
+            ("total_expense_to_revenue", False),
+            ("operating_income_to_revenue", True),
+            ("operating_expense_to_revenue", False),
+            ("selling_ga_to_revenue", False),
+            ("interest_income_to_revenue", False),
+            ("other_income_expense_to_revenue", False),
+            ("ebit_to_total_asset", True),
+            ("net_income_to_equity", True),
+            # ratio
+            ("cogs_to_inventory", True),
+            ("interest_coverage_ratio", True),
         ]
 
         attrs = [

@@ -24,7 +24,6 @@ class Cash extends Component {
       cash_change_pcnt: "Cash from Beginning",
     };
     const p2p_growth = {
-      net_income_growth_rate: "Net Income Growth",
       operating_cash_flow_growth: "Operating Cash from Prev",
     };
     const pcnt = {

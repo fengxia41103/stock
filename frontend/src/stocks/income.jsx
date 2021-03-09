@@ -11,28 +11,42 @@ class Income extends Component {
 
     const reported = {
       basic_eps: "Basic EPS",
+      operating_profit: "Operating Profit",
     };
 
     const pcnt = {
-      net_income_margin: "Net Profit Margin",
-      cogs_margin: "COGS Margin",
-      gross_margin: "Gross Margin",
-      operating_income_margin: "Operating Income Margin",
-      operating_expense_margin: "Operating Expense Margin",
-      selling_ga_margin: "Selling G&A Margin",
-      ebit_margin: "EBIT Margin",
-      total_expense_margin: "Total Expense Margin",
-      interest_income_margin: "Interest Income",
-      other_income_expense_margin: "Other Income Expense Margin",
-      pretax_income_margin: "Pretax Income Margin",
+      gross_profit_to_revenue: "Gross Profit Margin",
+      net_income_to_revenue: "Net Profit Margin)",
+      cogs_to_revenue: "COGS/Total Revenue",
+      operating_income_to_revenue: "Operating Income/Total Revenue",
+      operating_expense_to_revenue: "Operating Expense/Total Revenue",
+      selling_ga_to_revenue: "Selling G&A/Total Revenue",
+      ebit_to_revenue: "EBIT/Total Revenue",
+      total_expense_to_revenue: "Total Expense/Total Revenue",
+      interest_income_to_revenue: "Interest Income/Total Revenue",
+      other_income_expense_to_revenue: "Other Income Expense/Total Revenue",
+      pretax_income_to_revenue: "Pretax Income/Total Revenue",
+      operating_profit_to_operating_income: "Operating Gross Profit Margin",
+      net_income_to_operating_income: "Operating Net Profit Margin",
+      ebit_to_total_asset: "EBIT/Total Asset",
+      net_income_to_equity: "Net Income/Equity (Net ROE)",
     };
-
+    const p2p_growth = {
+      net_income_growth_rate: "Net Income",
+      operating_income_growth_rate: "Operating Income",
+    };
+    const ratio = {
+      cogs_to_inventory: "COGS/Inventory",
+      interest_coverage_ratio: "Interest Coverage",
+    };
     return (
       <Financials
         title="Income Statement"
         data={data}
         reported={reported}
+        p2p_growth={p2p_growth}
         pcnt={pcnt}
+        ratio={ratio}
       />
     );
   }

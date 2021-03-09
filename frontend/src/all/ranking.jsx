@@ -96,7 +96,7 @@ class Ranking extends Component {
     };
     const rankings = map(ranking_mapping, (resource, title) => {
       return (
-        <div className="card">
+        <div key={title} className="card">
           <h4 className="bottom-border">{title}</h4>
           <Rank
             resource={resource}
