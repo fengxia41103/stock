@@ -498,18 +498,28 @@ class RankBalanceResource(SummaryResource):
 
     def get_object_list(self, request):
         attrs = [
+            # ratio
             ("current_ratio", True),
             ("quick_ratio", True),
             ("debt_to_equity_ratio", False),
             ("equity_multiplier", False),
-            ("liability_pcnt", False),
+            # growth rate
+            ("equity_growth_rate", True),
             ("debt_growth_rate", False),
             ("ap_growth_rate", False),
             ("ar_growth_rate", False),
             ("all_cash_growth_rate", True),
             ("working_capital_growth_rate", False),
-            ("working_capital_to_current_liabilities", True),
+            # pcnt
+            (
+                "cash_cash_equivalents_and_short_term_investments_to_current_asset",
+                True,
+            ),
+            ("liability_to_asset", False),
             ("non_current_to_equity", True),
+            ("retained_earnings_to_equity", True),
+            ("inventory_to_current_asset", False),
+            ("working_capital_to_current_liabilities", True),
         ]
         attrs = [
             (index, name, high_to_low)
@@ -526,9 +536,11 @@ class RankCashFlowResource(SummaryResource):
 
     def get_object_list(self, request):
         attrs = [
+            # growth
             ("net_income_growth_rate", True),
-            ("cash_change_pcnt", True),
             ("operating_cash_flow_growth", True),
+            # pcnt
+            ("cash_change_pcnt", True),
             ("fcf_over_ocf", True),
             ("fcf_over_net_income", True),
             ("ocf_over_net_income", True),
@@ -549,13 +561,18 @@ class RankIncomeResource(SummaryResource):
 
     def get_object_list(self, request):
         attrs = [
+            # pcnt
             ("gross_margin", True),
+            ("pretax_income_margin", True),
             ("net_income_margin", True),
             ("cogs_margin", False),
-            ("opex_margin", False),
             ("ebit_margin", True),
             ("total_expense_margin", False),
             ("operating_income_margin", True),
+            ("operating_expense_margin", False),
+            ("selling_ga_margin", False),
+            ("interest_income_margin", False),
+            ("other_income_expense_margin", False),
         ]
 
         attrs = [
