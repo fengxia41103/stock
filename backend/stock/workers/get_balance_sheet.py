@@ -90,6 +90,7 @@ class MyBalanceSheet:
             "other_non_current_liabilities": "OtherNonCurrentLiabilities",
             "non_current_deferred_taxes_liabilities": "NonCurrentDeferredTaxesLiabilities",
             "non_current_deferred_revenue": "NonCurrentDeferredRevenue",
+            "share_issued": "ShareIssued",
         }
 
         # enumerate data frame

@@ -39,3 +39,5 @@ numpy
 selenium
 yahooquery
 django-extensions
+docutils
+pyyaml

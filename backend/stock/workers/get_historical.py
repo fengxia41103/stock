@@ -11,6 +11,7 @@ from io import StringIO
 
 from dateutil.relativedelta import relativedelta
 
+from stock.models import MySector
 from stock.models import MyStock
 from stock.models import MyStockHistorical
 
@@ -22,7 +23,7 @@ class MyStockHistoricalYahoo:
         self.http_handler = handler
         self.agent = handler.agent
 
-    def parser(self, symbol):
+    def parser(self, sector, symbol):
         """Parse Yahoo api stock historical data.
 
         Polling ichart.yahoo.com with manufactured query string (dark magic)
@@ -37,6 +38,9 @@ class MyStockHistoricalYahoo:
 
         # Get stock and its existing historicals
         stock, created = MyStock.objects.get_or_create(symbol=symbol)
+        sector, created = MySector.objects.get_or_create(name=sector)
+        sector.stocks.add(stock)
+
         his = [
             x.isoformat()
             for x in MyStockHistorical.objects.filter(stock=stock).values_list(

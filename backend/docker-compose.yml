@@ -44,7 +44,6 @@ services:
     networks:
       - data
 
-
   web:
     build:
       context: .
@@ -55,6 +54,7 @@ services:
       - type: bind
         source: ./static
         target: /code/static
+      - ../config.yml:/code/config.yml
     environment:
       PYTHONUNBUFFERED: 1
       DJANGO_DEBUG: 1 # 0 or 1

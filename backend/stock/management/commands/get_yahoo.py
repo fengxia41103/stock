@@ -1,7 +1,8 @@
 import logging
 import os
-import os.path
+import re
 
+import yaml
 from celery import chain
 from celery import group
 from django.core.management.base import BaseCommand
@@ -16,10 +17,6 @@ from stock.tasks import income_statement_consumer
 from stock.tasks import summary_consumer
 from stock.tasks import valuation_ratio_consumer
 from stock.tasks import yahoo_consumer
-
-SYMBOLS = """VOO, SPY, AAPL, SBUX, MSFT, AMZN, BFAM, VMW, ABNB, PYPL, AMD, EBAY,
-TGT, NET, TSM, GME, BBBY, AMC, TSLA, SQ, BBY, RCL,PLTR,ROKU,
-SHOP,IQ,CVS, NOK,VNT,BABA, CRM, WOOF, QCOM, KO, ORCL, HD, 600000.SS"""
 
 logger = logging.getLogger("stock")
 
@@ -46,21 +43,25 @@ class Command(BaseCommand):
         if options["csv"]:
             dest = options["dest"]
             if symbol == "all":
-                for s in SYMBOLS.split(","):
-                    self._dump_symbol(dest, s.strip())
+                for s in MyStock.objects.values_list("symbol", flat=True):
+                    self._dump_symbol(dest, s)
             else:
                 self._dump_symbol(dest, symbol.strip())
         else:
             if symbol.lower() == "all":
-                candidates = [x.strip() for x in SYMBOLS.split(",")]
-                # Delete un-monitored stocks
-                MyStock.objects.exclude(symbol__in=candidates).delete()
+                candidates = []
+                with open("config.yml", "r") as f:
+                    config = yaml.load(f, Loader=yaml.FullLoader)
+                    for sector, symbols in config["symbols"].items():
+                        candidates += [
+                            (sector, x) for x in re.findall(r"[^,\s]+", symbols)
+                        ]
             else:
-                candidates = [symbol]
+                candidates = [("misc", symbol)]
 
             # now, get info I want
-            for symbol in candidates:
-                history_sig = yahoo_consumer.s(symbol)
+            for (sector, symbol) in candidates:
+                history_sig = yahoo_consumer.s(sector, symbol)
                 financials_sig = group(
                     income_statement_consumer.s(symbol),
                     cash_flow_statement_consumer.s(symbol),

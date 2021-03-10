@@ -45,10 +45,10 @@ def valuation_ratio_consumer(whatever, symbol):
 
 
 @shared_task
-def yahoo_consumer(symbol):
+def yahoo_consumer(sector, symbol):
     http_agent = PlainUtility()
     crawler = MyStockHistoricalYahoo(http_agent)
-    crawler.parser(symbol)
+    crawler.parser(sector, symbol)
 
 
 @shared_task

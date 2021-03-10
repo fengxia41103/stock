@@ -12,6 +12,7 @@ from tastypie.resources import Resource
 from stock.models import BalanceSheet
 from stock.models import CashFlow
 from stock.models import IncomeStatement
+from stock.models import MySector
 from stock.models import MyStock
 from stock.models import MyStockHistorical
 from stock.models import MyStrategyValue
@@ -20,7 +21,22 @@ from stock.models import ValuationRatio
 logger = logging.getLogger("stock")
 
 
+class SectorResource(ModelResource):
+    name = fields.CharField("name")
+    stocks = fields.ManyToManyField(
+        "stock.api.StockResource", "stocks", null=True, use_in="detail"
+    )
+
+    class Meta:
+        queryset = MySector.objects.all()
+        resource_name = "sectors"
+        filtering = {"name": ALL}
+
+
 class StockResource(ModelResource):
+    sectors = fields.ToManyField(
+        "stock.api.SectorResource", "sectors", null=True, use_in="detail"
+    )
     symbol = fields.CharField("symbol")
     olds = fields.ListField("olds", null=True, use_in="detail")
     indexes = fields.DictField("indexes", null=True, use_in="detail")
@@ -289,9 +305,11 @@ class BalanceSheetResource(ModelResource):
     )
     quick_ratio = fields.FloatField("quick_ratio", null=True, use_in="detail")
     debt_to_equity_ratio = fields.FloatField(
-        "debt_to_equity_ratio", use_in="detail"
+        "debt_to_equity_ratio", null=True, use_in="detail"
     )
-    capital_structure = fields.FloatField("capital_structure", use_in="detail")
+    capital_structure = fields.FloatField(
+        "capital_structure", null=True, use_in="detail"
+    )
     equity_multiplier = fields.FloatField(
         "equity_multiplier", null=True, use_in="detail"
     )
@@ -349,6 +367,15 @@ class BalanceSheetResource(ModelResource):
     # computed values
     total_liability = fields.FloatField(
         "total_liability", null=True, use_in="detail"
+    )
+    tangible_book_value_per_share = fields.FloatField(
+        "tangible_book_value_per_share", null=True, use_in="detail"
+    )
+    cash_and_cash_equivalent_per_share = fields.FloatField(
+        "cash_and_cash_equivalent_per_share", null=True, use_in="detail"
+    )
+    price_to_cash_premium = fields.FloatField(
+        "price_to_cash_premium", null=True, use_in="detail"
     )
 
     class Meta:
@@ -532,6 +559,7 @@ class RankBalanceResource(SummaryResource):
             ("quick_ratio", True),
             ("debt_to_equity_ratio", False),
             ("equity_multiplier", False),
+            ("price_to_cash_premium", False),
             # growth rate
             ("equity_growth_rate", True),
             ("debt_growth_rate", False),
@@ -565,6 +593,8 @@ class RankCashFlowResource(SummaryResource):
 
     def get_object_list(self, request):
         attrs = [
+            # ratio
+            ("dividend_payout_ratio", True),
             # growth
             ("operating_cash_flow_growth", True),
             # pcnt
@@ -572,7 +602,6 @@ class RankCashFlowResource(SummaryResource):
             ("fcf_over_ocf", True),
             ("fcf_over_net_income", True),
             ("ocf_over_net_income", True),
-            ("dividend_payout_ratio", True),
         ]
         attrs = [
             (index, name, high_to_low)

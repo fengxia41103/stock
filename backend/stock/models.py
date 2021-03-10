@@ -28,15 +28,10 @@ class MySector(models.Model):
     """
 
     name = models.CharField(max_length=32, null=True, blank=True)
-    code = models.CharField(max_length=8, verbose_name="Sector code")
-    description = models.TextField(null=True, blank=True)
-    stocks = models.ManyToManyField("MyStock")
+    stocks = models.ManyToManyField("MyStock", related_name="sectors")
 
     def __str__(self):
-        if self.name:
-            return u"{0} ({1})".format(self.name, self.code)
-        else:
-            return self.code
+        return self.name
 
 
 class MyStockRankManager(models.Manager):
@@ -560,7 +555,6 @@ class StatementBase(models.Model):
 
         # if no corresponding B, return 0
         valids = list(filter(lambda x: x[attr2], b))
-        print(valids)
         if not valids:
             return 0
 
@@ -1267,6 +1261,7 @@ class BalanceSheet(StatementBase):
     net_debt = models.FloatField(null=True, blank=True, default=0)
 
     cash_financial = models.FloatField(null=True, blank=True, default=0)
+    share_issued = models.FloatField(null=True, blank=True, default=0)
 
     @property
     def total_liability(self):
@@ -1505,3 +1500,26 @@ class BalanceSheet(StatementBase):
 
         """
         return self._growth_rate("BalanceSheet", "stockholders_equity")
+
+    @property
+    def tangible_book_value_per_share(self):
+        return self._as_of_ratio("tangible_book_value", "share_issued")
+
+    @property
+    def cash_and_cash_equivalent_per_share(self):
+        return self._as_of_ratio("cash_and_cash_equivalent", "share_issued")
+
+    @property
+    def price_to_cash_premium(self):
+        """On this reporting date, price over cash per share.
+
+        How much the price is trading comparing to rock solid cash!? I
+        mean, all other assets and so on can be a bloat, but cash, I'm
+        assuming they ar actual greenbacks, so they are as real as one
+        gets.
+        """
+        return self._as_of_his_ratio(
+            "cash_and_cash_equivalent_per_share",
+            "MyStockHistorical",
+            "close_price",
+        )

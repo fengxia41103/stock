@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
+    "django.contrib.admindocs",
     # The Django sites framework is required
     "django.contrib.sites",
     # custom packages

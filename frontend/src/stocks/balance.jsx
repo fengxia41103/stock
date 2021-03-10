@@ -9,13 +9,18 @@ class Balance extends Component {
   render() {
     const { balances: data } = this.props;
 
+    const reported = {
+      cash_and_cash_equivalent_per_share: "Cash & Equivalents Per Share",
+      tangible_book_value_per_share: "Tangible Book Value Per Share",
+    };
     const ratio = {
       current_ratio: "Current Ratio",
       quick_ratio: "Quick Ratio",
       debt_to_equity_ratio: "Debt/Equity Ratio",
       equity_multiplier: "Equity Multipler",
       working_capital_to_current_liabilities:
-        "Working Capital/Current Liabilities Ratio",
+        "Working Capital/Current Liabilities",
+      price_to_cash_premium: "Price/Cash Premium",
     };
 
     const pcnt = {
@@ -41,6 +46,7 @@ class Balance extends Component {
       <Financials
         title="Balance Sheet"
         data={data}
+        reported={reported}
         ratio={ratio}
         pcnt={pcnt}
         p2p_growth={p2p_growth}
