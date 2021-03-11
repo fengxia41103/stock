@@ -56,6 +56,12 @@ class Command(BaseCommand):
                         candidates += [
                             (sector, x) for x in re.findall(r"[^,\s]+", symbols)
                         ]
+                        # remove symbols if it's not on this list anymore
+                        MyStock.objects.exclude(
+                            symbol__in=[
+                                symbol for (sector, symbol) in candidates
+                            ]
+                        ).delete()
             else:
                 candidates = [("misc", symbol)]
 

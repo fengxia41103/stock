@@ -16,7 +16,7 @@ class Income extends Component {
 
     const pcnt = {
       gross_profit_to_revenue: "Gross Profit Margin",
-      net_income_to_revenue: "Net Profit Margin)",
+      net_income_to_revenue: "Net Profit Margin",
       cogs_to_revenue: "COGS/Total Revenue",
       operating_income_to_revenue: "Operating Income/Total Revenue",
       operating_expense_to_revenue: "Operating Expense/Total Revenue",

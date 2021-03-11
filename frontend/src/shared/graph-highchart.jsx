@@ -93,8 +93,7 @@ class HighchartGraphBox extends Component {
       tooltip: {
         headerFormat:
           '<h5 class="page-header">{point.key}</h5><table class="table table-striped">',
-        pointFormat:
-          "<tr><td><b>{series.name}</b></td>" + "<td>{point.y}</td></tr>",
+        pointFormat: "<tr><td>{series.name}</td>" + "<td>{point.y}</td></tr>",
         footerFormat: "</table>",
         shared: true,
         useHTML: true,
@@ -109,7 +108,7 @@ class HighchartGraphBox extends Component {
           negativeColor: "#d52349",
         },
         line: {
-          negativeColor: "#d52349",
+          //negativeColor: "#d52349",
         },
       },
       legend: {

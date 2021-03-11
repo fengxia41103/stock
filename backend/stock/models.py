@@ -185,11 +185,11 @@ class MyStock(models.Model):
 
         """
         vals = []
-        for b in self.balances.all():
+        for b in self.balances.all().order_by("on"):
             leverage = b.equity_multiplier
 
             i = self.incomes.get(on=b.on)
-            net_profit_margin = i.net_income_margin
+            net_profit_margin = i.net_income_to_revenue
 
             turnover = i.total_revenue / b.total_assets
             roe = net_profit_margin * turnover * leverage
@@ -254,6 +254,39 @@ class MyStock(models.Model):
             return tmp[0].on
         else:
             return None
+
+    @property
+    def dcf_model(self):
+        """DCF values from each reporting period.
+
+        DCF is a complex model because it takes too much
+        assumptions. However, some values can be computed using each
+        reporting statement. So at least they serve as a reference.
+        """
+        vals = []
+        for d in self.incomes.all().order_by("on"):
+            # Using `lte` because some company has more income
+            # statements than balance sheets.
+            capital_structure = 0
+            balance = self.balances.filter(on__lte=d.on).order_by("-on")
+            if balance:
+                capital_structure = balance[0].capital_structure
+
+            # cash using FCF
+            cash_flow = self.cashes.get(on=d.on).free_cash_flow
+
+            # tax
+            tax_rate = d.tax_rate
+            vals.append(
+                {
+                    "on": d.on,
+                    "capital_structure": capital_structure,
+                    "cash_flow": cash_flow,
+                    "tax_rate": tax_rate,
+                    "close_price": d.close_price,
+                }
+            )
+        return vals
 
 
 class MyHistoricalCustomManager(models.Manager):
@@ -567,6 +600,24 @@ class StatementBase(models.Model):
 
     def _as_of_his_pcnt(self, attr1, model_name, attr2, app_name="stock"):
         return self._as_of_his_ratio(attr1, model_name, attr2, app_name) * 100
+
+    @property
+    def close_price(self):
+        """Close price on that date.
+
+        Statements are for valuation. Let's show the actual price on that date.
+        """
+        tmp = MyStockHistorical.objects.filter(
+            stock=self.stock, on__gte=self.on
+        )
+
+        if tmp:
+            return tmp[0].close_price
+        else:
+            # When I have an updated report today, but no historical
+            # yet, eg. reported tonight after market close, and I
+            # haven't yet pulled in today's price.
+            return 0
 
 
 class IncomeStatement(StatementBase):

@@ -34,7 +34,7 @@ class SectorResource(ModelResource):
 
 
 class StockResource(ModelResource):
-    sectors = fields.ToManyField(
+    sectors = fields.ManyToManyField(
         "stock.api.SectorResource", "sectors", null=True, use_in="detail"
     )
     symbol = fields.CharField("symbol")
@@ -74,7 +74,6 @@ class StockResource(ModelResource):
     latest_close_price = fields.FloatField(
         "latest_close_price", null=True, use_in="detail"
     )
-
     dupont_model = fields.ListField("dupont_model", null=True, use_in="detail")
     nav_model = fields.ListField("nav_model", null=True, use_in="detail")
     dupont_roe = fields.FloatField("dupont_roe", null=True, use_in="detail")
@@ -85,6 +84,7 @@ class StockResource(ModelResource):
         "one_month_historicals", null=True, use_in="detail"
     )
     last_reporting_date = fields.DateField("last_reporting_date", null=True)
+    dcf_model = fields.ListField("dcf_model", null=True, use_in="detail")
 
     class Meta:
         queryset = MyStock.objects.all()
@@ -200,6 +200,9 @@ class StrategyValueResource(ModelResource):
 
 class IncomeStatementResource(ModelResource):
 
+    # reported
+    close_price = fields.FloatField("close_price", null=True, use_in="detail")
+
     # as of pcnt
     net_income_to_revenue = fields.FloatField(
         "net_income_to_revenue", use_in="detail"
@@ -270,6 +273,9 @@ class IncomeStatementResource(ModelResource):
 
 
 class CashFlowResource(ModelResource):
+    # reported
+    close_price = fields.FloatField("close_price", null=True, use_in="detail")
+
     # as of pcnt
     fcf_over_ocf = fields.FloatField("fcf_over_ocf", null=True, use_in="detail")
     fcf_over_net_income = fields.FloatField(
@@ -299,6 +305,9 @@ class CashFlowResource(ModelResource):
 
 
 class BalanceSheetResource(ModelResource):
+    # reported
+    close_price = fields.FloatField("close_price", null=True, use_in="detail")
+
     # ratio
     current_ratio = fields.FloatField(
         "current_ratio", null=True, use_in="detail"

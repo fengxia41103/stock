@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import { map, last, reverse, filter, isEmpty, isNull } from "lodash";
 import { DebounceInput } from "react-debounce-input";
+import Financials from "./financials.jsx";
 
 class DCF extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class DCF extends Component {
 
     // get capital structure from the latest balance sheet
     const { stock } = props;
+
     let capital_structure;
     let tmp = map(stock.balances, b => b.capital_structure);
     tmp = filter(reverse(tmp), x => x > 0);
@@ -97,6 +99,9 @@ class DCF extends Component {
       return null;
     }
 
+    const reported = {
+      close_price: "Close Price",
+    };
     const cost_of_equity =
       risk_free / 100 + (stock.beta * market_premium) / 100;
     const debt_cost = (cost_of_debt / 100) * (1 - stock.tax_rate);
@@ -177,6 +182,11 @@ class DCF extends Component {
     return (
       <div className="jumbotron">
         DCF Valuation
+        <Financials
+          title="Close Price"
+          data={stock.incomes}
+          reported={reported}
+        />
         <div className="row">
           <div className="col l4 m6 s12 card">
             <h4 className="mylabel">My Valuation</h4>
