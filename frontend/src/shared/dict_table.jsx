@@ -25,10 +25,10 @@ class DictTable extends Component {
           c[key] == 0 ? "is-zero" : null
         );
 
-        //if(isNull(c[key])){
-        //  console.log(c);
-        //  console.log(key);
-        //}
+        if (isNull(c[key])) {
+          console.log(c);
+          console.log(key);
+        }
 
         return (
           <td key={c.on} className={decor}>

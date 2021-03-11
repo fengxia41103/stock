@@ -268,12 +268,15 @@ class MyStock(models.Model):
             # Using `lte` because some company has more income
             # statements than balance sheets.
             capital_structure = 0
+            share_issued = 0
             balance = self.balances.filter(on__lte=d.on).order_by("-on")
             if balance:
                 capital_structure = balance[0].capital_structure
+                share_issued = balance[0].share_issued
 
             # cash using FCF
-            cash_flow = self.cashes.get(on=d.on).free_cash_flow
+            cash_statement = self.cashes.get(on=d.on)
+            fcf = cash_statement.free_cash_flow
 
             # tax
             tax_rate = d.tax_rate
@@ -281,8 +284,9 @@ class MyStock(models.Model):
                 {
                     "on": d.on,
                     "capital_structure": capital_structure,
-                    "cash_flow": cash_flow,
+                    "fcf": fcf,
                     "tax_rate": tax_rate,
+                    "share_issued": share_issued,
                     "close_price": d.close_price,
                 }
             )
