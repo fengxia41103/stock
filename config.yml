@@ -1,0 +1,13 @@
+symbols:
+  # group for US stocks
+  US: |
+    VOO, SPY, AAPL, SBUX, MSFT, AMZN, BFAM, VMW, ABNB, PYPL, AMD,
+    EBAY, TGT, NET, TSM, BBBY, TSLA, SQ, BBY, RCL,PLTR,ROKU,
+    SHOP,IQ,CVS, NOK,VNT,BABA, CRM, WOOF, QCOM, KO, ORCL, HD, BURL,
+    DOCU, POSH, BCOW, KIRK, PLCE, XPEV, REV, JD, PRTY, CPNG, GOOGL
+
+
+  # group for china stocks
+  china: |
+    600000.SS, 600660.SS, 000895.SZ, 603444.SS, 000877.SZ, 002677.SZ,
+    002299.SZ, 300327.SZ
