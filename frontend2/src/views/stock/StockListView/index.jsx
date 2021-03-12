@@ -6,7 +6,6 @@ import {
   Box,
   Container,
   Grid,
-  makeStyles,
   Link,
   TextField,
   Card,
@@ -70,7 +69,11 @@ function StockListView(props) {
               </CardContent>
             </Card>
           </Box>
-          <Box mt={3}>{selectors}</Box>
+          <Box mt={3}>
+            <Grid container spacing={1}>
+              {selectors}
+            </Grid>
+          </Box>
         </Container>
       </Page>
     );

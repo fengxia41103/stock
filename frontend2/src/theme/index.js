@@ -28,15 +28,6 @@ let theme = createMuiTheme({
   table: {
     minWidth: 650,
   },
-  td: {
-    negative: {
-      color: "#d52349",
-      backgroundColor: "#D8E5E5",
-    },
-    zero: {
-      color: "#fdd837",
-    },
-  },
 });
 
 theme = responsiveFontSizes(theme);

@@ -6,6 +6,7 @@ import Page from "src/components/Page";
 import GlobalContext from "src/context";
 import StockDetailContext from "./context.jsx";
 import Toolbar from "./Toolbar.jsx";
+import MenuBar from "./menu.jsx";
 
 function StockDetailView(props) {
   const { id } = useParams();
@@ -17,7 +18,7 @@ function StockDetailView(props) {
       <StockDetailContext.Provider value={stock}>
         <Page>
           <Container maxWidth={false}>
-            <Toolbar />
+            <MenuBar />
             <Outlet />
           </Container>
         </Page>

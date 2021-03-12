@@ -5,9 +5,12 @@ import {
   Box,
   Card,
   CardContent,
+  CardHeader,
   Typography,
   makeStyles,
   Grid,
+  Divider,
+  Link,
 } from "@material-ui/core";
 import { isNull } from "lodash";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
@@ -18,39 +21,36 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
   },
+  card: {
+    height: "100%",
+  },
 }));
 
-const StockListGroupCard = ({ reporting_date, stocks, ...rest }) => {
+function StockListGroupCard(props) {
+  const { reporting_date, stocks } = props;
   const classes = useStyles();
 
+  const icon =
+    reporting_date === "null" ? <EventBusyIcon /> : <CalendarTodayIcon />;
+  const title = reporting_date === "null" ? "ETF" : reporting_date;
   return (
-    <Box mt={3}>
-      <Card {...rest}>
+    <Grid item lg={3} sm={6} xs={12}>
+      <Card className={clsx(classes.root, classes.card)}>
+        <CardHeader title={title} />
+        <Divider />
         <CardContent>
-          <Typography
-            align="left"
-            color="textPrimary"
-            gutterBottom
-            variant="h4"
-          >
-            {reporting_date ? <EventBusyIcon /> : <CalendarTodayIcon />}
-            &nbsp;
-            {reporting_date ? reporting_date : "ETF"}
-          </Typography>
           <Grid container spacing={3}>
-            {stocks.map(symbol => (
-              <Grid item key={symbol} lg={2} md={3} xs={4}>
-                <Typography align="left" color="textSecondary" variant="body2">
-                  {symbol}
-                </Typography>
+            {stocks.map(link => (
+              <Grid item key={link} xs>
+                {link}
               </Grid>
             ))}
           </Grid>
         </CardContent>
       </Card>
-    </Box>
+    </Grid>
   );
-};
+}
 
 StockListGroupCard.propTypes = {
   stocks: PropTypes.array,

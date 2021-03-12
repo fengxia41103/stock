@@ -5,6 +5,7 @@ import { map, isEmpty, isNull } from "lodash";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "./graph-highchart.jsx";
 import Page from "src/components/Page";
+import Typography from "@material-ui/core/Typography";
 
 import Box from "@material-ui/core/Box";
 import Table from "@material-ui/core/Table";
@@ -28,8 +29,8 @@ function DictTable(props) {
   const rows = Object.entries(interests).map(([key, description]) => {
     const row = map(data, c => {
       const decor = classNames(
-        c[key] < 0 ? theme.td.negative : null,
-        c[key] == 0 ? theme.td.zero : null
+        c[key] < 0 ? "error" : null,
+        c[key] == 0 ? "warning" : null
       );
 
       if (isNull(c[key])) {
@@ -38,8 +39,8 @@ function DictTable(props) {
       }
 
       return (
-        <TableCell key={c.on} className={decor}>
-          {c[key].toFixed(2)}
+        <TableCell key={c.on}>
+          <Typography color={decor}>{c[key].toFixed(2)}</Typography>
         </TableCell>
       );
     });
