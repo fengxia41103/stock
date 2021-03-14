@@ -8,6 +8,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Divider,
 } from "@material-ui/core";
 import DictTable from "src/components/dict_table.jsx";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
@@ -57,8 +58,10 @@ function FinancialsView(props) {
     return (
       <Box key={m.title} mt={3}>
         <Card>
-          <CardHeader title={m.title} />
           <CardContent>
+            <Box mb={3}>
+              <Typography variant="h3">{m.title}</Typography>
+            </Box>
             <DictTable data={data} interests={m.data} chart={true} />
           </CardContent>
         </Card>
@@ -67,19 +70,8 @@ function FinancialsView(props) {
   });
 
   return (
-    <Box>
-      <Typography variant="h3">{title}</Typography>
-
-      <Box mt={3}>
-        <Typography paragraph>
-          Balance sheet analysis can be defined as an analysis of the assets,
-          liabilities, and equity of a company. This analysis is conducted
-          generally at set intervals of time, like annually or quarterly. The
-          process of balance sheet analysis is used for deriving actual figures
-          about the revenue, assets, and liabilities of the company.
-        </Typography>
-      </Box>
-
+    <Box mt={3}>
+      <Typography variant="h2">{title}</Typography>
       {cards}
     </Box>
   );

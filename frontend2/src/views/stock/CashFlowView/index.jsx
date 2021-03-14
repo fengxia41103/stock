@@ -1,9 +1,13 @@
-import React, { useContext } from "react";
-import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
+import React, { useState, useContext } from "react";
+import { useParams } from "react-router-dom";
+import GlobalContext from "src/context";
 import FinancialsView from "src/views/stock/FinancialsView";
+import Fetch from "src/components/fetch.jsx";
 
 function CashFlowView(props) {
-  const { cashes: data } = useContext(StockDetailContext);
+  const { id } = useParams();
+  const { api } = useContext(GlobalContext);
+  const [resource] = useState(`/cashes?stock=${id}`);
 
   const reported = {
     beginning_cash: "Beggining Cash",
@@ -29,16 +33,20 @@ function CashFlowView(props) {
     dividend_payout_ratio: "Dividend Paid/Net Income",
   };
 
-  return (
-    <FinancialsView
-      title="Cash Flow Statement"
-      data={data}
-      reported={reported}
-      in_period_change={in_period_change}
-      p2p_growth={p2p_growth}
-      pcnt={pcnt}
-    />
-  );
+  const render_data = resp => {
+    const data = resp.objects;
+
+    return (
+      <FinancialsView
+        title="Cash Flow Statement Analysis"
+        data={data}
+        reported={reported}
+        pcnt={pcnt}
+        p2p_growth={p2p_growth}
+      />
+    );
+  };
+  return <Fetch api={api} resource={resource} render_data={render_data} />;
 }
 
 export default CashFlowView;

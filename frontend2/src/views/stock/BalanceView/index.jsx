@@ -1,9 +1,13 @@
-import React, { useContext } from "react";
-import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
+import React, { useState, useContext } from "react";
+import { Outlet, useParams } from "react-router-dom";
+import GlobalContext from "src/context";
 import FinancialsView from "src/views/stock/FinancialsView";
+import Fetch from "src/components/fetch.jsx";
 
-function Balance(props) {
-  const { balances: data } = useContext(StockDetailContext);
+function BalanceView() {
+  const { id } = useParams();
+  const { api } = useContext(GlobalContext);
+  const [resource] = useState(`/balances?stock=${id}`);
 
   const reported = {
     cash_and_cash_equivalent_per_share: "Cash & Equivalents Per Share",
@@ -38,16 +42,21 @@ function Balance(props) {
     net_ppe_growth_rate: "Net PP&E",
   };
 
-  return (
-    <FinancialsView
-      title="Balance Sheet"
-      data={data}
-      reported={reported}
-      ratio={ratio}
-      pcnt={pcnt}
-      p2p_growth={p2p_growth}
-    />
-  );
+  const render_data = resp => {
+    const data = resp.objects;
+
+    return (
+      <FinancialsView
+        title="Balance Sheet Analysis"
+        data={data}
+        reported={reported}
+        ratio={ratio}
+        pcnt={pcnt}
+        p2p_growth={p2p_growth}
+      />
+    );
+  };
+  return <Fetch api={api} resource={resource} render_data={render_data} />;
 }
 
-export default Balance;
+export default BalanceView;

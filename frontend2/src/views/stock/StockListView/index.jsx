@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import classNames from "classnames";
 import { map, filter, sortBy, groupBy } from "lodash";
 import Fetch from "src/components/fetch.jsx";
 import {
@@ -11,7 +10,7 @@ import {
   Card,
   CardContent,
 } from "@material-ui/core";
-import { Pagination } from "@material-ui/lab";
+
 import Page from "src/components/Page";
 import StockListGroupCard from "./card.jsx";
 import GlobalContext from "src/context";

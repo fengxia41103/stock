@@ -1,12 +1,11 @@
 import React from "react";
 import classNames from "classnames";
 import { useTheme } from "@material-ui/core/styles";
-import { map, isEmpty, isNull } from "lodash";
+import { map, isEmpty, isNull, isUndefined } from "lodash";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "./graph-highchart.jsx";
 import Page from "src/components/Page";
 import Typography from "@material-ui/core/Typography";
-
 import Box from "@material-ui/core/Box";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -33,7 +32,7 @@ function DictTable(props) {
         c[key] == 0 ? "warning" : null
       );
 
-      if (isNull(c[key])) {
+      if (isNull(c[key] || isUndefined(c[key]))) {
         console.log(c);
         console.log(key);
       }
@@ -55,8 +54,10 @@ function DictTable(props) {
   });
 
   return (
-    <Box>
-      <Box mb={3}>
+    <Box mt={3}>
+      {chart ? <Chart {...props} /> : null}
+
+      <Box mt={3}>
         <TableContainer component={Paper}>
           <Table className={theme.table} size="small">
             <TableHead>
@@ -69,8 +70,6 @@ function DictTable(props) {
           </Table>
         </TableContainer>
       </Box>
-
-      {chart ? <Chart {...props} /> : null}
     </Box>
   );
 }

@@ -183,8 +183,15 @@ class HistoricalResource(ModelResource):
 
     class Meta:
         queryset = MyStockHistorical.objects.all()
-        filtering = {"on": ["range"]}
+        filtering = {"on": ["range"], "stock": ["exact"]}
         resource_name = "historicals"
+
+
+class StatSummary:
+    def __init__(self, id=None, name=None, stats=None):
+        self.id = id
+        self.name = name
+        self.stats = stats
 
 
 class StrategyValueResource(ModelResource):
@@ -201,195 +208,151 @@ class StrategyValueResource(ModelResource):
 class IncomeStatementResource(ModelResource):
 
     # reported
-    close_price = fields.FloatField("close_price", null=True, use_in="detail")
+    close_price = fields.FloatField("close_price", null=True)
 
     # as of pcnt
-    net_income_to_revenue = fields.FloatField(
-        "net_income_to_revenue", use_in="detail"
-    )
-    gross_profit_to_revenue = fields.FloatField(
-        "gross_profit_to_revenue", use_in="detail"
-    )
-    cogs_to_revenue = fields.FloatField("cogs_to_revenue", use_in="detail")
+    net_income_to_revenue = fields.FloatField("net_income_to_revenue")
+    gross_profit_to_revenue = fields.FloatField("gross_profit_to_revenue")
+    cogs_to_revenue = fields.FloatField("cogs_to_revenue")
 
-    ebit_to_revenue = fields.FloatField("ebit_to_revenue", use_in="detail")
-    total_expense_to_revenue = fields.FloatField(
-        "total_expense_to_revenue", use_in="detail"
-    )
+    ebit_to_revenue = fields.FloatField("ebit_to_revenue")
+    total_expense_to_revenue = fields.FloatField("total_expense_to_revenue")
     operating_income_to_revenue = fields.FloatField(
-        "operating_income_to_revenue", use_in="detail"
+        "operating_income_to_revenue"
     )
     operating_expense_to_revenue = fields.FloatField(
-        "operating_expense_to_revenue", use_in="detail"
+        "operating_expense_to_revenue"
     )
-    selling_ga_to_revenue = fields.FloatField(
-        "selling_ga_to_revenue", use_in="detail"
-    )
+    selling_ga_to_revenue = fields.FloatField("selling_ga_to_revenue")
 
-    interest_income_to_revenue = fields.FloatField(
-        "interest_income_to_revenue", use_in="detail"
-    )
+    interest_income_to_revenue = fields.FloatField("interest_income_to_revenue")
 
     other_income_expense_to_revenue = fields.FloatField(
-        "other_income_expense_to_revenue", use_in="detail"
+        "other_income_expense_to_revenue"
     )
-    pretax_income_to_revenue = fields.FloatField(
-        "pretax_income_to_revenue", use_in="detail"
-    )
-    operating_profit = fields.FloatField("operating_profit", use_in="detail")
+    pretax_income_to_revenue = fields.FloatField("pretax_income_to_revenue")
+    operating_profit = fields.FloatField("operating_profit")
     operating_profit_to_operating_income = fields.FloatField(
-        "operating_profit_to_operating_income", use_in="detail"
+        "operating_profit_to_operating_income"
     )
     net_income_to_operating_income = fields.FloatField(
-        "net_income_to_operating_income", use_in="detail"
+        "net_income_to_operating_income"
     )
-    ebit_to_total_asset = fields.FloatField(
-        "ebit_to_total_asset", use_in="detail"
-    )
-    net_income_to_equity = fields.FloatField(
-        "net_income_to_equity", use_in="detail"
-    )
+    ebit_to_total_asset = fields.FloatField("ebit_to_total_asset")
+    net_income_to_equity = fields.FloatField("net_income_to_equity")
 
     # growth rates
     net_income_growth_rate = fields.FloatField(
-        "net_income_growth_rate", null=True, use_in="detail"
+        "net_income_growth_rate", null=True
     )
     operating_income_growth_rate = fields.FloatField(
-        "operating_income_growth_rate", null=True, use_in="detail"
+        "operating_income_growth_rate", null=True
     )
 
     # ratios
-    cogs_to_inventory = fields.FloatField(
-        "cogs_to_inventory", null=True, use_in="detail"
-    )
+    cogs_to_inventory = fields.FloatField("cogs_to_inventory", null=True)
     interest_coverage_ratio = fields.FloatField(
-        "interest_coverage_ratio", null=True, use_in="detail"
+        "interest_coverage_ratio", null=True
     )
 
     class Meta:
         queryset = IncomeStatement.objects.all()
         resource_name = "incomes"
+        filtering = {"stock": ["exact"]}
         ordering = ["on"]
 
 
 class CashFlowResource(ModelResource):
     # reported
-    close_price = fields.FloatField("close_price", null=True, use_in="detail")
+    close_price = fields.FloatField("close_price", null=True)
 
     # as of pcnt
-    fcf_over_ocf = fields.FloatField("fcf_over_ocf", null=True, use_in="detail")
-    fcf_over_net_income = fields.FloatField(
-        "fcf_over_net_income", null=True, use_in="detail"
-    )
-    ocf_over_net_income = fields.FloatField(
-        "ocf_over_net_income", null=True, use_in="detail"
-    )
+    fcf_over_ocf = fields.FloatField("fcf_over_ocf", null=True)
+    fcf_over_net_income = fields.FloatField("fcf_over_net_income", null=True)
+    ocf_over_net_income = fields.FloatField("ocf_over_net_income", null=True)
 
     # growth rates
-    cash_change_pcnt = fields.FloatField(
-        "cash_change_pcnt", null=True, use_in="detail"
-    )
+    cash_change_pcnt = fields.FloatField("cash_change_pcnt", null=True)
     operating_cash_flow_growth = fields.FloatField(
-        "operating_cash_flow_growth", null=True, use_in="detail"
+        "operating_cash_flow_growth", null=True
     )
 
     # ratio
     dividend_payout_ratio = fields.FloatField(
-        "dividend_payout_ratio", null=True, use_in="detail"
+        "dividend_payout_ratio", null=True
     )
 
     class Meta:
         queryset = CashFlow.objects.all()
-        resources_name = "cashes"
+        resource_name = "cashes"
+        filtering = {"stock": ["exact"]}
         ordering = ["on"]
 
 
 class BalanceSheetResource(ModelResource):
+    stock = fields.ForeignKey("stock.api.StockResource", "stock")
+
     # reported
-    close_price = fields.FloatField("close_price", null=True, use_in="detail")
+    close_price = fields.FloatField("close_price", null=True)
 
     # ratio
-    current_ratio = fields.FloatField(
-        "current_ratio", null=True, use_in="detail"
-    )
-    quick_ratio = fields.FloatField("quick_ratio", null=True, use_in="detail")
-    debt_to_equity_ratio = fields.FloatField(
-        "debt_to_equity_ratio", null=True, use_in="detail"
-    )
-    capital_structure = fields.FloatField(
-        "capital_structure", null=True, use_in="detail"
-    )
-    equity_multiplier = fields.FloatField(
-        "equity_multiplier", null=True, use_in="detail"
-    )
+    current_ratio = fields.FloatField("current_ratio", null=True)
+    quick_ratio = fields.FloatField("quick_ratio", null=True)
+    debt_to_equity_ratio = fields.FloatField("debt_to_equity_ratio", null=True)
+    capital_structure = fields.FloatField("capital_structure", null=True)
+    equity_multiplier = fields.FloatField("equity_multiplier", null=True)
 
     # as of pcnt
-    liability_to_asset = fields.FloatField(
-        "liability_to_asset", null=True, use_in="detail"
-    )
+    liability_to_asset = fields.FloatField("liability_to_asset", null=True)
     current_asset_to_total_asset = fields.FloatField(
-        "current_asset_to_total_asset", null=True, use_in="detail"
+        "current_asset_to_total_asset", null=True
     )
     working_capital_to_current_liabilities = fields.FloatField(
-        "working_capital_to_current_liabilities", null=True, use_in="detail"
+        "working_capital_to_current_liabilities", null=True
     )
     non_current_to_equity = fields.FloatField(
-        "non_current_to_equity", null=True, use_in="detail"
+        "non_current_to_equity", null=True
     )
     retained_earnings_to_equity = fields.FloatField(
-        "retained_earnings_to_equity", null=True, use_in="detail"
+        "retained_earnings_to_equity", null=True
     )
     inventory_to_current_asset = fields.FloatField(
-        "inventory_to_current_asset", null=True, use_in="detail"
+        "inventory_to_current_asset", null=True
     )
     cash_cash_equivalents_and_short_term_investments_to_current_asset = (
         fields.FloatField(
             "cash_cash_equivalents_and_short_term_investments_to_current_asset",
             null=True,
-            use_in="detail",
         )
     )
 
     # growth rates
-    equity_growth_rate = fields.FloatField(
-        "equity_growth_rate", null=True, use_in="detail"
-    )
-    debt_growth_rate = fields.FloatField(
-        "debt_growth_rate", null=True, use_in="detail"
-    )
-    ap_growth_rate = fields.FloatField(
-        "ap_growth_rate", null=True, use_in="detail"
-    )
-    ar_growth_rate = fields.FloatField(
-        "ar_growth_rate", null=True, use_in="detail"
-    )
-    all_cash_growth_rate = fields.FloatField(
-        "all_cash_growth_rate", null=True, use_in="detail"
-    )
+    equity_growth_rate = fields.FloatField("equity_growth_rate", null=True)
+    debt_growth_rate = fields.FloatField("debt_growth_rate", null=True)
+    ap_growth_rate = fields.FloatField("ap_growth_rate", null=True)
+    ar_growth_rate = fields.FloatField("ar_growth_rate", null=True)
+    all_cash_growth_rate = fields.FloatField("all_cash_growth_rate", null=True)
     working_capital_growth_rate = fields.FloatField(
-        "working_capital_growth_rate", null=True, use_in="detail"
+        "working_capital_growth_rate", null=True
     )
-    net_ppe_growth_rate = fields.FloatField(
-        "net_ppe_growth_rate", null=True, use_in="detail"
-    )
+    net_ppe_growth_rate = fields.FloatField("net_ppe_growth_rate", null=True)
 
     # computed values
-    total_liability = fields.FloatField(
-        "total_liability", null=True, use_in="detail"
-    )
+    total_liability = fields.FloatField("total_liability", null=True)
     tangible_book_value_per_share = fields.FloatField(
-        "tangible_book_value_per_share", null=True, use_in="detail"
+        "tangible_book_value_per_share", null=True
     )
     cash_and_cash_equivalent_per_share = fields.FloatField(
-        "cash_and_cash_equivalent_per_share", null=True, use_in="detail"
+        "cash_and_cash_equivalent_per_share", null=True
     )
     price_to_cash_premium = fields.FloatField(
-        "price_to_cash_premium", null=True, use_in="detail"
+        "price_to_cash_premium", null=True
     )
 
     class Meta:
         queryset = BalanceSheet.objects.all()
-        resources_name = "balances"
+        resource_name = "balances"
+        filtering = {"stock": ["exact"]}
         ordering = ["on"]
 
 
@@ -398,13 +361,6 @@ class ValuationRatioResource(ModelResource):
         queryset = ValuationRatio.objects.all()
         resources_name = "ratios"
         ordering = ["on"]
-
-
-class StatSummary:
-    def __init__(self, id=None, name=None, stats=None):
-        self.id = id
-        self.name = name
-        self.stats = stats
 
 
 class SummaryResource(Resource):

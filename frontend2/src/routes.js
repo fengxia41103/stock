@@ -29,6 +29,9 @@ import NavView from "src/views/stock/NavView";
 import BalanceView from "src/views/stock/BalanceView";
 import IncomeView from "src/views/stock/IncomeView";
 import CashFlowView from "src/views/stock/CashFlowView";
+import DCFView from "src/views/stock/DCFView";
+import ValuationRatiosView from "src/views/stock/ValuationRatiosView";
+import StockHistoricalView from "src/views/stock/StockHistoricalView";
 
 const items = [
   {
@@ -92,8 +95,11 @@ const routes = [
           { path: "balance", element: <BalanceView /> },
           { path: "income", element: <IncomeView /> },
           { path: "cash", element: <CashFlowView /> },
+          { path: "dcf", element: <DCFView /> },
+          { path: "ratios", element: <ValuationRatiosView /> },
         ],
       },
+      { path: "stocks/:id/historical", element: <StockHistoricalView /> },
       { path: "account", element: <AccountView /> },
       { path: "customers", element: <CustomerListView /> },
       { path: "dashboard", element: <DashboardView /> },

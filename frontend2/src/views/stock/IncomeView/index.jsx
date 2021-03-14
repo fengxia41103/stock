@@ -1,9 +1,13 @@
-import React, { useContext } from "react";
-import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
+import React, { useState, useContext } from "react";
+import { useParams } from "react-router-dom";
+import GlobalContext from "src/context";
 import FinancialsView from "src/views/stock/FinancialsView";
+import Fetch from "src/components/fetch.jsx";
 
 function IncomeView(props) {
-  const { incomes: data } = useContext(StockDetailContext);
+  const { id } = useParams();
+  const { api } = useContext(GlobalContext);
+  const [resource] = useState(`/incomes?stock=${id}`);
 
   const reported = {
     basic_eps: "Basic EPS",
@@ -35,16 +39,22 @@ function IncomeView(props) {
     cogs_to_inventory: "COGS/Inventory",
     interest_coverage_ratio: "Interest Coverage",
   };
-  return (
-    <FinancialsView
-      title="Income Statement"
-      data={data}
-      reported={reported}
-      p2p_growth={p2p_growth}
-      pcnt={pcnt}
-      ratio={ratio}
-    />
-  );
+
+  const render_data = resp => {
+    const data = resp.objects;
+
+    return (
+      <FinancialsView
+        title="Income Statement Analysis"
+        data={data}
+        reported={reported}
+        ratio={ratio}
+        pcnt={pcnt}
+        p2p_growth={p2p_growth}
+      />
+    );
+  };
+  return <Fetch api={api} resource={resource} render_data={render_data} />;
 }
 
 export default IncomeView;

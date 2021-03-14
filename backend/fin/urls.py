@@ -3,6 +3,8 @@ from django.urls import include
 from django.urls import path
 from tastypie.api import Api
 
+from stock.api import BalanceSheetResource
+from stock.api import CashFlowResource
 from stock.api import HistoricalResource
 from stock.api import IncomeStatementResource
 from stock.api import RankBalanceResource
@@ -23,6 +25,8 @@ v1_api.register(RankBalanceResource())
 v1_api.register(RankCashFlowResource())
 v1_api.register(RankIncomeResource())
 v1_api.register(SectorResource())
+v1_api.register(BalanceSheetResource())
+v1_api.register(CashFlowResource())
 
 urlpatterns = [
     path("api/", include(v1_api.urls)),
