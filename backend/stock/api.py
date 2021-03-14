@@ -41,35 +41,6 @@ class StockResource(ModelResource):
     olds = fields.ListField("olds", null=True, use_in="detail")
     indexes = fields.DictField("indexes", null=True, use_in="detail")
     stats = fields.DictField("stats", null=True, use_in="detail")
-    incomes = fields.ToManyField(
-        "stock.api.IncomeStatementResource",
-        "incomes",
-        null=True,
-        use_in="detail",
-        full=True,
-    )
-    cashes = fields.ToManyField(
-        "stock.api.CashFlowResource",
-        "cashes",
-        null=True,
-        use_in="detail",
-        full=True,
-    )
-    ratios = fields.ToManyField(
-        "stock.api.ValuationRatioResource",
-        "ratios",
-        null=True,
-        use_in="detail",
-        full=True,
-    )
-    balances = fields.ToManyField(
-        "stock.api.BalanceSheetResource",
-        "balances",
-        null=True,
-        use_in="detail",
-        full=True,
-    )
-
     tax_rate = fields.FloatField("tax_rate", null=True, use_in="detail")
     latest_close_price = fields.FloatField(
         "latest_close_price", null=True, use_in="detail"
@@ -357,9 +328,12 @@ class BalanceSheetResource(ModelResource):
 
 
 class ValuationRatioResource(ModelResource):
+    stock = fields.ForeignKey("stock.api.StockResource", "stock")
+
     class Meta:
         queryset = ValuationRatio.objects.all()
-        resources_name = "ratios"
+        resource_name = "ratios"
+        filtering = {"stock": ["exact"]}
         ordering = ["on"]
 
 
