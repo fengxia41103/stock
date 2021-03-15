@@ -365,6 +365,9 @@ class MyStrategyValueCustomManager(models.Manager):
         ---------------
         Similarly, the avg down return shows me the down side.
         """
+        if not len(historicals):
+            return {}
+
         indexes = self.filter(hist__in=historicals)
 
         # ok, we need some Python power to compute these stats

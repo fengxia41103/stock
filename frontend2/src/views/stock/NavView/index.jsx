@@ -1,26 +1,29 @@
-import React, { useContext } from "react";
-import PropTypes from "prop-types";
-import { isEmpty } from "lodash";
-import DictTable from "src/components/dict_table.jsx";
-import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
+import React, { useState, useContext } from "react";
+import { useParams } from "react-router-dom";
+import GlobalContext from "src/context";
+import FinancialsView from "src/views/stock/FinancialsView";
+import Fetch from "src/components/fetch.jsx";
 
 function NavView(props) {
-  const { nav_model: nav } = useContext(StockDetailContext);
+  const { id } = useParams();
+  const { api } = useContext(GlobalContext);
+  const [resource] = useState(`/stocks/${id}`);
 
-  if (isEmpty(nav)) {
-    return null;
-  }
-
-  const analysis = {
+  const reported = {
     nav: "NAV",
   };
 
-  return (
-    <div>
-      Net Asset Model
-      <DictTable data={nav} interests={analysis} chart={true} />
-    </div>
-  );
-}
+  const render_data = stock => {
+    const { nav_model } = stock;
 
+    return (
+      <FinancialsView
+        title="Net Asset Value Analysis"
+        data={nav_model}
+        reported={reported}
+      />
+    );
+  };
+  return <Fetch api={api} resource={resource} render_data={render_data} />;
+}
 export default NavView;

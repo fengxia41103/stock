@@ -21,6 +21,40 @@ from stock.models import ValuationRatio
 logger = logging.getLogger("stock")
 
 
+class StatSummary:
+    def __init__(self, id=None, name=None, stats=None):
+        self.id = id
+        self.name = name
+        self.stats = stats
+
+
+class SummaryResource(Resource):
+    id = fields.IntegerField("id")
+    name = fields.CharField("name", null=True)
+    stats = fields.DictField("stats")
+
+    class Meta:
+        object_class = StatSummary
+        abstract = True
+
+    def obj_get_list(self, bundle, **kwargs):
+        # outer get of object list... this calls get_object_list and
+        # could be a point at which additional filtering may be applied
+        return self.get_object_list(bundle.request)
+
+    # The following methods will need overriding regardless of your
+    # data source.
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs["pk"] = bundle_or_obj.obj.id
+        else:
+            kwargs["pk"] = bundle_or_obj.id
+
+        return kwargs
+
+
 class SectorResource(ModelResource):
     name = fields.CharField("name")
     stocks = fields.ManyToManyField(
@@ -38,9 +72,6 @@ class StockResource(ModelResource):
         "stock.api.SectorResource", "sectors", null=True, use_in="detail"
     )
     symbol = fields.CharField("symbol")
-    olds = fields.ListField("olds", null=True, use_in="detail")
-    indexes = fields.DictField("indexes", null=True, use_in="detail")
-    stats = fields.DictField("stats", null=True, use_in="detail")
     tax_rate = fields.FloatField("tax_rate", null=True, use_in="detail")
     latest_close_price = fields.FloatField(
         "latest_close_price", null=True, use_in="detail"
@@ -63,7 +94,32 @@ class StockResource(ModelResource):
         filtering = {"symbol": ALL}
         limit = 1000
 
-    def _get_date_range(self, bundle):
+
+class HistoricalResource(ModelResource):
+    stock = fields.ForeignKey(
+        "stock.api.StockResource", "stock", use_in="detail"
+    )
+
+    class Meta:
+        queryset = MyStockHistorical.objects.all()
+        filtering = {"on": ["range"], "stock": ["exact"]}
+        resource_name = "historicals"
+
+
+class HistoricalStatResource(SummaryResource):
+    """Resource to summarize stock historical over a period.
+
+    Expecting url paramters:
+
+    :param: stock: int, stock ID
+    :param: start: date, starting date
+    :param: end: date: ending date
+    """
+
+    class Meta:
+        resource_name = "historical/stats"
+
+    def _get_date_range(self, request):
         """Helper func to determine date range by URL parameter.
 
         URL Args
@@ -82,7 +138,7 @@ class StockResource(ModelResource):
           (start, end)
 
         """
-        params = bundle.request.GET
+        params = request.GET
         start = params.get("start", None)
         end = params.get("end", None)
         if start:
@@ -96,36 +152,10 @@ class StockResource(ModelResource):
 
         return (start, end)
 
-    def _get_selected_historicals(self, bundle):
-        start, end = self._get_date_range(bundle)
-        me = bundle.obj
-
-        return (
-            MyStockHistorical.objects.by_date_range(start, end)
-            .filter(stock=me)
-            .order_by("on")
-        )
-
-    def dehydrate_olds(self, bundle):
-        """Historical values.
-
-        Take two filter keys to define a date range for historicals.
-
-        Return
-        ------
-          :list:
-          Historical query set turned to list directly, thus including
-          all fields. Historical is sorted by date.
-
-        """
-        historicals = self._get_selected_historicals(bundle)
-        return list(historicals.values())
-
-    def dehydrate_indexes(self, bundle):
+    def _get_indexes(self, historicals):
         """Pre-computed index values from selected historicals."""
 
         # pre-computed daily index value
-        historicals = self._get_selected_historicals(bundle)
         indexes = MyStrategyValue.objects.filter(hist__in=historicals)
 
         result = {}
@@ -139,30 +169,34 @@ class StockResource(ModelResource):
 
         return result
 
-    def dehydrate_stats(self, bundle):
+    def _get_stats(self, historicals):
         """Stats based on these data point."""
-
-        # already sorted by date
-        historicals = self._get_selected_historicals(bundle)
         return MyStrategyValue.objects.stats(historicals)
 
+    def get_object_list(self, request):
+        start, end = self._get_date_range(request)
+        stock = request.GET.get("stock")
 
-class HistoricalResource(ModelResource):
-    stock = fields.ForeignKey(
-        "stock.api.StockResource", "stock", use_in="detail"
-    )
+        historicals = (
+            MyStockHistorical.objects.by_date_range(start, end)
+            .filter(stock=stock)
+            .order_by("on")
+        )
 
-    class Meta:
-        queryset = MyStockHistorical.objects.all()
-        filtering = {"on": ["range"], "stock": ["exact"]}
-        resource_name = "historicals"
+        indexes = self._get_indexes(historicals)
+        stats = self._get_stats(historicals)
 
-
-class StatSummary:
-    def __init__(self, id=None, name=None, stats=None):
-        self.id = id
-        self.name = name
-        self.stats = stats
+        return [
+            StatSummary(
+                stock,
+                "historicals",
+                {
+                    "olds": list(historicals.values()),
+                    "indexes": indexes,
+                    "stats": stats,
+                },
+            )
+        ]
 
 
 class StrategyValueResource(ModelResource):

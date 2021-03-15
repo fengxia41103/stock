@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
-import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
+import { useParams } from "react-router-dom";
+import GlobalContext from "src/context";
 import FinancialsView from "src/views/stock/FinancialsView";
+import Fetch from "src/components/fetch.jsx";
 
 import classNames from "classnames";
 import { map, last, reverse, filter, isEmpty, isNull, merge } from "lodash";
@@ -17,7 +19,9 @@ import {
 import Page from "src/components/Page";
 
 function DCFView() {
-  const stock = useContext(StockDetailContext);
+  const { id } = useParams();
+  const { api } = useContext(GlobalContext);
+  const [resource] = useState(`/stocks/${id}`);
 
   const [risk_free, setRiskFree] = useState(1.242);
   const [market_premium, setMarketPremium] = useState(7);
@@ -26,10 +30,6 @@ function DCFView() {
   const [project_year, setProjectYear] = useState(5);
   const [terminal_growth_rate, setTerminalGrowthRate] = useState(1);
 
-  // if this is a ETF, skip
-  if (isEmpty(stock.balances)) {
-    return null;
-  }
   const risk_free_change = event => {
     setRiskFree(event.target.value);
   };
@@ -113,8 +113,6 @@ function DCFView() {
     return dcf_values;
   };
 
-  const dcf_values = compute_dcf(stock);
-
   const reported = {
     dcf_to_price_ratio: "Valuation/Price Ratio",
     dcf: "Discounted Cash Flow Valuation",
@@ -188,19 +186,23 @@ function DCFView() {
       </Grid>
     );
   });
-  return (
-    <Box mt={3}>
-      <Card>
-        <CardContent>
-          <Grid container spacing={1}>
-            {adjustable_inputs}
-          </Grid>
-        </CardContent>
-      </Card>
 
-      <FinancialsView title="" data={dcf_values} reported={reported} />
-    </Box>
-  );
+  const render_data = stock => {
+    const dcf_values = compute_dcf(stock);
+    return (
+      <Box mt={3}>
+        <Card>
+          <CardContent>
+            <Grid container spacing={1}>
+              {adjustable_inputs}
+            </Grid>
+          </CardContent>
+        </Card>
+        <FinancialsView title="" data={dcf_values} reported={reported} />
+      </Box>
+    );
+  };
+  return <Fetch api={api} resource={resource} render_data={render_data} />;
 }
 
 export default DCFView;

@@ -16,13 +16,11 @@ import Fetch from "src/components/fetch.jsx";
 function PriceView() {
   const { id } = useParams();
   const { api } = useContext(GlobalContext);
-  const { start, end, key } = useContext(StockHistoricalContext);
-  const [resource, setResource] = useState();
-  setResource(`/stocks/${id}?start=${start}&end=${end}`);
+  const { start, end } = useContext(StockHistoricalContext);
 
-  const render_data = stock => {
-    const { olds: historicals, stats, indexes } = stock;
-
+  const render_data = resp => {
+    const { objects: data } = resp;
+    console.log(data[0].stats.olds.length);
     return (
       <Box mt={3}>
         <Typography variant="body2">{start}</Typography>
@@ -33,6 +31,11 @@ function PriceView() {
     );
   };
 
-  return <Fetch api={api} resource={resource} render_data={render_data} />;
+  const resource = `/historical/stats?stock=${id}&start=${start}&end=${end}`;
+  // MUST: forcing re-fetch if the key is changing!
+  const key = start + end;
+  return (
+    <Fetch key={key} api={api} resource={resource} render_data={render_data} />
+  );
 }
 export default PriceView;
