@@ -1,41 +1,45 @@
-import React, { useContext, useState } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import React, { useContext } from "react";
 import {
   Box,
-  Container,
-  Grid,
-  Link,
   Card,
   CardContent,
+  CardHeader,
+  Divider,
+  Grid,
   Typography,
 } from "@material-ui/core";
-import GlobalContext from "src/context";
+
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context.jsx";
-import Fetch from "src/components/fetch.jsx";
+
+import PriceTable from "./table.jsx";
+import PriceChart from "./chart.jsx";
+import DailyReturnView from "src/views/stock/DailyReturnView";
+import OvernightReturnView from "src/views/stock/OvernightReturnView";
 
 function PriceView() {
-  const { id } = useParams();
-  const { api } = useContext(GlobalContext);
-  const { start, end } = useContext(StockHistoricalContext);
-
-  const render_data = resp => {
-    const { objects: data } = resp;
-    console.log(data[0].stats.olds.length);
-    return (
-      <Box mt={3}>
-        <Typography variant="body2">{start}</Typography>
-        &mdash;
-        <Typography variant="body2">{end}</Typography>
-        <Outlet />
-      </Box>
-    );
-  };
-
-  const resource = `/historical/stats?stock=${id}&start=${start}&end=${end}`;
-  // MUST: forcing re-fetch if the key is changing!
-  const key = start + end;
+  const { olds: data } = useContext(StockHistoricalContext);
   return (
-    <Fetch key={key} api={api} resource={resource} render_data={render_data} />
+    <Grid container spacing={3}>
+      <Grid item lg={6} sm={12} xs={12}>
+        <Card>
+          <CardContent>
+            <PriceChart data={data} />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent>
+            <PriceTable data={data} />
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid item lg={6} sm={12} xs={12}>
+        <DailyReturnView />
+        <OvernightReturnView />
+      </Grid>
+    </Grid>
   );
 }
+
 export default PriceView;

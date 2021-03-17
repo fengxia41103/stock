@@ -175,8 +175,7 @@ class HistoricalStatResource(SummaryResource):
 
     def get_object_list(self, request):
         start, end = self._get_date_range(request)
-        stock = request.GET.get("stock")
-
+        stock = MyStock.objects.get(id=request.GET.get("stock"))
         historicals = (
             MyStockHistorical.objects.by_date_range(start, end)
             .filter(stock=stock)
@@ -188,9 +187,10 @@ class HistoricalStatResource(SummaryResource):
 
         return [
             StatSummary(
-                stock,
+                stock.id,
                 "historicals",
                 {
+                    "symbol": stock.symbol,
                     "olds": list(historicals.values()),
                     "indexes": indexes,
                     "stats": stats,

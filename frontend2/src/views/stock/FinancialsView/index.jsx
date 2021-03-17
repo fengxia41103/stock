@@ -22,6 +22,7 @@ function FinancialsView(props) {
     in_period_change,
     p2p_growth,
     pcnt,
+    analysis,
   } = props;
 
   // if ETF, skip
@@ -30,6 +31,10 @@ function FinancialsView(props) {
   }
 
   const mapping = [
+    {
+      title: "Analysis",
+      data: analysis,
+    },
     {
       title: "Reported",
       data: reported,

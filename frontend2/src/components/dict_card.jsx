@@ -1,43 +1,101 @@
-import React, { Component } from "react";
+import React from "react";
+import { makeStyles } from "@material-ui/styles";
 import classNames from "classnames";
 import { map, isEmpty, isNumber } from "lodash";
 
-class DictCard extends Component {
-  constructor(props) {
-    super(props);
+import { Box, Grid, Card, CardContent, Typography } from "@material-ui/core";
+
+// A style sheet
+const useStyles = makeStyles({
+  number: {
+    positive: {
+      color: "green",
+    },
+    negative: {
+      color: "#d52349",
+    },
+    zero: {
+      color: "orange",
+    },
+  },
+});
+
+function DictCard(props) {
+  const classes = useStyles();
+  const { data, interests } = props;
+
+  if (isEmpty(data)) {
+    return (
+      <Typography variant="body2" color="error">
+        No data found.
+      </Typography>
+    );
   }
 
-  render() {
-    const { data, interests } = this.props;
-    if (isEmpty(data)) {
-      return <div className="positive">No data found.</div>;
-    }
-
-    const cards = Object.entries(interests).map(([key, description]) => {
-      let val = data[key];
-      let decor = null;
-
-      if (isNumber(val)) {
-        decor = classNames(
-          "quotation",
-          val < 0 ? "negative" : null,
-          val == 0 ? "is-zero" : null
+  const style_me = val => {
+    if (isNumber(val)) {
+      if (val < 0) {
+        return (
+          <Typography
+            variant="h3"
+            color="textPrimary"
+            className={classes.number.negative}
+          >
+            {val.toFixed(2)}
+          </Typography>
         );
-        val = val.toFixed(2);
+      } else if (val == 0) {
+        return (
+          <Typography
+            variant="h3"
+            color="textPrimary"
+            className={classes.number.zero}
+          >
+            {val.toFixed(2)}
+          </Typography>
+        );
       } else {
-        decor = classNames("quotation");
+        return (
+          <Typography
+            variant="h3"
+            color="textPrimary"
+            className={classes.number.positive}
+          >
+            {val.toFixed(2)}
+          </Typography>
+        );
       }
-
+    } else {
       return (
-        <div key={key} className="col l4 m6 s12 card">
-          <h4 className="mylabel">{description}</h4>
-          <div className={decor}>{val}</div>
-        </div>
+        <Typography variant="h3" color="textPrimary">
+          {val ? val : "Not Available"}
+        </Typography>
       );
-    });
+    }
+  };
 
-    return <div className="row"> {cards}</div>;
-  }
+  const cards = Object.entries(interests).map(([key, description]) => {
+    let val = data[key];
+    let decor = null;
+    return (
+      <Grid item key={key} lg={3} sm={6} xs={12}>
+        <Card>
+          <CardContent>
+            <Typography variant="h6" color="textSecondary" gutterBottom>
+              {description}
+            </Typography>
+            {style_me(val)}
+          </CardContent>
+        </Card>
+      </Grid>
+    );
+  });
+
+  return (
+    <Grid container spacing={3}>
+      {cards}
+    </Grid>
+  );
 }
 
 export default DictCard;

@@ -2,8 +2,6 @@ import React from "react";
 import classNames from "classnames";
 import { useTheme } from "@material-ui/core/styles";
 import { map, isEmpty, isNull, isUndefined } from "lodash";
-import { randomId } from "src/utils/helper.jsx";
-import HighchartGraphBox from "./graph-highchart.jsx";
 import Page from "src/components/Page";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -14,9 +12,11 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import { randomId } from "src/utils/helper.jsx";
+import HighchartGraphBox from "./graph-highchart.jsx";
 
 function DictTable(props) {
-  const theme = useTheme();
+  const { table } = useTheme();
   const { data, interests, chart } = props;
 
   if (isEmpty(data)) {
@@ -59,7 +59,7 @@ function DictTable(props) {
 
       <Box mt={3}>
         <TableContainer component={Paper}>
-          <Table className={theme.table} size="small">
+          <Table style={table} size="small">
             <TableHead>
               <TableRow>
                 <TableCell></TableCell>
@@ -84,16 +84,18 @@ function Chart(props) {
   });
 
   return (
-    <HighchartGraphBox
-      containerId={containerId}
-      type="line"
-      categories={dates}
-      yLabel=""
-      title=""
-      legendEnabled={true}
-      data={chart_data}
-      normalize={true}
-    />
+    <Box mt={3}>
+      <HighchartGraphBox
+        containerId={containerId}
+        type="line"
+        categories={dates}
+        yLabel=""
+        title=""
+        legendEnabled={true}
+        data={chart_data}
+        normalize={true}
+      />
+    </Box>
   );
 }
 

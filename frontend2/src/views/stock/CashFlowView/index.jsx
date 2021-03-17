@@ -39,14 +39,11 @@ function CashFlowView(props) {
     return (
       <FinancialsView
         title="Cash Flow Statement Analysis"
-        data={data}
-        reported={reported}
-        pcnt={pcnt}
-        p2p_growth={p2p_growth}
+        {...{ data, reported, pcnt, p2p_growth }}
       />
     );
   };
-  return <Fetch api={api} resource={resource} render_data={render_data} />;
+  return <Fetch {...{ api, resource, render_data }} />;
 }
 
 export default CashFlowView;

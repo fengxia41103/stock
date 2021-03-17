@@ -48,15 +48,11 @@ function BalanceView() {
     return (
       <FinancialsView
         title="Balance Sheet Analysis"
-        data={data}
-        reported={reported}
-        ratio={ratio}
-        pcnt={pcnt}
-        p2p_growth={p2p_growth}
+        {...{ data, reported, ratio, pcnt, p2p_growth }}
       />
     );
   };
-  return <Fetch api={api} resource={resource} render_data={render_data} />;
+  return <Fetch {...{ api, resource, render_data }} />;
 }
 
 export default BalanceView;

@@ -32,6 +32,12 @@ import CashFlowView from "src/views/stock/CashFlowView";
 import DCFView from "src/views/stock/DCFView";
 import ValuationRatiosView from "src/views/stock/ValuationRatiosView";
 import StockHistoricalView from "src/views/stock/StockHistoricalView";
+import DupontView from "src/views/stock/DupontView";
+import PriceView from "src/views/stock/PriceView";
+import StockSummaryView from "src/views/stock/StockSummaryView";
+import DailyReturnView from "src/views/stock/DailyReturnView";
+import OvernightReturnView from "src/views/stock/OvernightReturnView";
+import TechIndicatorView from "src/views/stock/TechIndicatorView";
 
 const items = [
   {
@@ -91,15 +97,26 @@ const routes = [
         path: "stocks/:id",
         element: <StockDetailView />,
         children: [
+          { path: "summary", element: <StockSummaryView /> },
           { path: "nav", element: <NavView /> },
           { path: "balance", element: <BalanceView /> },
           { path: "income", element: <IncomeView /> },
           { path: "cash", element: <CashFlowView /> },
           { path: "dcf", element: <DCFView /> },
           { path: "ratios", element: <ValuationRatiosView /> },
+          { path: "dupont", element: <DupontView /> },
+          {
+            path: "historical",
+            element: <StockHistoricalView />,
+            children: [
+              { path: "price", element: <PriceView /> },
+              { path: "return/daily", element: <DailyReturnView /> },
+              { path: "return/overnight", element: <OvernightReturnView /> },
+              { path: "indicator/:type", element: <TechIndicatorView /> },
+            ],
+          },
         ],
       },
-      { path: "stocks/:id/historical", element: <StockHistoricalView /> },
       { path: "account", element: <AccountView /> },
       { path: "customers", element: <CustomerListView /> },
       { path: "dashboard", element: <DashboardView /> },
