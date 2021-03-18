@@ -1,10 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useParams } from "react-router-dom";
-import GlobalContext from "src/context";
 import FinancialsView from "src/views/stock/FinancialsView";
-import Fetch from "src/components/fetch.jsx";
-
-import classNames from "classnames";
 import { map, last, reverse, filter, isEmpty, isNull, merge } from "lodash";
 
 import {
@@ -17,11 +12,10 @@ import {
   CardContent,
 } from "@material-ui/core";
 import Page from "src/components/Page";
+import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 
 function DCFView() {
-  const { id } = useParams();
-  const { api } = useContext(GlobalContext);
-  const [resource] = useState(`/stocks/${id}`);
+  const stock = useContext(StockDetailContext);
 
   const [risk_free, setRiskFree] = useState(1.242);
   const [market_premium, setMarketPremium] = useState(7);
@@ -187,22 +181,19 @@ function DCFView() {
     );
   });
 
-  const render_data = stock => {
-    const dcf_values = compute_dcf(stock);
-    return (
-      <Box mt={3}>
-        <Card>
-          <CardContent>
-            <Grid container spacing={1}>
-              {adjustable_inputs}
-            </Grid>
-          </CardContent>
-        </Card>
-        <FinancialsView title="" data={dcf_values} reported={reported} />
-      </Box>
-    );
-  };
-  return <Fetch api={api} resource={resource} render_data={render_data} />;
+  const dcf_values = compute_dcf(stock);
+  return (
+    <Box mt={3}>
+      <Card>
+        <CardContent>
+          <Grid container spacing={1}>
+            {adjustable_inputs}
+          </Grid>
+        </CardContent>
+      </Card>
+      <FinancialsView title="" data={dcf_values} reported={reported} />
+    </Box>
+  );
 }
 
 export default DCFView;

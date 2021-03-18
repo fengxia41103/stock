@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { Outlet, useParams } from "react-router-dom";
-import { Container, Box, Grid, Link, Button } from "@material-ui/core";
+import GlobalContext from "src/context";
+import {
+  Container,
+  Box,
+  Grid,
+  Link,
+  Button,
+  Typography,
+} from "@material-ui/core";
 import Page from "src/components/Page";
 import MenuBar from "src/components/menu.jsx";
+import Fetch from "src/components/fetch.jsx";
+import StockDetailContext from "./context.jsx";
 
 const price_menus = [
   {
@@ -40,7 +50,7 @@ const indicator_menus = [
     url: "historical/indicator/heikin",
     text: "Heikin-Ashi",
   },
-  {
+  !{
     url: "historical/indicator/macd",
     text: "MACD",
   },
@@ -84,25 +94,39 @@ const valuation_menus = [
   },
 ];
 
-function StockDetailView(props) {
-  return (
-    <Page>
-      <Container maxWidth={false}>
-        <Box display="flex" mb={3} borderBottom={1}>
-          <Grid container spacing={1} justify="flex-end">
-            <MenuBar title="Price & Trends" items={price_menus} />
-            <MenuBar title="Tech Indicators" items={indicator_menus} />
-            <MenuBar
-              title="Financial Statements"
-              items={financial_statement_menus}
-            />
-            <MenuBar title="Valuation Models" items={valuation_menus} />
-          </Grid>
-        </Box>
-        <Outlet />
-      </Container>
-    </Page>
-  );
+function StockDetailView() {
+  const { id } = useParams();
+  const { api } = useContext(GlobalContext);
+  const [resource] = useState(`/stocks/${id}`);
+
+  const render_data = stock => {
+    return (
+      <Page>
+        <Container maxWidth={false}>
+          <Box display="flex" mb={3} borderBottom={1}>
+            <Grid container spacing={1} justify="flex-end">
+              <MenuBar title="Price & Trends" items={price_menus} />
+              <MenuBar title="Tech Indicators" items={indicator_menus} />
+              <MenuBar
+                title="Financial Statements"
+                items={financial_statement_menus}
+              />
+              <MenuBar title="Valuation Models" items={valuation_menus} />
+            </Grid>
+          </Box>
+
+          <Typography variant="h1">{stock.symbol} Analysis</Typography>
+
+          <StockDetailContext.Provider value={stock}>
+            <Box mt={3}>
+              <Outlet />
+            </Box>
+          </StockDetailContext.Provider>
+        </Container>
+      </Page>
+    );
+  };
+  return <Fetch api={api} resource={resource} render_data={render_data} />;
 }
 
 export default StockDetailView;
