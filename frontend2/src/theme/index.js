@@ -1,6 +1,5 @@
 import { colors } from "@material-ui/core";
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
-import { palette, spacing } from "@material-ui/system";
 import shadows from "./shadows";
 import typography from "./typography";
 

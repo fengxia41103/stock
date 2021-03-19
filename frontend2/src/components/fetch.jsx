@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { isNull, isUndefined } from "lodash";
+import { isNull } from "lodash";
 import AjaxContainer from "./ajax.jsx";
 
 function Fetch(props) {
   const [data, setData] = useState(null);
   const [get_data, setGetData] = useState(false);
-  const [controller, setController] = useState(new AbortController());
+  const [controller] = useState(new AbortController());
 
   useEffect(() => {
     if (isNull(data)) {
@@ -14,7 +14,7 @@ function Fetch(props) {
 
     const cleanup = () => controller.abort();
     return cleanup;
-  });
+  }, [data, controller]);
 
   const handleUpdate = data => {
     setData(data);

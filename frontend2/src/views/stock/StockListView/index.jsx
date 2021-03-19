@@ -18,7 +18,7 @@ import GlobalContext from "src/context";
 function StockListView(props) {
   const { api } = useContext(GlobalContext);
 
-  const [resource, setResource] = useState("/stocks");
+  const [resource] = useState("/stocks");
   const [searching, setSearching] = useState("");
 
   const handleChange = event => {

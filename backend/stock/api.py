@@ -190,7 +190,6 @@ class HistoricalStatResource(SummaryResource):
                 stock.id,
                 "historicals",
                 {
-                    "symbol": stock.symbol,
                     "olds": list(historicals.values()),
                     "indexes": indexes,
                     "stats": stats,

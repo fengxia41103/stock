@@ -1,14 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import GlobalContext from "src/context";
-import {
-  Container,
-  Box,
-  Grid,
-  Link,
-  Button,
-  Typography,
-} from "@material-ui/core";
+import { Container, Box, Grid } from "@material-ui/core";
 import Page from "src/components/Page";
 import MenuBar from "src/components/menu.jsx";
 import Fetch from "src/components/fetch.jsx";
@@ -114,8 +107,6 @@ function StockDetailView() {
               <MenuBar title="Valuation Models" items={valuation_menus} />
             </Grid>
           </Box>
-
-          <Typography variant="h1">{stock.symbol} Analysis</Typography>
 
           <StockDetailContext.Provider value={stock}>
             <Box mt={3}>

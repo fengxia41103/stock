@@ -1,9 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import classNames from "classnames";
-import { map, isEmpty, isNumber } from "lodash";
+import { isEmpty, isNumber } from "lodash";
 
-import { Box, Grid, Card, CardContent, Typography } from "@material-ui/core";
+import { Grid, Card, CardContent, Typography } from "@material-ui/core";
 
 // A style sheet
 const useStyles = makeStyles({
@@ -44,7 +43,7 @@ function DictCard(props) {
             {val.toFixed(2)}
           </Typography>
         );
-      } else if (val == 0) {
+      } else if (val === 0) {
         return (
           <Typography
             variant="h3"
@@ -76,7 +75,6 @@ function DictCard(props) {
 
   const cards = Object.entries(interests).map(([key, description]) => {
     let val = data[key];
-    let decor = null;
     return (
       <Grid item key={key} lg={3} sm={6} xs={12}>
         <Card>

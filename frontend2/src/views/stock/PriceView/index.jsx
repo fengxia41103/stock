@@ -1,13 +1,5 @@
 import React, { useContext } from "react";
-import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  Grid,
-  Typography,
-} from "@material-ui/core";
+import { Card, CardContent, Grid } from "@material-ui/core";
 
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context.jsx";
 

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Box, Grid, Card, CardContent, Typography } from "@material-ui/core";
+import { Box, Card, CardContent, Typography } from "@material-ui/core";
 import StrategyValueView from "src/views/stock/StrategyValueView";
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context.jsx";
 import DictCard from "src/components/dict_card.jsx";
@@ -9,8 +9,6 @@ function OvernightReturnView() {
   const data = useContext(StockHistoricalContext);
   const returns = data.indexes["overnight return"];
   const { stats } = data;
-  const night_day_compounded_returns =
-    data.indexes["night day compounded return"];
 
   const interests = {
     nightly_ups: "UP overnights/Total days (%)",

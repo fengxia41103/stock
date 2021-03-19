@@ -2,7 +2,6 @@ import React from "react";
 import classNames from "classnames";
 import { useTheme } from "@material-ui/core/styles";
 import { map, isEmpty, isNull, isUndefined } from "lodash";
-import Page from "src/components/Page";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Table from "@material-ui/core/Table";
@@ -29,7 +28,7 @@ function DictTable(props) {
     const row = map(data, c => {
       const decor = classNames(
         c[key] < 0 ? "error" : null,
-        c[key] == 0 ? "warning" : null
+        c[key] === 0 ? "warning" : null
       );
 
       if (isNull(c[key] || isUndefined(c[key]))) {

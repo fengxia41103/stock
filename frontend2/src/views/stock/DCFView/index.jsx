@@ -1,17 +1,15 @@
 import React, { useState, useContext } from "react";
 import FinancialsView from "src/views/stock/FinancialsView";
-import { map, last, reverse, filter, isEmpty, isNull, merge } from "lodash";
+import { map, merge } from "lodash";
 
 import {
   Box,
-  Container,
   Grid,
-  Link,
   TextField,
   Card,
   CardContent,
+  Typography,
 } from "@material-ui/core";
-import Page from "src/components/Page";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 
 function DCFView() {
@@ -183,7 +181,9 @@ function DCFView() {
 
   const dcf_values = compute_dcf(stock);
   return (
-    <Box mt={3}>
+    <Box>
+      <Typography variant="h1">{stock.symbol} DCF Model</Typography>
+
       <Card>
         <CardContent>
           <Grid container spacing={1}>
@@ -191,7 +191,7 @@ function DCFView() {
           </Grid>
         </CardContent>
       </Card>
-      <FinancialsView title="" data={dcf_values} reported={reported} />
+      <FinancialsView data={dcf_values} reported={reported} />
     </Box>
   );
 }

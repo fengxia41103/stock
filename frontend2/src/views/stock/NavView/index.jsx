@@ -1,29 +1,22 @@
-import React, { useState, useContext } from "react";
-import { useParams } from "react-router-dom";
-import GlobalContext from "src/context";
+import React, { useContext } from "react";
 import FinancialsView from "src/views/stock/FinancialsView";
-import Fetch from "src/components/fetch.jsx";
+import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
+import { Box, Typography } from "@material-ui/core";
 
 function NavView(props) {
-  const { id } = useParams();
-  const { api } = useContext(GlobalContext);
-  const [resource] = useState(`/stocks/${id}`);
+  const stock = useContext(StockDetailContext);
 
   const reported = {
     nav: "NAV",
   };
 
-  const render_data = stock => {
-    const { nav_model } = stock;
+  const { nav_model } = stock;
 
-    return (
-      <FinancialsView
-        title="Net Asset Value Analysis"
-        data={nav_model}
-        reported={reported}
-      />
-    );
-  };
-  return <Fetch api={api} resource={resource} render_data={render_data} />;
+  return (
+    <Box>
+      <Typography variant="h1">{stock.symbol} Net Asset Model</Typography>
+      <FinancialsView data={nav_model} reported={reported} />
+    </Box>
+  );
 }
 export default NavView;

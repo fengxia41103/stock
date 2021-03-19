@@ -1,0 +1,22 @@
+# docker-compose version
+version: '3.3'
+
+# network
+networks:
+  management:
+
+# computes
+services:
+  stock:
+    image: frontend_stock
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/code
+      - ./nginx.conf:/etc/nginx/conf.d/feng.conf:ro
+    ports:
+      - "8084:80"
+    command: [nginx-debug, '-g', 'daemon off;']
+    networks:
+      - management

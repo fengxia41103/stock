@@ -1,19 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Outlet, useParams } from "react-router-dom";
-import {
-  Box,
-  Container,
-  Grid,
-  Link,
-  TextField,
-  Card,
-  CardContent,
-  Typography,
-} from "@material-ui/core";
-import Page from "src/components/Page";
+import { Box, Grid, TextField, Card, CardContent } from "@material-ui/core";
 import StockHistoricalContext from "./context.jsx";
-import PriceView from "src/views/stock/PriceView";
 import GlobalContext from "src/context";
+import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 import Fetch from "src/components/fetch.jsx";
 
 //import StockHistorical from "./historical.jsx";
@@ -34,12 +24,9 @@ function StockHistoricalView() {
 
   const render_data = resp => {
     const data = resp.objects[0].stats;
-    const { symbol } = data;
 
     return (
       <Box>
-        <Typography variant="h1">{symbol} Historical Prices</Typography>
-
         <Box mt={3}>
           <Card>
             <CardContent>

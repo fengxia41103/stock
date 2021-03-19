@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react";
-import { Outlet, useParams } from "react-router-dom";
-import { Box, Grid, Card, CardContent, Typography } from "@material-ui/core";
+import { useParams } from "react-router-dom";
+import { Box, Typography } from "@material-ui/core";
 import GlobalContext from "src/context";
-import FinancialsView from "src/views/stock/FinancialsView";
 import Fetch from "src/components/fetch.jsx";
 import DictCard from "src/components/dict_card.jsx";
 

@@ -1,5 +1,5 @@
 import "react-perfect-scrollbar/dist/css/styles.css";
-import React, { useContext } from "react";
+import React from "react";
 import { useRoutes } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/core";
 import GlobalStyles from "src/components/GlobalStyles";

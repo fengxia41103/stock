@@ -2,21 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import {
-  colors,
   makeStyles,
   Avatar,
   Box,
   Card,
   CardContent,
-  CardHeader,
   Typography,
   Grid,
-  Divider,
-  Link,
 } from "@material-ui/core";
-import { isNull } from "lodash";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import MoneyIcon from "@material-ui/icons/Money";
 
 const useStyles = makeStyles(theme => ({
   root: {

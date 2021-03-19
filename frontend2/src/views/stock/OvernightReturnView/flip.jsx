@@ -1,12 +1,7 @@
-import React, { useContext } from "react";
-import DictCard from "src/components/dict_card.jsx";
+import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import {
   Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
   Grid,
   Typography,
   colors,
@@ -23,13 +18,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 function OvernightFlipView(props) {
-  const classes = useStyles();
   const theme = useTheme();
   const { data } = props;
-
-  const interests = {
-    "night day flips": "Night-Day Flips",
-  };
 
   const chart_data = {
     datasets: [

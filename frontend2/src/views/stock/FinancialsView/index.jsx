@@ -1,21 +1,10 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import { isEmpty, isUndefined, map } from "lodash";
-import {
-  Box,
-  Typography,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-} from "@material-ui/core";
+import { Box, Typography, Card, CardContent } from "@material-ui/core";
 import DictTable from "src/components/dict_table.jsx";
-import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 
 function FinancialsView(props) {
   const {
-    title,
     data,
     reported,
     ratio,
@@ -74,12 +63,7 @@ function FinancialsView(props) {
     );
   });
 
-  return (
-    <Box mt={3}>
-      <Typography variant="h2">{title}</Typography>
-      {cards}
-    </Box>
-  );
+  return <Box mt={3}>{cards}</Box>;
 }
 
 export default FinancialsView;

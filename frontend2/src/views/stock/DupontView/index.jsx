@@ -1,13 +1,10 @@
-import React, { useState, useContext } from "react";
-import { Outlet, useParams } from "react-router-dom";
-import GlobalContext from "src/context";
+import React, { useContext } from "react";
+import { Box, Typography } from "@material-ui/core";
 import FinancialsView from "src/views/stock/FinancialsView";
-import Fetch from "src/components/fetch.jsx";
+import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 
 function DupontView() {
-  const { id } = useParams();
-  const { api } = useContext(GlobalContext);
-  const [resource] = useState(`/stocks/${id}`);
+  const stock = useContext(StockDetailContext);
 
   const reported = {
     revenue: "Revenue",
@@ -22,18 +19,14 @@ function DupontView() {
     equity_multiplier: "Equity Multiplier",
   };
 
-  const render_data = stock => {
-    const { dupont_model } = stock;
+  const { dupont_model } = stock;
 
-    return (
-      <FinancialsView
-        title="Dupont ROE Analysis"
-        data={dupont_model}
-        {...{ reported, analysis }}
-      />
-    );
-  };
-  return <Fetch api={api} resource={resource} render_data={render_data} />;
+  return (
+    <Box>
+      <Typography variant="h1">{stock.symbol} Dupont ROE Model</Typography>
+      <FinancialsView data={dupont_model} {...{ reported, analysis }} />
+    </Box>
+  );
 }
 
 export default DupontView;
