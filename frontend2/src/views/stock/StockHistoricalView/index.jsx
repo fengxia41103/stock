@@ -3,10 +3,7 @@ import { Outlet, useParams } from "react-router-dom";
 import { Box, Grid, TextField, Card, CardContent } from "@material-ui/core";
 import StockHistoricalContext from "./context.jsx";
 import GlobalContext from "src/context";
-import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 import Fetch from "src/components/fetch.jsx";
-
-//import StockHistorical from "./historical.jsx";
 
 function StockHistoricalView() {
   const { id } = useParams();

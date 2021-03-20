@@ -38,8 +38,14 @@ import StockSummaryView from "src/views/stock/StockSummaryView";
 import DailyReturnView from "src/views/stock/DailyReturnView";
 import OvernightReturnView from "src/views/stock/OvernightReturnView";
 import TechIndicatorView from "src/views/stock/TechIndicatorView";
+import RankingView from "src/views/stock/RankingView";
 
 const items = [
+  {
+    href: "/app/rankings",
+    icon: BarChartIcon,
+    title: "Rankings",
+  },
   {
     href: "/app/stocks",
     icon: BarChartIcon,
@@ -49,41 +55,6 @@ const items = [
     href: "/app/dashboard",
     icon: BarChartIcon,
     title: "Dashboard",
-  },
-  {
-    href: "/app/customers",
-    icon: UsersIcon,
-    title: "Customers",
-  },
-  {
-    href: "/app/products",
-    icon: ShoppingBagIcon,
-    title: "Products",
-  },
-  {
-    href: "/app/account",
-    icon: UserIcon,
-    title: "Account",
-  },
-  {
-    href: "/app/settings",
-    icon: SettingsIcon,
-    title: "Settings",
-  },
-  {
-    href: "/login",
-    icon: LockIcon,
-    title: "Login",
-  },
-  {
-    href: "/register",
-    icon: UserPlusIcon,
-    title: "Register",
-  },
-  {
-    href: "/404",
-    icon: AlertCircleIcon,
-    title: "Error",
   },
 ];
 
@@ -117,11 +88,8 @@ const routes = [
           },
         ],
       },
-      { path: "account", element: <AccountView /> },
-      { path: "customers", element: <CustomerListView /> },
+      { path: "rankings", element: <RankingView /> },
       { path: "dashboard", element: <DashboardView /> },
-      { path: "products", element: <ProductListView /> },
-      { path: "settings", element: <SettingsView /> },
       { path: "*", element: <Navigate to="/404" /> },
     ],
   },
@@ -129,10 +97,8 @@ const routes = [
     path: "/",
     element: <MainLayout />,
     children: [
-      { path: "login", element: <LoginView /> },
-      { path: "register", element: <RegisterView /> },
       { path: "404", element: <NotFoundView /> },
-      { path: "/", element: <Navigate to="/app/dashboard" /> },
+      { path: "/", element: <Navigate to="/app/stocks" /> },
       { path: "*", element: <Navigate to="/404" /> },
     ],
   },

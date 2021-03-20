@@ -1,21 +1,8 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
-import {
-  Box,
-  Grid,
-  Typography,
-  colors,
-  makeStyles,
-  useTheme,
-} from "@material-ui/core";
+import { Box, Grid, Typography, colors, useTheme } from "@material-ui/core";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import TrendingDownIcon from "@material-ui/icons/TrendingDown";
-
-const useStyles = makeStyles(() => ({
-  root: {
-    height: "100%",
-  },
-}));
 
 function OvernightFlipView(props) {
   const theme = useTheme();

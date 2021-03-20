@@ -18,7 +18,7 @@ function AjaxContainer(props) {
     }
 
     // Get data
-    const { apiUrl, handleUpdate, controller } = props;
+    const { apiUrl, handleUpdate } = props;
     /*     console.log("Getting: " + apiUrl); */
 
     // Work horse

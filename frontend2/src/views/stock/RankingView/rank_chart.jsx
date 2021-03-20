@@ -1,23 +1,27 @@
 import React from "react";
+import { map } from "lodash";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/graph-highchart.jsx";
-import { map } from "lodash";
 
-function StrategyValueView(props) {
+export default function RowRankChart(props) {
+  const { category, ranks } = props;
+
+  // charting the vals. I found using chart is easier to gauge
+  // relative strength. However, it takes a lot of screen
+  // space. Thus I'm making it toggle.
   const containerId = randomId();
-  const { data, name } = props;
-  const categories = map(data, d => d.hist__on);
+  const categories = map(ranks, r => r.symbol);
   const chart_data = [
     {
-      name: name,
-      data: map(data, d => d.val),
+      name: category,
+      data: map(ranks, r => r.val),
     },
   ];
 
   return (
     <HighchartGraphBox
       containerId={containerId}
-      type="column"
+      type="bar"
       categories={categories}
       yLabel=""
       title=""
@@ -26,5 +30,3 @@ function StrategyValueView(props) {
     />
   );
 }
-
-export default StrategyValueView;

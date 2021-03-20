@@ -14,7 +14,7 @@ class MyValuationRatio:
         self.stock = MyStock.objects.get(symbol=symbol)
 
     def get(self):
-        s = Ticker(self.stock.symbol)
+        s = Ticker(self.stock.symbol, timeout=15)
 
         # all numbers convert to million
         df = s.valuation_measures

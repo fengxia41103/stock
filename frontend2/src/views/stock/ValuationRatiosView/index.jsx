@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import GlobalContext from "src/context";
 import FinancialsView from "src/views/stock/FinancialsView";
 import Fetch from "src/components/fetch.jsx";

@@ -19,7 +19,7 @@ class MySummary:
         self.stock = MyStock.objects.get(symbol=symbol)
 
     def get(self):
-        s = Ticker(self.stock.symbol)
+        s = Ticker(self.stock.symbol, timeout=15)
 
         # https://yahooquery.dpguthrie.com/guide/ticker/modules/#financial_data
         df = s.financial_data[self.stock.symbol]

@@ -42,7 +42,7 @@ function StockListGroupCard(props) {
                 <Typography color="textSecondary" gutterBottom variant="h6">
                   Latest Reporting Date
                 </Typography>
-                <Typography color="info" variant="h3">
+                <Typography color="textPrimary" variant="h3">
                   {title}
                 </Typography>
               </Grid>
@@ -54,8 +54,8 @@ function StockListGroupCard(props) {
             </Grid>
           </Box>
           <Grid container spacing={3}>
-            {stocks.map(link => (
-              <Grid item key={link} xs>
+            {stocks.map((link, index) => (
+              <Grid item key={index} xs>
                 {link}
               </Grid>
             ))}
