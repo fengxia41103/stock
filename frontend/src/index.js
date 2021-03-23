@@ -6,6 +6,9 @@ import App from "./App";
 import GlobalContext from "src/context";
 
 const globals = {
+  localhost: {
+    api: "http://localhost:8003/api/v1",
+  },
   p127: {
     api: "http://192.168.1.114:8003/api/v1",
   },
@@ -16,7 +19,7 @@ const globals = {
 
 ReactDOM.render(
   <BrowserRouter>
-    <GlobalContext.Provider value={globals.p517}>
+    <GlobalContext.Provider value={globals.localhost}>
       <App />
     </GlobalContext.Provider>
   </BrowserRouter>,

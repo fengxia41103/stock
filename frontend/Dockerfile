@@ -16,9 +16,15 @@ RUN yarn install
 COPY . /code
 
 # Start the app
-RUN yarn build
+RUN yarn run build
 
 # production environment
-FROM nginx:1.19-alphine
-COPY nginx.conf /etc/nginx/sites-enabled/feng.conf
-COPY --from=builder /code/build /usr/share/nginx/html
+FROM nginx:latest
+
+# Set working directory to nginx asset directory
+WORKDIR /usr/share/nginx/html
+
+# Remove default nginx static assets
+RUN rm -rf ./*
+
+COPY --from=builder /code/build .
