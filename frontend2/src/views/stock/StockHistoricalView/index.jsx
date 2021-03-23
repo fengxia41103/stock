@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Outlet, useParams } from "react-router-dom";
-import { Box, Grid, TextField, Card, CardContent } from "@material-ui/core";
+import { Box, Grid, TextField, Card, CardContent, Typography } from "@material-ui/core";
 import StockHistoricalContext from "./context.jsx";
 import GlobalContext from "src/context";
 import Fetch from "src/components/fetch.jsx";
@@ -24,6 +24,7 @@ function StockHistoricalView() {
 
     return (
       <Box>
+        <Typography variant="h1">{data.symbol} Historical</Typography>
         <Box mt={3}>
           <Card>
             <CardContent>

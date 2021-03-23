@@ -5,6 +5,7 @@ from datetime import timedelta
 
 from tastypie import fields
 from tastypie.constants import ALL
+from tastypie.resources import ALL_WITH_RELATIONS
 from tastypie.resources import Bundle
 from tastypie.resources import ModelResource
 from tastypie.resources import Resource
@@ -190,6 +191,7 @@ class HistoricalStatResource(SummaryResource):
                 stock.id,
                 "historicals",
                 {
+                    "symbol": stock.symbol,
                     "olds": list(historicals.values()),
                     "indexes": indexes,
                     "stats": stats,
@@ -210,6 +212,7 @@ class StrategyValueResource(ModelResource):
 
 
 class IncomeStatementResource(ModelResource):
+    stock = fields.ForeignKey("stock.api.StockResource", "stock")
 
     # reported
     close_price = fields.FloatField("close_price", null=True)
@@ -262,11 +265,13 @@ class IncomeStatementResource(ModelResource):
     class Meta:
         queryset = IncomeStatement.objects.all()
         resource_name = "incomes"
-        filtering = {"stock": ["exact"]}
+        filtering = {"stock": ALL_WITH_RELATIONS}
         ordering = ["on"]
 
 
 class CashFlowResource(ModelResource):
+    stock = fields.ForeignKey("stock.api.StockResource", "stock")
+
     # reported
     close_price = fields.FloatField("close_price", null=True)
 
@@ -289,7 +294,7 @@ class CashFlowResource(ModelResource):
     class Meta:
         queryset = CashFlow.objects.all()
         resource_name = "cashes"
-        filtering = {"stock": ["exact"]}
+        filtering = {"stock": ALL_WITH_RELATIONS}
         ordering = ["on"]
 
 
@@ -356,7 +361,7 @@ class BalanceSheetResource(ModelResource):
     class Meta:
         queryset = BalanceSheet.objects.all()
         resource_name = "balances"
-        filtering = {"stock": ["exact"]}
+        filtering = {"stock": ALL_WITH_RELATIONS}
         ordering = ["on"]
 
 
@@ -366,7 +371,7 @@ class ValuationRatioResource(ModelResource):
     class Meta:
         queryset = ValuationRatio.objects.all()
         resource_name = "ratios"
-        filtering = {"stock": ["exact"]}
+        filtering = {"stock": ALL_WITH_RELATIONS}
         ordering = ["on"]
 
 

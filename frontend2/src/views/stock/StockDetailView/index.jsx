@@ -43,7 +43,7 @@ const indicator_menus = [
     url: "historical/indicator/heikin",
     text: "Heikin-Ashi",
   },
-  !{
+  {
     url: "historical/indicator/macd",
     text: "MACD",
   },

@@ -184,14 +184,16 @@ function DCFView() {
     <Box>
       <Typography variant="h1">{stock.symbol} DCF Model</Typography>
 
-      <Card>
-        <CardContent>
-          <Grid container spacing={1}>
-            {adjustable_inputs}
-          </Grid>
-        </CardContent>
-      </Card>
       <FinancialsView data={dcf_values} reported={reported} />
+      <Box mt={3}>
+        <Card>
+          <CardContent>
+            <Grid container spacing={1}>
+              {adjustable_inputs}
+            </Grid>
+          </CardContent>
+        </Card>
+      </Box>
     </Box>
   );
 }

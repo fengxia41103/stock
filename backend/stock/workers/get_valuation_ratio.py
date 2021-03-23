@@ -18,8 +18,8 @@ class MyValuationRatio:
 
         # all numbers convert to million
         df = s.valuation_measures
-        if "unavailable" in df:
-            logger.error(df)
+        if "unavailable" in df or "error" in df:
+            logger.error("{}: {}".format(self.stock.symbol, df))
             return
 
         # DB doesn't like NaN

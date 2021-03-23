@@ -20,9 +20,9 @@ class MyIncomeStatement:
         s = Ticker(self.stock.symbol, timeout=15)
 
         # all numbers convert to million
-        df = s.income_statement()
-        if "unavailable" in df:
-            logger.error(df)
+        df = s.income_statement(frequency="q")
+        if "unavailable" in df or "error" in df:
+            logger.error("{}: {}".format(self.stock.symbol, df))
             return
 
         # DB doesn't like NaN

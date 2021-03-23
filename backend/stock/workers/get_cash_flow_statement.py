@@ -20,9 +20,9 @@ class MyCashFlowStatement:
         s = Ticker(self.stock.symbol, timeout=15)
 
         # all numbers convert to million
-        df = s.cash_flow()
-        if "unavailable" in df:
-            logger.error(df)
+        df = s.cash_flow(frequencey="q")
+        if "unavailable" in df or "error" in df:
+            logger.error("{}: {}".format(self.stock.symbol, df))
             return
 
         # DB doesn't like NaN
