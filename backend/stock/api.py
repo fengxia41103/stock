@@ -95,9 +95,6 @@ class StockResource(ModelResource):
         filtering = {"symbol": ALL}
         limit = 1000
 
-    def dehydrate_sectors(self):
-        pass
-
 
 class HistoricalResource(ModelResource):
     stock = fields.ForeignKey(
