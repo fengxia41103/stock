@@ -275,8 +275,13 @@ class MyStock(models.Model):
                 share_issued = balance[0].share_issued
 
             # cash using FCF
-            cash_statement = self.cashes.get(on=d.on)
-            fcf = cash_statement.free_cash_flow
+            # TODO: SY has 3 balance sheet, all on year end, 5 income
+            # statements, and 4 cash flow statements! So the time
+            # period alignment is a big problem.
+            fcf = 0
+            cash_statement = self.cashes.filter(on__lte=d.on).order_by("-on")
+            if cash_statement:
+                fcf = cash_statement[0].free_cash_flow
 
             # tax
             tax_rate = d.tax_rate

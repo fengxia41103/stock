@@ -32,7 +32,9 @@ function DailyReturnView() {
         <Card>
           <CardContent>
             <Typography variant="h3">Statistic of Daily Returns</Typography>
-            <DictCard {...{ data: stats, interests }} />
+            <Box mt={3}>
+              <DictCard {...{ data: stats, interests }} />
+            </Box>
           </CardContent>
         </Card>
       </Box>
@@ -40,7 +42,10 @@ function DailyReturnView() {
         <Card>
           <CardContent>
             <Typography variant="h3">Trend of Two-Day Returns</Typography>
-            <TwoDayReturnView {...{ data: two_day_trend }} />
+
+            <Box mt={3}>
+              <TwoDayReturnView {...{ data: two_day_trend }} />
+            </Box>
           </CardContent>
         </Card>
       </Box>

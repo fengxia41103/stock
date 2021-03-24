@@ -12,21 +12,15 @@ function PriceView() {
   const { olds: data } = useContext(StockHistoricalContext);
   return (
     <Grid container spacing={3}>
-      <Grid item lg={6} sm={12} xs={12}>
+      <Grid item xs={12}>
         <Card>
           <CardContent>
             <PriceChart data={data} />
           </CardContent>
         </Card>
-
-        <Card>
-          <CardContent>
-            <PriceTable data={data} />
-          </CardContent>
-        </Card>
       </Grid>
 
-      <Grid item lg={6} sm={12} xs={12}>
+      <Grid item xs={12}>
         <DailyReturnView />
         <OvernightReturnView />
       </Grid>

@@ -67,18 +67,22 @@ class Command(BaseCommand):
 
             # now, get info I want
             for (sector, symbol) in candidates:
+                symbol = symbol.upper()
                 history_sig = yahoo_consumer.s(sector, symbol)
-                financials_sig = group(
+                summary_compute_sig = summary_consumer.s(symbol)
+                task = chain(history_sig, summary_compute_sig)
+                task.apply_async()
+
+                task = chain(
+                    balance_sheet_consumer.s(None, symbol),
                     income_statement_consumer.s(symbol),
                     cash_flow_statement_consumer.s(symbol),
                     valuation_ratio_consumer.s(symbol),
-                    balance_sheet_consumer.s(symbol),
-                    summary_consumer.s(symbol),
                 )
-                task = chain(history_sig, financials_sig)
                 task.apply_async()
 
     def _dump_symbol(self, dest, symbol):
+        symbol = symbol.upper()
         header = "Date,Open,High,Low,Close,Adj Close,Volume"
         with open("{}/{}.csv".format(dest, symbol), "w") as f:
             data = [header]

@@ -98,13 +98,13 @@ function StockDetailView() {
         <Container maxWidth={false}>
           <Box display="flex" mb={3} borderBottom={1}>
             <Grid container spacing={1} justify="flex-end">
-              <MenuBar title="Price & Trends" items={price_menus} />
-              <MenuBar title="Tech Indicators" items={indicator_menus} />
               <MenuBar
                 title="Financial Statements"
                 items={financial_statement_menus}
               />
               <MenuBar title="Valuation Models" items={valuation_menus} />
+              <MenuBar title="Price & Trends" items={price_menus} />
+              <MenuBar title="Tech Indicators" items={indicator_menus} />
             </Grid>
           </Box>
 

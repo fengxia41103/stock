@@ -28,10 +28,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function StockListGroupCard(props) {
-  const { reporting_date, stocks } = props;
+  const { stocks, index, group_by } = props;
   const classes = useStyles();
 
-  const title = reporting_date === "null" ? "ETF" : reporting_date;
+  const title =
+    group_by === "last_reporting_date" && index === "null" ? "ETF" : index;
+
   return (
     <Grid item lg={3} sm={6} xs={12}>
       <Card className={clsx(classes.root, classes.card)}>
@@ -40,7 +42,7 @@ function StockListGroupCard(props) {
             <Grid container justify="space-between" spacing={3}>
               <Grid item>
                 <Typography color="textSecondary" gutterBottom variant="h6">
-                  Latest Reporting Date
+                  By {group_by}
                 </Typography>
                 <Typography color="textPrimary" variant="h3">
                   {title}
@@ -55,7 +57,7 @@ function StockListGroupCard(props) {
           </Box>
           <Grid container spacing={3}>
             {stocks.map((link, index) => (
-              <Grid item key={index} xs>
+              <Grid item key={index} xs={3}>
                 {link}
               </Grid>
             ))}

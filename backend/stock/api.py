@@ -70,7 +70,7 @@ class SectorResource(ModelResource):
 
 class StockResource(ModelResource):
     sectors = fields.ManyToManyField(
-        "stock.api.SectorResource", "sectors", null=True, use_in="detail"
+        "stock.api.SectorResource", "sectors", null=True
     )
     symbol = fields.CharField("symbol")
     tax_rate = fields.FloatField("tax_rate", null=True, use_in="detail")
@@ -94,6 +94,9 @@ class StockResource(ModelResource):
         resource_name = "stocks"
         filtering = {"symbol": ALL}
         limit = 1000
+
+    def dehydrate_sectors(self):
+        pass
 
 
 class HistoricalResource(ModelResource):

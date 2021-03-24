@@ -20,25 +20,25 @@ def summary_consumer(whatever, symbol):
     crawler.get()
 
 
-@shared_task
+@shared_task(rate_limit="2/m")
 def balance_sheet_consumer(whatever, symbol):
     crawler = MyBalanceSheet(symbol)
     crawler.get()
 
 
-@shared_task
+@shared_task(rate_limit="2/m")
 def income_statement_consumer(whatever, symbol):
     crawler = MyIncomeStatement(symbol)
     crawler.get()
 
 
-@shared_task
+@shared_task(rate_limit="2/m")
 def cash_flow_statement_consumer(whatever, symbol):
     crawler = MyCashFlowStatement(symbol)
     crawler.get()
 
 
-@shared_task
+@shared_task(rate_limit="2/m")
 def valuation_ratio_consumer(whatever, symbol):
     crawler = MyValuationRatio(symbol)
     crawler.get()

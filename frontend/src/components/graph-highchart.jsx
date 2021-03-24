@@ -33,7 +33,20 @@ class HighchartGraphBox extends Component {
     if (tmp.length === 0) return data;
 
     const base = tmp[0];
-    return map(data, d => d / base);
+    const normalized = map(data, d => {
+      if (d === 0) return 0;
+      if (d === base) return 1;
+
+      // both positive or negative, just straightforward normalizing to reference
+      // as 1.
+      if ((d > 0 && base > 0) || (d < 0 && base < 0)) {
+        return d / Math.abs(base);
+      } else {
+        return (d - base) / Math.abs(base);
+      }
+    });
+
+    return normalized;
   }
 
   makeViz() {

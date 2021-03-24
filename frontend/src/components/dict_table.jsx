@@ -28,7 +28,7 @@ function DictTable(props) {
     const row = map(data, c => {
       const decor = classNames(
         c[key] < 0 ? "error" : null,
-        c[key] === 0 ? "warning" : null
+        c[key] === 0 ? "textSecondary" : null
       );
 
       if (isNull(c[key] || isUndefined(c[key]))) {
