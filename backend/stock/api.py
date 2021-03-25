@@ -4,6 +4,7 @@ from datetime import datetime
 from datetime import timedelta
 
 from tastypie import fields
+from tastypie.authorization import Authorization
 from tastypie.constants import ALL
 from tastypie.resources import ALL_WITH_RELATIONS
 from tastypie.resources import Bundle
@@ -94,6 +95,7 @@ class StockResource(ModelResource):
         resource_name = "stocks"
         filtering = {"symbol": ALL}
         limit = 1000
+        authorization = Authorization()
 
 
 class HistoricalResource(ModelResource):

@@ -29,7 +29,6 @@ function StockListView(props) {
   const [resource] = useState("/stocks");
   const [searching, setSearching] = useState("");
   const [group_by, setGroupBy] = useState("last_reporting_date");
-
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -168,6 +167,6 @@ function StockListView(props) {
     );
   };
 
-  return <Fetch api={api} resource={resource} render_data={render_data} />;
+  return <Fetch {...{ api, resource, render_data }} />;
 }
 export default StockListView;

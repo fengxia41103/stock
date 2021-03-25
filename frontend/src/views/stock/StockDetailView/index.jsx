@@ -1,11 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import GlobalContext from "src/context";
-import { Container, Box, Grid } from "@material-ui/core";
+import { Container, Box, Grid, Button, Typography } from "@material-ui/core";
 import Page from "src/components/Page";
 import MenuBar from "src/components/menu.jsx";
 import Fetch from "src/components/fetch.jsx";
 import StockDetailContext from "./context.jsx";
+import { useMutate } from "restful-react";
 
 const price_menus = [
   {
@@ -90,7 +91,19 @@ const valuation_menus = [
 function StockDetailView() {
   const { id } = useParams();
   const { api } = useContext(GlobalContext);
-  const [resource] = useState(`/stocks/${id}`);
+  const [resource, setResource] = useState(`/stocks/${id}`);
+
+  const { mutate: del, loading } = useMutate({
+    verb: "DELETE",
+    path: `${api}/stocks`,
+  });
+
+  const mounted = useRef(true);
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => (mounted.current = false);
+  });
 
   const render_data = stock => {
     return (
@@ -105,6 +118,13 @@ function StockDetailView() {
               <MenuBar title="Valuation Models" items={valuation_menus} />
               <MenuBar title="Price & Trends" items={price_menus} />
               <MenuBar title="Tech Indicators" items={indicator_menus} />
+
+              <Button
+                color="primary"
+                onClick={() => del(stock.id).then((mounted.current = false))}
+              >
+                Delete
+              </Button>
             </Grid>
           </Box>
 
@@ -117,7 +137,13 @@ function StockDetailView() {
       </Page>
     );
   };
-  return <Fetch api={api} resource={resource} render_data={render_data} />;
+
+  // MUST; if umounted, do nothing and let router handles the
+  // rest. Omitting this line will cause error because user still has
+  // access to navigation menu.
+  if (!mounted.current) return null;
+  // render as usual to get data
+  else return <Fetch {...{ api, resource, render_data, mounted }} />;
 }
 
 export default StockDetailView;

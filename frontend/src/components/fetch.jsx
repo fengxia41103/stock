@@ -1,45 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { isNull } from "lodash";
-import AjaxContainer from "./ajax.jsx";
+import React from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { useGet } from "restful-react";
+import NotFoundView from "src/views/errors/NotFoundView";
 
 function Fetch(props) {
-  const [data, setData] = useState(null);
-  const [get_data, setGetData] = useState(false);
-  const [controller] = useState(new AbortController());
+  const { api, resource, render_data, mounted } = props;
 
-  useEffect(() => {
-    if (isNull(data)) {
-      setGetData(true);
-    }
+  const { data, loading, error } = useGet({
+    path: api + encodeURI(resource),
+    debounce: 200,
+  });
 
-    const cleanup = () => controller.abort();
-    return cleanup;
-  }, [data, controller]);
+  if (loading) return <CircularProgress />;
+  if (error) return <NotFoundView />;
 
-  const handleUpdate = data => {
-    setData(data);
-    setGetData(false);
-  };
+  // if caller is not mounted anymore, quit
+  if (mounted && !mounted.current) return null;
 
-  const { api, resource, render_data } = props;
-
-  // go get data
-  if (get_data) {
-    const query = api + encodeURI(resource);
-
-    return (
-      <AjaxContainer
-        apiUrl={query}
-        handleUpdate={handleUpdate}
-        controller={controller}
-      />
-    );
-  }
-
-  // initial rendering
-  if (isNull(data)) return null;
-
-  // data is here
+  // everything is good, render
   return render_data(data);
 }
 

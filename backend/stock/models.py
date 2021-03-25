@@ -188,7 +188,12 @@ class MyStock(models.Model):
         for b in self.balances.all().order_by("on"):
             leverage = b.equity_multiplier
 
-            i = self.incomes.get(on=b.on)
+            # TODO: the assumption of dates are aligned is FALSE!
+            incomes = self.incomes.filter(on__lte=b.on).order_by("-on")
+            if not incomes:
+                continue
+
+            i = incomes[0]
             net_profit_margin = i.net_income_to_revenue
 
             turnover = i.total_revenue / b.total_assets

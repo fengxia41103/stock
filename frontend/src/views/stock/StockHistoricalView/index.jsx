@@ -1,6 +1,14 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { Outlet, useParams } from "react-router-dom";
-import { Box, Grid, TextField, Card, CardContent, Typography } from "@material-ui/core";
+import {
+  Box,
+  Grid,
+  TextField,
+  Card,
+  CardContent,
+  Typography,
+} from "@material-ui/core";
+
 import StockHistoricalContext from "./context.jsx";
 import GlobalContext from "src/context";
 import Fetch from "src/components/fetch.jsx";
@@ -12,6 +20,13 @@ function StockHistoricalView() {
   const [end, setEnd] = useState(new Date().toLocaleDateString("en-CA"));
   const resource = `/historical/stats?stock=${id}&start=${start}&end=${end}`;
 
+  const mounted = useRef(true);
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => (mounted.current = false);
+  });
+
   const start_change = event => {
     setStart(event.target.value);
   };
@@ -20,6 +35,8 @@ function StockHistoricalView() {
   };
 
   const render_data = resp => {
+    if (!mounted.current) return null;
+
     const data = resp.objects[0].stats;
 
     return (
@@ -62,7 +79,7 @@ function StockHistoricalView() {
   };
   // MUST: forcing re-fetch if the key is changing!
   const key = start + end;
-  return <Fetch {...{ key, api, resource, render_data }} />;
+  return <Fetch {...{ key, api, resource, render_data, mounted }} />;
 }
 
 export default StockHistoricalView;
