@@ -47,7 +47,6 @@ function BalanceView() {
 
   const render_data = resp => {
     const data = resp.objects;
-    console.log(stock);
 
     return (
       <Box>

@@ -75,7 +75,7 @@ function DictTable(props) {
 
 function Chart(props) {
   const containerId = randomId();
-  const { data, interests } = props;
+  const { data, interests, normalized } = props;
   const dates = map(data, i => i.on);
   const chart_data = Object.entries(interests).map(([key, description]) => {
     const vals = map(data, i => i[key]);
@@ -92,7 +92,7 @@ function Chart(props) {
         title=""
         legendEnabled={true}
         data={chart_data}
-        normalize={true}
+        normalize={normalized}
       />
     </Box>
   );

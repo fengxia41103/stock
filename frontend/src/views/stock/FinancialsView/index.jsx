@@ -12,6 +12,7 @@ function FinancialsView(props) {
     p2p_growth,
     pcnt,
     analysis,
+    normalized,
   } = props;
 
   // if ETF, skip
@@ -56,7 +57,12 @@ function FinancialsView(props) {
             <Box mb={3}>
               <Typography variant="h3">{m.title}</Typography>
             </Box>
-            <DictTable data={data} interests={m.data} chart={true} />
+            <DictTable
+              data={data}
+              interests={m.data}
+              chart={true}
+              normalized={isUndefined(normalized) ? true : normalized}
+            />
           </CardContent>
         </Card>
       </Box>
