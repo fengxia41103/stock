@@ -26,14 +26,18 @@ class MyStockHistoricalYahoo:
     def parser(self, sector, symbol):
         """Parse Yahoo api stock historical data.
 
-        Polling ichart.yahoo.com with manufactured query string (dark magic)
-        to get historical data of a given stock symbol.
+        Polling ichart.yahoo.com with manufactured query string (dark
+        magic) to get historical data of a given stock symbol.
 
-        Arguments:
-            :symbol: stock symbol
+        Arguments
+        ---------
+          :param: sector: str, sector name
+          :param: symbol: str, stock symbol
 
-        Return:
-            none
+        Return
+        ------
+          none
+
         """
 
         # Get stock and its existing historicals

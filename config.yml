@@ -1,6 +1,6 @@
 symbols:
   # group for US stocks
-  US: |
+  watch: |
     VOO, SPY, AAPL, SBUX, MSFT, AMZN, BFAM, VMW, ABNB, PYPL, AMD,
     EBAY, TGT, NET, TSM, BBBY, TSLA, SQ, BBY, RCL,PLTR,ROKU, SHOP,CVS,
     NOK,VNT,BABA, CRM, WOOF, QCOM, KO, ORCL, HD, BURL, DOCU, KIRK,
@@ -8,7 +8,13 @@ symbols:
     DIS,INTC,MRK,MA,V, UNH,FB,TXN,HON,COST,FDX,DG,SYY,MAR,
     EXPE,KKR,RXT, LMND,BMBL,MCFE,EBON,RLX, LB
 
+  research: |
+    JNJ, FDX, BKNG, HON, BMY, MMM
+
 
   # group for china stocks
   china: |
     600000.SS, MNSO, DOYU, SY, HUIZ, MOMO, BILI, PDD
+
+  japan: |
+    TM, HMC

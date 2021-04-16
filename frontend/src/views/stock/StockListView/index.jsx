@@ -17,11 +17,13 @@ import {
   Radio,
   Menu,
   MenuItem,
+  CircularProgress,
 } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 import Page from "src/components/Page";
 import StockListGroupCard from "./card.jsx";
 import GlobalContext from "src/context";
+import { Poll } from "restful-react";
 
 function StockListView(props) {
   const { api } = useContext(GlobalContext);
@@ -50,7 +52,6 @@ function StockListView(props) {
 
   const render_data = data => {
     const stocks = data.objects;
-
     // filter based on search string
     const filtered = filter(stocks, x => x.symbol.includes(searching));
 
@@ -127,7 +128,7 @@ function StockListView(props) {
                     <FormControlLabel
                       value="name"
                       control={<Radio />}
-                      label="Symbol"
+                      label="Alphabet"
                     />
                     <FormControlLabel
                       value="last_reporting_date"
@@ -168,5 +169,15 @@ function StockListView(props) {
   };
 
   return <Fetch {...{ api, resource, render_data }} />;
+  return (
+    <Poll
+      path={api + encodeURI(resource)}
+      resolve={data => data && data.objects}
+    >
+      {(data, { loading }) =>
+        loading ? <CircularProgress /> : render_data(data)
+      }
+    </Poll>
+  );
 }
 export default StockListView;

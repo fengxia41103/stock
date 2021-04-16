@@ -7,6 +7,8 @@ from abc import ABC
 from datetime import date
 from datetime import timedelta
 
+from celery import chain
+from celery import group
 from django.apps import AppConfig
 from django.apps import apps
 from django.db import models

@@ -97,6 +97,10 @@ function StockDetailView() {
     verb: "DELETE",
     path: `${api}/stocks`,
   });
+  const { mutate: update } = useMutate({
+    verb: "PATCH",
+    path: `${api}/stocks/${id}/`,
+  });
 
   const mounted = useRef(true);
 
@@ -119,8 +123,12 @@ function StockDetailView() {
               <MenuBar title="Price & Trends" items={price_menus} />
               <MenuBar title="Tech Indicators" items={indicator_menus} />
 
+              <Button color="primary" onClick={() => update({ whatever: "" })}>
+                Update
+              </Button>
+
               <Button
-                color="primary"
+                color="secondary"
                 onClick={() => del(stock.id).then((mounted.current = false))}
               >
                 Delete

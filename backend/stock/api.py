@@ -3,6 +3,7 @@ from datetime import date
 from datetime import datetime
 from datetime import timedelta
 
+from celery import chain
 from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
@@ -19,6 +20,12 @@ from stock.models import MyStock
 from stock.models import MyStockHistorical
 from stock.models import MyStrategyValue
 from stock.models import ValuationRatio
+from stock.tasks import balance_sheet_consumer
+from stock.tasks import cash_flow_statement_consumer
+from stock.tasks import income_statement_consumer
+from stock.tasks import summary_consumer
+from stock.tasks import valuation_ratio_consumer
+from stock.tasks import yahoo_consumer
 
 logger = logging.getLogger("stock")
 
@@ -96,6 +103,32 @@ class StockResource(ModelResource):
         filtering = {"symbol": ALL}
         limit = 1000
         authorization = Authorization()
+
+    def __pull_info(self, bundle):
+        stock = bundle.obj
+        symbol = stock.symbol
+        sectors = stock.sectors.all()
+        if sectors:
+            sector = sectors[0].name
+        else:
+            sector = "misc"
+
+        # let async queue do the work
+        history_sig = yahoo_consumer.s(sector, symbol)
+        summary_compute_sig = summary_consumer.s(symbol)
+        task = chain(history_sig, summary_compute_sig)
+        task.apply_async()
+
+        task = chain(
+            balance_sheet_consumer.s(None, symbol),
+            income_statement_consumer.s(symbol),
+            cash_flow_statement_consumer.s(symbol),
+            valuation_ratio_consumer.s(symbol),
+        )
+        task.apply_async()
+
+    def obj_update(self, bundle, **kwargs):
+        self.__pull_info(bundle)
 
 
 class HistoricalResource(ModelResource):

@@ -220,7 +220,6 @@ SILENCED_SYSTEM_CHECKS = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8080",
     "http://localhost:3000",
     "http://localhost:8084",
     "http://192.168.68.107:3000",

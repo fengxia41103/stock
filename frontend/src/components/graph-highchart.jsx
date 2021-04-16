@@ -75,7 +75,7 @@ function HighchartGraphBox(props) {
     if (normalize) {
       chart_data = map(chart_data, d => {
         let tmp = d;
-        tmp.data = this._normalize(d.data);
+        tmp.data = _normalize(d.data);
         return tmp;
       });
     }
