@@ -99,11 +99,11 @@ class MyStock(models.Model):
         a premium.
 
         """
-        return (
-            MyStockHistorical.objects.filter(stock=self)
-            .order_by("-on")[0]
-            .close_price
-        )
+        hists = MyStockHistorical.objects.filter(stock=self).order_by("-on")
+        if hists:
+            return hists[0].close_price
+        else:
+            return None
 
     @property
     def dupont_roe(self):

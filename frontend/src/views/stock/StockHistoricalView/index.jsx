@@ -39,6 +39,10 @@ function StockHistoricalView() {
 
     const data = resp.objects[0].stats;
 
+    if (data.olds.length === 0) {
+      return null;
+    }
+
     return (
       <Box>
         <Typography variant="h1">{data.symbol} Historical</Typography>

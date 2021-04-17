@@ -129,9 +129,9 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "django.template.context_processors.request",
-            ],
+            ]
         },
-    },
+    }
 ]
 # for django-allauth
 SITE_ID = 1
@@ -215,16 +215,11 @@ REST_FRAMEWORK = {
     ],
 }
 
-SILENCED_SYSTEM_CHECKS = [
-    "admin.E408",
-]
+SILENCED_SYSTEM_CHECKS = ["admin.E408"]
 
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-    "http://localhost:8084",
-    "http://192.168.68.107:3000",
-    "http://192.168.68.107:8084",
-]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_METHODS = ["CREATE", "DELETE", "GET", "PATCH", "POST"]
+
 
 PASSWORD_HASHERS = (
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",

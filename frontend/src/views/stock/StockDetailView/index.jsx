@@ -99,7 +99,7 @@ function StockDetailView() {
   });
   const { mutate: update } = useMutate({
     verb: "PATCH",
-    path: `${api}/stocks/${id}/`,
+    path: `${api}${resource}/`,
   });
 
   const mounted = useRef(true);
@@ -123,7 +123,7 @@ function StockDetailView() {
               <MenuBar title="Price & Trends" items={price_menus} />
               <MenuBar title="Tech Indicators" items={indicator_menus} />
 
-              <Button color="primary" onClick={() => update({ whatever: "" })}>
+              <Button color="primary" onClick={() => update({})}>
                 Update
               </Button>
 

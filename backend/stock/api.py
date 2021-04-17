@@ -130,6 +130,12 @@ class StockResource(ModelResource):
     def obj_update(self, bundle, **kwargs):
         self.__pull_info(bundle)
 
+    def obj_create(self, bundle, **kwargs):
+        bundle.obj, created = MyStock.objects.get_or_create(
+            symbol=bundle.data["symbol"]
+        )
+        return bundle
+
 
 class HistoricalResource(ModelResource):
     stock = fields.ForeignKey(
