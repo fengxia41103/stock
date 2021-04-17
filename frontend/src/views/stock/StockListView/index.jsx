@@ -16,7 +16,6 @@ import {
   RadioGroup,
   Radio,
   Menu,
-  MenuItem,
   CircularProgress,
 } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";

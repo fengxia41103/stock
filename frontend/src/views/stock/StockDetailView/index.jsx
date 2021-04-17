@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import GlobalContext from "src/context";
-import { Container, Box, Grid, Button, Typography } from "@material-ui/core";
+import { Container, Box, Grid, Button } from "@material-ui/core";
 import Page from "src/components/Page";
 import MenuBar from "src/components/menu.jsx";
 import Fetch from "src/components/fetch.jsx";
@@ -91,9 +91,9 @@ const valuation_menus = [
 function StockDetailView() {
   const { id } = useParams();
   const { api } = useContext(GlobalContext);
-  const [resource, setResource] = useState(`/stocks/${id}`);
+  const [resource] = useState(`/stocks/${id}`);
 
-  const { mutate: del, loading } = useMutate({
+  const { mutate: del } = useMutate({
     verb: "DELETE",
     path: `${api}/stocks`,
   });

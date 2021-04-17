@@ -3,7 +3,6 @@ import { Card, CardContent, Grid } from "@material-ui/core";
 
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context.jsx";
 
-import PriceTable from "./table.jsx";
 import PriceChart from "./chart.jsx";
 import DailyReturnView from "src/views/stock/DailyReturnView";
 import OvernightReturnView from "src/views/stock/OvernightReturnView";

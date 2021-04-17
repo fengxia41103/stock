@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Typography, Grid } from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
 import { isNil } from "lodash";
 
 function Cell(props) {

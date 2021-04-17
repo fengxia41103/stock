@@ -7,7 +7,6 @@ import {
   Container,
   Divider,
   Grid,
-  Link,
   TextField,
   Card,
   CardContent,
@@ -16,7 +15,6 @@ import {
 import WhatshotIcon from "@material-ui/icons/Whatshot";
 import Page from "src/components/Page";
 import Rank from "./rank.jsx";
-import MenuBar from "src/components/menu.jsx";
 
 const useStyles = makeStyles(theme => ({
   avatar: {
