@@ -131,9 +131,12 @@ class StockResource(ModelResource):
         self.__pull_info(bundle)
 
     def obj_create(self, bundle, **kwargs):
-        bundle.obj, created = MyStock.objects.get_or_create(
+        sector, created = MySector.objects.get_or_create(name="misc")
+        stock, created = MyStock.objects.get_or_create(
             symbol=bundle.data["symbol"]
         )
+        sector.stocks.add(stock)
+        bundle.obj = stock
         return bundle
 
 

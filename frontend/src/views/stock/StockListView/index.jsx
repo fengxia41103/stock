@@ -24,7 +24,7 @@ import Page from "src/components/Page";
 import StockListGroupCard from "./card.jsx";
 import GlobalContext from "src/context";
 import { Poll } from "restful-react";
-import { useMutate } from "restful-react";
+import AddNewStockDialog from "src/views/stock/AddNewStockDialog";
 
 function StockListView(props) {
   const { api } = useContext(GlobalContext);
@@ -33,11 +33,6 @@ function StockListView(props) {
   const [searching, setSearching] = useState("");
   const [group_by, setGroupBy] = useState("last_reporting_date");
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const { mutate: create } = useMutate({
-    verb: "POST",
-    path: `${api}${resource}/`,
-  });
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -107,11 +102,7 @@ function StockListView(props) {
       <Page title="Stocks">
         <Container maxWidth={false}>
           <Box display="flex" flexDirection="row-reverse" mt={1}>
-
-              <Button color="primary" onClick={() => create({symbol:searching})}>
-                Create
-              </Button>
-
+            <AddNewStockDialog />
             <Button
               aria-controls="simple-menu"
               aria-haspopup="true"
