@@ -1,3 +1,4 @@
+from celery import chain
 from celery import shared_task
 
 from fin.tor_handler import PlainUtility
@@ -15,37 +16,37 @@ from stock.workers.strategy_values import TwoDailyTrend
 
 
 @shared_task
-def summary_consumer(whatever, symbol):
+def __summary_consumer(whatever, symbol):
     crawler = MySummary(symbol)
     crawler.get()
 
 
 @shared_task(rate_limit="2/m")
-def balance_sheet_consumer(whatever, symbol):
+def __balance_sheet_consumer(whatever, symbol):
     crawler = MyBalanceSheet(symbol)
     crawler.get()
 
 
 @shared_task(rate_limit="2/m")
-def income_statement_consumer(whatever, symbol):
+def __income_statement_consumer(whatever, symbol):
     crawler = MyIncomeStatement(symbol)
     crawler.get()
 
 
 @shared_task(rate_limit="2/m")
-def cash_flow_statement_consumer(whatever, symbol):
+def __cash_flow_statement_consumer(whatever, symbol):
     crawler = MyCashFlowStatement(symbol)
     crawler.get()
 
 
 @shared_task(rate_limit="2/m")
-def valuation_ratio_consumer(whatever, symbol):
+def __valuation_ratio_consumer(whatever, symbol):
     crawler = MyValuationRatio(symbol)
     crawler.get()
 
 
 @shared_task
-def yahoo_consumer(sector, symbol):
+def __yahoo_consumer(sector, symbol):
     http_agent = PlainUtility()
     crawler = MyStockHistoricalYahoo(http_agent)
     crawler.parser(sector, symbol)
@@ -79,3 +80,20 @@ def compute_night_day_compounded_return_consumer(whatever, symbol):
 def compute_two_daily_trend_consumer(whatever, symbol):
     crawler = TwoDailyTrend(symbol)
     crawler.run(window_length=2)
+
+
+def batch_update_helper(sector, symbol):
+
+    # let async queue do the work
+    history_sig = __yahoo_consumer.s(sector, symbol)
+    summary_compute_sig = __summary_consumer.s(symbol)
+    task = chain(history_sig, summary_compute_sig)
+    task.apply_async()
+
+    task = chain(
+        __balance_sheet_consumer.s(None, symbol),
+        __income_statement_consumer.s(symbol),
+        __cash_flow_statement_consumer.s(symbol),
+        __valuation_ratio_consumer.s(symbol),
+    )
+    task.apply_async()

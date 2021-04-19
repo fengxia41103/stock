@@ -11,12 +11,7 @@ from django.shortcuts import get_object_or_404
 
 from stock.models import MyStock
 from stock.models import MyStockHistorical
-from stock.tasks import balance_sheet_consumer
-from stock.tasks import cash_flow_statement_consumer
-from stock.tasks import income_statement_consumer
-from stock.tasks import summary_consumer
-from stock.tasks import valuation_ratio_consumer
-from stock.tasks import yahoo_consumer
+from stock.tasks import batch_update_helper
 
 logger = logging.getLogger("stock")
 
@@ -67,19 +62,7 @@ class Command(BaseCommand):
 
             # now, get info I want
             for (sector, symbol) in candidates:
-                symbol = symbol.upper()
-                history_sig = yahoo_consumer.s(sector, symbol)
-                summary_compute_sig = summary_consumer.s(symbol)
-                task = chain(history_sig, summary_compute_sig)
-                task.apply_async()
-
-                task = chain(
-                    balance_sheet_consumer.s(None, symbol),
-                    income_statement_consumer.s(symbol),
-                    cash_flow_statement_consumer.s(symbol),
-                    valuation_ratio_consumer.s(symbol),
-                )
-                task.apply_async()
+                batch_update_helper(sector, symbol.upper())
 
     def _dump_symbol(self, dest, symbol):
         symbol = symbol.upper()

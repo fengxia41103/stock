@@ -24,6 +24,7 @@ import StockListGroupCard from "./card.jsx";
 import GlobalContext from "src/context";
 import { Poll } from "restful-react";
 import AddNewStockDialog from "src/views/stock/AddNewStockDialog";
+import UpdateIcon from "@material-ui/icons/Update";
 
 function StockListView(props) {
   const { api } = useContext(GlobalContext);
@@ -48,6 +49,21 @@ function StockListView(props) {
 
   const group_by_change = event => {
     setGroupBy(event.target.value);
+  };
+
+  // API will treat `all:True` as a request to update all stocks.
+  const update_all = stocks => {
+    const call_api = s => {
+      const uri = `${api}${resource}/${s.id}/`;
+      fetch(uri, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+    };
+    stocks.forEach(s => call_api(s));
   };
 
   const render_data = data => {
@@ -101,7 +117,6 @@ function StockListView(props) {
       <Page title="Stocks">
         <Container maxWidth={false}>
           <Box display="flex" flexDirection="row-reverse" mt={1}>
-            <AddNewStockDialog />
             <Button
               aria-controls="simple-menu"
               aria-haspopup="true"
@@ -145,6 +160,11 @@ function StockListView(props) {
                 </FormControl>
               </Box>
             </Menu>
+            <AddNewStockDialog />
+            <Button color="primary" onClick={() => update_all(stocks)}>
+              <UpdateIcon />
+              Update All
+            </Button>
           </Box>
 
           <Box mt={1}>

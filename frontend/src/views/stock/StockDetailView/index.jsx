@@ -95,7 +95,7 @@ function StockDetailView() {
 
   const { mutate: del } = useMutate({
     verb: "DELETE",
-    path: `${api}/stocks`,
+    path: `${api}${resource}`,
   });
   const { mutate: update } = useMutate({
     verb: "PATCH",
@@ -129,7 +129,7 @@ function StockDetailView() {
 
               <Button
                 color="secondary"
-                onClick={() => del(stock.id).then((mounted.current = false))}
+                onClick={() => del().then((mounted.current = false))}
               >
                 Delete
               </Button>

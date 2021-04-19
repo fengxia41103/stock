@@ -8,6 +8,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import GlobalContext from "src/context";
 import { useMutate } from "restful-react";
+import AddIcon from "@material-ui/icons/Add";
 
 export default function AddNewStockDialog() {
   const { api } = useContext(GlobalContext);
@@ -39,7 +40,8 @@ export default function AddNewStockDialog() {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button color="primary" onClick={handleClickOpen}>
+        <AddIcon />
         Add New Stock
       </Button>
       <Dialog
