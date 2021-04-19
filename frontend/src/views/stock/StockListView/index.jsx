@@ -161,7 +161,7 @@ function StockListView(props) {
               </Box>
             </Menu>
             <AddNewStockDialog />
-            <Button color="primary" onClick={() => update_all(stocks)}>
+            <Button color="primary" onClick={() => update_all(filtered)}>
               <UpdateIcon />
               Update All
             </Button>
