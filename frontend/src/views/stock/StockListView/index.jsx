@@ -21,7 +21,7 @@ import Page from "src/components/Page";
 import StockListGroupCard from "./card.jsx";
 import GlobalContext from "src/context";
 import { Poll } from "restful-react";
-import AddNewStockDialog from "src/views/stock/AddNewStockDialog";
+import AddNewStockDialog from "src/components/stock/AddNewStockDialog";
 import UpdateIcon from "@material-ui/icons/Update";
 import DropdownMenu from "src/components/DropdownMenu";
 
