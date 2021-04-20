@@ -72,9 +72,6 @@ class SectorResource(ModelResource):
 
 
 class StockResource(ModelResource):
-    sectors = fields.ManyToManyField(
-        "stock.api.SectorResource", "sectors", null=True
-    )
     symbol = fields.CharField("symbol")
     tax_rate = fields.FloatField("tax_rate", null=True, use_in="detail")
     latest_close_price = fields.FloatField(
@@ -92,12 +89,20 @@ class StockResource(ModelResource):
     last_reporting_date = fields.DateField("last_reporting_date", null=True)
     dcf_model = fields.ListField("dcf_model", null=True, use_in="detail")
 
+    sectors = fields.ManyToManyField(
+        "stock.api.SectorResource", "sectors", null=True
+    )
+
     class Meta:
         queryset = MyStock.objects.all()
         resource_name = "stocks"
         filtering = {"symbol": ALL}
         limit = 1000
         authorization = Authorization()
+
+    def dehydrate_sectors(self, bundle):
+        """We only want to return sector names."""
+        return [s.name for s in bundle.obj.sectors.all()]
 
     def obj_update(self, bundle, **kwargs):
         stock = bundle.obj
