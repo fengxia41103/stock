@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { map, filter } from "lodash";
-import Fetch from "src/components/fetch.jsx";
+import Fetch from "src/components/Fetch";
 import Row from "./row.jsx";
 import GlobalContext from "src/context";
 import { Box } from "@material-ui/core";

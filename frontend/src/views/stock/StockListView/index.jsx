@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { map, filter, sortBy, groupBy } from "lodash";
-import Fetch from "src/components/fetch.jsx";
+import Fetch from "src/components/Fetch";
 import {
   Box,
   Button,
@@ -15,32 +15,21 @@ import {
   FormControlLabel,
   RadioGroup,
   Radio,
-  Menu,
   CircularProgress,
 } from "@material-ui/core";
-import SettingsIcon from "@material-ui/icons/Settings";
 import Page from "src/components/Page";
 import StockListGroupCard from "./card.jsx";
 import GlobalContext from "src/context";
 import { Poll } from "restful-react";
 import AddNewStockDialog from "src/views/stock/AddNewStockDialog";
 import UpdateIcon from "@material-ui/icons/Update";
+import DropdownMenu from "src/components/DropdownMenu";
 
 function StockListView(props) {
   const { api } = useContext(GlobalContext);
-
   const [resource] = useState("/stocks");
   const [searching, setSearching] = useState("");
   const [group_by, setGroupBy] = useState("last_reporting_date");
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const symbol_filter_change = event => {
     const tmp = event.target.value.trim().toUpperCase();
@@ -113,53 +102,32 @@ function StockListView(props) {
       );
     });
 
+    const menu = (
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Group By</FormLabel>
+        <RadioGroup
+          aria-label="Group By"
+          name="group_by"
+          value={group_by}
+          onChange={group_by_change}
+          row
+        >
+          <FormControlLabel value="name" control={<Radio />} label="Alphabet" />
+          <FormControlLabel
+            value="last_reporting_date"
+            control={<Radio />}
+            label="Last Income Statement Date"
+          />
+          <FormControlLabel value="sector" control={<Radio />} label="Sector" />
+        </RadioGroup>
+      </FormControl>
+    );
+
     return (
       <Page title="Stocks">
         <Container maxWidth={false}>
           <Box display="flex" flexDirection="row-reverse" mt={1}>
-            <Button
-              aria-controls="simple-menu"
-              aria-haspopup="true"
-              onClick={handleClick}
-            >
-              <SettingsIcon />
-              Options
-            </Button>
-            <Menu
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <Box p={3}>
-                <FormControl component="fieldset">
-                  <FormLabel component="legend">Group By</FormLabel>
-                  <RadioGroup
-                    aria-label="Group By"
-                    name="group_by"
-                    value={group_by}
-                    onChange={group_by_change}
-                    row
-                  >
-                    <FormControlLabel
-                      value="name"
-                      control={<Radio />}
-                      label="Alphabet"
-                    />
-                    <FormControlLabel
-                      value="last_reporting_date"
-                      control={<Radio />}
-                      label="Last Income Statement Date"
-                    />
-                    <FormControlLabel
-                      value="sector"
-                      control={<Radio />}
-                      label="Sector"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Box>
-            </Menu>
+            <DropdownMenu content={menu} />
             <AddNewStockDialog />
             <Button color="primary" onClick={() => update_all(filtered)}>
               <UpdateIcon />

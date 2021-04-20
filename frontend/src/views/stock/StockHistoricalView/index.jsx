@@ -11,7 +11,7 @@ import {
 
 import StockHistoricalContext from "./context.jsx";
 import GlobalContext from "src/context";
-import Fetch from "src/components/fetch.jsx";
+import Fetch from "src/components/Fetch";
 
 function StockHistoricalView() {
   const { id } = useParams();

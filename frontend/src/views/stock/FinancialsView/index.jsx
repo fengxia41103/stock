@@ -1,7 +1,7 @@
 import React from "react";
 import { isEmpty, isUndefined, map } from "lodash";
 import { Box, Typography, Card, CardContent } from "@material-ui/core";
-import DictTable from "src/components/dict_table.jsx";
+import DictTable from "src/components/DictTable";
 
 function FinancialsView(props) {
   const {

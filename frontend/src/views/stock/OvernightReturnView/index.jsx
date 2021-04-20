@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Box, Card, CardContent, Typography } from "@material-ui/core";
 import StrategyValueView from "src/views/stock/StrategyValueView";
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context.jsx";
-import DictCard from "src/components/dict_card.jsx";
+import DictCard from "src/components/DictCard";
 import OvernightFlipView from "./flip.jsx";
 
 function OvernightReturnView() {

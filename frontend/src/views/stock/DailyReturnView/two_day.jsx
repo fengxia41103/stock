@@ -1,5 +1,5 @@
 import React from "react";
-import DictCard from "src/components/dict_card.jsx";
+import DictCard from "src/components/DictCard";
 
 function TwoDayReturnView(props) {
   const interests = {

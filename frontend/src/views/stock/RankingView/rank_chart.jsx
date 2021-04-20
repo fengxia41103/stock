@@ -1,7 +1,7 @@
 import React from "react";
 import { map } from "lodash";
 import { randomId } from "src/utils/helper.jsx";
-import HighchartGraphBox from "src/components/graph-highchart.jsx";
+import HighchartGraphBox from "src/components/Highchart";
 
 export default function RowRankChart(props) {
   const { category, ranks } = props;

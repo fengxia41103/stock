@@ -12,7 +12,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { randomId } from "src/utils/helper.jsx";
-import HighchartGraphBox from "./graph-highchart.jsx";
+import HighchartGraphBox from "src/components/Highchart";
 
 function DictTable(props) {
   const { table } = useTheme();

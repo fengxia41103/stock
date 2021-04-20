@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import GlobalContext from "src/context";
 import FinancialsView from "src/views/stock/FinancialsView";
-import Fetch from "src/components/fetch.jsx";
+import Fetch from "src/components/Fetch";
 
 function ValuationRatiosView() {
   const { id } = useParams();

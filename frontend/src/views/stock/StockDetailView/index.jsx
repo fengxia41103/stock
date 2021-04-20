@@ -3,8 +3,8 @@ import { Outlet, useParams } from "react-router-dom";
 import GlobalContext from "src/context";
 import { Container, Box, Grid, Button } from "@material-ui/core";
 import Page from "src/components/Page";
-import MenuBar from "src/components/menu.jsx";
-import Fetch from "src/components/fetch.jsx";
+import MenuBar from "src/components/MenuBar";
+import Fetch from "src/components/Fetch";
 import StockDetailContext from "./context.jsx";
 import { useMutate } from "restful-react";
 

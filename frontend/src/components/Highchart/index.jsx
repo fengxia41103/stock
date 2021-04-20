@@ -8,7 +8,7 @@ import { map, filter, isNull } from "lodash";
 //    Common graph containers
 //
 //****************************************
-function HighchartGraphBox(props) {
+export default function HighchartGraphBox(props) {
   const [height_step, setHeightStep] = useState(0);
   const [full_height, setFullHeight] = useState(0);
   const { containerId, title } = props;
@@ -146,5 +146,3 @@ function HighchartGraphBox(props) {
     </figure>
   );
 }
-
-export default HighchartGraphBox;

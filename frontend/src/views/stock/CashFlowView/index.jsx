@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Box, Typography } from "@material-ui/core";
 import GlobalContext from "src/context";
 import FinancialsView from "src/views/stock/FinancialsView";
-import Fetch from "src/components/fetch.jsx";
+import Fetch from "src/components/Fetch";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 
 function CashFlowView(props) {
