@@ -7,6 +7,7 @@ import MenuBar from "src/components/MenuBar";
 import Fetch from "src/components/Fetch";
 import StockDetailContext from "./context.jsx";
 import { useMutate } from "restful-react";
+import StockSector from "./sector.jsx";
 
 const price_menus = [
   {
@@ -133,6 +134,8 @@ function StockDetailView() {
               >
                 Delete
               </Button>
+
+              <StockSector stock={resource} />
             </Grid>
           </Box>
 
@@ -149,9 +152,13 @@ function StockDetailView() {
   // MUST; if umounted, do nothing and let router handles the
   // rest. Omitting this line will cause error because user still has
   // access to navigation menu.
-  if (!mounted.current) return null;
+
+  if (!mounted.current) {
+    return null;
+  }
+
   // render as usual to get data
-  else return <Fetch {...{ api, resource, render_data, mounted }} />;
+  return <Fetch {...{ api, resource, render_data, mounted }} />;
 }
 
 export default StockDetailView;

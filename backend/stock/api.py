@@ -62,13 +62,14 @@ class SummaryResource(Resource):
 class SectorResource(ModelResource):
     name = fields.CharField("name")
     stocks = fields.ManyToManyField(
-        "stock.api.StockResource", "stocks", null=True, use_in="detail"
+        "stock.api.StockResource", "stocks", null=True
     )
 
     class Meta:
         queryset = MySector.objects.all()
         resource_name = "sectors"
         filtering = {"name": ALL}
+        authorization = Authorization()
 
 
 class StockResource(ModelResource):
@@ -99,10 +100,6 @@ class StockResource(ModelResource):
         filtering = {"symbol": ALL}
         limit = 1000
         authorization = Authorization()
-
-    def dehydrate_sectors(self, bundle):
-        """We only want to return sector names."""
-        return [s.name for s in bundle.obj.sectors.all()]
 
     def obj_update(self, bundle, **kwargs):
         stock = bundle.obj
