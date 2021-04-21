@@ -135,7 +135,7 @@ function StockDetailView() {
                 Delete
               </Button>
 
-              <StockSector stock={resource} />
+              <StockSector stock_resource={resource} />
             </Grid>
           </Box>
 

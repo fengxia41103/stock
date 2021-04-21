@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { map, remove } from "lodash";
+import { map, remove, isEmpty } from "lodash";
 import Fetch from "src/components/Fetch";
 import {
   Box,
@@ -24,10 +24,8 @@ import { useMutate } from "restful-react";
 export default function StockSector(props) {
   const { api } = useContext(GlobalContext);
   const [resource] = useState("/sectors");
-  const { stock } = props;
-  const [updated, setUpdated] = useState(false);
+  const { stock_resource } = props;
   let sectors = [];
-  const [tmp, setTmp] = useState();
 
   const { mutate: update } = useMutate({
     verb: "PATCH",
@@ -35,32 +33,46 @@ export default function StockSector(props) {
   });
 
   const handleChange = event => {
-    sectors.some(s => {
+    for (let i = 0; i < sectors.length; i++) {
+      let s = sectors[i];
+
+      // make a local copy for manipulation
       let tmp = [...s.stocks];
+
+      // conditions
       if (s.name === event.target.name) {
         if (event.target.checked) {
           // add to
-          tmp.push(`/api/v1${stock}/`);
+          tmp.push(`/api/v1${stock_resource}/`);
         } else {
           // remove
-          remove(tmp, k => k.includes(stock));
+          remove(tmp, k => k.includes(stock_resource));
         }
 
         // call backend
-        update({ objects: [{ ...s, stocks: tmp }] }).then(setUpdated(!updated));
+        const data = { ...s, stocks: tmp };
 
-        return true;
+        // MUST: make a copy and update `sectors` because it will
+        // force a re-render of this component, thus will fetch data
+        // from backend.
+        sectors[i] = { ...data };
+        update({ objects: [data] });
+        break;
       }
-    });
+    }
   };
 
   const render_data = data => {
-    sectors = map(data.objects, s => {
+    if (isEmpty(sectors)) {
+      sectors = data.objects;
+    }
+
+    let mapped_sectors = map(sectors, s => {
       // add checked bool
-      return { ...s, checked: s.stocks.some(i => i.includes(stock)) };
+      return { ...s, checked: s.stocks.some(i => i.includes(stock_resource)) };
     });
 
-    const selections = map(sectors, s => {
+    const selections = map(mapped_sectors, s => {
       return (
         <FormControlLabel
           key={s.id}
@@ -86,5 +98,5 @@ export default function StockSector(props) {
     return <DropdownMenu content={form} />;
   };
 
-  return <Fetch {...{ api, resource, render_data }} />;
+  return <Fetch key={sectors} {...{ api, resource, render_data }} />;
 }
