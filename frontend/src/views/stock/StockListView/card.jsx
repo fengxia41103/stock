@@ -11,6 +11,7 @@ import {
   Grid,
 } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import SectorLabel from "src/components/stock/SectorLabel";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,8 +32,23 @@ function StockListGroupCard(props) {
   const { stocks, index, group_by } = props;
   const classes = useStyles();
 
-  const title =
-    group_by === "last_reporting_date" && index === "null" ? "ETF" : index;
+  //const title =
+  //  group_by === "last_reporting_date" && index === "null" ? "ETF" : index;
+
+  let title;
+  switch (group_by) {
+    case "last_reporting_date":
+      title = index === "null" ? "ETF" : index;
+      break;
+
+    case "sector":
+      title = <SectorLabel resource={index} />;
+      break;
+
+    default:
+      title = index;
+      break;
+  }
 
   return (
     <Grid item lg={3} sm={6} xs={12}>

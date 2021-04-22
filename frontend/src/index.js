@@ -8,12 +8,15 @@ import GlobalContext from "src/context";
 const globals = {
   localhost: {
     api: "http://localhost:8003/api/v1",
+    host: "http://localhost:8003",
   },
   p127: {
     api: "http://192.168.1.114:8003/api/v1",
+    host: "http://192.168.1.114:8003",
   },
   p517: {
     api: "http://192.168.68.107:8003/api/v1",
+    host: "http://192.168.68.107:8003",
   },
 };
 
