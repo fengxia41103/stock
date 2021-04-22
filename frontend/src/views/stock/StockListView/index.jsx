@@ -22,6 +22,7 @@ import StockListGroupCard from "./card.jsx";
 import GlobalContext from "src/context";
 import { Poll } from "restful-react";
 import AddNewStockDialog from "src/components/stock/AddNewStockDialog";
+import AddNewSectorDialog from "src/components/stock/AddNewSectorDialog";
 import UpdateIcon from "@material-ui/icons/Update";
 import DropdownMenu from "src/components/DropdownMenu";
 
@@ -129,6 +130,7 @@ function StockListView(props) {
           <Box display="flex" flexDirection="row-reverse" mt={1}>
             <DropdownMenu content={menu} />
             <AddNewStockDialog />
+            <AddNewSectorDialog />
             <Button color="primary" onClick={() => update_all(filtered)}>
               <UpdateIcon />
               Update All

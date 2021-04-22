@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -39,7 +40,7 @@ export default function AddNewStockDialog() {
   const on_create = () => create({ symbol: symbol }).then(setOpen(false));
 
   return (
-    <div>
+    <Box>
       <Button color="primary" onClick={handleClickOpen}>
         <AddIcon />
         Add New Stock
@@ -74,6 +75,6 @@ export default function AddNewStockDialog() {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Box>
   );
 }

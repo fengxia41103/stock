@@ -29,11 +29,11 @@ class MySector(models.Model):
 
     """
 
-    name = models.CharField(max_length=32, null=True, blank=True)
+    name = models.CharField(max_length=32, null=True, blank=True, unique=True)
     stocks = models.ManyToManyField("MyStock", related_name="sectors")
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class MyStockRankManager(models.Manager):
@@ -67,7 +67,7 @@ class MyStock(models.Model):
     objects = models.Manager()
     rank_manager = MyStockRankManager()
 
-    symbol = models.CharField(max_length=32)
+    symbol = models.CharField(max_length=32, unique=True)
     beta = models.FloatField(null=True, default=5)
     roa = models.FloatField(
         null=True, default=0, verbose_name="Return on Assets"
@@ -229,13 +229,14 @@ class MyStock(models.Model):
 
         vals = []
         for b in self.balances.order_by("on"):
-            vals.append(
-                {
-                    "on": b.on,
-                    "nav": (b.total_assets - b.total_liability)
-                    / self.shares_outstanding,
-                }
-            )
+            if self.shares_outstanding:
+                nav = (
+                    b.total_assets - b.total_liability
+                ) / self.shares_outstanding
+            else:
+                nav = 0
+
+            vals.append({"on": b.on, "nav": nav})
         return vals
 
     @property
