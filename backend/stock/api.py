@@ -64,7 +64,9 @@ class SectorResource(ModelResource):
     stocks = fields.ManyToManyField(
         "stock.api.StockResource", "stocks", null=True
     )
-    stocks_id_symbol = fields.ListField("stocks_id_symbol", null=True)
+    stocks_id_symbol = fields.ListField(
+        "stocks_id_symbol", null=True, readonly=True
+    )
 
     class Meta:
         queryset = MySector.objects.all()

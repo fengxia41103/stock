@@ -2,22 +2,13 @@ import React, { useState, useContext } from "react";
 import { map, remove, isEmpty } from "lodash";
 import Fetch from "src/components/Fetch";
 import {
-  Box,
-  Button,
-  Grid,
-  Link,
-  TextField,
-  Card,
-  CardContent,
   FormControl,
   FormLabel,
   FormControlLabel,
   FormGroup,
   Checkbox,
-  CircularProgress,
 } from "@material-ui/core";
 import GlobalContext from "src/context";
-import UpdateIcon from "@material-ui/icons/Update";
 import DropdownMenu from "src/components/DropdownMenu";
 import { useMutate } from "restful-react";
 

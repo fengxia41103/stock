@@ -7,11 +7,13 @@ import {
   Box,
   Card,
   CardContent,
+  CardActions,
   Typography,
   Grid,
 } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import SectorLabel from "src/components/stock/SectorLabel";
+import { map } from "lodash";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ListStockCard(props) {
-  const { stocks, index, group_by } = props;
+  const { stocks, index, group_by, actions } = props;
   const classes = useStyles();
 
   let title;
@@ -46,6 +48,12 @@ export default function ListStockCard(props) {
       title = index;
       break;
   }
+
+  const footers = map(actions, (action, index) => (
+    <Grid key={index} item>
+      {action}
+    </Grid>
+  ));
 
   return (
     <Grid item lg={3} sm={6} xs={12}>
@@ -76,6 +84,11 @@ export default function ListStockCard(props) {
             ))}
           </Grid>
         </CardContent>
+        <CardActions>
+          <Grid container spacing={3}>
+            {footers}
+          </Grid>
+        </CardActions>
       </Card>
     </Grid>
   );

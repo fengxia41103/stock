@@ -1,27 +1,20 @@
 import React, { useState, useContext } from "react";
-import { map, filter, sortBy, groupBy } from "lodash";
+import { map, filter } from "lodash";
 import Fetch from "src/components/Fetch";
 import {
   Box,
-  Button,
   Container,
   Grid,
   Link,
   TextField,
   Card,
   CardContent,
-  FormControl,
-  FormLabel,
-  FormControlLabel,
-  RadioGroup,
-  Radio,
-  CircularProgress,
 } from "@material-ui/core";
 import Page from "src/components/Page";
 import GlobalContext from "src/context";
 import AddNewSectorDialog from "src/components/stock/AddNewSectorDialog";
-import UpdateIcon from "@material-ui/icons/Update";
 import ListStockCard from "src/components/stock/ListStockCard";
+import EditSectorDialog from "src/components/stock/EditSectorDialog";
 
 export default function SectorListView(props) {
   const { api } = useContext(GlobalContext);
@@ -35,12 +28,16 @@ export default function SectorListView(props) {
 
   const render_data = data => {
     const sectors = data.objects;
+    const existing_names = map(sectors, s => s.name);
+
     // filter based on search string
     const filtered = filter(sectors, x => x.name.includes(searching));
 
     const group_by = "sector";
 
     const selectors = map(filtered, s => {
+      const actions = [<EditSectorDialog {...s} existings={existing_names} />];
+
       const links = map(s.stocks_id_symbol, v => {
         return (
           <Link key={v.id} href={`/app/stocks/${v.id}/historical/price`}>
@@ -51,8 +48,8 @@ export default function SectorListView(props) {
 
       return (
         <ListStockCard
-          key={s}
-          {...{ group_by, index: s.resource_uri }}
+          key={s.name}
+          {...{ group_by, actions, index: s.resource_uri }}
           stocks={links}
         />
       );
