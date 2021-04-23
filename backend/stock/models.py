@@ -35,6 +35,10 @@ class MySector(models.Model):
     def __str__(self):
         return str(self.name)
 
+    @property
+    def stocks_id_symbol(self):
+        return self.stocks.all().values("id", "symbol")
+
 
 class MyStockRankManager(models.Manager):
     def rank_by(self, attr, high_to_low):

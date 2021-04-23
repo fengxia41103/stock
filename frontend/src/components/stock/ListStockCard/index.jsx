@@ -28,12 +28,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function StockListGroupCard(props) {
+export default function ListStockCard(props) {
   const { stocks, index, group_by } = props;
   const classes = useStyles();
-
-  //const title =
-  //  group_by === "last_reporting_date" && index === "null" ? "ETF" : index;
 
   let title;
   switch (group_by) {
@@ -84,8 +81,6 @@ function StockListGroupCard(props) {
   );
 }
 
-StockListGroupCard.propTypes = {
+ListStockCard.propTypes = {
   stocks: PropTypes.array,
 };
-
-export default StockListGroupCard;

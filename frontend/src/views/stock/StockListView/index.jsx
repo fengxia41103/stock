@@ -18,7 +18,7 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import Page from "src/components/Page";
-import StockListGroupCard from "./card.jsx";
+import ListStockCard from "src/components/stock/ListStockCard";
 import GlobalContext from "src/context";
 import { Poll } from "restful-react";
 import AddNewStockDialog from "src/components/stock/AddNewStockDialog";
@@ -95,11 +95,7 @@ function StockListView(props) {
       });
 
       return (
-        <StockListGroupCard
-          key={index}
-          {...{ group_by, index }}
-          stocks={links}
-        />
+        <ListStockCard key={index} {...{ group_by, index }} stocks={links} />
       );
     });
 

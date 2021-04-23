@@ -39,12 +39,18 @@ import DailyReturnView from "src/views/stock/DailyReturnView";
 import OvernightReturnView from "src/views/stock/OvernightReturnView";
 import TechIndicatorView from "src/views/stock/TechIndicatorView";
 import RankingView from "src/views/stock/RankingView";
+import SectorListView from "src/views/sector/SectorListView";
 
 const items = [
   {
     href: "/app/rankings",
     icon: BarChartIcon,
     title: "Rankings",
+  },
+  {
+    href: "/app/sectors",
+    icon: BarChartIcon,
+    title: "Sectors",
   },
   {
     href: "/app/stocks",
@@ -89,6 +95,7 @@ const routes = [
         ],
       },
       { path: "rankings", element: <RankingView /> },
+      { path: "sectors", element: <SectorListView /> },
       { path: "dashboard", element: <DashboardView /> },
       { path: "*", element: <Navigate to="/404" /> },
     ],
