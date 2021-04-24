@@ -115,7 +115,7 @@ function StockDetailView() {
       <Page>
         <Container maxWidth={false}>
           <Box display="flex" mb={3} borderBottom={1}>
-            <Grid container spacing={1} justify="flex-end">
+            <Grid container spacing={1} justify="flex-end" alignItems="center">
               <MenuBar
                 title="Financial Statements"
                 items={financial_statement_menus}
@@ -124,16 +124,19 @@ function StockDetailView() {
               <MenuBar title="Price & Trends" items={price_menus} />
               <MenuBar title="Tech Indicators" items={indicator_menus} />
 
-              <Button color="primary" onClick={() => update({})}>
-                Update
-              </Button>
-
-              <Button
-                color="secondary"
-                onClick={() => del().then((mounted.current = false))}
-              >
-                Delete
-              </Button>
+              <Grid item xs>
+                <Button color="primary" onClick={() => update({})}>
+                  Update
+                </Button>
+              </Grid>
+              <Grid item xs>
+                <Button
+                  color="secondary"
+                  onClick={() => del().then((mounted.current = false))}
+                >
+                  Delete
+                </Button>
+              </Grid>
 
               <StockSector stock_resource={resource} />
             </Grid>

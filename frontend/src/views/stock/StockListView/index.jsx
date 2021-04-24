@@ -122,13 +122,28 @@ function StockListView(props) {
     return (
       <Page title="Stocks">
         <Container maxWidth={false}>
-          <Box display="flex" flexDirection="row-reverse" mt={1}>
-            <DropdownMenu content={menu} />
-            <AddNewStockDialog />
-            <Button color="primary" onClick={() => update_all(filtered)}>
-              <UpdateIcon />
-              Update All
-            </Button>
+          <Box mt={1}>
+            <Grid
+              container
+              spacing={1}
+              direction="row"
+              justify="flex-end"
+              alignItems="center"
+            >
+              <Grid item xs>
+                <Button color="primary" onClick={() => update_all(filtered)}>
+                  <UpdateIcon />
+                  Update All
+                </Button>
+              </Grid>
+
+              <Grid item xs>
+                <AddNewStockDialog />
+              </Grid>
+              <Grid item xs>
+                <DropdownMenu content={menu} />
+              </Grid>
+            </Grid>
           </Box>
 
           <Box mt={1}>

@@ -8,12 +8,18 @@ import {
   Card,
   CardContent,
   CardActions,
+  CardHeader,
   Typography,
   Grid,
+  MoreVertIcon,
+  List,
+  ListItem,
+  Divider,
 } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import SectorLabel from "src/components/stock/SectorLabel";
-import { map } from "lodash";
+import { map, isUndefined } from "lodash";
+import DropdownMenu from "src/components/DropdownMenu";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,33 +55,32 @@ export default function ListStockCard(props) {
       break;
   }
 
-  const footers = map(actions, (action, index) => (
-    <Grid key={index} item>
-      {action}
-    </Grid>
-  ));
+  // if any menu contents
+  let menu_content = null;
+
+  if (!isUndefined(actions)) {
+    const action_menu_content_list = map(actions, (action, index) => (
+      <ListItem key={index}>{action}</ListItem>
+    ));
+    menu_content = <List>{action_menu_content_list}</List>;
+  }
 
   return (
     <Grid item lg={3} sm={6} xs={12}>
       <Card className={clsx(classes.root, classes.card)}>
+        <CardHeader
+          title={<Typography variant="h3">{title}</Typography>}
+          subheader={<Typography variant="body2">{group_by}</Typography>}
+          avartar={
+            <Avatar className={classes.avatar}>
+              <CalendarTodayIcon />
+            </Avatar>
+          }
+          action={<DropdownMenu content={menu_content} />}
+        />
+
+        <Divider />
         <CardContent>
-          <Box mb={2}>
-            <Grid container justify="space-between" spacing={3}>
-              <Grid item>
-                <Typography color="textSecondary" gutterBottom variant="h6">
-                  By {group_by}
-                </Typography>
-                <Typography color="textPrimary" variant="h3">
-                  {title}
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Avatar className={classes.avatar}>
-                  <CalendarTodayIcon />
-                </Avatar>
-              </Grid>
-            </Grid>
-          </Box>
           <Grid container spacing={3}>
             {stocks.map((link, index) => (
               <Grid item key={index} xs={3}>
@@ -84,11 +89,6 @@ export default function ListStockCard(props) {
             ))}
           </Grid>
         </CardContent>
-        <CardActions>
-          <Grid container spacing={3}>
-            {footers}
-          </Grid>
-        </CardActions>
       </Card>
     </Grid>
   );

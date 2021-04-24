@@ -47,7 +47,7 @@ export default function EditSectorDialog(props) {
     <Box>
       <Button color="primary" onClick={handleClickOpen}>
         <EditIcon />
-        edit
+        Edit sector name
       </Button>
       <Dialog
         open={open}

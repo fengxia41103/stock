@@ -56,7 +56,7 @@ export default function SectorListView(props) {
     });
 
     return (
-      <Page title="Stocks">
+      <Page title="Sectors">
         <Container maxWidth={false}>
           <Box display="flex" flexDirection="row-reverse" mt={1}>
             <AddNewSectorDialog />

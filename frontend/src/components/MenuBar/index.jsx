@@ -29,7 +29,7 @@ function MenuBar(props) {
   });
 
   return (
-    <Grid item lg={2} sm={6} xs={12}>
+    <Grid item xs>
       <Button
         aria-controls="simple-menu"
         aria-haspopup="true"

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
-import { Box, Button, Menu } from "@material-ui/core";
-import SettingsIcon from "@material-ui/icons/Settings";
+import { Box, IconButton, Menu } from "@material-ui/core";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { isNull } from "lodash";
 
 export default function DropdownMenu(props) {
   const { content } = props;
@@ -15,16 +16,18 @@ export default function DropdownMenu(props) {
     setAnchorEl(null);
   };
 
+  if (isNull(content)) return null;
+
   return (
     <Box>
-      <Button
+      <IconButton
         aria-controls="simple-menu"
         aria-haspopup="true"
+        aria-label="options"
         onClick={handleClick}
       >
-        <SettingsIcon />
-        Options
-      </Button>
+        <MoreVertIcon />
+      </IconButton>
       <Menu
         anchorEl={anchorEl}
         keepMounted
