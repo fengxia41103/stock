@@ -15,6 +15,7 @@ import GlobalContext from "src/context";
 import AddNewSectorDialog from "src/components/stock/AddNewSectorDialog";
 import ListStockCard from "src/components/stock/ListStockCard";
 import EditSectorDialog from "src/components/stock/EditSectorDialog";
+import DeleteSectorDialog from "src/components/stock/DeleteSectorDialog";
 
 export default function SectorListView(props) {
   const { api } = useContext(GlobalContext);
@@ -36,7 +37,10 @@ export default function SectorListView(props) {
     const group_by = "sector";
 
     const selectors = map(filtered, s => {
-      const actions = [<EditSectorDialog {...s} existings={existing_names} />];
+      const actions = [
+        <EditSectorDialog {...s} existings={existing_names} />,
+        <DeleteSectorDialog {...s} />,
+      ];
 
       const links = map(s.stocks_id_symbol, v => {
         return (
