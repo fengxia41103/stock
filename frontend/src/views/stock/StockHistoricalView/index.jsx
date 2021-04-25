@@ -19,7 +19,7 @@ function StockHistoricalView() {
   const { api } = useContext(GlobalContext);
   const [start, setStart] = useState("2021-02-01");
   const [end, setEnd] = useState(new Date().toLocaleDateString("en-CA"));
-  const resource = `/historical/stats?stock=${id}&start=${start}&end=${end}`;
+  const resource = `/historical/stats?stock__in=${id}&start=${start}&end=${end}`;
 
   const mounted = useRef(true);
 

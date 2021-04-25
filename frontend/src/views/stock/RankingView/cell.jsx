@@ -27,7 +27,7 @@ function Cell(props) {
   const classes = useStyles();
 
   return (
-    <Grid item xs={1}>
+    <Grid item xs>
       <Typography
         className={classes.root}
         onMouseOver={handle_hide_toggle}

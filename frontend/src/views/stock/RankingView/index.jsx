@@ -94,8 +94,8 @@ function RankingView() {
   };
   const rankings = map(ranking_mapping, (resource, title) => {
     return (
-      <Box mb={3}>
-        <Card key={resource}>
+      <Box key={resource} mb={3}>
+        <Card>
           <CardContent>
             <Box mb={3}>
               <Grid container justify="space-between" spacing={3}>

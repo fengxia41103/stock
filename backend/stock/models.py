@@ -54,8 +54,8 @@ class MyStockRankManager(models.Manager):
                 }
             )
 
-        # eliminate 0 and -100, which are _invalid_ or _unknown_
-        # internally becase some data anomalies.
+        # WARNING: eliminate 0 and -100, which are _invalid_ or
+        # _unknown_ internally becase some data anomalies.
         valid_entries = list(
             filter(lambda x: x["val"] and x["val"] != -100, vals)
         )
@@ -393,11 +393,11 @@ class MyStrategyValueCustomManager(models.Manager):
         close_prices = list(historicals.values_list("close_price", flat=True))
         vols = list(historicals.values_list("vol", flat=True))
 
-        # eg. AMD 1982-07-29 had 0 open price. This is happening quite
+        # WARNING: AMD 1982-07-29 had 0 open price. This is happening quite
         # a bit on data that are _too_ old to be useful for me. But
         # since I'm keeping these data, I have to handle them.
         try:
-            range_return = close_prices[-1] / open_prices[0] * 100
+            range_return = close_prices[-1] / open_prices[0] * 100.0
         except ZeroDivisionError:
             range_return = 0
 
@@ -410,9 +410,11 @@ class MyStrategyValueCustomManager(models.Manager):
             "val", flat=True
         )
         if nightly_return.count():
-            nightly_up_pcnt = nightly_ups.count() / nightly_return.count() * 100
+            nightly_up_pcnt = (
+                nightly_ups.count() / nightly_return.count() * 100.0
+            )
             nightly_down_pcnt = (
-                nightly_downs.count() / nightly_return.count() * 100
+                nightly_downs.count() / nightly_return.count() * 100.0
             )
         else:
             nightly_up_pcnt = nightly_down_pcnt = 0
@@ -429,14 +431,14 @@ class MyStrategyValueCustomManager(models.Manager):
             "val", flat=True
         )
         if daily_return.count():
-            daily_up_pcnt = daily_ups.count() / daily_return.count() * 100
-            daily_down_pcnt = daily_downs.count() / daily_return.count() * 100
+            daily_up_pcnt = daily_ups.count() / daily_return.count() * 100.0
+            daily_down_pcnt = daily_downs.count() / daily_return.count() * 100.0
         else:
             daily_up_pcnt = daily_down_pcnt = 0
 
         # if I trade daily, what's the return?
         compound_return = (
-            prod(list(map(lambda x: 1 + x.val / 100, daily_return))) * 100
+            prod(list(map(lambda x: 1 + x.val / 100.0, daily_return))) * 100.0
         )
 
         # pre-computed trends, eg. two-day up/down/flip
@@ -454,7 +456,7 @@ class MyStrategyValueCustomManager(models.Manager):
         ).count()
         if night_day_flips.count():
             flip_positive_pcnt = (
-                positive_compounds / night_day_flips.count() * 100
+                positive_compounds / night_day_flips.count() * 100.0
             )
         else:
             flip_positive_pcnt = 0
@@ -464,7 +466,7 @@ class MyStrategyValueCustomManager(models.Manager):
         ).count()
         if night_day_flips.count():
             flip_negative_pcnt = (
-                negative_compounds / night_day_flips.count() * 100
+                negative_compounds / night_day_flips.count() * 100.0
             )
         else:
             flip_negative_pcnt = 0
@@ -473,7 +475,7 @@ class MyStrategyValueCustomManager(models.Manager):
             "days": historicals.count(),
             "return": "%.2f" % range_return,
             "close price rsd": "%.2f"
-            % (std(close_prices) / average(close_prices) * 100),
+            % (std(close_prices) / average(close_prices) * 100.0),
             "two_day_trend": two_day_trend,
             "overnight": night_day_consistency,
             "daily_ups": "%.0f" % daily_up_pcnt,
@@ -482,10 +484,10 @@ class MyStrategyValueCustomManager(models.Manager):
             "nightly_downs": "%.0f" % nightly_down_pcnt,
             "avg daily up": "%.2f" % average(daily_ups),
             "daily up rsd": "%.2f"
-            % (std(daily_ups) / average(daily_ups) * 100),
+            % (std(daily_ups) / average(daily_ups) * 100.0),
             "avg daily down": "%.2f" % average(daily_downs),
             "daily down rsd": "%.2f"
-            % (std(daily_downs) / abs(average(daily_downs)) * 100),
+            % (std(daily_downs) / abs(average(daily_downs)) * 100.0),
             "compounded return": "%.2f" % compound_return,
             "vols": vols,
             "night day flips": night_day_flips.count(),

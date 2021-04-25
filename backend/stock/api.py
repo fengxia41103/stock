@@ -361,28 +361,33 @@ class HistoricalStatResource(SummaryResource):
 
     def get_object_list(self, request):
         start, end = self._get_date_range(request)
-        stock = MyStock.objects.get(id=request.GET.get("stock"))
-        historicals = (
-            MyStockHistorical.objects.by_date_range(start, end)
-            .filter(stock=stock)
-            .order_by("on")
-        )
+        ids = map(int, request.GET.get("stock__in").split(","))
+        stocks = MyStock.objects.filter(id__in=ids)
 
-        indexes = self._get_indexes(historicals)
-        stats = self._get_stats(historicals)
-
-        return [
-            StatSummary(
-                stock.id,
-                "historicals",
-                {
-                    "symbol": stock.symbol,
-                    "olds": list(historicals.values()),
-                    "indexes": indexes,
-                    "stats": stats,
-                },
+        result = []
+        for stock in stocks:
+            historicals = (
+                MyStockHistorical.objects.by_date_range(start, end)
+                .filter(stock=stock)
+                .order_by("on")
             )
-        ]
+
+            indexes = self._get_indexes(historicals)
+            stats = self._get_stats(historicals)
+
+            result.append(
+                StatSummary(
+                    stock.id,
+                    "historicals",
+                    {
+                        "symbol": stock.symbol,
+                        "olds": list(historicals.values()),
+                        "indexes": indexes,
+                        "stats": stats,
+                    },
+                )
+            )
+        return result
 
 
 class StrategyValueResource(ModelResource):

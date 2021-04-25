@@ -111,8 +111,8 @@ const routes = [
     path: "/",
     element: <MainLayout />,
     children: [
+      { path: "/", element: <Navigate to="/app/sectors" /> },
       { path: "404", element: <NotFoundView /> },
-      { path: "/", element: <Navigate to="/app/stocks" /> },
       { path: "*", element: <Navigate to="/404" /> },
     ],
   },

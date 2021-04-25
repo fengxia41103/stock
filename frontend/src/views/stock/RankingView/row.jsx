@@ -73,8 +73,10 @@ export default function Row(props) {
           ) : null}
           {show_threshold ? <Box mt={3}>{cutoff}</Box> : null}
         </Grid>
-        <Grid container spacing={1} xs>
-          {vals}
+        <Grid item lg={9} sm={12} xs={12}>
+          <Grid container spacing={1}>
+            {vals}
+          </Grid>
         </Grid>
       </Grid>
 
