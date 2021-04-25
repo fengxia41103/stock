@@ -12,6 +12,7 @@ import {
 import StockHistoricalContext from "./context.jsx";
 import GlobalContext from "src/context";
 import Fetch from "src/components/Fetch";
+import { isUndefined } from "lodash";
 
 function StockHistoricalView() {
   const { id } = useParams();
@@ -38,6 +39,8 @@ function StockHistoricalView() {
     if (!mounted.current) return null;
 
     const data = resp.objects[0].stats;
+
+    console.log(data);
 
     if (data.olds.length === 0) {
       return null;

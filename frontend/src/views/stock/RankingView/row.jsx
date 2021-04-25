@@ -13,7 +13,7 @@ import {
 import { BarChart, Timeline } from "@material-ui/icons";
 import CompareArrowsSharpIcon from "@material-ui/icons/CompareArrowsSharp";
 import RankChart from "./rank_chart.jsx";
-import PriceChart from "./price_chart.jsx";
+import StocksPriceChart from "src/components/stock/StocksPriceChart";
 
 const useStyles = makeStyles(theme => ({
   category: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Row(props) {
+export default function Row(props) {
   const [show_rank_graph, setShowRank] = useState(false);
   const [show_1m_graph, setShow1m] = useState(false);
   const [show_threshold, setShowThreshold] = useState(false);
@@ -55,12 +55,12 @@ function Row(props) {
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid item lg={2} sm={6} xs={12}>
+        <Grid item lg={2} sm={6} xs>
           <Typography variant="body1" className={classes.category}>
             {category_name}
           </Typography>
         </Grid>
-        <Grid item lg={1} sm={6} xs={12}>
+        <Grid item lg={1} xs>
           <Tooltip title="View ranks as bar chart">
             <BarChart onClick={handle_show_rank_graph} />
           </Tooltip>
@@ -73,27 +73,23 @@ function Row(props) {
           ) : null}
           {show_threshold ? <Box mt={3}>{cutoff}</Box> : null}
         </Grid>
-        <Grid item lg={9} sm={12} xs={12}>
-          <Box>
-            <Grid container spacing={1}>
-              {vals}
-            </Grid>
-          </Box>
-
-          {show_rank_graph ? (
-            <Box mt={3}>
-              <RankChart {...props} />
-            </Box>
-          ) : null}
-          {show_1m_graph ? (
-            <Box mt={3}>
-              <PriceChart {...props} />
-            </Box>
-          ) : null}
+        <Grid container spacing={1} xs>
+          {vals}
         </Grid>
       </Grid>
+
+      <Box>
+        {show_rank_graph ? (
+          <Box mt={3}>
+            <RankChart {...props} />
+          </Box>
+        ) : null}
+        {show_1m_graph ? (
+          <Box mt={3}>
+            <StocksPriceChart {...props} />
+          </Box>
+        ) : null}
+      </Box>
     </Box>
   );
 }
-
-export default Row;

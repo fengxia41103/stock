@@ -47,6 +47,7 @@ class MyStockRankManager(models.Manager):
         for s in MyStock.objects.all():
             vals.append(
                 {
+                    "id": s.id,
                     "symbol": s.symbol,
                     "val": getattr(s, attr),
                     "one_month_historicals": s.one_month_historicals,

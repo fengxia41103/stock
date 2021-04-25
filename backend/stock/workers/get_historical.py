@@ -136,6 +136,7 @@ class MyStockHistoricalYahoo:
         if not vals:
             # protect from blank line or invalid symbol, eg. China
             # stock symbols logger.debug('not vals')
+            logger.error("vals are empty or None")
             return False
 
         if not reduce(lambda x, y: x and y, vals):

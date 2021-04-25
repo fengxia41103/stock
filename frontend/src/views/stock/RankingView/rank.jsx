@@ -33,6 +33,7 @@ function Rank(props) {
         });
       }
 
+      // FILTER: showing the top N items.
       const ranks = stats.slice(0, top);
       return (
         <Row

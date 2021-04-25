@@ -22,7 +22,7 @@ export default function EditSectorDialog(props) {
 
   const { mutate: update } = useMutate({
     verb: "PATCH",
-    path: `${host}${resource_uri}/`,
+    path: `${host}${resource_uri}`,
   });
 
   const handleClickOpen = () => {

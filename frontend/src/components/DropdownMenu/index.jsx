@@ -34,7 +34,9 @@ export default function DropdownMenu(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <Box p={3}>{content}</Box>
+        <Box p={3} onClick={handleClose}>
+          {content}
+        </Box>
       </Menu>
     </Box>
   );
