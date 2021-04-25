@@ -3,6 +3,7 @@ import { map, filter } from "lodash";
 import Fetch from "src/components/Fetch";
 import {
   Box,
+  Button,
   Container,
   Grid,
   Link,
@@ -16,6 +17,7 @@ import AddNewSectorDialog from "src/components/stock/AddNewSectorDialog";
 import ListStockCard from "src/components/stock/ListStockCard";
 import EditSectorDialog from "src/components/stock/EditSectorDialog";
 import DeleteSectorDialog from "src/components/stock/DeleteSectorDialog";
+import MultilineChartIcon from "@material-ui/icons/MultilineChart";
 
 export default function SectorListView(props) {
   const { api } = useContext(GlobalContext);
@@ -38,6 +40,17 @@ export default function SectorListView(props) {
 
     const selectors = map(filtered, s => {
       const actions = [
+        <Button
+          key={s.id}
+          component={Link}
+          href={`/app/sectors/${s.id}/price`}
+          variant="text"
+          color="primary"
+        >
+          <MultilineChartIcon />
+          See details
+        </Button>,
+
         <EditSectorDialog {...s} existings={existing_names} />,
         <DeleteSectorDialog {...s} />,
       ];
@@ -53,8 +66,7 @@ export default function SectorListView(props) {
       return (
         <ListStockCard
           key={s.name}
-          {...{ group_by, actions, index: s.resource_uri }}
-          stocks={links}
+          {...{ group_by, actions, index: s.resource_uri, stocks: links }}
         />
       );
     });

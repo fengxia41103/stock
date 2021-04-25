@@ -40,6 +40,8 @@ import OvernightReturnView from "src/views/stock/OvernightReturnView";
 import TechIndicatorView from "src/views/stock/TechIndicatorView";
 import RankingView from "src/views/stock/RankingView";
 import SectorListView from "src/views/sector/SectorListView";
+import SectorDetailView from "src/views/sector/SectorDetailView";
+import SectorPriceView from "src/views/sector/SectorPriceView";
 
 const items = [
   {
@@ -96,6 +98,11 @@ const routes = [
       },
       { path: "rankings", element: <RankingView /> },
       { path: "sectors", element: <SectorListView /> },
+      {
+        path: "sectors/:id",
+        element: <SectorDetailView />,
+        children: [{ path: "price", element: <SectorPriceView /> }],
+      },
       { path: "dashboard", element: <DashboardView /> },
       { path: "*", element: <Navigate to="/404" /> },
     ],
