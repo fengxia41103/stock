@@ -478,10 +478,10 @@ class MyStrategyValueCustomManager(models.Manager):
             % (std(close_prices) / average(close_prices) * 100.0),
             "two_day_trend": two_day_trend,
             "overnight": night_day_consistency,
-            "daily_ups": "%.0f" % daily_up_pcnt,
-            "daily_downs": "%.0f" % daily_down_pcnt,
-            "nightly_ups": "%.0f" % nightly_up_pcnt,
-            "nightly_downs": "%.0f" % nightly_down_pcnt,
+            "daily_ups": "%.2f" % daily_up_pcnt,
+            "daily_downs": "%.2f" % daily_down_pcnt,
+            "nightly_ups": "%.2f" % nightly_up_pcnt,
+            "nightly_downs": "%.2f" % nightly_down_pcnt,
             "avg daily up": "%.2f" % average(daily_ups),
             "daily up rsd": "%.2f"
             % (std(daily_ups) / average(daily_ups) * 100.0),
@@ -491,8 +491,8 @@ class MyStrategyValueCustomManager(models.Manager):
             "compounded return": "%.2f" % compound_return,
             "vols": vols,
             "night day flips": night_day_flips.count(),
-            "night day flip positive": flip_positive_pcnt,
-            "night day flip negative": flip_negative_pcnt,
+            "night day flip positive": "%.2f" % flip_positive_pcnt,
+            "night day flip negative": "%.2f" % flip_negative_pcnt,
         }
 
 

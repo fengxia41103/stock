@@ -3,9 +3,10 @@ import GlobalContext from "src/context";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 import { map } from "lodash";
 import Fetch from "src/components/Fetch";
-import HighchartGraphBox from "src/components/Highchart";
-import { Box, Card, CardContent, Typography } from "@material-ui/core";
-import { randomId } from "src/utils/helper.jsx";
+
+import { Box, Typography } from "@material-ui/core";
+
+import SectorDailyOvernightReturnScatterChart from "src/components/sector/SectorDailyOvernightReturnScatterChart";
 
 export default function SectorReturnView() {
   const { api } = useContext(GlobalContext);
@@ -21,41 +22,12 @@ export default function SectorReturnView() {
   const render_data = data => {
     const stats = data.objects;
 
-    const categories = []; //map(stats, s => s.stats.symbol);
-
-    const chart_data = map(stats, s => {
-      const daily_returns = s.stats.indexes["daily return"];
-      const overnight_returns = s.stats.indexes["overnight return"];
-      const my_data = map(daily_returns, (s, index) => {
-        return [s.val, overnight_returns[index].val];
-      });
-
-      return {
-        name: s.stats.symbol,
-        data: my_data,
-      };
-    });
-
-    const containerId = randomId();
     return (
       <Box>
         <Typography variant={"h1"}>Sector {sector.name} Returns</Typography>
 
         <Box mt={3}>
-          <Card>
-            <CardContent>
-              <HighchartGraphBox
-                containerId={containerId}
-                type="scatter"
-                categories={categories}
-                xLabel="Daily Return (%)"
-                yLabel="Overnight Return (%)"
-                title=""
-                legendEnabled={true}
-                data={chart_data}
-              />
-            </CardContent>
-          </Card>
+          <SectorDailyOvernightReturnScatterChart data={stats} />
         </Box>
       </Box>
     );
