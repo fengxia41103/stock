@@ -64,6 +64,7 @@ export default function HighchartGraphBox(props) {
       title,
       footer,
       categories,
+      xLabel,
       yLabel,
       legendEnabled,
       data,
@@ -103,10 +104,13 @@ export default function HighchartGraphBox(props) {
       xAxis: {
         categories: categories,
         crosshair: true,
+        title: {
+          text: xLabel ? xLabel : "",
+        },
       },
       yAxis: {
         title: {
-          text: yLabel,
+          text: yLabel ? yLabel : "",
         },
       },
       tooltip: {
@@ -128,6 +132,28 @@ export default function HighchartGraphBox(props) {
         },
         line: {
           //negativeColor: "#d52349",
+        },
+        scatter: {
+          marker: {
+            radius: 5,
+            states: {
+              hover: {
+                enabled: true,
+                lineColor: "rgb(100,100,100)",
+              },
+            },
+          },
+          states: {
+            hover: {
+              marker: {
+                enabled: false,
+              },
+            },
+          },
+          tooltip: {
+            headerFormat: "<b>{series.name}</b><br>",
+            pointFormat: "{point.x}, {point.y}",
+          },
         },
       },
       legend: {

@@ -10,6 +10,10 @@ import { useMutate } from "restful-react";
 
 const price_menus = [
   {
+    url: "return",
+    text: "Daily & Nightly Returns",
+  },
+  {
     url: "price",
     text: "Daily Prices",
   },

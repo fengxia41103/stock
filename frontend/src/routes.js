@@ -42,6 +42,7 @@ import RankingView from "src/views/stock/RankingView";
 import SectorListView from "src/views/sector/SectorListView";
 import SectorDetailView from "src/views/sector/SectorDetailView";
 import SectorPriceView from "src/views/sector/SectorPriceView";
+import SectorReturnView from "src/views/sector/SectorReturnView";
 
 const items = [
   {
@@ -101,7 +102,10 @@ const routes = [
       {
         path: "sectors/:id",
         element: <SectorDetailView />,
-        children: [{ path: "price", element: <SectorPriceView /> }],
+        children: [
+          { path: "price", element: <SectorPriceView /> },
+          { path: "return", element: <SectorReturnView /> },
+        ],
       },
       { path: "dashboard", element: <DashboardView /> },
       { path: "*", element: <Navigate to="/404" /> },

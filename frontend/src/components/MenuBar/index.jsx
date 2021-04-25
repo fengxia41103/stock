@@ -19,7 +19,7 @@ function MenuBar(props) {
   };
 
   const links = items.map(x => {
-    const url = `/app/stocks/${id}/${x.url}`;
+    const url = `${x.url}`;
 
     return (
       <MenuItem key={x.url} onClick={handleClose}>

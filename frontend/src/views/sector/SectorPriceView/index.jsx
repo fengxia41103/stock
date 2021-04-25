@@ -4,20 +4,13 @@ import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 import { map } from "lodash";
 import Fetch from "src/components/Fetch";
 import MultilineChart from "src/components/MultilineChart";
-import {
-  Box,
-  Grid,
-  TextField,
-  Card,
-  CardContent,
-  Typography,
-} from "@material-ui/core";
+import { Box, Card, CardContent, Typography } from "@material-ui/core";
 
 export default function SectorPriceView() {
   const { api } = useContext(GlobalContext);
   const sector = useContext(SectorDetailContext);
   const stock_ids = map(sector.stocks_id_symbol, s => s.id).join(",");
-  //const [resource] = useState(`/stock-ranks?id__in=${stock_ids}`);
+
   const [start, setStart] = useState("2021-02-01");
   const [end, setEnd] = useState(new Date().toLocaleDateString("en-CA"));
   const [resource] = useState(
@@ -34,8 +27,9 @@ export default function SectorPriceView() {
     });
 
     return (
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
+      <Box>
+        <Typography variant={"h1"}>Sector {sector.name} Prices</Typography>
+        <Box mt={3}>
           <Card>
             <CardContent>
               <MultilineChart
@@ -49,10 +43,8 @@ export default function SectorPriceView() {
               />
             </CardContent>
           </Card>
-        </Grid>
-
-        <Grid item xs={12}></Grid>
-      </Grid>
+        </Box>
+      </Box>
     );
   };
 
