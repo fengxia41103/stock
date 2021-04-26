@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import FinancialsView from "src/views/stock/FinancialsView";
+import FinancialCard from "src/components/stock/FinancialCard";
 import { map, merge } from "lodash";
 
 import {
@@ -184,11 +184,7 @@ function DCFView() {
     <Box>
       <Typography variant="h1">{stock.symbol} DCF Model</Typography>
 
-      <FinancialsView
-        data={dcf_values}
-        reported={reported}
-        normalized={false}
-      />
+      <FinancialCard data={dcf_values} reported={reported} normalized={false} />
       <Box mt={3}>
         <Card>
           <CardContent>

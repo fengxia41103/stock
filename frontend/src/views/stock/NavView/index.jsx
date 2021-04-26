@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import FinancialsView from "src/views/stock/FinancialsView";
+import FinancialCard from "src/components/stock/FinancialCard";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 import { Box, Typography } from "@material-ui/core";
 
@@ -15,7 +15,7 @@ function NavView(props) {
   return (
     <Box>
       <Typography variant="h1">{stock.symbol} Net Asset Model</Typography>
-      <FinancialsView data={nav_model} reported={reported} />
+      <FinancialCard data={nav_model} reported={reported} />
     </Box>
   );
 }

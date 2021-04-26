@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import GlobalContext from "src/context";
-import FinancialsView from "src/views/stock/FinancialsView";
+import FinancialCard from "src/components/stock/FinancialCard";
 import Fetch from "src/components/Fetch";
 
 function ValuationRatiosView() {
@@ -21,11 +21,7 @@ function ValuationRatiosView() {
     const data = resp.objects;
 
     return (
-      <FinancialsView
-        title="Valuation Ratios"
-        data={data}
-        reported={reported}
-      />
+      <FinancialCard title="Valuation Ratios" data={data} reported={reported} />
     );
   };
   return <Fetch api={api} resource={resource} render_data={render_data} />;

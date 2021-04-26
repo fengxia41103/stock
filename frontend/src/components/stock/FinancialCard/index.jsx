@@ -3,7 +3,7 @@ import { isEmpty, isUndefined, map } from "lodash";
 import { Box, Typography, Card, CardContent } from "@material-ui/core";
 import DictTable from "src/components/DictTable";
 
-function FinancialsView(props) {
+export default function FinancialCard(props) {
   const {
     data,
     reported,
@@ -71,5 +71,3 @@ function FinancialsView(props) {
 
   return <Box mt={3}>{cards}</Box>;
 }
-
-export default FinancialsView;

@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Typography } from "@material-ui/core";
 import GlobalContext from "src/context";
-import FinancialsView from "src/views/stock/FinancialsView";
+import FinancialCard from "src/components/stock/FinancialCard";
 import Fetch from "src/components/Fetch";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 
@@ -42,7 +42,7 @@ function CashFlowView(props) {
     return (
       <Box>
         <Typography variant="h1">{stock.symbol} Cash Flow Statement</Typography>
-        <FinancialsView
+        <FinancialCard
           {...{ data, reported, pcnt, p2p_growth, in_period_change }}
         />
       </Box>

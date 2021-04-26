@@ -40,8 +40,8 @@ function StockHistoricalView() {
 
     const data = resp.objects[0].stats;
 
-    console.log(data);
-
+    // WARNING: for some reason I don't have its price, thus nothing
+    // to be shown here.
     if (data.olds.length === 0) {
       return null;
     }
