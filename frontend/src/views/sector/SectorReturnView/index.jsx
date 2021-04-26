@@ -4,7 +4,7 @@ import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 import { map } from "lodash";
 import Fetch from "src/components/Fetch";
 
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography, Card, CardContent } from "@material-ui/core";
 
 import SectorDailyOvernightReturnScatterChart from "src/components/sector/SectorDailyOvernightReturnScatterChart";
 
@@ -27,7 +27,11 @@ export default function SectorReturnView() {
         <Typography variant={"h1"}>Sector {sector.name} Returns</Typography>
 
         <Box mt={3}>
-          <SectorDailyOvernightReturnScatterChart data={stats} />
+          <Card>
+            <CardContent>
+              <SectorDailyOvernightReturnScatterChart data={stats} />
+            </CardContent>
+          </Card>
         </Box>
       </Box>
     );
