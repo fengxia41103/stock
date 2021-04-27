@@ -10,12 +10,31 @@ import { useMutate } from "restful-react";
 
 const price_menus = [
   {
+    url: "price",
+    text: "Daily Prices",
+  },
+  {
     url: "return",
     text: "Daily & Nightly Returns",
   },
+];
+
+const valuation_menus = [
   {
-    url: "price",
-    text: "Daily Prices",
+    url: "dupont",
+    text: "Dupont ROE",
+  },
+  {
+    url: "dcf",
+    text: "Discounted Cash Flow",
+  },
+  {
+    url: "ratios",
+    text: "Valuation Ratios",
+  },
+  {
+    url: "nav",
+    text: "Net Asset Value",
   },
 ];
 
@@ -47,6 +66,7 @@ export default function SectorDetailView() {
           <Box display="flex" mb={3} borderBottom={1}>
             <Grid container spacing={1} justify="flex-end" alignItems="center">
               <MenuBar title="Price & Trends" items={price_menus} />
+              <MenuBar title="Valuations" items={valuation_menus} />
 
               <Grid item xs>
                 <Button color="primary" onClick={() => update({})}>

@@ -36,7 +36,7 @@ class MySector(models.Model):
         return str(self.name)
 
     @property
-    def stocks_id_symbol(self):
+    def stocks_property(self):
         return self.stocks.all().values("id", "symbol")
 
 

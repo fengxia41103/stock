@@ -218,10 +218,15 @@ class RankingResource(Resource):
 class SectorResource(ModelResource):
     name = fields.CharField("name")
     stocks = fields.ManyToManyField(
-        "stock.api.StockResource", "stocks", null=True
+        "stock.api.StockResource",
+        "stocks",
+        null=True,
+        full=True,
+        readonly=True,
+        use_in="detail",
     )
-    stocks_id_symbol = fields.ListField(
-        "stocks_id_symbol", null=True, readonly=True
+    stocks_property = fields.ListField(
+        "stocks_property", null=True, readonly=True
     )
 
     class Meta:

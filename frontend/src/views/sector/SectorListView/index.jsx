@@ -55,7 +55,7 @@ export default function SectorListView(props) {
         <DeleteSectorDialog {...s} />,
       ];
 
-      const links = map(s.stocks_id_symbol, v => {
+      const links = map(s.stocks_property, v => {
         return (
           <Link key={v.id} href={`/app/stocks/${v.id}/historical/price`}>
             {v.symbol}
@@ -66,7 +66,7 @@ export default function SectorListView(props) {
       return (
         <ListStockCard
           key={s.name}
-          {...{ group_by, actions, index: s.resource_uri, stocks: links }}
+          {...{ actions, index: s.name, stocks: links }}
         />
       );
     });

@@ -9,7 +9,7 @@ import { Box, Card, CardContent, Typography } from "@material-ui/core";
 export default function SectorPriceView() {
   const { api } = useContext(GlobalContext);
   const sector = useContext(SectorDetailContext);
-  const stock_ids = map(sector.stocks_id_symbol, s => s.id).join(",");
+  const stock_ids = map(sector.stocks_property, s => s.id).join(",");
 
   const [start, setStart] = useState("2021-02-01");
   const [end, setEnd] = useState(new Date().toLocaleDateString("en-CA"));

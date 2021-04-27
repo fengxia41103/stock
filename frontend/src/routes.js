@@ -1,16 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 
-import {
-  AlertCircle as AlertCircleIcon,
-  BarChart as BarChartIcon,
-  Lock as LockIcon,
-  Settings as SettingsIcon,
-  ShoppingBag as ShoppingBagIcon,
-  User as UserIcon,
-  UserPlus as UserPlusIcon,
-  Users as UsersIcon,
-} from "react-feather";
+import { BarChart as BarChartIcon } from "react-feather";
 
 import DashboardLayout from "src/layouts/DashboardLayout";
 import MainLayout from "src/layouts/MainLayout";
@@ -43,6 +34,7 @@ import SectorListView from "src/views/sector/SectorListView";
 import SectorDetailView from "src/views/sector/SectorDetailView";
 import SectorPriceView from "src/views/sector/SectorPriceView";
 import SectorReturnView from "src/views/sector/SectorReturnView";
+import SectorRoeView from "src/views/sector/SectorRoeView";
 
 const items = [
   {
@@ -105,6 +97,7 @@ const routes = [
         children: [
           { path: "price", element: <SectorPriceView /> },
           { path: "return", element: <SectorReturnView /> },
+          { path: "dupont", element: <SectorRoeView /> },
         ],
       },
       { path: "dashboard", element: <DashboardView /> },

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Highcharts from "highcharts";
+import HC_more from "highcharts/highcharts-more"; //module
 import addFunnel from "highcharts/modules/funnel";
 import { map, filter, isNull } from "lodash";
 
@@ -14,8 +15,13 @@ export default function HighchartGraphBox(props) {
   const { containerId, title } = props;
 
   let chart = null;
+
   useEffect(() => {
-    // Initialize graph
+    // We initializ graphy after component is mounted.
+
+    //MUST: init module!
+    HC_more(Highcharts);
+
     // Apply funnel after window is present
     Highcharts.setOptions({
       lang: {
@@ -94,6 +100,7 @@ export default function HighchartGraphBox(props) {
         plotShadow: false,
         height: height,
         styleMode: true,
+        zoomType: "xy",
       },
       title: {
         text: title,
