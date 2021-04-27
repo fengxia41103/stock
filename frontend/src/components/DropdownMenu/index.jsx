@@ -5,7 +5,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { isNull, isUndefined } from "lodash";
 
 export default function DropdownMenu(props) {
-  const { title, content } = props;
+  const { title, content, keep_open } = props;
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -37,7 +37,7 @@ export default function DropdownMenu(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <Box p={3} onClick={handleClose}>
+        <Box p={3} onClick={isUndefined(keep_open) ? handleClose : null}>
           {content}
         </Box>
       </Menu>

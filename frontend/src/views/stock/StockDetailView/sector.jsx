@@ -86,7 +86,7 @@ export default function StockSector(props) {
       </FormControl>
     );
 
-    return <DropdownMenu content={form} />;
+    return <DropdownMenu content={form} keep_open/>;
   };
 
   return <Fetch key={sectors} {...{ api, resource, render_data }} />;
