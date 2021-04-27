@@ -541,13 +541,18 @@ class StatementBase(models.Model):
 
         """
 
-        tmp = getattr(self, attr2)
+        b = getattr(self, attr2)
 
-        if not tmp:
+        if not b:
             # if 0 or none
             return 0
         else:
-            return abs(getattr(self, attr1) / tmp)
+            a = getattr(self, attr1)
+            if a * b > 0:
+                # they have the same sign
+                return a / b
+            else:
+                return abs((a - b) / b)
 
     def _as_of_pcnt(self, attr1, attr2):
         """Attr1 as % of attr2."""

@@ -48,7 +48,7 @@ export default function SectorListView(props) {
           color="primary"
         >
           <MultilineChartIcon />
-          See details
+          Comparison analysis
         </Button>,
 
         <EditSectorDialog {...s} existings={existing_names} />,

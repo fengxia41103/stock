@@ -28,7 +28,9 @@ export default function SectorPriceView() {
 
     return (
       <Box>
-        <Typography variant={"h1"}>Sector {sector.name} Prices</Typography>
+        <Typography variant={"h1"}>Price Comparison</Typography>
+        <Typography variant={"body2"}>{sector.name}</Typography>
+
         <Box mt={3}>
           <Card>
             <CardContent>

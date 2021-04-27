@@ -162,6 +162,13 @@ export default function HighchartGraphBox(props) {
             pointFormat: "{point.x}, {point.y}",
           },
         },
+        bubble: {
+          tooltip: {
+            useHTML: true,
+            pointFormat: "{point.z}",
+            followPointer: true,
+          },
+        },
       },
       legend: {
         enabled: legendEnabled,

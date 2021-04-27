@@ -24,7 +24,10 @@ export default function SectorReturnView() {
 
     return (
       <Box>
-        <Typography variant={"h1"}>Sector {sector.name} Returns</Typography>
+        <Typography variant={"h1"}>
+          Daily & Nightly Returns Comparison
+        </Typography>
+        <Typography variant={"body2"}>{sector.name}</Typography>
 
         <Box mt={3}>
           <Card>

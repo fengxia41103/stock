@@ -5,46 +5,72 @@ import { map } from "lodash";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/Highchart";
 
-import { Box, Typography, Card, CardContent } from "@material-ui/core";
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  CardHeader,
+  Grid,
+} from "@material-ui/core";
+import SectorDupontBreakdownChart from "src/components/sector/SectorDupontBreakdownChart";
+import SectorDupontLineChart from "src/components/sector/SectorDupontLineChart";
 
 export default function SectorRoeView() {
   const sector = useContext(SectorDetailContext);
 
-  const containerId = randomId();
-  const chart_data = map(sector.stocks, s => {
-    const data = map(s.dupont_model, d => {
-      return {
-        name: d.on,
-        x: d.net_profit_margin,
-        y: d.asset_turnover,
-        z: d.equity_multiplier,
-      };
-    });
-    return {
-      name: s.symbol,
-      data: data,
-    };
-  });
+  const interests = [
+    {
+      attr: "net_profit_margin",
+      header: "Net Profit Margin (%)",
+    },
+    {
+      attr: "asset_turnover",
+      header: "Asset Turnover Ratio (%)",
+    },
+    {
+      attr: "equity_multiplier",
+      header: "Equity Multiplier",
+    },
+    {
+      attr: "assets",
+      header: "Assets",
+    },
+    {
+      attr: "equity",
+      header: "Equity",
+    },
+    {
+      attr: "revenue",
+      header: "Revenue",
+    },
+  ];
 
-  return (
-    <Box>
-      <Typography variant={"h1"}>Sector "{sector.name}" ROE</Typography>
-
-      <Box mt={3}>
+  const charts = map(interests, i => {
+    return (
+      <Grid item lg={4} xs={12}>
         <Card>
+          <CardHeader title={i.header} />
           <CardContent>
-            <HighchartGraphBox
-              containerId={containerId}
-              type="bubble"
-              categories={[]}
-              xLabel="Net Profit Margin (%)"
-              yLabel="Asset TurnOver Ratio"
-              title=""
-              legendEnabled={true}
-              data={chart_data}
-            />
+            <SectorDupontLineChart property={i.attr} />
           </CardContent>
         </Card>
+      </Grid>
+    );
+  });
+  return (
+    <Box>
+      <Typography variant={"h1"}>ROE Comparison</Typography>
+      <Typography variant={"body2"}>{sector.name}</Typography>
+
+      <Box mt={3}>
+        <SectorDupontBreakdownChart />
+      </Box>
+
+      <Box mt={3}>
+        <Grid container spacing={1}>
+          {charts}
+        </Grid>
       </Box>
     </Box>
   );

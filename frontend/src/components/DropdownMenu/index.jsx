@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
-import { Box, IconButton, Menu } from "@material-ui/core";
+import { Box, IconButton, Menu, Typography } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { isNull } from "lodash";
+import { isNull, isUndefined } from "lodash";
 
 export default function DropdownMenu(props) {
-  const { content } = props;
+  const { title, content } = props;
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -27,6 +27,9 @@ export default function DropdownMenu(props) {
         onClick={handleClick}
       >
         <MoreVertIcon />
+        <Typography variant={"body2"}>
+          {isUndefined(title) ? null : title}
+        </Typography>
       </IconButton>
       <Menu
         anchorEl={anchorEl}

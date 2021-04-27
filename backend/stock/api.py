@@ -221,6 +221,11 @@ class SectorResource(ModelResource):
         "stock.api.StockResource",
         "stocks",
         null=True,
+    )
+    stocks_detail = fields.ManyToManyField(
+        "stock.api.StockResource",
+        "stocks",
+        null=True,
         full=True,
         readonly=True,
         use_in="detail",
