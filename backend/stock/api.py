@@ -279,6 +279,7 @@ class StockResource(ModelResource):
         else:
             sector = "misc"
 
+        # kick off updates
         batch_update_helper(sector, symbol)
 
     def obj_create(self, bundle, **kwargs):
@@ -287,6 +288,10 @@ class StockResource(ModelResource):
             symbol=bundle.data["symbol"]
         )
         sector.stocks.add(stock)
+
+        # kick off updates
+        batch_update_helper(sector.name, stock.symbol)
+
         bundle.obj = stock
         return bundle
 

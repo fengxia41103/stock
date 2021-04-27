@@ -1,4 +1,5 @@
 from celery import chain
+from celery import group
 from celery import shared_task
 
 from fin.tor_handler import PlainUtility
@@ -84,16 +85,30 @@ def compute_two_daily_trend_consumer(whatever, symbol):
 
 def batch_update_helper(sector, symbol):
 
-    # let async queue do the work
+    # get price
     history_sig = __yahoo_consumer.s(sector, symbol)
     summary_compute_sig = __summary_consumer.s(symbol)
     task = chain(history_sig, summary_compute_sig)
     task.apply_async()
 
+    # get statements
     task = chain(
         __balance_sheet_consumer.s(None, symbol),
         __income_statement_consumer.s(symbol),
         __cash_flow_statement_consumer.s(symbol),
         __valuation_ratio_consumer.s(symbol),
     )
+    task.apply_async()
+
+    # compute meta values
+    daily_return_sig = group(
+        compute_daily_return_consumer.s(symbol),
+        compute_nightly_return_consumer.s(symbol),
+    )
+    trend_sig = group(
+        compute_night_day_consistency_consumer.s(symbol),
+        compute_two_daily_trend_consumer.s(symbol),
+        compute_night_day_compounded_return_consumer.s(symbol),
+    )
+    task = chain(daily_return_sig, trend_sig)
     task.apply_async()
