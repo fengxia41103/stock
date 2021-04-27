@@ -12,7 +12,6 @@ import {
 import StockHistoricalContext from "./context.jsx";
 import GlobalContext from "src/context";
 import Fetch from "src/components/Fetch";
-import { isUndefined } from "lodash";
 
 function StockHistoricalView() {
   const { id } = useParams();

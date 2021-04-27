@@ -13,8 +13,8 @@ export default function SectorReturnView() {
   const sector = useContext(SectorDetailContext);
   const stock_ids = map(sector.stocks_property, s => s.id).join(",");
 
-  const [start, setStart] = useState("2021-02-01");
-  const [end, setEnd] = useState(new Date().toLocaleDateString("en-CA"));
+  const [start] = useState("2021-02-01");
+  const [end] = useState(new Date().toLocaleDateString("en-CA"));
   const [resource] = useState(
     `/historical/stats?stock__in=${stock_ids}&start=${start}&end=${end}`
   );

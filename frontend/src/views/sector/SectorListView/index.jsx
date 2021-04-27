@@ -36,8 +36,6 @@ export default function SectorListView(props) {
     // filter based on search string
     const filtered = filter(sectors, x => x.name.includes(searching));
 
-    const group_by = "sector";
-
     const selectors = map(filtered, s => {
       const actions = [
         <Button
@@ -57,7 +55,7 @@ export default function SectorListView(props) {
 
       const links = map(s.stocks_property, v => {
         return (
-          <Link key={v.id} href={`/app/stocks/${v.id}/historical/price`}>
+          <Link key={v.id} href={`/app/stocks/${v.id}/`}>
             {v.symbol}
           </Link>
         );
