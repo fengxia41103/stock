@@ -40,14 +40,18 @@ export default function StockSector(props) {
           remove(tmp, k => k.includes(stock_resource));
         }
 
-        // call backend
+        // call backend payload
         const data = { ...s, stocks: tmp };
 
         // MUST: make a copy and update `sectors` because it will
         // force a re-render of this component, thus will fetch data
         // from backend.
         sectors[i] = { ...data };
+
+        // make the API call
         update({ objects: [data] });
+
+        // I'm done here
         break;
       }
     }

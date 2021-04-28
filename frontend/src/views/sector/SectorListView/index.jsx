@@ -16,7 +16,7 @@ import GlobalContext from "src/context";
 import AddNewSectorDialog from "src/components/stock/AddNewSectorDialog";
 import ListStockCard from "src/components/stock/ListStockCard";
 import EditSectorDialog from "src/components/stock/EditSectorDialog";
-import DeleteSectorDialog from "src/components/stock/DeleteSectorDialog";
+import DeleteSectorDialog from "src/components/sector/DeleteSectorDialog";
 import MultilineChartIcon from "@material-ui/icons/MultilineChart";
 
 export default function SectorListView(props) {
@@ -53,11 +53,13 @@ export default function SectorListView(props) {
         <DeleteSectorDialog {...s} />,
       ];
 
-      const links = map(s.stocks_property, v => {
+      const links = map(s.stocks_property, (v, index) => {
         return (
-          <Link key={v.id} href={`/app/stocks/${v.id}/`}>
-            {v.symbol}
-          </Link>
+          <Box>
+            <Link key={v.id} href={`/app/stocks/${v.id}/`}>
+              {v.symbol}
+            </Link>
+          </Box>
         );
       });
 

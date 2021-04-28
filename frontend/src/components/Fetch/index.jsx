@@ -3,7 +3,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { useGet } from "restful-react";
 import NotFoundView from "src/views/errors/NotFoundView";
 
-function Fetch(props) {
+export default function Fetch(props) {
   const { api, resource, render_data, mounted } = props;
 
   const { data, loading, error } = useGet({
@@ -20,5 +20,3 @@ function Fetch(props) {
   // everything is good, render
   return render_data(data);
 }
-
-export default Fetch;

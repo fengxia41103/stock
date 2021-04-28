@@ -16,12 +16,12 @@ import { map } from "lodash";
 
 export default function DeleteSectorDialog(props) {
   const { host } = useContext(GlobalContext);
-  const { resource_uri, stocks_id_symbol } = props;
+  const { resource_uri:sector, stocks_property:stocks } = props;
   const [open, setOpen] = useState(false);
 
   const { mutate: del } = useMutate({
     verb: "DELETE",
-    path: `${host}${resource_uri}`,
+    path: `${host}${sector}`,
   });
 
   const handleClickOpen = () => {
@@ -32,7 +32,7 @@ export default function DeleteSectorDialog(props) {
     setOpen(false);
   };
 
-  const stock_links = map(stocks_id_symbol, v => {
+  const stock_links = map(stocks, v => {
     return (
       <ListItem key={v.id}>
         <Link key={v.id} href={`/app/stocks/${v.id}/historical/price`}>
@@ -55,7 +55,10 @@ export default function DeleteSectorDialog(props) {
       >
         <DialogTitle>Delete Sector</DialogTitle>
         <DialogContent>
-          Deleting this sector will also delete stocks associated w/ it.
+          Deleting this sector will NOT delete stocks associated w/
+          it. Stock belonging to no sector, however, will not be
+          visible in the sector page. You can go to the stock detail
+          page and add it to a new sector.
           <Box mt={2}>
             <List>{stock_links}</List>
           </Box>
