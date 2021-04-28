@@ -117,12 +117,25 @@ function StockDetailView() {
           <Box display="flex" mb={3} borderBottom={1}>
             <Grid container spacing={1} justify="flex-end" alignItems="center">
               <MenuBar
+                root={resource}
+                title="Price & Trends"
+                items={price_menus}
+              />
+              <MenuBar
+                root={resource}
                 title="Financial Statements"
                 items={financial_statement_menus}
               />
-              <MenuBar title="Valuation Models" items={valuation_menus} />
-              <MenuBar title="Price & Trends" items={price_menus} />
-              <MenuBar title="Tech Indicators" items={indicator_menus} />
+              <MenuBar
+                root={resource}
+                title="Valuation Models"
+                items={valuation_menus}
+              />
+              <MenuBar
+                root={resource}
+                title="Tech Indicators"
+                items={indicator_menus}
+              />
 
               <Grid item xs>
                 <Button color="primary" onClick={() => update({})}>

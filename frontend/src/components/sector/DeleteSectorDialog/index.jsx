@@ -35,7 +35,7 @@ export default function DeleteSectorDialog(props) {
   const stock_links = map(stocks, v => {
     return (
       <ListItem key={v.id}>
-        <Link key={v.id} href={`/app/stocks/${v.id}/historical/price`}>
+        <Link key={v.id} href={`/stocks/${v.id}/historical/price`}>
           {v.symbol}
         </Link>
       </ListItem>

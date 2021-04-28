@@ -6,7 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 function MenuBar(props) {
   const { id } = useParams();
-  const { title, items } = props;
+  const { root, title, items } = props;
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -19,7 +19,7 @@ function MenuBar(props) {
   };
 
   const links = items.map(x => {
-    const url = `${x.url}`;
+    const url = `${root}/${x.url}`;
 
     return (
       <MenuItem key={x.url} onClick={handleClose}>

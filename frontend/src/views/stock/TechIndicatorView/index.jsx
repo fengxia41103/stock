@@ -10,6 +10,7 @@ import CandleStickChartWithSAR from "./sar.jsx";
 import CandleStickChartWithRSIIndicator from "./rsi.jsx";
 import OHLCChartWithElderRayIndicator from "./elder.jsx";
 import HeikinAshi from "./heikin.jsx";
+import { Box, Card, CardContent } from "@material-ui/core";
 
 export default function TechIndicatorView() {
   const { type } = useParams();
@@ -66,5 +67,11 @@ export default function TechIndicatorView() {
       chart = null;
       break;
   }
-  return chart;
+  return (
+    <Card>
+      <CardContent>
+        <Box mt={2}>{chart}</Box>
+      </CardContent>
+    </Card>
+  );
 }

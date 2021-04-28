@@ -41,7 +41,7 @@ export default function SectorListView(props) {
         <Button
           key={s.id}
           component={Link}
-          href={`/app/sectors/${s.id}/price`}
+          href={`/sectors/${s.id}/price`}
           variant="text"
           color="primary"
         >
@@ -56,7 +56,7 @@ export default function SectorListView(props) {
       const links = map(s.stocks_property, (v, index) => {
         return (
           <Box>
-            <Link key={v.id} href={`/app/stocks/${v.id}/`}>
+            <Link key={v.id} href={`/stocks/${v.id}/historical/price`}>
               {v.symbol}
             </Link>
           </Box>

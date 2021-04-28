@@ -1,19 +1,15 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 
-import { BarChart as BarChartIcon } from "react-feather";
+import SortIcon from "@material-ui/icons/Sort";
+import BarChartIcon from "@material-ui/icons/BarChart";
+import CompareIcon from "@material-ui/icons/Compare";
+import DashboardIcon from "@material-ui/icons/Dashboard";
 
 import DashboardLayout from "src/layouts/DashboardLayout";
 import MainLayout from "src/layouts/MainLayout";
-import AccountView from "src/views/account/AccountView";
-import CustomerListView from "src/views/customer/CustomerListView";
-import DashboardView from "src/views/reports/DashboardView";
-import LoginView from "src/views/auth/LoginView";
-import NotFoundView from "src/views/errors/NotFoundView";
-import ProductListView from "src/views/product/ProductListView";
-import RegisterView from "src/views/auth/RegisterView";
-import SettingsView from "src/views/settings/SettingsView";
 
+import NotFoundView from "src/views/errors/NotFoundView";
 import StockListView from "src/views/stock/StockListView";
 import StockDetailView from "src/views/stock/StockDetailView";
 import NavView from "src/views/stock/NavView";
@@ -38,30 +34,25 @@ import SectorRoeView from "src/views/sector/SectorRoeView";
 
 const items = [
   {
-    href: "/app/rankings",
-    icon: BarChartIcon,
+    href: "/rankings",
+    icon: SortIcon,
     title: "Rankings",
   },
   {
-    href: "/app/sectors",
-    icon: BarChartIcon,
+    href: "/sectors",
+    icon: CompareIcon,
     title: "Sectors",
   },
   {
-    href: "/app/stocks",
-    icon: BarChartIcon,
+    href: "/stocks",
+    icon: DashboardIcon,
     title: "Stocks",
-  },
-  {
-    href: "/app/dashboard",
-    icon: BarChartIcon,
-    title: "Dashboard",
   },
 ];
 
 const routes = [
   {
-    path: "app",
+    path: "/",
     element: <DashboardLayout sideNavs={items} />,
     children: [
       { path: "stocks", element: <StockListView /> },
@@ -100,7 +91,8 @@ const routes = [
           { path: "dupont", element: <SectorRoeView /> },
         ],
       },
-      { path: "dashboard", element: <DashboardView /> },
+
+      { path: "/", element: <Navigate to="/sectors" /> },
       { path: "*", element: <Navigate to="/404" /> },
     ],
   },
@@ -108,7 +100,6 @@ const routes = [
     path: "/",
     element: <MainLayout />,
     children: [
-      { path: "/", element: <Navigate to="/app/sectors" /> },
       { path: "404", element: <NotFoundView /> },
       { path: "*", element: <Navigate to="/404" /> },
     ],

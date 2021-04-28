@@ -62,8 +62,12 @@ export default function AddStocksDialog(props) {
   };
 
   const add = () => {
-    const stock_resources = map(stocks, s => s.resource_uri);
+    const add_stock_resources = map(stocks, s => s.resource_uri);
     const call_api = s => {
+      // add selected stocks to the list
+      const stock_resources = s.stocks.concat(add_stock_resources);
+
+      // call to update backend
       const uri = `${host}${s.resource_uri}`;
       fetch(uri, {
         method: "PATCH",
@@ -74,6 +78,7 @@ export default function AddStocksDialog(props) {
       });
     };
 
+    // for each sector, enumerate to update
     selected_sectors.forEach(s => call_api(s));
 
     // close the dialog

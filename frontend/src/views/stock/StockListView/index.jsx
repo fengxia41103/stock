@@ -88,7 +88,7 @@ function StockListView(props) {
       const sorted = sortBy(symbols, s => s.symbol);
       const links = map(sorted, v => {
         return (
-          <Link key={v.id} href={`/app/stocks/${v.id}/`}>
+          <Link key={v.id} href={`/stocks/${v.id}/historical/price`}>
             {v.symbol}
           </Link>
         );
