@@ -10,7 +10,13 @@ import CandleStickChartWithSAR from "./sar.jsx";
 import CandleStickChartWithRSIIndicator from "./rsi.jsx";
 import OHLCChartWithElderRayIndicator from "./elder.jsx";
 import HeikinAshi from "./heikin.jsx";
-import { Box, Card, CardContent } from "@material-ui/core";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Typography,
+} from "@material-ui/core";
 
 export default function TechIndicatorView() {
   const { type } = useParams();
@@ -31,44 +37,49 @@ export default function TechIndicatorView() {
     };
   });
 
+  let title = null;
   let chart = null;
   switch (type) {
     case "bollinger":
+      title = "Bollinger Bands Indicator";
       chart = <CandleStickChartWithBollingerBandOverlay data={chart_data} />;
       break;
 
     case "stochastics":
+      title = "Full Stochastics Indicator";
       chart = (
         <CandleStickChartWithFullStochasticsIndicator data={chart_data} />
       );
       break;
 
     case "macd":
+      title = "MACD Indicator";
       chart = <CandleStickChartWithMACDIndicator data={chart_data} />;
       break;
 
     case "sar":
+      title = "Parabolic SAR Indicator";
       chart = <CandleStickChartWithSAR data={chart_data} />;
       break;
 
     case "rsi":
+      title = "Relative Strength Index (RSI) Indicator";
       chart = <CandleStickChartWithRSIIndicator data={chart_data} />;
       break;
 
     case "elder":
+      title = "Elder Ray Indicator";
       chart = <OHLCChartWithElderRayIndicator data={chart_data} />;
       break;
 
     case "heikin":
+      title = "Heikin-Ashi Indicator";
       chart = <HeikinAshi data={chart_data} />;
-      break;
-
-    default:
-      chart = null;
       break;
   }
   return (
     <Card>
+      <CardHeader title={<Typography variant="h3">{title}</Typography>} />
       <CardContent>
         <Box mt={2}>{chart}</Box>
       </CardContent>
