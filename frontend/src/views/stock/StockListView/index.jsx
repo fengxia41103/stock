@@ -24,6 +24,7 @@ import { Poll } from "restful-react";
 import AddNewStockDialog from "src/components/stock/AddNewStockDialog";
 import UpdateIcon from "@material-ui/icons/Update";
 import DropdownMenu from "src/components/DropdownMenu";
+import AddStocskDialog from "src/components/sector/AddStocksDialog";
 
 function StockListView(props) {
   const { api } = useContext(GlobalContext);
@@ -93,8 +94,9 @@ function StockListView(props) {
         );
       });
 
+      const actions = [<AddStocskDialog stocks={sorted} />];
       return (
-        <ListStockCard key={index} {...{ group_by, index }} stocks={links} />
+        <ListStockCard key={index} {...{ group_by, index, actions }} stocks={links} />
       );
     });
 
