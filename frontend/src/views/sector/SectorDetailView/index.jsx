@@ -82,7 +82,7 @@ export default function SectorDetailView() {
 
           <SectorDetailContext.Provider value={sector}>
             <Box mt={3}>
-              <Typography variant={"body2"}>{sector.name}</Typography>
+              <Typography variant={"body2"}>sector: {sector.name}</Typography>
               <Outlet />
             </Box>
           </SectorDetailContext.Provider>
