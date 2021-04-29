@@ -1,10 +1,19 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
-import { Box, Grid, Typography, colors, useTheme } from "@material-ui/core";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Grid,
+  Typography,
+  colors,
+  useTheme,
+} from "@material-ui/core";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import TrendingDownIcon from "@material-ui/icons/TrendingDown";
 
-function OvernightFlipView(props) {
+export default function OvernightReturnFlip(props) {
   const theme = useTheme();
   const { data } = props;
 
@@ -62,27 +71,33 @@ function OvernightFlipView(props) {
   ];
 
   return (
-    <Grid container spacing={1}>
-      <Grid item lg={8} sm={6} xs={12}>
-        <Doughnut data={chart_data} options={options} />
-      </Grid>
-      <Grid item lg={4} sm={6} xs={12}>
-        <Box display="flex" justifyContent="center" mt={2}>
-          {labels.map(({ color, icon: Icon, title, value }) => (
-            <Box key={title} p={1} textAlign="center">
-              <Icon color="action" />
-              <Typography color="textPrimary" variant="body1">
-                {title}
-              </Typography>
-              <Typography style={{ color }} variant="h2">
-                {value}%
-              </Typography>
+    <Card>
+      <CardHeader
+        title={<Typography variant="h3">Night-Day Flips</Typography>}
+      />
+
+      <CardContent>
+        <Grid container spacing={1}>
+          <Grid item lg={8} sm={6} xs={12}>
+            <Doughnut data={chart_data} options={options} />
+          </Grid>
+          <Grid item lg={4} sm={6} xs={12}>
+            <Box display="flex" justifyContent="center" mt={2}>
+              {labels.map(({ color, icon: Icon, title, value }) => (
+                <Box key={title} p={1} textAlign="center">
+                  <Icon color="action" />
+                  <Typography color="textPrimary" variant="body1">
+                    {title}
+                  </Typography>
+                  <Typography style={{ color }} variant="h2">
+                    {value}%
+                  </Typography>
+                </Box>
+              ))}
             </Box>
-          ))}
-        </Box>
-      </Grid>
-    </Grid>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
   );
 }
-
-export default OvernightFlipView;

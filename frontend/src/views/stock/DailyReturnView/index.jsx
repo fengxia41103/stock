@@ -1,11 +1,17 @@
 import React, { useContext } from "react";
-import { Box, Card, CardContent, Typography } from "@material-ui/core";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  CardHeader,
+} from "@material-ui/core";
 import StrategyValueView from "src/views/stock/StrategyValueView";
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context.jsx";
 import DictCard from "src/components/DictCard";
 import TwoDayReturnView from "./two_day.jsx";
 
-function DailyReturnView() {
+export default function DailyReturnView() {
   const data = useContext(StockHistoricalContext);
   const returns = data.indexes["daily return"];
   const { stats } = data;
@@ -30,27 +36,28 @@ function DailyReturnView() {
 
       <Box mt={3}>
         <Card>
+          <CardHeader
+            title={
+              <Typography variant="h3">Statistic of Daily Returns</Typography>
+            }
+          />
           <CardContent>
-            <Typography variant="h3">Statistic of Daily Returns</Typography>
-            <Box mt={3}>
-              <DictCard {...{ data: stats, interests }} />
-            </Box>
+            <DictCard {...{ data: stats, interests }} />
           </CardContent>
         </Card>
       </Box>
       <Box mt={3}>
         <Card>
+          <CardHeader
+            title={
+              <Typography variant="h3">Trend of Two-Day Returns</Typography>
+            }
+          />
           <CardContent>
-            <Typography variant="h3">Trend of Two-Day Returns</Typography>
-
-            <Box mt={3}>
-              <TwoDayReturnView {...{ data: two_day_trend }} />
-            </Box>
+            <TwoDayReturnView {...{ data: two_day_trend }} />
           </CardContent>
         </Card>
       </Box>
     </Box>
   );
 }
-
-export default DailyReturnView;

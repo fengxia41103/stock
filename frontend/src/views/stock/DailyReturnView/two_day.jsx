@@ -1,7 +1,7 @@
 import React from "react";
 import DictCard from "src/components/DictCard";
 
-function TwoDayReturnView(props) {
+export default function TwoDayReturnView(props) {
   const interests = {
     1: "Two-Day w/ both Positive Returns",
     2: "Two-Day w/ both Negative Returns",
@@ -10,5 +10,3 @@ function TwoDayReturnView(props) {
 
   return <DictCard {...{ interests, ...props }} />;
 }
-
-export default TwoDayReturnView;

@@ -1,29 +1,36 @@
 import React, { useContext } from "react";
-import { Card, CardContent, Grid } from "@material-ui/core";
+import { Card, CardContent, Box } from "@material-ui/core";
 
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context.jsx";
 
 import PriceChart from "./chart.jsx";
 import DailyReturnView from "src/views/stock/DailyReturnView";
 import OvernightReturnView from "src/views/stock/OvernightReturnView";
+import OvernightReturnFlip from "src/components/stock/OvernightReturnFlip";
 
 function PriceView() {
-  const { olds: data } = useContext(StockHistoricalContext);
-  return (
-    <Grid container spacing={3}>
-      <Grid item xs={12}>
-        <Card>
-          <CardContent>
-            <PriceChart data={data} />
-          </CardContent>
-        </Card>
-      </Grid>
+  const data = useContext(StockHistoricalContext);
+  const { olds: prices, stats } = data;
 
-      <Grid item xs={12}>
+  return (
+    <Box>
+      <Card>
+        <CardContent>
+          <PriceChart data={prices} />
+        </CardContent>
+      </Card>
+
+      <Box mt={3}>
+        <OvernightReturnFlip data={stats} />
+      </Box>
+
+      <Box mt={3}>
         <DailyReturnView />
+      </Box>
+      <Box mt={3}>
         <OvernightReturnView />
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   );
 }
 
