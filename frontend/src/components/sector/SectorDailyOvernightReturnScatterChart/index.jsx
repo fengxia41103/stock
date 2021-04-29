@@ -6,12 +6,12 @@ import HighchartGraphBox from "src/components/Highchart";
 import { randomId } from "src/utils/helper.jsx";
 
 export default function SectorDailyOvernightReturnScatterChart(props) {
-  const { data: stats } = props;
+  const { data: stocks } = props;
 
   // scatter graphy doesn't need categories
   const categories = [];
 
-  const chart_data = map(stats, s => {
+  const chart_data = map(stocks, s => {
     const daily_returns = s.stats.indexes["daily return"];
     const overnight_returns = s.stats.indexes["overnight return"];
     const my_data = map(daily_returns, (s, index) => {

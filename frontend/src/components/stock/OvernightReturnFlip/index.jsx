@@ -12,10 +12,11 @@ import {
 } from "@material-ui/core";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import TrendingDownIcon from "@material-ui/icons/TrendingDown";
+import { isUndefined } from "lodash";
 
 export default function OvernightReturnFlip(props) {
   const theme = useTheme();
-  const { data } = props;
+  const { title, data } = props;
 
   const chart_data = {
     datasets: [
@@ -74,14 +75,19 @@ export default function OvernightReturnFlip(props) {
     <Card>
       <CardHeader
         title={<Typography variant="h3">Night-Day Flips</Typography>}
+        subheader={
+          isUndefined(title) ? null : (
+            <Typography variant="body2">{title}</Typography>
+          )
+        }
       />
 
       <CardContent>
         <Grid container spacing={1}>
-          <Grid item lg={8} sm={6} xs={12}>
+          <Grid item lg={8} xs={12}>
             <Doughnut data={chart_data} options={options} />
           </Grid>
-          <Grid item lg={4} sm={6} xs={12}>
+          <Grid item lg={4} xs={12}>
             <Box display="flex" justifyContent="center" mt={2}>
               {labels.map(({ color, icon: Icon, title, value }) => (
                 <Box key={title} p={1} textAlign="center">
