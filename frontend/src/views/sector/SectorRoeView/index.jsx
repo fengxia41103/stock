@@ -46,7 +46,7 @@ export default function SectorRoeView() {
 
   const roe_breakdown_charts = map(breakdowns, i => {
     return (
-      <Grid item key={i.header} lg={4} xs={12}>
+      <Grid item key={i.header} lg={4} sm={6} xs={12}>
         <Card>
           <CardHeader title={i.header} />
           <CardContent>
@@ -67,7 +67,7 @@ export default function SectorRoeView() {
         <SectorRoeColumnChart />
       </Box>
 
-      <Box mt={3}>
+      <Box>
         <Grid container spacing={1}>
           {roe_breakdown_charts}
         </Grid>
