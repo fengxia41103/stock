@@ -4,7 +4,13 @@ import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 import { map } from "lodash";
 import Fetch from "src/components/Fetch";
 import MultilineChart from "src/components/MultilineChart";
-import { Box, Card, CardContent, Typography } from "@material-ui/core";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  CardHeader,
+} from "@material-ui/core";
 
 export default function SectorPriceView() {
   const { api } = useContext(GlobalContext);
@@ -26,13 +32,16 @@ export default function SectorPriceView() {
       };
     });
 
+    const title = `Normalized price between ${start} and ${end}`;
+
     return (
       <Box>
         <Typography variant={"h1"}>Price Comparison</Typography>
-        <Typography variant={"body2"}>{sector.name}</Typography>
 
         <Box mt={3}>
           <Card>
+            <CardHeader title={<Typography variant="h3">{title}</Typography>} />
+
             <CardContent>
               <MultilineChart
                 {...{

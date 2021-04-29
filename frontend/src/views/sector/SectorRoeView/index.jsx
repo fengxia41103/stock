@@ -58,7 +58,6 @@ export default function SectorRoeView() {
   return (
     <Box>
       <Typography variant={"h1"}>ROE Comparison</Typography>
-      <Typography variant={"body2"}>{sector.name}</Typography>
 
       <Box mt={3}>
         <SectorDupontBreakdownChart />

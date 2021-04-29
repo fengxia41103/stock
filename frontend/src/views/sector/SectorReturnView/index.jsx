@@ -4,7 +4,13 @@ import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 import { map } from "lodash";
 import Fetch from "src/components/Fetch";
 
-import { Box, Typography, Card, CardContent } from "@material-ui/core";
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  CardHeader,
+} from "@material-ui/core";
 
 import SectorDailyOvernightReturnScatterChart from "src/components/sector/SectorDailyOvernightReturnScatterChart";
 
@@ -21,16 +27,14 @@ export default function SectorReturnView() {
 
   const render_data = data => {
     const stats = data.objects;
-
+    const title = `Daily & Overnight Returns between ${start} and ${end}`;
     return (
       <Box>
-        <Typography variant={"h1"}>
-          Daily & Nightly Returns Comparison
-        </Typography>
-        <Typography variant={"body2"}>{sector.name}</Typography>
+        <Typography variant="h1">Daily & Nightly Returns Comparison</Typography>
 
         <Box mt={3}>
           <Card>
+            <CardHeader title={<Typography variant="h3">{title}</Typography>} />
             <CardContent>
               <SectorDailyOvernightReturnScatterChart data={stats} />
             </CardContent>

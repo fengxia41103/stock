@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { Outlet, useParams } from "react-router-dom";
-import { Container, Box, Grid, Button } from "@material-ui/core";
+import { Container, Box, Grid, Button, Typography } from "@material-ui/core";
 import Page from "src/components/Page";
 import MenuBar from "src/components/MenuBar";
 import Fetch from "src/components/Fetch";
@@ -23,18 +23,6 @@ const valuation_menus = [
   {
     url: "dupont",
     text: "Dupont ROE",
-  },
-  {
-    url: "dcf",
-    text: "Discounted Cash Flow",
-  },
-  {
-    url: "ratios",
-    text: "Valuation Ratios",
-  },
-  {
-    url: "nav",
-    text: "Net Asset Value",
   },
 ];
 
@@ -65,8 +53,16 @@ export default function SectorDetailView() {
         <Container maxWidth={false}>
           <Box display="flex" mb={3} borderBottom={1}>
             <Grid container spacing={1} justify="flex-end" alignItems="center">
-              <MenuBar title="Price & Trends" items={price_menus} />
-              <MenuBar title="Valuations" items={valuation_menus} />
+              <MenuBar
+                root={resource}
+                title="Price & Trends"
+                items={price_menus}
+              />
+              <MenuBar
+                root={resource}
+                title="Valuations"
+                items={valuation_menus}
+              />
 
               <Grid item xs>
                 <Button color="primary" onClick={() => update({})}>
@@ -86,6 +82,7 @@ export default function SectorDetailView() {
 
           <SectorDetailContext.Provider value={sector}>
             <Box mt={3}>
+              <Typography variant={"body2"}>{sector.name}</Typography>
               <Outlet />
             </Box>
           </SectorDetailContext.Provider>
