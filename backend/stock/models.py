@@ -134,7 +134,8 @@ class MyStock(models.Model):
         if not self.balances.all():
             return 0
 
-        avgs = self.balances.all().aggregate(
+        # WARNING: ignore negative equity values in average
+        avgs = self.balances.filter(stockholders_equity__gt=0).aggregate(
             Avg("total_assets"), Avg("stockholders_equity")
         )
 

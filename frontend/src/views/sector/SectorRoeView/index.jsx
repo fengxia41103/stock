@@ -12,11 +12,12 @@ import {
 } from "@material-ui/core";
 import SectorDupontBreakdownChart from "src/components/sector/SectorDupontBreakdownChart";
 import SectorDupontLineChart from "src/components/sector/SectorDupontLineChart";
+import SectorRoeColumnChart from "src/components/sector/SectorRoeColumnChart";
 
 export default function SectorRoeView() {
   const sector = useContext(SectorDetailContext);
 
-  const interests = [
+  const breakdowns = [
     {
       attr: "net_profit_margin",
       header: "Net Profit Margin (%)",
@@ -43,9 +44,9 @@ export default function SectorRoeView() {
     },
   ];
 
-  const charts = map(interests, i => {
+  const roe_breakdown_charts = map(breakdowns, i => {
     return (
-      <Grid item lg={4} xs={12}>
+      <Grid item key={i.header} lg={4} xs={12}>
         <Card>
           <CardHeader title={i.header} />
           <CardContent>
@@ -62,10 +63,13 @@ export default function SectorRoeView() {
       <Box mt={3}>
         <SectorDupontBreakdownChart />
       </Box>
+      <Box mt={3}>
+        <SectorRoeColumnChart />
+      </Box>
 
       <Box mt={3}>
         <Grid container spacing={1}>
-          {charts}
+          {roe_breakdown_charts}
         </Grid>
       </Box>
     </Box>

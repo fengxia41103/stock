@@ -3,7 +3,7 @@ import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/Highchart";
 import { map } from "lodash";
 
-function StrategyValueView(props) {
+export default function StrategyValueView(props) {
   const containerId = randomId();
   const { data, name } = props;
   const categories = map(data, d => d.hist__on);
@@ -26,5 +26,3 @@ function StrategyValueView(props) {
     />
   );
 }
-
-export default StrategyValueView;
