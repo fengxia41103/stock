@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import PropTypes from "prop-types";
 import {
   Box,
   Card,
@@ -9,10 +10,12 @@ import {
 import TimeSeriesColumnChart from "src/components/TimeSeriesColumnChart";
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
 import DictCard from "src/components/DictCard";
+import ABDonutChart from "src/components/ABDonutChart";
 import { daily_returns, daily_return_stats } from "src/utils/stock/returns";
 
 export default function PriceReturnStat(props) {
   const { data } = props;
+
   const interests = {
     mean: `Average ${data.name} (%)`,
     median: `Median ${data.name} (%)`,
@@ -28,6 +31,12 @@ export default function PriceReturnStat(props) {
     negative_mean: `Average Negative ${data.name} (%)`,
   };
 
+  const positive_negative_chart_data = {
+    name: data.name,
+    positive: data.stats.positive_count,
+    negative: data.stats.negative_count,
+  };
+
   return (
     <Box>
       <Card>
@@ -37,7 +46,10 @@ export default function PriceReturnStat(props) {
         </CardContent>
       </Card>
 
-      <Box mt={3}>
+      <Box mt={1}>
+        <ABDonutChart data={positive_negative_chart_data} />
+      </Box>
+      <Box mt={1}>
         <Card>
           <CardHeader
             title={
@@ -52,3 +64,11 @@ export default function PriceReturnStat(props) {
     </Box>
   );
 }
+
+PriceReturnStat.propTypes = {
+  data: PropTypes.shape({
+    name: PropTypes.string,
+    returns: PropTypes.array,
+    stats: PropTypes.object,
+  }),
+};

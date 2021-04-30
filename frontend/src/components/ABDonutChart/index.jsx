@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Doughnut } from "react-chartjs-2";
 import {
   Box,
@@ -111,3 +112,12 @@ export default function ABDonutChart(props) {
     </Card>
   );
 }
+
+ABDonutChart.propTypes = {
+  subheader: PropTypes.string,
+  data: PropTypes.shape({
+    name: PropTypes.string,
+    positive: PropTypes.number,
+    negative: PropTypes.number,
+  }).isRequired,
+};
