@@ -15,8 +15,12 @@ const price_menus = [
     text: "Daily Prices",
   },
   {
+    url: "historical/return/24hr",
+    text: "24-hour Returns (%)",
+  },
+  {
     url: "historical/return/daily",
-    text: "Daily Returns (%)",
+    text: "Daytime Returns (%)",
   },
   {
     url: "historical/return/overnight",
@@ -114,7 +118,7 @@ function StockDetailView() {
     return (
       <Page>
         <Container maxWidth={false}>
-          <Box display="flex" mb={3} borderBottom={1}>
+          <Box display="flex" borderBottom={1}>
             <Grid container spacing={1} justify="flex-end" alignItems="center">
               <MenuBar
                 root={resource}

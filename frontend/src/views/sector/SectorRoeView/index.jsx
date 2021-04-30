@@ -38,6 +38,7 @@ export default function SectorRoeView() {
       attr: "equity",
       header: "Equity",
     },
+    { attr: "debts", header: "Debts" },
     {
       attr: "revenue",
       header: "Revenue",

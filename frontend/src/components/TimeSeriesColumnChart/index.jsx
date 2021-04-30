@@ -1,12 +1,18 @@
 import React from "react";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/Highchart";
-import { map } from "lodash";
+import { map, isUndefined } from "lodash";
 
-export default function StrategyValueView(props) {
+export default function TimeSeriesColumnChart(props) {
   const containerId = randomId();
   const { data, name } = props;
-  const categories = map(data, d => d.hist__on);
+  const categories = map(data, d => {
+    if (isUndefined(d.on)) {
+      return d.hist__on;
+    } else {
+      return d.on;
+    }
+  });
   const chart_data = [
     {
       name: name,

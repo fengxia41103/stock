@@ -1,8 +1,14 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { isEmpty, isNumber } from "lodash";
+import { map, isEmpty, isNumber, isUndefined, sortBy } from "lodash";
 
-import { Grid, Card, CardContent, Typography } from "@material-ui/core";
+import {
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  CardHeader,
+} from "@material-ui/core";
 
 // A style sheet
 const useStyles = makeStyles({
@@ -19,7 +25,7 @@ const useStyles = makeStyles({
   },
 });
 
-function DictCard(props) {
+export default function DictCard(props) {
   const classes = useStyles();
   const { data, interests } = props;
 
@@ -73,27 +79,23 @@ function DictCard(props) {
     }
   };
 
-  const cards = Object.entries(interests).map(([key, description]) => {
+  const cards = map(interests, (description, key) => {
     let val = data[key];
     return (
-      <Grid item key={key} lg={3} sm={6} xs={12}>
+      <Grid item key={key} lg={4} sm={6} xs={12}>
         <Card>
-          <CardContent>
-            <Typography variant="h6" color="textSecondary" gutterBottom>
-              {description}
-            </Typography>
-            {style_me(val)}
-          </CardContent>
+          <CardHeader
+            title={<Typography variant="body2">{description}</Typography>}
+          />
+          <CardContent>{style_me(val)}</CardContent>
         </Card>
       </Grid>
     );
   });
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={1}>
       {cards}
     </Grid>
   );
 }
-
-export default DictCard;

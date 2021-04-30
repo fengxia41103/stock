@@ -5,12 +5,26 @@ import StockHistoricalContext from "src/views/stock/StockHistoricalView/context.
 
 import PriceChart from "./chart.jsx";
 import DailyReturnView from "src/views/stock/DailyReturnView";
-import OvernightReturnView from "src/views/stock/OvernightReturnView";
 import OvernightReturnFlip from "src/components/stock/OvernightReturnFlip";
+import { stock_stats } from "src/utils/stock/returns";
+import ABDonutChart from "src/components/ABDonutChart";
+import { map } from "lodash";
 
-function PriceView() {
+export default function PriceView() {
   const data = useContext(StockHistoricalContext);
   const { olds: prices, stats } = data;
+
+  const return_stats = stock_stats(prices);
+
+  const positive_negative_charts = map(return_stats, s => {
+    const stat = s.stats;
+    const chart_data = {
+      name: s.name,
+      positive: stat.positive_count,
+      negative: stat.negative_count,
+    };
+    return <ABDonutChart key={s.name} data={chart_data} />;
+  });
 
   return (
     <Box>
@@ -21,17 +35,8 @@ function PriceView() {
       </Card>
 
       <Box mt={3}>
-        <OvernightReturnFlip data={stats} />
-      </Box>
-
-      <Box mt={3}>
         <DailyReturnView />
-      </Box>
-      <Box mt={3}>
-        <OvernightReturnView />
       </Box>
     </Box>
   );
 }
-
-export default PriceView;

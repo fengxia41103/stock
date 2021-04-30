@@ -24,6 +24,7 @@ import PriceView from "src/views/stock/PriceView";
 import StockSummaryView from "src/views/stock/StockSummaryView";
 import DailyReturnView from "src/views/stock/DailyReturnView";
 import OvernightReturnView from "src/views/stock/OvernightReturnView";
+import TwentyFourHourReturnView from "src/views/stock/TwentyFourHourReturnView";
 import TechIndicatorView from "src/views/stock/TechIndicatorView";
 import RankingView from "src/views/stock/RankingView";
 import SectorListView from "src/views/sector/SectorListView";
@@ -75,6 +76,7 @@ const routes = [
               { path: "price", element: <PriceView /> },
               { path: "return/daily", element: <DailyReturnView /> },
               { path: "return/overnight", element: <OvernightReturnView /> },
+              { path: "return/24hr", element: <TwentyFourHourReturnView /> },
               { path: "indicator/:type", element: <TechIndicatorView /> },
             ],
           },

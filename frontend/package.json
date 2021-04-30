@@ -39,6 +39,7 @@
     "formik": "^2.1.5",
     "highcharts": "^9.0.1",
     "history": "^5.0.0",
+    "jstat": "^1.9.4",
     "lodash": "^4.17.21",
     "moment": "^2.27.0",
     "nprogress": "^0.2.0",
