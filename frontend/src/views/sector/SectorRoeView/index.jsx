@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 import { map } from "lodash";
 
 import {
@@ -15,8 +14,6 @@ import SectorDupontLineChart from "src/components/sector/SectorDupontLineChart";
 import SectorRoeColumnChart from "src/components/sector/SectorRoeColumnChart";
 
 export default function SectorRoeView() {
-  const sector = useContext(SectorDetailContext);
-
   const breakdowns = [
     {
       attr: "net_profit_margin",

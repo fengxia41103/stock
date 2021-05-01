@@ -1,21 +1,13 @@
 # -*- coding: utf-8 -*-
 
 
-import collections
 import logging
-from abc import ABC
 from datetime import date
 from datetime import timedelta
 
-from celery import chain
-from celery import group
-from django.apps import AppConfig
 from django.apps import apps
 from django.db import models
 from django.db.models import Avg
-from numpy import average
-from numpy import prod
-from numpy import std
 
 logger = logging.getLogger("stock")
 logger.setLevel(logging.DEBUG)
@@ -312,23 +304,8 @@ class MyStock(models.Model):
         return vals
 
 
-class MyHistoricalCustomManager(models.Manager):
-    def by_date_range(self, start=None, end=None):
-        """Filter by a date range."""
-        if not end:
-            end = date.today()
-        if not start:
-            start = end - timedelta(weeks=1)
-
-        return MyStockHistorical.objects.filter(
-            on__gte=start, on__lte=end
-        ).order_by("on")
-
-
 class MyStockHistorical(models.Model):
     """Historical stock data."""
-
-    objects = MyHistoricalCustomManager()
 
     stock = models.ForeignKey(
         "MyStock", on_delete=models.CASCADE, related_name="historicals"
@@ -345,189 +322,9 @@ class MyStockHistorical(models.Model):
         unique_together = ("stock", "on")
         index_together = ["stock", "on"]
 
-
-class MyStrategyValueCustomManager(models.Manager):
-    def stats(self, historicals):
-        """Compute stats over a range of historicals.
-
-        Args
-        ----
-          :ids: list[MyStockHistorical]
-
-        range return
-        ------------
-        Assume you buy at the beginning and hold till the end, how
-        will you fare off.
-
-        std
-        ---
-        How volatile it has been. Use the close price.
-
-        night day consistency
-        ---------------------
-        Count occurances of consistency values. This gives me an idea
-        how likely a consistency scenario occured. This is essentially
-        a probability.
-
-        two day trend
-        -------------
-        Count occurance of two day trend values, whether I got two day
-        in a row of the same direction or a flip. This is a
-        probability indicator.
-
-        avg up return
-        -------------
-        What's the avg daily return % that was > 0? This tell me how
-        much up side there is.
-
-        avg down return
-        ---------------
-        Similarly, the avg down return shows me the down side.
-        """
-        if not len(historicals):
-            return {}
-
-        indexes = self.filter(hist__in=historicals)
-
-        # ok, we need some Python power to compute these stats
-        open_prices = list(historicals.values_list("open_price", flat=True))
-        close_prices = list(historicals.values_list("close_price", flat=True))
-        vols = list(historicals.values_list("vol", flat=True))
-
-        # WARNING: AMD 1982-07-29 had 0 open price. This is happening quite
-        # a bit on data that are _too_ old to be useful for me. But
-        # since I'm keeping these data, I have to handle them.
-        try:
-            range_return = close_prices[-1] / open_prices[0] * 100.0
-        except ZeroDivisionError:
-            range_return = 0
-
-        # nightly trends
-        nightly_return = indexes.filter(method=3)
-        nightly_ups = nightly_return.filter(val__gt=0).values_list(
-            "val", flat=True
-        )
-        nightly_downs = nightly_return.filter(val__lt=0).values_list(
-            "val", flat=True
-        )
-        if nightly_return.count():
-            nightly_up_pcnt = (
-                nightly_ups.count() / nightly_return.count() * 100.0
-            )
-            nightly_down_pcnt = (
-                nightly_downs.count() / nightly_return.count() * 100.0
-            )
-        else:
-            nightly_up_pcnt = nightly_down_pcnt = 0
-
-        tmp = collections.Counter(nightly_return.values_list("val", flat=True))
-        night_day_consistency = dict(
-            [(int(key), val) for (key, val) in tmp.items()]
-        )
-
-        # daily trends
-        daily_return = indexes.filter(method=1)
-        daily_ups = daily_return.filter(val__gt=0).values_list("val", flat=True)
-        daily_downs = daily_return.filter(val__lt=0).values_list(
-            "val", flat=True
-        )
-        if daily_return.count():
-            daily_up_pcnt = daily_ups.count() / daily_return.count() * 100.0
-            daily_down_pcnt = daily_downs.count() / daily_return.count() * 100.0
-        else:
-            daily_up_pcnt = daily_down_pcnt = 0
-
-        # if I trade daily, what's the return?
-        compound_return = (
-            prod(list(map(lambda x: 1 + x.val / 100.0, daily_return))) * 100.0
-        )
-
-        # pre-computed trends, eg. two-day up/down/flip
-        tmp = collections.Counter(
-            indexes.filter(method=4).values_list("val", flat=True)
-        )
-        two_day_trend = dict([(int(key), val) for (key, val) in tmp.items()])
-
-        # night-day flipt vs. their compounded return
-        night_day_flips = indexes.filter(method=3, val=0).values_list(
-            "hist", flat=True
-        )
-        positive_compounds = indexes.filter(
-            method=5, val__gt=0, hist__in=night_day_flips
-        ).count()
-        if night_day_flips.count():
-            flip_positive_pcnt = (
-                positive_compounds / night_day_flips.count() * 100.0
-            )
-        else:
-            flip_positive_pcnt = 0
-
-        negative_compounds = indexes.filter(
-            method=5, val__lt=0, hist__in=night_day_flips
-        ).count()
-        if night_day_flips.count():
-            flip_negative_pcnt = (
-                negative_compounds / night_day_flips.count() * 100.0
-            )
-        else:
-            flip_negative_pcnt = 0
-
-        return {
-            "days": historicals.count(),
-            "return": "%.2f" % range_return,
-            "close price rsd": "%.2f"
-            % (std(close_prices) / average(close_prices) * 100.0),
-            "two_day_trend": two_day_trend,
-            "overnight": night_day_consistency,
-            "daily_ups": "%.2f" % daily_up_pcnt,
-            "daily_downs": "%.2f" % daily_down_pcnt,
-            "nightly_ups": "%.2f" % nightly_up_pcnt,
-            "nightly_downs": "%.2f" % nightly_down_pcnt,
-            "avg daily up": "%.2f" % average(daily_ups),
-            "daily up rsd": "%.2f"
-            % (std(daily_ups) / average(daily_ups) * 100.0),
-            "avg daily down": "%.2f" % average(daily_downs),
-            "daily down rsd": "%.2f"
-            % (std(daily_downs) / abs(average(daily_downs)) * 100.0),
-            "compounded return": "%.2f" % compound_return,
-            "vols": vols,
-            "night day flips": night_day_flips.count(),
-            "night day flip positive": "%.2f" % flip_positive_pcnt,
-            "night day flip negative": "%.2f" % flip_negative_pcnt,
-        }
-
-
-class MyStrategyValue(models.Model):
-    """Derived values of a stock.
-
-    These are computed from historical values.
-
-    1. daily return: how much it grew in one day? Val is %.
-    2. overnight return: how much it grew from last night to today's
-       openning? Value is %.
-    3. night day consistency: daily trend is the same as overnight,
-       either both > 0 or both < 0.
-    4. trend: two day daily trend, yesterday's -> today's, how many
-       upup,downdown, or a flip?
-    5. night-day compound: compounded return from last night to end of
-       today. This is especially useful if I saw a lot of flip, eg. up
-       last night, but down today. Then what? Can overnight's up
-       compensate this down?
-    """
-
-    METHOD_CHOICES = (
-        (1, "daily return"),
-        (2, "overnight return"),
-        (3, "night day consistency"),
-        (4, "two daily trend"),
-        (5, "night day compounded return"),
-    )
-    objects = MyStrategyValueCustomManager()
-    hist = models.ForeignKey(
-        "MyStockHistorical", on_delete=models.CASCADE, related_name="indexes"
-    )
-    method = models.IntegerField(choices=METHOD_CHOICES, default=1)
-    val = models.FloatField(null=True, blank=True, default=-1)
+    @property
+    def symbol(self):
+        return self.stock.symbol
 
 
 class StatementBase(models.Model):

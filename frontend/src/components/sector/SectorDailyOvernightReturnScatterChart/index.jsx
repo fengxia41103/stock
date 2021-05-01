@@ -1,9 +1,15 @@
 import React, { useState, useContext } from "react";
 import GlobalContext from "src/context";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
-import { map } from "lodash";
+import { map, groupBy } from "lodash";
 import HighchartGraphBox from "src/components/Highchart";
 import { randomId } from "src/utils/helper.jsx";
+import {
+  daily_returns,
+  daily_return_stats,
+  overnight_returns,
+  overnight_return_stats,
+} from "src/utils/stock/returns";
 
 export default function SectorDailyOvernightReturnScatterChart(props) {
   const { data: stocks } = props;
@@ -11,15 +17,19 @@ export default function SectorDailyOvernightReturnScatterChart(props) {
   // scatter graphy doesn't need categories
   const categories = [];
 
-  const chart_data = map(stocks, s => {
-    const daily_returns = s.stats.indexes["daily return"];
-    const overnight_returns = s.stats.indexes["overnight return"];
-    const my_data = map(daily_returns, (s, index) => {
-      return [s.val, overnight_returns[index].val];
+  const group_by_symbol = groupBy(stocks, s => s.symbol);
+
+  const chart_data = map(group_by_symbol, (prices, symbol) => {
+    const daily = daily_returns(prices);
+    const overnight = overnight_returns(prices);
+
+    // pair daily & overnight data points
+    const my_data = map(daily, (s, index) => {
+      return [s.val, overnight[index].val];
     });
 
     return {
-      name: s.stats.symbol,
+      name: symbol,
       data: my_data,
     };
   });

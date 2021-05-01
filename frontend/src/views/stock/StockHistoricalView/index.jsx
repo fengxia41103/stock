@@ -18,7 +18,9 @@ function StockHistoricalView() {
   const { api } = useContext(GlobalContext);
   const [start, setStart] = useState("2021-02-01");
   const [end, setEnd] = useState(new Date().toLocaleDateString("en-CA"));
-  const resource = `/historical/stats?stock__in=${id}&start=${start}&end=${end}`;
+  const [resource, setResource] = useState(
+    `/historicals?stock=${id}&on__range=${start},${end}`
+  );
 
   const mounted = useRef(true);
 
@@ -28,20 +30,26 @@ function StockHistoricalView() {
   });
 
   const start_change = event => {
-    setStart(event.target.value);
+    const new_start = event.target.value;
+    setStart(new_start);
+
+    setResource(`/historicals?stock=${id}&on__range=${new_start},${end}`);
   };
   const end_change = event => {
-    setEnd(event.target.value);
+    const new_end = event.target.value;
+    setEnd(new_end);
+
+    setResource(`/historicals?stock=${id}&on__range=${start},${new_end}`);
   };
 
   const render_data = resp => {
     if (!mounted.current) return null;
 
-    const data = resp.objects[0].stats;
+    const data = resp.objects;
 
     // WARNING: for some reason I don't have its price, thus nothing
     // to be shown here.
-    if (data.olds.length === 0) {
+    if (data.length === 0) {
       return null;
     }
 
@@ -84,7 +92,7 @@ function StockHistoricalView() {
     );
   };
   // MUST: forcing re-fetch if the key is changing!
-  const key = start + end;
+  const key = resource;
   return <Fetch {...{ key, api, resource, render_data, mounted }} />;
 }
 

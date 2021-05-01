@@ -20,7 +20,7 @@ import {
 
 export default function TechIndicatorView() {
   const { type } = useParams();
-  const { olds: data } = useContext(StockHistoricalContext);
+  const data = useContext(StockHistoricalContext);
 
   const parseDate = timeParse("%Y-%m-%d");
 
@@ -75,6 +75,11 @@ export default function TechIndicatorView() {
     case "heikin":
       title = "Heikin-Ashi Indicator";
       chart = <HeikinAshi data={chart_data} />;
+      break;
+
+    default:
+      title = "Parabolic SAR Indicator";
+      chart = <CandleStickChartWithSAR data={chart_data} />;
       break;
   }
   return (

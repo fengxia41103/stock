@@ -9,11 +9,6 @@ from stock.workers.get_historical import MyStockHistoricalYahoo
 from stock.workers.get_income_statement import MyIncomeStatement
 from stock.workers.get_summary import MySummary
 from stock.workers.get_valuation_ratio import MyValuationRatio
-from stock.workers.strategy_values import DailyReturn
-from stock.workers.strategy_values import NightDayCompoundedReturn
-from stock.workers.strategy_values import NightDayConsistency
-from stock.workers.strategy_values import OvernightReturn
-from stock.workers.strategy_values import TwoDailyTrend
 
 
 @shared_task
@@ -53,36 +48,6 @@ def __yahoo_consumer(sector, symbol):
     crawler.parser(sector, symbol)
 
 
-@shared_task
-def compute_daily_return_consumer(symbol):
-    crawler = DailyReturn(symbol)
-    crawler.run(window_length=1)
-
-
-@shared_task
-def compute_nightly_return_consumer(symbol):
-    crawler = OvernightReturn(symbol)
-    crawler.run(window_length=2)
-
-
-@shared_task
-def compute_night_day_consistency_consumer(whatever, symbol):
-    crawler = NightDayConsistency(symbol)
-    crawler.run(window_length=1)
-
-
-@shared_task
-def compute_night_day_compounded_return_consumer(whatever, symbol):
-    crawler = NightDayCompoundedReturn(symbol)
-    crawler.run(window_length=1)
-
-
-@shared_task
-def compute_two_daily_trend_consumer(whatever, symbol):
-    crawler = TwoDailyTrend(symbol)
-    crawler.run(window_length=2)
-
-
 def batch_update_helper(sector, symbol):
 
     # get price
@@ -98,17 +63,4 @@ def batch_update_helper(sector, symbol):
         __cash_flow_statement_consumer.s(symbol),
         __valuation_ratio_consumer.s(symbol),
     )
-
-    # compute meta values
-    daily_return_sig = group(
-        compute_daily_return_consumer.s(symbol),
-        compute_nightly_return_consumer.s(symbol),
-    )
-    trend_sig = group(
-        compute_night_day_consistency_consumer.s(symbol),
-        compute_two_daily_trend_consumer.s(symbol),
-        compute_night_day_compounded_return_consumer.s(symbol),
-    )
-    compute_meta = chain(daily_return_sig, trend_sig)
-    task = chain(get_statements, compute_meta)
-    task.apply_async()
+    get_statements.apply_async()

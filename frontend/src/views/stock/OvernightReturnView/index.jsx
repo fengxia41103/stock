@@ -7,9 +7,9 @@ import {
 } from "src/utils/stock/returns";
 
 export default function OvernightReturnView() {
-  const { olds: prices } = useContext(StockHistoricalContext);
-  const returns = overnight_returns(prices);
-  const stats = overnight_return_stats(prices);
-  const data = { ...{ name: "Overnight Return", returns, stats } };
-  return <PriceReturnStat data={data} />;
+  const data = useContext(StockHistoricalContext);
+  const returns = overnight_returns(data);
+  const stats = overnight_return_stats(data);
+  const p = { ...{ name: "Overnight Return", returns, stats } };
+  return <PriceReturnStat data={p} />;
 }
