@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
 import Page from "src/components/Page";
-import Rank from "./rank.jsx";
+import Rank from "./rank";
 
 const useStyles = makeStyles(theme => ({
   avatar: {

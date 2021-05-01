@@ -132,9 +132,12 @@ class MyStock(models.Model):
         )
 
         # leverage is avg asset / avg equity
-        equity_multiplier = (
-            avgs["total_assets__avg"] / avgs["stockholders_equity__avg"]
-        )
+        if all(avgs.values()):
+            equity_multiplier = (
+                avgs["total_assets__avg"] / avgs["stockholders_equity__avg"]
+            )
+        else:
+            return 0
 
         # turn over is latest revenue / avg asset
         last_reporting_date = self.balances.order_by("-on")[0].on
@@ -244,8 +247,8 @@ class MyStock(models.Model):
 
         # get historicals
         hist = list(
-            MyStockHistorical.objects.by_date_range(start, end)
-            .filter(stock=self)
+            MyStockHistorical.objects.filter(stock=self)
+            .filter(on__gte=start, on__lte=end)
             .values("on", "close_price")
             .order_by("on")
         )

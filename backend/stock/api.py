@@ -56,162 +56,6 @@ class SummaryResource(Resource):
         return kwargs
 
 
-class RankingResource(Resource):
-    id = fields.IntegerField("id")
-    name = fields.CharField("name", null=True)
-    stats = fields.ListField("stats")
-
-    class Meta:
-        object_class = StatSummary
-        abstract = True
-        filtering = {"stats": ALL}
-
-    def build_filters(self, filters=None, **kwargs):
-        if filters is None:
-            filters = {}
-
-        orm_filters = filters
-
-        if "stats__in" in filters:
-            orm_filters["id__in"] = filters["stats__in"]
-
-        return orm_filters
-
-    def apply_filters(self, request, applicable_filters):
-        """
-        Apply the filters
-        """
-        obj_list = self.get_object_list(request)
-        if "id__in" in applicable_filters:
-            ids = list(map(int, applicable_filters["id__in"].split(",")))
-            for o in obj_list:
-                o.stats = list(filter(lambda x: x["id"] in ids, o.stats))
-        return obj_list
-
-    def obj_get_list(self, bundle, **kwargs):
-        # outer get of object list... this calls get_object_list and
-        # could be a point at which additional filtering may be applied
-
-        request = bundle.request
-        if hasattr(request, "GET"):
-            # Grab a mutable copy.
-            filters = request.GET.copy()
-
-        applicable_filters = self.build_filters(filters)
-        return self.apply_filters(request, applicable_filters)
-        # return self.get_object_list(request)
-
-    # The following methods will need overriding regardless of your
-    # data source.
-    def detail_uri_kwargs(self, bundle_or_obj):
-        kwargs = {}
-
-        if isinstance(bundle_or_obj, Bundle):
-            kwargs["pk"] = bundle_or_obj.obj.id
-        else:
-            kwargs["pk"] = bundle_or_obj.id
-
-        return kwargs
-
-    def _get_object_list_helper(self, objects, sort_by, high_to_low):
-        """Helper to build a list.
-
-        Args
-        ----
-          :param: objects, Queryset or ModelManager
-
-          This represents the overall data set I'm going to work w/,
-          eg. MyStock.objects.
-
-          :param: sort_by, str
-
-          Should be a model field name so we can sort the queryset by
-          it.
-
-          :param: high_to_low, bool
-
-          True if we are to sort the values high to low. False will be
-          low to high.
-
-        Return
-        ------
-          list: [{}]
-
-          Return value will be a list of the following dict:
-          {
-            "id": stock id,
-            "symbol": stock symbol,
-            "on": the date when these values were originated,
-            "val": the value,
-            "one_month_historicals": last 30d price of this stock
-          }
-
-        """
-
-        # Hardcode to limit data set to be within the last 180 days.
-        start = date.today() - timedelta(days=180)
-
-        # Get the data based on time range and sort them.
-        valid_entries = list(
-            filter(
-                lambda x: getattr(x, sort_by) and getattr(x, sort_by) != -100,
-                objects.filter(on__gte=start),
-            )
-        )
-        data_set = sorted(
-            valid_entries,
-            key=lambda x: getattr(x, sort_by),
-            reverse=high_to_low,
-        )
-
-        # result
-        vals = []
-
-        # remember symbol I have counted because I only want to count
-        # a symbol once.
-        counted = []
-        for x in data_set:
-            symbol = x.stock.symbol
-            if symbol in counted:
-                continue
-            vals.append(
-                {
-                    "id": x.stock.id,
-                    "symbol": symbol,
-                    "on": x.on,
-                    "val": getattr(x, sort_by),
-                    "one_month_historicals": x.stock.one_month_historicals,
-                }
-            )
-
-            # keep tracking which symbol I have counted
-            counted.append(symbol)
-
-        return vals
-
-    def _get_ranks(self, objs, attrs):
-        """
-        Args
-        ----
-
-          :attrs: list[(id, attr, name)]
-
-          - id: int, unique within this list, used as REST resource id.
-          - attr: str, attribute name of the object.
-          - name: str, name of the resource
-
-        Return
-        ------
-
-          list[StatSummary]
-        """
-        ranks = []
-        for (id, attr, high_to_low) in attrs:
-            vals = self._get_object_list_helper(objs, attr, high_to_low)
-            ranks.append(StatSummary(id, attr, vals))
-        return ranks
-
-
 class SectorResource(ModelResource):
     name = fields.CharField("name")
     stocks = fields.ManyToManyField(
@@ -471,6 +315,162 @@ class ValuationRatioResource(ModelResource):
         resource_name = "ratios"
         filtering = {"stock": ALL_WITH_RELATIONS}
         ordering = ["on"]
+
+
+class RankingResource(Resource):
+    id = fields.IntegerField("id")
+    name = fields.CharField("name", null=True)
+    stats = fields.ListField("stats")
+
+    class Meta:
+        object_class = StatSummary
+        abstract = True
+        filtering = {"stats": ALL}
+
+    def build_filters(self, filters=None, **kwargs):
+        if filters is None:
+            filters = {}
+
+        orm_filters = filters
+
+        if "stats__in" in filters:
+            orm_filters["id__in"] = filters["stats__in"]
+
+        return orm_filters
+
+    def apply_filters(self, request, applicable_filters):
+        """
+        Apply the filters
+        """
+        obj_list = self.get_object_list(request)
+        if "id__in" in applicable_filters:
+            ids = list(map(int, applicable_filters["id__in"].split(",")))
+            for o in obj_list:
+                o.stats = list(filter(lambda x: x["id"] in ids, o.stats))
+        return obj_list
+
+    def obj_get_list(self, bundle, **kwargs):
+        # outer get of object list... this calls get_object_list and
+        # could be a point at which additional filtering may be applied
+
+        request = bundle.request
+        if hasattr(request, "GET"):
+            # Grab a mutable copy.
+            filters = request.GET.copy()
+
+        applicable_filters = self.build_filters(filters)
+        return self.apply_filters(request, applicable_filters)
+        # return self.get_object_list(request)
+
+    # The following methods will need overriding regardless of your
+    # data source.
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs["pk"] = bundle_or_obj.obj.id
+        else:
+            kwargs["pk"] = bundle_or_obj.id
+
+        return kwargs
+
+    def _get_object_list_helper(self, objects, sort_by, high_to_low):
+        """Helper to build a list.
+
+        Args
+        ----
+          :param: objects, Queryset or ModelManager
+
+          This represents the overall data set I'm going to work w/,
+          eg. MyStock.objects.
+
+          :param: sort_by, str
+
+          Should be a model field name so we can sort the queryset by
+          it.
+
+          :param: high_to_low, bool
+
+          True if we are to sort the values high to low. False will be
+          low to high.
+
+        Return
+        ------
+          list: [{}]
+
+          Return value will be a list of the following dict:
+          {
+            "id": stock id,
+            "symbol": stock symbol,
+            "on": the date when these values were originated,
+            "val": the value,
+            "one_month_historicals": last 30d price of this stock
+          }
+
+        """
+
+        # Hardcode to limit data set to be within the last 180 days.
+        start = date.today() - timedelta(days=180)
+
+        # Get the data based on time range and sort them.
+        valid_entries = list(
+            filter(
+                lambda x: getattr(x, sort_by) and getattr(x, sort_by) != -100,
+                objects.filter(on__gte=start),
+            )
+        )
+        data_set = sorted(
+            valid_entries,
+            key=lambda x: getattr(x, sort_by),
+            reverse=high_to_low,
+        )
+
+        # result
+        vals = []
+
+        # remember symbol I have counted because I only want to count
+        # a symbol once.
+        counted = []
+        for x in data_set:
+            symbol = x.stock.symbol
+            if symbol in counted:
+                continue
+            vals.append(
+                {
+                    "id": x.stock.id,
+                    "symbol": symbol,
+                    "on": x.on,
+                    "val": getattr(x, sort_by),
+                    "one_month_historicals": x.stock.one_month_historicals,
+                }
+            )
+
+            # keep tracking which symbol I have counted
+            counted.append(symbol)
+
+        return vals
+
+    def _get_ranks(self, objs, attrs):
+        """
+        Args
+        ----
+
+          :attrs: list[(id, attr, name)]
+
+          - id: int, unique within this list, used as REST resource id.
+          - attr: str, attribute name of the object.
+          - name: str, name of the resource
+
+        Return
+        ------
+
+          list[StatSummary]
+        """
+        ranks = []
+        for (id, attr, high_to_low) in attrs:
+            vals = self._get_object_list_helper(objs, attr, high_to_low)
+            ranks.append(StatSummary(id, attr, vals))
+        return ranks
 
 
 class RankStockResource(RankingResource):
