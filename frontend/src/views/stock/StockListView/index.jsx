@@ -96,7 +96,11 @@ function StockListView(props) {
 
       const actions = [<AddStocskDialog stocks={sorted} />];
       return (
-        <ListStockCard key={index} {...{ group_by, index, actions }} stocks={links} />
+        <ListStockCard
+          key={index}
+          {...{ group_by, index, actions }}
+          stocks={links}
+        />
       );
     });
 

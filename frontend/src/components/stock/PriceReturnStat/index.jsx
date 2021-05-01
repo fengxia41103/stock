@@ -8,7 +8,6 @@ import {
   CardHeader,
 } from "@material-ui/core";
 import TimeSeriesColumnChart from "src/components/TimeSeriesColumnChart";
-import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
 import DictCard from "src/components/DictCard";
 import ABDonutChart from "src/components/ABDonutChart";
 import { daily_returns, daily_return_stats } from "src/utils/stock/returns";

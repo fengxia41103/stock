@@ -10,11 +10,9 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Grid,
 } from "@material-ui/core";
 
 import SectorDailyOvernightReturnScatterChart from "src/components/sector/SectorDailyOvernightReturnScatterChart";
-import OvernightReturnFlip from "src/components/stock/OvernightReturnFlip";
 
 export default function SectorReturnView() {
   const { api } = useContext(GlobalContext);
@@ -24,23 +22,18 @@ export default function SectorReturnView() {
   const [start] = useState("2021-02-01");
   const [end] = useState(new Date().toLocaleDateString("en-CA"));
   const [resource] = useState(
-    `/historical/stats?stock__in=${stock_ids}&start=${start}&end=${end}`
+    `/historicals?stock__in=${stock_ids}&on__range=${start},${end}`
   );
 
   const render_data = data => {
     const stocks = data.objects;
-    const title = `Daily & Overnight Returns between ${start} and ${end}`;
-    const flips = map(stocks, s => {
-      return (
-        <Grid item key={s.id} lg={4} sm={6} xs={12}>
-          <OvernightReturnFlip title={s.stats.symbol} data={s.stats.stats} />
-        </Grid>
-      );
-    });
+    const title = `Daytime & Overnight Returns between ${start} and ${end}`;
 
     return (
       <Box>
-        <Typography variant="h1">Daily & Nightly Returns Comparison</Typography>
+        <Typography variant="h1">
+          Daytime & Overnight Returns Comparison
+        </Typography>
 
         <Box mt={3}>
           <Card>
@@ -49,11 +42,6 @@ export default function SectorReturnView() {
               <SectorDailyOvernightReturnScatterChart data={stocks} />
             </CardContent>
           </Card>
-        </Box>
-        <Box mt={3}>
-          <Grid container spacing={1}>
-            {flips}
-          </Grid>
         </Box>
       </Box>
     );

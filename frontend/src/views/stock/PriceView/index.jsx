@@ -7,13 +7,12 @@ import {
   Typography,
 } from "@material-ui/core";
 
-import StockHistoricalContext from "src/views/stock/StockHistoricalView/context.jsx";
+import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
 import PriceTable from "./table";
 import PriceChart from "./chart";
 
 export default function PriceView() {
   const data = useContext(StockHistoricalContext);
-  const { olds: prices } = data;
 
   return (
     <Box>
@@ -22,12 +21,12 @@ export default function PriceView() {
           title={<Typography variant="h3">Daily Prices</Typography>}
         />
         <CardContent>
-          <PriceChart data={prices} />
+          <PriceChart data={data} />
         </CardContent>
       </Card>
 
       <Box mt={3}>
-        <PriceTable data={prices} />
+        <PriceTable data={data} />
       </Box>
     </Box>
   );

@@ -1,9 +1,7 @@
 import logging
 from datetime import date
-from datetime import datetime
 from datetime import timedelta
 
-from celery import chain
 from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
@@ -18,7 +16,6 @@ from stock.models import IncomeStatement
 from stock.models import MySector
 from stock.models import MyStock
 from stock.models import MyStockHistorical
-from stock.models import MyStrategyValue
 from stock.models import ValuationRatio
 from stock.tasks import batch_update_helper
 
@@ -267,8 +264,9 @@ class StockResource(ModelResource):
         queryset = MyStock.objects.all()
         resource_name = "stocks"
         filtering = {"symbol": ALL, "id": ALL}
-        limit = 1000
         authorization = Authorization()
+        limit = 0
+        max_limit = 0
 
     def obj_update(self, bundle, **kwargs):
         stock = bundle.obj
@@ -300,120 +298,15 @@ class HistoricalResource(ModelResource):
     stock = fields.ForeignKey(
         "stock.api.StockResource", "stock", use_in="detail"
     )
+    symbol = fields.CharField("symbol")
 
     class Meta:
-        queryset = MyStockHistorical.objects.all()
-        filtering = {"on": ["range"], "stock": ["exact"]}
         resource_name = "historicals"
-
-
-class HistoricalStatResource(SummaryResource):
-    """Resource to summarize stock historical over a period.
-
-    Expecting url paramters:
-
-    :param: stock: int, stock ID
-    :param: start: date, starting date
-    :param: end: date: ending date
-    """
-
-    class Meta:
-        resource_name = "historical/stats"
-
-    def _get_date_range(self, request):
-        """Helper func to determine date range by URL parameter.
-
-        URL Args
-        --------
-
-        :start: str
-        In format of "%Y-%m-%d". Default to 1 week ago from today.
-
-        :end: date
-        In format of "%Y-%m-%d". Default to today.
-
-
-        Returns
-        -------
-          :tuple: (Date, Date)
-          (start, end)
-
-        """
-        params = request.GET
-        start = params.get("start", None)
-        end = params.get("end", None)
-        if start:
-            start = datetime.strptime(start, "%Y-%m-%d").date()
-        else:
-            start = date.today() - timedelta(weeks=1)
-        if end:
-            end = datetime.strptime(end, "%Y-%m-%d").date()
-        else:
-            end = date.today()
-
-        return (start, end)
-
-    def _get_indexes(self, historicals):
-        """Pre-computed index values from selected historicals."""
-
-        # pre-computed daily index value
-        indexes = MyStrategyValue.objects.filter(hist__in=historicals)
-
-        result = {}
-        for s in MyStrategyValue.METHOD_CHOICES:
-            index_vals = (
-                indexes.filter(method=s[0])
-                .values("hist__on", "val")
-                .order_by("hist__on")
-            )
-            result[s[1]] = list(index_vals)
-
-        return result
-
-    def _get_stats(self, historicals):
-        """Stats based on these data point."""
-        return MyStrategyValue.objects.stats(historicals)
-
-    def get_object_list(self, request):
-        start, end = self._get_date_range(request)
-        ids = map(int, request.GET.get("stock__in").split(","))
-        stocks = MyStock.objects.filter(id__in=ids)
-
-        result = []
-        for stock in stocks:
-            historicals = (
-                MyStockHistorical.objects.by_date_range(start, end)
-                .filter(stock=stock)
-                .order_by("on")
-            )
-
-            indexes = self._get_indexes(historicals)
-            stats = self._get_stats(historicals)
-
-            result.append(
-                StatSummary(
-                    stock.id,
-                    "historicals",
-                    {
-                        "symbol": stock.symbol,
-                        "olds": list(historicals.values()),
-                        "indexes": indexes,
-                        "stats": stats,
-                    },
-                )
-            )
-        return result
-
-
-class StrategyValueResource(ModelResource):
-    hist = fields.ForeignKey(
-        "stock.api.HistoricalResource", "hist", use_in="detail"
-    )
-
-    class Meta:
-        queryset = MyStrategyValue.objects.all()
-        filtering = {"method": ALL, "hist__stock__symbol": ALL}
-        resource_name = "indexes"
+        queryset = MyStockHistorical.objects.all()
+        filtering = {"on": ["range"], "stock": ALL}
+        ordering = ["on"]
+        limit = 0
+        max_limit = 0
 
 
 class IncomeStatementResource(ModelResource):

@@ -7,9 +7,9 @@ import {
 } from "src/utils/stock/returns";
 
 export default function TwentyFourHourReturnView() {
-  const { olds: prices } = useContext(StockHistoricalContext);
-  const returns = twenty_four_hour_returns(prices);
-  const stats = twenty_four_hour_stats(prices);
-  const data = { ...{ name: "Return of 24-hour", returns, stats } };
-  return <PriceReturnStat data={data} />;
+  const data = useContext(StockHistoricalContext);
+  const returns = twenty_four_hour_returns(data);
+  const stats = twenty_four_hour_stats(data);
+  const p = { ...{ name: "Return of 24-hour", returns, stats } };
+  return <PriceReturnStat data={p} />;
 }
