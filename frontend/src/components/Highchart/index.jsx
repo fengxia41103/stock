@@ -3,6 +3,7 @@ import Highcharts from "highcharts";
 import HC_more from "highcharts/highcharts-more"; //module
 import addFunnel from "highcharts/modules/funnel";
 import { map, filter, isNull } from "lodash";
+import PropTypes from "prop-types";
 
 //****************************************
 //
@@ -186,3 +187,16 @@ export default function HighchartGraphBox(props) {
     </figure>
   );
 }
+
+HighchartGraphBox.propTypes = {
+  containerId: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  footer: PropTypes.string,
+  categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+  xLabel: PropTypes.string,
+  yLabel: PropTypes.string,
+  legendEnabled: PropTypes.bool.isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  normalize: PropTypes.bool,
+};

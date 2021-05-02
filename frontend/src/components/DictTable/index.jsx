@@ -13,8 +13,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/Highchart";
+import PropTypes from "prop-types";
 
-function DictTable(props) {
+export default function DictTable(props) {
   const { table } = useTheme();
   const { data, interests, chart } = props;
 
@@ -24,21 +25,18 @@ function DictTable(props) {
 
   const dates = map(data, i => <TableCell key={i.on}>{i.on}</TableCell>);
 
-  const rows = Object.entries(interests).map(([key, description]) => {
+  const rows = map(interests, (description, key) => {
     const row = map(data, c => {
-      const decor = classNames(
-        c[key] < 0 ? "error" : null,
-        c[key] === 0 ? "textSecondary" : null
-      );
+      const val = isUndefined(c[key]) ? -1 : c[key].toFixed(2);
 
-      if (isNull(c[key] || isUndefined(c[key]))) {
-        console.log(c);
-        console.log(key);
+      let decor = "inherit";
+      if (val < 0) {
+        decor = "error";
       }
 
       return (
         <TableCell key={c.on}>
-          <Typography color={decor}>{c[key].toFixed(2)}</Typography>
+          <Typography color={decor}>{val}</Typography>
         </TableCell>
       );
     });
@@ -77,25 +75,34 @@ function Chart(props) {
   const containerId = randomId();
   const { data, interests, normalized } = props;
   const dates = map(data, i => i.on);
-  const chart_data = Object.entries(interests).map(([key, description]) => {
+  const chart_data = map(interests, (description, key) => {
     const vals = map(data, i => i[key]);
     return { name: description, data: vals };
   });
 
   return (
-    <Box mt={3}>
-      <HighchartGraphBox
-        containerId={containerId}
-        type="line"
-        categories={dates}
-        yLabel=""
-        title=""
-        legendEnabled={true}
-        data={chart_data}
-        normalize={normalized}
-      />
-    </Box>
+    <HighchartGraphBox
+      containerId={containerId}
+      type="line"
+      categories={dates}
+      yLabel=""
+      title=""
+      legendEnabled={true}
+      data={chart_data}
+      normalize={normalized}
+    />
   );
 }
 
-export default DictTable;
+DictTable.propTypes = {
+  interests: PropTypes.object.isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  chart: PropTypes.bool.isRequired,
+  normalized: PropTypes.bool,
+};
+
+Chart.propTypes = {
+  interests: PropTypes.object.isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  normalized: PropTypes.bool.isRequired,
+};

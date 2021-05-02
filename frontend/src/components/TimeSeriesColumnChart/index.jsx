@@ -2,17 +2,12 @@ import React from "react";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/Highchart";
 import { map, isUndefined } from "lodash";
+import PropTypes from "prop-types";
 
 export default function TimeSeriesColumnChart(props) {
   const containerId = randomId();
   const { data, name } = props;
-  const categories = map(data, d => {
-    if (isUndefined(d.on)) {
-      return d.hist__on;
-    } else {
-      return d.on;
-    }
-  });
+  const categories = map(data, d => d.on);
   const chart_data = [
     {
       name: name,
@@ -32,3 +27,12 @@ export default function TimeSeriesColumnChart(props) {
     />
   );
 }
+
+TimeSeriesColumnChart.propTypes = {
+  name: PropTypes.string.isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      val: PropTypes.number,
+    })
+  ).isRequired,
+};

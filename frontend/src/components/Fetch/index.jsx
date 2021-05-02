@@ -2,6 +2,7 @@ import React from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useGet } from "restful-react";
 import NotFoundView from "src/views/errors/NotFoundView";
+import PropTypes from "prop-types";
 
 export default function Fetch(props) {
   const { api, resource, render_data, mounted } = props;
@@ -20,3 +21,10 @@ export default function Fetch(props) {
   // everything is good, render
   return render_data(data);
 }
+
+Fetch.propTypes = {
+  api: PropTypes.string.isRequired,
+  resource: PropTypes.string.isRequired,
+  render_data: PropTypes.func.isRequired,
+  mounted: PropTypes.object,
+};

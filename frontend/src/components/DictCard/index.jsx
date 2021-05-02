@@ -9,6 +9,7 @@ import {
   Typography,
   CardHeader,
 } from "@material-ui/core";
+import PropTypes from "prop-types";
 
 // A style sheet
 const useStyles = makeStyles({
@@ -99,3 +100,8 @@ export default function DictCard(props) {
     </Grid>
   );
 }
+
+DictCard.propTypes = {
+  interests: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+};

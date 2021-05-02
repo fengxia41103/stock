@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom";
 import { Button, Link, Grid } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import PropTypes from "prop-types";
 
-function MenuBar(props) {
+export default function MenuBar(props) {
   const { id } = useParams();
   const { root, title, items } = props;
 
@@ -49,4 +50,13 @@ function MenuBar(props) {
   );
 }
 
-export default MenuBar;
+MenuBar.propTypes = {
+  root: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      url: PropTypes.string,
+      text: PropTypes.string,
+    })
+  ).isRequired,
+};

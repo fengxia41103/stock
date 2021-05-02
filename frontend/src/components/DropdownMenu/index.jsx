@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Box, IconButton, Menu, Typography } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { isNull, isUndefined } from "lodash";
+import PropTypes from "prop-types";
 
 export default function DropdownMenu(props) {
   const { title, content, keep_open } = props;
@@ -44,3 +45,9 @@ export default function DropdownMenu(props) {
     </Box>
   );
 }
+
+DropdownMenu.propTypes = {
+  title: PropTypes.string,
+  content: PropTypes.any.isRequired,
+  keep_open: PropTypes.bool,
+};
