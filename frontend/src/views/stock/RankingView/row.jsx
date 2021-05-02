@@ -25,6 +25,8 @@ export default function Row(props) {
   const [show_rank_graph, setShowRank] = useState(false);
   const [show_1m_graph, setShow1m] = useState(false);
   const [show_threshold, setShowThreshold] = useState(false);
+  const [start] = useState("2021-02-01");
+  const [end] = useState(new Date().toLocaleDateString("en-CA"));
   const classes = useStyles();
 
   const handle_show_rank_graph = event => setShowRank(!show_rank_graph);
@@ -51,6 +53,9 @@ export default function Row(props) {
       />
     );
   }
+
+  // stock ids
+  const stock_ids = map(ranks, r => r.id);
 
   return (
     <Box>
@@ -88,7 +93,7 @@ export default function Row(props) {
         ) : null}
         {show_1m_graph ? (
           <Box mt={3}>
-            <StocksPriceChart {...props} />
+            <StocksPriceChart {...{ start, end, stocks: stock_ids }} />
           </Box>
         ) : null}
       </Box>

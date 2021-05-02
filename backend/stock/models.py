@@ -42,7 +42,6 @@ class MyStockRankManager(models.Manager):
                     "id": s.id,
                     "symbol": s.symbol,
                     "val": getattr(s, attr),
-                    "one_month_historicals": s.one_month_historicals,
                 }
             )
 
@@ -239,21 +238,6 @@ class MyStock(models.Model):
 
             vals.append({"on": b.on, "nav": nav})
         return vals
-
-    @property
-    def one_month_historicals(self):
-        end = date.today()
-        start = end - timedelta(days=30)
-
-        # get historicals
-        hist = list(
-            MyStockHistorical.objects.filter(stock=self)
-            .filter(on__gte=start, on__lte=end)
-            .values("on", "close_price")
-            .order_by("on")
-        )
-
-        return hist
 
     @property
     def last_reporting_date(self):

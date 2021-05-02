@@ -94,9 +94,6 @@ class StockResource(ModelResource):
     roe_dupont_reported_gap = fields.FloatField(
         "roe_dupont_reported_gap", null=True, use_in="detail"
     )
-    one_month_historicals = fields.ListField(
-        "one_month_historicals", null=True, use_in="detail"
-    )
     last_reporting_date = fields.DateField("last_reporting_date", null=True)
     dcf_model = fields.ListField("dcf_model", null=True, use_in="detail")
 
@@ -404,7 +401,6 @@ class RankingResource(Resource):
             "symbol": stock symbol,
             "on": the date when these values were originated,
             "val": the value,
-            "one_month_historicals": last 30d price of this stock
           }
 
         """
@@ -441,7 +437,6 @@ class RankingResource(Resource):
                     "symbol": symbol,
                     "on": x.on,
                     "val": getattr(x, sort_by),
-                    "one_month_historicals": x.stock.one_month_historicals,
                 }
             )
 

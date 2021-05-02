@@ -10,6 +10,7 @@ import {
   TextField,
   Card,
   CardContent,
+  CardHeader,
   Typography,
 } from "@material-ui/core";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
@@ -93,25 +94,29 @@ function RankingView() {
     "By Cash Flow Statement Analysis": "/cash-ranks",
   };
   const rankings = map(ranking_mapping, (resource, title) => {
+    const header = (
+      <Box mb={3}>
+        <Grid container justify="space-between" spacing={3}>
+          <Grid item>
+            <Typography variant="h3" color="textPrimary">
+              {title}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Avatar className={classes.avatar}>
+              <WhatshotIcon />
+            </Avatar>
+          </Grid>
+        </Grid>
+        <Divider />
+      </Box>
+    );
+
     return (
       <Box key={resource} mb={3}>
         <Card>
+          <CardHeader title={header} />
           <CardContent>
-            <Box mb={3}>
-              <Grid container justify="space-between" spacing={3}>
-                <Grid item>
-                  <Typography variant="h3" color="textPrimary">
-                    {title}
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Avatar className={classes.avatar}>
-                    <WhatshotIcon />
-                  </Avatar>
-                </Grid>
-              </Grid>
-              <Divider />
-            </Box>
             <Rank
               {...{
                 resource,
