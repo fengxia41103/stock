@@ -22,40 +22,6 @@ from stock.tasks import batch_update_helper
 logger = logging.getLogger("stock")
 
 
-class StatSummary:
-    def __init__(self, id=None, name=None, stats=None):
-        self.id = id
-        self.name = name
-        self.stats = stats
-
-
-class SummaryResource(Resource):
-    id = fields.IntegerField("id")
-    name = fields.CharField("name", null=True)
-    stats = fields.DictField("stats")
-
-    class Meta:
-        object_class = StatSummary
-        abstract = True
-
-    def obj_get_list(self, bundle, **kwargs):
-        # outer get of object list... this calls get_object_list and
-        # could be a point at which additional filtering may be applied
-        return self.get_object_list(bundle.request)
-
-    # The following methods will need overriding regardless of your
-    # data source.
-    def detail_uri_kwargs(self, bundle_or_obj):
-        kwargs = {}
-
-        if isinstance(bundle_or_obj, Bundle):
-            kwargs["pk"] = bundle_or_obj.obj.id
-        else:
-            kwargs["pk"] = bundle_or_obj.id
-
-        return kwargs
-
-
 class SectorResource(ModelResource):
     name = fields.CharField("name")
     stocks = fields.ManyToManyField(
@@ -139,7 +105,7 @@ class HistoricalResource(ModelResource):
     stock = fields.ForeignKey(
         "stock.api.StockResource", "stock", use_in="detail"
     )
-    symbol = fields.CharField("symbol")
+    symbol = fields.CharField("symbol", null=True)
 
     class Meta:
         resource_name = "historicals"
@@ -149,9 +115,13 @@ class HistoricalResource(ModelResource):
         limit = 0
         max_limit = 0
 
+    def dehydrate_symbol(self, bundle):
+        return bundle.obj.stock.symbol
+
 
 class IncomeStatementResource(ModelResource):
     stock = fields.ForeignKey("stock.api.StockResource", "stock")
+    symbol = fields.CharField("symbol", null=True)
 
     # reported
     close_price = fields.FloatField("close_price", null=True)
@@ -206,10 +176,16 @@ class IncomeStatementResource(ModelResource):
         resource_name = "incomes"
         filtering = {"stock": ALL_WITH_RELATIONS}
         ordering = ["on"]
+        limit = 0
+        max_limit = 0
+
+    def dehydrate_symbol(self, bundle):
+        return bundle.obj.stock.symbol
 
 
 class CashFlowResource(ModelResource):
     stock = fields.ForeignKey("stock.api.StockResource", "stock")
+    symbol = fields.CharField("symbol", null=True)
 
     # reported
     close_price = fields.FloatField("close_price", null=True)
@@ -235,10 +211,16 @@ class CashFlowResource(ModelResource):
         resource_name = "cashes"
         filtering = {"stock": ALL_WITH_RELATIONS}
         ordering = ["on"]
+        limit = 0
+        max_limit = 0
+
+    def dehydrate_symbol(self, bundle):
+        return bundle.obj.stock.symbol
 
 
 class BalanceSheetResource(ModelResource):
     stock = fields.ForeignKey("stock.api.StockResource", "stock")
+    symbol = fields.CharField("symbol", null=True)
 
     # reported
     close_price = fields.FloatField("close_price", null=True)
@@ -302,16 +284,34 @@ class BalanceSheetResource(ModelResource):
         resource_name = "balances"
         filtering = {"stock": ALL_WITH_RELATIONS}
         ordering = ["on"]
+        limit = 0
+        max_limit = 0
+
+    def dehydrate_symbol(self, bundle):
+        return bundle.obj.stock.symbol
 
 
 class ValuationRatioResource(ModelResource):
     stock = fields.ForeignKey("stock.api.StockResource", "stock")
+    symbol = fields.CharField("symbol", null=True)
 
     class Meta:
         queryset = ValuationRatio.objects.all()
         resource_name = "ratios"
         filtering = {"stock": ALL_WITH_RELATIONS}
         ordering = ["on"]
+        limit = 0
+        max_limit = 0
+
+    def dehydrate_symbol(self, bundle):
+        return bundle.obj.stock.symbol
+
+
+class StatSummary:
+    def __init__(self, id=None, name=None, stats=None):
+        self.id = id
+        self.name = name
+        self.stats = stats
 
 
 class RankingResource(Resource):
@@ -323,6 +323,8 @@ class RankingResource(Resource):
         object_class = StatSummary
         abstract = True
         filtering = {"stats": ALL}
+        limit = 0
+        max_limit = 0
 
     def build_filters(self, filters=None, **kwargs):
         if filters is None:

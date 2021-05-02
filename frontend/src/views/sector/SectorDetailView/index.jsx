@@ -19,6 +19,21 @@ const price_menus = [
   },
 ];
 
+const financial_statement_menus = [
+  {
+    url: "balance",
+    text: "Balance Sheet",
+  },
+  {
+    url: "income",
+    text: "Income Statement",
+  },
+  {
+    url: "cash",
+    text: "Cash Flow Statement",
+  },
+];
+
 const valuation_menus = [
   {
     url: "dupont",
@@ -57,6 +72,11 @@ export default function SectorDetailView() {
                 root={resource}
                 title="Price & Trends"
                 items={price_menus}
+              />
+              <MenuBar
+                root={resource}
+                title="Financial Statements"
+                items={financial_statement_menus}
               />
               <MenuBar
                 root={resource}

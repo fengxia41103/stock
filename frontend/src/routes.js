@@ -32,6 +32,9 @@ import SectorDetailView from "src/views/sector/SectorDetailView";
 import SectorPriceView from "src/views/sector/SectorPriceView";
 import SectorReturnView from "src/views/sector/SectorReturnView";
 import SectorRoeView from "src/views/sector/SectorRoeView";
+import SectorBalancesheetView from "src/views/sector/SectorBalancesheetView";
+import SectorIncomeView from "src/views/sector/SectorIncomeView";
+import SectorCashFlowView from "src/views/sector/SectorCashFlowView";
 
 const items = [
   {
@@ -91,6 +94,9 @@ const routes = [
           { path: "price", element: <SectorPriceView /> },
           { path: "return", element: <SectorReturnView /> },
           { path: "dupont", element: <SectorRoeView /> },
+          { path: "balance", element: <SectorBalancesheetView /> },
+          { path: "income", element: <SectorIncomeView /> },
+          { path: "cash", element: <SectorCashFlowView /> },
         ],
       },
 

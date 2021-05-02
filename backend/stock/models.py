@@ -309,10 +309,6 @@ class MyStockHistorical(models.Model):
         unique_together = ("stock", "on")
         index_together = ["stock", "on"]
 
-    @property
-    def symbol(self):
-        return self.stock.symbol
-
 
 class StatementBase(models.Model):
     class Meta:

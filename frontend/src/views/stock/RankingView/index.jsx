@@ -95,7 +95,7 @@ function RankingView() {
   };
   const rankings = map(ranking_mapping, (resource, title) => {
     const header = (
-      <Box mb={3}>
+      <Box mb={1}>
         <Grid container justify="space-between" spacing={3}>
           <Grid item>
             <Typography variant="h3" color="textPrimary">
@@ -141,7 +141,7 @@ function RankingView() {
           <Card>
             <CardContent>
               <Grid container spacing={1}>
-                <Grid item lg={6} xs={12}>
+                <Grid item lg={6} sm={6} xs={12}>
                   <TextField
                     label="Filter by Symbol"
                     value={interests.join(" ")}
@@ -149,7 +149,7 @@ function RankingView() {
                     fullWidth={true}
                   />
                 </Grid>
-                <Grid item lg={6} xs={12}>
+                <Grid item lg={6} sm={6} xs={12}>
                   <TextField
                     label="View Top Ranks"
                     value={top}
@@ -162,7 +162,7 @@ function RankingView() {
             </CardContent>
           </Card>
         </Box>
-        <Box mt={3}>{rankings}</Box>
+        <Box mt={1}>{rankings}</Box>
       </Container>
     </Page>
   );
