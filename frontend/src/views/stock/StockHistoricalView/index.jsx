@@ -55,7 +55,7 @@ function StockHistoricalView() {
 
     return (
       <Box>
-        <Typography variant="h1">{data.symbol} Historical</Typography>
+        <Typography variant="h1">{data[0].symbol} Historical</Typography>
         <Box mt={3}>
           <Card>
             <CardContent>

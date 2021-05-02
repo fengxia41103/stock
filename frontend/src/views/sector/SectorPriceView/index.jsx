@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
-import Fetch from "src/components/Fetch";
 import {
   Box,
   Card,
