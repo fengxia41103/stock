@@ -13,10 +13,11 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Link from "@material-ui/core/Link";
 import { map } from "lodash";
+import PropTypes from "prop-types";
 
 export default function DeleteSectorDialog(props) {
   const { host } = useContext(GlobalContext);
-  const { resource_uri:sector, stocks_property:stocks } = props;
+  const { resource_uri: sector, stocks_property: stocks } = props;
   const [open, setOpen] = useState(false);
 
   const { mutate: del } = useMutate({
@@ -55,10 +56,9 @@ export default function DeleteSectorDialog(props) {
       >
         <DialogTitle>Delete Sector</DialogTitle>
         <DialogContent>
-          Deleting this sector will NOT delete stocks associated w/
-          it. Stock belonging to no sector, however, will not be
-          visible in the sector page. You can go to the stock detail
-          page and add it to a new sector.
+          Deleting this sector will NOT delete stocks associated w/ it. Stock
+          belonging to no sector, however, will not be visible in the sector
+          page. You can go to the stock detail page and add it to a new sector.
           <Box mt={2}>
             <List>{stock_links}</List>
           </Box>
@@ -79,3 +79,13 @@ export default function DeleteSectorDialog(props) {
     </Box>
   );
 }
+
+DeleteSectorDialog.propTypes = {
+  resource_uri: PropTypes.string.isRequired,
+  stock_property: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      symbol: PropTypes.string,
+    })
+  ).isRequired,
+};

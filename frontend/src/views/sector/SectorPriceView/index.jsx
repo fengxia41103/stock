@@ -12,7 +12,7 @@ import { map } from "lodash";
 
 export default function SectorPriceView() {
   const sector = useContext(SectorDetailContext);
-  const stock_ids = map(sector.stocks_property, s => s.id).join(",");
+  const stock_ids = map(sector.stocks_property, s => s.id);
   const [start] = useState("2021-02-01");
   const [end] = useState(new Date().toLocaleDateString("en-CA"));
 

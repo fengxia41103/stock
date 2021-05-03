@@ -1,7 +1,14 @@
 import React from "react";
 import { isEmpty, isUndefined, map } from "lodash";
-import { Box, Typography, Card, CardContent } from "@material-ui/core";
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  CardHeader,
+} from "@material-ui/core";
 import DictTable from "src/components/DictTable";
+import PropTypes from "prop-types";
 
 export default function FinancialCard(props) {
   const {
@@ -53,10 +60,8 @@ export default function FinancialCard(props) {
     return (
       <Box key={m.title} mt={3}>
         <Card>
+          <CardHeader title={<Typography variant="h3">{m.title}</Typography>} />
           <CardContent>
-            <Box mb={3}>
-              <Typography variant="h3">{m.title}</Typography>
-            </Box>
             <DictTable
               data={data}
               interests={m.data}
@@ -71,3 +76,14 @@ export default function FinancialCard(props) {
 
   return <Box mt={3}>{cards}</Box>;
 }
+
+FinancialCard.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  reported: PropTypes.object,
+  ratio: PropTypes.object,
+  in_period_change: PropTypes.object,
+  p2p_growth: PropTypes.object,
+  pcnt: PropTypes.object,
+  analysis: PropTypes.object,
+  normalized: PropTypes.bool,
+};

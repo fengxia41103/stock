@@ -10,6 +10,7 @@ import {
   overnight_returns,
   overnight_return_stats,
 } from "src/utils/stock/returns";
+import PropTypes from "prop-types";
 
 export default function SectorDailyOvernightReturnScatterChart(props) {
   const { data: stocks } = props;
@@ -48,3 +49,19 @@ export default function SectorDailyOvernightReturnScatterChart(props) {
     />
   );
 }
+
+SectorDailyOvernightReturnScatterChart.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      on: PropTypes.string,
+      symbol: PropTypes.string,
+      open_price: PropTypes.number,
+      close_price: PropTypes.number,
+      high_price: PropTypes.number,
+      low_price: PropTypes.number,
+      adj_close: PropTypes.number,
+      vol: PropTypes.number,
+    })
+  ).isRequired,
+};

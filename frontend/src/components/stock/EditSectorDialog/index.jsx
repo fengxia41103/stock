@@ -12,6 +12,7 @@ import { useMutate } from "restful-react";
 import EditIcon from "@material-ui/icons/Edit";
 import Fetch from "src/components/Fetch";
 import { map } from "lodash";
+import PropTypes from "prop-types";
 
 export default function EditSectorDialog(props) {
   const { host } = useContext(GlobalContext);
@@ -86,3 +87,9 @@ export default function EditSectorDialog(props) {
     </Box>
   );
 }
+
+EditSectorDialog.propTypes = {
+  resource_uri: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  existings: PropTypes.arrayOf(PropTypes.string).isRequired,
+};

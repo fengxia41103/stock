@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { map } from "lodash";
 import MultilineChart from "src/components/MultilineChart";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
+import PropTypes from "prop-types";
 
 export default function SectorDupontLineChart(props) {
   const { property } = props;
@@ -25,3 +26,7 @@ export default function SectorDupontLineChart(props) {
     />
   );
 }
+
+SectorDupontLineChart.propTypes = {
+  property: PropTypes.string.isRequired,
+};

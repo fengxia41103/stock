@@ -21,6 +21,7 @@ import {
   Checkbox,
   Typography,
 } from "@material-ui/core";
+import PropTypes from "prop-types";
 
 export default function AddStocksDialog(props) {
   const { host } = useContext(GlobalContext);
@@ -150,3 +151,12 @@ export default function AddStocksDialog(props) {
 
   return <Fetch {...{ api, resource, render_data }} />;
 }
+
+AddStocksDialog.propTypes = {
+  stocks: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      symbol: PropTypes.string,
+    })
+  ).isRequired,
+};

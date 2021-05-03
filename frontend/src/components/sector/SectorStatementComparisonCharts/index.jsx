@@ -11,6 +11,7 @@ import Fetch from "src/components/Fetch";
 import { map, groupBy } from "lodash";
 import GlobalContext from "src/context";
 import MultilineChart from "src/components/MultilineChart";
+import PropTypes from "prop-types";
 
 export default function SectorStatementComparisonCharts(props) {
   const { api } = useContext(GlobalContext);
@@ -64,3 +65,7 @@ export default function SectorStatementComparisonCharts(props) {
 
   return <Fetch {...{ api, resource, render_data }} />;
 }
+
+SectorStatementComparisonCharts.propTypes = {
+  resource: PropTypes.string.isRequired,
+};
