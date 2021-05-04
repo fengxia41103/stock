@@ -184,7 +184,7 @@ function DCFView() {
     <Box>
       <Typography variant="h1">{stock.symbol} DCF Model</Typography>
 
-      <FinancialCard data={dcf_values} reported={reported} normalized={false} />
+      <FinancialCard data={dcf_values} reported={reported} normalized={true} />
       <Box mt={3}>
         <Card>
           <CardContent>

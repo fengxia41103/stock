@@ -17,6 +17,8 @@ export default function SectorStatementComparisonCharts(props) {
   const { api } = useContext(GlobalContext);
   const { resource } = props;
 
+  const to_ignore_list = ["on", "id", "symbol", "resource_uri", "stock"];
+
   const render_data = resp => {
     const data = resp.objects;
     let attrs = Object.keys(data[0]);
@@ -32,7 +34,7 @@ export default function SectorStatementComparisonCharts(props) {
 
     const cards = map(attrs, a => {
       // these two have no meaning in this context
-      if (a === "on" || a === "id") return null;
+      if (to_ignore_list.includes(a)) return null;
 
       const title = a
         .split("_")
