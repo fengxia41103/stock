@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { map, filter } from "lodash";
+import { map, filter, sortBy } from "lodash";
 import Fetch from "src/components/Fetch";
 import {
   Box,
@@ -53,7 +53,8 @@ export default function SectorListView(props) {
         <DeleteSectorDialog {...s} />,
       ];
 
-      const links = map(s.stocks_property, (v, index) => {
+      const stocks = sortBy(s.stocks_property, s => s.symbol);
+      const links = map(stocks, (v, index) => {
         return (
           <Box>
             <Link key={v.id} href={`/stocks/${v.id}/historical/price`}>
