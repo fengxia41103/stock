@@ -142,10 +142,16 @@ class MyStock(models.Model):
 
         # turn over is latest revenue / avg asset
         last_reporting_date = self.balances.order_by("-on")[0].on
-        last_income = self.incomes.get(on=last_reporting_date)
-        turnover = last_income.total_revenue / avgs["total_assets__avg"]
 
-        return last_income.net_income_to_revenue * turnover * equity_multiplier
+        incomes = self.incomes.filter(on__lte=last_reporting_date)
+        if incomes:
+            last_income = incomes.last()
+            turnover = last_income.total_revenue / avgs["total_assets__avg"]
+            return (
+                last_income.net_income_to_revenue * turnover * equity_multiplier
+            )
+        else:
+            return 0
 
     @property
     def roe_dupont_reported_gap(self):

@@ -48,7 +48,10 @@ class SectorResource(ModelResource):
         authorization = Authorization()
 
     def obj_update(self, bundle, **kwargs):
+        super().obj_update(bundle)
+
         sector = bundle.obj
+
         for stock in sector.stocks.all():
             # kick off updates
             batch_update_helper(sector.name, stock.symbol)
@@ -82,6 +85,8 @@ class StockResource(ModelResource):
         max_limit = 0
 
     def obj_update(self, bundle, **kwargs):
+        super().obj_update(bundle)
+
         stock = bundle.obj
         symbol = stock.symbol
         sectors = stock.sectors.all()
