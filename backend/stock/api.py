@@ -47,6 +47,12 @@ class SectorResource(ModelResource):
         filtering = {"name": ALL}
         authorization = Authorization()
 
+    def obj_update(self, bundle, **kwargs):
+        sector = bundle.obj
+        for stock in sector.stocks.all():
+            # kick off updates
+            batch_update_helper(sector.name, stock.symbol)
+
 
 class StockResource(ModelResource):
     symbol = fields.CharField("symbol")
