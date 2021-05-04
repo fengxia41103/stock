@@ -35,6 +35,7 @@ import SectorRoeView from "src/views/sector/SectorRoeView";
 import SectorBalancesheetView from "src/views/sector/SectorBalancesheetView";
 import SectorIncomeView from "src/views/sector/SectorIncomeView";
 import SectorCashFlowView from "src/views/sector/SectorCashFlowView";
+import SectorInstitutionOwnershipView from "src/views/sector/SectorInstitutionOwnershipView";
 
 const items = [
   {
@@ -97,6 +98,7 @@ const routes = [
           { path: "balance", element: <SectorBalancesheetView /> },
           { path: "income", element: <SectorIncomeView /> },
           { path: "cash", element: <SectorCashFlowView /> },
+          { path: "institution", element: <SectorInstitutionOwnershipView /> },
         ],
       },
 

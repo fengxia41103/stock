@@ -25,17 +25,14 @@ class MySummary:
         df = s.financial_data[self.stock.symbol]
         if NA in df:
             logger.error(df)
-            return
         else:
             self.stock.roa = df.get("returnOnAssets", 0) * 100
             self.stock.roe = df.get("returnOnEquity", 0) * 100
-            self.stock.save()
 
         # https://yahooquery.dpguthrie.com/guide/ticker/modules/#key_stats
         df = s.key_stats[self.stock.symbol]
         if NA in df:
             logger.error(df)
-            return
         else:
             # BETA default to 5!
             self.stock.beta = df.get("beta", 5)
@@ -45,7 +42,6 @@ class MySummary:
             )
             self.stock.shares_outstanding = df.get("sharesOutstanding", 0) / B
             self.stock.profit_margin = df.get("profitMargins", 0) * 100
-            self.stock.save()
 
         # This will either return a data frame (if a valid stock),
         # or a dict (if a fund).
@@ -53,11 +49,18 @@ class MySummary:
         msg = df.get(self.stock.symbol)
         if msg is not None and NA in msg:
             logger.error(df)
-            return
 
         elif msg is None and not df.empty:
             self.stock.top_ten_institution_ownership = (
                 sum(df.get("pctHeld", 0)) * 100
             )
 
-            self.stock.save()
+        df = s.major_holders[self.stock.symbol]
+        if NA in df:
+            logger.error(df)
+
+        else:
+            self.stock.institution_count = df.get("institutionsCount", -1)
+
+        # last, save the data
+        self.stock.save()

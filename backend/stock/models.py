@@ -71,9 +71,11 @@ class MyStock(models.Model):
     roe = models.FloatField(
         null=True, default=0, verbose_name="Return on Equity"
     )
-    top_ten_institution_ownership = models.FloatField(null=True, default=-1)
     profit_margin = models.FloatField(null=True, default=0)
     shares_outstanding = models.FloatField(null=True, default=0)
+
+    top_ten_institution_ownership = models.FloatField(null=True, default=-1)
+    institution_count = models.IntegerField(null=True, default=-1)
 
     class Meta:
         base_manager_name = "rank_manager"

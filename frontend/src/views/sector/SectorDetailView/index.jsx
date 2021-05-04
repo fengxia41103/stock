@@ -41,6 +41,13 @@ const valuation_menus = [
   },
 ];
 
+const ownership_menus = [
+  {
+    url: "institution",
+    text: "Instituions",
+  },
+];
+
 export default function SectorDetailView() {
   const { id } = useParams();
   const { api } = useContext(GlobalContext);
@@ -82,6 +89,11 @@ export default function SectorDetailView() {
                 root={resource}
                 title="Valuations"
                 items={valuation_menus}
+              />
+              <MenuBar
+                root={resource}
+                title="Ownerships"
+                items={ownership_menus}
               />
 
               <Grid item xs>
