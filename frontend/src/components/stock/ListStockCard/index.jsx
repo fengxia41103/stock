@@ -96,7 +96,7 @@ export default function ListStockCard(props) {
 
 ListStockCard.propTypes = {
   index: PropTypes.string.isRequired,
-  group_by: PropTypes.string.isRequired,
+  group_by: PropTypes.string,
   stocks: PropTypes.arrayOf(PropTypes.any),
   actions: PropTypes.arrayOf(PropTypes.any),
 };

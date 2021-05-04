@@ -45,7 +45,7 @@ export default function EditSectorDialog(props) {
     update({ resource_uri, name: new_name }).then(setOpen(false));
 
   return (
-    <Box>
+    <Box flexDirection="row">
       <Button color="primary" onClick={handleClickOpen}>
         <EditIcon />
         Edit sector name

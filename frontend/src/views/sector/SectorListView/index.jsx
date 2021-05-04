@@ -15,7 +15,7 @@ import Page from "src/components/Page";
 import GlobalContext from "src/context";
 import AddNewSectorDialog from "src/components/sector/AddNewSectorDialog";
 import ListStockCard from "src/components/stock/ListStockCard";
-import EditSectorDialog from "src/components/stock/EditSectorDialog";
+import EditSectorDialog from "src/components/sector/EditSectorDialog";
 import DeleteSectorDialog from "src/components/sector/DeleteSectorDialog";
 import MultilineChartIcon from "@material-ui/icons/MultilineChart";
 

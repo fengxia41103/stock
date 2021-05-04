@@ -52,7 +52,7 @@ export default function DeleteSectorDialog(props) {
   });
 
   return (
-    <Box>
+    <Box flexDirection="row">
       <Button color="primary" onClick={handleClickOpen}>
         <DeleteIcon />
         Delete sector
@@ -90,7 +90,7 @@ export default function DeleteSectorDialog(props) {
 
 DeleteSectorDialog.propTypes = {
   resource_uri: PropTypes.string.isRequired,
-  stock_property: PropTypes.arrayOf(
+  stocks_property: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
       symbol: PropTypes.string,
