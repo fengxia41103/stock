@@ -22,6 +22,8 @@ export default function AddNewStockDialog() {
     path: `${api}${resource}/`,
   });
 
+  const reload = () => window.location.reload();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -37,7 +39,11 @@ export default function AddNewStockDialog() {
   };
 
   // call API and close this dialog
-  const on_create = () => create({ symbol: symbol }).then(setOpen(false));
+  const on_create = () => {
+    create({ symbol: symbol })
+      .then(setOpen(false))
+      .then(reload());
+  };
 
   return (
     <Box>

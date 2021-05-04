@@ -25,6 +25,8 @@ export default function AddNewSectorDialog() {
     path: `${api}${resource}/`,
   });
 
+  const reload = () => window.location.reload();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -39,7 +41,10 @@ export default function AddNewSectorDialog() {
   };
 
   // call API and close this dialog
-  const on_create = () => create({ name: sector }).then(setOpen(false));
+  const on_create = () =>
+    create({ name: sector })
+      .then(setOpen(false))
+      .then(reload());
 
   const render_data = data => {
     sectors = data.objects;

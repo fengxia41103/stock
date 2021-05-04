@@ -25,12 +25,20 @@ export default function DeleteSectorDialog(props) {
     path: `${host}${sector}`,
   });
 
+  const reload = () => window.location.reload();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const on_sector_delete = () => {
+    del()
+      .then(setOpen(false))
+      .then(reload());
   };
 
   const stock_links = map(stocks, v => {
@@ -70,7 +78,7 @@ export default function DeleteSectorDialog(props) {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => del().then(handleClose())}
+            onClick={on_sector_delete}
           >
             Delete
           </Button>

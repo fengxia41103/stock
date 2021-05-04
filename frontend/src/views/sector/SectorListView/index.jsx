@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import Page from "src/components/Page";
 import GlobalContext from "src/context";
-import AddNewSectorDialog from "src/components/stock/AddNewSectorDialog";
+import AddNewSectorDialog from "src/components/sector/AddNewSectorDialog";
 import ListStockCard from "src/components/stock/ListStockCard";
 import EditSectorDialog from "src/components/stock/EditSectorDialog";
 import DeleteSectorDialog from "src/components/sector/DeleteSectorDialog";
