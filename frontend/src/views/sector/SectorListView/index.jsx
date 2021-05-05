@@ -54,21 +54,18 @@ export default function SectorListView(props) {
       ];
 
       const stocks = sortBy(s.stocks_property, s => s.symbol);
-      const links = map(stocks, (v, index) => {
+      const stock_links = map(stocks, v => {
         return (
-          <Box>
-            <Link key={v.id} href={`/stocks/${v.id}/historical/price`}>
-              {v.symbol}
-            </Link>
+          <Box key={v.id}>
+            <Link href={`/stocks/${v.id}/historical/price`}>{v.symbol}</Link>
           </Box>
         );
       });
 
       return (
-        <ListStockCard
-          key={s.name}
-          {...{ actions, index: s.name, stocks: links }}
-        />
+        <Grid key={s.name} item lg={3} sm={6} xs={12}>
+          <ListStockCard {...{ actions, index: s.name, stocks: stock_links }} />
+        </Grid>
       );
     });
 

@@ -10,11 +10,11 @@ import {
   CardActions,
   CardHeader,
   Typography,
-  Grid,
   MoreVertIcon,
   List,
   ListItem,
   Divider,
+  Grid,
 } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import SectorLabel from "src/components/stock/SectorLabel";
@@ -66,31 +66,29 @@ export default function ListStockCard(props) {
   }
 
   return (
-    <Grid item lg={3} sm={6} xs={12}>
-      <Card className={clsx(classes.root, classes.card)}>
-        <CardHeader
-          title={<Typography variant="h3">{title}</Typography>}
-          subheader={<Typography variant="body2">{group_by}</Typography>}
-          avartar={
-            <Avatar className={classes.avatar}>
-              <CalendarTodayIcon />
-            </Avatar>
-          }
-          action={<DropdownMenu content={menu_content} />}
-        />
+    <Card className={clsx(classes.root, classes.card)}>
+      <CardHeader
+        title={<Typography variant="h3">{title}</Typography>}
+        subheader={<Typography variant="body2">{group_by}</Typography>}
+        avartar={
+          <Avatar className={classes.avatar}>
+            <CalendarTodayIcon />
+          </Avatar>
+        }
+        action={<DropdownMenu content={menu_content} />}
+      />
 
-        <Divider />
-        <CardContent>
-          <Grid container spacing={3}>
-            {stocks.map((link, index) => (
-              <Grid item key={index} xs={3}>
-                {link}
-              </Grid>
-            ))}
-          </Grid>
-        </CardContent>
-      </Card>
-    </Grid>
+      <Divider />
+      <CardContent>
+        <Grid container spacing={3}>
+          {stocks.map((link, index) => (
+            <Grid item key={index} xs={3}>
+              {link}
+            </Grid>
+          ))}
+        </Grid>
+      </CardContent>
+    </Card>
   );
 }
 

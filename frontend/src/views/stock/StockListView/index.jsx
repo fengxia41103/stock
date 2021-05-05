@@ -96,11 +96,9 @@ function StockListView(props) {
 
       const actions = [<AddStocksDialog stocks={sorted} />];
       return (
-        <ListStockCard
-          key={index}
-          {...{ group_by, index, actions }}
-          stocks={links}
-        />
+        <Grid key={index} item lg={3} sm={6} xs={12}>
+          <ListStockCard {...{ group_by, index, actions }} stocks={links} />
+        </Grid>
       );
     });
 
@@ -129,13 +127,7 @@ function StockListView(props) {
       <Page title="Stocks">
         <Container maxWidth={false}>
           <Box mt={1}>
-            <Grid
-              container
-              spacing={1}
-              direction="row"
-              justify="flex-end"
-              alignItems="center"
-            >
+            <Grid container spacing={1} direction="row" justify="flex-end">
               <Grid item xs>
                 <Button color="primary" onClick={() => update_all(filtered)}>
                   <UpdateIcon />

@@ -1,12 +1,25 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { Outlet, useParams } from "react-router-dom";
-import { Container, Box, Grid, Button, Typography } from "@material-ui/core";
+import {
+  Container,
+  Box,
+  Grid,
+  Button,
+  Typography,
+  Link,
+  List,
+  ListItem,
+  Divider,
+} from "@material-ui/core";
 import Page from "src/components/Page";
 import MenuBar from "src/components/MenuBar";
 import Fetch from "src/components/Fetch";
 import GlobalContext from "src/context";
 import SectorDetailContext from "./context.jsx";
 import { useMutate } from "restful-react";
+import ListStockCard from "src/components/stock/ListStockCard";
+import { map } from "lodash";
+import DropdownMenu from "src/components/DropdownMenu";
 
 const price_menus = [
   {
@@ -70,11 +83,32 @@ export default function SectorDetailView() {
   });
 
   const render_data = sector => {
+    const stock_links = map(sector.stocks_property, v => {
+      return (
+        <Grid key={v.id} item xs>
+          <Link href={`/stocks/${v.id}/historical/price`}>{v.symbol}</Link>
+        </Grid>
+      );
+    });
+
+    const stock_list = (
+      <List>
+        <ListItem>
+          <Typography variant="h3">Stocks</Typography>
+        </ListItem>
+        <ListItem>
+          <Grid container spacing={1}>
+            {stock_links}
+          </Grid>
+        </ListItem>
+      </List>
+    );
+
     return (
       <Page>
         <Container maxWidth={false}>
           <Box display="flex" mb={3} borderBottom={1}>
-            <Grid container spacing={1} justify="flex-end" alignItems="center">
+            <Grid container spacing={1} justify="flex-end">
               <MenuBar
                 root={resource}
                 title="Price & Trends"
@@ -108,6 +142,9 @@ export default function SectorDetailView() {
                 >
                   Delete
                 </Button>
+              </Grid>
+              <Grid item xs>
+                <DropdownMenu content={stock_list} />
               </Grid>
             </Grid>
           </Box>

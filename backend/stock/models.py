@@ -29,7 +29,7 @@ class MySector(models.Model):
 
     @property
     def stocks_property(self):
-        return self.stocks.all().values("id", "symbol")
+        return self.stocks.all().values("id", "symbol").order_by("symbol")
 
 
 class MyStockRankManager(models.Manager):
