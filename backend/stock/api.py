@@ -333,7 +333,7 @@ class RankingResource(Resource):
     class Meta:
         object_class = StatSummary
         abstract = True
-        filtering = {"stats": ALL}
+        filtering = {"stats": ALL, "symbol": ALL}
         limit = 0
         max_limit = 0
 
@@ -345,6 +345,8 @@ class RankingResource(Resource):
 
         if "stats__in" in filters:
             orm_filters["id__in"] = filters["stats__in"]
+        if "symbol__in" in filters:
+            orm_filters["symbol__in"] = filters["symbol__in"]
 
         return orm_filters
 
@@ -357,6 +359,16 @@ class RankingResource(Resource):
             ids = list(map(int, applicable_filters["id__in"].split(",")))
             for o in obj_list:
                 o.stats = list(filter(lambda x: x["id"] in ids, o.stats))
+
+        if "symbol__in" in applicable_filters:
+            symbols = [
+                x.upper() for x in applicable_filters["symbol__in"].split(",")
+            ]
+            for o in obj_list:
+                o.stats = list(
+                    filter(lambda x: x["symbol"] in symbols, o.stats)
+                )
+
         return obj_list
 
     def obj_get_list(self, bundle, **kwargs):
