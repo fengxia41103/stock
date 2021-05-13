@@ -5,6 +5,7 @@ from tastypie.api import Api
 
 from stock.api import BalanceSheetResource
 from stock.api import CashFlowResource
+from stock.api import DiaryResource
 from stock.api import HistoricalResource
 from stock.api import IncomeStatementResource
 from stock.api import RankBalanceResource
@@ -27,6 +28,7 @@ v1_api.register(SectorResource())
 v1_api.register(BalanceSheetResource())
 v1_api.register(CashFlowResource())
 v1_api.register(ValuationRatioResource())
+v1_api.register(DiaryResource())
 
 urlpatterns = [
     path("api/", include(v1_api.urls)),

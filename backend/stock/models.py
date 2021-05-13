@@ -38,11 +38,7 @@ class MyStockRankManager(models.Manager):
 
         for s in MyStock.objects.all():
             vals.append(
-                {
-                    "id": s.id,
-                    "symbol": s.symbol,
-                    "val": getattr(s, attr),
-                }
+                {"id": s.id, "symbol": s.symbol, "val": getattr(s, attr)}
             )
 
         # WARNING: eliminate 0 and -100, which are _invalid_ or
@@ -1395,3 +1391,26 @@ class BalanceSheet(StatementBase):
             "MyStockHistorical",
             "close_price",
         )
+
+
+class MyDiary(models.Model):
+    """Make comment regarding a stock.
+
+    This tracks my thoughts/reactions of a stock.
+    """
+
+    JUDGEMENT_CHOICES = [(1, "bull"), (2, "bear")]
+
+    stock = models.ForeignKey(
+        "MyStock",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name="diaries",
+    )
+    created = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+
+    content = models.TextField(default="")
+    judgement = models.IntegerField(default=1, choices=JUDGEMENT_CHOICES)
+    was_correct = models.BooleanField(default=False)

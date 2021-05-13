@@ -13,6 +13,7 @@ from tastypie.resources import Resource
 from stock.models import BalanceSheet
 from stock.models import CashFlow
 from stock.models import IncomeStatement
+from stock.models import MyDiary
 from stock.models import MySector
 from stock.models import MyStock
 from stock.models import MyStockHistorical
@@ -25,9 +26,7 @@ logger = logging.getLogger("stock")
 class SectorResource(ModelResource):
     name = fields.CharField("name")
     stocks = fields.ManyToManyField(
-        "stock.api.StockResource",
-        "stocks",
-        null=True,
+        "stock.api.StockResource", "stocks", null=True
     )
     stocks_detail = fields.ManyToManyField(
         "stock.api.StockResource",
@@ -618,3 +617,16 @@ class RankIncomeResource(RankingResource):
             for index, (name, high_to_low) in enumerate(attrs)
         ]
         return self._get_ranks(IncomeStatement.objects, attrs)
+
+
+class DiaryResource(ModelResource):
+    stock = fields.ForeignKey("stock.api.StockResource", "stock", null=True)
+
+    class Meta:
+        queryset = MyDiary.objects.all()
+        resource_name = "diaries"
+        authorization = Authorization()
+        filtering = {"stock": ALL, "last_updated": ["range"]}
+        ordering = ["last_updated", "created"]
+        limit = 0
+        max_limit = 0

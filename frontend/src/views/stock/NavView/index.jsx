@@ -3,7 +3,7 @@ import FinancialCard from "src/components/stock/FinancialCard";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 import { Box, Typography } from "@material-ui/core";
 
-function NavView(props) {
+function NavView() {
   const stock = useContext(StockDetailContext);
 
   const reported = {
