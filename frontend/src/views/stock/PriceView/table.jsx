@@ -5,7 +5,7 @@ function PriceTable(props) {
   const { data } = props;
 
   const columns = [
-    { field: "on", headerName: "Date", width: 100 },
+    { field: "on", headerName: "Date", width: 150 },
     {
       field: "open_price",
       headerName: "Open",

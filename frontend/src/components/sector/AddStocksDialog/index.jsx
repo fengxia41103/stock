@@ -24,8 +24,7 @@ import {
 import PropTypes from "prop-types";
 
 export default function AddStocksDialog(props) {
-  const { host } = useContext(GlobalContext);
-  const { api } = useContext(GlobalContext);
+  const { host, api } = useContext(GlobalContext);
   const [resource] = useState("/sectors");
   const { stocks } = props;
   const [open, setOpen] = useState(false);

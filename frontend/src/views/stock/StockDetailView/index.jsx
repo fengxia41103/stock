@@ -8,6 +8,7 @@ import Fetch from "src/components/Fetch";
 import StockDetailContext from "./context.jsx";
 import { useMutate } from "restful-react";
 import StockSector from "./sector.jsx";
+import ListDiary from "src/components/stock/ListDiary";
 
 const price_menus = [
   {
@@ -154,7 +155,6 @@ function StockDetailView() {
                   Delete
                 </Button>
               </Grid>
-
               <StockSector stock_resource={resource} />
             </Grid>
           </Box>
@@ -162,6 +162,9 @@ function StockDetailView() {
           <StockDetailContext.Provider value={stock}>
             <Box mt={3}>
               <Outlet />
+            </Box>
+            <Box mt={1}>
+              <ListDiary />
             </Box>
           </StockDetailContext.Provider>
         </Container>
