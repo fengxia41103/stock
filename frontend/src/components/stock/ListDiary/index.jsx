@@ -17,7 +17,9 @@ import Fetch from "src/components/Fetch";
 import { map } from "lodash";
 import MDEditor from "@uiw/react-md-editor";
 import DeleteIcon from "@material-ui/icons/Delete";
+import AddIcon from "@material-ui/icons/Add";
 import clsx from "clsx";
+import AddDiaryEditor from "src/components/stock/AddDiaryEditor";
 
 const useStyles = makeStyles(theme => ({
   diary: {
@@ -30,6 +32,7 @@ export default function ListDiary() {
   const stock = useContext(StockDetailContext);
   const [resource] = useState(`/diaries?stock__in=${stock.id}`);
   const [toRefresh, setToRefresh] = useState(true);
+  const [toAdd, setToAdd] = useState(false);
 
   const classes = useStyles();
 
@@ -66,9 +69,27 @@ export default function ListDiary() {
 
     return (
       <Card>
-        <CardHeader title={<Typography variant="h3">My Diaries</Typography>} />
+        <CardHeader
+          title={
+            <Grid container spacing={2}>
+              <Grid item>
+                <Typography variant="h3">My Notes</Typography>
+              </Grid>
+              <Grid item>
+                <AddIcon onClick={() => setToAdd(!toAdd)} />
+              </Grid>
+            </Grid>
+          }
+        />
         <CardContent>
-          <List>{diaries}</List>
+          {toAdd ? (
+            <AddDiaryEditor stock={stock.id} />
+          ) : (
+            <List>
+              <ListItem></ListItem>
+              {diaries}
+            </List>
+          )}
         </CardContent>
       </Card>
     );

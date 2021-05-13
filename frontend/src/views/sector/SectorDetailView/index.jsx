@@ -9,7 +9,6 @@ import {
   Link,
   List,
   ListItem,
-  Divider,
 } from "@material-ui/core";
 import Page from "src/components/Page";
 import MenuBar from "src/components/MenuBar";
@@ -17,7 +16,6 @@ import Fetch from "src/components/Fetch";
 import GlobalContext from "src/context";
 import SectorDetailContext from "./context.jsx";
 import { useMutate } from "restful-react";
-import ListStockCard from "src/components/stock/ListStockCard";
 import { map } from "lodash";
 import DropdownMenu from "src/components/DropdownMenu";
 
