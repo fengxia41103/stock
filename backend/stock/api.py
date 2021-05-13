@@ -85,8 +85,6 @@ class StockResource(ModelResource):
         max_limit = 0
 
     def obj_update(self, bundle, **kwargs):
-        super().obj_update(bundle)
-
         stock = bundle.obj
         symbol = stock.symbol
         sectors = stock.sectors.all()
