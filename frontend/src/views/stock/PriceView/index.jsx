@@ -26,7 +26,11 @@ export default function PriceView() {
       </Card>
 
       <Box mt={3}>
-        <PriceTable data={data} />
+        <Card>
+          <CardContent>
+            <PriceTable data={data} />
+          </CardContent>
+        </Card>
       </Box>
     </Box>
   );
