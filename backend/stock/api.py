@@ -627,6 +627,6 @@ class DiaryResource(ModelResource):
         resource_name = "diaries"
         authorization = Authorization()
         filtering = {"stock": ALL, "last_updated": ["range"]}
-        ordering = ["last_updated", "created"]
+        ordering = ["-last_updated", "-created"]
         limit = 0
         max_limit = 0

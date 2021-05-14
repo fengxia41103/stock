@@ -1413,4 +1413,3 @@ class MyDiary(models.Model):
 
     content = models.TextField(default="")
     judgement = models.IntegerField(default=1, choices=JUDGEMENT_CHOICES)
-    was_correct = models.BooleanField(default=False)
