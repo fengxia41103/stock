@@ -20,7 +20,7 @@ export default function DropdownMenu(props) {
   if (isNull(content)) return null;
 
   return (
-    <Box>
+    <Box component="span">
       <IconButton
         aria-controls="simple-menu"
         aria-haspopup="true"
