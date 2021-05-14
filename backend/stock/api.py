@@ -620,9 +620,11 @@ class RankIncomeResource(RankingResource):
 
 
 class DiaryResource(ModelResource):
+
     created = fields.DateTimeField("created", readonly=True)
     stock = fields.ForeignKey("stock.api.StockResource", "stock", null=True)
     price = fields.FloatField("price", null=True, readonly=True)
+    is_correct = fields.BooleanField("is_correct", null=True, readonly=True)
 
     class Meta:
         queryset = MyDiary.objects.all().order_by("-created")

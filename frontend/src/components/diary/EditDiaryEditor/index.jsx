@@ -71,7 +71,7 @@ export default function EditDiaryEditor(props) {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => update({ content: comment })}
+            onClick={() => update({ content: comment, judgement: prediction })}
           >
             Save
           </Button>

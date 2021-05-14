@@ -1425,3 +1425,24 @@ class MyDiary(models.Model):
             return historical[0].close_price
         else:
             return 0
+
+    @property
+    def is_correct(self):
+        """Was judgement of price correct.
+
+        Using the price at the time vs. latest price to determine.
+
+        1. bear: if price is lower and judgement is 2, TRUE
+        2. bull: if price is higher and judgement is 1, TRUE
+        3. all else, FALSE
+        """
+
+        if self.stock.latest_close_price >= self.price and self.judgement == 1:
+            return True
+
+        elif (
+            self.stock.latest_close_price <= self.price and self.judgement == 2
+        ):
+            return True
+
+        return False

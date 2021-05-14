@@ -1,12 +1,15 @@
 import React, { useContext, useState } from "react";
 import GlobalContext from "src/context";
 import {
+  Box,
+  Chip,
   makeStyles,
   Button,
   List,
   ListItem,
   Grid,
   Typography,
+  Divider,
 } from "@material-ui/core";
 import MDEditor from "@uiw/react-md-editor";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -17,6 +20,8 @@ import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import TrendingDownIcon from "@material-ui/icons/TrendingDown";
 import DropdownMenu from "src/components/DropdownMenu";
 import EditIcon from "@material-ui/icons/Edit";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 
 const useStyles = makeStyles(theme => ({
   diary: {
@@ -61,25 +66,52 @@ export default function ListDiaryEntry(props) {
     </List>
   );
 
+  let trending = null;
+  switch (diary.judgement) {
+    case 1:
+      trending = (
+        <Chip
+          icon={<TrendingUpIcon />}
+          label={`Prediction: go higher from ${diary.price.toFixed(0)}`}
+          variant="outlined"
+          color="primary"
+        />
+      );
+      break;
+
+    case 2:
+      trending = (
+        <Chip
+          icon={<TrendingDownIcon />}
+          label={`Prediction: go down from ${diary.price.toFixed(0)}`}
+          variant="outlined"
+          color="secondary"
+        />
+      );
+      break;
+
+    default:
+      break;
+  }
+
   return (
-    <ListItem divider={true}>
-      <Grid container spacing={1} justify="flex-start">
-        <Grid item lg={1} xs={10}>
+    <Box>
+      <Divider />
+      <List>
+        <ListItem>
           <Typography className={clsx(classes.diary)}>
             {created.toDateString()}
           </Typography>
-        </Grid>
-        <Grid item lg={1} xs>
-          {diary.judgement > 1 ? <TrendingDownIcon /> : <TrendingUpIcon />}
           <DropdownMenu content={menu_content} />
-        </Grid>
-        <Grid item lg={10} xs={12}>
-          <EditDiaryEditor {...{ inEditing, diary }} />
-          {inEditing ? (
-            <Button onClick={() => setInEditing(false)}>Cancel</Button>
-          ) : null}
-        </Grid>
-      </Grid>
-    </ListItem>
+        </ListItem>
+        <ListItem>{trending}</ListItem>
+      </List>
+      <Box mt={1} xs={12}>
+        <EditDiaryEditor {...{ inEditing, diary }} />
+        {inEditing ? (
+          <Button onClick={() => setInEditing(false)}>Cancel</Button>
+        ) : null}
+      </Box>
+    </Box>
   );
 }

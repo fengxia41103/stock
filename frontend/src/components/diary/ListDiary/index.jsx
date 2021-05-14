@@ -43,7 +43,7 @@ export default function ListDiary() {
           }
         />
         <CardContent>
-          {toAdd ? <AddDiaryEditor stock={stock.id} /> : <List>{diaries}</List>}
+          {toAdd ? <AddDiaryEditor stock={stock.id} /> : diaries}
         </CardContent>
       </Card>
     );
