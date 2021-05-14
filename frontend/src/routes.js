@@ -36,6 +36,7 @@ import SectorBalancesheetView from "src/views/sector/SectorBalancesheetView";
 import SectorIncomeView from "src/views/sector/SectorIncomeView";
 import SectorCashFlowView from "src/views/sector/SectorCashFlowView";
 import SectorInstitutionOwnershipView from "src/views/sector/SectorInstitutionOwnershipView";
+import DiaryListView from "src/views/diary/DiaryListView";
 
 const items = [
   {
@@ -52,6 +53,11 @@ const items = [
     href: "/stocks",
     icon: DashboardIcon,
     title: "Stocks",
+  },
+  {
+    href: "/notes",
+    icon: DashboardIcon,
+    title: "Notes",
   },
 ];
 
@@ -101,7 +107,7 @@ const routes = [
           { path: "institution", element: <SectorInstitutionOwnershipView /> },
         ],
       },
-
+      { path: "notes", element: <DiaryListView /> },
       { path: "/", element: <Navigate to="/sectors" /> },
       { path: "*", element: <Navigate to="/404" /> },
     ],

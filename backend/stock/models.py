@@ -1413,3 +1413,15 @@ class MyDiary(models.Model):
 
     content = models.TextField(default="")
     judgement = models.IntegerField(default=1, choices=JUDGEMENT_CHOICES)
+
+    @property
+    def price(self):
+
+        historical = MyStockHistorical.objects.filter(
+            stock=self.stock, on__lte=self.created.date()
+        ).order_by("-on")
+
+        if historical:
+            return historical[0].close_price
+        else:
+            return 0

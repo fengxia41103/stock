@@ -8,7 +8,7 @@ import Fetch from "src/components/Fetch";
 import StockDetailContext from "./context.jsx";
 import { useMutate } from "restful-react";
 import StockSector from "./sector.jsx";
-import ListDiary from "src/components/stock/ListDiary";
+import ListDiary from "src/components/diary/ListDiary";
 
 const price_menus = [
   {

@@ -620,13 +620,14 @@ class RankIncomeResource(RankingResource):
 
 
 class DiaryResource(ModelResource):
+    created = fields.DateTimeField("created", readonly=True)
     stock = fields.ForeignKey("stock.api.StockResource", "stock", null=True)
+    price = fields.FloatField("price", null=True, readonly=True)
 
     class Meta:
-        queryset = MyDiary.objects.all()
+        queryset = MyDiary.objects.all().order_by("-created")
         resource_name = "diaries"
         authorization = Authorization()
         filtering = {"stock": ALL, "last_updated": ["range"]}
-        ordering = ["-last_updated", "-created"]
         limit = 0
         max_limit = 0
