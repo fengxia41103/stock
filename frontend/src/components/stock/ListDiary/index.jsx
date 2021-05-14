@@ -20,6 +20,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
 import clsx from "clsx";
 import AddDiaryEditor from "src/components/stock/AddDiaryEditor";
+import TrendingUpIcon from "@material-ui/icons/TrendingUp";
+import TrendingDownIcon from "@material-ui/icons/TrendingDown";
 
 const useStyles = makeStyles(theme => ({
   diary: {
@@ -57,6 +59,7 @@ export default function ListDiary() {
               <Typography variant="body2" className={clsx(classes.diary)}>
                 {created.toDateString()}
               </Typography>
+              {d.judgement > 1 ? <TrendingDownIcon /> : <TrendingUpIcon />}
               <DeleteIcon onClick={on_del} />
             </Grid>
             <Grid item lg={10} sm={12}>

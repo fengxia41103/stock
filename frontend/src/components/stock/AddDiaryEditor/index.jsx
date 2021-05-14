@@ -4,14 +4,24 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { useMutate } from "restful-react";
 import AddIcon from "@material-ui/icons/Add";
+import TrendingUpIcon from "@material-ui/icons/TrendingUp";
+import TrendingDownIcon from "@material-ui/icons/TrendingDown";
 import GlobalContext from "src/context";
 import MDEditor from "@uiw/react-md-editor";
+import {
+  FormControl,
+  FormLabel,
+  FormControlLabel,
+  RadioGroup,
+  Radio,
+} from "@material-ui/core";
 
 export default function AddDiaryEditor(props) {
   const { api } = useContext(GlobalContext);
   const [resource] = useState("/diaries");
   const [comment, setComment] = useState("");
   const { stock } = props;
+  const [prediction, setPrediction] = useState(1);
 
   const { mutate: create } = useMutate({
     verb: "POST",
@@ -23,14 +33,55 @@ export default function AddDiaryEditor(props) {
     create({
       stock: `/api/v1/stocks/${stock}/`,
       content: comment,
-      judgement: 1,
-      was_correct: false,
+      judgement: prediction,
     }).then(setComment(""));
   };
 
+  const prediction_change = event => {
+    setPrediction(parseInt(event.target.value));
+  };
+
+  const judgement_selection = (
+    <FormControl component="fieldset">
+      <FormLabel component="legend">
+        How would this stock perform next?
+      </FormLabel>
+      <RadioGroup
+        aria-label="judgement"
+        name="judgement"
+        value={prediction}
+        onChange={prediction_change}
+        row
+      >
+        <FormControlLabel
+          value={1}
+          control={<Radio />}
+          label={<TrendingUpIcon />}
+        />
+        <FormControlLabel
+          value={2}
+          control={<Radio />}
+          label={<TrendingDownIcon />}
+        />
+      </RadioGroup>
+    </FormControl>
+  );
+
   return (
     <Box>
-      <MDEditor value={comment} onChange={setComment} height={500} />
+      <Typography variant="body2">
+        Write down your thoughts. This helps to track your ideas and we can look
+        back at this moment to validate how well the idea has played out.
+      </Typography>
+      <Box mt={2}>
+        <MDEditor
+          value={comment}
+          onChange={setComment}
+          height={500}
+          preview="edit"
+        />
+      </Box>
+      <Box mt={2}>{judgement_selection}</Box>
       <Box mt={1} justifyContent="flex-end">
         <Button variant="contained" color="primary" onClick={on_create}>
           Save
