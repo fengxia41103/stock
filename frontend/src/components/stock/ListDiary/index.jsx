@@ -3,6 +3,7 @@ import GlobalContext from "src/context";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 import {
   makeStyles,
+  Button,
   Box,
   Typography,
   List,
@@ -20,8 +21,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
 import clsx from "clsx";
 import AddDiaryEditor from "src/components/stock/AddDiaryEditor";
+import EditDiaryEditor from "src/components/stock/EditDiaryEditor";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import TrendingDownIcon from "@material-ui/icons/TrendingDown";
+import DropdownMenu from "src/components/DropdownMenu";
 
 const useStyles = makeStyles(theme => ({
   diary: {
@@ -52,18 +55,36 @@ export default function ListDiary() {
         }).then(setToRefresh(!toRefresh));
       };
 
+      const menu_content = (
+        <List>
+          <ListItem>
+            <Button variant="text" color="primary" onClick={on_del}>
+              <DeleteIcon />
+              Delete this note
+            </Button>
+          </ListItem>
+        </List>
+      );
+
       return (
         <ListItem key={d.id} divider={true}>
-          <Grid container spacing={3}>
-            <Grid item lg={2} sm={12}>
-              <Typography variant="body2" className={clsx(classes.diary)}>
+          <Grid
+            container
+            spacing={1}
+            alignItems="flex-start"
+            alignContent="flex-start"
+          >
+            <Grid item lg={1} xs={8}>
+              <Button variant="text" className={clsx(classes.diary)}>
                 {created.toDateString()}
-              </Typography>
-              {d.judgement > 1 ? <TrendingDownIcon /> : <TrendingUpIcon />}
-              <DeleteIcon onClick={on_del} />
+              </Button>
             </Grid>
-            <Grid item lg={10} sm={12}>
-              <MDEditor.Markdown source={d.content} />
+            <Grid item lg={1} xs={4}>
+              {d.judgement > 1 ? <TrendingDownIcon /> : <TrendingUpIcon />}
+              <DropdownMenu content={menu_content} />
+            </Grid>
+            <Grid item lg={10} xs>
+              <EditDiaryEditor diary={d} />
             </Grid>
           </Grid>
         </ListItem>
