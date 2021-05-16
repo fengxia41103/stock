@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 export default function ListDiaryEntry(props) {
   const { host } = useContext(GlobalContext);
   const classes = useStyles();
-  const { diary } = props;
+  const { diary, to_refresh } = props;
   const [inEditing, setInEditing] = useState(false);
 
   const created = new Date(diary.created);
@@ -43,7 +43,7 @@ export default function ListDiaryEntry(props) {
     const uri = `${host}${diary.resource_uri}`;
     fetch(uri, {
       method: "DELETE",
-    });
+    }).then(to_refresh());
   };
 
   const menu_content = (
@@ -138,5 +138,6 @@ ListDiaryEntry.propTypes = {
     price: PropTypes.number,
     judgement: PropTypes.number,
     is_correct: PropTypes.bool,
-  }),
+  }).isRequired,
+  to_refresh: PropTypes.any.isRequired,
 };

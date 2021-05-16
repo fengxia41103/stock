@@ -29,7 +29,7 @@ export default function ListDiary(props) {
     resource_uri += `?stock__in=${stock_id}`;
   }
   const [resource] = useState(resource_uri);
-  const [toRefresh, setToRefresh] = useState(true);
+  const [toRefresh, setToRefresh] = useState(false);
   const [toAdd, setToAdd] = useState(false);
 
   const menu_content = (
@@ -43,15 +43,19 @@ export default function ListDiary(props) {
     </List>
   );
 
+  const to_refresh = () => setToRefresh(!toRefresh);
+
   const render_data = resp => {
     const data = resp.objects;
-    const diaries = map(data, d => <ListDiaryEntry key={d.id} diary={d} />);
+    const diaries = map(data, d => (
+      <ListDiaryEntry key={d.id} diary={d} to_refresh={to_refresh} />
+    ));
 
     let content = diaries;
     if (toAdd) {
       content = (
         <Box mt={1}>
-          <AddDiaryEditor stock={stock_id} />
+          <AddDiaryEditor stock={stock_id} to_refresh={to_refresh} />
           <Button variant="text" onClick={() => setToAdd(false)}>
             Cancel
           </Button>

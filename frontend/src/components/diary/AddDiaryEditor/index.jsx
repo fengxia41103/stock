@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -21,7 +21,7 @@ export default function AddDiaryEditor(props) {
   const { api } = useContext(GlobalContext);
   const [resource] = useState("/diaries");
   const [comment, setComment] = useState("");
-  const { stock: stock_id } = props;
+  const { stock: stock_id, to_refresh } = props;
   const [prediction, setPrediction] = useState(1);
 
   const { mutate: create } = useMutate({
@@ -37,6 +37,10 @@ export default function AddDiaryEditor(props) {
       judgement: prediction,
     }).then(setComment(""));
   };
+
+  useEffect(() => {
+    return () => to_refresh();
+  }, []);
 
   const prediction_change = event => {
     setPrediction(parseInt(event.target.value));
