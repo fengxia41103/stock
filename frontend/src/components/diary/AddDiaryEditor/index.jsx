@@ -21,7 +21,7 @@ export default function AddDiaryEditor(props) {
   const { api } = useContext(GlobalContext);
   const [resource] = useState("/diaries");
   const [comment, setComment] = useState("");
-  const { stock } = props;
+  const { stock: stock_id } = props;
   const [prediction, setPrediction] = useState(1);
 
   const { mutate: create } = useMutate({
@@ -32,7 +32,7 @@ export default function AddDiaryEditor(props) {
   // call API and close this dialog
   const on_create = () => {
     create({
-      stock: isUndefined(stock) ? null : `/api/v1/stocks/${stock}/`,
+      stock: isUndefined(stock_id) ? null : `/api/v1/stocks/${stock_id}/`,
       content: comment,
       judgement: prediction,
     }).then(setComment(""));
