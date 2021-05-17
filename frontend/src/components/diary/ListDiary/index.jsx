@@ -22,11 +22,11 @@ import PropTypes from "prop-types";
 
 export default function ListDiary(props) {
   const { api } = useContext(GlobalContext);
-  const { stock: stock_id } = props;
+  const { stock } = props;
 
   let resource_uri = "/diaries";
-  if (!isUndefined(stock_id)) {
-    resource_uri += `?stock__in=${stock_id}`;
+  if (!isUndefined(stock)) {
+    resource_uri += `?content__contains=${stock.symbol}`;
   }
   const [resource] = useState(resource_uri);
   const [toRefresh, setToRefresh] = useState(false);
@@ -46,16 +46,17 @@ export default function ListDiary(props) {
   const to_refresh = () => setToRefresh(!toRefresh);
 
   const render_data = resp => {
-    const data = resp.objects;
-    const diaries = map(data, d => (
+    const diaries = resp.objects;
+
+    const diary_entries = map(diaries, d => (
       <ListDiaryEntry key={d.id} diary={d} to_refresh={to_refresh} />
     ));
 
-    let content = diaries;
+    let content = diary_entries;
     if (toAdd) {
       content = (
         <Box mt={1}>
-          <AddDiaryEditor stock={stock_id} to_refresh={to_refresh} />
+          <AddDiaryEditor stock={stock.id} to_refresh={to_refresh} />
           <Button variant="text" onClick={() => setToAdd(false)}>
             Cancel
           </Button>
@@ -80,6 +81,9 @@ export default function ListDiary(props) {
 
 ListDiary.propTypes = {
   props: PropTypes.shape({
-    stock: PropTypes.number,
+    stock: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      symbol: PropTypes.string.isRequired,
+    }),
   }),
 };

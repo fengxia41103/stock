@@ -630,6 +630,11 @@ class DiaryResource(ModelResource):
         queryset = MyDiary.objects.all().order_by("-created")
         resource_name = "diaries"
         authorization = Authorization()
-        filtering = {"stock": ALL, "last_updated": ["range"]}
+
+        filtering = {
+            "stock": ALL,
+            "last_updated": ["range"],
+            "content": ["contains"],
+        }
         limit = 0
         max_limit = 0

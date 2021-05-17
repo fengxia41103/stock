@@ -23,6 +23,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import PropTypes from "prop-types";
 import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@material-ui/icons/ThumbDownOutlined";
+import DiaryStockTag from "src/components/diary/DiaryStockTag";
 
 const useStyles = makeStyles(theme => ({
   diary: {
@@ -126,6 +127,9 @@ export default function ListDiaryEntry(props) {
             <Button onClick={() => setInEditing(false)}>Cancel</Button>
           </Grid>
         ) : null}
+        <Grid item xs={12}>
+          <DiaryStockTag diary={diary} />
+        </Grid>
       </Grid>
     </Box>
   );

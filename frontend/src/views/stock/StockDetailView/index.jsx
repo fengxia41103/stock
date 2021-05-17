@@ -164,7 +164,7 @@ function StockDetailView() {
               <Outlet />
             </Box>
             <Box mt={1}>
-              <ListDiary />
+              <ListDiary stock={stock} />
             </Box>
           </StockDetailContext.Provider>
         </Container>
