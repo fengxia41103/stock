@@ -313,6 +313,13 @@ class MyStockHistorical(models.Model):
         unique_together = ("stock", "on")
         index_together = ["stock", "on"]
 
+    @property
+    def vol_over_share_outstanding(self):
+        if self.stock.shares_outstanding:
+            return self.vol / self.stock.shares_outstanding * 0.001
+        else:
+            return 0
+
 
 class StatementBase(models.Model):
     class Meta:

@@ -114,6 +114,9 @@ class HistoricalResource(ModelResource):
         "stock.api.StockResource", "stock", use_in="detail"
     )
     symbol = fields.CharField("symbol", null=True)
+    vol_over_share_outstanding = fields.FloatField(
+        "vol_over_share_outstanding", null=True
+    )
 
     class Meta:
         resource_name = "historicals"

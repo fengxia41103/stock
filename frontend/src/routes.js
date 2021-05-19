@@ -37,8 +37,14 @@ import SectorIncomeView from "src/views/sector/SectorIncomeView";
 import SectorCashFlowView from "src/views/sector/SectorCashFlowView";
 import SectorInstitutionOwnershipView from "src/views/sector/SectorInstitutionOwnershipView";
 import DiaryListView from "src/views/diary/DiaryListView";
+import TodayDashboardView from "src/views/dashboard/TodayDashboardView";
 
 const items = [
+  {
+    href: "/dashboard",
+    icon: SortIcon,
+    title: "Dashboard",
+  },
   {
     href: "/rankings",
     icon: SortIcon,
@@ -108,7 +114,8 @@ const routes = [
         ],
       },
       { path: "notes", element: <DiaryListView /> },
-      { path: "/", element: <Navigate to="/sectors" /> },
+      { path: "dashboard", element: <TodayDashboardView /> },
+      { path: "/", element: <Navigate to="/dashboard" /> },
       { path: "*", element: <Navigate to="/404" /> },
     ],
   },
