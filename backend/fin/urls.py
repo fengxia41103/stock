@@ -8,6 +8,7 @@ from stock.api import CashFlowResource
 from stock.api import DiaryResource
 from stock.api import HistoricalResource
 from stock.api import IncomeStatementResource
+from stock.api import NewsResource
 from stock.api import RankBalanceResource
 from stock.api import RankCashFlowResource
 from stock.api import RankIncomeResource
@@ -29,6 +30,7 @@ v1_api.register(BalanceSheetResource())
 v1_api.register(CashFlowResource())
 v1_api.register(ValuationRatioResource())
 v1_api.register(DiaryResource())
+v1_api.register(NewsResource())
 
 urlpatterns = [
     path("api/", include(v1_api.urls)),

@@ -1,7 +1,5 @@
 import logging
 
-import pandas as pd
-
 from stock.models import MyStock
 from yahooquery import Ticker
 

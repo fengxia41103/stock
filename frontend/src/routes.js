@@ -38,12 +38,21 @@ import SectorCashFlowView from "src/views/sector/SectorCashFlowView";
 import SectorInstitutionOwnershipView from "src/views/sector/SectorInstitutionOwnershipView";
 import DiaryListView from "src/views/diary/DiaryListView";
 import TodayDashboardView from "src/views/dashboard/TodayDashboardView";
+import NewsListView from "src/views/news/NewsListView";
+import AnnouncementIcon from "@material-ui/icons/Announcement";
+import BusinessIcon from "@material-ui/icons/Business";
+import EventNoteIcon from "@material-ui/icons/EventNote";
 
 const items = [
   {
     href: "/dashboard",
-    icon: SortIcon,
+    icon: DashboardIcon,
     title: "Dashboard",
+  },
+  {
+    href: "/news",
+    icon: AnnouncementIcon,
+    title: "News",
   },
   {
     href: "/rankings",
@@ -57,12 +66,12 @@ const items = [
   },
   {
     href: "/stocks",
-    icon: DashboardIcon,
+    icon: BusinessIcon,
     title: "Stocks",
   },
   {
     href: "/notes",
-    icon: DashboardIcon,
+    icon: EventNoteIcon,
     title: "Notes",
   },
 ];
@@ -115,6 +124,7 @@ const routes = [
       },
       { path: "notes", element: <DiaryListView /> },
       { path: "dashboard", element: <TodayDashboardView /> },
+      { path: "news", element: <NewsListView /> },
       { path: "/", element: <Navigate to="/dashboard" /> },
       { path: "*", element: <Navigate to="/404" /> },
     ],
