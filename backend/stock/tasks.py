@@ -1,8 +1,9 @@
 from celery import chain
-from celery import group
-from celery import shared_task
+from celery.schedules import crontab
 
+from fin.celery import app
 from fin.tor_handler import PlainUtility
+from stock.models import MyStock
 from stock.workers.get_balance_sheet import MyBalanceSheet
 from stock.workers.get_cash_flow_statement import MyCashFlowStatement
 from stock.workers.get_historical import MyStockHistoricalYahoo
@@ -11,37 +12,37 @@ from stock.workers.get_summary import MySummary
 from stock.workers.get_valuation_ratio import MyValuationRatio
 
 
-@shared_task
+@app.task
 def __summary_consumer(whatever, symbol):
     crawler = MySummary(symbol)
     crawler.get()
 
 
-@shared_task(rate_limit="2/m")
+@app.task(rate_limit="2/m")
 def __balance_sheet_consumer(whatever, symbol):
     crawler = MyBalanceSheet(symbol)
     crawler.get()
 
 
-@shared_task(rate_limit="2/m")
+@app.task(rate_limit="2/m")
 def __income_statement_consumer(whatever, symbol):
     crawler = MyIncomeStatement(symbol)
     crawler.get()
 
 
-@shared_task(rate_limit="2/m")
+@app.task(rate_limit="2/m")
 def __cash_flow_statement_consumer(whatever, symbol):
     crawler = MyCashFlowStatement(symbol)
     crawler.get()
 
 
-@shared_task(rate_limit="2/m")
+@app.task(rate_limit="2/m")
 def __valuation_ratio_consumer(whatever, symbol):
     crawler = MyValuationRatio(symbol)
     crawler.get()
 
 
-@shared_task
+@app.task
 def __yahoo_consumer(sector, symbol):
     http_agent = PlainUtility()
     crawler = MyStockHistoricalYahoo(http_agent)
@@ -64,3 +65,33 @@ def batch_update_helper(sector, symbol):
         __valuation_ratio_consumer.s(symbol),
     )
     get_statements.apply_async()
+
+
+@app.task
+def cron_daily():
+    http_agent = PlainUtility()
+
+    for stock in MyStock.objects.all():
+        symbol = stock.symbol
+        sectors = stock.sectors.all()
+        if sectors:
+            sector = sectors[0].name
+        else:
+            sector = "misc"
+
+        # daily price
+        MyStockHistoricalYahoo(http_agent).parser(sector, symbol)
+
+        # summary info
+        MySummary(symbol).get()
+
+        MyBalanceSheet(symbol).get()
+        MyIncomeStatement(symbol).get()
+        MyCashFlowStatement(symbol).get()
+        MyValuationRatio(symbol).get()
+
+
+@app.on_after_finalize.connect
+def setup_periodic_tasks(sender, **kwargs):
+    # Pull daily price at midnight everyday
+    sender.add_periodic_task(crontab(hour=0, minute=0), cron_daily.s())
