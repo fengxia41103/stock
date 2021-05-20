@@ -8,6 +8,7 @@ from stock.workers.get_balance_sheet import MyBalanceSheet
 from stock.workers.get_cash_flow_statement import MyCashFlowStatement
 from stock.workers.get_historical import MyStockHistoricalYahoo
 from stock.workers.get_income_statement import MyIncomeStatement
+from stock.workers.get_news import MyNewsWorker
 from stock.workers.get_summary import MySummary
 from stock.workers.get_valuation_ratio import MyValuationRatio
 
@@ -91,7 +92,28 @@ def cron_daily():
         MyValuationRatio(symbol).get()
 
 
+@app.task
+def get_news():
+    for t in [
+        "news",
+        "economics",
+        "finance",
+        "business",
+        "politics",
+        "tech",
+        "science",
+        "world",
+    ]:
+        w = MyNewsWorker(t)
+        w.get()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     # Pull daily price at midnight everyday
     sender.add_periodic_task(crontab(hour=0, minute=0), cron_daily.s())
+
+    # Pull news continuously
+    sender.add_periodic_task(
+        300.0, get_news.s(), name="Get news every 5 minute"
+    )

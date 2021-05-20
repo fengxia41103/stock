@@ -41,3 +41,4 @@ yahooquery
 django-extensions
 docutils
 pyyaml
+newscatcher

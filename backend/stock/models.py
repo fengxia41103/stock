@@ -1408,6 +1408,9 @@ class MyDiary(models.Model):
 
     JUDGEMENT_CHOICES = [(1, "bull"), (2, "bear")]
 
+    # stock is optional. If not given, it will be a general notes, and
+    # UI will later figure out whether the content contains a stock
+    # symbol, thus linking it to a stock's detail page.
     stock = models.ForeignKey(
         "MyStock",
         blank=True,
@@ -1444,6 +1447,9 @@ class MyDiary(models.Model):
         3. all else, FALSE
         """
 
+        if not self.stock:
+            return False
+
         if self.stock.latest_close_price >= self.price and self.judgement == 1:
             return True
 
@@ -1453,3 +1459,20 @@ class MyDiary(models.Model):
             return True
 
         return False
+
+
+class MyNews(models.Model):
+    source = models.CharField(max_length=64)
+    topic = models.CharField(max_length=32)
+    title = models.CharField(max_length=512)
+    link = models.URLField()
+    pub_time = models.DateTimeField()
+    summary = models.TextField()
+
+    class Meta:
+        unique_together = [["source", "topic", "link"]]
+        index_together = [["source", "topic", "title"]]
+        ordering = ["-pub_time"]
+
+    def __str__(self):
+        return self.title
