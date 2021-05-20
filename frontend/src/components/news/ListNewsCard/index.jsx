@@ -42,13 +42,15 @@ export default function ListNewsCard(props) {
     const news_list = map(news, n => {
       return (
         <ListItem key={n.id} divider={true}>
-          <Link href={n.link}>{n.title.toUpperCase()}</Link>
+          <Link href={n.link}>{n.title}</Link>
         </ListItem>
       );
     });
     return (
       <Card className={clsx(classes.root, classes.card)}>
-        <CardHeader title={<Typography variant="h3">{topic}</Typography>} />
+        <CardHeader
+          title={<Typography variant="h3">{topic.toUpperCase()}</Typography>}
+        />
         <CardContent>
           <List>{news_list}</List>
         </CardContent>
