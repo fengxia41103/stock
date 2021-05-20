@@ -16,6 +16,7 @@ import {
   Radio,
 } from "@material-ui/core";
 import { isUndefined } from "lodash";
+import PropTypes from "prop-types";
 
 export default function AddDiaryEditor(props) {
   const { api } = useContext(GlobalContext);
@@ -95,3 +96,8 @@ export default function AddDiaryEditor(props) {
     </Box>
   );
 }
+
+AddDiaryEditor.propTypes = {
+  stock: PropTypes.number,
+  to_refresh: PropTypes.func.isRequired,
+};

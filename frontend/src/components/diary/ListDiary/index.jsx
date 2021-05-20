@@ -56,7 +56,10 @@ export default function ListDiary(props) {
     if (toAdd) {
       content = (
         <Box mt={1}>
-          <AddDiaryEditor stock={stock.id} to_refresh={to_refresh} />
+          <AddDiaryEditor
+            stock={isUndefined(stock) ? null : stock.id}
+            to_refresh={to_refresh}
+          />
           <Button variant="text" onClick={() => setToAdd(false)}>
             Cancel
           </Button>
@@ -80,10 +83,8 @@ export default function ListDiary(props) {
 }
 
 ListDiary.propTypes = {
-  props: PropTypes.shape({
-    stock: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      symbol: PropTypes.string.isRequired,
-    }),
+  stock: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    symbol: PropTypes.string.isRequired,
   }),
 };
