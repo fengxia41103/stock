@@ -122,7 +122,7 @@ class HistoricalResource(ModelResource):
     class Meta:
         resource_name = "historicals"
         queryset = MyStockHistorical.objects.all()
-        filtering = {"on": ["range"], "stock": ALL}
+        filtering = {"on": ALL, "stock": ALL}
         ordering = ["on"]
         limit = 0
         max_limit = 0

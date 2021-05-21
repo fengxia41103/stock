@@ -88,11 +88,6 @@ def price_daily():
 def statement_daily():
     for stock in MyStock.objects.all():
         symbol = stock.symbol
-        sectors = stock.sectors.all()
-        if sectors:
-            sector = sectors[0].name
-        else:
-            sector = "misc"
 
         # summary info
         MySummary(symbol).get()
@@ -122,7 +117,9 @@ def get_news():
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     # Pull daily price at midnight everyday
-    sender.add_periodic_task(crontab(hour=16, minute=0), price_daily.s())
+    sender.add_periodic_task(
+        120.0, price_daily.s(), name="Get price every 2 minutes"
+    )
     sender.add_periodic_task(crontab(hour=0, minute=0), statement_daily.s())
 
     # Pull news continuously

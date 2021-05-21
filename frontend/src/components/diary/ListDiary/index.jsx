@@ -47,8 +47,8 @@ export default function ListDiary(props) {
     const diaries = resp.objects;
 
     const diary_entries = map(diaries, d => (
-      <Box mb={2}>
-        <ListDiaryEntry key={d.id} diary={d} to_refresh={to_refresh} />
+      <Box key={d.id} mb={2}>
+        <ListDiaryEntry diary={d} to_refresh={to_refresh} />
       </Box>
     ));
 

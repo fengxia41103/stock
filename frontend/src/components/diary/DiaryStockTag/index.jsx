@@ -5,10 +5,14 @@ import {
   makeStyles,
   Grid,
   Link,
+  Card,
+  CardHeader,
+  CardContent,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import Fetch from "src/components/Fetch";
 import { map, filter, sortBy } from "lodash";
+import StockTagPriceLabel from "src/components/diary/StockTagPriceLabel";
 
 export default function DiaryStockTag(props) {
   const { api } = useContext(GlobalContext);
@@ -23,14 +27,21 @@ export default function DiaryStockTag(props) {
 
     stocks = map(stocks, s => {
       return (
-        <Grid key={s.id} item xs={1}>
-          <Link href={`/stocks/${s.id}`}>{s.symbol}</Link>
+        <Grid key={s.id} item lg={2} sm={3} xs={12}>
+          <Card>
+            <CardHeader
+              title={<Link href={`/stocks/${s.id}`}>{s.symbol}</Link>}
+            />
+            <CardContent>
+              <StockTagPriceLabel {...{ diary, stock: s }} />
+            </CardContent>
+          </Card>
         </Grid>
       );
     });
     return (
       <Box>
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           {stocks}
         </Grid>
       </Box>

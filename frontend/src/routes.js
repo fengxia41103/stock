@@ -44,6 +44,11 @@ import EventNoteIcon from "@material-ui/icons/EventNote";
 
 const items = [
   {
+    href: "/notes",
+    icon: EventNoteIcon,
+    title: "Notes",
+  },
+  {
     href: "/dashboard",
     icon: DashboardIcon,
     title: "Dashboard",
@@ -67,11 +72,6 @@ const items = [
     href: "/stocks",
     icon: BusinessIcon,
     title: "Stocks",
-  },
-  {
-    href: "/notes",
-    icon: EventNoteIcon,
-    title: "Notes",
   },
 ];
 

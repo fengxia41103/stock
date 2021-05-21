@@ -1427,8 +1427,15 @@ class MyDiary(models.Model):
     @property
     def price(self):
 
+        # if not giving a stock, we are making a general notes of the
+        # market, thus using the SPY as tracker
+        if not self.stock:
+            stock, created = MyStock.objects.get_or_create(symbol="SPY")
+        else:
+            stock = self.stock
+
         historical = MyStockHistorical.objects.filter(
-            stock=self.stock, on__lte=self.created.date()
+            stock=stock, on__lte=self.created.date()
         ).order_by("-on")
 
         if historical:
@@ -1447,15 +1454,17 @@ class MyDiary(models.Model):
         3. all else, FALSE
         """
 
+        # if not giving a stock, we are making a general notes of the
+        # market, thus using the SPY as tracker
         if not self.stock:
-            return False
+            stock, created = MyStock.objects.get_or_create(symbol="SPY")
+        else:
+            stock = self.stock
 
-        if self.stock.latest_close_price >= self.price and self.judgement == 1:
+        if stock.latest_close_price >= self.price and self.judgement == 1:
             return True
 
-        elif (
-            self.stock.latest_close_price <= self.price and self.judgement == 2
-        ):
+        elif stock.latest_close_price <= self.price and self.judgement == 2:
             return True
 
         return False

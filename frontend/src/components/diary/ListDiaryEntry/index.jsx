@@ -72,7 +72,7 @@ export default function ListDiaryEntry(props) {
       trending = (
         <Chip
           icon={<TrendingUpIcon />}
-          label={`Prediction: go higher from ${diary.price.toFixed(0)}`}
+          label={`Prediction: go higher from ${diary.price.toFixed(2)}`}
           variant="outlined"
           color="primary"
         />
