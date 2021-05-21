@@ -13,37 +13,37 @@ from stock.workers.get_summary import MySummary
 from stock.workers.get_valuation_ratio import MyValuationRatio
 
 
-@app.task
+@app.task(queue="stock")
 def __summary_consumer(whatever, symbol):
     crawler = MySummary(symbol)
     crawler.get()
 
 
-@app.task(rate_limit="2/m")
+@app.task(queue="stock", rate_limit="2/m")
 def __balance_sheet_consumer(whatever, symbol):
     crawler = MyBalanceSheet(symbol)
     crawler.get()
 
 
-@app.task(rate_limit="2/m")
+@app.task(queue="stock", rate_limit="2/m")
 def __income_statement_consumer(whatever, symbol):
     crawler = MyIncomeStatement(symbol)
     crawler.get()
 
 
-@app.task(rate_limit="2/m")
+@app.task(queue="stock", rate_limit="2/m")
 def __cash_flow_statement_consumer(whatever, symbol):
     crawler = MyCashFlowStatement(symbol)
     crawler.get()
 
 
-@app.task(rate_limit="2/m")
+@app.task(queue="stock", rate_limit="2/m")
 def __valuation_ratio_consumer(whatever, symbol):
     crawler = MyValuationRatio(symbol)
     crawler.get()
 
 
-@app.task
+@app.task(queue="stock")
 def __yahoo_consumer(sector, symbol):
     http_agent = PlainUtility()
     crawler = MyStockHistoricalYahoo(http_agent)
@@ -68,7 +68,7 @@ def batch_update_helper(sector, symbol):
     get_statements.apply_async()
 
 
-@app.task
+@app.task(queue="stock")
 def price_daily():
     http_agent = PlainUtility()
 
@@ -84,7 +84,7 @@ def price_daily():
         MyStockHistoricalYahoo(http_agent).parser(sector, symbol)
 
 
-@app.task
+@app.task(queue="stock")
 def statement_daily():
     for stock in MyStock.objects.all():
         symbol = stock.symbol
@@ -98,7 +98,7 @@ def statement_daily():
         MyValuationRatio(symbol).get()
 
 
-@app.task
+@app.task(queue="news")
 def get_news():
     for t in [
         "news",

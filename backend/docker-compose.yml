@@ -111,7 +111,7 @@ services:
       DJANGO_DB_PORT: 3306
       DJANGO_REDIS_HOST: redis
       MYSQL_DATABASE: stock
-    command: celery -A fin.celery beat -l INFO
+    command: celery -A fin.celery beat
     volumes:
       - .:/code
     networks:
@@ -121,8 +121,6 @@ services:
 
   redis:
     image: redis
-    #ports:
-    #  - '6379:6379'
     volumes:
       - redis-data:/data
     networks:
