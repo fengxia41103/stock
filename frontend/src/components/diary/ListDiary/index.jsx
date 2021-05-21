@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import GlobalContext from "src/context";
-import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 import {
   Button,
   Box,
@@ -10,7 +9,6 @@ import {
   Card,
   CardHeader,
   CardContent,
-  Grid,
 } from "@material-ui/core";
 import Fetch from "src/components/Fetch";
 import { map, isUndefined } from "lodash";
@@ -49,7 +47,9 @@ export default function ListDiary(props) {
     const diaries = resp.objects;
 
     const diary_entries = map(diaries, d => (
-      <ListDiaryEntry key={d.id} diary={d} to_refresh={to_refresh} />
+      <Box mb={2}>
+        <ListDiaryEntry key={d.id} diary={d} to_refresh={to_refresh} />
+      </Box>
     ));
 
     let content = diary_entries;
@@ -57,7 +57,7 @@ export default function ListDiary(props) {
       content = (
         <Box mt={1}>
           <AddDiaryEditor
-            stock={isUndefined(stock) ? null : stock.id}
+            stock={isUndefined(stock) ? stock : stock.id}
             to_refresh={to_refresh}
           />
           <Button variant="text" onClick={() => setToAdd(false)}>

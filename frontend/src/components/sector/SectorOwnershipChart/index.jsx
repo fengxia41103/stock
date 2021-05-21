@@ -1,10 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 import { map } from "lodash";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/Highchart";
-
-import { Box, Typography, Card, CardContent } from "@material-ui/core";
+import { Typography, Card, CardContent } from "@material-ui/core";
 import DropdownMenu from "src/components/DropdownMenu";
 
 export default function SectorOwnershipChart() {

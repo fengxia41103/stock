@@ -23,8 +23,6 @@ export default function StocksPriceChart(props) {
       };
     });
 
-    const title = `Normalized price between ${start} and ${end}`;
-
     return (
       <MultilineChart
         {...{

@@ -1,9 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import {
-  Box,
   Card,
   CardContent,
-  Typography,
   CardHeader,
   Grid,
 } from "@material-ui/core";

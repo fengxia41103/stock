@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import Fetch from "src/components/Fetch";
 import GlobalContext from "src/context";
-import UpdateIcon from "@material-ui/icons/Update";
 import PropTypes from "prop-types";
 
 export default function SectorLabel(props) {

@@ -1,9 +1,7 @@
 import React, { useState, useContext } from "react";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import { useMutate } from "restful-react";
-import AddIcon from "@material-ui/icons/Add";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import TrendingDownIcon from "@material-ui/icons/TrendingDown";
 import GlobalContext from "src/context";

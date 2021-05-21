@@ -11,10 +11,8 @@ import {
   Typography,
   Divider,
 } from "@material-ui/core";
-import MDEditor from "@uiw/react-md-editor";
 import DeleteIcon from "@material-ui/icons/Delete";
 import clsx from "clsx";
-import AddDiaryEditor from "src/components/diary/AddDiaryEditor";
 import EditDiaryEditor from "src/components/diary/EditDiaryEditor";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import TrendingDownIcon from "@material-ui/icons/TrendingDown";

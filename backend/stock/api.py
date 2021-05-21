@@ -648,4 +648,9 @@ class NewsResource(ModelResource):
     class Meta:
         queryset = MyNews.objects.all().order_by("-pub_time")
         resource_name = "news"
-        filtering = {"title": ALL, "topic": ALL}
+        filtering = {
+            "title": ALL,
+            "topic": ALL,
+            "summary": ALL,
+            "pub_time": ALL,
+        }

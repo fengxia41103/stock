@@ -4,13 +4,10 @@ import clsx from "clsx";
 import {
   makeStyles,
   Avatar,
-  Box,
   Card,
   CardContent,
-  CardActions,
   CardHeader,
   Typography,
-  MoreVertIcon,
   List,
   ListItem,
   Divider,

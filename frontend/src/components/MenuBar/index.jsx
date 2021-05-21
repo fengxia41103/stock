@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
 import { Button, Link, Grid } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import PropTypes from "prop-types";
 
 export default function MenuBar(props) {
-  const { id } = useParams();
   const { root, title, items } = props;
 
   const [anchorEl, setAnchorEl] = useState(null);

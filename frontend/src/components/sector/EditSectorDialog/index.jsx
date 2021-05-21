@@ -5,13 +5,10 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import GlobalContext from "src/context";
 import { useMutate } from "restful-react";
 import EditIcon from "@material-ui/icons/Edit";
-import Fetch from "src/components/Fetch";
-import { map } from "lodash";
 import PropTypes from "prop-types";
 
 export default function EditSectorDialog(props) {

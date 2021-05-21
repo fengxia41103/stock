@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { map, isEmpty, isNumber, isUndefined, sortBy } from "lodash";
+import { map, isEmpty, isNumber } from "lodash";
 
 import {
   Grid,

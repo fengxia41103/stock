@@ -3,26 +3,16 @@ import GlobalContext from "src/context";
 import {
   Box,
   makeStyles,
-  Button,
   Grid,
-  Typography,
   Link,
 } from "@material-ui/core";
-import clsx from "clsx";
 import PropTypes from "prop-types";
 import Fetch from "src/components/Fetch";
 import { map, filter, sortBy } from "lodash";
 
-const useStyles = makeStyles(theme => ({
-  diary: {
-    color: "#42A5F5",
-  },
-}));
-
 export default function DiaryStockTag(props) {
   const { api } = useContext(GlobalContext);
   const [resource] = useState("/stocks");
-  const classes = useStyles();
   const { diary } = props;
 
   const render_data = data => {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import {
   Box,
@@ -10,7 +10,6 @@ import {
 import TimeSeriesColumnChart from "src/components/TimeSeriesColumnChart";
 import DictCard from "src/components/DictCard";
 import ABDonutChart from "src/components/ABDonutChart";
-import { daily_returns, daily_return_stats } from "src/utils/stock/returns";
 
 export default function PriceReturnStat(props) {
   const { data } = props;

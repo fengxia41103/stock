@@ -1,7 +1,7 @@
 import React from "react";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/Highchart";
-import { map, isUndefined } from "lodash";
+import { map } from "lodash";
 import PropTypes from "prop-types";
 
 export default function TimeSeriesColumnChart(props) {

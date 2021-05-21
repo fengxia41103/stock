@@ -69,7 +69,7 @@ def batch_update_helper(sector, symbol):
 
 
 @app.task
-def cron_daily():
+def price_daily():
     http_agent = PlainUtility()
 
     for stock in MyStock.objects.all():
@@ -82,6 +82,17 @@ def cron_daily():
 
         # daily price
         MyStockHistoricalYahoo(http_agent).parser(sector, symbol)
+
+
+@app.task
+def statement_daily():
+    for stock in MyStock.objects.all():
+        symbol = stock.symbol
+        sectors = stock.sectors.all()
+        if sectors:
+            sector = sectors[0].name
+        else:
+            sector = "misc"
 
         # summary info
         MySummary(symbol).get()
@@ -111,7 +122,8 @@ def get_news():
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     # Pull daily price at midnight everyday
-    sender.add_periodic_task(crontab(hour=0, minute=0), cron_daily.s())
+    sender.add_periodic_task(crontab(hour=16, minute=0), price_daily.s())
+    sender.add_periodic_task(crontab(hour=0, minute=0), statement_daily.s())
 
     # Pull news continuously
     sender.add_periodic_task(

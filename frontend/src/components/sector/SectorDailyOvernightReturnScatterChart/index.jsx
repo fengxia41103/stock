@@ -1,15 +1,8 @@
-import React, { useState, useContext } from "react";
-import GlobalContext from "src/context";
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
+import React from "react";
 import { map, groupBy } from "lodash";
 import HighchartGraphBox from "src/components/Highchart";
 import { randomId } from "src/utils/helper.jsx";
-import {
-  daily_returns,
-  daily_return_stats,
-  overnight_returns,
-  overnight_return_stats,
-} from "src/utils/stock/returns";
+import { daily_returns, overnight_returns } from "src/utils/stock/returns";
 import PropTypes from "prop-types";
 
 export default function SectorDailyOvernightReturnScatterChart(props) {

@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 //
 //****************************************
 export default function HighchartGraphBox(props) {
-  const [height_step, setHeightStep] = useState(0);
+  const [height_step] = useState(0);
   const [full_height, setFullHeight] = useState(0);
   const { containerId, title } = props;
 
@@ -124,7 +124,7 @@ export default function HighchartGraphBox(props) {
       tooltip: {
         headerFormat:
           '<h5 class="page-header">{point.key}</h5><table class="table table-striped">',
-        pointFormat: "<tr><td>{series.name}</td>" + "<td>{point.y}</td></tr>",
+        pointFormat: "<tr><td>{series.name}</td><td>{point.y}</td></tr>",
         footerFormat: "</table>",
         shared: true,
         useHTML: true,

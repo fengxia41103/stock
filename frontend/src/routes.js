@@ -2,7 +2,6 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 
 import SortIcon from "@material-ui/icons/Sort";
-import BarChartIcon from "@material-ui/icons/BarChart";
 import CompareIcon from "@material-ui/icons/Compare";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 
