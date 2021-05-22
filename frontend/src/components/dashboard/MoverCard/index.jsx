@@ -24,7 +24,9 @@ export default function MoverCard(props) {
             <Typography variant="body2">{s[value].toFixed(2)}%</Typography>
           </Grid>
           <Grid item xs>
-            <Link href="">{s.symbol}</Link>
+            <Link href={`/stocks/${s.stock_id}/historical/price`}>
+              {s.symbol}
+            </Link>
           </Grid>
         </Grid>
       </ListItem>

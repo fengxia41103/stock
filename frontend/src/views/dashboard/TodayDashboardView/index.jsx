@@ -8,7 +8,25 @@ import { map, sortBy, reverse, filter } from "lodash";
 
 export default function TodayDashboardView(props) {
   const { api } = useContext(GlobalContext);
-  const [today] = useState(new Date().toLocaleDateString("en-CA"));
+
+  let today = new Date();
+  let adjust_in_day;
+  switch (today.getDay()) {
+    case 0:
+      // sunday
+      adjust_in_day = 2;
+      break;
+    case 6:
+      // saturday
+      adjust_in_day = 1;
+      break;
+
+    default:
+      adjust_in_day = 0;
+      break;
+  }
+  today.setDate(today.getDate() - adjust_in_day);
+  today = today.toLocaleDateString("en-CA");
   const [resource] = useState(`/historicals?on__range=${today},${today}`);
 
   const render_data = data => {

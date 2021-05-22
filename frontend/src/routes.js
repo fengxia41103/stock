@@ -79,6 +79,7 @@ const routes = [
   {
     path: "/",
     element: <DashboardLayout sideNavs={items} />,
+
     children: [
       { path: "stocks", element: <StockListView /> },
       {

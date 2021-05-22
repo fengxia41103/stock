@@ -111,13 +111,12 @@ class StockResource(ModelResource):
 
 
 class HistoricalResource(ModelResource):
-    stock = fields.ForeignKey(
-        "stock.api.StockResource", "stock", use_in="detail"
-    )
+    stock = fields.ForeignKey("stock.api.StockResource", "stock")
     symbol = fields.CharField("symbol", null=True)
     vol_over_share_outstanding = fields.FloatField(
         "vol_over_share_outstanding", null=True
     )
+    stock_id = fields.IntegerField("stock_id", null=True)
 
     class Meta:
         resource_name = "historicals"
@@ -129,6 +128,9 @@ class HistoricalResource(ModelResource):
 
     def dehydrate_symbol(self, bundle):
         return bundle.obj.stock.symbol
+
+    def dehydrate_stock_id(self, bundle):
+        return bundle.obj.stock.id
 
 
 class IncomeStatementResource(ModelResource):
