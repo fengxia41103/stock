@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { map, isUndefined } from "lodash";
+import React, { useState, useContext, useEffect } from "react";
+import { map, isUndefined, isEmpty, isNull } from "lodash";
 import Fetch from "src/components/Fetch";
 import {
   makeStyles,
@@ -31,31 +31,47 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ListNewsCard(props) {
-  const { topic, limit } = props;
+  const { topic, limit, searching } = props;
   const { api } = useContext(GlobalContext);
+  const [resource, setResource] = useState();
   const classes = useStyles();
   let limit_count = isUndefined(limit) ? 10 : limit;
-  const [resource, setResource] = useState(
-    `/news?topic=${topic}&limit=${limit_count}`
-  );
 
-  const [prev, setPrev] = useState();
-  const [next, setNext] = useState();
+  const get_uri = () => {
+    let base_uri = `/news?topic=${topic}&limit=${limit_count}`;
+    if (searching !== "") {
+      base_uri += `&title__contains=${searching}`;
+    }
+
+    return base_uri;
+  };
+
+  // MUST: use effect to set initial URI because of searching string.
+  useEffect(() => {
+    setResource(get_uri());
+  }, [searching]);
 
   const on_next = next_page => {
-    let next_offset = next_page.split("=").pop();
-    setResource(
-      `/news?topic=${topic}&limit=${limit_count}&offset=${next_offset}`
-    );
+    if (!isNull(next_page)) {
+      let next_offset = next_page.split("=").pop();
+      setResource(get_uri() + `&offset=${next_offset}`);
+    }
   };
 
   const render_data = resp => {
     const what_is_next = resp.meta.next;
+
     const news = resp.objects;
+
     const news_list = map(news, n => {
       return (
         <ListItem key={n.id} divider={true}>
-          <Link href={n.link}>{n.title}</Link>
+          <Link href={n.link}>
+            {n.title}
+            <Typography variant="h6" color="textSecondary">
+              ({n.source})
+            </Typography>
+          </Link>
         </ListItem>
       );
     });
@@ -66,19 +82,21 @@ export default function ListNewsCard(props) {
         />
         <CardActionArea>
           <CardContent>
-            <List>{news_list}</List>
+            <List>{isEmpty(news) ? "No matching data." : news_list}</List>
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Grid container spacing={1} justify="flex-end" alignItems="center">
-            <Button
-              variant="text"
-              color="primary"
-              onClick={() => on_next(what_is_next)}
-            >
-              Load More
-            </Button>
-          </Grid>
+          {isEmpty(news) || news.length < limit_count ? null : (
+            <Grid container spacing={1} justify="flex-end" alignItems="center">
+              <Button
+                variant="text"
+                color="primary"
+                onClick={() => on_next(what_is_next)}
+              >
+                Load More
+              </Button>
+            </Grid>
+          )}
         </CardActions>
       </Card>
     );
@@ -89,5 +107,6 @@ export default function ListNewsCard(props) {
 
 ListNewsCard.propTypes = {
   topic: PropTypes.string.isRequired,
+  searching: PropTypes.string,
   limit: PropTypes.number,
 };
