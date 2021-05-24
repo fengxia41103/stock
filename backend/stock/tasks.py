@@ -1,8 +1,12 @@
+from datetime import date
+from datetime import timedelta
+
 from celery import chain
 from celery.schedules import crontab
 
 from fin.celery import app
 from fin.tor_handler import PlainUtility
+from stock.models import MyNews
 from stock.models import MyStock
 from stock.workers.get_balance_sheet import MyBalanceSheet
 from stock.workers.get_cash_flow_statement import MyCashFlowStatement
@@ -114,15 +118,34 @@ def get_news():
         w.get()
 
 
+@app.task(queue="news")
+def remove_old_news():
+    """Remove news older than 24 hours.
+
+    There is no point to read old news since I'm not going to process
+    them well.
+    """
+    end = date.today() - timedelta(days=1)
+    MyNews.objets.filter(pub_time__lte=end).delete()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     # Pull daily price at midnight everyday
     sender.add_periodic_task(
         120.0, price_daily.s(), name="Get price every 2 minutes"
     )
+
+    # Pull statement every 24 hours in case there are new ones
+    # available
     sender.add_periodic_task(crontab(hour=0, minute=0), statement_daily.s())
 
     # Pull news continuously
     sender.add_periodic_task(
         300.0, get_news.s(), name="Get news every 5 minute"
+    )
+
+    # Remove news older tha 24 hours
+    sender.add_periodic_task(
+        3600.0, remove_old_news.s(), name="Remove news older than 24 hours"
     )
