@@ -125,8 +125,8 @@ def remove_old_news():
     There is no point to read old news since I'm not going to process
     them well.
     """
-    end = date.today() - timedelta(days=1)
-    MyNews.objets.filter(pub_time__lte=end).delete()
+    end = date.today() - timedelta(hours=12)
+    MyNews.objects.filter(pub_time__lte=end).delete()
 
 
 @app.on_after_finalize.connect
