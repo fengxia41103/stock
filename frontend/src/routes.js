@@ -37,10 +37,10 @@ import SectorCashFlowView from "src/views/sector/SectorCashFlowView";
 import SectorInstitutionOwnershipView from "src/views/sector/SectorInstitutionOwnershipView";
 import DiaryListView from "src/views/diary/DiaryListView";
 import TodayDashboardView from "src/views/dashboard/TodayDashboardView";
-import NewsListView from "src/views/news/NewsListView";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import BusinessIcon from "@material-ui/icons/Business";
 import EventNoteIcon from "@material-ui/icons/EventNote";
+import NewsListView from "src/views/news/NewsListView";
 
 const items = [
   {
@@ -124,7 +124,10 @@ const routes = [
       },
       { path: "notes", element: <DiaryListView /> },
       { path: "dashboard", element: <TodayDashboardView /> },
-      { path: "news", element: <NewsListView /> },
+      {
+        path: "news",
+        element: <NewsListView />,
+      },
       { path: "/", element: <Navigate to="/dashboard" /> },
       { path: "*", element: <Navigate to="/404" /> },
     ],
