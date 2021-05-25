@@ -27,7 +27,7 @@ export default function DiaryStockTag(props) {
 
     stocks = map(stocks, s => {
       return (
-        <Grid key={s.id} item lg={2} sm={3} xs={12}>
+        <Grid key={s.id} item lg={3} sm={4} xs={12}>
           <Card>
             <CardHeader
               title={<Link href={`/stocks/${s.id}`}>{s.symbol}</Link>}
