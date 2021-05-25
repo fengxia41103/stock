@@ -86,7 +86,7 @@ export default function TodayDashboardView(props) {
                 <TextField
                   label="Pick a date"
                   type="date"
-                  value={today}
+                  value={today.format("YYYY-MM-DD")}
                   onChange={today_change}
                   fullWidth={true}
                 />
