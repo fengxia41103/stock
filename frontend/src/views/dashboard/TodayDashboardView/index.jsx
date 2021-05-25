@@ -1,33 +1,55 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Fetch from "src/components/Fetch";
-import { Box, Container, Grid } from "@material-ui/core";
+import {
+  Box,
+  Container,
+  Grid,
+  Card,
+  CardContent,
+  TextField,
+} from "@material-ui/core";
 import Page from "src/components/Page";
 import GlobalContext from "src/context";
 import MoverCard from "src/components/dashboard/MoverCard";
 import { map, sortBy, reverse, filter } from "lodash";
+import moment from "moment";
 
 export default function TodayDashboardView(props) {
   const { api } = useContext(GlobalContext);
+  const [resource, setResource] = useState("");
+  const [today, setToday] = useState(moment());
 
-  let today = new Date();
-  let adjust_in_day;
-  switch (today.getDay()) {
-    case 0:
-      // sunday
-      adjust_in_day = 2;
-      break;
-    case 6:
-      // saturday
-      adjust_in_day = 1;
-      break;
+  const set_today = now => {
+    let adjust_in_day;
+    switch (now.day()) {
+      case 0:
+        // sunday
+        adjust_in_day = -2;
+        break;
+      case 6:
+        // saturday
+        adjust_in_day = -1;
+        break;
 
-    default:
-      adjust_in_day = 0;
-      break;
-  }
-  today.setDate(today.getDate() - adjust_in_day);
-  today = today.toLocaleDateString("en-CA");
-  const [resource] = useState(`/historicals?on__range=${today},${today}`);
+      default:
+        adjust_in_day = 0;
+        break;
+    }
+
+    let tmp = now.add(adjust_in_day, "days").format("YYYY-MM-DD");
+    setResource(`/historicals?on__range=${tmp},${tmp}`);
+  };
+
+  useEffect(() => {
+    set_today(today);
+  });
+
+  const today_change = event => {
+    const now = moment(event.target.value, "YYYY-MM-DD");
+    setToday(now);
+
+    set_today(now);
+  };
 
   const render_data = data => {
     let stocks = data.objects;
@@ -54,14 +76,30 @@ export default function TodayDashboardView(props) {
     ).slice(0, 10);
     const volatility = reverse(sortBy(stocks, s => s.volatility)).slice(0, 10);
 
+    const today_string = today.format("dddd, ll");
     return (
       <Page title="Today">
         <Container maxWidth={false}>
           <Box mt={1}>
+            <Card>
+              <CardContent>
+                <TextField
+                  label="Pick a date"
+                  type="date"
+                  value={today}
+                  onChange={today_change}
+                  fullWidth={true}
+                />
+              </CardContent>
+            </Card>
+          </Box>
+
+          <Box mt={3}>
             <Grid container spacing={1}>
               <Grid item lg={4} sm={6} xs={12}>
                 <MoverCard
-                  title="Today's Volume Movers"
+                  date={today_string}
+                  title="Top Volume Movers"
                   subtitle="as % of share outstanding"
                   stocks={mover}
                   value="vol_over_share_outstanding"
@@ -69,7 +107,8 @@ export default function TodayDashboardView(props) {
               </Grid>
               <Grid item lg={4} sm={6} xs={12}>
                 <MoverCard
-                  title="Today's Volatility"
+                  date={today_string}
+                  title="Top Volatility"
                   subtitle="as % of (high-low)/low"
                   stocks={volatility}
                   value="volatility"
@@ -77,7 +116,8 @@ export default function TodayDashboardView(props) {
               </Grid>
               <Grid item lg={4} sm={6} xs={12}>
                 <MoverCard
-                  title="Today's Top Gainers"
+                  date={today_string}
+                  title="Top Gainers"
                   subtitle="as % of (close-open)/open"
                   stocks={gainer}
                   value="gain"
@@ -85,7 +125,8 @@ export default function TodayDashboardView(props) {
               </Grid>
               <Grid item lg={4} sm={6} xs={12}>
                 <MoverCard
-                  title="Today's Top Losers"
+                  date={today_string}
+                  title="Top Losers"
                   subtitle="as % of (close-open)/open"
                   stocks={loser}
                   value="gain"

@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  CardActions,
   List,
   ListItem,
   Typography,
@@ -14,7 +15,7 @@ import PropTypes from "prop-types";
 import { map } from "lodash";
 
 export default function MoverCard(props) {
-  const { title, subtitle, stocks, value } = props;
+  const { title, subtitle, stocks, value, date } = props;
 
   const entries = map(stocks, s => {
     return (
@@ -46,6 +47,11 @@ export default function MoverCard(props) {
       <CardContent>
         <List>{entries}</List>
       </CardContent>
+      <CardActions>
+        <Grid container justify="flex-end">
+          <Typography variant="body2">on {date}</Typography>
+        </Grid>
+      </CardActions>
     </Card>
   );
 }
@@ -55,4 +61,5 @@ MoverCard.propTypes = {
   subtitle: PropTypes.string.isRequired,
   stocks: PropTypes.array.isRequired,
   value: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
 };
