@@ -46,8 +46,11 @@ export default function TodayDashboardView(props) {
 
   const today_change = event => {
     const now = moment(event.target.value, "YYYY-MM-DD");
+
+    // update state
     setToday(now);
 
+    // update resource
     set_today(now);
   };
 

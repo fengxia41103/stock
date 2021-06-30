@@ -67,7 +67,7 @@ class MyStockHistoricalYahoo:
         url = "https://query1.finance.yahoo.com/v7/finance/download/{}?{}&interval=1d&events=history&includeAdjustedClose=true".format(
             symbol, date_str
         )
-        # logger.debug(url)
+        logger.debug(url)
         logger.info("reading {} historicals".format(symbol))
         content = self.http_handler.request(url)
 

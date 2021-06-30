@@ -129,11 +129,11 @@ def remove_old_news():
     MyNews.objects.filter(pub_time__lte=end).delete()
 
 
-@app.on_after_finalize.connect
+# @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     # Pull daily price at midnight everyday
     sender.add_periodic_task(
-        120.0, price_daily.s(), name="Get price every 2 minutes"
+        600.0, price_daily.s(), name="Get price every 10 minutes"
     )
 
     # Pull statement every 24 hours in case there are new ones

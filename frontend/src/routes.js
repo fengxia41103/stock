@@ -41,6 +41,7 @@ import AnnouncementIcon from "@material-ui/icons/Announcement";
 import BusinessIcon from "@material-ui/icons/Business";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import NewsListView from "src/views/news/NewsListView";
+import HistoricalRankingTrendView from "src/views/dashboard/HistoricalRankingTrendView";
 
 const items = [
   {
@@ -124,6 +125,7 @@ const routes = [
       },
       { path: "notes", element: <DiaryListView /> },
       { path: "dashboard", element: <TodayDashboardView /> },
+      { path: "dashboard/trend", element: <HistoricalRankingTrendView /> },
       {
         path: "news",
         element: <NewsListView />,
