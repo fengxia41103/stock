@@ -50,7 +50,7 @@ export default function MoverCard(props) {
       <CardActions>
         <Grid container justify="flex-end">
           <Typography variant="body2">on {date}</Typography>
-          <Link href={`/dashboard/trend`}>More trends</Link>
+          <Link href={`/dashboard/trend`}>&rArr;</Link>
         </Grid>
       </CardActions>
     </Card>

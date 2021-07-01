@@ -190,34 +190,36 @@ export default function HistoricalRankingTrendView(props) {
     });
 
     return (
-      <Page title="Today">
+      <Page title="Trending">
         <Container maxWidth={false}>
           <Box mt={1}>
             <Card>
               <CardContent>
-                <Grid container spacing={1}>
-                  <Grid item xs>
-                    <TextField
-                      label="Pick a date"
-                      type="date"
-                      value={today.format(DATE_FORMAT)}
-                      onChange={today_change}
-                      fullWidth={true}
-                    />
-                  </Grid>
-                  <Grid item xs>
-                    <TextField
-                      label="Backtrack in Weeks"
-                      type="number"
-                      value={backWeek}
-                      onChange={backWeek_change}
-                      fullWidth={true}
-                    />
-                  </Grid>
-                  <Grid item xs>
-                    {select_follow}
-                  </Grid>
-                </Grid>
+                <List>
+                  <ListItem>
+                    <Grid container spacing={1}>
+                      <Grid item xs>
+                        <TextField
+                          label="Pick a date"
+                          type="date"
+                          value={today.format(DATE_FORMAT)}
+                          onChange={today_change}
+                          fullWidth={true}
+                        />
+                      </Grid>
+                      <Grid item xs>
+                        <TextField
+                          label="Backtrack in Weeks"
+                          type="number"
+                          value={backWeek}
+                          onChange={backWeek_change}
+                          fullWidth={true}
+                        />
+                      </Grid>
+                    </Grid>
+                  </ListItem>
+                  <ListItem>{select_follow}</ListItem>
+                </List>
               </CardContent>
             </Card>
           </Box>

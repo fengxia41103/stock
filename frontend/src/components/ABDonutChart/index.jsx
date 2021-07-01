@@ -22,7 +22,7 @@ export default function ABDonutChart(props) {
   const positive_pcnt = Math.floor(
     (data.positive / (data.positive + data.negative)) * 100
   );
-  const negative_pcnt = Math.floor(
+  const negative_pcnt = Math.ceil(
     (data.negative / (data.positive + data.negative)) * 100
   );
 
@@ -89,10 +89,10 @@ export default function ABDonutChart(props) {
 
       <CardContent>
         <Grid container spacing={1}>
-          <Grid item lg={8} xs={12}>
+          <Grid item lg={6} xs={12}>
             <Doughnut data={chart_data} options={options} />
           </Grid>
-          <Grid item lg={4} xs={12}>
+          <Grid item lg={6} xs={12}>
             <Box display="flex" justifyContent="center" mt={2}>
               {labels.map(({ color, icon: Icon, title, value }) => (
                 <Box key={title} p={1} textAlign="center">
