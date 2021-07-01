@@ -25,6 +25,7 @@ import MoverCard from "src/components/dashboard/MoverCard";
 import { map, sortBy, reverse, filter, groupBy, forEach } from "lodash";
 import moment from "moment";
 import clsx from "clsx";
+import RankingScores from "src/components/dashboard/RankingScores";
 
 const useStyles = makeStyles(theme => ({
   diary: {
@@ -168,33 +169,6 @@ export default function HistoricalRankingTrendView(props) {
       ranks.push({ on: on, picks: picks });
     });
 
-    // compute a score score is 1-10, each symbol computes a score by
-    // adding its score of a day when it's on the ranking chart. So,
-    // the highest score indicates this stock shows up more, or shoots
-    // high.
-    const symbols = [...new Set(map(stocks, s => s.symbol))];
-    let scores = {};
-
-    forEach(symbols, symbol => {
-      let score = 0;
-      forEach(ranks, r => {
-        // max score is the length of the picks. If you only have two
-        // symbols on the list, then top score will be 2; if you have
-        // top 10, then it will be 10, and so on.
-        const picked_symbols = map(r.picks, p => p.symbol);
-        const max_score = picked_symbols.length;
-
-        let index = picked_symbols.indexOf(symbol);
-        if (index > -1) {
-          score += max_score - index;
-        }
-      });
-
-      scores[symbol] = score;
-    });
-
-    console.log(scores);
-
     const trends = map(ranks, r => {
       const picks = map(r.picks, p => {
         return (
@@ -264,6 +238,8 @@ export default function HistoricalRankingTrendView(props) {
               </CardContent>
             </Card>
           </Box>
+
+          <RankingScores {...{ stocks, ranks }} />
         </Container>
       </Page>
     );
