@@ -40,7 +40,7 @@ export default function AddDiaryEditor(props) {
 
   useEffect(() => {
     return () => to_refresh();
-  }, []);
+  }, [to_refresh]);
 
   const prediction_change = event => {
     setPrediction(parseInt(event.target.value));

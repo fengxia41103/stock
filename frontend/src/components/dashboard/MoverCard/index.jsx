@@ -19,7 +19,7 @@ export default function MoverCard(props) {
 
   const entries = map(stocks, s => {
     return (
-      <ListItem key={s.symbol}>
+      <ListItem key={s.symbol} divider={true}>
         <Grid container spacing={2}>
           <Grid item xs>
             <Typography variant="body2">{s[value].toFixed(2)}%</Typography>

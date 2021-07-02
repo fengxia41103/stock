@@ -21,7 +21,6 @@ import {
 } from "@material-ui/core";
 import Page from "src/components/Page";
 import GlobalContext from "src/context";
-import MoverCard from "src/components/dashboard/MoverCard";
 import { map, sortBy, reverse, filter, groupBy, forEach } from "lodash";
 import moment from "moment";
 import clsx from "clsx";

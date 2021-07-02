@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import GlobalContext from "src/context";
 import {
   Box,
-  makeStyles,
   Grid,
   Link,
   Card,

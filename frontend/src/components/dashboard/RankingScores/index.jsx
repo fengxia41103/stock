@@ -1,24 +1,9 @@
 import React from "react";
-import {
-  makeStyles,
-  Box,
-  Grid,
-  Card,
-  CardHeader,
-  CardContent,
-  Typography,
-} from "@material-ui/core";
+import { Box, Grid, Card, CardContent } from "@material-ui/core";
 import { map, sortBy, reverse, filter, forEach } from "lodash";
-import clsx from "clsx";
 import ABDonutChart from "src/components/ABDonutChart";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/Highchart";
-
-const useStyles = makeStyles(theme => ({
-  diary: {
-    color: "#D52349",
-  },
-}));
 
 export default function RankingScores(props) {
   const { stocks, ranks } = props;

@@ -14,7 +14,7 @@ import MoverCard from "src/components/dashboard/MoverCard";
 import { map, sortBy, reverse, filter } from "lodash";
 import moment from "moment";
 
-export default function TodayDashboardView(props) {
+export default function TodayDashboardView() {
   const { api } = useContext(GlobalContext);
   const [resource, setResource] = useState("");
   const [today, setToday] = useState(moment());

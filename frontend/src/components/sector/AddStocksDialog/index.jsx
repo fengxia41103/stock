@@ -10,14 +10,7 @@ import AddIcon from "@material-ui/icons/Add";
 import ListItem from "@material-ui/core/ListItem";
 import { map, remove, isEmpty } from "lodash";
 import Fetch from "src/components/Fetch";
-import {
-  FormControl,
-  FormLabel,
-  FormControlLabel,
-  FormGroup,
-  Checkbox,
-  Typography,
-} from "@material-ui/core";
+import { FormControlLabel, Checkbox, Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
 
 export default function AddStocksDialog(props) {
@@ -96,13 +89,6 @@ export default function AddStocksDialog(props) {
         />
       );
     });
-
-    const form = (
-      <FormControl component="fieldset">
-        <FormLabel component="legend">Select a sector</FormLabel>
-        <FormGroup>{selections}</FormGroup>
-      </FormControl>
-    );
 
     return (
       <Box>

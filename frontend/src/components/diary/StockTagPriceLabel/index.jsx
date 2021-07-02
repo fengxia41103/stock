@@ -1,9 +1,8 @@
 import React, { useContext, useState } from "react";
 import GlobalContext from "src/context";
-import { Box, Typography, Grid, Divider } from "@material-ui/core";
+import { Typography, Grid, Divider } from "@material-ui/core";
 import PropTypes from "prop-types";
 import Fetch from "src/components/Fetch";
-import { map, filter, sortBy } from "lodash";
 
 export default function StockTagPriceLabel(props) {
   const { diary, stock } = props;
@@ -43,7 +42,7 @@ export default function StockTagPriceLabel(props) {
         <Typography>{price_now > 0 ? price_now : null}</Typography>
         <Divider orientation="vertical" flexItem />
         <Typography>
-          {return_in_pcnt == 0 ? null : return_in_pcnt + "%"}
+          {return_in_pcnt === 0 ? null : return_in_pcnt + "%"}
         </Typography>
       </Grid>
     );
