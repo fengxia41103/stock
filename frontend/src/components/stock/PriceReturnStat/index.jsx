@@ -24,7 +24,7 @@ export default function PriceReturnStat(props) {
     var: `Variance of ${data.name} (%)`,
     skewness: `Skewness of ${data.name} (%)`,
     kurtosis: `Kurtosis of ${data.name}`,
-    product: `Compounded Overall ${data.name}`,
+    product: `Compounded Overall ${data.name} (%)`,
     positive_mean: `Average Positive ${data.name} (%)`,
     negative_mean: `Average Negative ${data.name} (%)`,
   };
@@ -68,5 +68,5 @@ PriceReturnStat.propTypes = {
     name: PropTypes.string,
     returns: PropTypes.array,
     stats: PropTypes.object,
-  }),
+  }).isRequired,
 };

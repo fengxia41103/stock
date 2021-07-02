@@ -76,6 +76,7 @@ export default function HighchartGraphBox(props) {
       legendEnabled,
       data,
       normalize,
+      keepNegative,
     } = props;
 
     // chart data can be normalized for comparison purpose
@@ -133,7 +134,7 @@ export default function HighchartGraphBox(props) {
         column: {
           pointPadding: 0.2,
           borderWidth: 0,
-          negativeColor: "#d52349",
+          negativeColor: !!!keepNegative ? "#d52349" : null,
         },
         bar: {
           negativeColor: "#d52349",
@@ -199,4 +200,5 @@ HighchartGraphBox.propTypes = {
   legendEnabled: PropTypes.bool.isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   normalize: PropTypes.bool,
+  keepNegative: PropTypes.bool,
 };

@@ -61,6 +61,7 @@ export default function SectorReturnComparisonChart(props) {
       title=""
       legendEnabled={true}
       data={chart_data}
+      keepNegative={true}
     />
   );
 }

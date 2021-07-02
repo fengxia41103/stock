@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
 import GlobalContext from "src/context";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
-import { map } from "lodash";
+import { map, groupBy, reverse } from "lodash";
 import Fetch from "src/components/Fetch";
+import moment from "moment";
 
 import {
   Box,
@@ -10,6 +11,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Grid,
 } from "@material-ui/core";
 
 import SectorReturnComparisonChart from "src/components/sector/SectorReturnComparisonChart";
@@ -26,38 +28,54 @@ export default function SectorReturnView() {
   );
 
   const render_data = data => {
-    const stocks = data.objects;
+    let stocks = data.objects;
+
+    // compute week index
+    stocks = map(stocks, s => {
+      return { ...s, week: moment(s.on).week() };
+    });
+
+    // group data by week index
+    const group_by_week = groupBy(stocks, s => s.week);
+
+    // compose charts
+    const weekly_comparison_charts = reverse(
+      map(group_by_week, (prices, week) => {
+        return (
+          <Box mt={1}>
+            <Card>
+              <CardHeader
+                title={
+                  <Typography variant="h3">Returns of Week {week}</Typography>
+                }
+              />
+
+              <CardContent>
+                <Grid container spacing={1}>
+                  <Grid item lg={6} xs={12}>
+                    <Typography variant="body2">Daytime Returns</Typography>
+                    <SectorReturnComparisonChart data={prices} kind={"daily"} />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
+                    <Typography variant="body2">Overnight Returns</Typography>
+                    <SectorReturnComparisonChart
+                      data={prices}
+                      kind={"overnight"}
+                    />
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Box>
+        );
+      })
+    );
 
     return (
       <Box>
         <Typography variant="h1">Returns Comparison</Typography>
 
-        <Box mt={3}>
-          <Card>
-            <CardHeader
-              title={
-                <Typography variant="h3">
-                  Daytime Returns between {start} and {end}
-                </Typography>
-              }
-            />
-            <CardContent>
-              <SectorReturnComparisonChart data={stocks} kind={"daily"} />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader
-              title={
-                <Typography variant="h3">
-                  Overnight Returns between {start} and {end}
-                </Typography>
-              }
-            />
-            <CardContent>
-              <SectorReturnComparisonChart data={stocks} kind={"overnight"} />
-            </CardContent>
-          </Card>
-        </Box>
+        <Box mt={3}>{weekly_comparison_charts}</Box>
       </Box>
     );
   };

@@ -94,9 +94,9 @@ export function compute_stats(data) {
     skewness: jStat.skewness(data),
     kurtosis: jStat.kurtosis(data),
 
-    // If I tradated on every single beat. This is a single
-    // number.
-    product: jStat.product(map(data, d => 1 + d / 100)),
+    // Compounded returns. If I trade on every single beat. This is a
+    // single number.
+    product: (jStat.product(map(data, d => 1 + d / 100)) - 1) * 100,
 
     // Cumulative product, return an array, each represents the
     // product of all the data points before it. Thus, this is
