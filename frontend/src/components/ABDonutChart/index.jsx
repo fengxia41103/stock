@@ -19,24 +19,20 @@ export default function ABDonutChart(props) {
   const theme = useTheme();
   const { subheader, data } = props;
 
-  const positive_pcnt = Math.floor(
-    (data.positive / (data.positive + data.negative)) * 100
-  );
-  const negative_pcnt = Math.ceil(
-    (data.negative / (data.positive + data.negative)) * 100
-  );
+  const A_pcnt = Math.floor((data.A.val / (data.A.val + data.B.val)) * 100);
+  const B_pcnt = Math.ceil((data.B.val / (data.A.val + data.B.val)) * 100);
 
   const chart_data = {
     datasets: [
       {
-        data: [positive_pcnt, negative_pcnt],
+        data: [A_pcnt, B_pcnt],
         backgroundColor: [colors.indigo[500], colors.red[600]],
         borderWidth: 8,
         borderColor: colors.common.white,
         hoverBorderColor: colors.common.white,
       },
     ],
-    labels: ["Positive", "Negative"],
+    labels: [data.A.label, data.B.label],
   };
 
   const options = {
@@ -63,14 +59,14 @@ export default function ABDonutChart(props) {
 
   const labels = [
     {
-      title: "Positive",
-      value: positive_pcnt,
+      title: data.A.label,
+      value: A_pcnt,
       icon: TrendingUpIcon,
       color: colors.indigo[500],
     },
     {
-      title: "Negative",
-      value: negative_pcnt,
+      title: data.B.label,
+      value: B_pcnt,
       icon: TrendingDownIcon,
       color: colors.red[600],
     },
@@ -116,8 +112,14 @@ export default function ABDonutChart(props) {
 ABDonutChart.propTypes = {
   subheader: PropTypes.string,
   data: PropTypes.shape({
-    name: PropTypes.string,
-    positive: PropTypes.number,
-    negative: PropTypes.number,
+    name: PropTypes.string.isRequired,
+    A: PropTypes.shape({
+      label: PropTypes.string,
+      val: PropTypes.number,
+    }).isRequired,
+    B: PropTypes.shape({
+      label: PropTypes.string,
+      val: PropTypes.number,
+    }).isRequired,
   }).isRequired,
 };

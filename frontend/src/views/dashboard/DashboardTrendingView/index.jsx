@@ -12,7 +12,6 @@ import {
   Link,
   Typography,
   FormControl,
-  FormLabel,
   FormControlLabel,
   RadioGroup,
   Radio,
@@ -32,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function HistoricalRankingTrendView(props) {
+export default function DashboardTrendingView() {
   const DATE_FORMAT = "YYYY-MM-DD";
   const classes = useStyles();
   const { api } = useContext(GlobalContext);
@@ -96,7 +95,6 @@ export default function HistoricalRankingTrendView(props) {
 
   const select_follow = (
     <FormControl component="fieldset">
-      <FormLabel component="legend">Trending By</FormLabel>
       <RadioGroup
         aria-label="Trending By"
         name="follow"
@@ -106,7 +104,7 @@ export default function HistoricalRankingTrendView(props) {
       >
         <FormControlLabel value="gainer" control={<Radio />} label="Gainer" />
         <FormControlLabel value="loser" control={<Radio />} label="Loser" />
-        <FormControlLabel value="mover" control={<Radio />} label="Mover" />
+        <FormControlLabel value="volume" control={<Radio />} label="Volume" />
         <FormControlLabel
           value="volatility"
           control={<Radio />}
@@ -151,7 +149,7 @@ export default function HistoricalRankingTrendView(props) {
           ).slice(0, 10);
           break;
 
-        case "mover":
+        case "volume":
           picks = reverse(
             sortBy(histories, s => s.vol_over_share_outstanding)
           ).slice(0, 10);
@@ -213,6 +211,9 @@ export default function HistoricalRankingTrendView(props) {
                           value={backWeek}
                           onChange={backWeek_change}
                           fullWidth={true}
+                          InputProps={{
+                            inputProps: { min: "1", step: "1" },
+                          }}
                         />
                       </Grid>
                     </Grid>
@@ -230,6 +231,9 @@ export default function HistoricalRankingTrendView(props) {
                   <Typography variant="h3">
                     Top {follow.toUpperCase()} Trending
                   </Typography>
+                }
+                subheader={
+                  <Typography variant="body2">in descending order</Typography>
                 }
               />
               <CardContent>

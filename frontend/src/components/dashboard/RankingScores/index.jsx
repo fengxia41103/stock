@@ -1,9 +1,18 @@
 import React from "react";
-import { Box, Grid, Card, CardContent } from "@material-ui/core";
+import {
+  Box,
+  Grid,
+  Card,
+  CardHeader,
+  CardContent,
+  Typography,
+} from "@material-ui/core";
 import { map, sortBy, reverse, filter, forEach } from "lodash";
 import ABDonutChart from "src/components/ABDonutChart";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/Highchart";
+import RankingOccuranceCharts from "src/components/dashboard/RankingOccuranceCharts";
+import PropTypes from "prop-types";
 
 export default function RankingScores(props) {
   const { stocks, ranks } = props;
@@ -56,26 +65,7 @@ export default function RankingScores(props) {
     )
   );
 
-  const rank_by_on_it_count = reverse(
-    sortBy(
-      filter(scores, s => s.on_it_count > 0),
-      s => s.on_it_count
-    )
-  );
-  const on_vs_miss_donut_charts = map(rank_by_on_it_count, s => {
-    const chart_data = {
-      name: s.symbol,
-      positive: s.on_it_count,
-      negative: s.missing_it_count,
-    };
-
-    return (
-      <Grid key={s.symbol} item lg={4} sm={6} xs={12}>
-        <ABDonutChart data={chart_data} />
-      </Grid>
-    );
-  });
-
+  // data for score ranking chart
   const containerId = randomId();
   const categories = map(rank_by_score, r => r.symbol);
   const chart_data = [
@@ -85,7 +75,17 @@ export default function RankingScores(props) {
   return (
     <Box mt={1}>
       <Card>
+        <CardHeader
+          title={<Typography variant="h3">Overall Scores</Typography>}
+        />
         <CardContent>
+          <Typography variant="body2">
+            Score measures both the occurance of a symbol on the TOP list, and
+            its relative ranking each time. If it's ranked #1, and there are 10
+            symbols on the list, it gets a (10-0)=10, then the 2nd place would
+            get 9, and so on.
+          </Typography>
+
           <HighchartGraphBox
             containerId={containerId}
             type="bar"
@@ -99,10 +99,18 @@ export default function RankingScores(props) {
         </CardContent>
       </Card>
       <Box mt={1}>
-        <Grid container spacing={1}>
-          {on_vs_miss_donut_charts}
-        </Grid>
+        <RankingOccuranceCharts {...{ scores }} />
       </Box>
     </Box>
   );
 }
+
+RankingScores.propTypes = {
+  stocks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  ranks: PropTypes.arrayOf(
+    PropTypes.shape({
+      on: PropTypes.string,
+      picks: PropTypes.arrayOf(PropTypes.object),
+    })
+  ).isRequired,
+};

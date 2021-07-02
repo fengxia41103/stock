@@ -31,8 +31,14 @@ export default function PriceReturnStat(props) {
 
   const positive_negative_chart_data = {
     name: data.name,
-    positive: data.stats.positive_count,
-    negative: data.stats.negative_count,
+    A: {
+      label: "positive",
+      val: data.stats.positive_count,
+    },
+    B: {
+      label: "negative",
+      val: data.stats.negative_count,
+    },
   };
 
   return (
