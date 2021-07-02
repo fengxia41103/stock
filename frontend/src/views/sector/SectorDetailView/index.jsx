@@ -147,7 +147,7 @@ export default function SectorDetailView() {
             </Grid>
           </Box>
 
-          <zSectorDetailContext.Provider value={sector}>
+          <SectorDetailContext.Provider value={sector}>
             <Box mt={3}>
               <Typography variant={"body2"}>sector: {sector.name}</Typography>
               <Outlet />
