@@ -37,6 +37,8 @@ export default function DashboardTrendingView() {
   const { api } = useContext(GlobalContext);
   const [resource, setResource] = useState("");
   const [today, setToday] = useState(moment());
+  const [start, setStart] = useState();
+  const [end, setEnd] = useState();
 
   // default back track one week from today
   const [backWeek, setBackWeek] = useState(1);
@@ -65,8 +67,8 @@ export default function DashboardTrendingView() {
 
     // NOTE: must set `end` first because this modifies the `temp_now`
     // in place!
-    let end = temp_now.add(adjust_in_day, "days").format(DATE_FORMAT);
-    let start = temp_now.add(backWeek * -7, "days").format(DATE_FORMAT);
+    setEnd(temp_now.add(adjust_in_day, "days").format(DATE_FORMAT));
+    setStart(temp_now.add(backWeek * -7, "days").format(DATE_FORMAT));
     setResource(`/historicals?on__range=${start},${end}&order_by=-on`);
   };
 
@@ -244,7 +246,7 @@ export default function DashboardTrendingView() {
             </Card>
           </Box>
 
-          <RankingScores {...{ stocks, ranks }} />
+          <RankingScores {...{ stocks, ranks, start, end }} />
         </Container>
       </Page>
     );

@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  makeStyles,
   Box,
   Grid,
   Card,
@@ -8,20 +9,36 @@ import {
   Typography,
 } from "@material-ui/core";
 import { map, sortBy, reverse, filter, forEach } from "lodash";
-import ABDonutChart from "src/components/ABDonutChart";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/Highchart";
 import RankingOccuranceCharts from "src/components/dashboard/RankingOccuranceCharts";
+import StocksPriceChart from "src/components/stock/StocksPriceChart";
 import PropTypes from "prop-types";
+import clsx from "clsx";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  card: {
+    height: "100%",
+  },
+}));
 
 export default function RankingScores(props) {
-  const { stocks, ranks } = props;
+  const { stocks, ranks, start, end } = props;
+  const classes = useStyles();
 
   // compute a score score is 1-10, each symbol computes a score by
   // adding its score of a day when it's on the ranking chart. So,
   // the highest score indicates this stock shows up more, or shoots
   // high.
   const symbols = [...new Set(map(stocks, s => s.symbol))];
+  const symbol_id_lookup = new Map([
+    ...new Set(map(stocks, s => [s.symbol, s.stock_id])),
+  ]);
+
   let scores = [];
 
   forEach(symbols, symbol => {
@@ -49,6 +66,7 @@ export default function RankingScores(props) {
 
     scores.push({
       symbol: symbol,
+      stock_id: symbol_id_lookup.get(symbol),
       total: positive_score - missing_the_list_count,
       positive: positive_score,
       on_it_count: on_the_list_count,
@@ -72,32 +90,58 @@ export default function RankingScores(props) {
     { name: "score", data: map(rank_by_score, r => r.total) },
   ];
 
+  // get price charts
+  // we only want the most active ones, so at least has a score
+  // greater than the number of days I'm looking at.
+  const my_interests = map(
+    filter(scores, s => s.total > ranks.length),
+    s => s.stock_id
+  );
+
   return (
     <Box mt={1}>
-      <Card>
-        <CardHeader
-          title={<Typography variant="h3">Overall Scores</Typography>}
-        />
-        <CardContent>
-          <Typography variant="body2">
-            Score measures both the occurance of a symbol on the TOP list, and
-            its relative ranking each time. If it's ranked #1, and there are 10
-            symbols on the list, it gets a (10-0)=10, then the 2nd place would
-            get 9, and so on.
-          </Typography>
+      <Grid container spacing={1}>
+        <Grid item lg={6} xs={12}>
+          <Card className={clsx(classes.root, classes.card)}>
+            <CardHeader
+              title={<Typography variant="h3">Overall Scores</Typography>}
+            />
+            <CardContent>
+              <Typography variant="body2">
+                Score measures both the occurance of a symbol on the TOP list,
+                and its relative ranking each time. If it's ranked #1, and there
+                are 10 symbols on the list, it gets a (10-0)=10, then the 2nd
+                place would get 9, and so on.
+              </Typography>
 
-          <HighchartGraphBox
-            containerId={containerId}
-            type="bar"
-            categories={categories}
-            yLabel=""
-            title=""
-            legendEnabled={true}
-            data={chart_data}
-            normalize={false}
-          />
-        </CardContent>
-      </Card>
+              <HighchartGraphBox
+                containerId={containerId}
+                type="bar"
+                categories={categories}
+                yLabel=""
+                title=""
+                legendEnabled={true}
+                data={chart_data}
+                normalize={false}
+              />
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item lg={6} xs={12}>
+          <Card className={clsx(classes.root, classes.card)}>
+            <CardHeader
+              title={
+                <Typography variant="h3">
+                  Top Player Prices {start} to {end}
+                </Typography>
+              }
+            />
+            <CardContent>
+              <StocksPriceChart {...{ start, end, stocks: my_interests }} />
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
       <Box mt={1}>
         <RankingOccuranceCharts {...{ scores }} />
       </Box>
@@ -113,4 +157,6 @@ RankingScores.propTypes = {
       picks: PropTypes.arrayOf(PropTypes.object),
     })
   ).isRequired,
+  start: PropTypes.string.isRequired,
+  end: PropTypes.string.isRequired,
 };

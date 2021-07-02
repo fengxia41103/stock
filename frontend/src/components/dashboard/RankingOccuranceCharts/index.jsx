@@ -44,9 +44,11 @@ export default function RankingOccuranceCharts(props) {
 }
 
 RankingOccuranceCharts.propTypes = {
-  scores: PropTypes.shape({
-    symbol: PropTypes.string,
-    on_it_count: PropTypes.number,
-    missing_it_count: PropTypes.number,
-  }).isRequired,
+  scores: PropTypes.arrayOf(
+    PropTypes.shape({
+      symbol: PropTypes.string,
+      on_it_count: PropTypes.number,
+      missing_it_count: PropTypes.number,
+    })
+  ).isRequired,
 };
