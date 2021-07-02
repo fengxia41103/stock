@@ -12,7 +12,7 @@ import {
   CardHeader,
 } from "@material-ui/core";
 
-import SectorDailyOvernightReturnScatterChart from "src/components/sector/SectorDailyOvernightReturnScatterChart";
+import SectorReturnComparisonChart from "src/components/sector/SectorReturnComparisonChart";
 
 export default function SectorReturnView() {
   const { api } = useContext(GlobalContext);
@@ -27,19 +27,34 @@ export default function SectorReturnView() {
 
   const render_data = data => {
     const stocks = data.objects;
-    const title = `Daytime & Overnight Returns between ${start} and ${end}`;
 
     return (
       <Box>
-        <Typography variant="h1">
-          Daytime & Overnight Returns Comparison
-        </Typography>
+        <Typography variant="h1">Returns Comparison</Typography>
 
         <Box mt={3}>
           <Card>
-            <CardHeader title={<Typography variant="h3">{title}</Typography>} />
+            <CardHeader
+              title={
+                <Typography variant="h3">
+                  Daytime Returns between {start} and {end}
+                </Typography>
+              }
+            />
             <CardContent>
-              <SectorDailyOvernightReturnScatterChart data={stocks} />
+              <SectorReturnComparisonChart data={stocks} kind={"daily"} />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader
+              title={
+                <Typography variant="h3">
+                  Overnight Returns between {start} and {end}
+                </Typography>
+              }
+            />
+            <CardContent>
+              <SectorReturnComparisonChart data={stocks} kind={"overnight"} />
             </CardContent>
           </Card>
         </Box>

@@ -1,30 +1,52 @@
 import React from "react";
-import { map, groupBy } from "lodash";
+import { map, groupBy, merge, forEach } from "lodash";
 import HighchartGraphBox from "src/components/Highchart";
 import { randomId } from "src/utils/helper.jsx";
 import { daily_returns, overnight_returns } from "src/utils/stock/returns";
 import PropTypes from "prop-types";
 
-export default function SectorDailyOvernightReturnScatterChart(props) {
-  const { data: stocks } = props;
+export default function SectorReturnComparisonChart(props) {
+  const { data: stocks, kind } = props;
 
-  // scatter graphy doesn't need categories
-  const categories = [];
+  let categories = [];
 
   const group_by_symbol = groupBy(stocks, s => s.symbol);
 
   const chart_data = map(group_by_symbol, (prices, symbol) => {
-    const daily = daily_returns(prices);
-    const overnight = overnight_returns(prices);
+    let returns = null;
 
-    // pair daily & overnight data points
-    const my_data = map(daily, (s, index) => {
-      return [s.val, overnight[index].val];
+    switch (kind) {
+      case "daily":
+        returns = daily_returns(prices);
+        break;
+
+      case "overnight":
+        returns = overnight_returns(prices);
+        break;
+
+      default:
+        returns = daily_returns(prices);
+        break;
+    }
+
+    // update categories
+    categories = merge(
+      categories,
+      map(returns, d => d.on)
+    );
+
+    let aligned_returns = [];
+    forEach(returns, d => {
+      if (categories.includes(d.on)) {
+        aligned_returns.push(d.val);
+      } else {
+        aligned_returns.push(0);
+      }
     });
 
     return {
       name: symbol,
-      data: my_data,
+      data: aligned_returns,
     };
   });
 
@@ -32,10 +54,10 @@ export default function SectorDailyOvernightReturnScatterChart(props) {
   return (
     <HighchartGraphBox
       containerId={containerId}
-      type="scatter"
+      type="column"
       categories={categories}
-      xLabel="Daily Return (%)"
-      yLabel="Overnight Return (%)"
+      xLabel=""
+      yLabel="Return (%)"
       title=""
       legendEnabled={true}
       data={chart_data}
@@ -43,7 +65,7 @@ export default function SectorDailyOvernightReturnScatterChart(props) {
   );
 }
 
-SectorDailyOvernightReturnScatterChart.propTypes = {
+SectorReturnComparisonChart.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
@@ -57,4 +79,5 @@ SectorDailyOvernightReturnScatterChart.propTypes = {
       vol: PropTypes.number,
     })
   ).isRequired,
+  kind: PropTypes.string.isRequired,
 };
