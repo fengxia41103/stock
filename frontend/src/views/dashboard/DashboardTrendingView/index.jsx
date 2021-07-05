@@ -120,6 +120,8 @@ export default function DashboardTrendingView() {
     </FormControl>
   );
 
+  let symbols = [],
+    highlights = [];
   const render_data = data => {
     let stocks = data.objects;
 
@@ -133,8 +135,11 @@ export default function DashboardTrendingView() {
     });
 
     // symbols
-    const symbols = [...new Set(map(stocks, s => s.symbol))];
-    const highlights = get_highlights(symbols);
+    symbols = [...new Set(map(stocks, s => s.symbol))];
+    if (symbols.length !== highlights.length) {
+      // only recompute highlight color if list length is different
+      highlights = get_highlights(symbols);
+    }
 
     // group by date
     const group_by_on = groupBy(stocks, s => s.on);
