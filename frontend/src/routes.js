@@ -50,6 +50,11 @@ const items = [
     title: "Notes",
   },
   {
+    href: "/rankings",
+    icon: SortIcon,
+    title: "Rankings",
+  },
+  {
     href: "/dashboard",
     icon: DashboardIcon,
     title: "Dashboard",
@@ -58,11 +63,6 @@ const items = [
     href: "/news",
     icon: AnnouncementIcon,
     title: "News",
-  },
-  {
-    href: "/rankings",
-    icon: SortIcon,
-    title: "Rankings",
   },
   {
     href: "/sectors",

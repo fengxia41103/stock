@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function RankingView() {
+export default function RankingView() {
   const classes = useStyles();
   const [interests, setInterests] = useState([]);
 
@@ -85,6 +85,8 @@ function RankingView() {
       },
     ];
   });
+
+  // turn list of list into a dict!
   highlights = Object.fromEntries(highlights);
 
   const ranking_mapping = {
@@ -167,4 +169,3 @@ function RankingView() {
     </Page>
   );
 }
-export default RankingView;

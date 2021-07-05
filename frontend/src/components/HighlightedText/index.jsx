@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Grid } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { isNil } from "lodash";
+import PropTypes from "prop-types";
 
-function Cell(props) {
+export default function HighlightedText(props) {
   const [hide, setHide] = useState(true);
 
   const handle_hide_toggle = event => setHide(!hide);
@@ -27,18 +28,25 @@ function Cell(props) {
   const classes = useStyles();
 
   return (
-    <Grid item xs>
-      <Typography
-        className={classes.root}
-        onMouseOver={handle_hide_toggle}
-        onMouseLeave={handle_hide_toggle}
-        align="center"
-      >
-        {hide ? text : null}
-        {!hide ? val.toFixed(2) : null}
-      </Typography>
-    </Grid>
+    <Typography
+      className={classes.root}
+      onMouseOver={handle_hide_toggle}
+      onMouseLeave={handle_hide_toggle}
+      align="center"
+    >
+      {hide ? text : null}
+      {!hide ? val.toFixed(2) : null}
+    </Typography>
   );
 }
 
-export default Cell;
+HighlightedText.propTypes = {
+  highlights: PropTypes.objectOf(
+    PropTypes.shape({
+      background: PropTypes.string,
+      font: PropTypes.string,
+    })
+  ).isRequired,
+  text: PropTypes.string.isRequired,
+  val: PropTypes.number.isRequired,
+};

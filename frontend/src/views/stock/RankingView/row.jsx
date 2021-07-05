@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { map } from "lodash";
-import Cell from "./cell.jsx";
 import {
   makeStyles,
   Box,
@@ -14,6 +13,7 @@ import { BarChart, Timeline } from "@material-ui/icons";
 import CompareArrowsSharpIcon from "@material-ui/icons/CompareArrowsSharp";
 import RankChart from "./rank_chart.jsx";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
+import HighlightedText from "src/components/HighlightedText";
 
 const useStyles = makeStyles(theme => ({
   category: {
@@ -38,7 +38,9 @@ export default function Row(props) {
 
   // show rank values
   const vals = map(ranks, r => (
-    <Cell key={r.symbol} text={r.symbol} val={r.val} {...props} />
+    <Grid key={r.symbol} item xs>
+      <HighlightedText text={r.symbol} val={r.val} {...props} />
+    </Grid>
   ));
 
   // show threshold cutoff if any
