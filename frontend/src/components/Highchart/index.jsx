@@ -131,6 +131,11 @@ export default function HighchartGraphBox(props) {
         useHTML: true,
       },
       plotOptions: {
+        series: {
+          marker: {
+            enabled: false,
+          },
+        },
         column: {
           pointPadding: 0.2,
           borderWidth: 0,
@@ -140,7 +145,7 @@ export default function HighchartGraphBox(props) {
           negativeColor: "#d52349",
         },
         line: {
-          //negativeColor: "#d52349",
+          negativeColor: !!!keepNegative ? "#d52349" : null,
         },
         scatter: {
           marker: {

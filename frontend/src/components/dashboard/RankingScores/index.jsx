@@ -86,7 +86,7 @@ export default function RankingScores(props) {
   // we only want the most active ones, so at least has a score
   // greater than the number of days I'm looking at.
   const my_interests = map(
-    filter(scores, s => s.total > ranks.length),
+    rank_by_score_descending.slice(0, 5),
     s => s.stock_id
   );
 
@@ -98,10 +98,13 @@ export default function RankingScores(props) {
     )
   );
 
+  // occurance above 50%
   const rank_upper_50 = filter(
     rank_by_on_it_count,
     r => r.on_it_count >= r.missing_it_count
   );
+
+  // occurance below 50%
   const rank_lower_50 = filter(
     rank_by_on_it_count,
     r => r.on_it_count < r.missing_it_count

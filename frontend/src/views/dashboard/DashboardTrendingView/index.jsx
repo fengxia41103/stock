@@ -26,6 +26,8 @@ import clsx from "clsx";
 import RankingScores from "src/components/dashboard/RankingScores";
 import HighlightedText from "src/components/HighlightedText";
 import { get_highlights } from "src/utils/helper.jsx";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
 const useStyles = makeStyles(theme => ({
   diary: {
@@ -43,7 +45,7 @@ export default function DashboardTrendingView() {
   const [end, setEnd] = useState();
 
   // default back track one week from today
-  const [backWeek, setBackWeek] = useState(1);
+  const [backWeek, setBackWeek] = useState("1");
 
   const [follow, setFollow] = useState("gainer");
 
@@ -69,8 +71,8 @@ export default function DashboardTrendingView() {
 
     // NOTE: must set `end` first because this modifies the `temp_now`
     // in place!
-    setEnd(temp_now.add(adjust_in_day, "days").format(DATE_FORMAT));
-    setStart(temp_now.add(backWeek * -7, "days").format(DATE_FORMAT));
+    setEnd(temp_now.add(adjust_in_day, "d").format(DATE_FORMAT));
+    setStart(temp_now.add(-1 * parseInt(backWeek), "w").format(DATE_FORMAT));
     setResource(`/historicals?on__range=${start},${end}&order_by=-on`);
   };
 
@@ -88,8 +90,8 @@ export default function DashboardTrendingView() {
     adjust_today();
   };
 
-  const backWeek_change = event => {
-    setBackWeek(event.target.value);
+  const backWeek_change = (event, val) => {
+    setBackWeek(val);
     adjust_today();
   };
 
@@ -225,7 +227,7 @@ export default function DashboardTrendingView() {
                     <Grid container spacing={1}>
                       <Grid item xs>
                         <TextField
-                          label="Pick a date"
+                          label="Pick an END Date"
                           type="date"
                           value={today.format(DATE_FORMAT)}
                           onChange={today_change}
@@ -233,16 +235,34 @@ export default function DashboardTrendingView() {
                         />
                       </Grid>
                       <Grid item xs>
-                        <TextField
-                          label="Backtrack in Weeks"
-                          type="number"
+                        <ToggleButtonGroup
                           value={backWeek}
+                          exclusive
                           onChange={backWeek_change}
-                          fullWidth={true}
-                          InputProps={{
-                            inputProps: { min: "1", step: "1" },
-                          }}
-                        />
+                          aria-label="back track in weeks"
+                        >
+                          <ToggleButton value="1" aria-label="1">
+                            1W
+                          </ToggleButton>
+                          <ToggleButton value="2" aria-label="1">
+                            2W
+                          </ToggleButton>
+                          <ToggleButton value="3" aria-label="1">
+                            3W
+                          </ToggleButton>
+                          <ToggleButton value="4" aria-label="1">
+                            4W
+                          </ToggleButton>
+                          <ToggleButton value="5" aria-label="2">
+                            1M
+                          </ToggleButton>
+                          <ToggleButton value="13" aria-label="3">
+                            3M
+                          </ToggleButton>
+                          <ToggleButton value="26" aria-label="3">
+                            6M
+                          </ToggleButton>
+                        </ToggleButtonGroup>
                       </Grid>
                     </Grid>
                   </ListItem>
