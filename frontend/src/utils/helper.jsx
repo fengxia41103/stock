@@ -1,3 +1,5 @@
+import { map } from "lodash";
+
 export const randomId = (prefix = "FX") => {
   return prefix + (Math.random() * 1e32).toString(12);
 };
@@ -15,4 +17,29 @@ export const days_in_between = (start, end) => {
 
   // To calculate the no. of days between two dates
   return difference_in_time / (1000 * 3600 * 24);
+};
+
+const get_contrast = background => {
+  // func to compute font color to contrast w/ background color
+  return parseInt(background, 16) > 0xffffff / 2 ? "black" : "white";
+};
+
+export const get_highlights = interests => {
+  // highlight background color choices
+  let highlights = map(interests, i => {
+    const bk_color = Math.floor(Math.random() * 16777215).toString(16);
+    const font_color = get_contrast(bk_color);
+    return [
+      i,
+      {
+        background: bk_color,
+        font: font_color,
+      },
+    ];
+  });
+
+  // turn list of list into a dict!
+  highlights = Object.fromEntries(highlights);
+
+  return highlights;
 };

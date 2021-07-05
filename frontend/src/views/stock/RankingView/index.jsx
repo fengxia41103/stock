@@ -5,7 +5,6 @@ import {
   Avatar,
   Box,
   Container,
-  Divider,
   Grid,
   TextField,
   Card,
@@ -16,6 +15,7 @@ import {
 import WhatshotIcon from "@material-ui/icons/Whatshot";
 import Page from "src/components/Page";
 import Rank from "./rank";
+import { get_highlights } from "src/utils/helper.jsx";
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -28,6 +28,7 @@ const useStyles = makeStyles(theme => ({
 export default function RankingView() {
   const classes = useStyles();
   const [interests, setInterests] = useState([]);
+  const [highlights, setHighlights] = useState({});
 
   // how many in a rank I'm interested in, eg. top 10
   const [top, setTop] = useState(5);
@@ -57,6 +58,7 @@ export default function RankingView() {
       .map(x => x.toUpperCase());
 
     setInterests(tmp);
+    setHighlights(get_highlights(tmp));
   };
 
   const handle_top_change = event => setTop(event.target.value);
@@ -68,27 +70,6 @@ export default function RankingView() {
     setThresholds(old_thresholds);
   };
 
-  const get_contrast = background => {
-    // func to compute font color to contrast w/ background color
-    return parseInt(background, 16) > 0xffffff / 2 ? "black" : "white";
-  };
-
-  // highlight background color choices
-  let highlights = map(interests, i => {
-    const bk_color = Math.floor(Math.random() * 16777215).toString(16);
-    const font_color = get_contrast(bk_color);
-    return [
-      i,
-      {
-        background: bk_color,
-        font: font_color,
-      },
-    ];
-  });
-
-  // turn list of list into a dict!
-  highlights = Object.fromEntries(highlights);
-
   const ranking_mapping = {
     "By ROE Analysis": "/stock-ranks",
     "By Balance Sheet Analysis": "/balance-ranks",
@@ -98,7 +79,7 @@ export default function RankingView() {
   const rankings = map(ranking_mapping, (resource, title) => {
     const header = (
       <Box mb={1}>
-        <Grid container justify="space-between" spacing={3}>
+        <Grid container justify="space-between" spacing={1}>
           <Grid item>
             <Typography variant="h3" color="textPrimary">
               {title}
@@ -110,12 +91,11 @@ export default function RankingView() {
             </Avatar>
           </Grid>
         </Grid>
-        <Divider />
       </Box>
     );
 
     return (
-      <Box key={resource} mb={3}>
+      <Box key={resource} mb={1}>
         <Card>
           <CardHeader title={header} />
           <CardContent>
@@ -164,7 +144,7 @@ export default function RankingView() {
             </CardContent>
           </Card>
         </Box>
-        <Box mt={1}>{rankings}</Box>
+        <Box mt={3}>{rankings}</Box>
       </Container>
     </Page>
   );

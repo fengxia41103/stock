@@ -7,6 +7,7 @@ import {
   TextField,
   Typography,
   Tooltip,
+  Divider,
 } from "@material-ui/core";
 
 import { BarChart, Timeline } from "@material-ui/icons";
@@ -60,8 +61,8 @@ export default function Row(props) {
   const stock_ids = map(ranks, r => r.id);
 
   return (
-    <Box>
-      <Grid container spacing={2}>
+    <Box mt={1}>
+      <Grid container spacing={1}>
         <Grid item lg={2} sm={6} xs>
           <Typography variant="body1" className={classes.category}>
             {category_name}
@@ -99,6 +100,7 @@ export default function Row(props) {
           </Box>
         ) : null}
       </Box>
+      <Divider />
     </Box>
   );
 }
