@@ -194,17 +194,18 @@ export default function DashboardTrendingView() {
             break;
         }
         return (
-          <ListItem key={p.stock_id}>
+          <Grid item key={p.stock_id} xs>
             <HighlightedText {...{ highlights, text: p.symbol, val: p[val] }} />
-          </ListItem>
+          </Grid>
         );
       });
+
       return (
         <Grid item key={r.on} lg={1} sm={2} xs={3}>
-          <Typography className={clsx(classes.diary)}>{r.on}</Typography>
-          <Box mt={2}>
-            <List>{picks}</List>
-          </Box>
+          <Grid item xs>
+            <Typography className={clsx(classes.diary)}>{r.on}</Typography>
+          </Grid>
+          {picks}
         </Grid>
       );
     });
@@ -260,7 +261,12 @@ export default function DashboardTrendingView() {
                 }
               />
               <CardContent>
-                <Grid container spacing={1}>
+                <Grid
+                  container
+                  spacing={1}
+                  alignContent="center"
+                  alignItems="center"
+                >
                   {trends}
                 </Grid>
               </CardContent>
