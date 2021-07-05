@@ -1,22 +1,18 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import { map, sortBy, reverse, filter } from "lodash";
+import { map, isEmpty } from "lodash";
 import ABDonutChart from "src/components/ABDonutChart";
 import PropTypes from "prop-types";
 
 export default function RankingOccuranceCharts(props) {
   const { scores } = props;
 
-  // put the most hit ones first
-  const rank_by_on_it_count = reverse(
-    sortBy(
-      filter(scores, s => s.on_it_count > 0),
-      s => s.on_it_count
-    )
-  );
+  if (isEmpty(scores)) {
+    return "No one matches this condition.";
+  }
 
   // compose A/B charts
-  const on_vs_miss_donut_charts = map(rank_by_on_it_count, s => {
+  const on_vs_miss_donut_charts = map(scores, s => {
     const chart_data = {
       name: s.symbol,
       A: {

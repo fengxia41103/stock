@@ -195,7 +195,11 @@ export default function DashboardTrendingView() {
         }
         return (
           <Grid item key={p.stock_id} xs>
-            <HighlightedText {...{ highlights, text: p.symbol, val: p[val] }} />
+            <Link href={`/stocks/${p.stock_id}/historical/price`}>
+              <HighlightedText
+                {...{ highlights, text: p.symbol, val: p[val] }}
+              />
+            </Link>
           </Grid>
         );
       });

@@ -75,7 +75,7 @@ export default function RankingScores(props) {
 
   // - exclude 0 scores
   // - sort in descending order
-  const rank_by_score = reverse(
+  const rank_by_score_descending = reverse(
     sortBy(
       filter(scores, s => s.total > 0),
       s => s.total
@@ -88,6 +88,23 @@ export default function RankingScores(props) {
   const my_interests = map(
     filter(scores, s => s.total > ranks.length),
     s => s.stock_id
+  );
+
+  // put the most hit ones first
+  const rank_by_on_it_count = reverse(
+    sortBy(
+      filter(scores, s => s.on_it_count > 0),
+      s => s.on_it_count
+    )
+  );
+
+  const rank_upper_50 = filter(
+    rank_by_on_it_count,
+    r => r.on_it_count >= r.missing_it_count
+  );
+  const rank_lower_50 = filter(
+    rank_by_on_it_count,
+    r => r.on_it_count < r.missing_it_count
   );
 
   return (
@@ -108,7 +125,7 @@ export default function RankingScores(props) {
 
               <RankChart
                 category="TOP score"
-                ranks={rank_by_score}
+                ranks={rank_by_score_descending}
                 rank_val_name="total"
               />
             </CardContent>
@@ -130,7 +147,28 @@ export default function RankingScores(props) {
         </Grid>
       </Grid>
       <Box mt={1}>
-        <RankingOccuranceCharts {...{ scores }} />
+        <Card>
+          <CardHeader
+            title={
+              <Typography variant="h3">List of &ge;50% Occurances</Typography>
+            }
+          />
+          <CardContent>
+            <RankingOccuranceCharts {...{ scores: rank_upper_50 }} />
+          </CardContent>
+        </Card>
+      </Box>
+      <Box mt={1}>
+        <Card>
+          <CardHeader
+            title={
+              <Typography variant="h3">List of &lt;50% Occurances</Typography>
+            }
+          />
+          <CardContent>
+            <RankingOccuranceCharts {...{ scores: rank_lower_50 }} />
+          </CardContent>
+        </Card>
       </Box>
     </Box>
   );
