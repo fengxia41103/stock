@@ -9,10 +9,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { map, sortBy, reverse, filter, forEach } from "lodash";
-import { randomId } from "src/utils/helper.jsx";
-import HighchartGraphBox from "src/components/Highchart";
 import RankingOccuranceCharts from "src/components/dashboard/RankingOccuranceCharts";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
+import RankChart from "src/components/RankChart";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
@@ -83,13 +82,6 @@ export default function RankingScores(props) {
     )
   );
 
-  // data for score ranking chart
-  const containerId = randomId();
-  const categories = map(rank_by_score, r => r.symbol);
-  const chart_data = [
-    { name: "score", data: map(rank_by_score, r => r.total) },
-  ];
-
   // get price charts
   // we only want the most active ones, so at least has a score
   // greater than the number of days I'm looking at.
@@ -114,15 +106,10 @@ export default function RankingScores(props) {
                 place would get 9, and so on.
               </Typography>
 
-              <HighchartGraphBox
-                containerId={containerId}
-                type="bar"
-                categories={categories}
-                yLabel=""
-                title=""
-                legendEnabled={true}
-                data={chart_data}
-                normalize={false}
+              <RankChart
+                category="TOP score"
+                ranks={rank_by_score}
+                rank_val_name="total"
               />
             </CardContent>
           </Card>

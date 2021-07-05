@@ -11,7 +11,7 @@ import {
 
 import { BarChart, Timeline } from "@material-ui/icons";
 import CompareArrowsSharpIcon from "@material-ui/icons/CompareArrowsSharp";
-import RankChart from "./rank_chart.jsx";
+import RankChart from "src/components/RankChart";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
 import HighlightedText from "src/components/HighlightedText";
 
