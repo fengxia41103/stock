@@ -27,8 +27,15 @@ const get_contrast = background => {
 export const get_highlights = interests => {
   // highlight background color choices
   let highlights = map(interests, i => {
-    const bk_color = Math.floor(Math.random() * 16777215).toString(16);
+    // https://dev.to/akhil_001/generating-random-color-with-single-line-of-js-code-fhj
+    const bk_color = Math.floor(Math.random() * 16777215)
+      .toString(16)
+      .padStart(6, "0");
+
+    // try to get a contrast color
     const font_color = get_contrast(bk_color);
+
+    // here are my colors
     return [
       i,
       {

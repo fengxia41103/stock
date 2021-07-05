@@ -24,6 +24,8 @@ import { map, sortBy, reverse, filter, groupBy, forEach } from "lodash";
 import moment from "moment";
 import clsx from "clsx";
 import RankingScores from "src/components/dashboard/RankingScores";
+import HighlightedText from "src/components/HighlightedText";
+import { get_highlights } from "src/utils/helper.jsx";
 
 const useStyles = makeStyles(theme => ({
   diary: {
@@ -128,6 +130,11 @@ export default function DashboardTrendingView() {
       };
     });
 
+    // symbols
+    const symbols = [...new Set(map(stocks, s => s.symbol))];
+    const highlights = get_highlights(symbols);
+
+    // group by date
     const group_by_on = groupBy(stocks, s => s.on);
 
     let ranks = [];
@@ -170,11 +177,25 @@ export default function DashboardTrendingView() {
 
     const trends = map(ranks, r => {
       const picks = map(r.picks, p => {
+        let val = 0;
+        switch (follow) {
+          case "gainer":
+          case "loser":
+            val = "gain";
+            break;
+          case "volume":
+            val = "vol_over_share_outstanding";
+            break;
+          case "volatility":
+            val = "volatility";
+            break;
+          default:
+            val = "gain";
+            break;
+        }
         return (
           <ListItem key={p.stock_id}>
-            <Link href={`/stocks/${p.stock_id}/historical/price`}>
-              {p.symbol}
-            </Link>
+            <HighlightedText {...{ highlights, text: p.symbol, val: p[val] }} />
           </ListItem>
         );
       });
