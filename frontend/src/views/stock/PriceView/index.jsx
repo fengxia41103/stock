@@ -13,6 +13,7 @@ import PriceTable from "./table";
 import PriceChart from "./chart";
 import { map, groupBy, reverse } from "lodash";
 import moment from "moment";
+import ColoredNumber from "src/components/ColoredNumber";
 
 export default function PriceView() {
   const data = useContext(StockHistoricalContext);
@@ -25,6 +26,11 @@ export default function PriceView() {
   const group_by_week = groupBy(stocks, s => s.week);
   const weekly_charts = reverse(
     map(group_by_week, (prices, week) => {
+      const last = [...prices].pop();
+      const first = prices[0];
+      const e2e_return =
+        ((last.close_price - first.open_price) / first.open_price) * 100;
+
       return (
         <Grid key={week} item lg={4} sm={6} xs={12}>
           <Card>
@@ -35,6 +41,9 @@ export default function PriceView() {
             />
 
             <CardContent>
+              <Typography variant="body3">
+                End-2-End return: <ColoredNumber val={e2e_return} />%
+              </Typography>
               <PriceChart data={prices} />
             </CardContent>
           </Card>
@@ -53,19 +62,15 @@ export default function PriceView() {
         />
         <CardContent>
           <PriceChart data={data} />
+          <Box mt={1}>
+            <PriceTable data={data} />
+          </Box>
         </CardContent>
       </Card>
       <Box mt={1}>
         <Grid container spacing={1}>
           {weekly_charts}
         </Grid>
-      </Box>
-      <Box mt={1}>
-        <Card>
-          <CardContent>
-            <PriceTable data={data} />
-          </CardContent>
-        </Card>
       </Box>
     </Box>
   );
