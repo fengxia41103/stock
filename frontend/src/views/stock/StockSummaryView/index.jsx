@@ -24,7 +24,7 @@ function StockSummaryView() {
 
   const render_data = data => {
     return (
-      <Box mt={3}>
+      <Box mt={1}>
         <Typography variant="h1">{data.symbol}</Typography>
         <DictCard {...{ data, interests }} />
       </Box>

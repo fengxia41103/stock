@@ -277,7 +277,7 @@ export default function DashboardTrendingView() {
             </Card>
           </Box>
 
-          <Box mt={3}>
+          <Box mt={1}>
             <Card>
               <CardHeader
                 title={

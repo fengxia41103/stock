@@ -58,10 +58,10 @@ export default function SectorRoeView() {
     <Box>
       <Typography variant={"h1"}>ROE Comparison</Typography>
 
-      <Box mt={3}>
+      <Box mt={1}>
         <SectorDupontBreakdownChart />
       </Box>
-      <Box mt={3}>
+      <Box mt={1}>
         <SectorRoeColumnChart />
       </Box>
 

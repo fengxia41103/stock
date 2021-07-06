@@ -84,7 +84,7 @@ function StockHistoricalView() {
         </Box>
 
         <StockHistoricalContext.Provider value={data}>
-          <Box mt={3}>
+          <Box mt={1}>
             <Outlet />
           </Box>
         </StockHistoricalContext.Provider>

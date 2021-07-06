@@ -1,5 +1,5 @@
 import React from "react";
-import { map, isEmpty, isUndefined } from "lodash";
+import { map, isEmpty } from "lodash";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/Highchart";
 import PropTypes from "prop-types";
@@ -11,7 +11,7 @@ export default function MultilineChart(props) {
   const containerId = randomId();
 
   let categories;
-  if (isUndefined(category_by)) {
+  if (!!!category_by) {
     categories = [];
   } else {
     categories = map(data[0].data, d => d[category_by]);
@@ -33,7 +33,7 @@ export default function MultilineChart(props) {
       title=""
       legendEnabled={true}
       data={chart_data}
-      normalize={!isUndefined(normalized)}
+      normalize={!!normalized}
     />
   );
 }

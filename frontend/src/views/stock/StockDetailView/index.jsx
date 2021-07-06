@@ -160,7 +160,7 @@ function StockDetailView() {
           </Box>
 
           <StockDetailContext.Provider value={stock}>
-            <Box mt={3}>
+            <Box mt={1}>
               <Outlet />
             </Box>
             <Box mt={1}>

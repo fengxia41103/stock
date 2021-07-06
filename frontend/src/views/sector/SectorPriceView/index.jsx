@@ -22,7 +22,7 @@ export default function SectorPriceView() {
     <Box>
       <Typography variant={"h1"}>Price Comparison</Typography>
 
-      <Box mt={3}>
+      <Box mt={1}>
         <Card>
           <CardHeader title={<Typography variant="h3">{title}</Typography>} />
 

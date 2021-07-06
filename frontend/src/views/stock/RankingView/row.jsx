@@ -88,16 +88,10 @@ export default function Row(props) {
         </Grid>
       </Grid>
 
-      <Box>
-        {show_rank_graph ? (
-          <Box mt={3}>
-            <RankChart {...props} />
-          </Box>
-        ) : null}
+      <Box mt={1}>
+        {show_rank_graph ? <RankChart {...props} /> : null}
         {show_1m_graph ? (
-          <Box mt={3}>
-            <StocksPriceChart {...{ start, end, stocks: stock_ids }} />
-          </Box>
+          <StocksPriceChart {...{ start, end, stocks: stock_ids }} />
         ) : null}
       </Box>
       <Divider />

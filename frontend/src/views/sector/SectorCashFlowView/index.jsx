@@ -12,7 +12,7 @@ export default function SectorCashFlowView() {
   return (
     <Box>
       <Typography variant={"h1"}>Cash Flow Statement Comparisons</Typography>
-      <Box mt={3}>
+      <Box mt={1}>
         <SectorStatementComparisonCharts resource={resource} />
       </Box>
     </Box>

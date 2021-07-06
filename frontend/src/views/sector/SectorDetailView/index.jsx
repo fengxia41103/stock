@@ -148,7 +148,7 @@ export default function SectorDetailView() {
           </Box>
 
           <SectorDetailContext.Provider value={sector}>
-            <Box mt={3}>
+            <Box mt={1}>
               <Typography variant={"body2"}>sector: {sector.name}</Typography>
               <Outlet />
             </Box>

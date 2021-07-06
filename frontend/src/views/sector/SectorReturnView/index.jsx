@@ -42,7 +42,7 @@ export default function SectorReturnView() {
     const weekly_comparison_charts = reverse(
       map(group_by_week, (prices, week) => {
         return (
-          <Box mt={1}>
+          <Box key={week} mt={1}>
             <Card>
               <CardHeader
                 title={
@@ -75,7 +75,7 @@ export default function SectorReturnView() {
       <Box>
         <Typography variant="h1">Returns Comparison</Typography>
 
-        <Box mt={3}>{weekly_comparison_charts}</Box>
+        <Box mt={1}>{weekly_comparison_charts}</Box>
       </Box>
     );
   };

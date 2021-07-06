@@ -58,7 +58,7 @@ export default function FinancialCard(props) {
     if (isUndefined(m.data)) return null;
 
     return (
-      <Box key={m.title} mt={3}>
+      <Box key={m.title} mt={1}>
         <Card>
           <CardHeader title={<Typography variant="h3">{m.title}</Typography>} />
           <CardContent>

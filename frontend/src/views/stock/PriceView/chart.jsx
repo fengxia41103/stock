@@ -3,7 +3,7 @@ import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/Highchart";
 import { map } from "lodash";
 
-function PriceChart(props) {
+export default function PriceChart(props) {
   const containerId = randomId();
   const { data } = props;
   const categories = map(data, d => d.on);
@@ -42,5 +42,3 @@ function PriceChart(props) {
     />
   );
 }
-
-export default PriceChart;

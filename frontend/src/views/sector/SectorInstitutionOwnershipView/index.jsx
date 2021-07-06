@@ -15,7 +15,7 @@ export default function SectorInstitutionOwnershipView() {
     <Box>
       <Typography variant="h1">Institution Ownership Comparison</Typography>
 
-      <Box mt={3}>
+      <Box mt={1}>
         <Card>
           <CardHeader
             title={<Typography variant="h3">Institution Ownership</Typography>}

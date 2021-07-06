@@ -13,7 +13,7 @@ export default function SectorIncomeView() {
   return (
     <Box>
       <Typography variant={"h1"}>Income Statement Comparisons</Typography>
-      <Box mt={3}>
+      <Box mt={1}>
         <SectorStatementComparisonCharts resource={resource} />
       </Box>
     </Box>

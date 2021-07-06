@@ -144,7 +144,7 @@ export default function RankingView() {
             </CardContent>
           </Card>
         </Box>
-        <Box mt={3}>{rankings}</Box>
+        <Box mt={1}>{rankings}</Box>
       </Container>
     </Page>
   );

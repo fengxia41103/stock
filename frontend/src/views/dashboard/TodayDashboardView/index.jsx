@@ -97,7 +97,7 @@ export default function TodayDashboardView() {
             </Card>
           </Box>
 
-          <Box mt={3}>
+          <Box mt={1}>
             <Grid container spacing={1}>
               <Grid item lg={4} sm={6} xs={12}>
                 <MoverCard

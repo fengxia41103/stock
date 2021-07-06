@@ -88,7 +88,7 @@ export default function SectorListView(props) {
               </CardContent>
             </Card>
           </Box>
-          <Box mt={3}>
+          <Box mt={1}>
             <Grid container spacing={1}>
               {selectors}
             </Grid>
