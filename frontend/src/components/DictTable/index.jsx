@@ -1,7 +1,6 @@
 import React from "react";
 import { useTheme } from "@material-ui/core/styles";
-import { map, isEmpty, isUndefined } from "lodash";
-import Typography from "@material-ui/core/Typography";
+import { map, isEmpty } from "lodash";
 import Box from "@material-ui/core/Box";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";

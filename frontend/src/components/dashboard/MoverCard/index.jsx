@@ -18,8 +18,6 @@ export default function MoverCard(props) {
   const { title, subtitle, stocks, value, date } = props;
 
   const entries = map(stocks, s => {
-    const val = s[value];
-
     return (
       <ListItem key={s.symbol} divider={true}>
         <Grid container spacing={2}>

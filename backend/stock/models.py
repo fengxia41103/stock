@@ -93,9 +93,9 @@ class MyStock(models.Model):
         a premium.
 
         """
-        hists = self.historicals.order_by("-on")
-        if hists:
-            return hists[0].close_price
+        hist = self.historicals.order_by("-on").first()
+        if hist:
+            return hist.close_price
         else:
             return None
 

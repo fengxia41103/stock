@@ -1,5 +1,5 @@
 import React from "react";
-import { map, isEmpty, isNumber } from "lodash";
+import { map } from "lodash";
 
 import {
   Grid,

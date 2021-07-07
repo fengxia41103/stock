@@ -6,10 +6,10 @@ import {
   Button,
   Container,
   Grid,
-  Link,
   TextField,
   Card,
   CardContent,
+  Link,
 } from "@material-ui/core";
 import Page from "src/components/Page";
 import GlobalContext from "src/context";
@@ -54,17 +54,10 @@ export default function SectorListView(props) {
       ];
 
       const stocks = sortBy(s.stocks_property, s => s.symbol);
-      const stock_links = map(stocks, v => {
-        return (
-          <Box key={v.id}>
-            <Link href={`/stocks/${v.id}/historical/price`}>{v.symbol}</Link>
-          </Box>
-        );
-      });
 
       return (
         <Grid key={s.name} item lg={3} sm={6} xs={12}>
-          <ListStockCard {...{ actions, index: s.name, stocks: stock_links }} />
+          <ListStockCard {...{ actions, index: s.name, stocks }} />
         </Grid>
       );
     });

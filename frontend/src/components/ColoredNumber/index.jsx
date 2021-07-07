@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Box, Typography } from "@material-ui/core";
-import { map, isNumber } from "lodash";
+import { isNumber } from "lodash";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 

@@ -12,11 +12,13 @@ import {
   ListItem,
   Divider,
   Grid,
+  Link,
 } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import SectorLabel from "src/components/stock/SectorLabel";
 import { map, isUndefined } from "lodash";
 import DropdownMenu from "src/components/DropdownMenu";
+import RecentPriceSparkline from "src/components/stock/RecentPriceSparkline";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -62,6 +64,19 @@ export default function ListStockCard(props) {
     menu_content = <List>{action_menu_content_list}</List>;
   }
 
+  const links = map(stocks, s => {
+    return (
+      <Grid key={s.id} container spacing={1} alignItems="center">
+        <Grid item xs={3}>
+          <Link href={`/stocks/${s.id}/historical/price`}>{s.symbol}</Link>
+        </Grid>
+        <Grid item xs={6}>
+          <RecentPriceSparkline stock={s.id} />
+        </Grid>
+      </Grid>
+    );
+  });
+
   return (
     <Card className={clsx(classes.root, classes.card)}>
       <CardHeader
@@ -76,15 +91,7 @@ export default function ListStockCard(props) {
       />
 
       <Divider />
-      <CardContent>
-        <Grid container spacing={3}>
-          {stocks.map((link, index) => (
-            <Grid item key={index} xs={3}>
-              {link}
-            </Grid>
-          ))}
-        </Grid>
-      </CardContent>
+      <CardContent>{links}</CardContent>
     </Card>
   );
 }

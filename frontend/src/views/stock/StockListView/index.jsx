@@ -6,7 +6,6 @@ import {
   Button,
   Container,
   Grid,
-  Link,
   TextField,
   Card,
   CardContent,
@@ -86,18 +85,11 @@ function StockListView(props) {
     const selectors = map(sorted_keys, index => {
       const symbols = grouped[index];
       const sorted = sortBy(symbols, s => s.symbol);
-      const links = map(sorted, v => {
-        return (
-          <Link key={v.id} href={`/stocks/${v.id}/historical/price`}>
-            {v.symbol}
-          </Link>
-        );
-      });
 
       const actions = [<AddStocksDialog stocks={sorted} />];
       return (
         <Grid key={index} item lg={3} sm={6} xs={12}>
-          <ListStockCard {...{ group_by, index, actions }} stocks={links} />
+          <ListStockCard {...{ group_by, index, actions }} stocks={sorted} />
         </Grid>
       );
     });
