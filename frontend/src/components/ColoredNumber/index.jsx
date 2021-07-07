@@ -20,48 +20,26 @@ const useStyles = makeStyles(theme => ({
 
 export default function ColoredNumber(props) {
   const classes = useStyles();
-  const { val } = props;
+  const { val, unit } = props;
 
   if (!!!val) {
     return (
-      <Typography variant="body2" color="error">
+      <Typography variant="body2" color="error" display="inline">
         No data found.
       </Typography>
     );
   }
 
   const style_me = val => {
+    let color = null;
+
     if (isNumber(val)) {
       if (val < 0) {
-        return (
-          <Typography
-            variant="body2"
-            color="textPrimary"
-            className={clsx(classes.negative)}
-          >
-            {val.toFixed(2)}
-          </Typography>
-        );
+        color = clsx(classes.negative);
       } else if (val === 0) {
-        return (
-          <Typography
-            variant="body2"
-            color="textPrimary"
-            className={clsx(classes.zero)}
-          >
-            {val.toFixed(2)}
-          </Typography>
-        );
+        color = clsx(classes.zero);
       } else {
-        return (
-          <Typography
-            variant="body2"
-            color="textPrimary"
-            className={clsx(classes.positive)}
-          >
-            {val.toFixed(2)}
-          </Typography>
-        );
+        color = clsx(classes.positive);
       }
     } else {
       return (
@@ -70,6 +48,17 @@ export default function ColoredNumber(props) {
         </Typography>
       );
     }
+    return (
+      <Typography
+        variant="body2"
+        color="textPrimary"
+        className={color}
+        display="inline"
+      >
+        {val.toFixed(2)}
+        {!!unit ? unit : null}
+      </Typography>
+    );
   };
 
   return style_me(val);
@@ -77,4 +66,5 @@ export default function ColoredNumber(props) {
 
 ColoredNumber.propTypes = {
   val: PropTypes.number.isRequired,
+  unit: PropTypes.string,
 };

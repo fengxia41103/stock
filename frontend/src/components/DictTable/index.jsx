@@ -13,6 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/Highchart";
 import PropTypes from "prop-types";
+import ColoredNumber from "src/components/ColoredNumber";
 
 export default function DictTable(props) {
   const { table } = useTheme();
@@ -26,16 +27,9 @@ export default function DictTable(props) {
 
   const rows = map(interests, (description, key) => {
     const row = map(data, c => {
-      const val = isUndefined(c[key]) ? -1 : c[key].toFixed(2);
-
-      let decor = "inherit";
-      if (val < 0) {
-        decor = "error";
-      }
-
       return (
         <TableCell key={c.on}>
-          <Typography color={decor}>{val}</Typography>
+          <ColoredNumber val={!!c[key] ? c[key] : -1} />
         </TableCell>
       );
     });

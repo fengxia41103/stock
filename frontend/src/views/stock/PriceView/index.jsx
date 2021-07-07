@@ -41,9 +41,7 @@ export default function PriceView() {
             />
 
             <CardContent>
-              <Typography variant="body3">
-                End-2-End return: <ColoredNumber val={e2e_return} />%
-              </Typography>
+              End-2-End return: <ColoredNumber val={e2e_return} unit="%" />
               <PriceChart data={prices} />
             </CardContent>
           </Card>
