@@ -43,7 +43,7 @@ export default function HighchartGraphBox(props) {
 
   const _normalize = data => {
     // Some may have 0s or all 0s.
-    const tmp = filter(data, d => d !== 0);
+    const tmp = filter(data, d => d !== 0 && d !== "n/a");
 
     // if all 0s
     if (tmp.length === 0) return data;
@@ -90,7 +90,7 @@ export default function HighchartGraphBox(props) {
     }
 
     // Set chart height dynamically
-    const height = Math.max(500, height_step * categories.length);
+    const height = Math.max(400, height_step * categories.length);
     setFullHeight(height);
 
     // Chart options

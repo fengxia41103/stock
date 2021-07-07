@@ -117,7 +117,7 @@ function StockDetailView() {
 
   const render_data = stock => {
     return (
-      <Page>
+      <Page title={stock.symbol}>
         <Container maxWidth={false}>
           <Box display="flex" borderBottom={1}>
             <Grid container spacing={1} justify="flex-end" alignItems="center">

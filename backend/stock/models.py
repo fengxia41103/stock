@@ -81,7 +81,7 @@ class MyStock(models.Model):
 
     @property
     def tax_rate(self):
-        return IncomeStatement.objects.all().aggregate(Avg("tax_rate"))[
+        return self.incomes.filter(tax_rate__gt=0).aggregate(Avg("tax_rate"))[
             "tax_rate__avg"
         ]
 
@@ -93,7 +93,7 @@ class MyStock(models.Model):
         a premium.
 
         """
-        hists = MyStockHistorical.objects.filter(stock=self).order_by("-on")
+        hists = self.historicals.order_by("-on")
         if hists:
             return hists[0].close_price
         else:
@@ -245,9 +245,9 @@ class MyStock(models.Model):
 
     @property
     def last_reporting_date(self):
-        tmp = IncomeStatement.objects.filter(stock=self).order_by("-on")
+        tmp = self.incomes.order_by("-on")
         if tmp:
-            # Symbol such as ETF does not have balance sheet
+            # Symbol such as ETF does not have income statement
             return tmp[0].on
         else:
             return None

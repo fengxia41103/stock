@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { map, isNumber } from "lodash";
 import clsx from "clsx";
 import PropTypes from "prop-types";
@@ -32,8 +32,10 @@ export default function ColoredNumber(props) {
 
   const style_me = val => {
     let color = null;
+    let tmp = val;
 
     if (isNumber(val)) {
+      tmp = val.toFixed(2);
       if (val < 0) {
         color = clsx(classes.negative);
       } else if (val === 0) {
@@ -41,23 +43,13 @@ export default function ColoredNumber(props) {
       } else {
         color = clsx(classes.positive);
       }
-    } else {
-      return (
-        <Typography variant="body2" color="textPrimary">
-          {val ? val : "Not Available"}
-        </Typography>
-      );
     }
+
     return (
-      <Typography
-        variant="body2"
-        color="textPrimary"
-        className={color}
-        display="inline"
-      >
-        {val.toFixed(2)}
+      <Box className={color} display="inline">
+        {tmp}
         {!!unit ? unit : null}
-      </Typography>
+      </Box>
     );
   };
 

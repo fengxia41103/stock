@@ -6,6 +6,7 @@ import {
   Box,
   Typography,
   Grid,
+  Divider,
 } from "@material-ui/core";
 
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
@@ -41,8 +42,14 @@ export default function PriceView() {
             />
 
             <CardContent>
-              End-2-End return: <ColoredNumber val={e2e_return} unit="%" />
               <PriceChart data={prices} />
+              <Divider />
+              <Box mt={2}>
+                End-2-End return:
+                <Typography variant="h1">
+                  <ColoredNumber val={e2e_return} unit="%" />
+                </Typography>
+              </Box>
             </CardContent>
           </Card>
         </Grid>

@@ -103,7 +103,7 @@ export default function SectorDetailView() {
     );
 
     return (
-      <Page>
+      <Page title={sector.name}>
         <Container maxWidth={false}>
           <Box display="flex" mb={3} borderBottom={1}>
             <Grid container spacing={1} justify="flex-end">
