@@ -27,7 +27,7 @@ export default function RecentPriceSparkline(props) {
   const render_data = data => {
     let stocks = data.objects;
 
-    const chart_data = map(stocks, s => Math.ceil(s.close_price));
+    const chart_data = map(stocks, s => s.close_price);
 
     return (
       <Sparklines data={chart_data} height={40}>

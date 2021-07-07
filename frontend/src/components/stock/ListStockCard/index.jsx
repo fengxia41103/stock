@@ -67,10 +67,10 @@ export default function ListStockCard(props) {
   const links = map(stocks, s => {
     return (
       <Grid key={s.id} container spacing={1} alignItems="center">
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <Link href={`/stocks/${s.id}/historical/price`}>{s.symbol}</Link>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={5}>
           <RecentPriceSparkline stock={s.id} />
         </Grid>
       </Grid>
