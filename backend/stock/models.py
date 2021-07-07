@@ -294,6 +294,22 @@ class MyStock(models.Model):
             )
         return vals
 
+    @property
+    def pe(self):
+        tmp = self.ratios.filter(pe__gt=0).order_by("-on").first()
+        if tmp:
+            return tmp.pe
+        else:
+            return None
+
+    @property
+    def pb(self):
+        tmp = self.ratios.filter(pb__gt=0).order_by("-on").first()
+        if tmp:
+            return tmp.pb
+        else:
+            return None
+
 
 class MyStockHistorical(models.Model):
     """Historical stock data."""

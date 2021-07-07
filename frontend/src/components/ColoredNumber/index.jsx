@@ -8,10 +8,10 @@ import PropTypes from "prop-types";
 // A style sheet
 const useStyles = makeStyles(theme => ({
   positive: {
-    color: "green",
+    color: "#137333",
   },
   negative: {
-    color: "#d52349",
+    color: "#a50e0e",
   },
   zero: {
     color: "orange",

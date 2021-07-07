@@ -75,6 +75,7 @@ export default function RankingView() {
     "By Balance Sheet Analysis": "/balance-ranks",
     "By Income Statement Analysis": "/income-ranks",
     "By Cash Flow Statement Analysis": "/cash-ranks",
+    "By Valuation Ratios": "/valuation-ranks",
   };
   const rankings = map(ranking_mapping, (resource, title) => {
     const header = (

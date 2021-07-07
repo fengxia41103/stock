@@ -75,6 +75,8 @@ class StockResource(ModelResource):
     sectors = fields.ManyToManyField(
         "stock.api.SectorResource", "sectors", null=True
     )
+    pe = fields.FloatField("pe", null=True)
+    pb = fields.FloatField("pb", null=True)
 
     class Meta:
         queryset = MyStock.objects.all()
@@ -623,6 +625,25 @@ class RankIncomeResource(RankingResource):
             for index, (name, high_to_low) in enumerate(attrs)
         ]
         return self._get_ranks(IncomeStatement.objects, attrs)
+
+
+class RankValuationRatioResource(RankingResource):
+    """Ranking by values of ValuationRatio model."""
+
+    class Meta:
+        resource_name = "valuation-ranks"
+
+    def get_object_list(self, request):
+        attrs = [
+            ("pe", False),
+            ("pb", False),
+            ("ps", False),
+        ]
+        attrs = [
+            (index, name, high_to_low)
+            for index, (name, high_to_low) in enumerate(attrs)
+        ]
+        return self._get_ranks(ValuationRatio.objects, attrs)
 
 
 class DiaryResource(ModelResource):
