@@ -81,7 +81,7 @@ export default function HighchartGraphBox(props) {
 
     // chart data can be normalized for comparison purpose
     let chart_data = data;
-    if (normalize) {
+    if (!!normalize) {
       chart_data = map(chart_data, d => {
         let tmp = d;
         tmp.data = _normalize(d.data);
@@ -170,6 +170,10 @@ export default function HighchartGraphBox(props) {
           },
         },
         bubble: {
+          marker: {
+            enabled: true,
+          },
+
           tooltip: {
             useHTML: true,
             pointFormat: "{point.z}",

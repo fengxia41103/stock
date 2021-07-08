@@ -1,57 +1,68 @@
-import React, { useContext } from "react";
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
-import { map } from "lodash";
+import React from "react";
+
+import { map, filter } from "lodash";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/Highchart";
-import { Typography, Card, CardContent } from "@material-ui/core";
-import DropdownMenu from "src/components/DropdownMenu";
+import { Typography, Box } from "@material-ui/core";
+import PropTypes from "prop-types";
 
-export default function SectorOwnershipChart() {
-  const sector = useContext(SectorDetailContext);
-
+export default function SectorOwnershipChart(props) {
+  const { sector } = props;
   const containerId = randomId();
-  const chart_data = map(sector.stocks_detail, s => {
-    return {
-      name: s.symbol,
-      data: [
-        {
-          name: s.symbol,
-          x:
-            s.top_ten_institution_ownership < 0
-              ? 0
-              : s.top_ten_institution_ownership,
-          y: s.institution_count,
-          z: s.shares_outstanding,
-        },
-      ],
-    };
-  });
+  const chart_data = map(
+    // if I don't have this count, ignore
+    filter(sector.stocks_detail, d => d.institution_count > 0),
 
-  const helper = (
-    <Typography variant={"body2"}>
-      This breakdown chart is to demonstrate how company's institional owership
-      are compared in three categoreis: top 10 instituion ownership percentage
-      (X-axis), total instituion count (Y-axis), and number of share outstanding
-      in B (size of the bubble).
-    </Typography>
+    // compose the chart data
+    s => {
+      return {
+        name: s.symbol,
+        data: [
+          {
+            name: s.symbol,
+            x:
+              s.top_ten_institution_ownership < 0
+                ? 0
+                : s.top_ten_institution_ownership,
+            y: s.institution_count,
+            z: s.shares_outstanding,
+          },
+        ],
+      };
+    }
   );
 
   return (
-    <Card>
-      <CardContent>
-        <DropdownMenu title="Learn more" content={helper} />
-
-        <HighchartGraphBox
-          containerId={containerId}
-          type="bubble"
-          categories={[]}
-          xLabel="Top 10 Institution Ownership (%)"
-          yLabel="Total Institution Onwership Count"
-          title=""
-          legendEnabled={true}
-          data={chart_data}
-        />
-      </CardContent>
-    </Card>
+    <Box>
+      <HighchartGraphBox
+        containerId={containerId}
+        type="bubble"
+        categories={[]}
+        xLabel="Top 10 Institution Ownership (%)"
+        yLabel="Total Institution Onwership Count"
+        title=""
+        legendEnabled={true}
+        data={chart_data}
+      />
+      <Typography variant="body2">
+        This breakdown chart is to demonstrate how company's institional
+        owership are compared in three categoreis: top 10 instituion ownership
+        percentage (X-axis), total instituion count (Y-axis), and number of
+        share outstanding in B (size of the bubble).
+      </Typography>
+    </Box>
   );
 }
+
+SectorOwnershipChart.propTypes = {
+  sector: PropTypes.shape({
+    stock_details: PropTypes.arrayOf(
+      PropTypes.shape({
+        symbol: PropTypes.string,
+        top_ten_institution_ownership: PropTypes.number,
+        institution_count: PropTypes.number,
+        shares_outstanding: PropTypes.number,
+      })
+    ),
+  }).isRequired,
+};

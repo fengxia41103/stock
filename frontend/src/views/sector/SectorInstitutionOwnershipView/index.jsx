@@ -1,27 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import {
-  Box,
-  Typography,
-  Card,
-  CardContent,
-  CardHeader,
-} from "@material-ui/core";
+import { Box, Typography, Card, CardContent } from "@material-ui/core";
+import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
 import SectorOwnershipChart from "src/components/sector/SectorOwnershipChart";
 
 export default function SectorInstitutionOwnershipView() {
+  const sector = useContext(SectorDetailContext);
+
   return (
     <Box>
       <Typography variant="h1">Institution Ownership Comparison</Typography>
 
       <Box mt={1}>
         <Card>
-          <CardHeader
-            title={<Typography variant="h3">Institution Ownership</Typography>}
-          />
           <CardContent>
-            <SectorOwnershipChart />
+            <SectorOwnershipChart {...{ sector }} />
           </CardContent>
         </Card>
       </Box>
