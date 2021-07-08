@@ -77,6 +77,7 @@ class StockResource(ModelResource):
     )
     pe = fields.FloatField("pe", null=True)
     pb = fields.FloatField("pb", null=True)
+    ps = fields.FloatField("ps", null=True)
 
     class Meta:
         queryset = MyStock.objects.all()

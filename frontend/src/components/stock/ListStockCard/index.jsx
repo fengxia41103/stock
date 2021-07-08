@@ -19,6 +19,7 @@ import SectorLabel from "src/components/stock/SectorLabel";
 import { map, isUndefined } from "lodash";
 import DropdownMenu from "src/components/DropdownMenu";
 import RecentPriceSparkline from "src/components/stock/RecentPriceSparkline";
+import ColoredNumber from "src/components/ColoredNumber";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -70,8 +71,16 @@ export default function ListStockCard(props) {
         <Grid item xs={2}>
           <Link href={`/stocks/${s.id}/historical/price`}>{s.symbol}</Link>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={4}>
           <RecentPriceSparkline stock={s.id} />
+        </Grid>
+        <Grid item xs={3}>
+          <Typography variant="body2">P/E:</Typography>
+          <ColoredNumber val={s.pe} />
+        </Grid>
+        <Grid item xs={3}>
+          <Typography variant="body2">P/S:</Typography>
+          <ColoredNumber val={s.ps} />
         </Grid>
       </Grid>
     );
@@ -99,6 +108,13 @@ export default function ListStockCard(props) {
 ListStockCard.propTypes = {
   index: PropTypes.string.isRequired,
   group_by: PropTypes.string,
-  stocks: PropTypes.arrayOf(PropTypes.any),
+  stocks: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      symbol: PropTypes.string.isRequired,
+      pe: PropTypes.number,
+      ps: PropTypes.number,
+    })
+  ).isRequired,
   actions: PropTypes.arrayOf(PropTypes.any),
 };

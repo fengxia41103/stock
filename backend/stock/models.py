@@ -29,7 +29,18 @@ class MySector(models.Model):
 
     @property
     def stocks_property(self):
-        return self.stocks.all().values("id", "symbol").order_by("symbol")
+        properties = []
+        for s in self.stocks.all().order_by("symbol"):
+            properties.append(
+                {
+                    "id": s.id,
+                    "symbol": s.symbol,
+                    "pe": s.pe,
+                    "pb": s.pb,
+                    "ps": s.ps,
+                }
+            )
+        return properties
 
 
 class MyStockRankManager(models.Manager):
@@ -307,6 +318,14 @@ class MyStock(models.Model):
         tmp = self.ratios.filter(pb__gt=0).order_by("-on").first()
         if tmp:
             return tmp.pb
+        else:
+            return None
+
+    @property
+    def ps(self):
+        tmp = self.ratios.filter(ps__gt=0).order_by("-on").first()
+        if tmp:
+            return tmp.ps
         else:
             return None
 
