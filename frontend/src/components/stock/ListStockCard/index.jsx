@@ -15,7 +15,6 @@ import {
   Link,
 } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import SectorLabel from "src/components/stock/SectorLabel";
 import { map, isUndefined } from "lodash";
 import DropdownMenu from "src/components/DropdownMenu";
 import RecentPriceSparkline from "src/components/stock/RecentPriceSparkline";
@@ -46,10 +45,6 @@ export default function ListStockCard(props) {
       title = index === "null" ? "ETF" : index;
       break;
 
-    case "sector":
-      title = <SectorLabel resource={index} />;
-      break;
-
     default:
       title = index;
       break;
@@ -74,13 +69,17 @@ export default function ListStockCard(props) {
         <Grid item xs={4}>
           <RecentPriceSparkline stock={s.id} />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <Typography variant="body2">P/E:</Typography>
           <ColoredNumber val={s.pe} />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <Typography variant="body2">P/S:</Typography>
           <ColoredNumber val={s.ps} />
+        </Grid>
+        <Grid item xs={2}>
+          <Typography variant="body2">P/B:</Typography>
+          <ColoredNumber val={s.pb} />
         </Grid>
       </Grid>
     );
@@ -114,6 +113,7 @@ ListStockCard.propTypes = {
       symbol: PropTypes.string.isRequired,
       pe: PropTypes.number,
       ps: PropTypes.number,
+      pb: PropTypes.number,
     })
   ).isRequired,
   actions: PropTypes.arrayOf(PropTypes.any),

@@ -56,7 +56,7 @@ export default function SectorListView(props) {
       const stocks = sortBy(s.stocks_property, s => s.symbol);
 
       return (
-        <Grid key={s.name} item lg={3} sm={6} xs={12}>
+        <Grid key={s.name} item lg={4} sm={6} xs={12}>
           <ListStockCard {...{ actions, index: s.name, stocks }} />
         </Grid>
       );

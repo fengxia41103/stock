@@ -69,10 +69,6 @@ function StockListView(props) {
           g = v.symbol.charAt(0);
           break;
 
-        case "sector":
-          g = v.sectors[0];
-          break;
-
         default:
           g = v.last_reporting_date;
           break;
@@ -88,7 +84,7 @@ function StockListView(props) {
 
       const actions = [<AddStocksDialog stocks={sorted} />];
       return (
-        <Grid key={index} item lg={3} sm={6} xs={12}>
+        <Grid key={index} item lg={4} sm={6} xs={12}>
           <ListStockCard {...{ group_by, index, actions }} stocks={sorted} />
         </Grid>
       );
@@ -110,7 +106,6 @@ function StockListView(props) {
             control={<Radio />}
             label="Last Income Statement Date"
           />
-          <FormControlLabel value="sector" control={<Radio />} label="Sector" />
         </RadioGroup>
       </FormControl>
     );
