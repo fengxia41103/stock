@@ -15,14 +15,15 @@ import {
 } from "@material-ui/core";
 
 import SectorReturnComparisonChart from "src/components/sector/SectorReturnComparisonChart";
+import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
 
 export default function SectorReturnView() {
   const { api } = useContext(GlobalContext);
   const sector = useContext(SectorDetailContext);
   const stock_ids = map(sector.stocks_property, s => s.id).join(",");
 
-  const [start] = useState("2021-02-01");
-  const [end] = useState(new Date().toLocaleDateString("en-CA"));
+  const [start] = useState(get_last_month_string());
+  const [end] = useState(get_today_string());
   const [resource] = useState(
     `/historicals?stock__in=${stock_ids}&on__range=${start},${end}`
   );

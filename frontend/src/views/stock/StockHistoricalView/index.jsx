@@ -12,12 +12,13 @@ import {
 import StockHistoricalContext from "./context.jsx";
 import GlobalContext from "src/context";
 import Fetch from "src/components/Fetch";
+import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
 
 function StockHistoricalView() {
   const { id } = useParams();
   const { api } = useContext(GlobalContext);
-  const [start, setStart] = useState("2021-02-01");
-  const [end, setEnd] = useState(new Date().toLocaleDateString("en-CA"));
+  const [start, setStart] = useState(get_last_month_string());
+  const [end, setEnd] = useState(get_today_string);
   const [resource, setResource] = useState(
     `/historicals?stock=${id}&on__range=${start},${end}`
   );
