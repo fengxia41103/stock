@@ -18,6 +18,8 @@ import SectorDetailContext from "./context.jsx";
 import { useMutate } from "restful-react";
 import { map } from "lodash";
 import DropdownMenu from "src/components/DropdownMenu";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 const price_menus = [
   {
@@ -106,7 +108,7 @@ export default function SectorDetailView() {
       <Page title={sector.name}>
         <Container maxWidth={false}>
           <Box display="flex" mb={3} borderBottom={1}>
-            <Grid container spacing={1} justify="flex-end">
+            <Grid container spacing={1} alignItems="center">
               <MenuBar
                 root={resource}
                 title="Price & Trends"
@@ -130,6 +132,7 @@ export default function SectorDetailView() {
 
               <Grid item xs>
                 <Button color="primary" onClick={() => update({})}>
+                  <RefreshIcon />
                   Update
                 </Button>
               </Grid>
@@ -138,6 +141,7 @@ export default function SectorDetailView() {
                   color="secondary"
                   onClick={() => del().then((mounted.current = false))}
                 >
+                  <DeleteForeverIcon />
                   Delete
                 </Button>
               </Grid>

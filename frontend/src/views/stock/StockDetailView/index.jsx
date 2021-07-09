@@ -9,6 +9,8 @@ import StockDetailContext from "./context.jsx";
 import { useMutate } from "restful-react";
 import StockSector from "./sector.jsx";
 import ListDiary from "src/components/diary/ListDiary";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 const price_menus = [
   {
@@ -120,7 +122,7 @@ function StockDetailView() {
       <Page title={stock.symbol}>
         <Container maxWidth={false}>
           <Box display="flex" borderBottom={1}>
-            <Grid container spacing={1} justify="flex-end" alignItems="center">
+            <Grid container spacing={1} alignItems="center">
               <MenuBar
                 root={resource}
                 title="Price & Trends"
@@ -144,6 +146,7 @@ function StockDetailView() {
 
               <Grid item xs>
                 <Button color="primary" onClick={() => update({})}>
+                  <RefreshIcon />
                   Update
                 </Button>
               </Grid>
@@ -152,6 +155,7 @@ function StockDetailView() {
                   color="secondary"
                   onClick={() => del().then((mounted.current = false))}
                 >
+                  <DeleteForeverIcon />
                   Delete
                 </Button>
               </Grid>
