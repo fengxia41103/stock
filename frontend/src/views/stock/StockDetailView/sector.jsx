@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { map, remove, isEmpty } from "lodash";
 import Fetch from "src/components/Fetch";
 import {
+  Box,
   FormControl,
   FormLabel,
   FormControlLabel,
@@ -11,33 +12,40 @@ import {
 import GlobalContext from "src/context";
 import DropdownMenu from "src/components/DropdownMenu";
 import { useMutate } from "restful-react";
+import SimpleSnackbar from "src/components/SimpleSnackbar";
 
 export default function StockSector(props) {
   const { api } = useContext(GlobalContext);
   const [resource] = useState("/sectors");
+  const [changed, setChanged] = useState("");
+
   const { stock_resource } = props;
-  let sectors = [];
 
   const { mutate: update } = useMutate({
     verb: "PATCH",
     path: `${api}${resource}/`,
   });
 
-  const handleChange = event => {
+  const handleChange = (sectors, event) => {
     for (let i = 0; i < sectors.length; i++) {
       let s = sectors[i];
 
       // make a local copy for manipulation
       let tmp = [...s.stocks];
 
+      let msg = "";
+
       // conditions
       if (s.name === event.target.name) {
         if (event.target.checked) {
           // add to
           tmp.push(`/api/v1${stock_resource}/`);
+
+          msg = `I am now part of sector "${s.name}"`;
         } else {
           // remove
           remove(tmp, k => k.includes(stock_resource));
+          msg = `I have been removed from sector "${s.name}"`;
         }
 
         // call backend payload
@@ -49,7 +57,7 @@ export default function StockSector(props) {
         sectors[i] = { ...data };
 
         // make the API call
-        update({ objects: [data] });
+        update({ objects: [data] }).then(() => setChanged(msg));
 
         // I'm done here
         break;
@@ -58,9 +66,7 @@ export default function StockSector(props) {
   };
 
   const render_data = data => {
-    if (isEmpty(sectors)) {
-      sectors = data.objects;
-    }
+    const sectors = data.objects;
 
     let mapped_sectors = map(sectors, s => {
       // add checked bool
@@ -74,7 +80,7 @@ export default function StockSector(props) {
           control={
             <Checkbox
               checked={s.checked}
-              onChange={handleChange}
+              onChange={e => handleChange(sectors, e)}
               name={s.name}
             />
           }
@@ -84,14 +90,17 @@ export default function StockSector(props) {
     });
 
     const form = (
-      <FormControl component="fieldset">
-        <FormLabel component="legend">Select a sector</FormLabel>
-        <FormGroup>{selections}</FormGroup>
-      </FormControl>
+      <Box>
+        <SimpleSnackbar msg={changed} />
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Select a sector</FormLabel>
+          <FormGroup>{selections}</FormGroup>
+        </FormControl>
+      </Box>
     );
 
-    return <DropdownMenu content={form} keep_open/>;
+    return <DropdownMenu content={form} keep_open />;
   };
 
-  return <Fetch key={sectors} {...{ api, resource, render_data }} />;
+  return <Fetch {...{ api, resource, render_data }} />;
 }
