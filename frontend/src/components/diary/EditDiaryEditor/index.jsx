@@ -19,7 +19,7 @@ export default function EditDiaryEditor(props) {
   const { host } = useContext(GlobalContext);
   const { diary, inEditing } = props;
   const [comment, setComment] = useState(diary.content);
-  const [changed, setChanged] = useState("");
+  const [notification, setNotification] = useState("");
   const [prediction, setPrediction] = useState(diary.judgement);
 
   const { mutate: update } = useMutate({
@@ -33,8 +33,8 @@ export default function EditDiaryEditor(props) {
 
   const handle_update = event => {
     const msg = "Notes have been updated";
-    update({ content: comment, judgement: prediction }).then(() =>
-      setChanged(msg)
+    update({ content: comment, judgement: prediction }).then(
+      setNotification(msg)
     );
   };
 
@@ -79,7 +79,7 @@ export default function EditDiaryEditor(props) {
             Save
           </Button>
         </Box>
-        <SimpleSnackbar msg={changed} />
+        <SimpleSnackbar msg={notification} />
       </Box>
     );
   } else {

@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import { isUndefined } from "lodash";
 import PropTypes from "prop-types";
+import SimpleSnackbar from "src/components/SimpleSnackbar";
 
 export default function AddDiaryEditor(props) {
   const { api } = useContext(GlobalContext);
@@ -23,6 +24,7 @@ export default function AddDiaryEditor(props) {
   const [comment, setComment] = useState("");
   const { stock: stock_id, to_refresh } = props;
   const [prediction, setPrediction] = useState(1);
+  const [notification, setNotification] = useState("");
 
   const { mutate: create } = useMutate({
     verb: "POST",
@@ -31,11 +33,15 @@ export default function AddDiaryEditor(props) {
 
   // call API and close this dialog
   const on_create = () => {
+    const msg = "New note has been saved.";
+
     create({
       stock: isUndefined(stock_id) ? null : `/api/v1/stocks/${stock_id}/`,
       content: comment,
       judgement: prediction,
-    }).then(setComment(""));
+    })
+      .then(setComment(""))
+      .then(setNotification(msg));
   };
 
   useEffect(() => {
@@ -92,6 +98,8 @@ export default function AddDiaryEditor(props) {
           Save
         </Button>
       </Box>
+
+      <SimpleSnackbar msg={notification} />
     </Box>
   );
 }

@@ -18,7 +18,7 @@ import PropTypes from "prop-types";
 export default function StockSector(props) {
   const { api } = useContext(GlobalContext);
   const [resource] = useState("/sectors");
-  const [changed, setChanged] = useState("");
+  const [notification, setNotification] = useState("");
 
   const { stock_resource } = props;
 
@@ -58,7 +58,7 @@ export default function StockSector(props) {
         sectors[i] = { ...data };
 
         // make the API call
-        update({ objects: [data] }).then(() => setChanged(msg));
+        update({ objects: [data] }).then(setNotification(msg));
 
         // I'm done here
         break;
@@ -92,11 +92,11 @@ export default function StockSector(props) {
 
     const form = (
       <Box>
-        <SimpleSnackbar msg={changed} />
         <FormControl component="fieldset">
           <FormLabel component="legend">Select a sector</FormLabel>
           <FormGroup>{selections}</FormGroup>
         </FormControl>
+        <SimpleSnackbar msg={notification} />
       </Box>
     );
 

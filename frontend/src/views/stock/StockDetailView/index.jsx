@@ -11,6 +11,7 @@ import StockLinkToSector from "src/components/stock/StockLinkToSector";
 import ListDiary from "src/components/diary/ListDiary";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import SimpleSnackbar from "src/components/SimpleSnackbar";
 
 const price_menus = [
   {
@@ -100,6 +101,7 @@ function StockDetailView() {
   const { id } = useParams();
   const { api } = useContext(GlobalContext);
   const [resource] = useState(`/stocks/${id}`);
+  const [notification, setNotification] = useState("");
 
   const { mutate: del } = useMutate({
     verb: "DELETE",
@@ -116,6 +118,10 @@ function StockDetailView() {
     mounted.current = true;
     return () => (mounted.current = false);
   });
+
+  const handle_update = event => {
+    update({}).then(setNotification("Stock update has been requested."));
+  };
 
   const render_data = stock => {
     return (
@@ -145,7 +151,7 @@ function StockDetailView() {
               />
 
               <Grid item xs>
-                <Button color="primary" onClick={() => update({})}>
+                <Button color="primary" onClick={handle_update}>
                   <RefreshIcon />
                   Update
                 </Button>
@@ -171,6 +177,8 @@ function StockDetailView() {
               <ListDiary stock={stock} />
             </Box>
           </StockDetailContext.Provider>
+
+          <SimpleSnackbar msg={notification} />
         </Container>
       </Page>
     );

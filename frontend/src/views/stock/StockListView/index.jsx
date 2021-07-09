@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { map, filter, sortBy, groupBy } from "lodash";
+import { map, filter, sortBy, groupBy, truncate } from "lodash";
 import Fetch from "src/components/Fetch";
 import {
   Box,
@@ -24,12 +24,14 @@ import AddNewStockDialog from "src/components/stock/AddNewStockDialog";
 import UpdateIcon from "@material-ui/icons/Update";
 import DropdownMenu from "src/components/DropdownMenu";
 import AddStocksDialog from "src/components/sector/AddStocksDialog";
+import SimpleSnackbar from "src/components/SimpleSnackbar";
 
 function StockListView(props) {
   const { api } = useContext(GlobalContext);
   const [resource] = useState("/stocks");
   const [searching, setSearching] = useState("");
   const [group_by, setGroupBy] = useState("last_reporting_date");
+  const [notification, setNotification] = useState("");
 
   const symbol_filter_change = event => {
     const tmp = event.target.value.trim().toUpperCase();
@@ -42,6 +44,8 @@ function StockListView(props) {
 
   // API will treat `all:True` as a request to update all stocks.
   const update_all = stocks => {
+    const symbols = truncate(map(stocks, s => s.symbol).join(","), 20);
+
     const call_api = s => {
       const uri = `${api}${resource}/${s.id}/`;
       fetch(uri, {
@@ -52,7 +56,10 @@ function StockListView(props) {
         body: JSON.stringify({}),
       });
     };
-    stocks.forEach(s => call_api(s));
+    let promises = stocks.map(s => call_api(s));
+    Promise.all(promises).then(
+      setNotification(`${symbols} updates have been requested.`)
+    );
   };
 
   const render_data = data => {
@@ -148,6 +155,7 @@ function StockListView(props) {
               {selectors}
             </Grid>
           </Box>
+          <SimpleSnackbar msg={notification} />
         </Container>
       </Page>
     );
