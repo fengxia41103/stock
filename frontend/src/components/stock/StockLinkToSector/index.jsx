@@ -13,6 +13,7 @@ import GlobalContext from "src/context";
 import DropdownMenu from "src/components/DropdownMenu";
 import { useMutate } from "restful-react";
 import SimpleSnackbar from "src/components/SimpleSnackbar";
+import PropTypes from "prop-types";
 
 export default function StockSector(props) {
   const { api } = useContext(GlobalContext);
@@ -26,7 +27,7 @@ export default function StockSector(props) {
     path: `${api}${resource}/`,
   });
 
-  const handleChange = (sectors, event) => {
+  const handle_update = (sectors, event) => {
     for (let i = 0; i < sectors.length; i++) {
       let s = sectors[i];
 
@@ -80,7 +81,7 @@ export default function StockSector(props) {
           control={
             <Checkbox
               checked={s.checked}
-              onChange={e => handleChange(sectors, e)}
+              onChange={e => handle_update(sectors, e)}
               name={s.name}
             />
           }
@@ -104,3 +105,7 @@ export default function StockSector(props) {
 
   return <Fetch {...{ api, resource, render_data }} />;
 }
+
+StockSector.propTypes = {
+  stock_resource: PropTypes.string.isRequired,
+};

@@ -7,7 +7,7 @@ import MenuBar from "src/components/MenuBar";
 import Fetch from "src/components/Fetch";
 import StockDetailContext from "./context.jsx";
 import { useMutate } from "restful-react";
-import StockSector from "./sector.jsx";
+import StockLinkToSector from "src/components/stock/StockLinkToSector";
 import ListDiary from "src/components/diary/ListDiary";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import RefreshIcon from "@material-ui/icons/Refresh";
@@ -159,7 +159,7 @@ function StockDetailView() {
                   Delete
                 </Button>
               </Grid>
-              <StockSector stock_resource={resource} />
+              <StockLinkToSector stock_resource={resource} />
             </Grid>
           </Box>
 

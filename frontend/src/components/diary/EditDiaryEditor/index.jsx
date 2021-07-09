@@ -13,11 +13,13 @@ import {
   RadioGroup,
   Radio,
 } from "@material-ui/core";
+import SimpleSnackbar from "src/components/SimpleSnackbar";
 
 export default function EditDiaryEditor(props) {
   const { host } = useContext(GlobalContext);
   const { diary, inEditing } = props;
   const [comment, setComment] = useState(diary.content);
+  const [changed, setChanged] = useState("");
   const [prediction, setPrediction] = useState(diary.judgement);
 
   const { mutate: update } = useMutate({
@@ -27,6 +29,13 @@ export default function EditDiaryEditor(props) {
 
   const prediction_change = event => {
     setPrediction(parseInt(event.target.value));
+  };
+
+  const handle_update = event => {
+    const msg = "Notes have been updated";
+    update({ content: comment, judgement: prediction }).then(() =>
+      setChanged(msg)
+    );
   };
 
   const judgement_selection = (
@@ -66,14 +75,11 @@ export default function EditDiaryEditor(props) {
         />
         <Box mt={2}>{judgement_selection}</Box>
         <Box>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => update({ content: comment, judgement: prediction })}
-          >
+          <Button variant="contained" color="primary" onClick={handle_update}>
             Save
           </Button>
         </Box>
+        <SimpleSnackbar msg={changed} />
       </Box>
     );
   } else {
