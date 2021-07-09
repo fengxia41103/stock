@@ -10,6 +10,8 @@ import GlobalContext from "src/context";
 import { useMutate } from "restful-react";
 import EditIcon from "@material-ui/icons/Edit";
 import PropTypes from "prop-types";
+import Chip from "@material-ui/core/Chip";
+import { map, filter } from "lodash";
 
 export default function EditSectorDialog(props) {
   const { host } = useContext(GlobalContext);
@@ -41,8 +43,14 @@ export default function EditSectorDialog(props) {
   const on_update = () =>
     update({ resource_uri, name: new_name }).then(setOpen(false));
 
+  // filtered existing list
+  const filtered_existings = map(
+    filter(existings, s => s.includes(new_name)),
+    s => <Chip color="primary" label={s} />
+  );
+
   return (
-    <Box flexDirection="row">
+    <Box>
       <Button color="primary" onClick={handleClickOpen}>
         <EditIcon />
         Edit sector name
@@ -65,7 +73,7 @@ export default function EditSectorDialog(props) {
             label={is_error ? "Error" : ""}
             helperText={is_error ? "Sector name must be unique." : ""}
           />
-          {existings}
+          <Box mt={2}>{filtered_existings}</Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

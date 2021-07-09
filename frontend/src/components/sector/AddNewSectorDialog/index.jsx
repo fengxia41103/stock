@@ -3,6 +3,7 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
+import Chip from "@material-ui/core/Chip";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -11,14 +12,13 @@ import GlobalContext from "src/context";
 import { useMutate } from "restful-react";
 import AddIcon from "@material-ui/icons/Add";
 import Fetch from "src/components/Fetch";
-import { map } from "lodash";
+import { map, filter } from "lodash";
 
 export default function AddNewSectorDialog() {
   const { api } = useContext(GlobalContext);
   const [open, setOpen] = useState(false);
   const [resource] = useState("/sectors");
   const [sector, setSector] = useState("");
-  let sectors = [];
 
   const { mutate: create } = useMutate({
     verb: "POST",
@@ -47,8 +47,11 @@ export default function AddNewSectorDialog() {
       .then(reload());
 
   const render_data = data => {
-    sectors = data.objects;
-    sectors = map(sectors, s => s.name);
+    let sectors = data.objects;
+    sectors = map(
+      filter(sectors, s => s.name.includes(sector)),
+      s => <Chip color="primary" label={s.name} />
+    );
     const is_error = sectors.includes(sector);
 
     return (
@@ -81,7 +84,7 @@ export default function AddNewSectorDialog() {
               helperText={is_error ? "Sector name must be unique." : ""}
             />
 
-            {sectors}
+            <Box mt={2}>{sectors}</Box>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
