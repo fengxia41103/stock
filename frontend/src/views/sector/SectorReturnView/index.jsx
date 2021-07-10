@@ -20,7 +20,7 @@ import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
 export default function SectorReturnView() {
   const { api } = useContext(GlobalContext);
   const sector = useContext(SectorDetailContext);
-  const stock_ids = map(sector.stocks_property, s => s.id).join(",");
+  const stock_ids = map(sector.stocks_detail, s => s.id).join(",");
 
   const [start] = useState(get_last_month_string());
   const [end] = useState(get_today_string());

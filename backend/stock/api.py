@@ -37,9 +37,6 @@ class SectorResource(ModelResource):
         readonly=True,
         use_in="detail",
     )
-    stocks_property = fields.ListField(
-        "stocks_property", null=True, readonly=True
-    )
 
     class Meta:
         queryset = MySector.objects.all()
@@ -54,7 +51,7 @@ class SectorResource(ModelResource):
 
         for stock in sector.stocks.all():
             # kick off updates
-            batch_update_helper(sector.name, stock.symbol)
+            batch_update_helper(stock.symbol)
 
 
 class StockResource(ModelResource):
@@ -89,25 +86,22 @@ class StockResource(ModelResource):
 
     def obj_update(self, bundle, **kwargs):
         stock = bundle.obj
-        symbol = stock.symbol
-        sectors = stock.sectors.all()
-        if sectors:
-            sector = sectors[0].name
-        else:
-            sector = "misc"
 
         # kick off updates
-        batch_update_helper(sector, symbol)
+        batch_update_helper(stock.symbol)
 
     def obj_create(self, bundle, **kwargs):
+        # new stock is default to be in "misc" sector
         sector, created = MySector.objects.get_or_create(name="misc")
         stock, created = MyStock.objects.get_or_create(
             symbol=bundle.data["symbol"]
         )
-        sector.stocks.add(stock)
+        if created:
+            # if new stock, link to default sector
+            sector.stocks.add(stock)
 
-        # kick off updates
-        batch_update_helper(sector.name, stock.symbol)
+            # kick off updates
+            batch_update_helper(stock.symbol)
 
         bundle.obj = stock
         return bundle

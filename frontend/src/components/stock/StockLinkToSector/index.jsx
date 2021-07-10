@@ -1,26 +1,40 @@
 import React, { useState, useContext } from "react";
-import { map, remove, isEmpty } from "lodash";
+import { map, remove } from "lodash";
 import Fetch from "src/components/Fetch";
 import {
   Box,
   FormControl,
-  FormLabel,
   FormControlLabel,
   FormGroup,
   Checkbox,
+  Typography,
+  Tooltip,
+  Grid,
+  Divider,
 } from "@material-ui/core";
 import GlobalContext from "src/context";
-import DropdownMenu from "src/components/DropdownMenu";
 import { useMutate } from "restful-react";
 import SimpleSnackbar from "src/components/SimpleSnackbar";
 import PropTypes from "prop-types";
+import Popover from "@material-ui/core/Popover";
 
-export default function StockSector(props) {
+export default function StockLinkToSector(props) {
   const { api } = useContext(GlobalContext);
+  const { stock_name, stock_resource } = props;
   const [resource] = useState("/sectors");
   const [notification, setNotification] = useState("");
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const { stock_resource } = props;
+  const open_sector_list = event => {
+    setAnchorEl(event.currentTarget);
+    setOpen(true);
+  };
+
+  const close_sector_list = () => {
+    setAnchorEl(null);
+    setOpen(false);
+  };
 
   const { mutate: update } = useMutate({
     verb: "PATCH",
@@ -76,36 +90,76 @@ export default function StockSector(props) {
 
     const selections = map(mapped_sectors, s => {
       return (
-        <FormControlLabel
-          key={s.id}
-          control={
-            <Checkbox
-              checked={s.checked}
-              onChange={e => handle_update(sectors, e)}
-              name={s.name}
-            />
-          }
-          label={s.name}
-        />
+        <Grid item key={s.id} lg={2} sm={3} xs={4}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={s.checked}
+                onChange={e => handle_update(sectors, e)}
+                name={s.name}
+              />
+            }
+            label={s.name}
+          />
+        </Grid>
       );
     });
 
     const form = (
-      <Box>
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Select a sector</FormLabel>
-          <FormGroup>{selections}</FormGroup>
-        </FormControl>
+      <Box padding={2}>
+        <Typography variant="h3">Link {stock_name} to a Sector</Typography>
+        <Divider />
+        <Box mt={2}>
+          <FormControl component="fieldset">
+            <FormGroup>
+              <Grid container spacing={1}>
+                {selections}
+              </Grid>
+            </FormGroup>
+          </FormControl>
+        </Box>
         <SimpleSnackbar msg={notification} />
       </Box>
     );
 
-    return <DropdownMenu content={form} keep_open />;
+    return (
+      <Popover
+        open={open}
+        anchorEl={anchorEl}
+        onClose={close_sector_list}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        {form}
+      </Popover>
+    );
   };
 
-  return <Fetch {...{ api, resource, render_data }} />;
+  return (
+    <Box display="inline">
+      <Tooltip
+        title="Assign stock to a sector"
+        onClick={open_sector_list}
+        arrow
+      >
+        <Typography color="textSecondary" display="inline">
+          &#47;&#47;
+        </Typography>
+      </Tooltip>
+      {open ? (
+        <Fetch {...{ api, resource, render_data, silent: true }} />
+      ) : null}
+    </Box>
+  );
 }
 
-StockSector.propTypes = {
+StockLinkToSector.propTypes = {
+  stock_name: PropTypes.string.isRequired,
   stock_resource: PropTypes.string.isRequired,
 };

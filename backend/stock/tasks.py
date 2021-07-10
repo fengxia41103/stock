@@ -48,16 +48,16 @@ def __valuation_ratio_consumer(whatever, symbol):
 
 
 @app.task(queue="stock")
-def __yahoo_consumer(sector, symbol):
+def __yahoo_consumer(symbol):
     http_agent = PlainUtility()
     crawler = MyStockHistoricalYahoo(http_agent)
-    crawler.parser(sector, symbol)
+    crawler.parser(symbol)
 
 
-def batch_update_helper(sector, symbol):
+def batch_update_helper(symbol):
 
     # get price
-    history_sig = __yahoo_consumer.s(sector, symbol)
+    history_sig = __yahoo_consumer.s(symbol)
     summary_compute_sig = __summary_consumer.s(symbol)
     task = chain(history_sig, summary_compute_sig)
     task.apply_async()
@@ -77,15 +77,8 @@ def price_daily():
     http_agent = PlainUtility()
 
     for stock in MyStock.objects.all():
-        symbol = stock.symbol
-        sectors = stock.sectors.all()
-        if sectors:
-            sector = sectors[0].name
-        else:
-            sector = "misc"
-
         # daily price
-        MyStockHistoricalYahoo(http_agent).parser(sector, symbol)
+        MyStockHistoricalYahoo(http_agent).parser(stock.symbol)
 
 
 @app.task(queue="stock")

@@ -36,7 +36,7 @@ export default function RecentPriceSparkline(props) {
     );
   };
 
-  return <Fetch {...{ api, resource, render_data }} />;
+  return <Fetch {...{ api, resource, render_data, silent: true }} />;
 }
 
 RecentPriceSparkline.propTypes = {

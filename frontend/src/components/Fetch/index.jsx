@@ -5,14 +5,20 @@ import NotFoundView from "src/views/errors/NotFoundView";
 import PropTypes from "prop-types";
 
 export default function Fetch(props) {
-  const { api, resource, render_data, mounted } = props;
+  const { api, resource, render_data, mounted, silent } = props;
 
   const { data, loading, error } = useGet({
     path: api + encodeURI(resource),
     debounce: 200,
   });
 
-  if (loading) return <CircularProgress />;
+  if (loading) {
+    if (!!!silent) {
+      return <CircularProgress />;
+    } else {
+      return null;
+    }
+  }
   if (error) return <NotFoundView />;
 
   // if caller is not mounted anymore, quit
@@ -27,4 +33,5 @@ Fetch.propTypes = {
   resource: PropTypes.string.isRequired,
   render_data: PropTypes.func.isRequired,
   mounted: PropTypes.object,
+  silent: PropTypes.bool,
 };

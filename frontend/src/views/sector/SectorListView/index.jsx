@@ -1,23 +1,19 @@
 import React, { useState, useContext } from "react";
-import { map, filter, sortBy } from "lodash";
+import { map, filter } from "lodash";
 import Fetch from "src/components/Fetch";
 import {
   Box,
-  Button,
   Container,
   Grid,
   TextField,
   Card,
   CardContent,
-  Link,
 } from "@material-ui/core";
 import Page from "src/components/Page";
 import GlobalContext from "src/context";
 import AddNewSectorDialog from "src/components/sector/AddNewSectorDialog";
-import ListStockCard from "src/components/stock/ListStockCard";
-import EditSectorDialog from "src/components/sector/EditSectorDialog";
-import DeleteSectorDialog from "src/components/sector/DeleteSectorDialog";
-import MultilineChartIcon from "@material-ui/icons/MultilineChart";
+
+import ListSectorCard from "src/components/sector/ListSectorCard";
 
 export default function SectorListView(props) {
   const { api } = useContext(GlobalContext);
@@ -31,33 +27,14 @@ export default function SectorListView(props) {
 
   const render_data = data => {
     const sectors = data.objects;
-    const existing_names = map(sectors, s => s.name);
 
     // filter based on search string
     const filtered = filter(sectors, x => x.name.includes(searching));
 
     const selectors = map(filtered, s => {
-      const actions = [
-        <Button
-          key={s.id}
-          component={Link}
-          href={`/sectors/${s.id}/price`}
-          variant="text"
-          color="primary"
-        >
-          <MultilineChartIcon />
-          Comparison analysis
-        </Button>,
-
-        <EditSectorDialog {...s} existings={existing_names} />,
-        <DeleteSectorDialog {...s} />,
-      ];
-
-      const stocks = sortBy(s.stocks_property, s => s.symbol);
-
       return (
         <Grid key={s.name} item lg={4} sm={6} xs={12}>
-          <ListStockCard {...{ actions, index: s.name, stocks }} />
+          <ListSectorCard {...{ me: s, all: sectors }} />
         </Grid>
       );
     });

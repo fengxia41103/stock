@@ -16,7 +16,7 @@ import PropTypes from "prop-types";
 
 export default function DeleteSectorDialog(props) {
   const { host } = useContext(GlobalContext);
-  const { resource_uri: sector, stocks_property: stocks } = props;
+  const { resource_uri: sector, stocks_detail: stocks } = props;
   const [open, setOpen] = useState(false);
 
   const { mutate: del } = useMutate({
@@ -89,7 +89,7 @@ export default function DeleteSectorDialog(props) {
 
 DeleteSectorDialog.propTypes = {
   resource_uri: PropTypes.string.isRequired,
-  stocks_property: PropTypes.arrayOf(
+  stocks_detail: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
       symbol: PropTypes.string,

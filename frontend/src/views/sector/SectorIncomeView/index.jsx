@@ -8,7 +8,7 @@ import { map } from "lodash";
 
 export default function SectorIncomeView() {
   const sector = useContext(SectorDetailContext);
-  const stock_ids = map(sector.stocks_property, s => s.id).join(",");
+  const stock_ids = map(sector.stocks_details, s => s.id).join(",");
   const [resource] = useState(`/incomes?stock__in=${stock_ids}`);
   return (
     <Box>

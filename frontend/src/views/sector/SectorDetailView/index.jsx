@@ -83,7 +83,7 @@ export default function SectorDetailView() {
   });
 
   const render_data = sector => {
-    const stock_links = map(sector.stocks_property, v => {
+    const stock_links = map(sector.stocks_detail, v => {
       return (
         <Grid key={v.id} item xs>
           <Link href={`/stocks/${v.id}/historical/price`}>{v.symbol}</Link>

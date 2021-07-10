@@ -50,7 +50,7 @@ export default function AddNewSectorDialog() {
     let sectors = data.objects;
     sectors = map(
       filter(sectors, s => s.name.includes(sector)),
-      s => <Chip color="primary" label={s.name} />
+      s => <Chip key={s.id} color="primary" label={s.name} />
     );
     const is_error = sectors.includes(sector);
 

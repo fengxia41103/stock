@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import {
@@ -19,6 +19,7 @@ import { map, isUndefined } from "lodash";
 import DropdownMenu from "src/components/DropdownMenu";
 import RecentPriceSparkline from "src/components/stock/RecentPriceSparkline";
 import ColoredNumber from "src/components/ColoredNumber";
+import StockLinkToSector from "src/components/stock/StockLinkToSector";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -64,6 +65,10 @@ export default function ListStockCard(props) {
     return (
       <Grid key={s.id} container spacing={1} alignItems="center">
         <Grid item xs={2}>
+          <StockLinkToSector
+            stock_name={s.symbol}
+            stock_resource={s.resource_uri}
+          />
           <Link href={`/stocks/${s.id}/historical/price`}>{s.symbol}</Link>
         </Grid>
         <Grid item xs={4}>
@@ -114,6 +119,7 @@ ListStockCard.propTypes = {
       pe: PropTypes.number,
       ps: PropTypes.number,
       pb: PropTypes.number,
+      resource_uri: PropTypes.string,
     })
   ).isRequired,
   actions: PropTypes.arrayOf(PropTypes.any),

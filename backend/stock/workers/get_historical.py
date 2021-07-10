@@ -23,7 +23,7 @@ class MyStockHistoricalYahoo:
         self.http_handler = handler
         self.agent = handler.agent
 
-    def parser(self, sector, symbol):
+    def parser(self, symbol):
         """Parse Yahoo api stock historical data.
 
         Polling ichart.yahoo.com with manufactured query string (dark
@@ -42,8 +42,6 @@ class MyStockHistoricalYahoo:
 
         # Get stock and its existing historicals
         stock, created = MyStock.objects.get_or_create(symbol=symbol)
-        sector, created = MySector.objects.get_or_create(name=sector)
-        sector.stocks.add(stock)
 
         his = [
             x.isoformat()

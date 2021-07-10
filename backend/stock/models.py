@@ -27,21 +27,6 @@ class MySector(models.Model):
     def __str__(self):
         return str(self.name)
 
-    @property
-    def stocks_property(self):
-        properties = []
-        for s in self.stocks.all().order_by("symbol"):
-            properties.append(
-                {
-                    "id": s.id,
-                    "symbol": s.symbol,
-                    "pe": s.pe,
-                    "pb": s.pb,
-                    "ps": s.ps,
-                }
-            )
-        return properties
-
 
 class MyStockRankManager(models.Manager):
     def rank_by(self, attr, high_to_low):

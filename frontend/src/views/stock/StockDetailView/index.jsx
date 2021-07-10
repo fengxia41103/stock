@@ -123,6 +123,10 @@ function StockDetailView() {
     update({}).then(setNotification("Stock update has been requested."));
   };
 
+  const handle_delete = event => {
+    del().then((mounted.current = false));
+  };
+
   const render_data = stock => {
     return (
       <Page title={stock.symbol}>
@@ -157,15 +161,15 @@ function StockDetailView() {
                 </Button>
               </Grid>
               <Grid item xs>
-                <Button
-                  color="secondary"
-                  onClick={() => del().then((mounted.current = false))}
-                >
+                <Button color="secondary" onClick={handle_delete}>
                   <DeleteForeverIcon />
                   Delete
                 </Button>
               </Grid>
-              <StockLinkToSector stock_resource={resource} />
+              <StockLinkToSector
+                stock_name={stock.symbol}
+                stock_resource={resource}
+              />
             </Grid>
           </Box>
 
