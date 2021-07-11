@@ -1,17 +1,16 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import GlobalContext from "src/context";
-import { Container, Box, Grid, Button } from "@material-ui/core";
+import { Container, Box, Grid } from "@material-ui/core";
 import Page from "src/components/Page";
 import MenuBar from "src/components/MenuBar";
 import Fetch from "src/components/Fetch";
 import StockDetailContext from "./context.jsx";
-import { useMutate } from "restful-react";
 import StockLinkToSector from "src/components/stock/StockLinkToSector";
 import ListDiary from "src/components/diary/ListDiary";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import RefreshIcon from "@material-ui/icons/Refresh";
-import SimpleSnackbar from "src/components/SimpleSnackbar";
+
+import DeleteStock from "src/components/stock/DeleteStock";
+import UpdateStock from "src/components/stock/UpdateStock";
 
 const price_menus = [
   {
@@ -98,19 +97,9 @@ const valuation_menus = [
 ];
 
 function StockDetailView() {
-  const { id } = useParams();
   const { api } = useContext(GlobalContext);
+  const { id } = useParams();
   const [resource] = useState(`/stocks/${id}`);
-  const [notification, setNotification] = useState("");
-
-  const { mutate: del } = useMutate({
-    verb: "DELETE",
-    path: `${api}${resource}`,
-  });
-  const { mutate: update } = useMutate({
-    verb: "PATCH",
-    path: `${api}${resource}/`,
-  });
 
   const mounted = useRef(true);
 
@@ -118,14 +107,6 @@ function StockDetailView() {
     mounted.current = true;
     return () => (mounted.current = false);
   });
-
-  const handle_update = event => {
-    update({}).then(setNotification("Stock update has been requested."));
-  };
-
-  const handle_delete = event => {
-    del().then((mounted.current = false));
-  };
 
   const render_data = stock => {
     return (
@@ -155,16 +136,10 @@ function StockDetailView() {
               />
 
               <Grid item xs>
-                <Button color="primary" onClick={handle_update}>
-                  <RefreshIcon />
-                  Update
-                </Button>
+                <UpdateStock {...stock} />
               </Grid>
               <Grid item xs>
-                <Button color="secondary" onClick={handle_delete}>
-                  <DeleteForeverIcon />
-                  Delete
-                </Button>
+                <DeleteStock {...stock} />
               </Grid>
               <StockLinkToSector
                 stock_name={stock.symbol}
@@ -181,8 +156,6 @@ function StockDetailView() {
               <ListDiary stock={stock} />
             </Box>
           </StockDetailContext.Provider>
-
-          <SimpleSnackbar msg={notification} />
         </Container>
       </Page>
     );
