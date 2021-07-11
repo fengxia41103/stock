@@ -17,6 +17,8 @@ import { useMutate } from "restful-react";
 import SimpleSnackbar from "src/components/SimpleSnackbar";
 import PropTypes from "prop-types";
 import Popover from "@material-ui/core/Popover";
+import UpdateStock from "src/components/stock/UpdateStock";
+import DeleteStock from "src/components/stock/DeleteStock";
 
 export default function StockLinkToSector(props) {
   const { api } = useContext(GlobalContext);
@@ -106,7 +108,7 @@ export default function StockLinkToSector(props) {
     });
 
     const form = (
-      <Box padding={2}>
+      <Box>
         <Typography variant="h3">Link {stock_name} to a Sector</Typography>
         <Divider />
         <Box mt={2}>
@@ -136,7 +138,21 @@ export default function StockLinkToSector(props) {
           horizontal: "center",
         }}
       >
-        {form}
+        <Box padding={2}>
+          {form}
+
+          <Divider />
+          <Box mt={2}>
+            <Grid container spacing={1}>
+              <UpdateStock
+                {...{ symbol: stock_name, resource_uri: stock_resource }}
+              />
+              <DeleteStock
+                {...{ symbol: stock_name, resource_uri: stock_resource }}
+              />
+            </Grid>
+          </Box>
+        </Box>
       </Popover>
     );
   };
