@@ -122,6 +122,7 @@ export default function DashboardTrendingView() {
 
   let symbols = [],
     highlights = [];
+
   const render_data = data => {
     let stocks = data.objects;
 
@@ -292,12 +293,7 @@ export default function DashboardTrendingView() {
                 }
               />
               <CardContent>
-                <Grid
-                  container
-                  spacing={1}
-                  alignContent="center"
-                  alignItems="center"
-                >
+                <Grid container spacing={1} alignContent="center">
                   {trends}
                 </Grid>
               </CardContent>
