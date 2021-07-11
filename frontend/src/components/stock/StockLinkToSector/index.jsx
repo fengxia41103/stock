@@ -22,7 +22,7 @@ import DeleteStock from "src/components/stock/DeleteStock";
 
 export default function StockLinkToSector(props) {
   const { api } = useContext(GlobalContext);
-  const { stock_name, stock_resource } = props;
+  const { symbol, resource_uri } = props;
   const [resource] = useState("/sectors");
   const [notification, setNotification] = useState("");
   const [open, setOpen] = useState(false);
@@ -56,12 +56,12 @@ export default function StockLinkToSector(props) {
       if (s.name === event.target.name) {
         if (event.target.checked) {
           // add to
-          tmp.push(`/api/v1${stock_resource}/`);
+          tmp.push(resource_uri);
 
           msg = `I am now part of sector "${s.name}"`;
         } else {
           // remove
-          remove(tmp, k => k.includes(stock_resource));
+          remove(tmp, k => k.includes(resource_uri));
           msg = `I have been removed from sector "${s.name}"`;
         }
 
@@ -87,7 +87,7 @@ export default function StockLinkToSector(props) {
 
     let mapped_sectors = map(sectors, s => {
       // add checked bool
-      return { ...s, checked: s.stocks.some(i => i.includes(stock_resource)) };
+      return { ...s, checked: s.stocks.some(i => i.includes(resource_uri)) };
     });
 
     const selections = map(mapped_sectors, s => {
@@ -109,7 +109,7 @@ export default function StockLinkToSector(props) {
 
     const form = (
       <Box>
-        <Typography variant="h3">Link {stock_name} to a Sector</Typography>
+        <Typography variant="h3">Link {symbol} to a Sector</Typography>
         <Divider />
         <Box mt={2}>
           <FormControl component="fieldset">
@@ -141,17 +141,17 @@ export default function StockLinkToSector(props) {
         <Box padding={2}>
           {form}
 
-          <Divider />
-          <Box mt={2}>
-            <Grid container spacing={1}>
-              <UpdateStock
-                {...{ symbol: stock_name, resource_uri: stock_resource }}
-              />
-              <DeleteStock
-                {...{ symbol: stock_name, resource_uri: stock_resource }}
-              />
-            </Grid>
-          </Box>
+          {!!resource_uri ? (
+            <Box>
+              <Divider />
+              <Box mt={2}>
+                <Grid container spacing={1}>
+                  <UpdateStock {...props} />
+                  <DeleteStock {...props} />
+                </Grid>
+              </Box>
+            </Box>
+          ) : null}
         </Box>
       </Popover>
     );
@@ -176,6 +176,6 @@ export default function StockLinkToSector(props) {
 }
 
 StockLinkToSector.propTypes = {
-  stock_name: PropTypes.string.isRequired,
-  stock_resource: PropTypes.string.isRequired,
+  symbol: PropTypes.string.isRequired,
+  resource_uri: PropTypes.string,
 };

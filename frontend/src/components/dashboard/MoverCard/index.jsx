@@ -13,6 +13,7 @@ import {
 import PropTypes from "prop-types";
 import { map } from "lodash";
 import ColoredNumber from "src/components/ColoredNumber";
+import StockSymbol from "src/components/stock/StockSymbol";
 
 export default function MoverCard(props) {
   const { title, subtitle, stocks, value, date } = props;
@@ -25,9 +26,7 @@ export default function MoverCard(props) {
             <ColoredNumber val={s[value]} />
           </Grid>
           <Grid item xs>
-            <Link href={`/stocks/${s.stock_id}/historical/price`}>
-              {s.symbol}
-            </Link>
+            <StockSymbol id={s.stock_id} symbol={s.symbol} />
           </Grid>
         </Grid>
       </ListItem>

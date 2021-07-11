@@ -60,6 +60,9 @@ export default function Row(props) {
 
   // stock ids
   const stock_ids = map(ranks, r => r.id);
+  const added_stock_ids = map(ranks, r => {
+    return { stock_id: r.id, ...r };
+  });
 
   return (
     <Box mt={1}>
@@ -90,7 +93,7 @@ export default function Row(props) {
       </Grid>
 
       <Box mt={1} mb={2}>
-        {show_rank_graph ? <RankChart {...props} /> : null}
+        {show_rank_graph ? <RankChart ranks={added_stock_ids} /> : null}
         {show_1m_graph ? (
           <StocksPriceChart {...{ start, end, stocks: stock_ids }} />
         ) : null}

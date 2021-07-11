@@ -141,10 +141,7 @@ function StockDetailView() {
               <Grid item xs>
                 <DeleteStock {...stock} />
               </Grid>
-              <StockLinkToSector
-                stock_name={stock.symbol}
-                stock_resource={resource}
-              />
+              <StockLinkToSector {...stock} />
             </Grid>
           </Box>
 

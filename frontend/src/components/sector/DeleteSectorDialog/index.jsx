@@ -10,9 +10,9 @@ import { useMutate } from "restful-react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Link from "@material-ui/core/Link";
 import { map } from "lodash";
 import PropTypes from "prop-types";
+import StockSymbol from "src/components/stock/StockSymbol";
 
 export default function DeleteSectorDialog(props) {
   const { host } = useContext(GlobalContext);
@@ -43,9 +43,7 @@ export default function DeleteSectorDialog(props) {
   const stock_links = map(stocks, v => {
     return (
       <ListItem key={v.id}>
-        <Link key={v.id} href={`/stocks/${v.id}/historical/price`}>
-          {v.symbol}
-        </Link>
+        <StockSymbol {...v} />
       </ListItem>
     );
   });

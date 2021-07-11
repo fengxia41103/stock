@@ -1,17 +1,11 @@
 import React, { useContext, useState } from "react";
 import GlobalContext from "src/context";
-import {
-  Box,
-  Grid,
-  Link,
-  Card,
-  CardHeader,
-  CardContent,
-} from "@material-ui/core";
+import { Box, Grid, Card, CardHeader, CardContent } from "@material-ui/core";
 import PropTypes from "prop-types";
 import Fetch from "src/components/Fetch";
 import { map, filter, sortBy } from "lodash";
 import StockTagPriceLabel from "src/components/diary/StockTagPriceLabel";
+import StockSymbol from "src/components/stock/StockSymbol";
 
 export default function DiaryStockTag(props) {
   const { api } = useContext(GlobalContext);
@@ -28,9 +22,7 @@ export default function DiaryStockTag(props) {
       return (
         <Grid key={s.id} item lg={3} sm={4} xs={12}>
           <Card>
-            <CardHeader
-              title={<Link href={`/stocks/${s.id}`}>{s.symbol}</Link>}
-            />
+            <CardHeader title={<StockSymbol {...s} />} />
             <CardContent>
               <StockTagPriceLabel {...{ diary, stock: s }} />
             </CardContent>

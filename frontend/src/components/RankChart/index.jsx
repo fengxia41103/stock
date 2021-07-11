@@ -1,8 +1,9 @@
 import React from "react";
 import { map, isInteger } from "lodash";
 import PropTypes from "prop-types";
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import pink from "@material-ui/core/colors/pink";
+import StockSymbol from "src/components/stock/StockSymbol";
 
 export default function RankChart(props) {
   const { ranks, rank_val_name } = props;
@@ -24,10 +25,10 @@ export default function RankChart(props) {
 
     return (
       <Grid key={r.symbol} container spacing={1} alignItems="center">
-        <Grid item lg={1} sm={1} xs={2}>
-          <Typography variant="body2">{r.symbol}</Typography>
+        <Grid item lg={2} sm={2} xs={3}>
+          <StockSymbol id={r.stock_id} symbol={r.symbol} />
         </Grid>
-        <Grid item lg={10} sm={9} xs={8}>
+        <Grid item lg={8} sm={8} xs={7}>
           <Box height="10%" width={width} bgcolor={line_color} marginRight={2}>
             &nbsp;
           </Box>
