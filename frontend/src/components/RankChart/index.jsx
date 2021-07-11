@@ -1,42 +1,45 @@
 import React from "react";
-import { map } from "lodash";
-import { randomId } from "src/utils/helper.jsx";
-import HighchartGraphBox from "src/components/Highchart";
+import { map, isInteger } from "lodash";
 import PropTypes from "prop-types";
-import { isUndefined } from "lodash";
+import { Box, Grid, Typography } from "@material-ui/core";
+import pink from "@material-ui/core/colors/pink";
 
 export default function RankChart(props) {
-  const { category, ranks, rank_val_name } = props;
+  const { ranks, rank_val_name } = props;
+  const line_color = pink[400];
 
-  // charting the vals. I found using chart is easier to gauge
-  // relative strength. However, it takes a lot of screen
-  // space. Thus I'm making it toggle.
-  const containerId = randomId();
-  const categories = map(ranks, r => r.symbol);
-  const chart_data = [
-    {
-      name: category,
-      data: map(ranks, r =>
-        isUndefined(rank_val_name) ? r.val : r[rank_val_name]
-      ),
-    },
-  ];
-
-  return (
-    <HighchartGraphBox
-      containerId={containerId}
-      type="bar"
-      categories={categories}
-      yLabel=""
-      title=""
-      legendEnabled={true}
-      data={chart_data}
-    />
+  const max_score = Math.max(
+    ...map(ranks, r => {
+      const val = !!!rank_val_name ? r.val : r[rank_val_name];
+      return val;
+    })
   );
+
+  const the_chart = map(ranks, r => {
+    let val = !!!rank_val_name ? r.val : r[rank_val_name];
+    if (!isInteger(val)) {
+      val = val.toFixed(2);
+    }
+    const width = (100 * val) / max_score + "%";
+
+    return (
+      <Grid key={r.symbol} container spacing={1} alignItems="center">
+        <Grid item lg={1} sm={1} xs={2}>
+          <Typography variant="body2">{r.symbol}</Typography>
+        </Grid>
+        <Grid item lg={10} sm={9} xs={8}>
+          <Box height="10%" width={width} bgcolor={line_color} marginRight={2}>
+            &nbsp;
+          </Box>
+        </Grid>
+        {val}
+      </Grid>
+    );
+  });
+  return the_chart;
 }
 
 RankChart.propTypes = {
-  category: PropTypes.string.isRequired,
   ranks: PropTypes.arrayOf(
     PropTypes.shape({
       symbol: PropTypes.string,

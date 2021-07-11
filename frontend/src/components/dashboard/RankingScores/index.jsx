@@ -125,12 +125,12 @@ export default function RankingScores(props) {
                 are 10 symbols on the list, it gets a (10-0)=10, then the 2nd
                 place would get 9, and so on.
               </Typography>
-
-              <RankChart
-                category="TOP score"
-                ranks={rank_by_score_descending}
-                rank_val_name="total"
-              />
+              <Box mt={3}>
+                <RankChart
+                  ranks={rank_by_score_descending}
+                  rank_val_name="total"
+                />
+              </Box>
             </CardContent>
           </Card>
         </Grid>

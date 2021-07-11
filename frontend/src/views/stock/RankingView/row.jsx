@@ -89,7 +89,7 @@ export default function Row(props) {
         </Grid>
       </Grid>
 
-      <Box mt={1}>
+      <Box mt={1} mb={2}>
         {show_rank_graph ? <RankChart {...props} /> : null}
         {show_1m_graph ? (
           <StocksPriceChart {...{ start, end, stocks: stock_ids }} />
