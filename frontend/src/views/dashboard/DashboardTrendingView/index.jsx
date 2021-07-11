@@ -286,7 +286,9 @@ export default function DashboardTrendingView() {
                   </Typography>
                 }
                 subheader={
-                  <Typography variant="body2">in descending order</Typography>
+                  <Typography variant="body2">
+                    {start} to {end}
+                  </Typography>
                 }
               />
               <CardContent>

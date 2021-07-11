@@ -117,6 +117,11 @@ export default function RankingScores(props) {
           <Card className={clsx(classes.root, classes.card)}>
             <CardHeader
               title={<Typography variant="h3">Overall Scores</Typography>}
+              subheader={
+                <Typography variant="body2">
+                  {start} to {end}
+                </Typography>
+              }
             />
             <CardContent>
               <Typography variant="body2">
@@ -138,16 +143,26 @@ export default function RankingScores(props) {
           <Card className={clsx(classes.root, classes.card)}>
             <CardHeader
               title={
-                <Typography variant="h3">
-                  Top Player Prices {start} to {end}
+                <Typography variant="h3">Top Player Closing Prices</Typography>
+              }
+              subheader={
+                <Typography variant="body2">
+                  {start} to {end}
                 </Typography>
               }
             />
             <CardContent>
-              <StocksPriceChart
-                key={my_interests}
-                {...{ start, end, stocks: my_interests }}
-              />
+              <Typography variant="body2">
+                Closing price of top <strong>{my_interests.length}</strong>{" "}
+                stocks out of <strong>{rank_by_score_descending.length}</strong>{" "}
+                made to the ranking list.
+              </Typography>
+              <Box mt={3}>
+                <StocksPriceChart
+                  key={my_interests}
+                  {...{ start, end, stocks: my_interests }}
+                />
+              </Box>
             </CardContent>
           </Card>
         </Grid>
@@ -157,6 +172,11 @@ export default function RankingScores(props) {
           <CardHeader
             title={
               <Typography variant="h3">List of &ge;50% Occurances</Typography>
+            }
+            subheader={
+              <Typography variant="body2">
+                {start} to {end}
+              </Typography>
             }
           />
           <CardContent>
@@ -169,6 +189,11 @@ export default function RankingScores(props) {
           <CardHeader
             title={
               <Typography variant="h3">List of &lt;50% Occurances</Typography>
+            }
+            subheader={
+              <Typography variant="body2">
+                {start} to {end}
+              </Typography>
             }
           />
           <CardContent>
