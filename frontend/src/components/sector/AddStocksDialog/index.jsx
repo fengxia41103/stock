@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -82,11 +83,12 @@ export default function AddStocksDialog(props) {
 
     const selections = map(sectors, s => {
       return (
-        <FormControlLabel
-          key={s.id}
-          control={<Checkbox onChange={handleChange} name={s.name} />}
-          label={s.name}
-        />
+        <Grid item xs={4} key={s.id}>
+          <FormControlLabel
+            control={<Checkbox onChange={handleChange} name={s.name} />}
+            label={s.name}
+          />
+        </Grid>
       );
     });
 
@@ -107,7 +109,9 @@ export default function AddStocksDialog(props) {
               <Typography variant="body2">
                 Select a sector to add these stocks to:
               </Typography>
-              {selections}
+              <Grid container spacing={1}>
+                {selections}
+              </Grid>
             </Box>
 
             <Box mt={2}>
