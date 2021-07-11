@@ -144,7 +144,10 @@ export default function RankingScores(props) {
               }
             />
             <CardContent>
-              <StocksPriceChart {...{ start, end, stocks: my_interests }} />
+              <StocksPriceChart
+                key={my_interests}
+                {...{ start, end, stocks: my_interests }}
+              />
             </CardContent>
           </Card>
         </Grid>
