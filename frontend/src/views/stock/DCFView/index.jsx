@@ -42,9 +42,9 @@ function DCFView() {
   };
 
   const compute_dcf = stock => {
-    const { dcf_model, beta } = stock;
+    const { cross_statements_model, beta } = stock;
 
-    const dcf_values = map(dcf_model, d => {
+    const dcf_values = map(cross_statements_model, d => {
       const cost_of_equity = risk_free / 100 + (beta * market_premium) / 100;
       const debt_cost = (cost_of_debt / 100) * (1 - d.tax_rate);
 
@@ -118,6 +118,12 @@ function DCFView() {
     terminal_value: "Projected Terminal Value",
   };
 
+  const cost_vs_return = {
+    wacc: "WACC (%)",
+    roce: "Return on Capital Employed (%)",
+    roic: "Return on Invested Capital (%)",
+  };
+
   const input_mappings = [
     {
       title: "Risk Free Rate",
@@ -185,6 +191,11 @@ function DCFView() {
       <Typography variant="h1">{stock.symbol} DCF Model</Typography>
 
       <FinancialCard data={dcf_values} reported={reported} normalized={true} />
+      <FinancialCard
+        data={dcf_values}
+        reported={cost_vs_return}
+        normalized={false}
+      />
       <Box mt={1}>
         <Card>
           <CardContent>

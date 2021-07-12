@@ -249,12 +249,23 @@ class MyStock(models.Model):
             return None
 
     @property
-    def dcf_model(self):
-        """DCF values from each reporting period.
+    def cross_statements_model(self):
+        """Values depending on different statements.
 
-        DCF is a complex model because it takes too much
-        assumptions. However, some values can be computed using each
-        reporting statement. So at least they serve as a reference.
+        Some values have to be derived using different statements, and
+        statements don't always line up by the same dates. Therefore,
+        it's to look up the closest statement, eg. latest balance
+        sheet before this income statement, and pull values from
+        that. One clear example is the DCF model, which involves
+        income statement, and balance sheet.
+
+        - DCF model values
+        - ROCE: https://www.investopedia.com/terms/r/roce.asp
+        - ROIC: https://www.investopedia.com/terms/r/returnoninvestmentcapital.asp
+
+        Fortunately, all these go by the income statement as the main
+        reference.
+
         """
         vals = []
         for d in self.incomes.all().order_by("on"):
@@ -262,22 +273,52 @@ class MyStock(models.Model):
             # statements than balance sheets.
             capital_structure = 0
             share_issued = 0
-            balance = self.balances.filter(on__lte=d.on).order_by("-on")
+            balance = self.balances.filter(on__lte=d.on).order_by("-on").first()
             if balance:
-                capital_structure = balance[0].capital_structure
-                share_issued = balance[0].share_issued
+                capital_structure = balance.capital_structure
+                share_issued = balance.share_issued
 
             # cash using FCF
             # TODO: SY has 3 balance sheet, all on year end, 5 income
             # statements, and 4 cash flow statements! So the time
             # period alignment is a big problem.
             fcf = 0
-            cash_statement = self.cashes.filter(on__lte=d.on).order_by("-on")
+            cash_statement = (
+                self.cashes.filter(on__lte=d.on).order_by("-on").first()
+            )
             if cash_statement:
-                fcf = cash_statement[0].free_cash_flow
+                fcf = cash_statement.free_cash_flow
 
             # tax
             tax_rate = d.tax_rate
+
+            # compute ROCE
+            roce = 0
+            invested_capital = 0
+            if balance:
+                if balance.invested_capital:
+                    invested_capital = balance.invested_capital
+                else:
+                    invested_capital = (
+                        balance.working_capital
+                        - balance.cash_and_cash_equivalent
+                    )
+
+            if not invested_capital or invested_capital < 0:
+                invested_capital = 0
+            if d.ebit and invested_capital:
+                roce = d.ebit / invested_capital * 100
+
+            # compute ROIC
+            roic = 0
+            nopat = 0  # net profit after tax
+            if not invested_capital:
+                nopat = 0
+            elif d.tax_rate and d.ebit:
+                nopat = d.ebit * (1 - d.tax_rate)
+            if nopat and invested_capital:
+                roic = nopat / invested_capital * 100
+
             vals.append(
                 {
                     "on": d.on,
@@ -286,6 +327,10 @@ class MyStock(models.Model):
                     "tax_rate": tax_rate,
                     "share_issued": share_issued,
                     "close_price": d.close_price,
+                    "roce": max(roce, 0),  # only positive value
+                    "roic": max(roic, 0),  # only positive value
+                    "nopat": nopat,
+                    "invested_capital": invested_capital,
                 }
             )
         return vals
@@ -1263,6 +1308,11 @@ class BalanceSheet(StatementBase):
     def working_capital_growth_rate(self):
         """Compute how much WorkingCapital has grown over last report."""
         return self._growth_rate("BalanceSheet", "working_capital")
+
+    @property
+    def invested_capital_growth_rate(self):
+        """Compute how much InvestedCapital has grown over last report."""
+        return self._growth_rate("BalanceSheet", "invested_capital")
 
     @property
     def net_ppe_growth_rate(self):

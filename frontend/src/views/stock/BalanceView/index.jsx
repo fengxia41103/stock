@@ -14,6 +14,9 @@ function BalanceView() {
 
   const reported = {
     cash_and_cash_equivalent_per_share: "Cash & Equivalents Per Share",
+    working_capital: "Working Capital",
+    invested_capital: "Invested Capital",
+    retained_earnings: "Retained Earnings",
     tangible_book_value_per_share: "Tangible Book Value Per Share",
   };
   const ratio = {
@@ -27,6 +30,7 @@ function BalanceView() {
   };
 
   const pcnt = {
+    capital_structure: "Capital Structure",
     liability_to_asset: "Total Liabilities/Total Assets",
     current_asset_to_total_asset: "Current Assets/Total Assets",
     retained_earnings_to_equity: "Retained Earnings/Equity",
@@ -42,6 +46,7 @@ function BalanceView() {
     ar_growth_rate: "Account Receivable",
     all_cash_growth_rate: "Cashes",
     working_capital_growth_rate: "Working Capital",
+    invested_capital_growth_rate: "Invested Capital",
     net_ppe_growth_rate: "Net PP&E",
   };
 

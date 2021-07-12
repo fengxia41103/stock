@@ -67,7 +67,9 @@ class StockResource(ModelResource):
         "roe_dupont_reported_gap", null=True, use_in="detail"
     )
     last_reporting_date = fields.DateField("last_reporting_date", null=True)
-    dcf_model = fields.ListField("dcf_model", null=True, use_in="detail")
+    cross_statements_model = fields.ListField(
+        "cross_statements_model", null=True, use_in="detail"
+    )
 
     sectors = fields.ManyToManyField(
         "stock.api.SectorResource", "sectors", null=True
@@ -275,6 +277,9 @@ class BalanceSheetResource(ModelResource):
     all_cash_growth_rate = fields.FloatField("all_cash_growth_rate", null=True)
     working_capital_growth_rate = fields.FloatField(
         "working_capital_growth_rate", null=True
+    )
+    invested_capital_growth_rate = fields.FloatField(
+        "invested_capital_growth_rate", null=True
     )
     net_ppe_growth_rate = fields.FloatField("net_ppe_growth_rate", null=True)
 
