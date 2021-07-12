@@ -74,7 +74,7 @@ export default function FinancialCard(props) {
     );
   });
 
-  return <Box mt={3}>{cards}</Box>;
+  return <Box mt={1}>{cards}</Box>;
 }
 
 FinancialCard.propTypes = {

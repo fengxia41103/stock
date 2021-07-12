@@ -193,7 +193,7 @@ function DCFView() {
       <FinancialCard data={dcf_values} reported={reported} normalized={true} />
       <FinancialCard
         data={dcf_values}
-        reported={cost_vs_return}
+        ratio={cost_vs_return}
         normalized={false}
       />
       <Box mt={1}>

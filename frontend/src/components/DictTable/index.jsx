@@ -28,7 +28,7 @@ export default function DictTable(props) {
     const row = map(data, c => {
       return (
         <TableCell key={c.on}>
-          <ColoredNumber val={!!c[key] ? c[key] : "n/a"} />
+          <ColoredNumber val={!!c[key] ? c[key] : null} />
         </TableCell>
       );
     });

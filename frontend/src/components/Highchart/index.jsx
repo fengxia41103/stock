@@ -65,6 +65,22 @@ export default function HighchartGraphBox(props) {
     return normalized;
   };
 
+  const _fit_zero = data => {
+    let tmp = [...data];
+    let prev_non_zero = 0;
+    for (let i = 0; i < tmp.length; i++) {
+      let val = tmp[i];
+      if (val === 0 || val === "n/a") {
+        if (i > 0) {
+          tmp[i] = prev_non_zero;
+        }
+      } else {
+        prev_non_zero = tmp[i];
+      }
+    }
+    return tmp;
+  };
+
   const makeViz = () => {
     const {
       type,
@@ -84,7 +100,7 @@ export default function HighchartGraphBox(props) {
     if (!!normalize) {
       chart_data = map(chart_data, d => {
         let tmp = d;
-        tmp.data = _normalize(d.data);
+        tmp.data = _fit_zero(_normalize(d.data));
         return tmp;
       });
     }
