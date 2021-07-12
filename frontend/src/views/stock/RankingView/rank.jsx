@@ -3,7 +3,6 @@ import { map, filter } from "lodash";
 import Fetch from "src/components/Fetch";
 import Row from "./row.jsx";
 import GlobalContext from "src/context";
-import { Box } from "@material-ui/core";
 
 function Rank(props) {
   const { api } = useContext(GlobalContext);
@@ -45,7 +44,7 @@ function Rank(props) {
       );
     });
 
-    return <Box>{rows}</Box>;
+    return <>{rows}</>;
   };
   return <Fetch {...{ api, resource, render_data }} />;
 }

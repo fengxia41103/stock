@@ -42,7 +42,7 @@ export default function PriceReturnStat(props) {
   };
 
   return (
-    <Box>
+    <>
       <Card>
         <CardHeader title={<Typography variant="h3">{data.name}</Typography>} />
         <CardContent>
@@ -65,7 +65,7 @@ export default function PriceReturnStat(props) {
           </CardContent>
         </Card>
       </Box>
-    </Box>
+    </>
   );
 }
 

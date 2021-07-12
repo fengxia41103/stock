@@ -10,11 +10,11 @@ export default function SectorBalancesheetView() {
   const stock_ids = map(sector.stocks_detail, s => s.id).join(",");
   const [resource] = useState(`/balances?stock__in=${stock_ids}`);
   return (
-    <Box>
+    <>
       <Typography variant={"h1"}>BalanceSheet Comparisons</Typography>
       <Box mt={1}>
         <SectorStatementComparisonCharts resource={resource} />
       </Box>
-    </Box>
+    </>
   );
 }

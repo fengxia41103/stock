@@ -20,7 +20,7 @@ export default function SectorPriceView() {
   const title = `Normalized price between ${start} and ${end}`;
 
   return (
-    <Box>
+    <>
       <Typography variant={"h1"}>Price Comparison</Typography>
 
       <Box mt={1}>
@@ -32,6 +32,6 @@ export default function SectorPriceView() {
           </CardContent>
         </Card>
       </Box>
-    </Box>
+    </>
   );
 }

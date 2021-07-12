@@ -55,7 +55,7 @@ function StockHistoricalView() {
     }
 
     return (
-      <Box>
+      <>
         <Typography variant="h1">{data[0].symbol} Historical</Typography>
         <Box mt={3}>
           <Card>
@@ -89,7 +89,7 @@ function StockHistoricalView() {
             <Outlet />
           </Box>
         </StockHistoricalContext.Provider>
-      </Box>
+      </>
     );
   };
   // MUST: forcing re-fetch if the key is changing!

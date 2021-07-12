@@ -187,7 +187,7 @@ function DCFView() {
 
   const dcf_values = compute_dcf(stock);
   return (
-    <Box>
+    <>
       <Typography variant="h1">{stock.symbol} DCF Model</Typography>
 
       <FinancialCard data={dcf_values} reported={reported} normalized={true} />
@@ -205,7 +205,7 @@ function DCFView() {
           </CardContent>
         </Card>
       </Box>
-    </Box>
+    </>
   );
 }
 

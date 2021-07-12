@@ -55,7 +55,7 @@ export default function AddNewSectorDialog() {
     const is_error = sectors.includes(sector);
 
     return (
-      <Box>
+      <>
         <Button color="primary" onClick={handleClickOpen}>
           <AddIcon />
           Add New Sector
@@ -100,7 +100,7 @@ export default function AddNewSectorDialog() {
             </Button>
           </DialogActions>
         </Dialog>
-      </Box>
+      </>
     );
   };
   // render as usual to get data

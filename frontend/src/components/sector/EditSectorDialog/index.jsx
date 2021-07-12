@@ -50,7 +50,7 @@ export default function EditSectorDialog(props) {
   );
 
   return (
-    <Box>
+    <>
       <Button color="primary" onClick={handleClickOpen}>
         <EditIcon />
         Edit sector name
@@ -89,7 +89,7 @@ export default function EditSectorDialog(props) {
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </>
   );
 }
 

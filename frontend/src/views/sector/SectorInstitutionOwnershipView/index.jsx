@@ -9,7 +9,7 @@ export default function SectorInstitutionOwnershipView() {
   const sector = useContext(SectorDetailContext);
 
   return (
-    <Box>
+    <>
       <Typography variant="h1">Institution Ownership Comparison</Typography>
 
       <Box mt={1}>
@@ -19,6 +19,6 @@ export default function SectorInstitutionOwnershipView() {
           </CardContent>
         </Card>
       </Box>
-    </Box>
+    </>
   );
 }

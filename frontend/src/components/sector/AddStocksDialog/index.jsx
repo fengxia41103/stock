@@ -93,7 +93,7 @@ export default function AddStocksDialog(props) {
     });
 
     return (
-      <Box>
+      <>
         <Button color="primary" onClick={handleClickOpen}>
           <AddIcon />
           Add stocks to sector
@@ -131,7 +131,7 @@ export default function AddStocksDialog(props) {
             </Button>
           </DialogActions>
         </Dialog>
-      </Box>
+      </>
     );
   };
 

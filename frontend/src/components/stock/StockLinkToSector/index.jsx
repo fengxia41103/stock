@@ -108,7 +108,7 @@ export default function StockLinkToSector(props) {
     });
 
     const form = (
-      <Box>
+      <>
         <Typography variant="h3">Link {symbol} to a Sector</Typography>
         <Divider />
         <Box mt={2}>
@@ -121,7 +121,7 @@ export default function StockLinkToSector(props) {
           </FormControl>
         </Box>
         <SimpleSnackbar msg={notification} />
-      </Box>
+      </>
     );
 
     return (
@@ -142,7 +142,7 @@ export default function StockLinkToSector(props) {
           {form}
 
           {!!resource_uri ? (
-            <Box>
+            <>
               <Divider />
               <Box mt={2}>
                 <Grid container spacing={1}>
@@ -150,7 +150,7 @@ export default function StockLinkToSector(props) {
                   <DeleteStock {...props} />
                 </Grid>
               </Box>
-            </Box>
+            </>
           ) : null}
         </Box>
       </Popover>

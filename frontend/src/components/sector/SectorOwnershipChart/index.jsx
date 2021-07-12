@@ -3,7 +3,7 @@ import React from "react";
 import { map, filter } from "lodash";
 import { randomId } from "src/utils/helper.jsx";
 import HighchartGraphBox from "src/components/Highchart";
-import { Typography, Box } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
 
 export default function SectorOwnershipChart(props) {
@@ -33,7 +33,7 @@ export default function SectorOwnershipChart(props) {
   );
 
   return (
-    <Box>
+    <>
       <HighchartGraphBox
         containerId={containerId}
         type="bubble"
@@ -50,7 +50,7 @@ export default function SectorOwnershipChart(props) {
         percentage (X-axis), total instituion count (Y-axis), and number of
         share outstanding in B (size of the bubble).
       </Typography>
-    </Box>
+    </>
   );
 }
 

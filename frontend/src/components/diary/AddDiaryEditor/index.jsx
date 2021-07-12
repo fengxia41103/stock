@@ -79,7 +79,7 @@ export default function AddDiaryEditor(props) {
   );
 
   return (
-    <Box>
+    <>
       <Typography variant="body2">
         Write down your thoughts. This helps to track your ideas and we can look
         back at this moment to validate how well the idea has played out.
@@ -100,7 +100,7 @@ export default function AddDiaryEditor(props) {
       </Box>
 
       <SimpleSnackbar msg={notification} />
-    </Box>
+    </>
   );
 }
 

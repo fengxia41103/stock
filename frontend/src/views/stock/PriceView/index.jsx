@@ -58,7 +58,7 @@ export default function PriceView() {
   );
 
   return (
-    <Box>
+    <>
       <Card>
         <CardHeader
           title={
@@ -77,6 +77,6 @@ export default function PriceView() {
           {weekly_charts}
         </Grid>
       </Box>
-    </Box>
+    </>
   );
 }

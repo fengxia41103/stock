@@ -11,11 +11,11 @@ export default function SectorIncomeView() {
   const stock_ids = map(sector.stocks_details, s => s.id).join(",");
   const [resource] = useState(`/incomes?stock__in=${stock_ids}`);
   return (
-    <Box>
+    <>
       <Typography variant={"h1"}>Income Statement Comparisons</Typography>
       <Box mt={1}>
         <SectorStatementComparisonCharts resource={resource} />
       </Box>
-    </Box>
+    </>
   );
 }

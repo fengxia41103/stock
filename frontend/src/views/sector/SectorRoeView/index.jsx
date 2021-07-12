@@ -55,7 +55,7 @@ export default function SectorRoeView() {
     );
   });
   return (
-    <Box>
+    <>
       <Typography variant={"h1"}>ROE Comparison</Typography>
 
       <Box mt={1}>
@@ -70,6 +70,6 @@ export default function SectorRoeView() {
           {roe_breakdown_charts}
         </Grid>
       </Box>
-    </Box>
+    </>
   );
 }

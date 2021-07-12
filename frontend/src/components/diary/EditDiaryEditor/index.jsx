@@ -66,7 +66,7 @@ export default function EditDiaryEditor(props) {
 
   if (inEditing) {
     return (
-      <Box>
+      <>
         <MDEditor
           value={comment}
           onChange={setComment}
@@ -80,7 +80,7 @@ export default function EditDiaryEditor(props) {
           </Button>
         </Box>
         <SimpleSnackbar msg={notification} />
-      </Box>
+      </>
     );
   } else {
     return <MDEditor.Markdown source={comment} />;

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Box, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import FinancialCard from "src/components/stock/FinancialCard";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 
@@ -22,9 +22,9 @@ export default function DupontView() {
   const { dupont_model } = stock;
 
   return (
-    <Box>
+    <>
       <Typography variant="h1">{stock.symbol} Dupont ROE Model</Typography>
       <FinancialCard data={dupont_model} {...{ reported, analysis }} />
-    </Box>
+    </>
   );
 }

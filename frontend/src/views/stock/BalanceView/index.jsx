@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import GlobalContext from "src/context";
 import FinancialCard from "src/components/stock/FinancialCard";
 import Fetch from "src/components/Fetch";
@@ -54,10 +54,10 @@ function BalanceView() {
     const data = resp.objects;
 
     return (
-      <Box>
+      <>
         <Typography variant="h1">{stock.symbol} Balance Sheet</Typography>
         <FinancialCard {...{ data, reported, ratio, pcnt, p2p_growth }} />
-      </Box>
+      </>
     );
   };
   return <Fetch {...{ api, resource, render_data }} />;

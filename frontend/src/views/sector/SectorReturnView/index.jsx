@@ -73,11 +73,11 @@ export default function SectorReturnView() {
     );
 
     return (
-      <Box>
+      <>
         <Typography variant="h1">Returns Comparison</Typography>
 
         <Box mt={1}>{weekly_comparison_charts}</Box>
-      </Box>
+      </>
     );
   };
 

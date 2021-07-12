@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import GlobalContext from "src/context";
 import {
-  Box,
   Chip,
   makeStyles,
   Button,
@@ -95,7 +94,7 @@ export default function ListDiaryEntry(props) {
   }
 
   return (
-    <Box>
+    <>
       <Divider />
       <Grid container spacing={2} alignItems="center">
         <Grid item xs={6}>
@@ -129,7 +128,7 @@ export default function ListDiaryEntry(props) {
           <DiaryStockTag diary={diary} />
         </Grid>
       </Grid>
-    </Box>
+    </>
   );
 }
 

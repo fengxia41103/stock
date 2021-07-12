@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import GlobalContext from "src/context";
-import { Box, Grid, Card, CardHeader, CardContent } from "@material-ui/core";
+import { Grid, Card, CardHeader, CardContent } from "@material-ui/core";
 import PropTypes from "prop-types";
 import Fetch from "src/components/Fetch";
 import { map, filter, sortBy } from "lodash";
@@ -31,11 +31,11 @@ export default function DiaryStockTag(props) {
       );
     });
     return (
-      <Box>
+      <>
         <Grid container spacing={1}>
           {stocks}
         </Grid>
-      </Box>
+      </>
     );
   };
   return <Fetch {...{ api, resource, render_data }} />;

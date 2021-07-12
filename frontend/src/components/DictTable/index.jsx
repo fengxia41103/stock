@@ -19,7 +19,7 @@ export default function DictTable(props) {
   const { data, interests, chart } = props;
 
   if (isEmpty(data)) {
-    return <Box>No data found.</Box>;
+    return "No data found.";
   }
 
   const dates = map(data, i => <TableCell key={i.on}>{i.on}</TableCell>);

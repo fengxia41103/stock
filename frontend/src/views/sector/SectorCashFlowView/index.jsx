@@ -10,11 +10,11 @@ export default function SectorCashFlowView() {
   const stock_ids = map(sector.stocks_detail, s => s.id).join(",");
   const [resource] = useState(`/cashes?stock__in=${stock_ids}`);
   return (
-    <Box>
+    <>
       <Typography variant={"h1"}>Cash Flow Statement Comparisons</Typography>
       <Box mt={1}>
         <SectorStatementComparisonCharts resource={resource} />
       </Box>
-    </Box>
+    </>
   );
 }
