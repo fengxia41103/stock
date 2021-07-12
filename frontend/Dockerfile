@@ -1,6 +1,5 @@
 # build environment
-# FROM node:12.11.1 as builder
-FROM node:12.19.0-alpine3.10 as builder
+FROM node:16-alpine3.11 as builder
 
 # Set up code destination
 RUN mkdir /code
