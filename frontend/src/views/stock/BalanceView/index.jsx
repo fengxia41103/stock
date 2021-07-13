@@ -13,10 +13,12 @@ function BalanceView() {
   const [resource] = useState(`/balances?stock=${id}`);
 
   const reported = {
+    share_issued: "Share Issued",
+    common_stock: "Common Stock",
+    retained_earnings: "Retained Earnings",
     cash_and_cash_equivalent_per_share: "Cash & Equivalents Per Share",
     working_capital: "Working Capital",
     invested_capital: "Invested Capital",
-    retained_earnings: "Retained Earnings",
     tangible_book_value_per_share: "Tangible Book Value Per Share",
   };
   const ratio = {
@@ -39,6 +41,7 @@ function BalanceView() {
       "Cash Equivalents/Current Assets",
   };
   const p2p_growth = {
+    share_issued_growth_rate: "Shares Issued",
     capital_structure: "Debt % of Asset",
     equity_growth_rate: "Equity",
     debt_growth_rate: "Debt",

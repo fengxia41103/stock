@@ -282,6 +282,9 @@ class BalanceSheetResource(ModelResource):
         "invested_capital_growth_rate", null=True
     )
     net_ppe_growth_rate = fields.FloatField("net_ppe_growth_rate", null=True)
+    share_issued_growth_rate = fields.FloatField(
+        "share_issued_growth_rate", null=True
+    )
 
     # computed values
     total_liability = fields.FloatField("total_liability", null=True)

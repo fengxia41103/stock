@@ -1469,6 +1469,10 @@ class BalanceSheet(StatementBase):
             "close_price",
         )
 
+    @property
+    def share_issued_growth_rate(self):
+        return self._growth_rate("BalanceSheet", "share_issued")
+
 
 class MyDiary(models.Model):
     """Make comment regarding a stock.
