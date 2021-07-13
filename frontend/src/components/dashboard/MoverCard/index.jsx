@@ -1,5 +1,7 @@
 import React from "react";
+import clsx from "clsx";
 import {
+  makeStyles,
   Grid,
   Link,
   Card,
@@ -15,8 +17,19 @@ import { map } from "lodash";
 import ColoredNumber from "src/components/ColoredNumber";
 import StockSymbol from "src/components/stock/StockSymbol";
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  card: {
+    height: "100%",
+  },
+}));
+
 export default function MoverCard(props) {
   const { title, subtitle, stocks, value, date } = props;
+  const classes = useStyles();
 
   const entries = map(stocks, s => {
     return (
@@ -34,7 +47,7 @@ export default function MoverCard(props) {
   });
 
   return (
-    <Card>
+    <Card className={clsx(classes.root, classes.card)}>
       <CardHeader
         title={<Typography variant="h3">{title}</Typography>}
         subheader={
