@@ -42,3 +42,4 @@ django-extensions
 docutils
 pyyaml
 newscatcher
+gunicorn
