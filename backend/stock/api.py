@@ -548,6 +548,8 @@ class RankBalanceResource(RankingResource):
             ("ar_growth_rate", False),
             ("all_cash_growth_rate", True),
             ("working_capital_growth_rate", False),
+            ("invested_capital_growth_rate", False),
+            ("share_issued_growth_rate", False),
             # pcnt
             (
                 "cash_cash_equivalents_and_short_term_investments_to_current_asset",

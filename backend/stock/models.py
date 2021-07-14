@@ -2,8 +2,6 @@
 
 
 import logging
-from datetime import date
-from datetime import timedelta
 
 from django.apps import apps
 from django.db import models

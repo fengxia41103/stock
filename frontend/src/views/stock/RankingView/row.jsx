@@ -66,7 +66,7 @@ export default function Row(props) {
 
   return (
     <Box mt={1}>
-      <Grid container spacing={1}>
+      <Grid container alignItems="center" spacing={1}>
         <Grid item lg={2} sm={6} xs>
           <Typography variant="body1" className={classes.category}>
             {category_name}
