@@ -42,8 +42,19 @@ import BusinessIcon from "@material-ui/icons/Business";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import NewsListView from "src/views/news/NewsListView";
 import DashboardTrendingView from "src/views/dashboard/DashboardTrendingView";
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 
 const items = [
+  {
+    href: "/trending",
+    icon: TrendingUpIcon,
+    title: "Trending",
+  },
+  {
+    href: "/dashboard",
+    icon: DashboardIcon,
+    title: "Dashboard",
+  },
   {
     href: "/notes",
     icon: EventNoteIcon,
@@ -53,11 +64,6 @@ const items = [
     href: "/rankings",
     icon: SortIcon,
     title: "Rankings",
-  },
-  {
-    href: "/dashboard",
-    icon: DashboardIcon,
-    title: "Dashboard",
   },
   {
     href: "/news",
@@ -125,7 +131,7 @@ const routes = [
       },
       { path: "notes", element: <DiaryListView /> },
       { path: "dashboard", element: <TodayDashboardView /> },
-      { path: "dashboard/trend", element: <DashboardTrendingView /> },
+      { path: "trending", element: <DashboardTrendingView /> },
       {
         path: "news",
         element: <NewsListView />,

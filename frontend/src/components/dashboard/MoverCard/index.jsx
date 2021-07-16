@@ -60,9 +60,9 @@ export default function MoverCard(props) {
         <List>{entries}</List>
       </CardContent>
       <CardActions>
-        <Grid container justify="flex-end">
+        <Grid container spacing={1} justify="flex-end">
           <Typography variant="body2">on {date}</Typography>
-          <Link href={`/dashboard/trend`}>&rArr;</Link>
+          <Link href={`/trending`}>&rArr;</Link>
         </Grid>
       </CardActions>
     </Card>
