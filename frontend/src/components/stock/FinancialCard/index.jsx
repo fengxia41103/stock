@@ -1,5 +1,5 @@
 import React from "react";
-import { isEmpty, isUndefined, map } from "lodash";
+import { isEmpty, map } from "lodash";
 import {
   Box,
   Typography,
@@ -54,8 +54,8 @@ export default function FinancialCard(props) {
     },
   ];
 
-  const cards = map(mapping, m => {
-    if (isUndefined(m.data)) return null;
+  const cards = map(mapping, (m) => {
+    if (!!!m.data) return null;
 
     return (
       <Box key={m.title} mt={1}>
@@ -66,7 +66,7 @@ export default function FinancialCard(props) {
               data={data}
               interests={m.data}
               chart={true}
-              normalized={isUndefined(normalized) ? true : normalized}
+              normalized={!!!normalized ? true : normalized}
             />
           </CardContent>
         </Card>

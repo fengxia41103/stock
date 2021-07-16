@@ -9,11 +9,16 @@ import {
   Card,
   CardContent,
   Typography,
+  Drawer,
+  Button,
 } from "@material-ui/core";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 
 function DCFView() {
   const stock = useContext(StockDetailContext);
+  const [input_open, setInputOpen] = useState(false);
+  const open_input_drawer = (event) => setInputOpen(true);
+  const close_input_drawer = (event) => setInputOpen(false);
 
   const [risk_free, setRiskFree] = useState(1.242);
   const [market_premium, setMarketPremium] = useState(7);
@@ -22,29 +27,29 @@ function DCFView() {
   const [project_year, setProjectYear] = useState(5);
   const [terminal_growth_rate, setTerminalGrowthRate] = useState(1);
 
-  const risk_free_change = event => {
+  const risk_free_change = (event) => {
     setRiskFree(event.target.value);
   };
-  const market_premium_change = event => {
+  const market_premium_change = (event) => {
     setMarketPremium(event.target.value);
   };
-  const cost_of_debt_change = event => {
+  const cost_of_debt_change = (event) => {
     setCostOfDebt(event.target.value);
   };
-  const growth_rate_change = event => {
+  const growth_rate_change = (event) => {
     setGrowthRate(event.target.value);
   };
-  const project_year_change = event => {
+  const project_year_change = (event) => {
     setProjectYear(event.target.value);
   };
-  const terminal_growth_change = event => {
+  const terminal_growth_change = (event) => {
     setTerminalGrowthRate(event.target.value);
   };
 
-  const compute_dcf = stock => {
+  const compute_dcf = (stock) => {
     const { cross_statements_model, beta } = stock;
 
-    const dcf_values = map(cross_statements_model, d => {
+    const dcf_values = map(cross_statements_model, (d) => {
       const cost_of_equity = risk_free / 100 + (beta * market_premium) / 100;
       const debt_cost = (cost_of_debt / 100) * (1 - d.tax_rate);
 
@@ -169,7 +174,7 @@ function DCFView() {
     },
   ];
 
-  const adjustable_inputs = map(input_mappings, i => {
+  const adjustable_inputs = map(input_mappings, (i) => {
     return (
       <Grid item key={i.title} lg={2} sm={6} xs={12}>
         <TextField
@@ -189,22 +194,32 @@ function DCFView() {
   return (
     <>
       <Typography variant="h1">{stock.symbol} DCF Model</Typography>
-
+      <Box mt={2}>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={open_input_drawer}
+        >
+          Assumptions
+        </Button>
+      </Box>
       <FinancialCard data={dcf_values} reported={reported} normalized={true} />
       <FinancialCard
         data={dcf_values}
         ratio={cost_vs_return}
         normalized={false}
       />
-      <Box mt={1}>
-        <Card>
-          <CardContent>
-            <Grid container spacing={1}>
-              {adjustable_inputs}
-            </Grid>
-          </CardContent>
-        </Card>
-      </Box>
+      <Drawer anchor="bottom" open={input_open} onClose={close_input_drawer}>
+        <Box mt={1}>
+          <Card>
+            <CardContent>
+              <Grid container spacing={1}>
+                {adjustable_inputs}
+              </Grid>
+            </CardContent>
+          </Card>
+        </Box>
+      </Drawer>
     </>
   );
 }
