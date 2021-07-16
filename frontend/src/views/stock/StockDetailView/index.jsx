@@ -109,6 +109,8 @@ function StockDetailView() {
   });
 
   const render_data = stock => {
+    const has_statements = !!stock.last_reporting_date;
+    
     return (
       <Page title={stock.symbol}>
         <Container maxWidth={false}>
@@ -119,16 +121,16 @@ function StockDetailView() {
                 title="Price & Trends"
                 items={price_menus}
               />
-              <MenuBar
+              {has_statements?<MenuBar
                 root={resource}
                 title="Financial Statements"
                 items={financial_statement_menus}
-              />
-              <MenuBar
+              />:null}
+              {has_statements?<MenuBar
                 root={resource}
                 title="Valuation Models"
                 items={valuation_menus}
-              />
+              />:null}
               <MenuBar
                 root={resource}
                 title="Tech Indicators"
