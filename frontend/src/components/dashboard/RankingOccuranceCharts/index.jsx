@@ -12,7 +12,7 @@ export default function RankingOccuranceCharts(props) {
   }
 
   // compose A/B charts
-  const on_vs_miss_donut_charts = map(scores, s => {
+  const on_vs_miss_donut_charts = map(scores, (s) => {
     const chart_data = {
       name: s.symbol,
       A: {
@@ -26,7 +26,7 @@ export default function RankingOccuranceCharts(props) {
     };
 
     return (
-      <Grid key={s.symbol} item lg={4} sm={6} xs={12}>
+      <Grid key={s.symbol} item lg={4} sm={4} xs={12}>
         <ABDonutChart data={chart_data} subheader="Occurance in the TOP list" />
       </Grid>
     );
