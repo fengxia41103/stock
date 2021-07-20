@@ -58,14 +58,14 @@ const NavBar = ({ onMobileClose, openMobile, items }) => {
         <Typography className={classes.name} color="textPrimary" variant="h5">
           {user.name}
         </Typography>
-        <Typography color="textSecondary" variant="body2">
+        <Typography color="secondary" variant="body2">
           {user.jobTitle}
         </Typography>
       </Box>
       <Divider />
       <Box p={2}>
         <List>
-          {items.map(item => (
+          {items.map((item) => (
             <NavItem
               href={item.href}
               key={item.title}

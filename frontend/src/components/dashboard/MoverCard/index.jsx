@@ -51,7 +51,7 @@ export default function MoverCard(props) {
       <CardHeader
         title={<Typography variant="h3">{title}</Typography>}
         subheader={
-          <Typography variant="body2" color="textSecondary">
+          <Typography variant="body2" color="secondary">
             {subtitle}
           </Typography>
         }

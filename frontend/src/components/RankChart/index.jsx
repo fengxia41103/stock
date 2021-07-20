@@ -2,21 +2,21 @@ import React from "react";
 import { map, isInteger } from "lodash";
 import PropTypes from "prop-types";
 import { Box, Grid } from "@material-ui/core";
-import pink from "@material-ui/core/colors/pink";
+import blueGrey from "@material-ui/core/colors/blueGrey";
 import StockSymbol from "src/components/stock/StockSymbol";
 
 export default function RankChart(props) {
   const { ranks, rank_val_name } = props;
-  const line_color = pink[400];
+  const line_color = blueGrey[400];
 
   const max_score = Math.max(
-    ...map(ranks, r => {
+    ...map(ranks, (r) => {
       const val = !!!rank_val_name ? r.val : r[rank_val_name];
       return val;
     })
   );
 
-  const the_chart = map(ranks, r => {
+  const the_chart = map(ranks, (r) => {
     let val = !!!rank_val_name ? r.val : r[rank_val_name];
     if (!isInteger(val)) {
       val = val.toFixed(2);
