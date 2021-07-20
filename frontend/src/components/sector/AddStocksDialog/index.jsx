@@ -28,14 +28,14 @@ export default function AddStocksDialog(props) {
     setOpen(false);
   };
 
-  const stock_links = map(stocks, v => {
+  const stock_links = map(stocks, (v) => {
     return <ListItem key={v.id}>{v.symbol}</ListItem>;
   });
 
   let sectors = [];
   let selected_sectors = [];
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     for (let i = 0; i < sectors.length; i++) {
       let s = sectors[i];
 
@@ -46,15 +46,15 @@ export default function AddStocksDialog(props) {
           selected_sectors.push(s);
         } else {
           // remove
-          remove(selected_sectors, k => s.name === k.name);
+          remove(selected_sectors, (k) => s.name === k.name);
         }
       }
     }
   };
 
   const add = () => {
-    const add_stock_resources = map(stocks, s => s.resource_uri);
-    const call_api = s => {
+    const add_stock_resources = map(stocks, (s) => s.resource_uri);
+    const call_api = (s) => {
       // add selected stocks to the list
       const stock_resources = s.stocks.concat(add_stock_resources);
 
@@ -70,18 +70,18 @@ export default function AddStocksDialog(props) {
     };
 
     // for each sector, enumerate to update
-    selected_sectors.forEach(s => call_api(s));
+    selected_sectors.forEach((s) => call_api(s));
 
     // close the dialog
     handleClose();
   };
 
-  const render_data = data => {
+  const render_data = (data) => {
     if (isEmpty(sectors)) {
       sectors = data.objects;
     }
 
-    const selections = map(sectors, s => {
+    const selections = map(sectors, (s) => {
       return (
         <Grid item xs={4} key={s.id}>
           <FormControlLabel
@@ -94,7 +94,7 @@ export default function AddStocksDialog(props) {
 
     return (
       <>
-        <Button color="primary" onClick={handleClickOpen}>
+        <Button color="secondary" onClick={handleClickOpen}>
           <AddIcon />
           Add stocks to sector
         </Button>
@@ -123,7 +123,7 @@ export default function AddStocksDialog(props) {
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={handleClose} color="secondary">
               Cancel
             </Button>
             <Button variant="contained" color="primary" onClick={() => add()}>

@@ -35,12 +35,10 @@ export default function DeleteSectorDialog(props) {
   };
 
   const on_sector_delete = () => {
-    del()
-      .then(setOpen(false))
-      .then(reload());
+    del().then(setOpen(false)).then(reload());
   };
 
-  const stock_links = map(stocks, v => {
+  const stock_links = map(stocks, (v) => {
     return (
       <ListItem key={v.id}>
         <StockSymbol {...v} />
@@ -69,7 +67,7 @@ export default function DeleteSectorDialog(props) {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="secondary">
             Cancel
           </Button>
           <Button

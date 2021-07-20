@@ -33,7 +33,7 @@ export default function EditSectorDialog(props) {
     setOpen(false);
   };
 
-  const on_sector_change = event => {
+  const on_sector_change = (event) => {
     const tmp = event.target.value.trim();
     setNewName(tmp);
     setError(existings.includes(tmp));
@@ -45,8 +45,8 @@ export default function EditSectorDialog(props) {
 
   // filtered existing list
   const filtered_existings = map(
-    filter(existings, s => s.includes(new_name)),
-    s => <Chip key={s} color="primary" label={s} />
+    filter(existings, (s) => s.includes(new_name)),
+    (s) => <Chip key={s} color="primary" label={s} />
   );
 
   return (

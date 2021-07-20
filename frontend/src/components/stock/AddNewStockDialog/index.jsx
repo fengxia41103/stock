@@ -31,7 +31,7 @@ export default function AddNewStockDialog() {
     setOpen(false);
   };
 
-  const on_symbol_change = event => {
+  const on_symbol_change = (event) => {
     // symbol is always in upper case
     const tmp = event.target.value.trim().toUpperCase();
     setSymbol(tmp);
@@ -39,14 +39,12 @@ export default function AddNewStockDialog() {
 
   // call API and close this dialog
   const on_create = () => {
-    create({ symbol: symbol })
-      .then(setOpen(false))
-      .then(reload());
+    create({ symbol: symbol }).then(setOpen(false)).then(reload());
   };
 
   return (
     <>
-      <Button color="primary" onClick={handleClickOpen}>
+      <Button color="secondary" onClick={handleClickOpen}>
         <AddIcon />
         Add New Stock
       </Button>

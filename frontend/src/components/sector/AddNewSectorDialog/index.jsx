@@ -35,28 +35,26 @@ export default function AddNewSectorDialog() {
     setOpen(false);
   };
 
-  const on_sector_change = event => {
+  const on_sector_change = (event) => {
     const tmp = event.target.value.trim();
     setSector(tmp);
   };
 
   // call API and close this dialog
   const on_create = () =>
-    create({ name: sector })
-      .then(setOpen(false))
-      .then(reload());
+    create({ name: sector }).then(setOpen(false)).then(reload());
 
-  const render_data = data => {
+  const render_data = (data) => {
     let sectors = data.objects;
     sectors = map(
-      filter(sectors, s => s.name.includes(sector)),
-      s => <Chip key={s.id} color="primary" label={s.name} />
+      filter(sectors, (s) => s.name.includes(sector)),
+      (s) => <Chip key={s.id} color="primary" label={s.name} />
     );
     const is_error = sectors.includes(sector);
 
     return (
       <>
-        <Button color="primary" onClick={handleClickOpen}>
+        <Button color="secondary" onClick={handleClickOpen}>
           <AddIcon />
           Add New Sector
         </Button>

@@ -33,7 +33,7 @@ export default function ListDiary(props) {
   const menu_content = (
     <List>
       <ListItem>
-        <Button color="primary" onClick={() => setToAdd(!toAdd)}>
+        <Button color="secondary" onClick={() => setToAdd(!toAdd)}>
           <AddIcon />
           Add new note
         </Button>
@@ -43,10 +43,10 @@ export default function ListDiary(props) {
 
   const to_refresh = () => setToRefresh(!toRefresh);
 
-  const render_data = resp => {
+  const render_data = (resp) => {
     const diaries = resp.objects;
 
-    const diary_entries = map(diaries, d => (
+    const diary_entries = map(diaries, (d) => (
       <Box key={d.id} mb={2}>
         <ListDiaryEntry diary={d} to_refresh={to_refresh} />
       </Box>

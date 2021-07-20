@@ -89,7 +89,7 @@ export default function ListNewsCard(props) {
             <Grid container spacing={1} justify="flex-end" alignItems="center">
               <Button
                 variant="text"
-                color="primary"
+                color="secondary"
                 onClick={() => on_next(what_is_next)}
               >
                 Load More

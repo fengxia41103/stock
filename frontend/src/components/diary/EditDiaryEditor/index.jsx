@@ -27,11 +27,11 @@ export default function EditDiaryEditor(props) {
     path: `${host}${diary.resource_uri}`,
   });
 
-  const prediction_change = event => {
+  const prediction_change = (event) => {
     setPrediction(parseInt(event.target.value));
   };
 
-  const handle_update = event => {
+  const handle_update = (event) => {
     const msg = "Notes have been updated";
     update({ content: comment, judgement: prediction }).then(
       setNotification(msg)
@@ -75,7 +75,7 @@ export default function EditDiaryEditor(props) {
         />
         <Box mt={2}>{judgement_selection}</Box>
         <Box>
-          <Button variant="contained" color="primary" onClick={handle_update}>
+          <Button variant="contained" color="secondary" onClick={handle_update}>
             Save
           </Button>
         </Box>

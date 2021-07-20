@@ -33,20 +33,20 @@ function StockListView(props) {
   const [group_by, setGroupBy] = useState("last_reporting_date");
   const [notification, setNotification] = useState("");
 
-  const symbol_filter_change = event => {
+  const symbol_filter_change = (event) => {
     const tmp = event.target.value.trim().toUpperCase();
     setSearching(tmp);
   };
 
-  const group_by_change = event => {
+  const group_by_change = (event) => {
     setGroupBy(event.target.value);
   };
 
   // API will treat `all:True` as a request to update all stocks.
-  const update_all = stocks => {
-    const symbols = truncate(map(stocks, s => s.symbol).join(","), 20);
+  const update_all = (stocks) => {
+    const symbols = truncate(map(stocks, (s) => s.symbol).join(","), 20);
 
-    const call_api = s => {
+    const call_api = (s) => {
       const uri = `${api}${resource}/${s.id}/`;
       fetch(uri, {
         method: "PATCH",
@@ -56,19 +56,19 @@ function StockListView(props) {
         body: JSON.stringify({}),
       });
     };
-    let promises = stocks.map(s => call_api(s));
+    let promises = stocks.map((s) => call_api(s));
     Promise.all(promises).then(
       setNotification(`${symbols} updates have been requested.`)
     );
   };
 
-  const render_data = data => {
+  const render_data = (data) => {
     const stocks = data.objects;
     // filter based on search string
-    const filtered = filter(stocks, x => x.symbol.includes(searching));
+    const filtered = filter(stocks, (x) => x.symbol.includes(searching));
 
     // when select
-    const grouped = groupBy(filtered, v => {
+    const grouped = groupBy(filtered, (v) => {
       let g = null;
 
       switch (group_by) {
@@ -85,9 +85,9 @@ function StockListView(props) {
     });
 
     const sorted_keys = sortBy(Object.keys(grouped));
-    const selectors = map(sorted_keys, index => {
+    const selectors = map(sorted_keys, (index) => {
       const symbols = grouped[index];
-      const sorted = sortBy(symbols, s => s.symbol);
+      const sorted = sortBy(symbols, (s) => s.symbol);
 
       const actions = [<AddStocksDialog stocks={sorted} />];
       return (
@@ -123,7 +123,7 @@ function StockListView(props) {
           <Box mt={1}>
             <Grid container spacing={1} direction="row" justify="flex-end">
               <Grid item xs>
-                <Button color="primary" onClick={() => update_all(filtered)}>
+                <Button color="secondary" onClick={() => update_all(filtered)}>
                   <UpdateIcon />
                   Update All
                 </Button>
@@ -165,7 +165,7 @@ function StockListView(props) {
   return (
     <Poll
       path={api + encodeURI(resource)}
-      resolve={data => data && data.objects}
+      resolve={(data) => data && data.objects}
     >
       {(data, { loading }) =>
         loading ? <CircularProgress /> : render_data(data)
