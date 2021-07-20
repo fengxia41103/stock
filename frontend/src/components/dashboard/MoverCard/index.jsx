@@ -17,7 +17,7 @@ import { map } from "lodash";
 import ColoredNumber from "src/components/ColoredNumber";
 import StockSymbol from "src/components/stock/StockSymbol";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -31,7 +31,7 @@ export default function MoverCard(props) {
   const { title, subtitle, stocks, value, date } = props;
   const classes = useStyles();
 
-  const entries = map(stocks, s => {
+  const entries = map(stocks, (s) => {
     return (
       <ListItem key={s.symbol} divider={true}>
         <Grid container spacing={2}>

@@ -164,7 +164,7 @@ export default function StockLinkToSector(props) {
         onClick={open_sector_list}
         arrow
       >
-        <Typography color="textSecondary" display="inline">
+        <Typography color="secondary" display="inline">
           &#47;&#47;
         </Typography>
       </Tooltip>

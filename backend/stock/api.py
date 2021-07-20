@@ -77,6 +77,7 @@ class StockResource(ModelResource):
     pe = fields.FloatField("pe", null=True)
     pb = fields.FloatField("pb", null=True)
     ps = fields.FloatField("ps", null=True)
+    last_lower = fields.IntegerField("last_lower", null=True)
 
     class Meta:
         queryset = MyStock.objects.all()
@@ -116,6 +117,8 @@ class HistoricalResource(ModelResource):
         "vol_over_share_outstanding", null=True
     )
     stock_id = fields.IntegerField("stock_id", null=True)
+    last_lower = fields.IntegerField("last_lower", null=True)
+    next_better = fields.IntegerField("next_better", null=True)
 
     class Meta:
         resource_name = "historicals"

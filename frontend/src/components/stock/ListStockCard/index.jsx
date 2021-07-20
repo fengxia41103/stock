@@ -12,6 +12,8 @@ import {
   ListItem,
   Divider,
   Grid,
+  Chip,
+  Tooltip,
 } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { map, isUndefined } from "lodash";
@@ -20,7 +22,7 @@ import RecentPriceSparkline from "src/components/stock/RecentPriceSparkline";
 import ColoredNumber from "src/components/ColoredNumber";
 import StockSymbol from "src/components/stock/StockSymbol";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -60,7 +62,7 @@ export default function ListStockCard(props) {
     menu_content = <List>{action_menu_content_list}</List>;
   }
 
-  const links = map(stocks, s => {
+  const links = map(stocks, (s) => {
     return (
       <Grid key={s.id} container spacing={1} alignItems="center">
         <Grid item xs={2}>
@@ -77,9 +79,18 @@ export default function ListStockCard(props) {
           <Typography variant="body2">P/S:</Typography>
           <ColoredNumber val={s.ps} />
         </Grid>
-        <Grid item xs={2}>
-          <Typography variant="body2">P/B:</Typography>
-          <ColoredNumber val={s.pb} />
+        <Grid item xs={1}>
+          <Tooltip
+            title="Last time saw anything lower than this (in days)"
+            arrow
+          >
+            <Chip
+              variant={s.last_lower > 30 ? "default" : "outlined"}
+              size="small"
+              color={s.last_lower > 30 ? "secondary" : "default"}
+              label={s.last_lower}
+            />
+          </Tooltip>
         </Grid>
       </Grid>
     );

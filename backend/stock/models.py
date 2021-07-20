@@ -94,6 +94,14 @@ class MyStock(models.Model):
             return None
 
     @property
+    def last_lower(self):
+        hist = self.historicals.order_by("-on").first()
+        if hist:
+            return hist.last_lower
+        else:
+            return None
+
+    @property
     def dupont_roe(self):
         """ROE by Dupont model.
 
@@ -380,6 +388,56 @@ class MyStockHistorical(models.Model):
     def vol_over_share_outstanding(self):
         if self.stock.shares_outstanding:
             return self.vol / self.stock.shares_outstanding * 0.001
+        else:
+            return 0
+
+    @property
+    def last_lower(self):
+        """Using the close price, when was the last time we saw this price?
+
+        On a given day when I saw a drop, I always have this urge to
+        buy on the dip. However, many times I notice that this isn't
+        the lowest on a chart within even the recent time range, say a
+        week. Therefore, it's useful to show a gauge when we saw this
+        price last time. For example, a dip today, but I saw this dip
+        last week, then it's quite a volatile signal; but if I saw
+        this one year ago, hmm, maybe it's an opportunity, just a dip.
+
+        This serves as an indicator for:
+
+        - in what time span is today the new low?
+        """
+        last_saw = (
+            self.stock.historicals.filter(
+                close_price__lte=self.close_price, on__lt=self.on
+            )
+            .order_by("-on")
+            .first()
+        )
+        if last_saw:
+            return self.stock.historicals.filter(
+                on__lt=self.on, on__gte=last_saw.on
+            ).count()
+        else:
+            return 0
+
+    @property
+    def next_better(self):
+        """Reverse side of last_lower. By peeking into the future, how
+        long did it take for it to surpass today's price?
+        """
+        next_saw = (
+            self.stock.historicals.filter(
+                close_price__gte=self.close_price, on__gt=self.on
+            )
+            .order_by("on")
+            .first()
+        )
+        if next_saw:
+            return self.stock.historicals.filter(
+                on__gt=self.on, on__lte=next_saw.on
+            ).count()
+
         else:
             return 0
 

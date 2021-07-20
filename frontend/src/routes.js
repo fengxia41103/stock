@@ -42,7 +42,8 @@ import BusinessIcon from "@material-ui/icons/Business";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import NewsListView from "src/views/news/NewsListView";
 import DashboardTrendingView from "src/views/dashboard/DashboardTrendingView";
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import TrendingUpIcon from "@material-ui/icons/TrendingUp";
+import LastLowerNextBetterView from "src/views/stock/LastLowerNextBetterView";
 
 const items = [
   {
@@ -110,6 +111,7 @@ const routes = [
               { path: "return/overnight", element: <OvernightReturnView /> },
               { path: "return/24hr", element: <TwentyFourHourReturnView /> },
               { path: "indicator/:type", element: <TechIndicatorView /> },
+              { path: "last/lower", element: <LastLowerNextBetterView /> },
             ],
           },
         ],

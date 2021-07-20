@@ -18,6 +18,10 @@ const price_menus = [
     text: "Daily Prices",
   },
   {
+    url: "historical/last/lower",
+    text: "Last Lower & Next Better",
+  },
+  {
     url: "historical/return/24hr",
     text: "24-hour Returns (%)",
   },
@@ -108,9 +112,9 @@ function StockDetailView() {
     return () => (mounted.current = false);
   });
 
-  const render_data = stock => {
+  const render_data = (stock) => {
     const has_statements = !!stock.last_reporting_date;
-    
+
     return (
       <Page title={stock.symbol}>
         <Container maxWidth={false}>
@@ -121,16 +125,20 @@ function StockDetailView() {
                 title="Price & Trends"
                 items={price_menus}
               />
-              {has_statements?<MenuBar
-                root={resource}
-                title="Financial Statements"
-                items={financial_statement_menus}
-              />:null}
-              {has_statements?<MenuBar
-                root={resource}
-                title="Valuation Models"
-                items={valuation_menus}
-              />:null}
+              {has_statements ? (
+                <MenuBar
+                  root={resource}
+                  title="Financial Statements"
+                  items={financial_statement_menus}
+                />
+              ) : null}
+              {has_statements ? (
+                <MenuBar
+                  root={resource}
+                  title="Valuation Models"
+                  items={valuation_menus}
+                />
+              ) : null}
               <MenuBar
                 root={resource}
                 title="Tech Indicators"

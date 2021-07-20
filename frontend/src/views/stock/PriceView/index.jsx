@@ -10,21 +10,20 @@ import {
 } from "@material-ui/core";
 
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
-import PriceTable from "./table";
-import PriceChart from "./chart";
 import { map, groupBy, reverse } from "lodash";
 import moment from "moment";
+import PriceChart from "src/components/stock/PriceChart";
 import ColoredNumber from "src/components/ColoredNumber";
 
 export default function PriceView() {
   const data = useContext(StockHistoricalContext);
 
-  const stocks = map(data, d => {
+  const stocks = map(data, (d) => {
     return { ...d, week: moment(d.on).week() };
   });
 
   // group data by week index
-  const group_by_week = groupBy(stocks, s => s.week);
+  const group_by_week = groupBy(stocks, (s) => s.week);
   const weekly_charts = reverse(
     map(group_by_week, (prices, week) => {
       const last = [...prices].pop();
@@ -67,9 +66,6 @@ export default function PriceView() {
         />
         <CardContent>
           <PriceChart data={data} />
-          <Box mt={1}>
-            <PriceTable data={data} />
-          </Box>
         </CardContent>
       </Card>
       <Box mt={1}>

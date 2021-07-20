@@ -15,7 +15,7 @@ let theme = createMuiTheme({
       main: colors.indigo[500],
     },
     secondary: {
-      main: colors.indigo[500],
+      main: colors.pink[600],
     },
     text: {
       primary: colors.blueGrey[900],
