@@ -11,7 +11,7 @@ import {
   CardContent,
 } from "@material-ui/core";
 import Fetch from "src/components/Fetch";
-import { map, isUndefined } from "lodash";
+import { map } from "lodash";
 import AddDiaryEditor from "src/components/diary/AddDiaryEditor";
 import ListDiaryEntry from "src/components/diary/ListDiaryEntry";
 import AddIcon from "@material-ui/icons/Add";
@@ -23,7 +23,7 @@ export default function ListDiary(props) {
   const { stock } = props;
 
   let resource_uri = "/diaries";
-  if (!isUndefined(stock)) {
+  if (!!stock) {
     resource_uri += `?content__contains=${stock.symbol}`;
   }
   const [resource] = useState(resource_uri);
@@ -57,7 +57,7 @@ export default function ListDiary(props) {
       content = (
         <Box mt={1}>
           <AddDiaryEditor
-            stock={isUndefined(stock) ? stock : stock.id}
+            stock={!!!stock ? stock : stock.id}
             to_refresh={to_refresh}
           />
           <Button variant="text" onClick={() => setToAdd(false)}>

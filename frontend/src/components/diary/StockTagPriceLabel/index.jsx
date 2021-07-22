@@ -3,6 +3,7 @@ import GlobalContext from "src/context";
 import { Typography, Grid, Divider } from "@material-ui/core";
 import PropTypes from "prop-types";
 import Fetch from "src/components/Fetch";
+import ColoredNumber from "src/components/ColoredNumber";
 
 export default function StockTagPriceLabel(props) {
   const { diary, stock } = props;
@@ -13,20 +14,20 @@ export default function StockTagPriceLabel(props) {
     `/historicals?stock=${stock.id}&on__range=${start},${end}`
   );
 
-  const render_data = data => {
+  const render_data = (data) => {
     const prices = data.objects;
     let price_then = 0,
       price_now = 0;
 
     if (prices.length > 0) {
-      price_then = prices[0].close_price.toFixed(2);
+      price_then = prices[0].close_price;
     }
     if (prices.length > 1) {
-      price_now = prices.pop().close_price.toFixed(2);
+      price_now = prices.pop().close_price;
     }
     const return_in_pcnt =
       price_then > 0 && price_now > 0
-        ? (((price_now - price_then) / price_then) * 100).toFixed(2)
+        ? ((price_now - price_then) / price_then) * 100
         : 0;
 
     return (
@@ -37,13 +38,11 @@ export default function StockTagPriceLabel(props) {
         justify="space-between"
         alignItems="center"
       >
-        <Typography>{price_then > 0 ? price_then : null}</Typography>
+        <ColoredNumber val={price_then} />
         <Divider orientation="vertical" flexItem />
-        <Typography>{price_now > 0 ? price_now : null}</Typography>
+        <ColoredNumber val={price_now} />
         <Divider orientation="vertical" flexItem />
-        <Typography>
-          {return_in_pcnt === 0 ? null : return_in_pcnt + "%"}
-        </Typography>
+        <ColoredNumber val={return_in_pcnt} unit="%" />
       </Grid>
     );
   };

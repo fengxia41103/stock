@@ -1,44 +1,39 @@
-import React, { useContext, useState } from "react";
-import GlobalContext from "src/context";
+import React, { useContext } from "react";
 import { Grid, Card, CardHeader, CardContent } from "@material-ui/core";
 import PropTypes from "prop-types";
-import Fetch from "src/components/Fetch";
+
 import { map, filter, sortBy } from "lodash";
 import StockTagPriceLabel from "src/components/diary/StockTagPriceLabel";
 import StockSymbol from "src/components/stock/StockSymbol";
+import DiaryListContext from "src/views/diary/DiaryListView/context.jsx";
 
 export default function DiaryStockTag(props) {
-  const { api } = useContext(GlobalContext);
-  const [resource] = useState("/stocks");
+  const stocks = useContext(DiaryListContext);
   const { diary } = props;
 
-  const render_data = data => {
-    let stocks = filter(data.objects, s => {
-      return diary.content.includes(s.symbol);
-    });
-    stocks = sortBy(stocks, s => s.symbol);
+  let matched_stocks = filter(stocks, (s) => {
+    return diary.content.includes(s.symbol);
+  });
+  matched_stocks = sortBy(matched_stocks, (s) => s.symbol);
 
-    stocks = map(stocks, s => {
-      return (
-        <Grid key={s.id} item lg={3} sm={4} xs={12}>
-          <Card>
-            <CardHeader title={<StockSymbol {...s} />} />
-            <CardContent>
-              <StockTagPriceLabel {...{ diary, stock: s }} />
-            </CardContent>
-          </Card>
-        </Grid>
-      );
-    });
+  matched_stocks = map(matched_stocks, (s) => {
     return (
-      <>
-        <Grid container spacing={1}>
-          {stocks}
-        </Grid>
-      </>
+      <Grid key={s.id} item lg={3} sm={4} xs={12}>
+        <Card>
+          <CardHeader title={<StockSymbol {...s} />} />
+          <CardContent>
+            <StockTagPriceLabel {...{ diary, stock: s }} />
+          </CardContent>
+        </Card>
+      </Grid>
     );
-  };
-  return <Fetch {...{ api, resource, render_data }} />;
+  });
+
+  return (
+    <Grid container spacing={1}>
+      {matched_stocks}
+    </Grid>
+  );
 }
 
 DiaryStockTag.propTypes = {
