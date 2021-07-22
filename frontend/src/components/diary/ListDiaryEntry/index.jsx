@@ -21,19 +21,20 @@ import PropTypes from "prop-types";
 import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@material-ui/icons/ThumbDownOutlined";
 import DiaryStockTag from "src/components/diary/DiaryStockTag";
+import Fetch from "src/components/Fetch";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   diary: {
     color: "#42A5F5",
   },
 }));
 
 export default function ListDiaryEntry(props) {
-  const { host } = useContext(GlobalContext);
+  const { api, host } = useContext(GlobalContext);
   const classes = useStyles();
   const { diary, to_refresh } = props;
+  const [resource] = useState(`/diaries/${diary.id}`);
   const [inEditing, setInEditing] = useState(false);
-
   const created = new Date(diary.created);
 
   // call to update backend
@@ -93,43 +94,47 @@ export default function ListDiaryEntry(props) {
       break;
   }
 
-  return (
-    <>
-      <Divider />
-      <Grid container spacing={2} alignItems="center">
-        <Grid item xs={6}>
-          <Typography className={clsx(classes.diary)}>
-            {created.toDateString()}
-          </Typography>
-        </Grid>
-        <Grid item xs={2}>
-          <DropdownMenu content={menu_content} />
-        </Grid>
-        <Grid item xs>
-          {diary.is_correct ? (
-            <ThumbUpOutlinedIcon />
-          ) : (
-            <ThumbDownOutlinedIcon />
-          )}
-        </Grid>
-
-        <Grid item xs={12}>
-          {trending}
-        </Grid>
-        <Grid item xs={12}>
-          <EditDiaryEditor {...{ inEditing, diary }} />
-        </Grid>
-        {inEditing ? (
-          <Grid item xs={12}>
-            <Button onClick={() => setInEditing(false)}>Cancel</Button>
+  const render_data = (data) => {
+    return (
+      <>
+        <Divider />
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={6}>
+            <Typography className={clsx(classes.diary)}>
+              {created.toDateString()}
+            </Typography>
           </Grid>
-        ) : null}
-        <Grid item xs={12}>
-          <DiaryStockTag diary={diary} />
+          <Grid item xs={2}>
+            <DropdownMenu content={menu_content} />
+          </Grid>
+          <Grid item xs>
+            {diary.is_correct ? (
+              <ThumbUpOutlinedIcon />
+            ) : (
+              <ThumbDownOutlinedIcon />
+            )}
+          </Grid>
+
+          <Grid item xs={12}>
+            {trending}
+          </Grid>
+          <Grid item xs={12}>
+            <EditDiaryEditor {...{ inEditing, diary: data }} />
+          </Grid>
+          {inEditing ? (
+            <Grid item xs={12}>
+              <Button onClick={() => setInEditing(false)}>Cancel</Button>
+            </Grid>
+          ) : null}
+          <Grid item xs={12}>
+            <DiaryStockTag diary={data} />
+          </Grid>
         </Grid>
-      </Grid>
-    </>
-  );
+      </>
+    );
+  };
+
+  return <Fetch {...{ key: to_refresh, api, resource, render_data }} />;
 }
 
 ListDiaryEntry.propTypes = {

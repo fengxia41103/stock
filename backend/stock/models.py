@@ -1564,12 +1564,16 @@ class MyDiary(models.Model):
         else:
             stock = self.stock
 
-        historical = MyStockHistorical.objects.filter(
-            stock=stock, on__lte=self.created.date()
-        ).order_by("-on")
+        historical = (
+            MyStockHistorical.objects.filter(
+                stock=stock, on__lte=self.created.date()
+            )
+            .order_by("-on")
+            .first()
+        )
 
         if historical:
-            return historical[0].close_price
+            return historical.close_price
         else:
             return 0
 
