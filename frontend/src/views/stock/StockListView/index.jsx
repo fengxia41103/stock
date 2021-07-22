@@ -1,9 +1,8 @@
 import React, { useState, useContext } from "react";
-import { map, filter, sortBy, groupBy, truncate } from "lodash";
+import { map, filter, sortBy, groupBy } from "lodash";
 import Fetch from "src/components/Fetch";
 import {
   Box,
-  Button,
   Container,
   Grid,
   TextField,
@@ -21,17 +20,15 @@ import ListStockCard from "src/components/stock/ListStockCard";
 import GlobalContext from "src/context";
 import { Poll } from "restful-react";
 import AddNewStockDialog from "src/components/stock/AddNewStockDialog";
-import UpdateIcon from "@material-ui/icons/Update";
 import DropdownMenu from "src/components/DropdownMenu";
 import AddStocksDialog from "src/components/sector/AddStocksDialog";
-import SimpleSnackbar from "src/components/SimpleSnackbar";
+import UpdateAllStock from "src/components/stock/UpdateAllStock";
 
 function StockListView(props) {
   const { api } = useContext(GlobalContext);
   const [resource] = useState("/stocks");
   const [searching, setSearching] = useState("");
   const [group_by, setGroupBy] = useState("last_reporting_date");
-  const [notification, setNotification] = useState("");
 
   const symbol_filter_change = (event) => {
     const tmp = event.target.value.trim().toUpperCase();
@@ -40,26 +37,6 @@ function StockListView(props) {
 
   const group_by_change = (event) => {
     setGroupBy(event.target.value);
-  };
-
-  // API will treat `all:True` as a request to update all stocks.
-  const update_all = (stocks) => {
-    const symbols = truncate(map(stocks, (s) => s.symbol).join(","), 20);
-
-    const call_api = (s) => {
-      const uri = `${api}${resource}/${s.id}/`;
-      fetch(uri, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({}),
-      });
-    };
-    let promises = stocks.map((s) => call_api(s));
-    Promise.all(promises).then(
-      setNotification(`${symbols} updates have been requested.`)
-    );
   };
 
   const render_data = (data) => {
@@ -123,10 +100,7 @@ function StockListView(props) {
           <Box mt={1}>
             <Grid container spacing={1} direction="row" justify="flex-end">
               <Grid item xs>
-                <Button color="secondary" onClick={() => update_all(filtered)}>
-                  <UpdateIcon />
-                  Update All
-                </Button>
+                <UpdateAllStock stocks={filtered} />
               </Grid>
 
               <Grid item xs>
@@ -155,7 +129,6 @@ function StockListView(props) {
               {selectors}
             </Grid>
           </Box>
-          <SimpleSnackbar msg={notification} />
         </Container>
       </Page>
     );

@@ -12,7 +12,6 @@ import {
 import Page from "src/components/Page";
 import GlobalContext from "src/context";
 import AddNewSectorDialog from "src/components/sector/AddNewSectorDialog";
-
 import ListSectorCard from "src/components/sector/ListSectorCard";
 
 export default function SectorListView(props) {
@@ -20,18 +19,18 @@ export default function SectorListView(props) {
   const [resource] = useState("/sectors");
   const [searching, setSearching] = useState("");
 
-  const sector_filter_change = event => {
+  const sector_filter_change = (event) => {
     const tmp = event.target.value.trim();
     setSearching(tmp);
   };
 
-  const render_data = data => {
+  const render_data = (data) => {
     const sectors = data.objects;
 
     // filter based on search string
-    const filtered = filter(sectors, x => x.name.includes(searching));
+    const filtered = filter(sectors, (x) => x.name.includes(searching));
 
-    const selectors = map(filtered, s => {
+    const selectors = map(filtered, (s) => {
       return (
         <Grid key={s.name} item lg={4} sm={6} xs={12}>
           <ListSectorCard {...{ me: s, all: sectors }} />
