@@ -8,14 +8,15 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import GlobalContext from "src/context";
 import { useMutate } from "restful-react";
-import AddIcon from "@material-ui/icons/Add";
-import { map } from "lodash";
+import { map, truncate } from "lodash";
+import SimpleSnackbar from "src/components/SimpleSnackbar";
 
 export default function AddNewStockDialog() {
   const { api } = useContext(GlobalContext);
   const [open, setOpen] = useState(false);
   const [resource] = useState("/stocks");
-  const [symbol, setSymbol] = useState("");
+  const [symbol, setSymbol] = useState([]);
+  const [notification, setNotification] = useState("");
 
   const { mutate: create } = useMutate({
     verb: "POST",
@@ -39,14 +40,16 @@ export default function AddNewStockDialog() {
   const on_create = () => {
     map(symbol, (s) => create({ symbol: s }));
     setOpen(false);
-    reload();
+
+    const msg = truncate(symbol.join(","), 20);
+    setNotification(`Symbols: ${msg} have been added to your portfolio.`);
   };
 
   return (
     <>
       <Button color="secondary" variant="contained" onClick={handleClickOpen}>
-        <AddIcon />
         Add new stocks
+        <SimpleSnackbar msg={notification} />
       </Button>
       <Dialog
         open={open}
