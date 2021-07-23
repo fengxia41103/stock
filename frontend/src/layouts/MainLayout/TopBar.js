@@ -35,9 +35,9 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
         <RouterLink to="/">
           <Logo />
         </RouterLink>
-        <AddNewStockDialog />
 
         <Box flexGrow={1} />
+        <AddNewStockDialog />
         <Hidden mdDown>
           <IconButton color="inherit">
             <Badge

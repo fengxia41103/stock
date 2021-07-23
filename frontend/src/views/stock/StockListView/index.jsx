@@ -19,10 +19,9 @@ import Page from "src/components/Page";
 import ListStockCard from "src/components/stock/ListStockCard";
 import GlobalContext from "src/context";
 import { Poll } from "restful-react";
-import AddNewStockDialog from "src/components/stock/AddNewStockDialog";
 import DropdownMenu from "src/components/DropdownMenu";
-import AddStocksDialog from "src/components/sector/AddStocksDialog";
 import UpdateAllStock from "src/components/stock/UpdateAllStock";
+import AddStocksToSectorDialog from "src/components/sector/AddStocksToSectorDialog";
 
 function StockListView(props) {
   const { api } = useContext(GlobalContext);
@@ -66,7 +65,7 @@ function StockListView(props) {
       const symbols = grouped[index];
       const sorted = sortBy(symbols, (s) => s.symbol);
 
-      const actions = [<AddStocksDialog stocks={sorted} />];
+      const actions = [<AddStocksToSectorDialog stocks={sorted} />];
       return (
         <Grid key={index} item lg={4} sm={6} xs={12}>
           <ListStockCard {...{ group_by, index, actions }} stocks={sorted} />
@@ -103,9 +102,6 @@ function StockListView(props) {
                 <UpdateAllStock stocks={filtered} />
               </Grid>
 
-              <Grid item xs>
-                <AddNewStockDialog />
-              </Grid>
               <Grid item xs>
                 <DropdownMenu content={menu} />
               </Grid>

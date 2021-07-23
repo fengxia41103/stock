@@ -44,9 +44,9 @@ export default function AddNewStockDialog() {
 
   return (
     <>
-      <Button color="secondary" onClick={handleClickOpen}>
+      <Button color="secondary" variant="contained" onClick={handleClickOpen}>
         <AddIcon />
-        Add New Stock
+        Add new stocks
       </Button>
       <Dialog
         open={open}
