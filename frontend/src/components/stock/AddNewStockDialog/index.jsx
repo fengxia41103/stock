@@ -9,6 +9,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import GlobalContext from "src/context";
 import { useMutate } from "restful-react";
 import AddIcon from "@material-ui/icons/Add";
+import { map } from "lodash";
 
 export default function AddNewStockDialog() {
   const { api } = useContext(GlobalContext);
@@ -23,23 +24,22 @@ export default function AddNewStockDialog() {
 
   const reload = () => window.location.reload();
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const handleClickOpen = () => setOpen(true);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
 
   const on_symbol_change = (event) => {
     // symbol is always in upper case
-    const tmp = event.target.value.trim().toUpperCase();
+    let tmp = event.target.value.toUpperCase();
+    tmp = map(tmp.replaceAll(",", " ").split(" "), (s) => s.trim());
     setSymbol(tmp);
   };
 
   // call API and close this dialog
   const on_create = () => {
-    create({ symbol: symbol }).then(setOpen(false)).then(reload());
+    map(symbol, (s) => create({ symbol: s }));
+    setOpen(false);
+    reload();
   };
 
   return (

@@ -77,7 +77,7 @@ export default function ListStockCard(props) {
         </Grid>
         <Grid item xs={2}>
           <Typography variant="body2">P/S:</Typography>
-          <ColoredNumber val={s.ps} />
+          <ColoredNumber val={s.roe} />
         </Grid>
         <Grid item xs={1}>
           <Tooltip

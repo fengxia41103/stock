@@ -26,23 +26,23 @@ export default function AddNewSectorDialog() {
   });
 
   const reload = () => window.location.reload();
+  const handleClickOpen = () => setOpen(true);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
 
   const on_sector_change = (event) => {
-    const tmp = event.target.value.trim();
+    // symbol is always in upper case
+    let tmp = event.target.value;
+    tmp = map(tmp.split(","), (s) => s.trim());
     setSector(tmp);
   };
 
   // call API and close this dialog
-  const on_create = () =>
-    create({ name: sector }).then(setOpen(false)).then(reload());
+  const on_create = () => {
+    map(sector, (s) => create({ name: s }));
+    setOpen(false);
+    reload();
+  };
 
   const render_data = (data) => {
     let sectors = data.objects;
