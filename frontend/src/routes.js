@@ -5,7 +5,6 @@ import SortIcon from "@material-ui/icons/Sort";
 import CompareIcon from "@material-ui/icons/Compare";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 
-import DashboardLayout from "src/layouts/DashboardLayout";
 import MainLayout from "src/layouts/MainLayout";
 
 import NotFoundView from "src/views/errors/NotFoundView";
@@ -86,7 +85,7 @@ const items = [
 const routes = [
   {
     path: "/",
-    element: <DashboardLayout sideNavs={items} />,
+    element: <MainLayout sideNavs={items} />,
 
     children: [
       { path: "stocks", element: <StockListView /> },

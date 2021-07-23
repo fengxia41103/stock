@@ -1,41 +1,70 @@
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
+import React, { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import clsx from "clsx";
+import PropTypes from "prop-types";
 import {
   AppBar,
+  Badge,
+  Box,
+  Hidden,
+  IconButton,
   Toolbar,
-  makeStyles
-} from '@material-ui/core';
-import Logo from 'src/components/Logo';
+  makeStyles,
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
+import InputIcon from "@material-ui/icons/Input";
+import Logo from "src/components/Logo";
+import AddNewStockDialog from "src/components/stock/AddNewStockDialog";
 
-const useStyles = makeStyles(({
+const useStyles = makeStyles(() => ({
   root: {},
-  toolbar: {
-    height: 64
-  }
+  avatar: {
+    width: 60,
+    height: 60,
+  },
 }));
 
-const TopBar = ({ className, ...rest }) => {
+const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
   const classes = useStyles();
+  const [notifications] = useState([]);
 
   return (
-    <AppBar
-      className={clsx(classes.root, className)}
-      elevation={0}
-      {...rest}
-    >
-      <Toolbar className={classes.toolbar}>
+    <AppBar className={clsx(classes.root, className)} elevation={0} {...rest}>
+      <Toolbar>
         <RouterLink to="/">
           <Logo />
         </RouterLink>
+        <AddNewStockDialog />
+
+        <Box flexGrow={1} />
+        <Hidden mdDown>
+          <IconButton color="inherit">
+            <Badge
+              badgeContent={notifications.length}
+              color="primary"
+              variant="dot"
+            >
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+          <IconButton color="inherit">
+            <InputIcon />
+          </IconButton>
+        </Hidden>
+        <Hidden lgUp>
+          <IconButton color="inherit" onClick={onMobileNavOpen}>
+            <MenuIcon />
+          </IconButton>
+        </Hidden>
       </Toolbar>
     </AppBar>
   );
 };
 
 TopBar.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  onMobileNavOpen: PropTypes.func,
 };
 
 export default TopBar;
