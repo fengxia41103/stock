@@ -43,7 +43,7 @@ services:
 
   web:
     build:
-      context: .
+      context: ./backend
       dockerfile: ./Dockerfile-web
     image: mystock
     volumes:
@@ -120,8 +120,8 @@ services:
   frontend:
     image: frontend_stock
     build:
-      context: .
-      dockerfile: ./frontend/Dockerfile
+      context: ./frontend
+      dockerfile: ./Dockerfile
     volumes:
       - ./frontend:/code
       - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
