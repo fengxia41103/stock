@@ -23,25 +23,25 @@ def __summary_consumer(whatever, symbol):
     crawler.get()
 
 
-@app.task(queue="stock", rate_limit="5/m")
+@app.task(queue="statement", rate_limit="12/m")
 def __balance_sheet_consumer(whatever, symbol):
     crawler = MyBalanceSheet(symbol)
     crawler.get()
 
 
-@app.task(queue="statement", rate_limit="5/m")
+@app.task(queue="statement", rate_limit="12/m")
 def __income_statement_consumer(whatever, symbol):
     crawler = MyIncomeStatement(symbol)
     crawler.get()
 
 
-@app.task(queue="statement", rate_limit="5/m")
+@app.task(queue="statement", rate_limit="12/m")
 def __cash_flow_statement_consumer(whatever, symbol):
     crawler = MyCashFlowStatement(symbol)
     crawler.get()
 
 
-@app.task(queue="summary", rate_limit="5/m")
+@app.task(queue="summary", rate_limit="12/m")
 def __valuation_ratio_consumer(whatever, symbol):
     crawler = MyValuationRatio(symbol)
     crawler.get()
@@ -122,7 +122,7 @@ def remove_old_news():
     MyNews.objects.filter(pub_time__lte=end).delete()
 
 
-# @app.on_after_finalize.connect
+@app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     # Pull daily price at midnight everyday
     sender.add_periodic_task(
@@ -134,11 +134,11 @@ def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(crontab(hour=0, minute=0), statement_daily.s())
 
     # Pull news continuously
-    sender.add_periodic_task(
-        300.0, get_news.s(), name="Get news every 5 minute"
-    )
+    # sender.add_periodic_task(
+    #    300.0, get_news.s(), name="Get news every 5 minute"
+    # )
 
     # Remove news older tha 24 hours
-    sender.add_periodic_task(
-        3600.0, remove_old_news.s(), name="Remove news older than 24 hours"
-    )
+    # sender.add_periodic_task(
+    #    3600.0, remove_old_news.s(), name="Remove news older than 24 hours"
+    # )

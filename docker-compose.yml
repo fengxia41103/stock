@@ -82,7 +82,7 @@ services:
       DJANGO_DB_PORT: 3306
       DJANGO_REDIS_HOST: redis
       MYSQL_DATABASE: stock
-    command: celery -A fin.celery worker -l DEBUG
+    command: celery -A fin.celery worker -Q summary,stock,statement,price,news -l INFO
     volumes:
       - ./backend:/code
     networks:
