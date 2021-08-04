@@ -1,25 +1,25 @@
-import React, { useState, useContext } from "react";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import GlobalContext from "src/context";
-import { useMutate } from "restful-react";
-import { map, truncate } from "lodash";
-import SimpleSnackbar from "src/components/SimpleSnackbar";
+import React, { useState, useContext } from 'react';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import GlobalContext from 'src/context';
+import { useMutate } from 'restful-react';
+import { map, truncate } from 'lodash';
+import SimpleSnackbar from 'src/components/SimpleSnackbar';
 
 export default function AddNewStockDialog() {
   const { api } = useContext(GlobalContext);
   const [open, setOpen] = useState(false);
-  const [resource] = useState("/stocks");
+  const [resource] = useState('/stocks');
   const [symbol, setSymbol] = useState([]);
-  const [notification, setNotification] = useState("");
+  const [notification, setNotification] = useState('');
 
   const { mutate: create } = useMutate({
-    verb: "POST",
+    verb: 'POST',
     path: `${api}${resource}/`,
   });
 
@@ -32,7 +32,7 @@ export default function AddNewStockDialog() {
   const on_symbol_change = (event) => {
     // symbol is always in upper case
     let tmp = event.target.value.toUpperCase();
-    tmp = map(tmp.replaceAll(",", " ").split(" "), (s) => s.trim());
+    tmp = map(tmp.replaceAll(',', ' ').split(' '), (s) => s.trim());
     setSymbol(tmp);
   };
 
@@ -41,7 +41,7 @@ export default function AddNewStockDialog() {
     map(symbol, (s) => create({ symbol: s }));
     setOpen(false);
 
-    const msg = truncate(symbol.join(","), 20);
+    const msg = truncate(symbol.join(','), 20);
     setNotification(`Symbols: ${msg} have been added to your portfolio.`);
   };
 
@@ -59,9 +59,8 @@ export default function AddNewStockDialog() {
         <DialogTitle id="form-dialog-title">Add New Stock</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To add new stock to your list, please enter the stock symbol (always
-            shown in upper case) here. Symbol who fails to acquire historical
-            data can later be deleted.
+            To add a stock, enter the stock symbol (in uppercase). It might take
+            some time for the stock to appear in your list.
           </DialogContentText>
           <TextField
             autoFocus

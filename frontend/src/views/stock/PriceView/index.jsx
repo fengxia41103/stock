@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react';
 import {
   Card,
   CardContent,
@@ -8,13 +8,13 @@ import {
   Grid,
   Divider,
   Chip,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
-import { map, groupBy, reverse } from "lodash";
-import moment from "moment";
-import PriceChart from "src/components/stock/PriceChart";
-import ColoredNumber from "src/components/ColoredNumber";
+import StockHistoricalContext from 'src/views/stock/StockHistoricalView/context';
+import { map, groupBy, reverse } from 'lodash';
+import moment from 'moment';
+import PriceChart from 'src/components/stock/PriceChart';
+import ColoredNumber from 'src/components/ColoredNumber';
 
 export default function PriceView() {
   const data = useContext(StockHistoricalContext);
@@ -37,7 +37,7 @@ export default function PriceView() {
           <Card>
             <CardHeader
               title={
-                <Typography variant="h3">Pricess of Week {week}</Typography>
+                <Typography variant="h3">Prices of Week {week}</Typography>
               }
             />
 
