@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
-import { map, remove } from "lodash";
-import Fetch from "src/components/Fetch";
+import React, { useState, useContext } from 'react';
+import { map, remove } from 'lodash';
+import Fetch from 'src/components/Fetch';
 import {
   Box,
   FormControl,
@@ -11,20 +11,20 @@ import {
   Tooltip,
   Grid,
   Divider,
-} from "@material-ui/core";
-import GlobalContext from "src/context";
-import { useMutate } from "restful-react";
-import SimpleSnackbar from "src/components/SimpleSnackbar";
-import PropTypes from "prop-types";
-import Popover from "@material-ui/core/Popover";
-import UpdateStock from "src/components/stock/UpdateStock";
-import DeleteStock from "src/components/stock/DeleteStock";
+} from '@material-ui/core';
+import GlobalContext from 'src/context';
+import { useMutate } from 'restful-react';
+import SimpleSnackbar from 'src/components/SimpleSnackbar';
+import PropTypes from 'prop-types';
+import Popover from '@material-ui/core/Popover';
+import UpdateStock from 'src/components/stock/UpdateStock';
+import DeleteStock from 'src/components/stock/DeleteStock';
 
 export default function StockLinkToSector(props) {
   const { api } = useContext(GlobalContext);
-  const { symbol, resource_uri } = props;
-  const [resource] = useState("/sectors");
-  const [notification, setNotification] = useState("");
+  const { symbol, resource_uri, minimal } = props;
+  const [resource] = useState('/sectors');
+  const [notification, setNotification] = useState('');
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -39,7 +39,7 @@ export default function StockLinkToSector(props) {
   };
 
   const { mutate: update } = useMutate({
-    verb: "PATCH",
+    verb: 'PATCH',
     path: `${api}${resource}/`,
   });
 
@@ -50,7 +50,7 @@ export default function StockLinkToSector(props) {
       // make a local copy for manipulation
       let tmp = [...s.stocks];
 
-      let msg = "";
+      let msg = '';
 
       // conditions
       if (s.name === event.target.name) {
@@ -130,12 +130,12 @@ export default function StockLinkToSector(props) {
         anchorEl={anchorEl}
         onClose={close_sector_list}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
         <Box padding={2}>
@@ -165,7 +165,7 @@ export default function StockLinkToSector(props) {
         arrow
       >
         <Typography color="secondary" display="inline">
-          &#47;&#47;
+          &#47;&#47; {!!minimal ? null : 'Link to Sector'}
         </Typography>
       </Tooltip>
       {open ? (
@@ -178,4 +178,5 @@ export default function StockLinkToSector(props) {
 StockLinkToSector.propTypes = {
   symbol: PropTypes.string.isRequired,
   resource_uri: PropTypes.string,
+  minimal: PropTypes.bool,
 };
