@@ -1,0 +1,32 @@
+# Hey there o/!
+#
+# We just wanted to let you know that we care a great deal about
+# making our git history clean, maintainable and easy to access for
+# all our contributors. Commit messages are very important to us,
+# which is why we have a strict commit message policy in place.
+# Please use the following guidelines to format all your commit
+# messages:
+#
+#     <type>(<scope>): <subject>
+#     <BLANK LINE>
+#     <body>
+#     <BLANK LINE>
+#     <footer>
+#
+
+############# TITLE ##############
+# Summary, imperative, start upper case, don't end with a period
+# No more than 50 chars. #### 50 chars is here: #
+# <type>(<scope>): <subject>
+# type: feat, fix, docs, style, refactor, test, chore
+# scope: anything
+
+############# BLANK LINE ##############
+# Remember blank line between title and body.
+
+############# BODY ##############
+# Explain *what* and *why* (not *how*). Include task ID (Jira issue).
+# Wrap at 72 chars. ################################## which is here: #
+
+
+############# THANK YOU <3 ##############
