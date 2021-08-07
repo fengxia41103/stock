@@ -1,0 +1,18 @@
+############# TITLE ##############
+# Summary, imperative, start upper case, don't end with a period
+#
+#     <type>(<scope>): <subject>
+#
+# type: feat, fix, docs, style, refactor, test, chore
+# scope: anything
+# No more than 50 chars. >>>>>> 50 chars is here: |
+
+############# BLANK LINE ##############
+# DON'T WRITE ANYTHING HERE. I AM THE BLANK LINE.
+
+############# BODY ##############
+# Explain *what* and *why* (not *how*). Include task ID (Jira issue).
+# Wrap at 72 chars >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> which is here: |
+
+
+############# THANK YOU <3 ##############
