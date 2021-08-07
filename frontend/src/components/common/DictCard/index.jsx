@@ -9,7 +9,7 @@ import {
   CardHeader,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
-import ColoredNumber from "src/components/ColoredNumber";
+import ColoredNumber from "src/components/common/ColoredNumber";
 
 export default function DictCard(props) {
   const { data, interests } = props;

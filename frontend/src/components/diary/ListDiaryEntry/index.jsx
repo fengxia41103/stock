@@ -15,13 +15,13 @@ import clsx from "clsx";
 import EditDiaryEditor from "src/components/diary/EditDiaryEditor";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import TrendingDownIcon from "@material-ui/icons/TrendingDown";
-import DropdownMenu from "src/components/DropdownMenu";
+import DropdownMenu from "src/components/common/DropdownMenu";
 import EditIcon from "@material-ui/icons/Edit";
 import PropTypes from "prop-types";
 import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@material-ui/icons/ThumbDownOutlined";
 import DiaryStockTag from "src/components/diary/DiaryStockTag";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 
 const useStyles = makeStyles((theme) => ({
   diary: {

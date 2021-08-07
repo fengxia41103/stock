@@ -5,10 +5,10 @@ import {
   CardHeader,
   Grid,
 } from "@material-ui/core";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 import { map, groupBy } from "lodash";
 import GlobalContext from "src/context";
-import MultilineChart from "src/components/MultilineChart";
+import MultilineChart from "src/components/common/MultilineChart";
 import PropTypes from "prop-types";
 
 export default function SectorStatementComparisonCharts(props) {

@@ -9,7 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import GlobalContext from 'src/context';
 import { useMutate } from 'restful-react';
 import { map, truncate } from 'lodash';
-import SimpleSnackbar from 'src/components/SimpleSnackbar';
+import SimpleSnackbar from 'src/components/common/SimpleSnackbar';
 
 export default function AddNewStockDialog() {
   const { api } = useContext(GlobalContext);

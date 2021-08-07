@@ -2,8 +2,8 @@ import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Typography } from "@material-ui/core";
 import GlobalContext from "src/context";
-import Fetch from "src/components/Fetch";
-import DictCard from "src/components/DictCard";
+import Fetch from "src/components/common/Fetch";
+import DictCard from "src/components/common/DictCard";
 
 function StockSummaryView() {
   const { id } = useParams();

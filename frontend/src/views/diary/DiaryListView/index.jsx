@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Box, Container } from "@material-ui/core";
 import ListDiary from "src/components/diary/ListDiary";
-import Page from "src/components/Page";
+import Page from "src/components/common/Page";
 import DiaryListContext from "./context.jsx";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 import GlobalContext from "src/context";
 
 export default function DiaryListView() {

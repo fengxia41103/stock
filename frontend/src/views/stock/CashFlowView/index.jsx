@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 import GlobalContext from "src/context";
 import FinancialCard from "src/components/stock/FinancialCard";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 
 function CashFlowView(props) {

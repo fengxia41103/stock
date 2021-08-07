@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { map, filter } from "lodash";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 import {
   Box,
   Container,
@@ -9,7 +9,7 @@ import {
   Card,
   CardContent,
 } from "@material-ui/core";
-import Page from "src/components/Page";
+import Page from "src/components/common/Page";
 import GlobalContext from "src/context";
 import AddNewSectorDialog from "src/components/sector/AddNewSectorDialog";
 import ListSectorCard from "src/components/sector/ListSectorCard";

@@ -1,7 +1,7 @@
 import React from "react";
 import { map, isEmpty } from "lodash";
 import { randomId } from "src/utils/helper.jsx";
-import HighchartGraphBox from "src/components/Highchart";
+import HighchartGraphBox from "src/components/common/Highchart";
 import PropTypes from "prop-types";
 
 export default function MultilineChart(props) {

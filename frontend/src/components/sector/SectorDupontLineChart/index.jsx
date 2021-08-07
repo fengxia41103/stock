@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { map } from "lodash";
-import MultilineChart from "src/components/MultilineChart";
+import MultilineChart from "src/components/common/MultilineChart";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 import PropTypes from "prop-types";
 

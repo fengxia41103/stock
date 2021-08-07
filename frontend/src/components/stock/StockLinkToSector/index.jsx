@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { map, remove } from 'lodash';
-import Fetch from 'src/components/Fetch';
+import Fetch from 'src/components/common/Fetch';
 import {
   Box,
   FormControl,
@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import GlobalContext from 'src/context';
 import { useMutate } from 'restful-react';
-import SimpleSnackbar from 'src/components/SimpleSnackbar';
+import SimpleSnackbar from 'src/components/common/SimpleSnackbar';
 import PropTypes from 'prop-types';
 import Popover from '@material-ui/core/Popover';
 import UpdateStock from 'src/components/stock/UpdateStock';

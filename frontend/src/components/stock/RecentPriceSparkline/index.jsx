@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 import GlobalContext from "src/context";
 import { map } from "lodash";
 import moment from "moment";

@@ -17,9 +17,9 @@ import {
 } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { map, isUndefined } from "lodash";
-import DropdownMenu from "src/components/DropdownMenu";
+import DropdownMenu from "src/components/common/DropdownMenu";
 import RecentPriceSparkline from "src/components/stock/RecentPriceSparkline";
-import ColoredNumber from "src/components/ColoredNumber";
+import ColoredNumber from "src/components/common/ColoredNumber";
 import StockSymbol from "src/components/stock/StockSymbol";
 
 const useStyles = makeStyles((theme) => ({

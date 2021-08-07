@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Button } from "@material-ui/core";
 import { useMutate } from "restful-react";
 
-import SimpleSnackbar from "src/components/SimpleSnackbar";
+import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import PropTypes from "prop-types";
 import GlobalContext from "src/context";
 import RefreshIcon from "@material-ui/icons/Refresh";

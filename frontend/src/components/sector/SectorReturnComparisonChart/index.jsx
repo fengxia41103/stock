@@ -1,6 +1,6 @@
 import React from "react";
 import { map, groupBy, merge, forEach } from "lodash";
-import HighchartGraphBox from "src/components/Highchart";
+import HighchartGraphBox from "src/components/common/Highchart";
 import { randomId } from "src/utils/helper.jsx";
 import { daily_returns, overnight_returns } from "src/utils/stock/returns";
 import PropTypes from "prop-types";

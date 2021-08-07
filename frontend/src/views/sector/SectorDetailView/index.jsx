@@ -10,14 +10,14 @@ import {
   List,
   ListItem,
 } from '@material-ui/core';
-import Page from 'src/components/Page';
-import MenuBar from 'src/components/MenuBar';
-import Fetch from 'src/components/Fetch';
+import Page from 'src/components/common/Page';
+import MenuBar from 'src/components/common/MenuBar';
+import Fetch from 'src/components/common/Fetch';
 import GlobalContext from 'src/context';
 import SectorDetailContext from './context.jsx';
 import { useMutate } from 'restful-react';
 import { map } from 'lodash';
-import DropdownMenu from 'src/components/DropdownMenu';
+import DropdownMenu from 'src/components/common/DropdownMenu';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import RefreshIcon from '@material-ui/icons/Refresh';
 

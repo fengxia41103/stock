@@ -7,7 +7,7 @@ import {
   CardContent,
   CardHeader,
 } from "@material-ui/core";
-import DictTable from "src/components/DictTable";
+import DictTable from "src/components/common/DictTable";
 import PropTypes from "prop-types";
 
 export default function FinancialCard(props) {

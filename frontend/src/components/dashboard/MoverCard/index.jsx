@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { map } from "lodash";
-import ColoredNumber from "src/components/ColoredNumber";
+import ColoredNumber from "src/components/common/ColoredNumber";
 import StockSymbol from "src/components/stock/StockSymbol";
 
 const useStyles = makeStyles((theme) => ({

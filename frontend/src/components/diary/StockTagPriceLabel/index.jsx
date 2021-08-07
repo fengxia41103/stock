@@ -2,8 +2,8 @@ import React, { useContext, useState } from "react";
 import GlobalContext from "src/context";
 import { Typography, Grid, Divider } from "@material-ui/core";
 import PropTypes from "prop-types";
-import Fetch from "src/components/Fetch";
-import ColoredNumber from "src/components/ColoredNumber";
+import Fetch from "src/components/common/Fetch";
+import ColoredNumber from "src/components/common/ColoredNumber";
 
 export default function StockTagPriceLabel(props) {
   const { diary, stock } = props;

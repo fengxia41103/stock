@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 import {
   makeStyles,
   Box,
@@ -18,13 +18,13 @@ import {
   List,
   ListItem,
 } from "@material-ui/core";
-import Page from "src/components/Page";
+import Page from "src/components/common/Page";
 import GlobalContext from "src/context";
 import { map, sortBy, reverse, filter, groupBy, forEach } from "lodash";
 import moment from "moment";
 import clsx from "clsx";
 import RankingScores from "src/components/dashboard/RankingScores";
-import HighlightedText from "src/components/HighlightedText";
+import HighlightedText from "src/components/common/HighlightedText";
 import { get_highlights } from "src/utils/helper.jsx";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";

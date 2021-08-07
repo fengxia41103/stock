@@ -11,7 +11,7 @@ import {
 
 import StockHistoricalContext from "./context.jsx";
 import GlobalContext from "src/context";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
 
 function StockHistoricalView() {

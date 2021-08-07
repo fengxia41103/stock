@@ -12,9 +12,9 @@ import {
 
 import { BarChart, Timeline } from "@material-ui/icons";
 import CompareArrowsSharpIcon from "@material-ui/icons/CompareArrowsSharp";
-import RankChart from "src/components/RankChart";
+import RankChart from "src/components/common/RankChart";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
-import HighlightedText from "src/components/HighlightedText";
+import HighlightedText from "src/components/common/HighlightedText";
 import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
 
 const useStyles = makeStyles(theme => ({

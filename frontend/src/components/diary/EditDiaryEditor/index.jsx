@@ -13,7 +13,7 @@ import {
   RadioGroup,
   Radio,
 } from "@material-ui/core";
-import SimpleSnackbar from "src/components/SimpleSnackbar";
+import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 
 export default function EditDiaryEditor(props) {
   const { host } = useContext(GlobalContext);

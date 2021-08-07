@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Button } from "@material-ui/core";
 import { map, truncate } from "lodash";
-import SimpleSnackbar from "src/components/SimpleSnackbar";
+import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import PropTypes from "prop-types";
 import GlobalContext from "src/context";
 import UpdateIcon from "@material-ui/icons/Update";

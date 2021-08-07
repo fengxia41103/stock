@@ -11,7 +11,7 @@ import {
 import { map, sortBy, reverse, filter, forEach } from "lodash";
 import RankingOccuranceCharts from "src/components/dashboard/RankingOccuranceCharts";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
-import RankChart from "src/components/RankChart";
+import RankChart from "src/components/common/RankChart";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 

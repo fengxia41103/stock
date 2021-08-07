@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { map, isUndefined, isEmpty, isNull } from "lodash";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 import {
   makeStyles,
   Button,

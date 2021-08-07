@@ -4,7 +4,7 @@ import { Typography } from "@material-ui/core";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 import GlobalContext from "src/context";
 import FinancialCard from "src/components/stock/FinancialCard";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 
 function IncomeView(props) {
   const { id } = useParams();

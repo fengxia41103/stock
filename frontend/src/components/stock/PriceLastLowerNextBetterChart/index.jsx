@@ -1,6 +1,6 @@
 import React from "react";
 import { randomId } from "src/utils/helper.jsx";
-import HighchartGraphBox from "src/components/Highchart";
+import HighchartGraphBox from "src/components/common/Highchart";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 

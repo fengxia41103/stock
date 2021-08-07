@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import GlobalContext from "src/context";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 import { map, groupBy, reverse } from "lodash";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 import moment from "moment";
 
 import {

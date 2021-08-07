@@ -2,7 +2,7 @@ import React from "react";
 
 import { map, filter } from "lodash";
 import { randomId } from "src/utils/helper.jsx";
-import HighchartGraphBox from "src/components/Highchart";
+import HighchartGraphBox from "src/components/common/Highchart";
 import { Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
 

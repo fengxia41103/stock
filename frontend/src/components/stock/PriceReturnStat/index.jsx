@@ -7,9 +7,9 @@ import {
   Typography,
   CardHeader,
 } from "@material-ui/core";
-import TimeSeriesColumnChart from "src/components/TimeSeriesColumnChart";
-import DictCard from "src/components/DictCard";
-import ABDonutChart from "src/components/ABDonutChart";
+import TimeSeriesColumnChart from "src/components/common/TimeSeriesColumnChart";
+import DictCard from "src/components/common/DictCard";
+import ABDonutChart from "src/components/common/ABDonutChart";
 
 export default function PriceReturnStat(props) {
   const { data } = props;

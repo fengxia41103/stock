@@ -10,7 +10,7 @@ import GlobalContext from "src/context";
 import AddIcon from "@material-ui/icons/Add";
 import ListItem from "@material-ui/core/ListItem";
 import { map, remove, isEmpty } from "lodash";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 import { FormControlLabel, Checkbox, Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
 

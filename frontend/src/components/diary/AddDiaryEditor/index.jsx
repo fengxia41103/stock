@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import { isUndefined } from "lodash";
 import PropTypes from "prop-types";
-import SimpleSnackbar from "src/components/SimpleSnackbar";
+import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 
 export default function AddDiaryEditor(props) {
   const { api } = useContext(GlobalContext);

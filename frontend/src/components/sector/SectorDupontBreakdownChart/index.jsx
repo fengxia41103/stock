@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 import { map } from "lodash";
 import { randomId } from "src/utils/helper.jsx";
-import HighchartGraphBox from "src/components/Highchart";
+import HighchartGraphBox from "src/components/common/Highchart";
 import { Typography, Card, CardContent } from "@material-ui/core";
-import DropdownMenu from "src/components/DropdownMenu";
+import DropdownMenu from "src/components/common/DropdownMenu";
 
 export default function SectorDupontBreakdownChart() {
   const sector = useContext(SectorDetailContext);

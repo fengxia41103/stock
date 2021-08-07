@@ -10,12 +10,12 @@ import {
   CardHeader,
   CardContent,
 } from "@material-ui/core";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 import { map } from "lodash";
 import AddDiaryEditor from "src/components/diary/AddDiaryEditor";
 import ListDiaryEntry from "src/components/diary/ListDiaryEntry";
 import AddIcon from "@material-ui/icons/Add";
-import DropdownMenu from "src/components/DropdownMenu";
+import DropdownMenu from "src/components/common/DropdownMenu";
 import PropTypes from "prop-types";
 
 export default function ListDiary(props) {

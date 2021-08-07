@@ -8,7 +8,7 @@ import EditSectorDialog from "src/components/sector/EditSectorDialog";
 import DeleteSectorDialog from "src/components/sector/DeleteSectorDialog";
 import { Button, Link } from "@material-ui/core";
 import MultilineChartIcon from "@material-ui/icons/MultilineChart";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 
 export default function ListSectorCard(props) {
   const { me, all } = props;

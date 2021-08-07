@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
-import Page from "src/components/Page";
+import Page from "src/components/common/Page";
 import Rank from "./rank";
 import { get_highlights } from "src/utils/helper.jsx";
 

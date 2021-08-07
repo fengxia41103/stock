@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import { map, isEmpty } from "lodash";
-import ABDonutChart from "src/components/ABDonutChart";
+import ABDonutChart from "src/components/common/ABDonutChart";
 import PropTypes from "prop-types";
 
 export default function RankingOccuranceCharts(props) {

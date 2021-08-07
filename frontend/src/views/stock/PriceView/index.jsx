@@ -14,7 +14,7 @@ import StockHistoricalContext from 'src/views/stock/StockHistoricalView/context'
 import { map, groupBy, reverse } from 'lodash';
 import moment from 'moment';
 import PriceChart from 'src/components/stock/PriceChart';
-import ColoredNumber from 'src/components/ColoredNumber';
+import ColoredNumber from 'src/components/common/ColoredNumber';
 
 export default function PriceView() {
   const data = useContext(StockHistoricalContext);

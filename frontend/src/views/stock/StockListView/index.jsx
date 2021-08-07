@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { map, filter, sortBy, groupBy } from "lodash";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 import {
   Box,
   Container,
@@ -15,11 +15,11 @@ import {
   Radio,
   CircularProgress,
 } from "@material-ui/core";
-import Page from "src/components/Page";
+import Page from "src/components/common/Page";
 import ListStockCard from "src/components/stock/ListStockCard";
 import GlobalContext from "src/context";
 import { Poll } from "restful-react";
-import DropdownMenu from "src/components/DropdownMenu";
+import DropdownMenu from "src/components/common/DropdownMenu";
 import UpdateAllStock from "src/components/stock/UpdateAllStock";
 import AddStocksToSectorDialog from "src/components/sector/AddStocksToSectorDialog";
 

@@ -7,7 +7,7 @@ import {
   Card,
   CardContent,
 } from "@material-ui/core";
-import Page from "src/components/Page";
+import Page from "src/components/common/Page";
 import { map } from "lodash";
 import ListNewsCard from "src/components/news/ListNewsCard";
 

@@ -10,9 +10,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { randomId } from "src/utils/helper.jsx";
-import HighchartGraphBox from "src/components/Highchart";
+import HighchartGraphBox from "src/components/common/Highchart";
 import PropTypes from "prop-types";
-import ColoredNumber from "src/components/ColoredNumber";
+import ColoredNumber from "src/components/common/ColoredNumber";
 
 export default function DictTable(props) {
   const { table } = useTheme();

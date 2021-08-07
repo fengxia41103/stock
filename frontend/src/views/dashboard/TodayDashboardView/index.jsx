@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import Fetch from "src/components/Fetch";
+import Fetch from "src/components/common/Fetch";
 import {
   Box,
   Container,
@@ -8,7 +8,7 @@ import {
   CardContent,
   TextField,
 } from "@material-ui/core";
-import Page from "src/components/Page";
+import Page from "src/components/common/Page";
 import GlobalContext from "src/context";
 import MoverCard from "src/components/dashboard/MoverCard";
 import { map, sortBy, reverse, filter, uniqBy } from "lodash";

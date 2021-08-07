@@ -11,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import GlobalContext from 'src/context';
 import { useMutate } from 'restful-react';
 import AddIcon from '@material-ui/icons/Add';
-import Fetch from 'src/components/Fetch';
+import Fetch from 'src/components/common/Fetch';
 import { map, filter } from 'lodash';
 
 export default function AddNewSectorDialog() {
