@@ -95,13 +95,14 @@ class StockResource(ModelResource):
 
     def obj_create(self, bundle, **kwargs):
         # new stock is default to be in "misc" sector
-        sector, created = MySector.objects.get_or_create(name="misc")
         stock, created = MyStock.objects.get_or_create(
             symbol=bundle.data["symbol"]
         )
         if created:
-            # if new stock, link to default sector
-            sector.stocks.add(stock)
+            for sector in MySector.objects.filter(
+                id__in=bundle.data["sectors"]
+            ):
+                sector.stocks.add(stock)
 
             # kick off updates
             batch_update_helper(stock.symbol)
@@ -642,11 +643,7 @@ class RankValuationRatioResource(RankingResource):
         resource_name = "valuation-ranks"
 
     def get_object_list(self, request):
-        attrs = [
-            ("pe", False),
-            ("pb", False),
-            ("ps", False),
-        ]
+        attrs = [("pe", False), ("pb", False), ("ps", False)]
         attrs = [
             (index, name, high_to_low)
             for index, (name, high_to_low) in enumerate(attrs)
@@ -658,11 +655,7 @@ class DiaryResource(ModelResource):
 
     created = fields.DateTimeField("created", readonly=True)
     stock = fields.ForeignKey("stock.api.StockResource", "stock", null=True)
-    price = fields.FloatField(
-        "price",
-        null=True,
-        readonly=True,
-    )
+    price = fields.FloatField("price", null=True, readonly=True)
     is_correct = fields.BooleanField("is_correct", null=True, readonly=True)
     content = fields.CharField("content", use_in="detail")
 

@@ -61,9 +61,9 @@ services:
       DJANGO_DB_HOST: db
       DJANGO_DB_PORT: 3306
       DJANGO_REDIS_HOST: redis
-    # command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py runserver 0.0.0.0:8001"
-    command:
-      "gunicorn -w 1 -t 300 -b 0.0.0.0:8001 --log-level=info fin.wsgi"
+    command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py runserver 0.0.0.0:8001"
+    # command:
+    #   "gunicorn -w 1 -t 300 -b 0.0.0.0:8001 --log-level=info fin.wsgi"
 
     networks:
       - data
