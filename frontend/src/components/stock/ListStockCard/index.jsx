@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import clsx from "clsx";
+import React from "react"
+import PropTypes from "prop-types"
+import clsx from "clsx"
 import {
   makeStyles,
   Avatar,
@@ -13,14 +13,14 @@ import {
   Divider,
   Grid,
   Chip,
-  Tooltip,
-} from "@material-ui/core";
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import { map, isUndefined } from "lodash";
-import DropdownMenu from "src/components/common/DropdownMenu";
-import RecentPriceSparkline from "src/components/stock/RecentPriceSparkline";
-import ColoredNumber from "src/components/common/ColoredNumber";
-import StockSymbol from "src/components/stock/StockSymbol";
+} from "@material-ui/core"
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday"
+import { map, isUndefined } from "lodash"
+import DropdownMenu from "src/components/common/DropdownMenu"
+import RecentPriceSparkline from "src/components/stock/RecentPriceSparkline"
+import ColoredNumber from "src/components/common/ColoredNumber"
+import StockSymbol from "src/components/stock/StockSymbol"
+import TrendingDownIcon from "@material-ui/icons/TrendingDown"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,31 +35,31 @@ const useStyles = makeStyles((theme) => ({
   card: {
     height: "100%",
   },
-}));
+}))
 
 export default function ListStockCard(props) {
-  const { stocks, index, group_by, actions } = props;
-  const classes = useStyles();
+  const { stocks, index, group_by, actions } = props
+  const classes = useStyles()
 
-  let title;
+  let title
   switch (group_by) {
     case "last_reporting_date":
-      title = index === "null" ? "ETF" : index;
-      break;
+      title = index === "null" ? "ETF" : index
+      break
 
     default:
-      title = index;
-      break;
+      title = index
+      break
   }
 
   // if any menu contents
-  let menu_content = null;
+  let menu_content = null
 
   if (!isUndefined(actions)) {
     const action_menu_content_list = map(actions, (action, index) => (
       <ListItem key={index}>{action}</ListItem>
-    ));
-    menu_content = <List>{action_menu_content_list}</List>;
+    ))
+    menu_content = <List>{action_menu_content_list}</List>
   }
 
   const links = map(stocks, (s) => {
@@ -80,21 +80,19 @@ export default function ListStockCard(props) {
           <ColoredNumber val={s.roe} />
         </Grid>
         <Grid item xs={1}>
-          <Tooltip
-            title="Last time saw anything lower than this (in days)"
-            arrow
-          >
+          {s.last_lower > 1 ? (
             <Chip
+              avatar={<TrendingDownIcon />}
               variant={s.last_lower > 30 ? "default" : "outlined"}
               size="small"
               color={s.last_lower > 30 ? "secondary" : "default"}
               label={s.last_lower}
             />
-          </Tooltip>
+          ) : null}
         </Grid>
       </Grid>
-    );
-  });
+    )
+  })
 
   return (
     <Card className={clsx(classes.root, classes.card)}>
@@ -112,7 +110,7 @@ export default function ListStockCard(props) {
       <Divider />
       <CardContent>{links}</CardContent>
     </Card>
-  );
+  )
 }
 
 ListStockCard.propTypes = {
@@ -129,4 +127,4 @@ ListStockCard.propTypes = {
     })
   ).isRequired,
   actions: PropTypes.arrayOf(PropTypes.any),
-};
+}
