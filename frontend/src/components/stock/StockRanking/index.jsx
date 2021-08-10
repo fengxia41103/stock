@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { map, filter } from "lodash";
 import Fetch from "src/components/common/Fetch";
-import Row from "./row.jsx";
+import StockRankingRow from "src/components/stock/StockRankingRow";
 import GlobalContext from "src/context";
+import PropTypes from "prop-types";
 
-function Rank(props) {
+export default function StockRanking(props) {
   const { api } = useContext(GlobalContext);
   const { resource, top, thresholds } = props;
 
@@ -35,7 +36,7 @@ function Rank(props) {
       // FILTER: showing the top N items.
       const ranks = stats.slice(0, top);
       return (
-        <Row
+        <StockRankingRow
           key={d.name}
           category={d.name}
           {...{ ranks, threshold }}
@@ -44,9 +45,15 @@ function Rank(props) {
       );
     });
 
-    return <>{rows}</>;
+    return rows;
   };
   return <Fetch {...{ api, resource, render_data }} />;
 }
 
-export default Rank;
+StockRanking.propTypes = {
+  resource: PropTypes.string.isRequired,
+  top: PropTypes.number.isRequired,
+  thresholds: PropTypes.object,
+  handle_ratio_change: PropTypes.func,
+  highlights: PropTypes.array,
+};

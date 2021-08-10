@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
 import Page from "src/components/common/Page";
-import Rank from "./rank";
+import StockRanking from "src/components/stock/StockRanking";
 import { get_highlights } from "src/utils/helper.jsx";
 
 const useStyles = makeStyles(theme => ({
@@ -100,7 +100,7 @@ export default function RankingView() {
         <Card>
           <CardHeader title={header} />
           <CardContent>
-            <Rank
+            <StockRanking
               {...{
                 resource,
                 highlights,

@@ -16,6 +16,7 @@ import RankChart from "src/components/common/RankChart";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
 import HighlightedText from "src/components/common/HighlightedText";
 import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({
   category: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Row(props) {
+export default function StockRankingRow(props) {
   const [show_rank_graph, setShowRank] = useState(false);
   const [show_1m_graph, setShow1m] = useState(false);
   const [show_threshold, setShowThreshold] = useState(false);
@@ -102,3 +103,18 @@ export default function Row(props) {
     </Box>
   );
 }
+
+//   const { category, ranks, threshold, handle_ratio_change } = props;
+StockRankingRow.propTypes = {
+  category: PropTypes.string.isRequired,
+  ranks: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      on: PropTypes.string,
+      symbol: PropTypes.string,
+      val: PropTypes.number,
+    })
+  ).isRequired,
+  threshold: PropTypes.number,
+  handle_ratio_change: PropTypes.func,
+};
