@@ -55,5 +55,5 @@ StockRanking.propTypes = {
   top: PropTypes.number.isRequired,
   thresholds: PropTypes.object,
   handle_ratio_change: PropTypes.func,
-  highlights: PropTypes.array,
+  highlights: PropTypes.object,
 };

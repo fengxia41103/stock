@@ -52,6 +52,7 @@ export default function StockRankingRow(props) {
     cutoff = (
       <TextField
         label="Threshold"
+        name={category_name}
         value={threshold}
         onChange={handle_ratio_change}
         fullWidth={true}
@@ -115,6 +116,6 @@ StockRankingRow.propTypes = {
       val: PropTypes.number,
     })
   ).isRequired,
-  threshold: PropTypes.number,
+  threshold: PropTypes.string,
   handle_ratio_change: PropTypes.func,
 };

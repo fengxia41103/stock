@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { map } from "lodash";
+import { map, clone } from "lodash";
 import {
   makeStyles,
   Avatar,
@@ -65,7 +65,8 @@ export default function RankingView() {
 
   const handle_ratio_change = event => {
     const value = event.target.value;
-    let old_thresholds = thresholds;
+    let old_thresholds = clone(thresholds);
+
     old_thresholds[event.target.name] = value;
     setThresholds(old_thresholds);
   };
