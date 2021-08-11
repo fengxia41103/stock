@@ -29,6 +29,7 @@ export default function RankingView() {
   const classes = useStyles();
   const [interests, setInterests] = useState([]);
   const [highlights, setHighlights] = useState({});
+  const [stocks, setStocks] = useState([]);
 
   // how many in a rank I'm interested in, eg. top 10
   const [top, setTop] = useState(5);
@@ -80,20 +81,18 @@ export default function RankingView() {
   };
   const rankings = map(ranking_mapping, (resource, title) => {
     const header = (
-      <Box mb={1}>
-        <Grid container justify="space-between" spacing={1}>
-          <Grid item>
-            <Typography variant="h3" color="textPrimary">
-              {title}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Avatar className={classes.avatar}>
-              <WhatshotIcon />
-            </Avatar>
-          </Grid>
+      <Grid container justify="space-between" spacing={1}>
+        <Grid item>
+          <Typography variant="h3" color="textPrimary">
+            {title}
+          </Typography>
         </Grid>
-      </Box>
+        <Grid item>
+          <Avatar className={classes.avatar}>
+            <WhatshotIcon />
+          </Avatar>
+        </Grid>
+      </Grid>
     );
 
     return (

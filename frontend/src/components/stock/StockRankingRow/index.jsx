@@ -8,8 +8,8 @@ import {
   Typography,
   Tooltip,
   Divider,
+  Link,
 } from "@material-ui/core";
-
 import { BarChart, Timeline } from "@material-ui/icons";
 import CompareArrowsSharpIcon from "@material-ui/icons/CompareArrowsSharp";
 import RankChart from "src/components/common/RankChart";
@@ -17,20 +17,21 @@ import StocksPriceChart from "src/components/stock/StocksPriceChart";
 import HighlightedText from "src/components/common/HighlightedText";
 import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
 import PropTypes from "prop-types";
+import clsx from "clsx";
 
 const useStyles = makeStyles(theme => ({
   category: {
-    color: "#3f51b5",
+    color: "#d52349",
   },
 }));
 
 export default function StockRankingRow(props) {
+  const classes = useStyles();
   const [show_rank_graph, setShowRank] = useState(false);
   const [show_1m_graph, setShow1m] = useState(false);
   const [show_threshold, setShowThreshold] = useState(false);
   const [start] = useState(get_last_month_string());
   const [end] = useState(get_today_string());
-  const classes = useStyles();
 
   const handle_show_rank_graph = event => setShowRank(!show_rank_graph);
   const handle_show_1m_graph = event => setShow1m(!show_1m_graph);
@@ -41,14 +42,16 @@ export default function StockRankingRow(props) {
 
   // show rank values
   const vals = map(ranks, r => (
-    <Grid key={r.symbol} item xs>
-      <HighlightedText text={r.symbol} val={r.val} {...props} />
+    <Grid item key={r.symbol} lg={1} xs={2}>
+      <Link href={`/stocks/${r.id}/historical/price`}>
+        <HighlightedText text={r.symbol} val={r.val} {...props} />
+      </Link>
     </Grid>
   ));
 
   // show threshold cutoff if any
   let cutoff = null;
-  if (threshold) {
+  if (!!threshold) {
     cutoff = (
       <TextField
         label="Threshold"
@@ -66,42 +69,43 @@ export default function StockRankingRow(props) {
     return { stock_id: r.id, ...r };
   });
 
+  const menu_content = (
+    <>
+      <Tooltip title="View ranks as bar chart">
+        <BarChart onClick={handle_show_rank_graph} />
+      </Tooltip>
+      <Tooltip title="View normalized price of last 30 days">
+        <Timeline onClick={handle_show_1m_graph} />
+      </Tooltip>
+      {threshold ? (
+        <CompareArrowsSharpIcon onClick={handle_show_threshold} />
+      ) : null}
+      {show_threshold ? cutoff : null}
+    </>
+  );
   return (
-    <Box mt={1}>
-      <Grid container alignItems="center" spacing={1}>
-        <Grid item lg={2} sm={6} xs>
-          <Typography variant="body1" className={classes.category}>
-            {category_name}
-          </Typography>
-        </Grid>
-        <Grid item lg={1} xs>
-          <Tooltip title="View ranks as bar chart">
-            <BarChart onClick={handle_show_rank_graph} />
-          </Tooltip>
-
-          <Tooltip title="View normalized price of last 30 days">
-            <Timeline onClick={handle_show_1m_graph} />
-          </Tooltip>
-          {threshold ? (
-            <CompareArrowsSharpIcon onClick={handle_show_threshold} />
-          ) : null}
-          {show_threshold ? <Box mt={3}>{cutoff}</Box> : null}
-        </Grid>
-        <Grid item lg={9} sm={12} xs={12}>
-          <Grid container spacing={1}>
-            {vals}
-          </Grid>
-        </Grid>
+    <Grid container alignItems="center" spacing={1}>
+      <Grid item lg={2} xs={9}>
+        <Typography variant="body1" color="textSecondary">
+          {category_name}
+        </Typography>
       </Grid>
+      <Grid item lg={1} xs={3}>
+        {menu_content}
+      </Grid>
+      {vals}
 
-      <Box mt={1} mb={2}>
-        {show_rank_graph ? <RankChart ranks={added_stock_ids} /> : null}
+      <Grid item xs={12}>
+        {show_rank_graph ? (
+          <Box>
+            <RankChart ranks={added_stock_ids} />
+          </Box>
+        ) : null}
         {show_1m_graph ? (
           <StocksPriceChart {...{ start, end, stocks: stock_ids }} />
         ) : null}
-      </Box>
-      <Divider />
-    </Box>
+      </Grid>
+    </Grid>
   );
 }
 
