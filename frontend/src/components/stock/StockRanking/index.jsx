@@ -4,11 +4,18 @@ import Fetch from "src/components/common/Fetch";
 import StockRankingRow from "src/components/stock/StockRankingRow";
 import GlobalContext from "src/context";
 import PropTypes from "prop-types";
-import { List, ListItem } from "@material-ui/core";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  List,
+  ListItem,
+  Typography,
+} from "@material-ui/core";
 
 export default function StockRanking(props) {
   const { api } = useContext(GlobalContext);
-  const { resource, top, thresholds } = props;
+  const { title, resource, top, thresholds } = props;
 
   const render_data = data => {
     const rows = map(data.objects, d => {
@@ -51,12 +58,26 @@ export default function StockRanking(props) {
       );
     });
 
-    return <List>{rows}</List>;
+    return (
+      <Card>
+        <CardHeader
+          title={
+            <Typography variant="h3" color="textPrimary">
+              {title}
+            </Typography>
+          }
+        />
+        <CardContent>
+          <List>{rows}</List>
+        </CardContent>
+      </Card>
+    );
   };
   return <Fetch {...{ api, resource, render_data }} />;
 }
 
 StockRanking.propTypes = {
+  title: PropTypes.string.isRequired,
   resource: PropTypes.string.isRequired,
   top: PropTypes.number.isRequired,
   thresholds: PropTypes.object,

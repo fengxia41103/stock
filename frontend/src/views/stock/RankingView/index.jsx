@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { map, clone } from "lodash";
 import {
-  makeStyles,
-  Avatar,
   Box,
   Container,
   Grid,
   TextField,
   Card,
   CardContent,
-  CardHeader,
   Typography,
 } from "@material-ui/core";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
@@ -17,19 +14,9 @@ import Page from "src/components/common/Page";
 import StockRanking from "src/components/stock/StockRanking";
 import { get_highlights } from "src/utils/helper.jsx";
 
-const useStyles = makeStyles(theme => ({
-  avatar: {
-    backgroundColor: "#d52349",
-    height: 56,
-    width: 56,
-  },
-}));
-
 export default function RankingView() {
-  const classes = useStyles();
   const [interests, setInterests] = useState([]);
   const [highlights, setHighlights] = useState({});
-  const [stocks, setStocks] = useState([]);
 
   // how many in a rank I'm interested in, eg. top 10
   const [top, setTop] = useState(5);
@@ -80,37 +67,18 @@ export default function RankingView() {
     "By Valuation Ratios": "/valuation-ranks",
   };
   const rankings = map(ranking_mapping, (resource, title) => {
-    const header = (
-      <Grid container justify="space-between" spacing={1}>
-        <Grid item>
-          <Typography variant="h3" color="textPrimary">
-            {title}
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Avatar className={classes.avatar}>
-            <WhatshotIcon />
-          </Avatar>
-        </Grid>
-      </Grid>
-    );
-
     return (
       <Box key={resource} mb={1}>
-        <Card>
-          <CardHeader title={header} />
-          <CardContent>
-            <StockRanking
-              {...{
-                resource,
-                highlights,
-                top,
-                thresholds,
-                handle_ratio_change,
-              }}
-            />
-          </CardContent>
-        </Card>
+        <StockRanking
+          {...{
+            title,
+            resource,
+            highlights,
+            top,
+            thresholds,
+            handle_ratio_change,
+          }}
+        />
       </Box>
     );
   });
