@@ -23,7 +23,7 @@ export default function StockRanking(props) {
       let threshold = null;
 
       // if this value has a threshold
-      if (thresholds.hasOwnProperty(d.name)) {
+      if (!!thresholds && thresholds.hasOwnProperty(d.name)) {
         threshold = thresholds[d.name];
         const tmp = threshold.split("=");
 
@@ -44,7 +44,10 @@ export default function StockRanking(props) {
       }
 
       // FILTER: showing the top N items.
-      const ranks = stats.slice(0, parseInt(top));
+      let ranks = stats;
+      if (!!top) {
+        ranks = ranks.slice(0, parseInt(top));
+      }
 
       // render
       return (
@@ -79,8 +82,8 @@ export default function StockRanking(props) {
 StockRanking.propTypes = {
   title: PropTypes.string.isRequired,
   resource: PropTypes.string.isRequired,
-  top: PropTypes.number.isRequired,
+  highlights: PropTypes.object.isRequired,
+  top: PropTypes.number,
   thresholds: PropTypes.object,
   handle_ratio_change: PropTypes.func,
-  highlights: PropTypes.object,
 };

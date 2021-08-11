@@ -9,12 +9,18 @@ import {
   CardContent,
   Typography,
 } from "@material-ui/core";
-import WhatshotIcon from "@material-ui/icons/Whatshot";
 import Page from "src/components/common/Page";
 import StockRanking from "src/components/stock/StockRanking";
 import { get_highlights } from "src/utils/helper.jsx";
 
 export default function RankingView() {
+  const [ranking_resources] = useState({
+    "By ROE Analysis": "/stock-ranks",
+    "By Balance Sheet Analysis": "/balance-ranks",
+    "By Income Statement Analysis": "/income-ranks",
+    "By Cash Flow Statement Analysis": "/cash-ranks",
+    "By Valuation Ratios": "/valuation-ranks",
+  });
   const [interests, setInterests] = useState([]);
   const [highlights, setHighlights] = useState({});
 
@@ -52,21 +58,13 @@ export default function RankingView() {
   const handle_top_change = event => setTop(event.target.value);
 
   const handle_ratio_change = event => {
-    const value = event.target.value;
     let old_thresholds = clone(thresholds);
 
-    old_thresholds[event.target.name] = value;
+    old_thresholds[event.target.name] = event.target.value;
     setThresholds(old_thresholds);
   };
 
-  const ranking_mapping = {
-    "By ROE Analysis": "/stock-ranks",
-    "By Balance Sheet Analysis": "/balance-ranks",
-    "By Income Statement Analysis": "/income-ranks",
-    "By Cash Flow Statement Analysis": "/cash-ranks",
-    "By Valuation Ratios": "/valuation-ranks",
-  };
-  const rankings = map(ranking_mapping, (resource, title) => {
+  const rankings = map(ranking_resources, (resource, title) => {
     return (
       <Box key={resource} mb={1}>
         <StockRanking

@@ -43,6 +43,11 @@ import NewsListView from "src/views/news/NewsListView";
 import DashboardTrendingView from "src/views/dashboard/DashboardTrendingView";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import LastLowerNextBetterView from "src/views/stock/LastLowerNextBetterView";
+import SectorRoeRankingView from "src/views/sector/SectorRoeRankingView";
+import SectorBalanceRankingView from "src/views/sector/SectorBalanceRankingView";
+import SectorIncomeRankingView from "src/views/sector/SectorIncomeRankingView";
+import SectorCashRankingView from "src/views/sector/SectorCashRankingView";
+import SectorValuationRankingView from "src/views/sector/SectorValuationRankingView";
 
 const items = [
   {
@@ -128,6 +133,14 @@ const routes = [
           { path: "income", element: <SectorIncomeView /> },
           { path: "cash", element: <SectorCashFlowView /> },
           { path: "institution", element: <SectorInstitutionOwnershipView /> },
+          { path: "ranking/roe", element: <SectorRoeRankingView /> },
+          { path: "ranking/balance", element: <SectorBalanceRankingView /> },
+          { path: "ranking/income", element: <SectorIncomeRankingView /> },
+          { path: "ranking/cash", element: <SectorCashRankingView /> },
+          {
+            path: "ranking/valuation",
+            element: <SectorValuationRankingView />,
+          },
         ],
       },
       { path: "notes", element: <DiaryListView /> },

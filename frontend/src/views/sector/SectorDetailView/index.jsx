@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { Outlet, useParams } from "react-router-dom";
 import {
   Container,
   Box,
@@ -9,55 +9,80 @@ import {
   Link,
   List,
   ListItem,
-} from '@material-ui/core';
-import Page from 'src/components/common/Page';
-import MenuBar from 'src/components/common/MenuBar';
-import Fetch from 'src/components/common/Fetch';
-import GlobalContext from 'src/context';
-import SectorDetailContext from './context.jsx';
-import { useMutate } from 'restful-react';
-import { map } from 'lodash';
-import DropdownMenu from 'src/components/common/DropdownMenu';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import RefreshIcon from '@material-ui/icons/Refresh';
+} from "@material-ui/core";
+import Page from "src/components/common/Page";
+import MenuBar from "src/components/common/MenuBar";
+import Fetch from "src/components/common/Fetch";
+import GlobalContext from "src/context";
+import SectorDetailContext from "./context.jsx";
+import { useMutate } from "restful-react";
+import { map } from "lodash";
+import DropdownMenu from "src/components/common/DropdownMenu";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 const price_menus = [
   {
-    url: 'price',
-    text: 'Daily Prices',
+    url: "price",
+    text: "Daily Prices",
   },
   {
-    url: 'return',
-    text: 'Daily & Nightly Returns',
+    url: "return",
+    text: "Daily & Nightly Returns",
+  },
+];
+const ranking_menus = [
+  {
+    url: "ranking/roe",
+    text: "By ROE",
+  },
+  {
+    url: "ranking/valuation",
+    text: "By Valuation Indictors",
+  },
+
+  {
+    url: "ranking/balance",
+    text: "By Balances",
+  },
+  {
+    url: "ranking/income",
+    text: "By Incomes",
+  },
+
+  {
+    url: "ranking/cash",
+    text: "By Cash Flows",
   },
 ];
 
 const financial_statement_menus = [
   {
-    url: 'balance',
-    text: 'Balance Sheet',
+    url: "balance",
+    text: "Balance Sheet",
   },
   {
-    url: 'income',
-    text: 'Income Statement',
+    url: "income",
+    text: "Income Statement",
   },
+
   {
-    url: 'cash',
-    text: 'Cash Flow Statement',
+    url: "cash",
+    text: "Cash Flow Statement",
   },
 ];
 
 const valuation_menus = [
   {
-    url: 'dupont',
-    text: 'Dupont ROE',
+    url: "dupont",
+    text: "Dupont ROE",
   },
 ];
 
 const ownership_menus = [
   {
-    url: 'institution',
-    text: 'Institutions',
+    url: "institution",
+    text: "Institutions",
   },
 ];
 
@@ -67,11 +92,11 @@ export default function SectorDetailView() {
   const [resource] = useState(`/sectors/${id}`);
 
   const { mutate: del } = useMutate({
-    verb: 'DELETE',
+    verb: "DELETE",
     path: `${api}${resource}`,
   });
   const { mutate: update } = useMutate({
-    verb: 'PATCH',
+    verb: "PATCH",
     path: `${api}${resource}/`,
   });
 
@@ -82,8 +107,8 @@ export default function SectorDetailView() {
     return () => (mounted.current = false);
   });
 
-  const render_data = (sector) => {
-    const stock_links = map(sector.stocks_detail, (v) => {
+  const render_data = sector => {
+    const stock_links = map(sector.stocks_detail, v => {
       return (
         <Grid key={v.id} item xs>
           <Link href={`/stocks/${v.id}/historical/price`}>{v.symbol}</Link>
@@ -114,6 +139,7 @@ export default function SectorDetailView() {
                 title="Price & Trends"
                 items={price_menus}
               />
+              <MenuBar root={resource} title="Rankings" items={ranking_menus} />
               <MenuBar
                 root={resource}
                 title="Financial Statements"
@@ -153,7 +179,7 @@ export default function SectorDetailView() {
 
           <SectorDetailContext.Provider value={sector}>
             <Box mt={1}>
-              <Typography variant={'body2'}>sector: {sector.name}</Typography>
+              <Typography variant={"body2"}>sector: {sector.name}</Typography>
               <Outlet />
             </Box>
           </SectorDetailContext.Provider>

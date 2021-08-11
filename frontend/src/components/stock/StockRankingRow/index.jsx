@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { map } from "lodash";
 import {
-  makeStyles,
   Box,
   Grid,
   TextField,
   Typography,
   Tooltip,
-  Divider,
   Link,
 } from "@material-ui/core";
 import { BarChart, Timeline } from "@material-ui/icons";
@@ -17,16 +15,8 @@ import StocksPriceChart from "src/components/stock/StocksPriceChart";
 import HighlightedText from "src/components/common/HighlightedText";
 import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
 import PropTypes from "prop-types";
-import clsx from "clsx";
-
-const useStyles = makeStyles(theme => ({
-  category: {
-    color: "#d52349",
-  },
-}));
 
 export default function StockRankingRow(props) {
-  const classes = useStyles();
   const [show_rank_graph, setShowRank] = useState(false);
   const [show_1m_graph, setShow1m] = useState(false);
   const [show_threshold, setShowThreshold] = useState(false);
