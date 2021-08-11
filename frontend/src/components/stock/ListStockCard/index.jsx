@@ -67,29 +67,13 @@ export default function ListStockCard(props) {
     return (
       <ListItem key={s.id} divider={true}>
         <Grid container spacing={1} alignItems="center">
-          <Grid item lg={2} xs={3}>
+          <Grid item lg={2} sm={2} xs={3}>
             <StockSymbol {...s} />
           </Grid>
-          <Grid item lg={4} xs={3}>
+          <Grid item lg={4} sm={4} xs={3}>
             <RecentPriceSparkline stock={s.id} />
           </Grid>
-          <Grid item lg={2} xs={2}>
-            {s.price_to_cash_premium ? (
-              <>
-                <Typography variant="body1">P/C</Typography>
-                <ColoredNumber val={s.price_to_cash_premium} />
-              </>
-            ) : null}
-          </Grid>
-          <Grid item lg={2} xs={2}>
-            {s.pe ? (
-              <>
-                <Typography variant="body1">P/E</Typography>
-                <ColoredNumber val={s.pe} />
-              </>
-            ) : null}
-          </Grid>
-          <Grid item lg={2} xs={2}>
+          <Grid item lg={2} sm={2} xs={2}>
             {s.last_lower > 1 ? (
               <Tooltip title="Significant price drop has been detected.">
                 <Chip
@@ -104,6 +88,22 @@ export default function ListStockCard(props) {
                   label={s.last_lower}
                 />
               </Tooltip>
+            ) : null}
+          </Grid>
+          <Grid item lg={2} sm={2} xs={2}>
+            {s.price_to_cash_premium ? (
+              <>
+                <Typography variant="body1">P/C</Typography>
+                <ColoredNumber val={s.price_to_cash_premium} />
+              </>
+            ) : null}
+          </Grid>
+          <Grid item lg={2} sm={2} xs={2}>
+            {s.pe ? (
+              <>
+                <Typography variant="body1">P/E</Typography>
+                <ColoredNumber val={s.pe} />
+              </>
             ) : null}
           </Grid>
         </Grid>
