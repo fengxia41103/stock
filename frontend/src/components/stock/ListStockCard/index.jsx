@@ -67,10 +67,10 @@ export default function ListStockCard(props) {
     return (
       <ListItem key={s.id} divider={true}>
         <Grid container spacing={1} alignItems="center">
-          <Grid item lg={2} xs={2}>
+          <Grid item lg={2} xs={3}>
             <StockSymbol {...s} />
           </Grid>
-          <Grid item lg={4} xs={4}>
+          <Grid item lg={4} xs={3}>
             <RecentPriceSparkline stock={s.id} />
           </Grid>
           <Grid item lg={2} xs={2}>
