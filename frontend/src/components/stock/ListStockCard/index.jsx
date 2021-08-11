@@ -124,7 +124,6 @@ export default function ListStockCard(props) {
         action={<DropdownMenu content={menu_content} />}
       />
 
-      <Divider />
       <CardContent>
         <List>{links}</List>
       </CardContent>
