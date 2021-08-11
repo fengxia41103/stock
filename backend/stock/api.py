@@ -78,6 +78,7 @@ class StockResource(ModelResource):
     pb = fields.FloatField("pb", null=True)
     ps = fields.FloatField("ps", null=True)
     last_lower = fields.IntegerField("last_lower", null=True)
+    price_to_cash_premium = fields.FloatField("price_to_cash_premium", null=True)
 
     class Meta:
         queryset = MyStock.objects.all()

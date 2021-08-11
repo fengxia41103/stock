@@ -13,6 +13,7 @@ import {
   Divider,
   Grid,
   Chip,
+  Tooltip,
 } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { map, isUndefined } from "lodash";
@@ -20,7 +21,7 @@ import DropdownMenu from "src/components/common/DropdownMenu";
 import RecentPriceSparkline from "src/components/stock/RecentPriceSparkline";
 import ColoredNumber from "src/components/common/ColoredNumber";
 import StockSymbol from "src/components/stock/StockSymbol";
-import TrendingDownIcon from "@material-ui/icons/TrendingDown";
+import ErrorIcon from "@material-ui/icons/Error";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -64,33 +65,49 @@ export default function ListStockCard(props) {
 
   const links = map(stocks, s => {
     return (
-      <Grid key={s.id} container spacing={1} alignItems="center">
-        <Grid item xs={2}>
-          <StockSymbol {...s} />
+      <ListItem key={s.id} divider={true}>
+        <Grid container spacing={1} alignItems="center">
+          <Grid item lg={2} xs={2}>
+            <StockSymbol {...s} />
+          </Grid>
+          <Grid item lg={4} xs={4}>
+            <RecentPriceSparkline stock={s.id} />
+          </Grid>
+          <Grid item lg={2} xs={2}>
+            {s.price_to_cash_premium ? (
+              <>
+                <Typography variant="body1">P/C</Typography>
+                <ColoredNumber val={s.price_to_cash_premium} />
+              </>
+            ) : null}
+          </Grid>
+          <Grid item lg={2} xs={2}>
+            {s.pe ? (
+              <>
+                <Typography variant="body1">P/E</Typography>
+                <ColoredNumber val={s.pe} />
+              </>
+            ) : null}
+          </Grid>
+          <Grid item lg={2} xs={2}>
+            {s.last_lower > 1 ? (
+              <Tooltip title="Significant price drop has been detected.">
+                <Chip
+                  avatar={
+                    <Avatar>
+                      <ErrorIcon />
+                    </Avatar>
+                  }
+                  variant={s.last_lower > 30 ? "default" : "outlined"}
+                  size="small"
+                  color={s.last_lower > 30 ? "secondary" : "primary"}
+                  label={s.last_lower}
+                />
+              </Tooltip>
+            ) : null}
+          </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <RecentPriceSparkline stock={s.id} />
-        </Grid>
-        <Grid item xs={2}>
-          <Typography variant="body2">P/E:</Typography>
-          <ColoredNumber val={s.pe} />
-        </Grid>
-        <Grid item xs={2}>
-          <Typography variant="body2">ROE:</Typography>
-          <ColoredNumber val={s.roe} />
-        </Grid>
-        <Grid item xs={1}>
-          {s.last_lower > 1 ? (
-            <Chip
-              avatar={<TrendingDownIcon />}
-              variant={s.last_lower > 30 ? "default" : "outlined"}
-              size="small"
-              color={s.last_lower > 30 ? "secondary" : "default"}
-              label={s.last_lower}
-            />
-          ) : null}
-        </Grid>
-      </Grid>
+      </ListItem>
     );
   });
 
@@ -108,7 +125,9 @@ export default function ListStockCard(props) {
       />
 
       <Divider />
-      <CardContent>{links}</CardContent>
+      <CardContent>
+        <List>{links}</List>
+      </CardContent>
     </Card>
   );
 }
