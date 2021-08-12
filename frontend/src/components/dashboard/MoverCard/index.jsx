@@ -17,7 +17,7 @@ import { map } from "lodash";
 import ColoredNumber from "src/components/common/ColoredNumber";
 import StockSymbol from "src/components/stock/StockSymbol";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -31,7 +31,7 @@ export default function MoverCard(props) {
   const { title, subtitle, stocks, value, date } = props;
   const classes = useStyles();
 
-  const entries = map(stocks, (s) => {
+  const entries = map(stocks, s => {
     return (
       <ListItem key={s.symbol} divider={true}>
         <Grid container spacing={2}>
@@ -39,7 +39,11 @@ export default function MoverCard(props) {
             <ColoredNumber val={s[value]} />
           </Grid>
           <Grid item xs>
-            <StockSymbol id={s.stock_id} symbol={s.symbol} />
+            <StockSymbol
+              id={s.stock_id}
+              symbol={s.symbol}
+              resource_uri={s.stock}
+            />
           </Grid>
         </Grid>
       </ListItem>
@@ -72,7 +76,15 @@ export default function MoverCard(props) {
 MoverCard.propTypes = {
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string.isRequired,
-  stocks: PropTypes.array.isRequired,
+  stocks: PropTypes.arrayOf(
+    PropTypes.shape({
+      stock_id: PropTypes.number,
+      symbol: PropTypes.string,
+
+      // stock's own resource uri
+      stock: PropTypes.string,
+    })
+  ).isRequired,
   value: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
 };

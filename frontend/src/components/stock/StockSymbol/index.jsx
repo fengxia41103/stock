@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link, Box } from '@material-ui/core';
-import StockLinkToSector from 'src/components/stock/StockLinkToSector';
+import React from "react";
+import PropTypes from "prop-types";
+import { Link, Box } from "@material-ui/core";
+import StockLinkToSector from "src/components/stock/StockLinkToSector";
 
 export default function StockSymbol(props) {
-  const { symbol, id } = props;
+  const { symbol, id, resource_uri } = props;
 
   return (
     <Box display="inline">
@@ -17,5 +17,5 @@ export default function StockSymbol(props) {
 StockSymbol.propTypes = {
   id: PropTypes.number.isRequired,
   symbol: PropTypes.string.isRequired,
-  resource_uri: PropTypes.string,
+  resource_uri: PropTypes.string.isRequired,
 };

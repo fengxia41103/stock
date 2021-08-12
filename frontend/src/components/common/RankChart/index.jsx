@@ -10,13 +10,13 @@ export default function RankChart(props) {
   const line_color = blueGrey[400];
 
   const max_score = Math.max(
-    ...map(ranks, (r) => {
+    ...map(ranks, r => {
       const val = !!!rank_val_name ? r.val : r[rank_val_name];
       return val;
     })
   );
 
-  const the_chart = map(ranks, (r) => {
+  const the_chart = map(ranks, r => {
     let val = !!!rank_val_name ? r.val : r[rank_val_name];
     if (!isInteger(val)) {
       val = val.toFixed(2);
@@ -25,10 +25,14 @@ export default function RankChart(props) {
 
     return (
       <Grid key={r.symbol} container spacing={1} alignItems="center">
-        <Grid item lg={2} sm={2} xs={3}>
-          <StockSymbol id={r.stock_id} symbol={r.symbol} />
+        <Grid item lg={2} sm={3} xs={4}>
+          <StockSymbol
+            id={r.stock_id}
+            symbol={r.symbol}
+            resource_uri={r.stock_resource}
+          />
         </Grid>
-        <Grid item lg={8} sm={8} xs={7}>
+        <Grid item lg={8} sm={7} xs={6}>
           <Box height="10%" width={width} bgcolor={line_color} marginRight={2}>
             &nbsp;
           </Box>
@@ -45,6 +49,8 @@ RankChart.propTypes = {
     PropTypes.shape({
       symbol: PropTypes.string,
       val: PropTypes.number,
+      stock_id: PropTypes.number,
+      stock_resource: PropTypes.string,
     })
   ).isRequired,
 

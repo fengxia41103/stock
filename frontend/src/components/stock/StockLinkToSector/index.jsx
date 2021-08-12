@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
-import { map, remove } from 'lodash';
-import Fetch from 'src/components/common/Fetch';
+import React, { useState, useContext } from "react";
+import { map, remove } from "lodash";
+import Fetch from "src/components/common/Fetch";
 import {
   Box,
   FormControl,
@@ -11,24 +11,24 @@ import {
   Tooltip,
   Grid,
   Divider,
-} from '@material-ui/core';
-import GlobalContext from 'src/context';
-import { useMutate } from 'restful-react';
-import SimpleSnackbar from 'src/components/common/SimpleSnackbar';
-import PropTypes from 'prop-types';
-import Popover from '@material-ui/core/Popover';
-import UpdateStock from 'src/components/stock/UpdateStock';
-import DeleteStock from 'src/components/stock/DeleteStock';
+} from "@material-ui/core";
+import GlobalContext from "src/context";
+import { useMutate } from "restful-react";
+import SimpleSnackbar from "src/components/common/SimpleSnackbar";
+import PropTypes from "prop-types";
+import Popover from "@material-ui/core/Popover";
+import UpdateStock from "src/components/stock/UpdateStock";
+import DeleteStock from "src/components/stock/DeleteStock";
 
 export default function StockLinkToSector(props) {
   const { api } = useContext(GlobalContext);
   const { symbol, resource_uri, minimal } = props;
-  const [resource] = useState('/sectors');
-  const [notification, setNotification] = useState('');
+  const [resource] = useState("/sectors");
+  const [notification, setNotification] = useState("");
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const open_sector_list = (event) => {
+  const open_sector_list = event => {
     setAnchorEl(event.currentTarget);
     setOpen(true);
   };
@@ -39,7 +39,7 @@ export default function StockLinkToSector(props) {
   };
 
   const { mutate: update } = useMutate({
-    verb: 'PATCH',
+    verb: "PATCH",
     path: `${api}${resource}/`,
   });
 
@@ -50,7 +50,7 @@ export default function StockLinkToSector(props) {
       // make a local copy for manipulation
       let tmp = [...s.stocks];
 
-      let msg = '';
+      let msg = "";
 
       // conditions
       if (s.name === event.target.name) {
@@ -61,7 +61,7 @@ export default function StockLinkToSector(props) {
           msg = `I am now part of sector "${s.name}"`;
         } else {
           // remove
-          remove(tmp, (k) => k.includes(resource_uri));
+          remove(tmp, k => k.includes(resource_uri));
           msg = `I have been removed from sector "${s.name}"`;
         }
 
@@ -82,22 +82,21 @@ export default function StockLinkToSector(props) {
     }
   };
 
-  const render_data = (data) => {
+  const render_data = data => {
     const sectors = data.objects;
-
-    let mapped_sectors = map(sectors, (s) => {
+    let mapped_sectors = map(sectors, s => {
       // add checked bool
-      return { ...s, checked: s.stocks.some((i) => i.includes(resource_uri)) };
+      return { ...s, checked: s.stocks.some(i => i.includes(resource_uri)) };
     });
 
-    const selections = map(mapped_sectors, (s) => {
+    const selections = map(mapped_sectors, s => {
       return (
         <Grid item key={s.id} lg={2} sm={3} xs={4}>
           <FormControlLabel
             control={
               <Checkbox
                 checked={s.checked}
-                onChange={(e) => handle_update(sectors, e)}
+                onChange={e => handle_update(sectors, e)}
                 name={s.name}
               />
             }
@@ -130,12 +129,12 @@ export default function StockLinkToSector(props) {
         anchorEl={anchorEl}
         onClose={close_sector_list}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
+          vertical: "bottom",
+          horizontal: "center",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
+          vertical: "top",
+          horizontal: "center",
         }}
       >
         <Box padding={2}>
@@ -165,7 +164,7 @@ export default function StockLinkToSector(props) {
         arrow
       >
         <Typography color="secondary" display="inline">
-          &#47;&#47; {!!minimal ? null : 'Link to Sector'}
+          &#47;&#47; {!!minimal ? null : "Link to Sector"}
         </Typography>
       </Tooltip>
       {open ? (
