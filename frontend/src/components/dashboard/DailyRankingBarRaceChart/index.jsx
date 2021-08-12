@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { map, filter, clone } from "lodash";
+import { map, filter, reverse, sortBy } from "lodash";
 import ColoredNumber from "src/components/common/ColoredNumber";
 import StockSymbol from "src/components/stock/StockSymbol";
 import ReactECharts from "echarts-for-react";
 
 export default function DailyRankingBarRaceChart(props) {
-  const { ranks, follow, highlights } = props;
-  const dates = [...new Set(map(ranks, s => s.on))];
+  const { stocks, follow, highlights } = props;
+  const dates = reverse([...new Set(map(stocks, s => s.on))]);
   const [on, setOn] = useState(0);
+
   let option = {};
   const update_option = () => {
-    const data = filter(ranks, r => r.on === dates[on])[0].picks;
+    let data = filter(stocks, r => r.on === dates[on]);
+
     let val = null;
 
     // determine data dimension
@@ -39,6 +41,7 @@ export default function DailyRankingBarRaceChart(props) {
         val = "gain";
         break;
     }
+    data = reverse(sortBy(data, d => d[val]));
 
     return {
       grid: {
@@ -47,32 +50,29 @@ export default function DailyRankingBarRaceChart(props) {
         left: 150,
         right: 80,
       },
+      dataset: {
+        dimensions: [val, "symbol"],
+        source: data,
+      },
       xAxis: {
         max: "dataMax",
         label: {
           formatter: n => Math.round(n),
         },
       },
-      dataset: {
-        dimensions: [val, "symbol"],
-        source: data,
-      },
       yAxis: {
         type: "category",
         inverse: true,
-        max: 10,
-        axisLabel: {
-          show: true,
-          textStyle: {
-            fontSize: 14,
-          },
-        },
+        //max: 10,
         animationDuration: 300,
         animationDurationUpdate: 300,
+        axisLabel: {
+          show: false,
+          fontSize: 14,
+        },
       },
       series: [
         {
-          realtimeSort: true,
           seriesLayoutBy: "column",
           type: "bar",
           itemStyle: {
@@ -87,10 +87,9 @@ export default function DailyRankingBarRaceChart(props) {
           },
           label: {
             show: true,
-            precision: 1,
-            position: "right",
             valueAnimation: true,
             fontFamily: "monospace",
+            formatter: "{b}",
           },
         },
       ],
@@ -103,11 +102,11 @@ export default function DailyRankingBarRaceChart(props) {
         elements: [
           {
             type: "text",
-            right: 160,
-            bottom: 60,
+            right: 50,
+            bottom: 0,
             style: {
               text: dates[on],
-              font: "bolder 80px monospace",
+              font: "bolder 40px monospace",
               fill: "rgba(100, 100, 100, 0.25)",
             },
             z: 100,
@@ -124,7 +123,6 @@ export default function DailyRankingBarRaceChart(props) {
     // animation chart
     const timer = setTimeout(() => {
       const on_date = dates[on];
-      console.log(on_date);
       option = update_option();
 
       // this will trigger rendering?
@@ -135,24 +133,27 @@ export default function DailyRankingBarRaceChart(props) {
     return () => clearTimeout(timer);
   });
 
-  return <ReactECharts option={update_option()} />;
+  return (
+    <ReactECharts
+      option={update_option()}
+      style={{
+        height: `${(stocks.length / dates.length) * 20}px`,
+        width: "100%",
+      }}
+    />
+  );
 }
 
 DailyRankingBarRaceChart.propTypes = {
   follow: PropTypes.string.isRequired,
-  ranks: PropTypes.arrayOf(
+  stocks: PropTypes.arrayOf(
     PropTypes.shape({
-      on: PropTypes.string,
-      picks: PropTypes.arrayOf(
-        PropTypes.shape({
-          symbol: PropTypes.string,
-          gain: PropTypes.number,
-          volatility: PropTypes.number,
-          vol_over_share_outstanding: PropTypes.number,
-          last_lower: PropTypes.number,
-          next_better: PropTypes.number,
-        })
-      ),
+      symbol: PropTypes.string,
+      gain: PropTypes.number,
+      volatility: PropTypes.number,
+      vol_over_share_outstanding: PropTypes.number,
+      last_lower: PropTypes.number,
+      next_better: PropTypes.number,
     })
   ).isRequired,
   highlights: PropTypes.object,

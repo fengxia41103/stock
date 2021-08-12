@@ -311,7 +311,7 @@ export default function DashboardTrendingView() {
           <Box mt={1}>
             <Card>
               <CardContent>
-                <DailyRankingBarRaceChart {...{ ranks, follow, highlights }} />
+                <DailyRankingBarRaceChart {...{ stocks, follow, highlights }} />
               </CardContent>
             </Card>
           </Box>
