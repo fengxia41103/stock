@@ -134,6 +134,31 @@ export default function DashboardTrendingView() {
   let symbols = [],
     highlights = [];
 
+  let dimension = null;
+  switch (follow) {
+    case "gainer":
+    case "loser":
+      dimension = "gain";
+      break;
+    case "volume":
+      dimension = "vol_over_share_outstanding";
+      break;
+    case "volatility":
+      dimension = "volatility";
+      break;
+
+    case "last lower":
+      dimension = "last_lower";
+      break;
+    case "next better":
+      dimension = "next_better";
+      break;
+
+    default:
+      dimension = "gain";
+      break;
+  }
+
   const render_data = data => {
     let stocks = data.objects;
 
@@ -207,36 +232,11 @@ export default function DashboardTrendingView() {
 
     const trends = map(ranks, r => {
       const picks = map(r.picks, p => {
-        let val = 0;
-        switch (follow) {
-          case "gainer":
-          case "loser":
-            val = "gain";
-            break;
-          case "volume":
-            val = "vol_over_share_outstanding";
-            break;
-          case "volatility":
-            val = "volatility";
-            break;
-
-          case "last lower":
-            val = "last_lower";
-            break;
-          case "next better":
-            val = "next_better";
-            break;
-
-          default:
-            val = "gain";
-            break;
-        }
+        const val = p[dimension];
         return (
           <Grid item key={p.stock_id} xs>
             <Link href={`/stocks/${p.stock_id}/historical/price`}>
-              <HighlightedText
-                {...{ highlights, text: p.symbol, val: p[val] }}
-              />
+              <HighlightedText {...{ highlights, text: p.symbol, val: val }} />
             </Link>
           </Grid>
         );
@@ -311,7 +311,9 @@ export default function DashboardTrendingView() {
           <Box mt={1}>
             <Card>
               <CardContent>
-                <DailyRankingBarRaceChart {...{ stocks, follow, highlights }} />
+                <DailyRankingBarRaceChart
+                  {...{ stocks, dimension, highlights }}
+                />
               </CardContent>
             </Card>
           </Box>

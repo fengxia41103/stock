@@ -5,43 +5,18 @@ import { map, filter, reverse, sortBy } from "lodash";
 import ColoredNumber from "src/components/common/ColoredNumber";
 import StockSymbol from "src/components/stock/StockSymbol";
 import ReactECharts from "echarts-for-react";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 export default function DailyRankingBarRaceChart(props) {
-  const { stocks, follow, highlights } = props;
+  const { stocks, dimension, highlights } = props;
   const dates = reverse([...new Set(map(stocks, s => s.on))]);
   const [on, setOn] = useState(0);
+  const [progress, setProgress] = useState(0);
 
-  let option = {};
   const update_option = () => {
     let data = filter(stocks, r => r.on === dates[on]);
 
-    let val = null;
-
-    // determine data dimension
-    switch (follow) {
-      case "gainer":
-      case "loser":
-        val = "gain";
-        break;
-      case "volume":
-        val = "vol_over_share_outstanding";
-        break;
-      case "volatility":
-        val = "volatility";
-        break;
-
-      case "last lower":
-        val = "last_lower";
-        break;
-      case "next better":
-        val = "next_better";
-        break;
-
-      default:
-        val = "gain";
-        break;
-    }
-    data = reverse(sortBy(data, d => d[val]));
+    data = reverse(sortBy(data, d => d[dimension])).slice(0, 10);
 
     return {
       grid: {
@@ -51,11 +26,12 @@ export default function DailyRankingBarRaceChart(props) {
         right: 80,
       },
       dataset: {
-        dimensions: [val, "symbol"],
+        dimensions: [dimension, "symbol"],
         source: data,
       },
       xAxis: {
         max: "dataMax",
+        min: 0,
         label: {
           formatter: n => Math.round(n),
         },
@@ -64,12 +40,15 @@ export default function DailyRankingBarRaceChart(props) {
         type: "category",
         inverse: true,
         //max: 10,
-        animationDuration: 300,
-        animationDurationUpdate: 300,
         axisLabel: {
           show: false,
-          fontSize: 14,
         },
+        // animationDuration: 300,
+        // animationDurationUpdate: 300,
+        // axisLabel: {
+        //   show: false,
+        //   fontSize: 14,
+        // },
       },
       series: [
         {
@@ -82,7 +61,7 @@ export default function DailyRankingBarRaceChart(props) {
             },
           },
           encode: {
-            x: val,
+            x: dimension,
             y: "symbol",
           },
           label: {
@@ -95,35 +74,19 @@ export default function DailyRankingBarRaceChart(props) {
       ],
       // Disable init animation.
       animationDuration: 0,
-      animationDurationUpdate: 2000,
+      animationDurationUpdate: 1000,
       animationEasing: "linear",
       animationEasingUpdate: "linear",
-      graphic: {
-        elements: [
-          {
-            type: "text",
-            right: 50,
-            bottom: 0,
-            style: {
-              text: dates[on],
-              font: "bolder 40px monospace",
-              fill: "rgba(100, 100, 100, 0.25)",
-            },
-            z: 100,
-          },
-        ],
-      },
     };
   };
 
   useEffect(() => {
-    // initialize chart
-    option = update_option();
+    // initialize progress bar
+    setProgress(Math.round(((on + 1) / dates.length) * 100));
 
     // animation chart
     const timer = setTimeout(() => {
-      const on_date = dates[on];
-      option = update_option();
+      setProgress(Math.round(((on + 1) / dates.length) * 100));
 
       // this will trigger rendering?
       if (on < dates.length - 1) {
@@ -134,18 +97,23 @@ export default function DailyRankingBarRaceChart(props) {
   });
 
   return (
-    <ReactECharts
-      option={update_option()}
-      style={{
-        height: `${(stocks.length / dates.length) * 20}px`,
-        width: "100%",
-      }}
-    />
+    <>
+      <Typography variant="h3">{dates[on]}</Typography>
+      <LinearProgress variant="determinate" value={progress} />
+      <Box mt={3}>
+        <ReactECharts
+          option={update_option()}
+          style={{
+            width: "100%",
+          }}
+        />
+      </Box>
+    </>
   );
 }
 
 DailyRankingBarRaceChart.propTypes = {
-  follow: PropTypes.string.isRequired,
+  dimension: PropTypes.string.isRequired,
   stocks: PropTypes.arrayOf(
     PropTypes.shape({
       symbol: PropTypes.string,
