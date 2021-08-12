@@ -28,8 +28,9 @@ import HighlightedText from "src/components/common/HighlightedText";
 import { get_highlights } from "src/utils/helper.jsx";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import DailyRankingBarRaceChart from "src/components/dashboard/DailyRankingBarRaceChart";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   diary: {
     color: "#D52349",
   },
@@ -80,7 +81,7 @@ export default function DashboardTrendingView() {
     adjust_today(today);
   });
 
-  const today_change = (event) => {
+  const today_change = event => {
     const now = moment(event.target.value, DATE_FORMAT);
 
     // update state
@@ -95,7 +96,7 @@ export default function DashboardTrendingView() {
     adjust_today();
   };
 
-  const follow_change = (event) => {
+  const follow_change = event => {
     setFollow(event.target.value);
   };
 
@@ -133,11 +134,11 @@ export default function DashboardTrendingView() {
   let symbols = [],
     highlights = [];
 
-  const render_data = (data) => {
+  const render_data = data => {
     let stocks = data.objects;
 
     // compute values
-    stocks = map(stocks, (s) => {
+    stocks = map(stocks, s => {
       return {
         gain: ((s.close_price - s.open_price) / s.open_price) * 100,
         volatility: ((s.high_price - s.low_price) / s.low_price) * 100,
@@ -146,14 +147,14 @@ export default function DashboardTrendingView() {
     });
 
     // symbols
-    symbols = [...new Set(map(stocks, (s) => s.symbol))];
+    symbols = [...new Set(map(stocks, s => s.symbol))];
     if (symbols.length !== highlights.length) {
       // only recompute highlight color if list length is different
       highlights = get_highlights(symbols);
     }
 
     // group by date
-    const group_by_on = groupBy(stocks, (s) => s.on);
+    const group_by_on = groupBy(stocks, s => s.on);
 
     let ranks = [];
     forEach(group_by_on, (histories, on) => {
@@ -163,37 +164,37 @@ export default function DashboardTrendingView() {
         case "gainer":
           picks = reverse(
             sortBy(
-              filter(histories, (s) => s.gain > 0),
-              (s) => s.gain
+              filter(histories, s => s.gain > 0),
+              s => s.gain
             )
           ).slice(0, 10);
           break;
 
         case "loser":
           picks = sortBy(
-            filter(histories, (s) => s.gain < 0),
-            (s) => s.gain
+            filter(histories, s => s.gain < 0),
+            s => s.gain
           ).slice(0, 10);
           break;
 
         case "volume":
           picks = reverse(
-            sortBy(histories, (s) => s.vol_over_share_outstanding)
+            sortBy(histories, s => s.vol_over_share_outstanding)
           ).slice(0, 10);
           break;
 
         case "volatility":
-          picks = reverse(sortBy(histories, (s) => s.volatility)).slice(0, 10);
+          picks = reverse(sortBy(histories, s => s.volatility)).slice(0, 10);
           break;
 
         case "last lower":
-          picks = reverse(sortBy(histories, (s) => s.last_lower)).slice(0, 10);
+          picks = reverse(sortBy(histories, s => s.last_lower)).slice(0, 10);
           break;
 
         case "next better":
           picks = sortBy(
-            filter(histories, (s) => s.next_better > 0),
-            (s) => s.next_better
+            filter(histories, s => s.next_better > 0),
+            s => s.next_better
           ).slice(0, 10);
           break;
 
@@ -204,8 +205,8 @@ export default function DashboardTrendingView() {
       ranks.push({ on: on, picks: picks });
     });
 
-    const trends = map(ranks, (r) => {
-      const picks = map(r.picks, (p) => {
+    const trends = map(ranks, r => {
+      const picks = map(r.picks, p => {
         let val = 0;
         switch (follow) {
           case "gainer":
@@ -303,6 +304,14 @@ export default function DashboardTrendingView() {
                   </ListItem>
                   <ListItem>{select_follow}</ListItem>
                 </List>
+              </CardContent>
+            </Card>
+          </Box>
+
+          <Box mt={1}>
+            <Card>
+              <CardContent>
+                <DailyRankingBarRaceChart {...{ ranks, follow, highlights }} />
               </CardContent>
             </Card>
           </Box>
