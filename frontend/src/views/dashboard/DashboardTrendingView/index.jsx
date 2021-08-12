@@ -8,15 +8,18 @@ import {
   Card,
   CardHeader,
   CardContent,
+  CardActions,
   TextField,
   Link,
   Typography,
+  FormGroup,
   FormControl,
   FormControlLabel,
   RadioGroup,
   Radio,
   List,
   ListItem,
+  Switch,
 } from "@material-ui/core";
 import Page from "src/components/common/Page";
 import GlobalContext from "src/context";
@@ -44,6 +47,7 @@ export default function DashboardTrendingView() {
   const [today, setToday] = useState(moment());
   const [start, setStart] = useState();
   const [end, setEnd] = useState();
+  const [useTimeLapseRanking, setUseTimeLapseRanking] = useState(false);
 
   // default back track one week from today
   const [backWeek, setBackWeek] = useState("1");
@@ -310,16 +314,6 @@ export default function DashboardTrendingView() {
 
           <Box mt={1}>
             <Card>
-              <CardContent>
-                <DailyRankingBarRaceChart
-                  {...{ stocks, dimension, highlights }}
-                />
-              </CardContent>
-            </Card>
-          </Box>
-
-          <Box mt={1}>
-            <Card>
               <CardHeader
                 title={
                   <Typography variant="h3">
@@ -333,10 +327,39 @@ export default function DashboardTrendingView() {
                 }
               />
               <CardContent>
-                <Grid container spacing={1} alignContent="center">
-                  {trends}
-                </Grid>
+                {useTimeLapseRanking ? (
+                  <Box mt={1}>
+                    <DailyRankingBarRaceChart
+                      {...{ stocks, value: dimension, follow, highlights }}
+                    />
+                  </Box>
+                ) : (
+                  <Grid container spacing={1} alignContent="center">
+                    {trends}
+                  </Grid>
+                )}
               </CardContent>
+              <CardActions>
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        color="secondary"
+                        checked={useTimeLapseRanking}
+                        onChange={() =>
+                          setUseTimeLapseRanking(!useTimeLapseRanking)
+                        }
+                        inputProps={{ "aria-label": "controlled" }}
+                      />
+                    }
+                    label={
+                      useTimeLapseRanking
+                        ? "On Time Lapse View"
+                        : "On Static View"
+                    }
+                  />
+                </FormGroup>
+              </CardActions>
             </Card>
           </Box>
 
