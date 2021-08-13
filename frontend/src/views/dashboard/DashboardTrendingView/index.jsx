@@ -330,7 +330,12 @@ export default function DashboardTrendingView() {
                 {useTimeLapseRanking ? (
                   <Box mt={1}>
                     <DailyRankingBarRaceChart
-                      {...{ stocks, value: dimension, follow, highlights }}
+                      {...{
+                        stocks,
+                        value: dimension,
+                        highlights,
+                        negative: follow === "loser" ? true : false,
+                      }}
                     />
                   </Box>
                 ) : (

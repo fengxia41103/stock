@@ -19,7 +19,7 @@ import PauseCircleFilledIcon from "@material-ui/icons/PauseCircleFilled";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 
 export default function DailyRankingBarRaceChart(props) {
-  const { stocks, value, highlights } = props;
+  const { stocks, value, highlights, negative } = props;
   const dates = reverse([...new Set(map(stocks, s => s.on))]);
   const [on, setOn] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -35,9 +35,30 @@ export default function DailyRankingBarRaceChart(props) {
   };
 
   const update_option = () => {
+    let max_value = 0,
+      min_value = 0;
     let data = filter(stocks, r => r.on === dates[on]);
 
-    data = reverse(sortBy(data, d => d[value])).slice(0, 10);
+    // sort values, low to high
+    data = sortBy(data, d => d[value]);
+
+    // for negative values only
+    if (!!negative) {
+      data = filter(data, d => d[value] < 0);
+    } else {
+      data = filter(data, d => d[value] >= 0);
+    }
+
+    // for negative values, natural sorting
+    if (data.length > 0) {
+      min_value = data[0][value];
+      max_value = data[data.length - 1][value];
+    }
+
+    // if not negative values, we sort it high to low
+    if (!!!negative) {
+      data = reverse(data);
+    }
 
     return {
       dataset: {
@@ -45,8 +66,8 @@ export default function DailyRankingBarRaceChart(props) {
         source: data,
       },
       xAxis: {
-        max: "dataMax",
-        //min: 0,
+        max: max_value,
+        min: min_value,
         label: {
           formatter: n => Math.round(n),
         },
@@ -134,15 +155,13 @@ export default function DailyRankingBarRaceChart(props) {
           </Button>
         </Grid>
       </Grid>
-      <Box mt={1} paddingRight={1}>
-        <ReactECharts
-          option={update_option()}
-          style={{
-            height: "67vh",
-            width: "100%",
-          }}
-        />
-      </Box>
+      <ReactECharts
+        option={update_option()}
+        style={{
+          height: `${(stocks.length / dates.length) * 20}px`,
+          width: "100%",
+        }}
+      />
     </>
   );
 }
@@ -160,5 +179,5 @@ DailyRankingBarRaceChart.propTypes = {
     })
   ).isRequired,
   highlights: PropTypes.object.isRequired,
-  follow: PropTypes.string,
+  negative: PropTypes.bool,
 };
