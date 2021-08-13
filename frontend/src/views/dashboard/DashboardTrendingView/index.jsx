@@ -8,7 +8,6 @@ import {
   Card,
   CardHeader,
   CardContent,
-  CardActions,
   TextField,
   Link,
   Typography,
@@ -325,6 +324,27 @@ export default function DashboardTrendingView() {
                     {start} to {end}
                   </Typography>
                 }
+                action={
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          color="secondary"
+                          checked={useTimeLapseRanking}
+                          onChange={() =>
+                            setUseTimeLapseRanking(!useTimeLapseRanking)
+                          }
+                          inputProps={{ "aria-label": "controlled" }}
+                        />
+                      }
+                      label={
+                        useTimeLapseRanking
+                          ? "On Time Lapse View"
+                          : "On Static View"
+                      }
+                    />
+                  </FormGroup>
+                }
               />
               <CardContent>
                 {useTimeLapseRanking ? (
@@ -335,6 +355,7 @@ export default function DashboardTrendingView() {
                         value: dimension,
                         highlights,
                         negative: follow === "loser" ? true : false,
+                        top: 10,
                       }}
                     />
                   </Box>
@@ -344,27 +365,6 @@ export default function DashboardTrendingView() {
                   </Grid>
                 )}
               </CardContent>
-              <CardActions>
-                <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        color="secondary"
-                        checked={useTimeLapseRanking}
-                        onChange={() =>
-                          setUseTimeLapseRanking(!useTimeLapseRanking)
-                        }
-                        inputProps={{ "aria-label": "controlled" }}
-                      />
-                    }
-                    label={
-                      useTimeLapseRanking
-                        ? "On Time Lapse View"
-                        : "On Static View"
-                    }
-                  />
-                </FormGroup>
-              </CardActions>
             </Card>
           </Box>
 

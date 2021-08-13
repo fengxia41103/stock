@@ -117,7 +117,7 @@ export default function RankingScores(props) {
   return (
     <Box mt={1}>
       <Grid container spacing={1}>
-        <Grid item lg={6} sm={8} xs={12}>
+        <Grid item lg={6} sm={7} xs={12}>
           <Card className={clsx(classes.root, classes.card)}>
             <CardHeader
               title={<Typography variant="h3">Overall Scores</Typography>}
@@ -143,7 +143,7 @@ export default function RankingScores(props) {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item lg={6} sm={4} xs={12}>
+        <Grid item lg={6} sm={5} xs={12}>
           <Card className={clsx(classes.root, classes.card)}>
             <CardHeader
               title={
