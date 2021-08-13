@@ -42,24 +42,33 @@ export default function DailyRankingBarRaceChart(props) {
     // sort values, low to high
     data = sortBy(data, d => d[value]);
 
-    // for negative values only
     if (!!negative) {
+      // for negative values only
       data = filter(data, d => d[value] < 0);
+
+      // top 10
+      data = data.slice(0, 10);
+
+      // for negative values, natural sorting
+      if (data.length > 0) {
+        min_value = data[0][value];
+        max_value = data[data.length - 1][value];
+      }
     } else {
+      // for positive values
       data = filter(data, d => d[value] >= 0);
-    }
-
-    // for negative values, natural sorting
-    if (data.length > 0) {
-      min_value = data[0][value];
-      max_value = data[data.length - 1][value];
-    }
-
-    // if not negative values, we sort it high to low
-    if (!!!negative) {
       data = reverse(data);
+
+      data = data.slice(0, 10);
+
+      // for negative values, natural sorting
+      if (data.length > 0) {
+        min_value = data[data.length - 1][value];
+        max_value = data[0][value];
+      }
     }
 
+    // echart options
     return {
       dataset: {
         dimensions: [value, "symbol"],
@@ -158,7 +167,7 @@ export default function DailyRankingBarRaceChart(props) {
       <ReactECharts
         option={update_option()}
         style={{
-          height: `${(stocks.length / dates.length) * 20}px`,
+          height: "67vh",
           width: "100%",
         }}
       />
