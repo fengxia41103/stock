@@ -370,7 +370,10 @@ class MyStock(models.Model):
         tmp = self.balances.order_by("-on").first()
         if tmp:
             cash_per_share = tmp.cash_and_cash_equivalent_per_share
-            return self.latest_close_price/cash_per_share
+            if cash_per_share:
+                return self.latest_close_price/cash_per_share
+            else:
+                return None
         else:
             return None
 
@@ -433,11 +436,15 @@ class MyStockHistorical(models.Model):
     @property
     def next_better(self):
         """Reverse side of last_lower. By peeking into the future, how
-        long did it take for it to surpass today's price?
+        long did it take for it to surpass today's **open** price?
+
+        If we saw a drop today, this measures how long it takes to
+        recover back to today's open price.
+
         """
         next_saw = (
             self.stock.historicals.filter(
-                close_price__gte=self.close_price, on__gt=self.on
+                close_price__gte=self.open_price, on__gt=self.on
             )
             .order_by("on")
             .first()

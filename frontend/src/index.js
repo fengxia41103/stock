@@ -22,7 +22,7 @@ const globals = {
 
 ReactDOM.render(
   <BrowserRouter>
-    <GlobalContext.Provider value={globals.p517}>
+    <GlobalContext.Provider value={globals.localhost}>
       <App />
     </GlobalContext.Provider>
   </BrowserRouter>,
