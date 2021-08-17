@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
+import React, { useState, useEffect } from "react";
 import StockRanking from "src/components/stock/StockRanking";
 import { get_highlights } from "src/utils/helper.jsx";
 import PropTypes from "prop-types";

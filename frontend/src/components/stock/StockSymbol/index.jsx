@@ -4,7 +4,7 @@ import { Link, Box } from "@material-ui/core";
 import StockLinkToSector from "src/components/stock/StockLinkToSector";
 
 export default function StockSymbol(props) {
-  const { symbol, id, resource_uri } = props;
+  const { symbol, id } = props;
 
   return (
     <Box display="inline">

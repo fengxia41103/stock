@@ -12,10 +12,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function StockRankingGridColumn(props) {
-  const { category, ranks, order_by, highlights } = props;
+  const { category, stocks, order_by, highlights } = props;
   const classes = useStyles();
 
-  const picks = map(ranks, p => {
+  const ranks = map(stocks, p => {
     const val = p[order_by];
     return (
       <Grid item key={p.stock_id} xs>
@@ -31,7 +31,7 @@ export default function StockRankingGridColumn(props) {
       <Grid item xs>
         <Typography className={clsx(classes.category)}>{category}</Typography>
       </Grid>
-      {picks}
+      {ranks}
     </Grid>
   );
 }
@@ -39,7 +39,7 @@ export default function StockRankingGridColumn(props) {
 StockRankingGridColumn.propTypes = {
   category: PropTypes.string.isRequired,
   order_by: PropTypes.string.isRequired,
-  ranks: PropTypes.arrayOf(
+  stocks: PropTypes.arrayOf(
     PropTypes.shape({
       stock_id: PropTypes.number,
       symbol: PropTypes.string,

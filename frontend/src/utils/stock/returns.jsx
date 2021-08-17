@@ -1,4 +1,4 @@
-import { map, isUndefined, filter, reverse, sortBy } from "lodash";
+import { map, isUndefined, filter } from "lodash";
 import { jStat } from "jstat";
 
 // daily: today's open-2-today's close

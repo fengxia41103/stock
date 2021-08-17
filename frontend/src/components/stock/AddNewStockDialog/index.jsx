@@ -19,7 +19,6 @@ import {
   Checkbox,
   Grid,
   Typography,
-  Divider,
 } from "@material-ui/core"
 
 export default function AddNewStockDialog() {

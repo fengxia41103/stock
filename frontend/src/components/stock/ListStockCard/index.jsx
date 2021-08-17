@@ -10,7 +10,6 @@ import {
   Typography,
   List,
   ListItem,
-  Divider,
   Grid,
   Chip,
   Tooltip,

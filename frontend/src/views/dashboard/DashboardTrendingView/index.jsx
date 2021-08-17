@@ -27,7 +27,7 @@ import { get_highlights } from "src/utils/helper.jsx";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import DailyRankingBarRaceChart from "src/components/dashboard/DailyRankingBarRaceChart";
-import StockRankingGridColumn from "src/components/dashboard/StockRankingGridColumn";
+import StockRankingGrid from "src/components/dashboard/StockRankingGrid";
 
 export default function DashboardTrendingView() {
   const DATE_FORMAT = "YYYY-MM-DD";
@@ -183,22 +183,7 @@ export default function DashboardTrendingView() {
       if (follow !== "loser") {
         picks = reverse(picks);
       }
-      ranks.push({ on: on, picks: picks.slice(0, 10) });
-    });
-
-    const ranking_in_columns = map(ranks, r => {
-      return (
-        <Grid item key={r.on} lg={1} sm={2} xs={3}>
-          <StockRankingGridColumn
-            {...{
-              category: r.on,
-              ranks: r.picks,
-              order_by,
-              highlights,
-            }}
-          />
-        </Grid>
-      );
+      ranks.push({ category: on, stocks: picks.slice(0, 10) });
     });
 
     return (
@@ -297,18 +282,15 @@ export default function DashboardTrendingView() {
                   <Box mt={1}>
                     <DailyRankingBarRaceChart
                       {...{
-                        stocks,
+                        ranks,
                         order_by,
                         highlights,
                         negative: follow === "loser" ? true : false,
-                        top: 10,
                       }}
                     />
                   </Box>
                 ) : (
-                  <Grid container spacing={1}>
-                    {ranking_in_columns}
-                  </Grid>
+                  <StockRankingGrid {...{ ranks, order_by, highlights }} />
                 )}
               </CardContent>
             </Card>

@@ -19,8 +19,8 @@ import PauseCircleFilledIcon from "@material-ui/icons/PauseCircleFilled";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 
 export default function DailyRankingBarRaceChart(props) {
-  const { stocks, order_by, highlights, negative, top } = props;
-  const dates = reverse([...new Set(map(stocks, s => s.on))]);
+  const { ranks, order_by, highlights, negative } = props;
+  const dates = reverse([...new Set(map(ranks, s => s.category))]);
   const [on, setOn] = useState(0);
   const [progress, setProgress] = useState(0);
   const [pause, setPause] = useState(false);
@@ -35,21 +35,7 @@ export default function DailyRankingBarRaceChart(props) {
   };
 
   const update_option = () => {
-    let data = filter(stocks, r => r.on === dates[on]);
-
-    // sort values, low to high
-    data = sortBy(data, d => d[order_by]);
-
-    if (!!negative) {
-      // for negative values only
-      data = filter(data, d => d[order_by] < 0);
-    } else {
-      // for positive ranking, we list high->low
-      data = reverse(data);
-    }
-
-    // if truncate
-    data = !!top ? data.slice(0, top) : data;
+    const data = ranks[on].stocks;
 
     // echart options
     return {
@@ -155,17 +141,20 @@ export default function DailyRankingBarRaceChart(props) {
 
 DailyRankingBarRaceChart.propTypes = {
   order_by: PropTypes.string.isRequired,
-  stocks: PropTypes.arrayOf(
+  ranks: PropTypes.arrayOf(
     PropTypes.shape({
-      symbol: PropTypes.string,
-      gain: PropTypes.number,
-      volatility: PropTypes.number,
-      vol_over_share_outstanding: PropTypes.number,
-      last_lower: PropTypes.number,
-      next_better: PropTypes.number,
+      category: PropTypes.string,
+      stocks: PropTypes.arrayOf(
+        PropTypes.shape({
+          symbol: PropTypes.string,
+          stock_id: PropTypes.number,
+
+          // stock resource uri
+          stock: PropTypes.string,
+        })
+      ),
     })
   ).isRequired,
   highlights: PropTypes.object.isRequired,
   negative: PropTypes.bool,
-  top: PropTypes.number,
 };

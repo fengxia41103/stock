@@ -49,10 +49,10 @@ export default function RankingScores(props) {
     let on_the_list_count = 0;
 
     forEach(ranks, r => {
-      // max score is the length of the picks. If you only have two
+      // max score is the length of the ranks. If you only have two
       // symbols on the list, then top score will be 2; if you have
       // top 10, then it will be 10, and so on.
-      const picked_symbols = map(r.picks, p => p.symbol);
+      const picked_symbols = map(r.stocks, p => p.symbol);
       const max_score = picked_symbols.length;
 
       let index = picked_symbols.indexOf(symbol);
@@ -213,8 +213,8 @@ RankingScores.propTypes = {
   stocks: PropTypes.arrayOf(PropTypes.object).isRequired,
   ranks: PropTypes.arrayOf(
     PropTypes.shape({
-      on: PropTypes.string,
-      picks: PropTypes.arrayOf(
+      category: PropTypes.string,
+      stocks: PropTypes.arrayOf(
         PropTypes.shape({
           symbol: PropTypes.string,
           stock_id: PropTypes.number,
