@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import Fetch from "src/components/common/Fetch";
 import {
-  makeStyles,
   Box,
   Container,
   Grid,
@@ -24,23 +23,16 @@ import Page from "src/components/common/Page";
 import GlobalContext from "src/context";
 import { map, sortBy, reverse, filter, groupBy, forEach } from "lodash";
 import moment from "moment";
-import clsx from "clsx";
 import RankingScores from "src/components/dashboard/RankingScores";
 import HighlightedText from "src/components/common/HighlightedText";
 import { get_highlights } from "src/utils/helper.jsx";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import DailyRankingBarRaceChart from "src/components/dashboard/DailyRankingBarRaceChart";
-
-const useStyles = makeStyles(theme => ({
-  diary: {
-    color: "#D52349",
-  },
-}));
+import StockRankingGridColumn from "src/components/dashboard/StockRankingGridColumn";
 
 export default function DashboardTrendingView() {
   const DATE_FORMAT = "YYYY-MM-DD";
-  const classes = useStyles();
   const { api } = useContext(GlobalContext);
   const [resource, setResource] = useState("");
   const [today, setToday] = useState(moment());
@@ -137,28 +129,29 @@ export default function DashboardTrendingView() {
   let symbols = [],
     highlights = [];
 
-  let dimension = null;
+  // map option to data key
+  let order_by = null;
   switch (follow) {
     case "gainer":
     case "loser":
-      dimension = "gain";
+      order_by = "gain";
       break;
     case "volume":
-      dimension = "vol_over_share_outstanding";
+      order_by = "vol_over_share_outstanding";
       break;
     case "volatility":
-      dimension = "volatility";
+      order_by = "volatility";
       break;
 
     case "last lower":
-      dimension = "last_lower";
+      order_by = "last_lower";
       break;
     case "next better":
-      dimension = "next_better";
+      order_by = "next_better";
       break;
 
     default:
-      dimension = "gain";
+      order_by = "gain";
       break;
   }
 
@@ -174,7 +167,7 @@ export default function DashboardTrendingView() {
       };
     });
 
-    // symbols
+    // all symbols are color-coded
     symbols = [...new Set(map(stocks, s => s.symbol))];
     if (symbols.length !== highlights.length) {
       // only recompute highlight color if list length is different
@@ -186,71 +179,26 @@ export default function DashboardTrendingView() {
 
     let ranks = [];
     forEach(group_by_on, (histories, on) => {
-      let picks;
+      let picks = sortBy(histories, s => s[order_by]);
 
-      switch (follow) {
-        case "gainer":
-          picks = reverse(
-            sortBy(
-              filter(histories, s => s.gain > 0),
-              s => s.gain
-            )
-          ).slice(0, 10);
-          break;
-
-        case "loser":
-          picks = sortBy(
-            filter(histories, s => s.gain < 0),
-            s => s.gain
-          ).slice(0, 10);
-          break;
-
-        case "volume":
-          picks = reverse(
-            sortBy(histories, s => s.vol_over_share_outstanding)
-          ).slice(0, 10);
-          break;
-
-        case "volatility":
-          picks = reverse(sortBy(histories, s => s.volatility)).slice(0, 10);
-          break;
-
-        case "last lower":
-          picks = reverse(sortBy(histories, s => s.last_lower)).slice(0, 10);
-          break;
-
-        case "next better":
-          picks = sortBy(
-            filter(histories, s => s.next_better > 0),
-            s => s.next_better
-          ).slice(0, 10);
-          break;
-
-        default:
-          break;
+      // for positive indexes, we rank high->low
+      if (follow !== "loser") {
+        picks = reverse(picks);
       }
-
-      ranks.push({ on: on, picks: picks });
+      ranks.push({ on: on, picks: picks.slice(0, 10) });
     });
 
-    const trends = map(ranks, r => {
-      const picks = map(r.picks, p => {
-        const val = p[dimension];
-        return (
-          <Grid item key={p.stock_id} xs>
-            <Link href={`/stocks/${p.stock_id}/historical/price`}>
-              <HighlightedText {...{ highlights, text: p.symbol, val: val }} />
-            </Link>
-          </Grid>
-        );
-      });
-
+    const ranking_in_columns = map(ranks, r => {
       return (
         <Grid item key={r.on} lg={1} sm={2} xs={3}>
-          <Grid item xs>
-            <Typography className={clsx(classes.diary)}>{r.on}</Typography>
-          </Grid>
-          {picks}
+          <StockRankingGridColumn
+            {...{
+              category: r.on,
+              ranks: r.picks,
+              order_by,
+              highlights,
+            }}
+          />
         </Grid>
       );
     });
@@ -352,7 +300,7 @@ export default function DashboardTrendingView() {
                     <DailyRankingBarRaceChart
                       {...{
                         stocks,
-                        value: dimension,
+                        order_by,
                         highlights,
                         negative: follow === "loser" ? true : false,
                         top: 10,
@@ -360,8 +308,8 @@ export default function DashboardTrendingView() {
                     />
                   </Box>
                 ) : (
-                  <Grid container spacing={1} alignContent="center">
-                    {trends}
+                  <Grid container spacing={1}>
+                    {ranking_in_columns}
                   </Grid>
                 )}
               </CardContent>
