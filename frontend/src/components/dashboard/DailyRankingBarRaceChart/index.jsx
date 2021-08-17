@@ -1,17 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Typography,
-  Switch,
-  Grid,
-  FormGroup,
-  FormControlLabel,
-  Button,
-} from "@material-ui/core";
+import { Typography, Grid, Button } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { map, filter, reverse, sortBy, minBy, maxBy } from "lodash";
-import ColoredNumber from "src/components/common/ColoredNumber";
-import StockSymbol from "src/components/stock/StockSymbol";
+import { map, reverse, minBy, maxBy } from "lodash";
 import ReactECharts from "echarts-for-react";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import RefreshIcon from "@material-ui/icons/Refresh";
@@ -105,13 +95,13 @@ export default function DailyRankingBarRaceChart(props) {
       }
     }, 2000);
     return () => clearTimeout(timer);
-  });
+  }, [on, dates, pause]);
 
   return (
     <>
       <LinearProgress variant="determinate" value={progress} />
       <Grid container direction="row" alignItems="center" spacing={2}>
-        <Grid item lg={8} sm={6} xs={4}>
+        <Grid item lg={6} sm={6} xs={4}>
           <Typography variant="h3">{dates[on]}</Typography>
         </Grid>
         <Grid item xs>

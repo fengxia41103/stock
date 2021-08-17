@@ -10,6 +10,7 @@ import {
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
 import { map } from "lodash";
 import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
+import SectorPriceTrending from "src/components/sector/SectorPriceTrending";
 
 export default function SectorPriceView() {
   const sector = useContext(SectorDetailContext);
@@ -31,6 +32,10 @@ export default function SectorPriceView() {
             <StocksPriceChart {...{ stocks: stock_ids, start, end }} />
           </CardContent>
         </Card>
+      </Box>
+
+      <Box mt={1}>
+        <SectorPriceTrending {...{ stocks: stock_ids, start, end }} />
       </Box>
     </>
   );

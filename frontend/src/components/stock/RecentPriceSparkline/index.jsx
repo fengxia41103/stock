@@ -22,7 +22,7 @@ export default function RecentPriceSparkline(props) {
     setResource(
       `/historicals?stock=${stock}&on__range=${start},${end}&order_by=on`
     );
-  });
+  }, [stock, start, end]);
 
   const render_data = data => {
     let stocks = data.objects;

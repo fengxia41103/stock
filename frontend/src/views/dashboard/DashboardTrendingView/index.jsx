@@ -20,7 +20,7 @@ import {
 } from "@material-ui/core";
 import Page from "src/components/common/Page";
 import GlobalContext from "src/context";
-import { map, sortBy, reverse, groupBy, forEach } from "lodash";
+import { map } from "lodash";
 import moment from "moment";
 import RankingScores from "src/components/dashboard/RankingScores";
 import { get_highlights } from "src/utils/helper.jsx";
@@ -28,9 +28,11 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import DailyRankingBarRaceChart from "src/components/dashboard/DailyRankingBarRaceChart";
 import StockRankingGrid from "src/components/dashboard/StockRankingGrid";
+import { stocks_daily_ranking } from "src/utils/stock/ranking";
 
 export default function DashboardTrendingView() {
   const DATE_FORMAT = "YYYY-MM-DD";
+  const TOP = 10;
   const { api } = useContext(GlobalContext);
   const [resource, setResource] = useState("");
   const [today, setToday] = useState(moment());
@@ -140,15 +142,6 @@ export default function DashboardTrendingView() {
   const render_data = data => {
     let stocks = data.objects;
 
-    // compute values
-    stocks = map(stocks, s => {
-      return {
-        gain: ((s.close_price - s.open_price) / s.open_price) * 100,
-        volatility: ((s.high_price - s.low_price) / s.low_price) * 100,
-        ...s,
-      };
-    });
-
     // all symbols are color-coded
     symbols = [...new Set(map(stocks, s => s.symbol))];
     if (symbols.length !== highlights.length) {
@@ -156,24 +149,14 @@ export default function DashboardTrendingView() {
       highlights = get_highlights(symbols);
     }
 
-    // group by date
-    const group_by_on = groupBy(stocks, s => s.on);
-
-    let ranks = [];
-    forEach(group_by_on, (histories, on) => {
-      let picks = sortBy(histories, s => s[order_by]);
-
-      // for positive indexes, we rank high->low
-      if (follow !== "loser") {
-        picks = reverse(picks);
-      }
-      ranks.push({ category: on, stocks: picks.slice(0, 10) });
-    });
+    const high_to_low = follow === "loser" ? false : true;
+    const ranks = stocks_daily_ranking(stocks, order_by, high_to_low, TOP);
 
     return (
       <Page title="Trending">
         <Container maxWidth={false}>
-          <Box mt={1}>
+          <Typography variant="h1">Trending of Top {TOP} Stocks</Typography>
+          <Box mt={3}>
             <Card>
               <CardContent>
                 <List>
@@ -231,7 +214,7 @@ export default function DashboardTrendingView() {
               <CardHeader
                 title={
                   <Typography variant="h3">
-                    Top {follow.toUpperCase()} Trending
+                    Top {TOP} {follow.toUpperCase()} Ranks
                   </Typography>
                 }
                 subheader={
