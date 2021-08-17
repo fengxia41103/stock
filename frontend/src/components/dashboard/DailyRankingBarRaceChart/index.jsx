@@ -90,6 +90,7 @@ export default function DailyRankingBarRaceChart(props) {
             valueAnimation: true,
             fontFamily: "monospace",
             formatter: "{b}",
+            position: !!negative ? "left" : "right",
           },
         },
       ],

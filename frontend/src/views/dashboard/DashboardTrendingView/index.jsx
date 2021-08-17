@@ -8,7 +8,6 @@ import {
   CardHeader,
   CardContent,
   TextField,
-  Link,
   Typography,
   FormGroup,
   FormControl,
@@ -21,10 +20,9 @@ import {
 } from "@material-ui/core";
 import Page from "src/components/common/Page";
 import GlobalContext from "src/context";
-import { map, sortBy, reverse, filter, groupBy, forEach } from "lodash";
+import { map, sortBy, reverse, groupBy, forEach } from "lodash";
 import moment from "moment";
 import RankingScores from "src/components/dashboard/RankingScores";
-import HighlightedText from "src/components/common/HighlightedText";
 import { get_highlights } from "src/utils/helper.jsx";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
