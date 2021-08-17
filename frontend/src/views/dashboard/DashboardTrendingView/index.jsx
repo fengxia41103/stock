@@ -44,34 +44,18 @@ export default function DashboardTrendingView() {
   const [follow, setFollow] = useState("gainer");
 
   // adjusting the starting point, handling weekends
-  const adjust_today = () => {
-    let temp_now = moment(today);
-
-    let adjust_in_day;
-    switch (temp_now.day()) {
-      case 0:
-        // sunday
-        adjust_in_day = -2;
-        break;
-      case 6:
-        // saturday
-        adjust_in_day = -1;
-        break;
-
-      default:
-        adjust_in_day = 0;
-        break;
-    }
+  const update_data = () => {
+    let now = moment(today);
 
     // NOTE: must set `end` first because this modifies the `temp_now`
     // in place!
-    setEnd(temp_now.add(adjust_in_day, "d").format(DATE_FORMAT));
-    setStart(temp_now.add(-1 * parseInt(backWeek), "w").format(DATE_FORMAT));
+    setEnd(now.format(DATE_FORMAT));
+    setStart(now.add(-1 * parseInt(backWeek), "w").format(DATE_FORMAT));
     setResource(`/historicals?on__range=${start},${end}&order_by=-on`);
   };
 
   useEffect(() => {
-    adjust_today(today);
+    update_data(today);
   });
 
   const today_change = event => {
@@ -81,12 +65,12 @@ export default function DashboardTrendingView() {
     setToday(now);
 
     // update resource
-    adjust_today();
+    update_data();
   };
 
   const backWeek_change = (event, val) => {
     setBackWeek(val);
-    adjust_today();
+    update_data();
   };
 
   const follow_change = event => {

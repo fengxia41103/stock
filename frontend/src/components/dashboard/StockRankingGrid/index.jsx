@@ -9,7 +9,7 @@ export default function StockRankingGrid(props) {
 
   const ranking_in_columns = map(ranks, r => {
     return (
-      <Grid item key={r.on} xs>
+      <Grid item key={r.category} xs>
         <StockRankingGridColumn
           {...{
             category: r.category,

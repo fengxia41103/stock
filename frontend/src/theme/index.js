@@ -1,9 +1,9 @@
 import { colors } from "@material-ui/core";
-import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
+import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import shadows from "./shadows";
 import typography from "./typography";
 
-let theme = createMuiTheme({
+let theme = createTheme({
   spacing: 8,
   palette: {
     background: {
