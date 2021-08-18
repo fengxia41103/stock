@@ -204,7 +204,10 @@ class MyStock(models.Model):
             i = incomes[0]
             net_profit_margin = i.net_income_to_revenue
 
-            turnover = i.total_revenue / b.total_assets
+            if b.total_assets:
+                turnover = i.total_revenue / b.total_assets
+            else:
+                turnover = 0
             roe = net_profit_margin * turnover * leverage
 
             vals.append(

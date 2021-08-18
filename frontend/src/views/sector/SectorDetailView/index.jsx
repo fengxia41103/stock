@@ -26,6 +26,7 @@ const price_menus = [
     url: "price",
     text: "Daily Prices",
   },
+  { url: "gains", text: "Scale of Gain & Loss" },
   {
     url: "return",
     text: "Daily & Nightly Returns",

@@ -48,6 +48,7 @@ import SectorBalanceRankingView from "src/views/sector/SectorBalanceRankingView"
 import SectorIncomeRankingView from "src/views/sector/SectorIncomeRankingView";
 import SectorCashRankingView from "src/views/sector/SectorCashRankingView";
 import SectorValuationRankingView from "src/views/sector/SectorValuationRankingView";
+import SectorStocksLowerBetterView from "src/views/sector/SectorStocksLowerBetterView";
 
 const items = [
   {
@@ -141,6 +142,7 @@ const routes = [
             path: "ranking/valuation",
             element: <SectorValuationRankingView />,
           },
+          { path: "gains", element: <SectorStocksLowerBetterView /> },
         ],
       },
       { path: "notes", element: <DiaryListView /> },
