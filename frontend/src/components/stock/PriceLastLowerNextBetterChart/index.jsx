@@ -48,6 +48,8 @@ PriceLastLowerNextBetterChart.propTypes = {
       on: PropTypes.string,
       last_lower: PropTypes.number,
       next_better: PropTypes.number,
+      open_price: PropTypes.number,
+      close_price: PropTypes.number,
     })
   ).isRequired,
 };
