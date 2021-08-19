@@ -16,9 +16,11 @@ from stock.api import RankStockResource
 from stock.api import RankValuationRatioResource
 from stock.api import SectorResource
 from stock.api import StockResource
+from stock.api import UserResource
 from stock.api import ValuationRatioResource
 
 v1_api = Api(api_name="v1")
+v1_api.register(UserResource())
 v1_api.register(StockResource())
 v1_api.register(HistoricalResource())
 v1_api.register(IncomeStatementResource())

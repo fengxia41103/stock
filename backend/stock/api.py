@@ -2,8 +2,12 @@ import logging
 from datetime import date
 from datetime import timedelta
 
+from django.contrib.auth.models import User
 from tastypie import fields
+from tastypie.authentication import ApiKeyAuthentication
+from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
+from tastypie.authorization import DjangoAuthorization
 from tastypie.constants import ALL
 from tastypie.resources import ALL_WITH_RELATIONS
 from tastypie.resources import Bundle
@@ -22,6 +26,16 @@ from stock.models import ValuationRatio
 from stock.tasks import batch_update_helper
 
 logger = logging.getLogger("stock")
+
+
+class UserResource(ModelResource):
+    class Meta:
+        queryset = User.objects.all()
+        resource_name = "users"
+        excludes = ["email", "password", "is_superuser"]
+        # Add it here.
+        authentication = SessionAuthentication()
+        authorization = DjangoAuthorization()
 
 
 class SectorResource(ModelResource):
@@ -78,7 +92,9 @@ class StockResource(ModelResource):
     pb = fields.FloatField("pb", null=True)
     ps = fields.FloatField("ps", null=True)
     last_lower = fields.IntegerField("last_lower", null=True)
-    price_to_cash_premium = fields.FloatField("price_to_cash_premium", null=True)
+    price_to_cash_premium = fields.FloatField(
+        "price_to_cash_premium", null=True
+    )
 
     class Meta:
         queryset = MyStock.objects.all()
