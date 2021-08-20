@@ -49,7 +49,7 @@ import SectorIncomeRankingView from "src/views/sector/SectorIncomeRankingView";
 import SectorCashRankingView from "src/views/sector/SectorCashRankingView";
 import SectorValuationRankingView from "src/views/sector/SectorValuationRankingView";
 import SectorStocksLowerBetterView from "src/views/sector/SectorStocksLowerBetterView";
-import LoginView from "src/views/authentication/LoginView";
+import LoginView from "src/views/auth/LoginView";
 
 const items = [
   {
@@ -153,7 +153,11 @@ const routes = [
         path: "news",
         element: <NewsListView />,
       },
+
+      // landing page, default to login
       { path: "/", element: <Navigate to="/dashboard" /> },
+
+      // catch all, 404
       { path: "*", element: <Navigate to="/404" /> },
     ],
   },

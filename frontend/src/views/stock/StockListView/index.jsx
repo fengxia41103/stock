@@ -29,22 +29,22 @@ function StockListView(props) {
   const [searching, setSearching] = useState("");
   const [group_by, setGroupBy] = useState("last_reporting_date");
 
-  const symbol_filter_change = (event) => {
+  const symbol_filter_change = event => {
     const tmp = event.target.value.trim().toUpperCase();
     setSearching(tmp);
   };
 
-  const group_by_change = (event) => {
+  const group_by_change = event => {
     setGroupBy(event.target.value);
   };
 
-  const render_data = (data) => {
+  const render_data = data => {
     const stocks = data.objects;
     // filter based on search string
-    const filtered = filter(stocks, (x) => x.symbol.includes(searching));
+    const filtered = filter(stocks, x => x.symbol.includes(searching));
 
     // when select
-    const grouped = groupBy(filtered, (v) => {
+    const grouped = groupBy(filtered, v => {
       let g = null;
 
       switch (group_by) {
@@ -61,9 +61,9 @@ function StockListView(props) {
     });
 
     const sorted_keys = sortBy(Object.keys(grouped));
-    const selectors = map(sorted_keys, (index) => {
+    const selectors = map(sorted_keys, index => {
       const symbols = grouped[index];
-      const sorted = sortBy(symbols, (s) => s.symbol);
+      const sorted = sortBy(symbols, s => s.symbol);
 
       const actions = [<AddStocksToSectorDialog stocks={sorted} />];
       return (
@@ -97,7 +97,12 @@ function StockListView(props) {
       <Page title="Stocks">
         <Container maxWidth={false}>
           <Box mt={1}>
-            <Grid container spacing={1} direction="row" justify="space-between">
+            <Grid
+              container
+              spacing={1}
+              direction="row"
+              justifyContent="space-between"
+            >
               <Grid item xs>
                 <UpdateAllStock stocks={filtered} />
               </Grid>
@@ -134,7 +139,7 @@ function StockListView(props) {
   return (
     <Poll
       path={api + encodeURI(resource)}
-      resolve={(data) => data && data.objects}
+      resolve={data => data && data.objects}
     >
       {(data, { loading }) =>
         loading ? <CircularProgress /> : render_data(data)

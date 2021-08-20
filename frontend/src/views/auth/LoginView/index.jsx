@@ -15,6 +15,7 @@ import {
 import { Face, Fingerprint } from "@material-ui/icons";
 import clsx from "clsx";
 import GlobalContext from "src/context";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -33,27 +34,32 @@ const useStyles = makeStyles(theme => ({
 
 export default function LoginView() {
   const classes = useStyles();
-  const [user, setUser] = useState();
-  const [pwd, setPwd] = useState();
-  const { api } = useContext(GlobalContext);
-  const [resource] = useState(`/users`);
+  const [user, setUser] = useState("fengxia");
+  const [pwd, setPwd] = useState("natalie");
+  const { api, set_auth } = useContext(GlobalContext);
+  const [resource] = useState(`/auth`);
 
   const on_user_change = event => setUser(event.target.value);
   const on_pwd_change = event => setPwd(event.target.value);
   const on_submit = event => {
-    event.preventDefault();
-    console.log("call api");
     const uri = `${api}${resource}/login/`;
+    const credentials = { username: user, password: pwd };
 
     // Simple POST request with a JSON body using fetch
-    const requestOptions = {
+    const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: user, password: pwd }),
+      cache: "no-cache",
+      body: JSON.stringify(credentials),
     };
-    fetch(uri, requestOptions)
+    fetch(uri, options)
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => {
+        // if login success, save api key
+        if (data.success) {
+          set_auth(user, data.data);
+        }
+      });
   };
 
   return (

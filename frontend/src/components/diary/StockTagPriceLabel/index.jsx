@@ -14,7 +14,7 @@ export default function StockTagPriceLabel(props) {
     `/historicals?stock=${stock.id}&on__range=${start},${end}`
   );
 
-  const render_data = (data) => {
+  const render_data = data => {
     const prices = data.objects;
     let price_then = 0,
       price_now = 0;
@@ -35,7 +35,7 @@ export default function StockTagPriceLabel(props) {
         container
         spacing={1}
         direction="row"
-        justify="space-between"
+        justifyContent="space-between"
         alignItems="center"
       >
         <ColoredNumber val={price_then} />

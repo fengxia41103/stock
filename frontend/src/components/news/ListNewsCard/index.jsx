@@ -19,7 +19,7 @@ import GlobalContext from "src/context";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -50,19 +50,19 @@ export default function ListNewsCard(props) {
     setResource(get_uri());
   }, [searching]);
 
-  const on_next = (next_page) => {
+  const on_next = next_page => {
     if (!isNull(next_page)) {
       let next_offset = next_page.split("=").pop();
       setResource(get_uri() + `&offset=${next_offset}`);
     }
   };
 
-  const render_data = (resp) => {
+  const render_data = resp => {
     const what_is_next = resp.meta.next;
 
     const news = resp.objects;
 
-    const news_list = map(news, (n) => {
+    const news_list = map(news, n => {
       return (
         <ListItem key={n.id} divider={true}>
           <Link href={n.link}>
@@ -86,7 +86,12 @@ export default function ListNewsCard(props) {
         </CardActionArea>
         <CardActions>
           {isEmpty(news) || news.length < limit_count ? null : (
-            <Grid container spacing={1} justify="flex-end" alignItems="center">
+            <Grid
+              container
+              spacing={1}
+              justifyContent="flex-end"
+              alignItems="center"
+            >
               <Button
                 variant="text"
                 color="secondary"

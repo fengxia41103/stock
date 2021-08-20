@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 import {
   Card,
   CardContent,
@@ -8,23 +8,23 @@ import {
   Grid,
   Divider,
   Chip,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import StockHistoricalContext from 'src/views/stock/StockHistoricalView/context';
-import { map, groupBy, reverse } from 'lodash';
-import moment from 'moment';
-import PriceChart from 'src/components/stock/PriceChart';
-import ColoredNumber from 'src/components/common/ColoredNumber';
+import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
+import { map, groupBy, reverse } from "lodash";
+import moment from "moment";
+import PriceChart from "src/components/stock/PriceChart";
+import ColoredNumber from "src/components/common/ColoredNumber";
 
 export default function PriceView() {
   const data = useContext(StockHistoricalContext);
 
-  const stocks = map(data, (d) => {
+  const stocks = map(data, d => {
     return { ...d, week: moment(d.on).week() };
   });
 
   // group data by week index
-  const group_by_week = groupBy(stocks, (s) => s.week);
+  const group_by_week = groupBy(stocks, s => s.week);
   const weekly_charts = reverse(
     map(group_by_week, (prices, week) => {
       const last = [...prices].pop();
@@ -45,7 +45,11 @@ export default function PriceView() {
               <PriceChart data={prices} />
               <Divider />
               <Box mt={2}>
-                <Grid container justify="space-between" alignItems="center">
+                <Grid
+                  container
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
                   <Typography variant="body2">End-2-End return</Typography>
                   <Chip
                     variant="default"

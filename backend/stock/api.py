@@ -40,23 +40,10 @@ logger = logging.getLogger("stock")
 from django.contrib.auth import authenticate
 
 
-class BaseResource(ModelResource):
+class AuthResource(Resource):
     class Meta:
-        abstract = True
-        allowed_methods = [
-            "get",
-        ]
-        authentication = SessionAuthentication()
-        authorization = DjangoAuthorization()
-        max_limit = 1000
-
-
-class UserResource(ModelResource):
-    class Meta:
-        resource_name = "users"
-        queryset = User.objects.all()
-        fields = ["first_name", "last_name", "email"]
         allowed_methods = ["get", "post"]
+        resource_name = "auth"
 
     def override_urls(self):
         return [
@@ -93,6 +80,7 @@ class UserResource(ModelResource):
         )
         username = data.get("username", "")
         password = data.get("password", "")
+        print(data)
         user = authenticate(username=username, password=password)
         if user:
             if user.is_active:
@@ -124,13 +112,29 @@ class UserResource(ModelResource):
                 request,
                 {
                     "success": False,
-                    "message": "Wrong password",
+                    "message": "Login failed",
                 },
                 HttpUnauthorized,
             )
 
 
-class SectorResource(ModelResource):
+class BaseResource(ModelResource):
+    class Meta:
+        abstract = True
+        allowed_methods = ["get", "post", "patch", "delete"]
+        authentication = ApiKeyAuthentication()
+        authorization = DjangoAuthorization()
+        max_limit = 0
+
+
+class UserResource(BaseResource):
+    class Meta:
+        resource_name = "users"
+        queryset = User.objects.all()
+        fields = ["first_name", "last_name", "email"]
+
+
+class SectorResource(BaseResource):
     name = fields.CharField("name")
     stocks = fields.ManyToManyField(
         "stock.api.StockResource", "stocks", null=True
@@ -148,7 +152,6 @@ class SectorResource(ModelResource):
         queryset = MySector.objects.all()
         resource_name = "sectors"
         filtering = {"name": ALL}
-        authorization = Authorization()
 
     def obj_update(self, bundle, **kwargs):
         super().obj_update(bundle)
@@ -160,7 +163,7 @@ class SectorResource(ModelResource):
             batch_update_helper(stock.symbol)
 
 
-class StockResource(ModelResource):
+class StockResource(BaseResource):
     symbol = fields.CharField("symbol")
     tax_rate = fields.FloatField("tax_rate", null=True, use_in="detail")
     latest_close_price = fields.FloatField(
@@ -192,7 +195,6 @@ class StockResource(ModelResource):
         queryset = MyStock.objects.all()
         resource_name = "stocks"
         filtering = {"symbol": ALL, "id": ALL}
-        authorization = Authorization()
         limit = 0
         max_limit = 0
 
@@ -220,7 +222,7 @@ class StockResource(ModelResource):
         return bundle
 
 
-class HistoricalResource(ModelResource):
+class HistoricalResource(BaseResource):
     stock = fields.ForeignKey("stock.api.StockResource", "stock")
     symbol = fields.CharField("symbol", null=True)
     vol_over_share_outstanding = fields.FloatField(
@@ -245,7 +247,7 @@ class HistoricalResource(ModelResource):
         return bundle.obj.stock.id
 
 
-class IncomeStatementResource(ModelResource):
+class IncomeStatementResource(BaseResource):
     stock = fields.ForeignKey("stock.api.StockResource", "stock")
     symbol = fields.CharField("symbol", null=True)
 
@@ -309,7 +311,7 @@ class IncomeStatementResource(ModelResource):
         return bundle.obj.stock.symbol
 
 
-class CashFlowResource(ModelResource):
+class CashFlowResource(BaseResource):
     stock = fields.ForeignKey("stock.api.StockResource", "stock")
     symbol = fields.CharField("symbol", null=True)
 
@@ -344,7 +346,7 @@ class CashFlowResource(ModelResource):
         return bundle.obj.stock.symbol
 
 
-class BalanceSheetResource(ModelResource):
+class BalanceSheetResource(BaseResource):
     stock = fields.ForeignKey("stock.api.StockResource", "stock")
     symbol = fields.CharField("symbol", null=True)
 
@@ -452,8 +454,11 @@ class RankingResource(Resource):
     stats = fields.ListField("stats")
 
     class Meta:
-        object_class = StatSummary
         abstract = True
+        allowed_methods = ["get", "post", "patch", "delete"]
+        authentication = ApiKeyAuthentication()
+        authorization = DjangoAuthorization()
+        object_class = StatSummary
         filtering = {"stats": ALL, "symbol": ALL}
         limit = 0
         max_limit = 0
@@ -760,7 +765,7 @@ class RankValuationRatioResource(RankingResource):
         return self._get_ranks(ValuationRatio.objects, attrs)
 
 
-class DiaryResource(ModelResource):
+class DiaryResource(BaseResource):
 
     created = fields.DateTimeField("created", readonly=True)
     stock = fields.ForeignKey("stock.api.StockResource", "stock", null=True)
@@ -771,7 +776,6 @@ class DiaryResource(ModelResource):
     class Meta:
         queryset = MyDiary.objects.all().order_by("-created")
         resource_name = "diaries"
-        authorization = Authorization()
 
         filtering = {
             "stock": ALL,
@@ -782,7 +786,7 @@ class DiaryResource(ModelResource):
         max_limit = 0
 
 
-class NewsResource(ModelResource):
+class NewsResource(BaseResource):
     class Meta:
         queryset = MyNews.objects.all().order_by("-pub_time")
         resource_name = "news"

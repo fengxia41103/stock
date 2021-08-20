@@ -3,6 +3,7 @@ from django.urls import include
 from django.urls import path
 from tastypie.api import Api
 
+from stock.api import AuthResource
 from stock.api import BalanceSheetResource
 from stock.api import CashFlowResource
 from stock.api import DiaryResource
@@ -20,6 +21,7 @@ from stock.api import UserResource
 from stock.api import ValuationRatioResource
 
 v1_api = Api(api_name="v1")
+v1_api.register(AuthResource())
 v1_api.register(UserResource())
 v1_api.register(StockResource())
 v1_api.register(HistoricalResource())

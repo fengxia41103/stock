@@ -8,7 +8,7 @@ export default function Fetch(props) {
   const { api, resource, render_data, mounted, silent } = props;
 
   const { data, loading, error } = useGet({
-    path: api + encodeURI(resource),
+    path: encodeURI(resource),
     debounce: 200,
   });
 
