@@ -2,17 +2,27 @@ import logging
 from datetime import date
 from datetime import timedelta
 
+from django.conf.urls import url
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
+from django.http import HttpResponse
+from django.http import HttpResponseForbidden
 from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.authorization import DjangoAuthorization
 from tastypie.constants import ALL
+from tastypie.http import HttpForbidden
+from tastypie.http import HttpUnauthorized
+from tastypie.models import ApiKey
 from tastypie.resources import ALL_WITH_RELATIONS
 from tastypie.resources import Bundle
 from tastypie.resources import ModelResource
 from tastypie.resources import Resource
+from tastypie.utils import trailing_slash
 
 from stock.models import BalanceSheet
 from stock.models import CashFlow
@@ -27,15 +37,97 @@ from stock.tasks import batch_update_helper
 
 logger = logging.getLogger("stock")
 
+from django.contrib.auth import authenticate
+
+
+class BaseResource(ModelResource):
+    class Meta:
+        abstract = True
+        allowed_methods = [
+            "get",
+        ]
+        authentication = SessionAuthentication()
+        authorization = DjangoAuthorization()
+        max_limit = 1000
+
 
 class UserResource(ModelResource):
     class Meta:
-        queryset = User.objects.all()
         resource_name = "users"
-        excludes = ["email", "password", "is_superuser"]
-        # Add it here.
-        authentication = SessionAuthentication()
-        authorization = DjangoAuthorization()
+        queryset = User.objects.all()
+        fields = ["first_name", "last_name", "email"]
+        allowed_methods = ["get", "post"]
+
+    def override_urls(self):
+        return [
+            url(
+                r"^(?P<resource_name>%s)/login%s$"
+                % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view("login"),
+                name="api_login",
+            ),
+            url(
+                r"^(?P<resource_name>%s)/logout%s$"
+                % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view("logout"),
+                name="api_logout",
+            ),
+        ]
+
+    def logout(self, request, **kwargs):
+        self.method_check(request, allowed=["get"])
+        if request.user and request.user.is_authenticated():
+            logout(request)
+            return self.create_response(request, {"success": True})
+        else:
+            return self.create_response(
+                request, {"success": False}, HttpUnauthorized
+            )
+
+    def login(self, request, **kwargs):
+        self.method_check(request, allowed=["post"])
+        data = self.deserialize(
+            request,
+            request.body,
+            format=request.META.get("CONTENT_TYPE", "application/json"),
+        )
+        username = data.get("username", "")
+        password = data.get("password", "")
+        user = authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+                # login(request, user)
+                try:
+                    key = ApiKey.objects.get(user=user)
+                    if not key.key:
+                        key.save()
+                except ApiKey.DoesNotExist:
+                    key = ApiKey.objects.create(user=user)
+                return self.create_response(
+                    request,
+                    {
+                        "success": True,
+                        "data": key.key,
+                    },
+                )
+            else:
+                return self.create_response(
+                    request,
+                    {
+                        "success": False,
+                        "message": "User is not active",
+                    },
+                    HttpForbidden,
+                )
+        else:
+            return self.create_response(
+                request,
+                {
+                    "success": False,
+                    "message": "Wrong password",
+                },
+                HttpUnauthorized,
+            )
 
 
 class SectorResource(ModelResource):

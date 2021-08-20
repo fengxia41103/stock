@@ -49,6 +49,7 @@ import SectorIncomeRankingView from "src/views/sector/SectorIncomeRankingView";
 import SectorCashRankingView from "src/views/sector/SectorCashRankingView";
 import SectorValuationRankingView from "src/views/sector/SectorValuationRankingView";
 import SectorStocksLowerBetterView from "src/views/sector/SectorStocksLowerBetterView";
+import LoginView from "src/views/authentication/LoginView";
 
 const items = [
   {
@@ -164,6 +165,9 @@ const routes = [
       { path: "*", element: <Navigate to="/404" /> },
     ],
   },
+  { path: "auth",
+    element: <LoginView />
+  }
 ];
 
 export default routes;
