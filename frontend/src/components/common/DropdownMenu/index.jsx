@@ -9,7 +9,7 @@ export default function DropdownMenu(props) {
   const { title, content, keep_open } = props;
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 

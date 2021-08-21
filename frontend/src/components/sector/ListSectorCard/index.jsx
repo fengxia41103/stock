@@ -1,6 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 
-import GlobalContext from "src/context";
 import ListStockCard from "src/components/stock/ListStockCard";
 import { map, sortBy } from "lodash";
 
@@ -12,7 +11,6 @@ import Fetch from "src/components/common/Fetch";
 
 export default function ListSectorCard(props) {
   const { me, all } = props;
-  const { api } = useContext(GlobalContext);
   const [resource] = useState(`/sectors/${me.id}`);
 
   const existing_names = map(all, (a) => a.name);
@@ -40,5 +38,5 @@ export default function ListSectorCard(props) {
   };
 
   // render as usual to get data
-  return <Fetch {...{ api, resource, render_data, silent: true }} />;
+  return <Fetch {...{ resource, render_data, silent: true }} />;
 }

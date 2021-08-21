@@ -1,27 +1,27 @@
-import React, { useState, useContext } from 'react';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import Chip from '@material-ui/core/Chip';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import GlobalContext from 'src/context';
-import { useMutate } from 'restful-react';
-import AddIcon from '@material-ui/icons/Add';
-import Fetch from 'src/components/common/Fetch';
-import { map, filter } from 'lodash';
+import React, { useState, useContext } from "react";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import Chip from "@material-ui/core/Chip";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import GlobalContext from "src/context";
+import { useMutate } from "restful-react";
+import AddIcon from "@material-ui/icons/Add";
+import Fetch from "src/components/common/Fetch";
+import { map, filter } from "lodash";
 
 export default function AddNewSectorDialog() {
   const { api } = useContext(GlobalContext);
   const [open, setOpen] = useState(false);
-  const [resource] = useState('/sectors');
-  const [sector, setSector] = useState('');
+  const [resource] = useState("/sectors");
+  const [sector, setSector] = useState("");
 
   const { mutate: create } = useMutate({
-    verb: 'POST',
+    verb: "POST",
     path: `${api}${resource}/`,
   });
 
@@ -33,7 +33,7 @@ export default function AddNewSectorDialog() {
   const on_sector_change = (event) => {
     // symbol is always in upper case
     let tmp = event.target.value;
-    tmp = map(tmp.split(','), (s) => s.trim());
+    tmp = map(tmp.split(","), (s) => s.trim());
     setSector(tmp);
   };
 
@@ -79,8 +79,8 @@ export default function AddNewSectorDialog() {
               placeholder="sector name"
               fullWidth
               error={is_error}
-              label={is_error ? 'Error' : ''}
-              helperText={is_error ? 'Sector name must be unique.' : ''}
+              label={is_error ? "Error" : ""}
+              helperText={is_error ? "Sector name must be unique." : ""}
             />
 
             <Box mt={2}>{sectors}</Box>

@@ -20,14 +20,14 @@ export const days_in_between = (start, end) => {
   return difference_in_time / (1000 * 3600 * 24);
 };
 
-const get_contrast = background => {
+const get_contrast = (background) => {
   // func to compute font color to contrast w/ background color
   return parseInt(background, 16) > 0xffffff / 2 ? "black" : "white";
 };
 
-export const get_highlights = interests => {
+export const get_highlights = (interests) => {
   // highlight background color choices
-  let highlights = map(interests, i => {
+  let highlights = map(interests, (i) => {
     // https://dev.to/akhil_001/generating-random-color-with-single-line-of-js-code-fhj
     const bk_color = Math.floor(Math.random() * 16777215)
       .toString(16)
@@ -59,13 +59,9 @@ export const get_today_string = () => {
 };
 
 export const get_last_week_string = () => {
-  return moment()
-    .add(-1, "w")
-    .format(DATE_FORMAT);
+  return moment().add(-1, "w").format(DATE_FORMAT);
 };
 
 export const get_last_month_string = () => {
-  return moment()
-    .add(-1, "M")
-    .format(DATE_FORMAT);
+  return moment().add(-1, "M").format(DATE_FORMAT);
 };

@@ -17,7 +17,7 @@ export default function UpdateStock(props) {
     path: `${host}${resource_uri}`,
   });
 
-  const handle_update = event => {
+  const handle_update = (event) => {
     update({}).then(setNotification(`Updating ${symbol} has been requested.`));
   };
 

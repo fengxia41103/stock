@@ -10,16 +10,16 @@ import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 
 export default function DailyRankingBarRaceChart(props) {
   const { ranks, order_by, highlights, negative } = props;
-  const dates = reverse([...new Set(map(ranks, s => s.category))]);
+  const dates = reverse([...new Set(map(ranks, (s) => s.category))]);
   const [on, setOn] = useState(0);
   const [progress, setProgress] = useState(0);
   const [pause, setPause] = useState(false);
 
   // set pause bool
-  const toggle_pause = event => setPause(!pause);
+  const toggle_pause = (event) => setPause(!pause);
 
   // reset index for rerun
-  const on_rerun = event => {
+  const on_rerun = (event) => {
     setPause(false);
     setOn(0);
   };
@@ -34,10 +34,10 @@ export default function DailyRankingBarRaceChart(props) {
         source: data,
       },
       xAxis: {
-        max: Math.ceil(maxBy(data, d => d[order_by])),
-        min: Math.floor(minBy(data, d => d[order_by])),
+        max: Math.ceil(maxBy(data, (d) => d[order_by])),
+        min: Math.floor(minBy(data, (d) => d[order_by])),
         label: {
-          formatter: n => Math.round(n),
+          formatter: (n) => Math.round(n),
         },
       },
       yAxis: {
@@ -52,7 +52,7 @@ export default function DailyRankingBarRaceChart(props) {
           seriesLayoutBy: "column",
           type: "bar",
           itemStyle: {
-            color: param => {
+            color: (param) => {
               const symbol = param.value["symbol"];
               return "#" + highlights[symbol]["background"] || "#5470c6";
             },

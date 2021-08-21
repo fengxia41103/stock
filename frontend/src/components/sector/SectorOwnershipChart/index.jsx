@@ -11,10 +11,10 @@ export default function SectorOwnershipChart(props) {
   const containerId = randomId();
   const chart_data = map(
     // if I don't have this count, ignore
-    filter(sector.stocks_detail, d => d.institution_count > 0),
+    filter(sector.stocks_detail, (d) => d.institution_count > 0),
 
     // compose the chart data
-    s => {
+    (s) => {
       return {
         name: s.symbol,
         data: [

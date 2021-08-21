@@ -34,11 +34,10 @@ class OHLCChartWithElderRayIndicator extends React.Component {
 
     const calculatedData = changeCalculator(elder(initialData));
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
-      d => d.date
+      (d) => d.date
     );
-    const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(
-      calculatedData
-    );
+    const { data, xScale, xAccessor, displayXAccessor } =
+      xScaleProvider(calculatedData);
 
     const start = xAccessor(last(data));
     const end = xAccessor(data[Math.max(0, data.length - 150)]);
@@ -61,7 +60,7 @@ class OHLCChartWithElderRayIndicator extends React.Component {
         <Chart
           id={1}
           height={300}
-          yExtents={d => [d.high, d.low]}
+          yExtents={(d) => [d.high, d.low]}
           padding={{ top: 10, right: 0, bottom: 20, left: 0 }}
         >
           <YAxis axisAt="right" orient="right" ticks={5} />
@@ -83,8 +82,8 @@ class OHLCChartWithElderRayIndicator extends React.Component {
             itemType="last"
             orient="right"
             edgeAt="right"
-            yAccessor={d => d.close}
-            fill={d => (d.close > d.open ? "#6BA583" : "#FF0000")}
+            yAccessor={(d) => d.close}
+            fill={(d) => (d.close > d.open ? "#6BA583" : "#FF0000")}
           />
 
           <OHLCTooltip origin={[-40, -10]} />
@@ -92,7 +91,7 @@ class OHLCChartWithElderRayIndicator extends React.Component {
         <Chart
           id={2}
           height={150}
-          yExtents={d => d.volume}
+          yExtents={(d) => d.volume}
           origin={(w, h) => [0, h - 450]}
         >
           <YAxis
@@ -108,8 +107,8 @@ class OHLCChartWithElderRayIndicator extends React.Component {
           />
 
           <BarSeries
-            yAccessor={d => d.volume}
-            fill={d => (d.close > d.open ? "#6BA583" : "#FF0000")}
+            yAccessor={(d) => d.volume}
+            fill={(d) => (d.close > d.open ? "#6BA583" : "#FF0000")}
             opacity={0.4}
           />
         </Chart>
@@ -143,7 +142,7 @@ class OHLCChartWithElderRayIndicator extends React.Component {
           <SingleValueTooltip
             yAccessor={elder.accessor()}
             yLabel="Elder Ray"
-            yDisplayFormat={d =>
+            yDisplayFormat={(d) =>
               `${format(".2f")(d.bullPower)}, ${format(".2f")(d.bearPower)}`
             }
             origin={[-40, 15]}
@@ -154,7 +153,7 @@ class OHLCChartWithElderRayIndicator extends React.Component {
           height={100}
           yExtents={[
             0,
-            d => elder.accessor()(d) && elder.accessor()(d).bullPower,
+            (d) => elder.accessor()(d) && elder.accessor()(d).bullPower,
           ]}
           origin={(w, h) => [0, h - 200]}
           padding={{ top: 10, bottom: 10 }}
@@ -178,7 +177,7 @@ class OHLCChartWithElderRayIndicator extends React.Component {
           />
 
           <BarSeries
-            yAccessor={d =>
+            yAccessor={(d) =>
               elder.accessor()(d) && elder.accessor()(d).bullPower
             }
             baseAt={(xScale, yScale, d) => yScale(0)}
@@ -187,7 +186,7 @@ class OHLCChartWithElderRayIndicator extends React.Component {
           <StraightLine yValue={0} />
 
           <SingleValueTooltip
-            yAccessor={d =>
+            yAccessor={(d) =>
               elder.accessor()(d) && elder.accessor()(d).bullPower
             }
             yLabel="Elder Ray - Bull power"
@@ -200,7 +199,7 @@ class OHLCChartWithElderRayIndicator extends React.Component {
           height={100}
           yExtents={[
             0,
-            d => elder.accessor()(d) && elder.accessor()(d).bearPower,
+            (d) => elder.accessor()(d) && elder.accessor()(d).bearPower,
           ]}
           origin={(w, h) => [0, h - 100]}
           padding={{ top: 10, bottom: 10 }}
@@ -223,7 +222,7 @@ class OHLCChartWithElderRayIndicator extends React.Component {
             displayFormat={format(".2f")}
           />
           <BarSeries
-            yAccessor={d =>
+            yAccessor={(d) =>
               elder.accessor()(d) && elder.accessor()(d).bearPower
             }
             baseAt={(xScale, yScale, d) => yScale(0)}
@@ -232,7 +231,7 @@ class OHLCChartWithElderRayIndicator extends React.Component {
           <StraightLine yValue={0} />
 
           <SingleValueTooltip
-            yAccessor={d =>
+            yAccessor={(d) =>
               elder.accessor()(d) && elder.accessor()(d).bearPower
             }
             yLabel="Elder Ray - Bear power"

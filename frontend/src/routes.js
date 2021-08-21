@@ -169,9 +169,7 @@ const routes = [
       { path: "*", element: <Navigate to="/404" /> },
     ],
   },
-  { path: "auth",
-    element: <LoginView />
-  }
+  { path: "auth", element: <LoginView /> },
 ];
 
 export default routes;

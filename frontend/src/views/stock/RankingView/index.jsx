@@ -44,20 +44,20 @@ export default function RankingView() {
     ocf_over_net_income: ">=100",
   });
 
-  const handle_interests_change = event => {
+  const handle_interests_change = (event) => {
     // inputs are space delimited values
     const tmp = event.target.value
       .split(/\s+/g)
-      .map(x => x.trim())
-      .map(x => x.toUpperCase());
+      .map((x) => x.trim())
+      .map((x) => x.toUpperCase());
 
     setInterests(tmp);
     setHighlights(get_highlights(tmp));
   };
 
-  const handle_top_change = event => setTop(event.target.value);
+  const handle_top_change = (event) => setTop(event.target.value);
 
-  const handle_ratio_change = event => {
+  const handle_ratio_change = (event) => {
     let old_thresholds = clone(thresholds);
 
     old_thresholds[event.target.name] = event.target.value;

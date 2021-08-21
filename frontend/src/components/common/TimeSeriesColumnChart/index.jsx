@@ -7,11 +7,11 @@ import PropTypes from "prop-types";
 export default function TimeSeriesColumnChart(props) {
   const containerId = randomId();
   const { data, name } = props;
-  const categories = map(data, d => d.on);
+  const categories = map(data, (d) => d.on);
   const chart_data = [
     {
       name: name,
-      data: map(data, d => d.val),
+      data: map(data, (d) => d.val),
     },
   ];
 

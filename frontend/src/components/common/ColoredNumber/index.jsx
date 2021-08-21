@@ -6,7 +6,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 
 // A style sheet
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   positive: {
     color: "#137333",
   },
@@ -30,7 +30,7 @@ export default function ColoredNumber(props) {
     );
   }
 
-  const style_me = val => {
+  const style_me = (val) => {
     let color = null;
     let tmp = val;
 

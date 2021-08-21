@@ -40,7 +40,7 @@ class CandleStickChartWithRSIIndicator extends React.Component {
       .merge((d, c) => {
         d.ema26 = c;
       })
-      .accessor(d => d.ema26);
+      .accessor((d) => d.ema26);
 
     const ema12 = ema()
       .id(1)
@@ -48,7 +48,7 @@ class CandleStickChartWithRSIIndicator extends React.Component {
       .merge((d, c) => {
         d.ema12 = c;
       })
-      .accessor(d => d.ema12);
+      .accessor((d) => d.ema12);
 
     const smaVolume50 = sma()
       .id(3)
@@ -56,21 +56,21 @@ class CandleStickChartWithRSIIndicator extends React.Component {
       .merge((d, c) => {
         d.smaVolume50 = c;
       })
-      .accessor(d => d.smaVolume50);
+      .accessor((d) => d.smaVolume50);
 
     const rsiCalculator = rsi()
       .options({ windowSize: 14 })
       .merge((d, c) => {
         d.rsi = c;
       })
-      .accessor(d => d.rsi);
+      .accessor((d) => d.rsi);
 
     const atr14 = atr()
       .options({ windowSize: 14 })
       .merge((d, c) => {
         d.atr14 = c;
       })
-      .accessor(d => d.atr14);
+      .accessor((d) => d.atr14);
 
     const { type, data: initialData, width, ratio } = this.props;
 
@@ -78,11 +78,10 @@ class CandleStickChartWithRSIIndicator extends React.Component {
       ema12(smaVolume50(rsiCalculator(atr14(initialData))))
     );
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
-      d => d.date
+      (d) => d.date
     );
-    const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(
-      calculatedData
-    );
+    const { data, xScale, xAccessor, displayXAccessor } =
+      xScaleProvider(calculatedData);
 
     const start = xAccessor(last(data));
     const end = xAccessor(data[Math.max(0, data.length - 150)]);
@@ -105,7 +104,11 @@ class CandleStickChartWithRSIIndicator extends React.Component {
         <Chart
           id={1}
           height={300}
-          yExtents={[d => [d.high, d.low], ema26.accessor(), ema12.accessor()]}
+          yExtents={[
+            (d) => [d.high, d.low],
+            ema26.accessor(),
+            ema12.accessor(),
+          ]}
           padding={{ top: 10, bottom: 20 }}
         >
           <XAxis
@@ -139,14 +142,14 @@ class CandleStickChartWithRSIIndicator extends React.Component {
             itemType="last"
             orient="right"
             edgeAt="right"
-            yAccessor={d => d.close}
-            fill={d => (d.close > d.open ? "#6BA583" : "#FF0000")}
+            yAccessor={(d) => d.close}
+            fill={(d) => (d.close > d.open ? "#6BA583" : "#FF0000")}
           />
 
           <OHLCTooltip origin={[-40, 0]} />
 
           <MovingAverageTooltip
-            onClick={e => console.log(e)}
+            onClick={(e) => console.log(e)}
             origin={[-38, 15]}
             options={[
               {
@@ -167,7 +170,7 @@ class CandleStickChartWithRSIIndicator extends React.Component {
         <Chart
           id={2}
           height={150}
-          yExtents={[d => d.volume, smaVolume50.accessor()]}
+          yExtents={[(d) => d.volume, smaVolume50.accessor()]}
           origin={(w, h) => [0, h - 400]}
         >
           <YAxis
@@ -184,8 +187,8 @@ class CandleStickChartWithRSIIndicator extends React.Component {
           />
 
           <BarSeries
-            yAccessor={d => d.volume}
-            fill={d => (d.close > d.open ? "#6BA583" : "#FF0000")}
+            yAccessor={(d) => d.volume}
+            fill={(d) => (d.close > d.open ? "#6BA583" : "#FF0000")}
           />
           <AreaSeries
             yAccessor={smaVolume50.accessor()}
@@ -212,11 +215,11 @@ class CandleStickChartWithRSIIndicator extends React.Component {
             displayFormat={format(".2f")}
           />
 
-          <RSISeries yAccessor={d => d.rsi} />
+          <RSISeries yAccessor={(d) => d.rsi} />
 
           <RSITooltip
             origin={[-38, 15]}
-            yAccessor={d => d.rsi}
+            yAccessor={(d) => d.rsi}
             options={rsiCalculator.options()}
           />
         </Chart>

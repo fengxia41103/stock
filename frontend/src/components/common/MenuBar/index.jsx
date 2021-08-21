@@ -9,7 +9,7 @@ export default function MenuBar(props) {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -17,7 +17,7 @@ export default function MenuBar(props) {
     setAnchorEl(null);
   };
 
-  const links = items.map(x => {
+  const links = items.map((x) => {
     const url = `${root}/${x.url}`;
 
     return (

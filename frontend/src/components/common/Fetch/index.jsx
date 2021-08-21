@@ -5,7 +5,8 @@ import NotFoundView from "src/views/errors/NotFoundView";
 import PropTypes from "prop-types";
 
 export default function Fetch(props) {
-  const { api, resource, render_data, mounted, silent } = props;
+  const { resource, render_data, mounted, silent } = props;
+  const session = window.sessionStorage;
 
   const { data, loading, error } = useGet({
     path: encodeURI(resource),

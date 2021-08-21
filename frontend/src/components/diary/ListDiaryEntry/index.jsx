@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ListDiaryEntry(props) {
-  const { api, host } = useContext(GlobalContext);
+  const { host } = useContext(GlobalContext);
   const classes = useStyles();
   const { diary, to_refresh } = props;
   const [resource] = useState(`/diaries/${diary.id}`);
@@ -134,7 +134,7 @@ export default function ListDiaryEntry(props) {
     );
   };
 
-  return <Fetch {...{ key: to_refresh, api, resource, render_data }} />;
+  return <Fetch {...{ key: to_refresh, resource, render_data }} />;
 }
 
 ListDiaryEntry.propTypes = {

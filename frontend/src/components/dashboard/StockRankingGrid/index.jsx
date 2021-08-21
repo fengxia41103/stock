@@ -7,7 +7,7 @@ import { map } from "lodash";
 export default function StockRankingGrid(props) {
   const { ranks } = props;
 
-  const ranking_in_columns = map(ranks, r => {
+  const ranking_in_columns = map(ranks, (r) => {
     return (
       <Grid item key={r.category} xs={1}>
         <StockRankingGridColumn

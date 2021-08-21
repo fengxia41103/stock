@@ -10,13 +10,13 @@ export default function RankChart(props) {
   const line_color = blueGrey[400];
 
   const max_score = Math.max(
-    ...map(ranks, r => {
+    ...map(ranks, (r) => {
       const val = !!!rank_val_name ? r.val : r[rank_val_name];
       return val;
     })
   );
 
-  const the_chart = map(ranks, r => {
+  const the_chart = map(ranks, (r) => {
     let val = !!!rank_val_name ? r.val : r[rank_val_name];
     if (!isInteger(val)) {
       val = val.toFixed(2);

@@ -7,7 +7,7 @@ import { Box, Typography } from "@material-ui/core";
 
 export default function SectorBalancesheetView() {
   const sector = useContext(SectorDetailContext);
-  const stock_ids = map(sector.stocks_detail, s => s.id).join(",");
+  const stock_ids = map(sector.stocks_detail, (s) => s.id).join(",");
   const [resource] = useState(`/balances?stock__in=${stock_ids}`);
   return (
     <>

@@ -58,7 +58,7 @@ class CandleStickChartWithFullStochasticsIndicator extends React.Component {
       .merge((d, c) => {
         d.ema20 = c;
       })
-      .accessor(d => d.ema20);
+      .accessor((d) => d.ema20);
 
     const ema50 = ema()
       .id(2)
@@ -66,34 +66,33 @@ class CandleStickChartWithFullStochasticsIndicator extends React.Component {
       .merge((d, c) => {
         d.ema50 = c;
       })
-      .accessor(d => d.ema50);
+      .accessor((d) => d.ema50);
 
     const slowSTO = stochasticOscillator()
       .options({ windowSize: 14, kWindowSize: 3 })
       .merge((d, c) => {
         d.slowSTO = c;
       })
-      .accessor(d => d.slowSTO);
+      .accessor((d) => d.slowSTO);
     const fastSTO = stochasticOscillator()
       .options({ windowSize: 14, kWindowSize: 1 })
       .merge((d, c) => {
         d.fastSTO = c;
       })
-      .accessor(d => d.fastSTO);
+      .accessor((d) => d.fastSTO);
     const fullSTO = stochasticOscillator()
       .options({ windowSize: 14, kWindowSize: 3, dWindowSize: 4 })
       .merge((d, c) => {
         d.fullSTO = c;
       })
-      .accessor(d => d.fullSTO);
+      .accessor((d) => d.fullSTO);
 
     const calculatedData = ema20(ema50(slowSTO(fastSTO(fullSTO(initialData)))));
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
-      d => d.date
+      (d) => d.date
     );
-    const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(
-      calculatedData
-    );
+    const { data, xScale, xAccessor, displayXAccessor } =
+      xScaleProvider(calculatedData);
 
     const start = xAccessor(last(data));
     const end = xAccessor(data[Math.max(0, data.length - 150)]);
@@ -115,7 +114,7 @@ class CandleStickChartWithFullStochasticsIndicator extends React.Component {
         <Chart
           id={1}
           height={325}
-          yExtents={d => [d.high, d.low]}
+          yExtents={(d) => [d.high, d.low]}
           padding={{ top: 10, bottom: 20 }}
         >
           <YAxis axisAt="right" orient="right" ticks={5} {...yGrid} />
@@ -145,8 +144,8 @@ class CandleStickChartWithFullStochasticsIndicator extends React.Component {
             itemType="last"
             orient="right"
             edgeAt="right"
-            yAccessor={d => d.close}
-            fill={d => (d.close > d.open ? "#6BA583" : "#FF0000")}
+            yAccessor={(d) => d.close}
+            fill={(d) => (d.close > d.open ? "#6BA583" : "#FF0000")}
           />
           <StraightLine type="vertical" xValue={608} />;
           <StraightLine type="vertical" xValue={558} strokeDasharray="Dot" />;
@@ -158,7 +157,7 @@ class CandleStickChartWithFullStochasticsIndicator extends React.Component {
           ;
           <OHLCTooltip origin={[-40, -10]} />
           <MovingAverageTooltip
-            onClick={e => console.log(e)}
+            onClick={(e) => console.log(e)}
             origin={[-38, 5]}
             options={[
               {
@@ -178,7 +177,7 @@ class CandleStickChartWithFullStochasticsIndicator extends React.Component {
         </Chart>
         <Chart
           id={2}
-          yExtents={d => d.volume}
+          yExtents={(d) => d.volume}
           height={100}
           origin={(w, h) => [0, h - 475]}
         >
@@ -196,8 +195,8 @@ class CandleStickChartWithFullStochasticsIndicator extends React.Component {
           />
 
           <BarSeries
-            yAccessor={d => d.volume}
-            fill={d => (d.close > d.open ? "#6BA583" : "#FF0000")}
+            yAccessor={(d) => d.volume}
+            fill={(d) => (d.close > d.open ? "#6BA583" : "#FF0000")}
           />
         </Chart>
         <Chart
@@ -220,10 +219,10 @@ class CandleStickChartWithFullStochasticsIndicator extends React.Component {
             displayFormat={format(".2f")}
           />
 
-          <StochasticSeries yAccessor={d => d.fastSTO} {...stoAppearance} />
+          <StochasticSeries yAccessor={(d) => d.fastSTO} {...stoAppearance} />
           <StochasticTooltip
             origin={[-38, 15]}
-            yAccessor={d => d.slowSTO}
+            yAccessor={(d) => d.slowSTO}
             options={slowSTO.options()}
             appearance={stoAppearance}
             label="Slow STO"
@@ -250,11 +249,11 @@ class CandleStickChartWithFullStochasticsIndicator extends React.Component {
             displayFormat={format(".2f")}
           />
 
-          <StochasticSeries yAccessor={d => d.slowSTO} {...stoAppearance} />
+          <StochasticSeries yAccessor={(d) => d.slowSTO} {...stoAppearance} />
 
           <StochasticTooltip
             origin={[-38, 15]}
-            yAccessor={d => d.fastSTO}
+            yAccessor={(d) => d.fastSTO}
             options={fastSTO.options()}
             appearance={stoAppearance}
             label="Fast STO"
@@ -280,11 +279,11 @@ class CandleStickChartWithFullStochasticsIndicator extends React.Component {
             orient="right"
             displayFormat={format(".2f")}
           />
-          <StochasticSeries yAccessor={d => d.fullSTO} {...stoAppearance} />
+          <StochasticSeries yAccessor={(d) => d.fullSTO} {...stoAppearance} />
 
           <StochasticTooltip
             origin={[-38, 15]}
-            yAccessor={d => d.fullSTO}
+            yAccessor={(d) => d.fullSTO}
             options={fullSTO.options()}
             appearance={stoAppearance}
             label="Full STO"

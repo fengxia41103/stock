@@ -1,28 +1,21 @@
-import React, { useContext } from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Grid,
-} from "@material-ui/core";
+import React from "react";
+import { Card, CardContent, CardHeader, Grid } from "@material-ui/core";
 import Fetch from "src/components/common/Fetch";
 import { map, groupBy } from "lodash";
-import GlobalContext from "src/context";
 import MultilineChart from "src/components/common/MultilineChart";
 import PropTypes from "prop-types";
 
 export default function SectorStatementComparisonCharts(props) {
-  const { api } = useContext(GlobalContext);
   const { resource } = props;
 
   const to_ignore_list = ["on", "id", "symbol", "resource_uri", "stock"];
 
-  const render_data = resp => {
+  const render_data = (resp) => {
     const data = resp.objects;
     let attrs = Object.keys(data[0]);
     attrs.sort();
 
-    const group_by_symbol = groupBy(data, d => d.symbol);
+    const group_by_symbol = groupBy(data, (d) => d.symbol);
     const chart_data = map(group_by_symbol, (vals, symbol) => {
       return {
         symbol: symbol,
@@ -30,14 +23,11 @@ export default function SectorStatementComparisonCharts(props) {
       };
     });
 
-    const cards = map(attrs, a => {
+    const cards = map(attrs, (a) => {
       // these two have no meaning in this context
       if (to_ignore_list.includes(a)) return null;
 
-      const title = a
-        .split("_")
-        .join(" ")
-        .toUpperCase();
+      const title = a.split("_").join(" ").toUpperCase();
       return (
         <Grid item key={a} lg={4} sm={6} xs={12}>
           <Card>
@@ -63,7 +53,7 @@ export default function SectorStatementComparisonCharts(props) {
     );
   };
 
-  return <Fetch {...{ api, resource, render_data }} />;
+  return <Fetch {...{ resource, render_data }} />;
 }
 
 SectorStatementComparisonCharts.propTypes = {

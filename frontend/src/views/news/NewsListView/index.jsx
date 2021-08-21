@@ -25,11 +25,11 @@ export default function NewsListView() {
 
   const [searching, setSearching] = useState("");
 
-  const search_change = event => {
+  const search_change = (event) => {
     setSearching(event.target.value.trim().toUpperCase());
   };
 
-  const news = map(TOPICS, t => {
+  const news = map(TOPICS, (t) => {
     return (
       <Grid key={t} item lg={4} sm={6} xs={12}>
         <ListNewsCard topic={t} searching={searching} />

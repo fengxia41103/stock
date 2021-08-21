@@ -1,14 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Typography } from "@material-ui/core";
-import GlobalContext from "src/context";
 import FinancialCard from "src/components/stock/FinancialCard";
 import Fetch from "src/components/common/Fetch";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 
 function BalanceView() {
   const { id } = useParams();
-  const { api } = useContext(GlobalContext);
   const stock = useContext(StockDetailContext);
   const [resource] = useState(`/balances?stock=${id}`);
 
@@ -53,7 +51,7 @@ function BalanceView() {
     net_ppe_growth_rate: "Net PP&E",
   };
 
-  const render_data = resp => {
+  const render_data = (resp) => {
     const data = resp.objects;
 
     return (
@@ -63,7 +61,7 @@ function BalanceView() {
       </>
     );
   };
-  return <Fetch {...{ api, resource, render_data }} />;
+  return <Fetch {...{ resource, render_data }} />;
 }
 
 export default BalanceView;

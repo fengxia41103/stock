@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 
 import {
   Card,
@@ -9,14 +9,12 @@ import {
 } from "@material-ui/core";
 import { map } from "lodash";
 import Fetch from "src/components/common/Fetch";
-import GlobalContext from "src/context";
 import PropTypes from "prop-types";
 import { stocks_daily_ranking } from "src/utils/stock/ranking";
 import DailyRankingBarRaceChart from "src/components/dashboard/DailyRankingBarRaceChart";
 import { get_highlights } from "src/utils/helper.jsx";
 
 export default function SectorPriceTrending(props) {
-  const { api } = useContext(GlobalContext);
   const INTERESTS = [
     { name: "Gainer/Loser", val: "gain" },
     { name: "Volume", val: "vol_over_share_outstanding" },
@@ -31,11 +29,11 @@ export default function SectorPriceTrending(props) {
     )}&on__range=${start},${end}&order_by=-on`
   );
 
-  const render_data = data => {
+  const render_data = (data) => {
     let stocks = data.objects;
 
     // all symbols are color-coded
-    let symbols = [...new Set(map(stocks, s => s.symbol))];
+    let symbols = [...new Set(map(stocks, (s) => s.symbol))];
 
     let highlights = [];
     if (symbols.length !== highlights.length) {
@@ -43,7 +41,7 @@ export default function SectorPriceTrending(props) {
       highlights = get_highlights(symbols);
     }
 
-    const trendings = map(INTERESTS, i => {
+    const trendings = map(INTERESTS, (i) => {
       const title = i.name;
       const order_by = i.val;
 
@@ -76,7 +74,7 @@ export default function SectorPriceTrending(props) {
     );
   };
 
-  return <Fetch {...{ api, resource, render_data }} />;
+  return <Fetch {...{ resource, render_data }} />;
 }
 
 SectorPriceTrending.propTypes = {

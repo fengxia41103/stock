@@ -6,18 +6,18 @@ import { randomId } from "src/utils/helper.jsx";
 
 export default function SectorRoeColumnChart() {
   const sector = useContext(SectorDetailContext);
-  const sorted_stocks = sortBy(sector.stocks_detail, d => d.roe);
+  const sorted_stocks = sortBy(sector.stocks_detail, (d) => d.roe);
 
   const containerId = randomId();
-  const categories = map(sorted_stocks, d => d.symbol);
+  const categories = map(sorted_stocks, (d) => d.symbol);
   const chart_data = [
     {
       name: "Reported ROE",
-      data: map(sorted_stocks, d => d.roe),
+      data: map(sorted_stocks, (d) => d.roe),
     },
     {
       name: "Dupont ROE",
-      data: map(sorted_stocks, d => d.dupont_roe),
+      data: map(sorted_stocks, (d) => d.dupont_roe),
     },
   ];
 

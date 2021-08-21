@@ -34,17 +34,16 @@ class CandleStickChartWithSAR extends React.Component {
       .merge((d, c) => {
         d.sar = c;
       })
-      .accessor(d => d.sar);
+      .accessor((d) => d.sar);
 
     const { type, data: initialData, width, ratio } = this.props;
 
     const calculatedData = defaultSar(initialData);
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
-      d => d.date
+      (d) => d.date
     );
-    const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(
-      calculatedData
-    );
+    const { data, xScale, xAccessor, displayXAccessor } =
+      xScaleProvider(calculatedData);
 
     const start = xAccessor(last(data));
 
@@ -67,7 +66,7 @@ class CandleStickChartWithSAR extends React.Component {
       >
         <Chart
           id={1}
-          yExtents={[d => [d.high, d.low, d.sar]]}
+          yExtents={[(d) => [d.high, d.low, d.sar]]}
           padding={{ top: 10, bottom: 10 }}
         >
           <XAxis axisAt="bottom" orient="bottom" />
@@ -79,11 +78,11 @@ class CandleStickChartWithSAR extends React.Component {
             itemType="last"
             orient="right"
             edgeAt="right"
-            yAccessor={d => d.close}
-            fill={d => (d.close > d.open ? "#6BA583" : "#FF0000")}
+            yAccessor={(d) => d.close}
+            fill={(d) => (d.close > d.open ? "#6BA583" : "#FF0000")}
           />
 
-          <SARSeries yAccessor={d => d.sar} />
+          <SARSeries yAccessor={(d) => d.sar} />
 
           <MouseCoordinateX
             at="bottom"
@@ -99,7 +98,7 @@ class CandleStickChartWithSAR extends React.Component {
           <OHLCTooltip origin={[-40, 0]} />
           <SingleValueTooltip
             yLabel={`SAR (${accelerationFactor}, ${maxAccelerationFactor})`}
-            yAccessor={d => d.sar}
+            yAccessor={(d) => d.sar}
             origin={[-40, 20]}
           />
         </Chart>

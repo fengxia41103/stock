@@ -42,7 +42,7 @@ export default function SectorRoeView() {
     },
   ];
 
-  const roe_breakdown_charts = map(breakdowns, i => {
+  const roe_breakdown_charts = map(breakdowns, (i) => {
     return (
       <Grid item key={i.header} lg={4} sm={6} xs={12}>
         <Card>

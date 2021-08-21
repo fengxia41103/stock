@@ -22,7 +22,7 @@ import ColoredNumber from "src/components/common/ColoredNumber";
 import StockSymbol from "src/components/stock/StockSymbol";
 import ErrorIcon from "@material-ui/icons/Error";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -62,7 +62,7 @@ export default function ListStockCard(props) {
     menu_content = <List>{action_menu_content_list}</List>;
   }
 
-  const links = map(stocks, s => {
+  const links = map(stocks, (s) => {
     return (
       <ListItem key={s.id} divider={true}>
         <Grid container spacing={1} alignItems="center">

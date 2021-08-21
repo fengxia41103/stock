@@ -41,15 +41,15 @@ export default function HighchartGraphBox(props) {
     };
   });
 
-  const _normalize = data => {
+  const _normalize = (data) => {
     // Some may have 0s or all 0s.
-    const tmp = filter(data, d => d !== 0 && d !== "n/a");
+    const tmp = filter(data, (d) => d !== 0 && d !== "n/a");
 
     // if all 0s
     if (tmp.length === 0) return data;
 
     const base = tmp[0];
-    const normalized = map(data, d => {
+    const normalized = map(data, (d) => {
       if (d === 0) return 0;
       if (d === base) return 1;
 
@@ -65,7 +65,7 @@ export default function HighchartGraphBox(props) {
     return normalized;
   };
 
-  const _fit_zero = data => {
+  const _fit_zero = (data) => {
     let tmp = [...data];
     let prev_non_zero = 0;
     for (let i = 0; i < tmp.length; i++) {
@@ -98,7 +98,7 @@ export default function HighchartGraphBox(props) {
     // chart data can be normalized for comparison purpose
     let chart_data = data;
     if (!!normalize) {
-      chart_data = map(chart_data, d => {
+      chart_data = map(chart_data, (d) => {
         let tmp = d;
         tmp.data = _fit_zero(_normalize(d.data));
         return tmp;

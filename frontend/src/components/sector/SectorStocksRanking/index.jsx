@@ -11,10 +11,10 @@ export default function SectorStocksRanking(props) {
   const [highlights, setHighlights] = useState({});
 
   useEffect(() => {
-    let ids = map(sector.stocks_detail, s => s.id).join(",");
+    let ids = map(sector.stocks_detail, (s) => s.id).join(",");
     setStockIds(ids);
 
-    setHighlights(get_highlights(map(sector.stocks_detail, s => s.symbol)));
+    setHighlights(get_highlights(map(sector.stocks_detail, (s) => s.symbol)));
   }, [sector]);
 
   return (

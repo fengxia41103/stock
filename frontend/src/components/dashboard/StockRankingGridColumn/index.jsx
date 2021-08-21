@@ -5,7 +5,7 @@ import HighlightedText from "src/components/common/HighlightedText";
 import clsx from "clsx";
 import { map } from "lodash";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   category: {
     color: "#D52349",
   },
@@ -15,7 +15,7 @@ export default function StockRankingGridColumn(props) {
   const { category, stocks, order_by, highlights } = props;
   const classes = useStyles();
 
-  const ranks = map(stocks, p => {
+  const ranks = map(stocks, (p) => {
     const val = p[order_by];
     return (
       <Grid item key={p.stock_id} xs>

@@ -1,13 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Box, Container } from "@material-ui/core";
 import ListDiary from "src/components/diary/ListDiary";
 import Page from "src/components/common/Page";
 import DiaryListContext from "./context.jsx";
 import Fetch from "src/components/common/Fetch";
-import GlobalContext from "src/context";
 
 export default function DiaryListView() {
-  const { api } = useContext(GlobalContext);
   const [resource] = useState("/stocks");
 
   const render_data = (data) => {
@@ -24,5 +22,5 @@ export default function DiaryListView() {
     );
   };
 
-  return <Fetch {...{ api, resource, render_data }} />;
+  return <Fetch {...{ resource, render_data }} />;
 }

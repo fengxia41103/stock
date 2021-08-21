@@ -28,7 +28,7 @@ export default function StockLinkToSector(props) {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const open_sector_list = event => {
+  const open_sector_list = (event) => {
     setAnchorEl(event.currentTarget);
     setOpen(true);
   };
@@ -61,7 +61,7 @@ export default function StockLinkToSector(props) {
           msg = `I am now part of sector "${s.name}"`;
         } else {
           // remove
-          remove(tmp, k => k.includes(resource_uri));
+          remove(tmp, (k) => k.includes(resource_uri));
           msg = `I have been removed from sector "${s.name}"`;
         }
 
@@ -82,21 +82,21 @@ export default function StockLinkToSector(props) {
     }
   };
 
-  const render_data = data => {
+  const render_data = (data) => {
     const sectors = data.objects;
-    let mapped_sectors = map(sectors, s => {
+    let mapped_sectors = map(sectors, (s) => {
       // add checked bool
-      return { ...s, checked: s.stocks.some(i => i.includes(resource_uri)) };
+      return { ...s, checked: s.stocks.some((i) => i.includes(resource_uri)) };
     });
 
-    const selections = map(mapped_sectors, s => {
+    const selections = map(mapped_sectors, (s) => {
       return (
         <Grid item key={s.id} lg={2} sm={3} xs={4}>
           <FormControlLabel
             control={
               <Checkbox
                 checked={s.checked}
-                onChange={e => handle_update(sectors, e)}
+                onChange={(e) => handle_update(sectors, e)}
                 name={s.name}
               />
             }

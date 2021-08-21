@@ -58,7 +58,7 @@ class CandleStickChartWithMACDIndicator extends React.Component {
       .merge((d, c) => {
         d.ema26 = c;
       })
-      .accessor(d => d.ema26);
+      .accessor((d) => d.ema26);
 
     const ema12 = ema()
       .id(1)
@@ -66,7 +66,7 @@ class CandleStickChartWithMACDIndicator extends React.Component {
       .merge((d, c) => {
         d.ema12 = c;
       })
-      .accessor(d => d.ema12);
+      .accessor((d) => d.ema12);
 
     const macdCalculator = macd()
       .options({
@@ -77,7 +77,7 @@ class CandleStickChartWithMACDIndicator extends React.Component {
       .merge((d, c) => {
         d.macd = c;
       })
-      .accessor(d => d.macd);
+      .accessor((d) => d.macd);
 
     const smaVolume50 = sma()
       .id(3)
@@ -88,17 +88,16 @@ class CandleStickChartWithMACDIndicator extends React.Component {
       .merge((d, c) => {
         d.smaVolume50 = c;
       })
-      .accessor(d => d.smaVolume50);
+      .accessor((d) => d.smaVolume50);
 
     const calculatedData = smaVolume50(
       macdCalculator(ema12(ema26(initialData)))
     );
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
-      d => d.date
+      (d) => d.date
     );
-    const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(
-      calculatedData
-    );
+    const { data, xScale, xAccessor, displayXAccessor } =
+      xScaleProvider(calculatedData);
 
     return (
       <ChartCanvas
@@ -116,7 +115,11 @@ class CandleStickChartWithMACDIndicator extends React.Component {
         <Chart
           id={1}
           height={400}
-          yExtents={[d => [d.high, d.low], ema26.accessor(), ema12.accessor()]}
+          yExtents={[
+            (d) => [d.high, d.low],
+            ema26.accessor(),
+            ema12.accessor(),
+          ]}
           padding={{ top: 10, bottom: 20 }}
         >
           <XAxis
@@ -151,10 +154,10 @@ class CandleStickChartWithMACDIndicator extends React.Component {
             itemType="last"
             orient="right"
             edgeAt="right"
-            yAccessor={d => d.close}
-            fill={d => (d.close > d.open ? "#A2F5BF" : "#F9ACAA")}
-            stroke={d => (d.close > d.open ? "#0B4228" : "#6A1B19")}
-            textFill={d => (d.close > d.open ? "#0B4228" : "#420806")}
+            yAccessor={(d) => d.close}
+            fill={(d) => (d.close > d.open ? "#A2F5BF" : "#F9ACAA")}
+            stroke={(d) => (d.close > d.open ? "#0B4228" : "#6A1B19")}
+            textFill={(d) => (d.close > d.open ? "#0B4228" : "#420806")}
             strokeOpacity={1}
             strokeWidth={3}
             arrowWidth={2}
@@ -162,7 +165,7 @@ class CandleStickChartWithMACDIndicator extends React.Component {
 
           <OHLCTooltip origin={[-40, 0]} />
           <MovingAverageTooltip
-            onClick={e => console.log(e)}
+            onClick={(e) => console.log(e)}
             origin={[-38, 15]}
             options={[
               {
@@ -183,7 +186,7 @@ class CandleStickChartWithMACDIndicator extends React.Component {
         <Chart
           id={2}
           height={150}
-          yExtents={[d => d.volume, smaVolume50.accessor()]}
+          yExtents={[(d) => d.volume, smaVolume50.accessor()]}
           origin={(w, h) => [0, h - 300]}
         >
           <YAxis
@@ -201,8 +204,8 @@ class CandleStickChartWithMACDIndicator extends React.Component {
           />
 
           <BarSeries
-            yAccessor={d => d.volume}
-            fill={d => (d.close > d.open ? "#6BA583" : "#FF0000")}
+            yAccessor={(d) => d.volume}
+            fill={(d) => (d.close > d.open ? "#6BA583" : "#FF0000")}
           />
           <AreaSeries
             yAccessor={smaVolume50.accessor()}
@@ -234,10 +237,10 @@ class CandleStickChartWithMACDIndicator extends React.Component {
             {...mouseEdgeAppearance}
           />
 
-          <MACDSeries yAccessor={d => d.macd} {...macdAppearance} />
+          <MACDSeries yAccessor={(d) => d.macd} {...macdAppearance} />
           <MACDTooltip
             origin={[-38, 15]}
-            yAccessor={d => d.macd}
+            yAccessor={(d) => d.macd}
             options={macdCalculator.options()}
             appearance={macdAppearance}
           />

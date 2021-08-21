@@ -24,11 +24,11 @@ export default function LogoutIcon() {
         Authorization: `ApiKey ${user}:${api_key}`,
       },
     };
-    return fetch(uri, options).then(response => response.json());
+    return fetch(uri, options).then((response) => response.json());
   };
 
   // call login handler
-  const on_logout = async e => {
+  const on_logout = async (e) => {
     e.preventDefault();
     const resp = await logout();
 

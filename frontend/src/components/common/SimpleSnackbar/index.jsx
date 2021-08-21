@@ -15,7 +15,7 @@ export default function SimpleSnackbar(props) {
   // guard against null msg
   if (!!!msg) return null;
 
-  const handleClose = event => setOpen(false);
+  const handleClose = (event) => setOpen(false);
 
   return (
     <Snackbar

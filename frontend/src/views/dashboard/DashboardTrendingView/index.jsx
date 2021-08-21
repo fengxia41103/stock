@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Fetch from "src/components/common/Fetch";
 import {
   Box,
@@ -19,7 +19,6 @@ import {
   Switch,
 } from "@material-ui/core";
 import Page from "src/components/common/Page";
-import GlobalContext from "src/context";
 import { map } from "lodash";
 import moment from "moment";
 import RankingScores from "src/components/dashboard/RankingScores";
@@ -33,7 +32,6 @@ import { stocks_daily_ranking } from "src/utils/stock/ranking";
 export default function DashboardTrendingView() {
   const DATE_FORMAT = "YYYY-MM-DD";
   const TOP = 10;
-  const { api } = useContext(GlobalContext);
   const [resource, setResource] = useState("");
   const [today, setToday] = useState(moment());
   const [start, setStart] = useState();
@@ -60,7 +58,7 @@ export default function DashboardTrendingView() {
     update_data(today);
   });
 
-  const today_change = event => {
+  const today_change = (event) => {
     const now = moment(event.target.value, DATE_FORMAT);
 
     // update state
@@ -75,7 +73,7 @@ export default function DashboardTrendingView() {
     update_data();
   };
 
-  const follow_change = event => {
+  const follow_change = (event) => {
     setFollow(event.target.value);
   };
 
@@ -139,11 +137,11 @@ export default function DashboardTrendingView() {
       break;
   }
 
-  const render_data = data => {
+  const render_data = (data) => {
     let stocks = data.objects;
 
     // all symbols are color-coded
-    symbols = [...new Set(map(stocks, s => s.symbol))];
+    symbols = [...new Set(map(stocks, (s) => s.symbol))];
     if (symbols.length !== highlights.length) {
       // only recompute highlight color if list length is different
       highlights = get_highlights(symbols);
@@ -269,5 +267,5 @@ export default function DashboardTrendingView() {
     );
   };
 
-  return <Fetch {...{ api, resource, render_data }} />;
+  return <Fetch {...{ resource, render_data }} />;
 }

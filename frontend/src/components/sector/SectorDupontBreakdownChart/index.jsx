@@ -10,8 +10,8 @@ export default function SectorDupontBreakdownChart() {
   const sector = useContext(SectorDetailContext);
 
   const containerId = randomId();
-  const chart_data = map(sector.stocks_detail, s => {
-    const data = map(s.dupont_model, d => {
+  const chart_data = map(sector.stocks_detail, (s) => {
+    const data = map(s.dupont_model, (d) => {
       return {
         name: d.on,
         x: d.net_profit_margin,

@@ -15,7 +15,7 @@ import { FormControlLabel, Checkbox, Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
 
 export default function AddStocksToSectorDialog(props) {
-  const { host, api } = useContext(GlobalContext);
+  const { host } = useContext(GlobalContext);
   const [resource] = useState("/sectors");
   const { stocks } = props;
   const [open, setOpen] = useState(false);
@@ -135,7 +135,7 @@ export default function AddStocksToSectorDialog(props) {
     );
   };
 
-  return <Fetch {...{ api, resource, render_data }} />;
+  return <Fetch {...{ resource, render_data }} />;
 }
 
 AddStocksToSectorDialog.propTypes = {

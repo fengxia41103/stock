@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 export default function SectorDupontLineChart(props) {
   const { property } = props;
   const sector = useContext(SectorDetailContext);
-  const chart_data = map(sector.stocks_detail, d => {
+  const chart_data = map(sector.stocks_detail, (d) => {
     return {
       symbol: d.symbol,
       data: d.dupont_model,

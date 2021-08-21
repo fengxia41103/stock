@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import GlobalContext from "src/context";
+import React, { useState } from "react";
 import { Grid, Divider } from "@material-ui/core";
 import PropTypes from "prop-types";
 import Fetch from "src/components/common/Fetch";
@@ -7,14 +6,14 @@ import ColoredNumber from "src/components/common/ColoredNumber";
 
 export default function StockTagPriceLabel(props) {
   const { diary, stock } = props;
-  const { api } = useContext(GlobalContext);
+
   const [start] = useState(new Date(diary.created).toLocaleDateString("en-CA"));
   const [end] = useState(new Date().toLocaleDateString("en-CA"));
   const [resource] = useState(
     `/historicals?stock=${stock.id}&on__range=${start},${end}`
   );
 
-  const render_data = data => {
+  const render_data = (data) => {
     const prices = data.objects;
     let price_then = 0,
       price_now = 0;
@@ -46,7 +45,7 @@ export default function StockTagPriceLabel(props) {
       </Grid>
     );
   };
-  return <Fetch {...{ api, resource, render_data, silent: true }} />;
+  return <Fetch {...{ resource, render_data, silent: true }} />;
 }
 
 StockTagPriceLabel.propTypes = {

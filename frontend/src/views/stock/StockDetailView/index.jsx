@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useParams } from "react-router-dom";
-import GlobalContext from "src/context";
 import { Container, Box, Grid } from "@material-ui/core";
 import Page from "src/components/common/Page";
 import MenuBar from "src/components/common/MenuBar";
@@ -101,7 +100,6 @@ const valuation_menus = [
 ];
 
 function StockDetailView() {
-  const { api } = useContext(GlobalContext);
   const { id } = useParams();
   const [resource] = useState(`/stocks/${id}`);
 
@@ -177,7 +175,7 @@ function StockDetailView() {
   }
 
   // render as usual to get data
-  return <Fetch {...{ api, resource, render_data, mounted }} />;
+  return <Fetch {...{ resource, render_data, mounted }} />;
 }
 
 export default StockDetailView;

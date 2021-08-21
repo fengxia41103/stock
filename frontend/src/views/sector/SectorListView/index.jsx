@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { map, filter } from "lodash";
 import Fetch from "src/components/common/Fetch";
 import {
@@ -10,12 +10,10 @@ import {
   CardContent,
 } from "@material-ui/core";
 import Page from "src/components/common/Page";
-import GlobalContext from "src/context";
 import AddNewSectorDialog from "src/components/sector/AddNewSectorDialog";
 import ListSectorCard from "src/components/sector/ListSectorCard";
 
 export default function SectorListView(props) {
-  const { api } = useContext(GlobalContext);
   const [resource] = useState("/sectors");
   const [searching, setSearching] = useState("");
 
@@ -67,5 +65,5 @@ export default function SectorListView(props) {
     );
   };
 
-  return <Fetch {...{ api, resource, render_data }} />;
+  return <Fetch {...{ resource, render_data }} />;
 }

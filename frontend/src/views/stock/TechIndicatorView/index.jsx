@@ -26,7 +26,7 @@ export default function TechIndicatorView() {
 
   // TODO: backend data point naming is different from what these
   // charts want. So need to do a mapping here.
-  const chart_data = map(data, d => {
+  const chart_data = map(data, (d) => {
     return {
       date: parseDate(d.on),
       open: d.open_price,

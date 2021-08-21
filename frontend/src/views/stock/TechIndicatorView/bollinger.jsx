@@ -49,7 +49,7 @@ class CandleStickChartWithBollingerBandOverlay extends React.Component {
       .merge((d, c) => {
         d.ema20 = c;
       }) // Required, if not provided, log a error
-      .accessor(d => d.ema20) // Required, if not provided, log an error during calculation
+      .accessor((d) => d.ema20) // Required, if not provided, log an error during calculation
       .stroke("blue"); // Optional
 
     const sma20 = sma()
@@ -57,21 +57,21 @@ class CandleStickChartWithBollingerBandOverlay extends React.Component {
       .merge((d, c) => {
         d.sma20 = c;
       })
-      .accessor(d => d.sma20);
+      .accessor((d) => d.sma20);
 
     const ema50 = ema()
       .options({ windowSize: 50 })
       .merge((d, c) => {
         d.ema50 = c;
       })
-      .accessor(d => d.ema50);
+      .accessor((d) => d.ema50);
 
     const smaVolume50 = sma()
       .options({ windowSize: 20, sourcePath: "volume" })
       .merge((d, c) => {
         d.smaVolume50 = c;
       })
-      .accessor(d => d.smaVolume50)
+      .accessor((d) => d.smaVolume50)
       .stroke("#4682B4")
       .fill("#4682B4");
 
@@ -79,17 +79,16 @@ class CandleStickChartWithBollingerBandOverlay extends React.Component {
       .merge((d, c) => {
         d.bb = c;
       })
-      .accessor(d => d.bb);
+      .accessor((d) => d.bb);
 
     const { type, data: initialData, width, ratio } = this.props;
 
     const calculatedData = ema20(sma20(ema50(smaVolume50(bb(initialData)))));
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
-      d => d.date
+      (d) => d.date
     );
-    const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(
-      calculatedData
-    );
+    const { data, xScale, xAccessor, displayXAccessor } =
+      xScaleProvider(calculatedData);
 
     const start = xAccessor(last(data));
     const end = xAccessor(data[Math.max(0, data.length - 150)]);
@@ -112,7 +111,7 @@ class CandleStickChartWithBollingerBandOverlay extends React.Component {
         <Chart
           id={1}
           yExtents={[
-            d => [d.high, d.low],
+            (d) => [d.high, d.low],
             sma20.accessor(),
             ema20.accessor(),
             ema50.accessor(),
@@ -149,7 +148,7 @@ class CandleStickChartWithBollingerBandOverlay extends React.Component {
 
           <CandlestickSeries />
           <BollingerSeries
-            yAccessor={d => d.bb}
+            yAccessor={(d) => d.bb}
             stroke={bbStroke}
             fill={bbFill}
           />
@@ -173,7 +172,7 @@ class CandleStickChartWithBollingerBandOverlay extends React.Component {
           <OHLCTooltip origin={[-40, 0]} />
 
           <MovingAverageTooltip
-            onClick={e => console.log(e)}
+            onClick={(e) => console.log(e)}
             origin={[-38, 15]}
             options={[
               {
@@ -198,13 +197,13 @@ class CandleStickChartWithBollingerBandOverlay extends React.Component {
           />
           <BollingerBandTooltip
             origin={[-38, 60]}
-            yAccessor={d => d.bb}
+            yAccessor={(d) => d.bb}
             options={bb.options()}
           />
         </Chart>
         <Chart
           id={2}
-          yExtents={[d => d.volume, smaVolume50.accessor()]}
+          yExtents={[(d) => d.volume, smaVolume50.accessor()]}
           height={150}
           origin={(w, h) => [0, h - 150]}
         >
@@ -222,8 +221,8 @@ class CandleStickChartWithBollingerBandOverlay extends React.Component {
           />
 
           <BarSeries
-            yAccessor={d => d.volume}
-            fill={d => (d.close > d.open ? "#6BA583" : "#FF0000")}
+            yAccessor={(d) => d.volume}
+            fill={(d) => (d.close > d.open ? "#6BA583" : "#FF0000")}
           />
           <AreaSeries
             yAccessor={smaVolume50.accessor()}
@@ -234,7 +233,7 @@ class CandleStickChartWithBollingerBandOverlay extends React.Component {
             yAccessor={smaVolume50.accessor()}
             fill={smaVolume50.stroke()}
           />
-          <CurrentCoordinate yAccessor={d => d.volume} fill="#9B0A47" />
+          <CurrentCoordinate yAccessor={(d) => d.volume} fill="#9B0A47" />
         </Chart>
         <CrossHairCursor />
       </ChartCanvas>

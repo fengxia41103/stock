@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { map, filter } from "lodash";
 import Fetch from "src/components/common/Fetch";
 import StockRankingRow from "src/components/stock/StockRankingRow";
-import GlobalContext from "src/context";
 import PropTypes from "prop-types";
 import {
   Card,
@@ -14,11 +13,10 @@ import {
 } from "@material-ui/core";
 
 export default function StockRanking(props) {
-  const { api } = useContext(GlobalContext);
   const { title, resource, top, thresholds } = props;
 
-  const render_data = data => {
-    const rows = map(data.objects, d => {
+  const render_data = (data) => {
+    const rows = map(data.objects, (d) => {
       let stats = d.stats;
       let threshold = null;
 
@@ -34,7 +32,7 @@ export default function StockRanking(props) {
         const threshold_value = parseFloat(tmp[1]);
 
         // filter stats based on threhold value
-        stats = filter(stats, s => {
+        stats = filter(stats, (s) => {
           if (sign === ">") {
             return s.val >= threshold_value;
           } else {
@@ -76,7 +74,7 @@ export default function StockRanking(props) {
       </Card>
     );
   };
-  return <Fetch {...{ api, resource, render_data }} />;
+  return <Fetch {...{ resource, render_data }} />;
 }
 
 StockRanking.propTypes = {

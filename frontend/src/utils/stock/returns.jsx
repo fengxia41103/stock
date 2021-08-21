@@ -3,7 +3,7 @@ import { jStat } from "jstat";
 
 // daily: today's open-2-today's close
 export function daily_returns(prices) {
-  return map(prices, h => {
+  return map(prices, (h) => {
     let value;
     if (h.open_price === 0) {
       value = 0;
@@ -18,7 +18,7 @@ export function daily_returns(prices) {
 }
 
 export function daily_return_stats(prices) {
-  const data = map(daily_returns(prices), d => d.val);
+  const data = map(daily_returns(prices), (d) => d.val);
   return compute_stats(data);
 }
 
@@ -43,7 +43,7 @@ export function overnight_returns(prices) {
 }
 
 export function overnight_return_stats(prices) {
-  const data = map(overnight_returns(prices), d => d.val);
+  const data = map(overnight_returns(prices), (d) => d.val);
   return compute_stats(data);
 }
 
@@ -68,15 +68,15 @@ export function twenty_four_hour_returns(prices) {
 }
 
 export function twenty_four_hour_stats(prices) {
-  const data = map(twenty_four_hour_returns(prices), d => d.val);
+  const data = map(twenty_four_hour_returns(prices), (d) => d.val);
   return compute_stats(data);
 }
 
 export function compute_stats(data) {
   // For strict statstics functions, I will use them directly. Here
   // are the ones by my wits.
-  const positives = filter(data, x => x > 0);
-  const negatives = filter(data, x => x < 0);
+  const positives = filter(data, (x) => x > 0);
+  const negatives = filter(data, (x) => x < 0);
 
   const positive_count = positives.length;
   const negative_count = negatives.length;
@@ -96,12 +96,12 @@ export function compute_stats(data) {
 
     // Compounded returns. If I trade on every single beat. This is a
     // single number.
-    product: (jStat.product(map(data, d => 1 + d / 100)) - 1) * 100,
+    product: (jStat.product(map(data, (d) => 1 + d / 100)) - 1) * 100,
 
     // Cumulative product, return an array, each represents the
     // product of all the data points before it. Thus, this is
     // like a time series.
-    cumproduct: jStat.cumprod(map(data, d => 1 + d / 100)),
+    cumproduct: jStat.cumprod(map(data, (d) => 1 + d / 100)),
 
     // if I guess 50-50, === median
     fifty_percentile: jStat.percentile(data, 0.5),

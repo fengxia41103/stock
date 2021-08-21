@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 export default function HighlightedText(props) {
   const [hide, setHide] = useState(true);
 
-  const handle_hide_toggle = event => setHide(!hide);
+  const handle_hide_toggle = (event) => setHide(!hide);
 
   const { highlights, text, val } = props;
 

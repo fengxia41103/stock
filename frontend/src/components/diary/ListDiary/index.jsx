@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import GlobalContext from "src/context";
+import React, { useState } from "react";
 import {
   Button,
   Box,
@@ -19,7 +18,6 @@ import DropdownMenu from "src/components/common/DropdownMenu";
 import PropTypes from "prop-types";
 
 export default function ListDiary(props) {
-  const { api } = useContext(GlobalContext);
   const { stock } = props;
 
   let resource_uri = "/diaries";
@@ -79,7 +77,7 @@ export default function ListDiary(props) {
   };
 
   // render as usual to get data
-  return <Fetch {...{ key: toRefresh, api, resource, render_data }} />;
+  return <Fetch {...{ key: toRefresh, resource, render_data }} />;
 }
 
 ListDiary.propTypes = {

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { map, filter, sortBy, groupBy } from "lodash";
 import Fetch from "src/components/common/Fetch";
 import {
@@ -17,34 +17,32 @@ import {
 } from "@material-ui/core";
 import Page from "src/components/common/Page";
 import ListStockCard from "src/components/stock/ListStockCard";
-import GlobalContext from "src/context";
 import { Poll } from "restful-react";
 import DropdownMenu from "src/components/common/DropdownMenu";
 import UpdateAllStock from "src/components/stock/UpdateAllStock";
 import AddStocksToSectorDialog from "src/components/sector/AddStocksToSectorDialog";
 
 function StockListView(props) {
-  const { api } = useContext(GlobalContext);
   const [resource] = useState("/stocks");
   const [searching, setSearching] = useState("");
   const [group_by, setGroupBy] = useState("last_reporting_date");
 
-  const symbol_filter_change = event => {
+  const symbol_filter_change = (event) => {
     const tmp = event.target.value.trim().toUpperCase();
     setSearching(tmp);
   };
 
-  const group_by_change = event => {
+  const group_by_change = (event) => {
     setGroupBy(event.target.value);
   };
 
-  const render_data = data => {
+  const render_data = (data) => {
     const stocks = data.objects;
     // filter based on search string
-    const filtered = filter(stocks, x => x.symbol.includes(searching));
+    const filtered = filter(stocks, (x) => x.symbol.includes(searching));
 
     // when select
-    const grouped = groupBy(filtered, v => {
+    const grouped = groupBy(filtered, (v) => {
       let g = null;
 
       switch (group_by) {
@@ -61,9 +59,9 @@ function StockListView(props) {
     });
 
     const sorted_keys = sortBy(Object.keys(grouped));
-    const selectors = map(sorted_keys, index => {
+    const selectors = map(sorted_keys, (index) => {
       const symbols = grouped[index];
-      const sorted = sortBy(symbols, s => s.symbol);
+      const sorted = sortBy(symbols, (s) => s.symbol);
 
       const actions = [<AddStocksToSectorDialog stocks={sorted} />];
       return (
@@ -135,16 +133,6 @@ function StockListView(props) {
     );
   };
 
-  return <Fetch {...{ api, resource, render_data }} />;
-  return (
-    <Poll
-      path={api + encodeURI(resource)}
-      resolve={data => data && data.objects}
-    >
-      {(data, { loading }) =>
-        loading ? <CircularProgress /> : render_data(data)
-      }
-    </Poll>
-  );
+  return <Fetch {...{ resource, render_data }} />;
 }
 export default StockListView;

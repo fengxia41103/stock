@@ -19,12 +19,12 @@ import ColoredNumber from "src/components/common/ColoredNumber";
 export default function PriceView() {
   const data = useContext(StockHistoricalContext);
 
-  const stocks = map(data, d => {
+  const stocks = map(data, (d) => {
     return { ...d, week: moment(d.on).week() };
   });
 
   // group data by week index
-  const group_by_week = groupBy(stocks, s => s.week);
+  const group_by_week = groupBy(stocks, (s) => s.week);
   const weekly_charts = reverse(
     map(group_by_week, (prices, week) => {
       const last = [...prices].pop();

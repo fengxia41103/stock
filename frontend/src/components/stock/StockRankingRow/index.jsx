@@ -23,15 +23,15 @@ export default function StockRankingRow(props) {
   const [start] = useState(get_last_month_string());
   const [end] = useState(get_today_string());
 
-  const handle_show_rank_graph = event => setShowRank(!show_rank_graph);
-  const handle_show_1m_graph = event => setShow1m(!show_1m_graph);
-  const handle_show_threshold = event => setShowThreshold(!show_threshold);
+  const handle_show_rank_graph = (event) => setShowRank(!show_rank_graph);
+  const handle_show_1m_graph = (event) => setShow1m(!show_1m_graph);
+  const handle_show_threshold = (event) => setShowThreshold(!show_threshold);
 
   const { category, ranks, threshold, handle_ratio_change } = props;
   const category_name = category.replace(/_/g, " ");
 
   // show rank values
-  const vals = map(ranks, r => (
+  const vals = map(ranks, (r) => (
     <Grid item key={r.symbol} lg={1} xs={2}>
       <Link href={`/stocks/${r.id}/historical/price`}>
         <HighlightedText text={r.symbol} val={r.val} {...props} />
@@ -54,8 +54,8 @@ export default function StockRankingRow(props) {
   }
 
   // stock ids
-  const stock_ids = map(ranks, r => r.id);
-  const added_stock_ids = map(ranks, r => {
+  const stock_ids = map(ranks, (r) => r.id);
+  const added_stock_ids = map(ranks, (r) => {
     return { stock_id: r.id, ...r };
   });
 

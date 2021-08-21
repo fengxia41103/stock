@@ -16,7 +16,7 @@ import { Face, Fingerprint } from "@material-ui/icons";
 import clsx from "clsx";
 import GlobalContext from "src/context";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   card: {
     marginTop: "37vh",
   },
@@ -38,8 +38,8 @@ export default function LoginView() {
   const [pwd, setPwd] = useState("");
   const [resource] = useState(`/auth/login/`);
 
-  const on_user_change = event => setUser(event.target.value);
-  const on_pwd_change = event => setPwd(event.target.value);
+  const on_user_change = (event) => setUser(event.target.value);
+  const on_pwd_change = (event) => setPwd(event.target.value);
 
   // call to login
   const login = () => {
@@ -53,11 +53,11 @@ export default function LoginView() {
       cache: "no-cache",
       body: JSON.stringify(credentials),
     };
-    return fetch(uri, options).then(response => response.json());
+    return fetch(uri, options).then((response) => response.json());
   };
 
   // call login handler
-  const on_submit = async e => {
+  const on_submit = async (e) => {
     e.preventDefault();
     const resp = await login({ user, pwd });
 

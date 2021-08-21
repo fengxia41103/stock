@@ -14,13 +14,13 @@ export default function MultilineChart(props) {
   if (!!!category_by) {
     categories = [];
   } else {
-    categories = map(data[0].data, d => d[category_by]);
+    categories = map(data[0].data, (d) => d[category_by]);
   }
 
-  const chart_data = map(data, d => {
+  const chart_data = map(data, (d) => {
     return {
       name: d[label_by],
-      data: map(d.data, n => n[data_by]),
+      data: map(d.data, (n) => n[data_by]),
     };
   });
 

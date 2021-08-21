@@ -22,10 +22,10 @@ export default function DictTable(props) {
     return "No data found.";
   }
 
-  const dates = map(data, i => <TableCell key={i.on}>{i.on}</TableCell>);
+  const dates = map(data, (i) => <TableCell key={i.on}>{i.on}</TableCell>);
 
   const rows = map(interests, (description, key) => {
-    const row = map(data, c => {
+    const row = map(data, (c) => {
       return (
         <TableCell key={c.on}>
           <ColoredNumber val={!!c[key] ? c[key] : null} />
@@ -66,9 +66,9 @@ export default function DictTable(props) {
 function Chart(props) {
   const containerId = randomId();
   const { data, interests, normalized } = props;
-  const dates = map(data, i => i.on);
+  const dates = map(data, (i) => i.on);
   const chart_data = map(interests, (description, key) => {
-    const vals = map(data, i => i[key]);
+    const vals = map(data, (i) => i[key]);
     return { name: description, data: vals };
   });
 

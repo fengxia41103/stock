@@ -10,7 +10,7 @@ export default function SectorReturnComparisonChart(props) {
 
   let categories = [];
 
-  const group_by_symbol = groupBy(stocks, s => s.symbol);
+  const group_by_symbol = groupBy(stocks, (s) => s.symbol);
 
   const chart_data = map(group_by_symbol, (prices, symbol) => {
     let returns = null;
@@ -32,11 +32,11 @@ export default function SectorReturnComparisonChart(props) {
     // update categories
     categories = merge(
       categories,
-      map(returns, d => d.on)
+      map(returns, (d) => d.on)
     );
 
     let aligned_returns = [];
-    forEach(returns, d => {
+    forEach(returns, (d) => {
       if (categories.includes(d.on)) {
         aligned_returns.push(d.val);
       } else {
