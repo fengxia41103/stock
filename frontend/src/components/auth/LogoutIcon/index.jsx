@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Tooltip } from "@material-ui/core";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import GlobalContext from "src/context";
@@ -24,17 +24,22 @@ export default function LogoutIcon() {
         Authorization: `ApiKey ${user}:${api_key}`,
       },
     };
-    return fetch(uri, options).then((response) => response.json());
+    return fetch(uri, options).then(response => response.json());
   };
 
   // call login handler
-  const on_logout = async (e) => {
+  const on_logout = async e => {
     e.preventDefault();
     const resp = await logout();
 
     if (resp.success) {
+      // clear session storage
+      session.removeItem("user");
+      session.removeItem("api_key");
       session.clear();
-      navigate("/", { replace: true });
+
+      // back to root
+      navigate("login");
     }
   };
 

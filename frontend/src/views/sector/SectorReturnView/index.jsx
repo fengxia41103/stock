@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 import { map, groupBy, reverse } from "lodash";
 import Fetch from "src/components/common/Fetch";
@@ -18,7 +18,7 @@ import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
 
 export default function SectorReturnView() {
   const sector = useContext(SectorDetailContext);
-  const stock_ids = map(sector.stocks_detail, (s) => s.id).join(",");
+  const stock_ids = map(sector.stocks_detail, s => s.id).join(",");
 
   const [start] = useState(get_last_month_string());
   const [end] = useState(get_today_string());
@@ -26,16 +26,16 @@ export default function SectorReturnView() {
     `/historicals?stock__in=${stock_ids}&on__range=${start},${end}`
   );
 
-  const render_data = (data) => {
+  const render_data = data => {
     let stocks = data.objects;
 
     // compute week index
-    stocks = map(stocks, (s) => {
+    stocks = map(stocks, s => {
       return { ...s, week: moment(s.on).week() };
     });
 
     // group data by week index
-    const group_by_week = groupBy(stocks, (s) => s.week);
+    const group_by_week = groupBy(stocks, s => s.week);
 
     // compose charts
     const weekly_comparison_charts = reverse(

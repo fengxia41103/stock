@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 import FinancialCard from "src/components/stock/FinancialCard";
@@ -34,7 +34,7 @@ function CashFlowView(props) {
     dividend_payout_ratio: "Dividend Paid/Net Income",
   };
 
-  const render_data = (resp) => {
+  const render_data = resp => {
     const data = resp.objects;
 
     return (

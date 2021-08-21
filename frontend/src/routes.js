@@ -90,11 +90,16 @@ const navbar_items = [
 ];
 
 const routes = [
+  // auth
+  { path: "login", element: <LoginView /> },
+
+  // application specific
   {
     path: "/",
     element: <MainLayout sideNavs={navbar_items} />,
 
     children: [
+      // stocks
       { path: "stocks", element: <StockListView /> },
       {
         path: "stocks/:id",
@@ -122,7 +127,8 @@ const routes = [
           },
         ],
       },
-      { path: "rankings", element: <RankingView /> },
+
+      // sectors
       { path: "sectors", element: <SectorListView /> },
       {
         path: "sectors/:id",
@@ -146,6 +152,7 @@ const routes = [
           { path: "gains", element: <SectorStocksLowerBetterView /> },
         ],
       },
+      { path: "rankings", element: <RankingView /> },
       { path: "notes", element: <DiaryListView /> },
       { path: "dashboard", element: <TodayDashboardView /> },
       { path: "trending", element: <DashboardTrendingView /> },
@@ -154,22 +161,13 @@ const routes = [
         element: <NewsListView />,
       },
 
-      // landing page, default to login
+      // landing page, default to dashboard
       { path: "/", element: <Navigate to="/dashboard" /> },
-
+      { path: "404", element: <NotFoundView /> },
       // catch all, 404
       { path: "*", element: <Navigate to="/404" /> },
     ],
   },
-  {
-    path: "/",
-    element: <MainLayout />,
-    children: [
-      { path: "404", element: <NotFoundView /> },
-      { path: "*", element: <Navigate to="/404" /> },
-    ],
-  },
-  { path: "auth", element: <LoginView /> },
 ];
 
 export default routes;

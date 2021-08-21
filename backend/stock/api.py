@@ -40,7 +40,7 @@ logger = logging.getLogger("stock")
 
 class AuthResource(Resource):
     class Meta:
-        allowed_methods = ["get","post"]
+        allowed_methods = ["get", "post"]
         resource_name = "auth"
         authentication = ApiKeyAuthentication()
 
@@ -127,6 +127,7 @@ class BaseResource(ModelResource):
         authentication = ApiKeyAuthentication()
         authorization = DjangoAuthorization()
         max_limit = 0
+        limit = 0
 
 
 class UserResource(BaseResource):
@@ -427,7 +428,7 @@ class BalanceSheetResource(BaseResource):
         return bundle.obj.stock.symbol
 
 
-class ValuationRatioResource(ModelResource):
+class ValuationRatioResource(BaseResource):
     stock = fields.ForeignKey("stock.api.StockResource", "stock")
     symbol = fields.CharField("symbol", null=True)
 
@@ -436,8 +437,6 @@ class ValuationRatioResource(ModelResource):
         resource_name = "ratios"
         filtering = {"stock": ALL_WITH_RELATIONS}
         ordering = ["on"]
-        limit = 0
-        max_limit = 0
 
     def dehydrate_symbol(self, bundle):
         return bundle.obj.stock.symbol
@@ -462,8 +461,6 @@ class RankingResource(Resource):
         authorization = DjangoAuthorization()
         object_class = StatSummary
         filtering = {"stats": ALL, "symbol": ALL}
-        limit = 0
-        max_limit = 0
 
     def build_filters(self, filters=None, **kwargs):
         if filters is None:
@@ -784,8 +781,6 @@ class DiaryResource(BaseResource):
             "last_updated": ["range"],
             "content": ["contains"],
         }
-        limit = 0
-        max_limit = 0
 
 
 class NewsResource(BaseResource):

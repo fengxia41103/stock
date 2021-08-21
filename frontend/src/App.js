@@ -35,13 +35,14 @@ const App = () => {
   useEffect(() => {
     setUser(session.getItem("user"));
     setApiKey(session.getItem("api_key"));
-  });
+  }, [session]);
 
   const set_auth = (user, key) => {
     session.setItem("user", user);
     session.setItem("api_key", key);
 
     // update state, will cause rerender
+    setUser(user);
     setApiKey(key);
   };
 
@@ -60,7 +61,7 @@ const App = () => {
             ...backend,
           }}
         >
-          {!!api_key ? routing : <LoginView />}
+          {!!user && !!api_key ? routing : <LoginView />}
         </GlobalContext.Provider>
       </RestfulProvider>
     </ThemeProvider>

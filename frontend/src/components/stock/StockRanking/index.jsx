@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { map, filter } from "lodash";
 import Fetch from "src/components/common/Fetch";
 import StockRankingRow from "src/components/stock/StockRankingRow";

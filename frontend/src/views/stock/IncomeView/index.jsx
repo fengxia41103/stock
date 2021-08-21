@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
@@ -41,7 +41,7 @@ function IncomeView(props) {
     interest_coverage_ratio: "Interest Coverage",
   };
 
-  const render_data = (resp) => {
+  const render_data = resp => {
     const data = resp.objects;
 
     return (

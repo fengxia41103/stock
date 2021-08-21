@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 import FinancialCard from "src/components/stock/FinancialCard";

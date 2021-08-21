@@ -6,13 +6,15 @@ import PropTypes from "prop-types";
 
 export default function Fetch(props) {
   const { resource, render_data, mounted, silent } = props;
-  const session = window.sessionStorage;
 
+  // get data as caller want
   const { data, loading, error } = useGet({
     path: encodeURI(resource),
     debounce: 200,
   });
 
+
+  // if loading, wait
   if (loading) {
     if (!!!silent) {
       return <CircularProgress />;
@@ -20,6 +22,8 @@ export default function Fetch(props) {
       return null;
     }
   }
+
+  // if error
   if (error) return <NotFoundView />;
 
   // if caller is not mounted anymore, quit
@@ -30,7 +34,6 @@ export default function Fetch(props) {
 }
 
 Fetch.propTypes = {
-  api: PropTypes.string.isRequired,
   resource: PropTypes.string.isRequired,
   render_data: PropTypes.func.isRequired,
   mounted: PropTypes.object,
