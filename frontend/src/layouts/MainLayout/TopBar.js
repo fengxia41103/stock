@@ -13,9 +13,9 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
-import InputIcon from "@material-ui/icons/Input";
 import Logo from "src/components/common/Logo";
 import AddNewStockDialog from "src/components/stock/AddNewStockDialog";
+import LogoutIcon from "src/components/auth/LogoutIcon";
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -38,20 +38,18 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
 
         <Box flexGrow={1} />
         <AddNewStockDialog />
-        <Hidden mdDown>
-          <IconButton color="inherit">
-            <Badge
-              badgeContent={notifications.length}
-              color="primary"
-              variant="dot"
-            >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton color="inherit">
-            <InputIcon />
-          </IconButton>
-        </Hidden>
+        <IconButton color="inherit">
+          <Badge
+            badgeContent={notifications.length}
+            color="primary"
+            variant="dot"
+          >
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <IconButton color="inherit">
+          <LogoutIcon />
+        </IconButton>
         <Hidden lgUp>
           <IconButton color="inherit" onClick={onMobileNavOpen}>
             <MenuIcon />

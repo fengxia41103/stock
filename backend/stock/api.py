@@ -37,15 +37,14 @@ from stock.tasks import batch_update_helper
 
 logger = logging.getLogger("stock")
 
-from django.contrib.auth import authenticate
-
 
 class AuthResource(Resource):
     class Meta:
-        allowed_methods = ["get", "post"]
+        allowed_methods = ["get","post"]
         resource_name = "auth"
+        authentication = ApiKeyAuthentication()
 
-    def override_urls(self):
+    def prepend_urls(self):
         return [
             url(
                 r"^(?P<resource_name>%s)/login%s$"
@@ -63,7 +62,11 @@ class AuthResource(Resource):
 
     def logout(self, request, **kwargs):
         self.method_check(request, allowed=["get"])
-        if request.user and request.user.is_authenticated():
+
+        # MUST: call to populate User
+        self.is_authenticated(request)
+
+        if request.user and request.user.is_authenticated:
             logout(request)
             return self.create_response(request, {"success": True})
         else:
@@ -80,7 +83,6 @@ class AuthResource(Resource):
         )
         username = data.get("username", "")
         password = data.get("password", "")
-        print(data)
         user = authenticate(username=username, password=password)
         if user:
             if user.is_active:

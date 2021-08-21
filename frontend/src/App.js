@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRoutes } from "react-router-dom";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import { ThemeProvider } from "@material-ui/core";
@@ -28,9 +28,14 @@ const globals = {
 const App = () => {
   const backend = globals.localhost;
   const session = window.sessionStorage;
+  const [user, setUser] = useState();
+  const [api_key, setApiKey] = useState();
   const routing = useRoutes(routes);
-  const [user] = useState(session.getItem("user"));
-  const [api_key, setApiKey] = useState(session.getItem("api_key"));
+
+  useEffect(() => {
+    setUser(session.getItem("user"));
+    setApiKey(session.getItem("api_key"));
+  });
 
   const set_auth = (user, key) => {
     session.setItem("user", user);
@@ -39,10 +44,6 @@ const App = () => {
     // update state, will cause rerender
     setApiKey(key);
   };
-
-  if (!!!api_key) {
-    return <LoginView {...{ set_auth, ...backend }} />;
-  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -55,10 +56,11 @@ const App = () => {
       >
         <GlobalContext.Provider
           value={{
+            set_auth,
             ...backend,
           }}
         >
-          {routing}
+          {!!api_key ? routing : <LoginView />}
         </GlobalContext.Provider>
       </RestfulProvider>
     </ThemeProvider>

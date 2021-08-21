@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Paper,
   makeStyles,
@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import { Face, Fingerprint } from "@material-ui/icons";
 import clsx from "clsx";
+import GlobalContext from "src/context";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -30,17 +31,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function LoginView(props) {
-  const { api, set_auth } = props;
+export default function LoginView() {
+  const { api, set_auth } = useContext(GlobalContext);
   const classes = useStyles();
-  const [user, setUser] = useState("fengxia");
-  const [pwd, setPwd] = useState("natalie");
-  const [resource] = useState(`/auth`);
+  const [user, setUser] = useState("");
+  const [pwd, setPwd] = useState("");
+  const [resource] = useState(`/auth/login/`);
 
   const on_user_change = event => setUser(event.target.value);
   const on_pwd_change = event => setPwd(event.target.value);
+
+  // call to login
   const login = () => {
-    const uri = `${api}${resource}/login/`;
+    const uri = `${api}${resource}`;
     const credentials = { username: user, password: pwd };
 
     // Simple POST request with a JSON body using fetch
@@ -53,17 +56,17 @@ export default function LoginView(props) {
     return fetch(uri, options).then(response => response.json());
   };
 
+  // call login handler
   const on_submit = async e => {
     e.preventDefault();
-    const resp = await login({
-      user,
-      pwd,
-    });
+    const resp = await login({ user, pwd });
 
     if (resp.success) {
       set_auth(user, resp.data);
     }
   };
+
+  // render
   return (
     <Paper className={clsx(classes.paper)}>
       <Grid container justifyContent="center" className={classes.margin}>

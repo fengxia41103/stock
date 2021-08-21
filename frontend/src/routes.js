@@ -51,7 +51,7 @@ import SectorValuationRankingView from "src/views/sector/SectorValuationRankingV
 import SectorStocksLowerBetterView from "src/views/sector/SectorStocksLowerBetterView";
 import LoginView from "src/views/auth/LoginView";
 
-const items = [
+const navbar_items = [
   {
     href: "/trending",
     icon: TrendingUpIcon,
@@ -92,7 +92,7 @@ const items = [
 const routes = [
   {
     path: "/",
-    element: <MainLayout sideNavs={items} />,
+    element: <MainLayout sideNavs={navbar_items} />,
 
     children: [
       { path: "stocks", element: <StockListView /> },
