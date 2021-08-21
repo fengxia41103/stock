@@ -27,14 +27,22 @@ const globals = {
 
 const App = () => {
   const backend = globals.localhost;
+  const session = window.sessionStorage;
   const routing = useRoutes(routes);
-  const [user, setUser] = useState();
-  const [api_key, setApiKey] = useState();
+  const [user] = useState(session.getItem("user"));
+  const [api_key, setApiKey] = useState(session.getItem("api_key"));
 
   const set_auth = (user, key) => {
-    setUser(user);
+    session.setItem("user", user);
+    session.setItem("api_key", key);
+
+    // update state, will cause rerender
     setApiKey(key);
   };
+
+  if (!!!api_key) {
+    return <LoginView {...{ set_auth, ...backend }} />;
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -47,12 +55,10 @@ const App = () => {
       >
         <GlobalContext.Provider
           value={{
-            api_key: api_key,
-            set_auth: set_auth,
             ...backend,
           }}
         >
-          {api_key ? routing : <LoginView />}
+          {routing}
         </GlobalContext.Provider>
       </RestfulProvider>
     </ThemeProvider>
