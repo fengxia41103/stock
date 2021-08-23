@@ -37,6 +37,9 @@ const App = () => {
     setApiKey(session.getItem("api_key"));
   }, [session]);
 
+  // MUST: login will set the keys, but navigate will not force this view to
+  // reload! Therefore, it's necessary to pass this call to login so that once
+  // logged in, this view will be refreshed because state has changed.
   const set_auth = (user, key) => {
     session.setItem("user", user);
     session.setItem("api_key", key);

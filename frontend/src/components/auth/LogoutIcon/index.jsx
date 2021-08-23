@@ -27,7 +27,7 @@ export default function LogoutIcon() {
     return fetch(uri, options).then(response => response.json());
   };
 
-  // call login handler
+  // call logout handler
   const on_logout = async e => {
     e.preventDefault();
     const resp = await logout();
