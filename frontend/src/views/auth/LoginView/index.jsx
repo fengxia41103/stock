@@ -7,7 +7,6 @@ import {
   TextField,
   Button,
   FormControlLabel,
-  Checkbox,
   Card,
   CardContent,
   CardActions,
@@ -106,14 +105,6 @@ export default function LoginView() {
                     required
                     onChange={on_pwd_change}
                   />
-                </Grid>
-                <Grid item xs={12}>
-                  <Box mt={2}>
-                    <FormControlLabel
-                      control={<Checkbox color="primary" />}
-                      label="Remember me"
-                    />
-                  </Box>
                 </Grid>
               </Grid>
             </CardContent>
