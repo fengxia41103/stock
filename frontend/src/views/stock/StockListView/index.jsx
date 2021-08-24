@@ -19,6 +19,7 @@ import ListStockCard from "src/components/stock/ListStockCard";
 import DropdownMenu from "src/components/common/DropdownMenu";
 import UpdateAllStock from "src/components/stock/UpdateAllStock";
 import AddStocksToSectorDialog from "src/components/sector/AddStocksToSectorDialog";
+import ExportStocks from "src/components/stock/ExportStocks";
 
 function StockListView(props) {
   const [resource] = useState("/stocks");
@@ -93,16 +94,14 @@ function StockListView(props) {
       <Page title="Stocks">
         <Container maxWidth={false}>
           <Box mt={1}>
-            <Grid
-              container
-              spacing={1}
-              direction="row"
-              justifyContent="space-between"
-            >
+            <Grid container spacing={1} direction="row" alignItems="center">
               <Grid item xs>
                 <UpdateAllStock stocks={filtered} />
               </Grid>
 
+              <Grid item xs>
+                <ExportStocks {...{ stocks }} />
+              </Grid>
               <Grid item xs>
                 <DropdownMenu content={menu} />
               </Grid>
