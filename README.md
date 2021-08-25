@@ -203,9 +203,12 @@ the backend API port. All others are docker-to-docker only.
 
 # Develop & Deployment
 
-Assuming you have `docker` and `docker-compose` installed already, clone the [repo][1], and under `/backend` and `/frontend`, use the `docker-compose up --build` for the first run to build initial images, and `docker-compose up -d` for incremental changes.
+Assuming you have `docker` and `docker-compose` installed already,
+clone the [repo][1], and `docker-compose up --build -d`. That's
+it.
 
-Frontend development can be benefited by a non-docker setup. So you need to `npm install` then `yarn run start`, which serves on `localhost:3000`. Once you are satisfied w/ your frontend code, production deployment can be `docker-compose up --build -d`, which serves on `<your ip>:8084`.
+
+Once it's done, browser to `http://localhost:8084`.
 
 [1]: http://github.com/fengxia41103/stock
 [2]: https://django-tastypie.readthedocs.io/en/latest/
