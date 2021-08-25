@@ -2,11 +2,9 @@ import React, { useState, useContext } from "react";
 import {
   Paper,
   makeStyles,
-  Box,
   Grid,
   TextField,
   Button,
-  FormControlLabel,
   Card,
   CardContent,
   CardActions,
