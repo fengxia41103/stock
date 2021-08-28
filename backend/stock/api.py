@@ -155,6 +155,7 @@ class SectorResource(BaseResource):
         queryset = MySector.objects.all()
         resource_name = "sectors"
         filtering = {"name": ALL}
+        authorization = Authorization()
 
     def obj_update(self, bundle, **kwargs):
         super().obj_update(bundle)
@@ -200,6 +201,7 @@ class StockResource(BaseResource):
         filtering = {"symbol": ALL, "id": ALL}
         limit = 0
         max_limit = 0
+        authorization = Authorization()
 
     def obj_update(self, bundle, **kwargs):
         stock = bundle.obj
@@ -781,7 +783,7 @@ class DiaryResource(BaseResource):
             "last_updated": ["range"],
             "content": ["contains"],
         }
-
+        authorization = Authorization()
 
 class NewsResource(BaseResource):
     class Meta:

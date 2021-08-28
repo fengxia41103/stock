@@ -25,10 +25,19 @@ export default function AddDiaryEditor(props) {
   const { stock: stock_id, to_refresh } = props;
   const [prediction, setPrediction] = useState(1);
   const [notification, setNotification] = useState("");
+  const session = window.sessionStorage;
+  const [user] = useState(session.getItem("user"));
+  const [api_key] = useState(session.getItem("api_key"));
 
   const { mutate: create } = useMutate({
     verb: "POST",
-    path: `${api}${resource}/`,
+    path: `${api}${resource}/?`,
+    requestOptions: (url, method, requestBody) => ({
+      headers: {
+        "content-type": "application/json",
+        Authorization: `ApiKey ${user}:${api_key}`,
+      },
+    }),
   });
 
   // call API and close this dialog
@@ -48,7 +57,7 @@ export default function AddDiaryEditor(props) {
     return () => to_refresh();
   }, [to_refresh]);
 
-  const prediction_change = (event) => {
+  const prediction_change = event => {
     setPrediction(parseInt(event.target.value));
   };
 

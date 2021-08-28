@@ -24,7 +24,6 @@ django-extra-views>=0.6.4
 django-filter>=0.9.2
 django-localflavor>=1.1
 django-model-utils>=2.2
-django-tastypie>=0.13.3
 django-tastypie-swagger>=0.1.4
 djangorestframework>=3.3.3
 Jinja2>=2.8
@@ -43,3 +42,4 @@ docutils
 pyyaml
 newscatcher
 gunicorn
+django-tastypie
