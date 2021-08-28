@@ -45,7 +45,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./Dockerfile-web
-    image: mystock
+    image: backend_stock
     volumes:
       - ./backend:/code
       - type: bind
@@ -72,7 +72,7 @@ services:
       - db
 
   celery:
-    image: mystock
+    image: backend_stock
     environment:
       DJANGO_DEBUG: 1 # 0 or 1
       DEPLOY_TYPE: dev # dev or prod
@@ -92,7 +92,7 @@ services:
       - redis
 
   # beat:
-  #   image: mystock
+  #   image: backend_stock
   #   environment:
   #     DJANGO_DEBUG: 0 # 0 or 1
   #     DEPLOY_TYPE: dev # dev or prod
