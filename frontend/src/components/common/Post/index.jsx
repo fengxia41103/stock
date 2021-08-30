@@ -36,8 +36,6 @@ export default function Post(props) {
 
   // actual call to API
   const action = () => {
-    console.log(data);
-
     // call API
     create(data).then(() => {
       if (!!on_success) on_success();
