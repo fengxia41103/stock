@@ -33,8 +33,8 @@ export default function AddNewStockDialog() {
   const [successMsg, setSuccessMsg] = useState("");
 
   // event handlers
-  const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const on_click_open = () => setOpen(true);
+  const on_click_close = () => setOpen(false);
   const on_symbol_change = event => {
     // symbol is always in upper case
     let tmp = event.target.value.toUpperCase();
@@ -42,7 +42,7 @@ export default function AddNewStockDialog() {
     setSymbol(tmp);
 
     // set success msg
-    const symbols = truncate(symbol.join(","), 20);
+    const symbols = truncate(tmp.join(","), 20);
     setSuccessMsg(`Symbols: ${symbols} have been added to your portfolio.`);
   };
 
@@ -119,12 +119,12 @@ export default function AddNewStockDialog() {
 
   return (
     <>
-      <Button color="secondary" variant="contained" onClick={handleClickOpen}>
+      <Button color="secondary" variant="contained" onClick={on_click_open}>
         Add new stocks
       </Button>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={on_click_close}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Add New Stock</DialogTitle>
@@ -145,7 +145,7 @@ export default function AddNewStockDialog() {
           {submit ? creates : null}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={on_click_close} color="primary">
             Cancel
           </Button>
           <Button

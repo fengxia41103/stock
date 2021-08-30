@@ -9,58 +9,70 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import GlobalContext from "src/context";
-import { useMutate } from "restful-react";
 import AddIcon from "@material-ui/icons/Add";
 import Fetch from "src/components/common/Fetch";
-import { map, filter } from "lodash";
+import { map, filter, truncate } from "lodash";
+import Post from "src/components/common/Post";
 
 export default function AddNewSectorDialog() {
   const { api } = useContext(GlobalContext);
   const [open, setOpen] = useState(false);
   const [resource] = useState("/sectors");
   const [sector, setSector] = useState("");
+  const [submit, setSubmit] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
 
-  const { mutate: create } = useMutate({
-    verb: "POST",
-    path: `${api}${resource}/`,
-  });
-
+  // action
   const reload = () => window.location.reload();
-  const handleClickOpen = () => setOpen(true);
 
-  const handleClose = () => setOpen(false);
-
-  const on_sector_change = (event) => {
+  // event handlers
+  const on_click_open = () => setOpen(true);
+  const on_click_close = () => setOpen(false);
+  const on_sector_change = event => {
     // symbol is always in upper case
     let tmp = event.target.value;
-    tmp = map(tmp.split(","), (s) => s.trim());
+    tmp = map(tmp.split(","), s => s.trim());
     setSector(tmp);
-  };
 
-  // call API and close this dialog
-  const on_create = () => {
-    map(sector, (s) => create({ name: s }));
+    // set success msg
+    const sectors = truncate(tmp.join(","), 20);
+    setSuccessMsg(`Sectors: ${sectors} have been added to your portfolio.`);
+  };
+  const on_success = () => {
     setOpen(false);
     reload();
   };
 
-  const render_data = (data) => {
+  // call API and close this dialog
+  const creates = map(sector, s => (
+    <Post
+      key={s}
+      {...{
+        resource,
+        data: { name: s },
+        on_success,
+        successMsg,
+      }}
+    />
+  ));
+
+  const render_data = data => {
     let sectors = data.objects;
     sectors = map(
-      filter(sectors, (s) => s.name.includes(sector)),
-      (s) => <Chip key={s.id} color="primary" label={s.name} />
+      filter(sectors, s => s.name.includes(sector)),
+      s => <Chip key={s.id} color="primary" label={s.name} />
     );
     const is_error = sectors.includes(sector);
 
     return (
       <>
-        <Button color="secondary" onClick={handleClickOpen}>
+        <Button color="secondary" onClick={on_click_open}>
           <AddIcon />
           Add New Sector
         </Button>
         <Dialog
           open={open}
-          onClose={handleClose}
+          onClose={on_click_close}
           aria-labelledby="form-dialog-title"
         >
           <DialogTitle id="form-dialog-title">Add New Sector</DialogTitle>
@@ -84,15 +96,16 @@ export default function AddNewSectorDialog() {
             />
 
             <Box mt={2}>{sectors}</Box>
+            {submit ? creates : null}
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={on_click_close} color="primary">
               Cancel
             </Button>
             <Button
               variant="contained"
               color="primary"
-              onClick={on_create}
+              onClick={() => setSubmit(true)}
               disabled={is_error}
             >
               Add
