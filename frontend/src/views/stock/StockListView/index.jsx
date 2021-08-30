@@ -64,7 +64,7 @@ function StockListView(props) {
 
       const actions = [<AddStocksToSectorDialog stocks={sorted} />];
       return (
-        <Grid key={index} item lg={6} sm={6} xs={12}>
+        <Grid key={index} item lg={6} md={6} sm={12} xs={12}>
           <ListStockCard {...{ group_by, index, actions }} stocks={sorted} />
         </Grid>
       );

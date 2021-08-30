@@ -30,7 +30,7 @@ export default function SectorListView(props) {
 
     const selectors = map(filtered, (s) => {
       return (
-        <Grid key={s.name} item lg={6} sm={6} xs={12}>
+        <Grid key={s.name} item lg={6} md={6} sm={12} xs={12}>
           <ListSectorCard {...{ me: s, all: sectors }} />
         </Grid>
       );

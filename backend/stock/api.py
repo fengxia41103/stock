@@ -215,10 +215,16 @@ class StockResource(BaseResource):
             symbol=bundle.data["symbol"]
         )
         if created:
-            for sector in MySector.objects.filter(
-                id__in=bundle.data["sectors"]
-            ):
-                sector.stocks.add(stock)
+            if bundle.data["sectors"]:
+                # if specified sectors
+                for sector in MySector.objects.filter(
+                        id__in=bundle.data["sectors"]
+                ):
+                    sector.stocks.add(stock)
+            else:
+                # default to "misc" sector
+                misc, created = MySector.objects.get_or_create(name="misc")
+                misc.stocks.add(stock)
 
             # kick off updates
             batch_update_helper(stock.symbol)
