@@ -10,6 +10,7 @@ import {
 import { Face, Fingerprint } from "@material-ui/icons";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import LoginButton from "src/components/auth/LoginButton";
 
 export default function LoginCard(props) {
   // props
@@ -22,26 +23,6 @@ export default function LoginCard(props) {
   // event handlers
   const on_user_change = event => setUser(event.target.value);
   const on_pwd_change = event => setPwd(event.target.value);
-  const on_login = event => {
-    event.preventDefault();
-    const credentials = { username: user, password: pwd };
-
-    // Simple POST request with a JSON body using fetch
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      cache: "no-cache",
-      body: JSON.stringify(credentials),
-    };
-    return fetch(resource, options)
-      .then(response => response.json())
-      .then(resp => {
-        if (!!on_success) on_success(resp);
-      })
-      .catch(error => {
-        if (!!on_error) on_error(error);
-      });
-  };
 
   // render
   return (
@@ -96,9 +77,7 @@ export default function LoginCard(props) {
             Forgot password ?
           </Button>
 
-          <Button variant="contained" color="primary" onClick={on_login}>
-            Login
-          </Button>
+          <LoginButton {...{ username: user, password: pwd, ...props }} />
         </Grid>
       </CardActions>
     </Card>
