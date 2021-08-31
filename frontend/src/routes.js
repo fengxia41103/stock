@@ -50,6 +50,7 @@ import SectorCashRankingView from "src/views/sector/SectorCashRankingView";
 import SectorValuationRankingView from "src/views/sector/SectorValuationRankingView";
 import SectorStocksLowerBetterView from "src/views/sector/SectorStocksLowerBetterView";
 import LoginView from "src/views/auth/LoginView";
+import LogoutView from "src/views/auth/LogoutView";
 
 const navbar_items = [
   {
@@ -92,6 +93,7 @@ const navbar_items = [
 const routes = [
   // auth
   { path: "login", element: <LoginView /> },
+  { path: "logout", element: <LogoutView /> },
 
   // application specific
   {

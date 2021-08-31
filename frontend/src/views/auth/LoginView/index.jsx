@@ -28,10 +28,7 @@ export default function LoginView() {
   // states
   const [resource] = useState("/auth/login/");
 
-  // MUST: login will set the keys, but navigate will not force this
-  // view to reload! Therefore, it's necessary to pass this call to
-  // login so that once logged in, this view will be refreshed because
-  // state has changed.
+  // callbacks
   const session = window.sessionStorage;
   const save_auth = resp => {
     session.setItem("user", resp.data.user);
