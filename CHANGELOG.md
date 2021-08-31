@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/fengxia41103/stock/compare/v1.0.0...v1.1.0) (2021-08-31)
+
+
+### Features
+
+* Create LoginButton component ([ac5585b](https://github.com/fengxia41103/stock/commit/ac5585b180ef2a4db4557e2693c111a93b2e855f))
+* Create POST component ([bcb57d9](https://github.com/fengxia41103/stock/commit/bcb57d9ae25d59b18a97709f5555ae7fa910c955))
+
+
+### Bug Fixes
+
+* Add Authorization to API resources ([a5dff58](https://github.com/fengxia41103/stock/commit/a5dff580296383e003de90981ca469bcfdb9130b))
+* Fix top nav bar height ([8b4fa22](https://github.com/fengxia41103/stock/commit/8b4fa22cd585632380c4ba4f2dfad19ccbea7bb2))
+* Use node 14.17 docker image ([399dedc](https://github.com/fengxia41103/stock/commit/399dedcd32818f65291d04fa407877673bd3c5b9))
+
 ## [1.0.0](https://github.com/fengxia41103/stock/compare/v0.0.1...v1.0.0) (2021-08-24)
 
 
