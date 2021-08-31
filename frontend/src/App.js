@@ -22,41 +22,24 @@ const App = () => {
   const session = window.sessionStorage;
   const [user, setUser] = useState();
   const [api_key, setApiKey] = useState();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const routing = useRoutes(routes);
 
   useEffect(() => {
+    // MUST: read each time we mount this component!
     setUser(session.getItem("user"));
     setApiKey(session.getItem("api_key"));
-  }, [session]);
 
-  // MUST: login will set the keys, but navigate will not force this view to
-  // reload! Therefore, it's necessary to pass this call to login so that once
-  // logged in, this view will be refreshed because state has changed.
-  const set_auth = (user, key) => {
-    session.setItem("user", user);
-    session.setItem("api_key", key);
-
-    // update state, will cause rerender
-    setUser(user);
-    setApiKey(key);
-  };
+    // this bool is for convenience
+    setIsAuthenticated(!!user && !!api_key);
+  });
 
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <RestfulProvider
-        base={backend.api}
-        requestOptions={(url, method, requestBody) => ({
-          headers: { Authorization: `ApiKey ${user}:${api_key}` },
-        })}
-      >
-        <GlobalContext.Provider
-          value={{
-            set_auth,
-            ...backend,
-          }}
-        >
-          {!!user && !!api_key ? routing : <LoginView />}
+      <RestfulProvider base={backend.api}>
+        <GlobalContext.Provider value={{ ...backend }}>
+          {isAuthenticated ? routing : <LoginView />}
         </GlobalContext.Provider>
       </RestfulProvider>
     </ThemeProvider>

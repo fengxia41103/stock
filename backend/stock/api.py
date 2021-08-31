@@ -97,7 +97,7 @@ class AuthResource(Resource):
                     request,
                     {
                         "success": True,
-                        "data": key.key,
+                        "data": {"user": username, "key": key.key},
                     },
                 )
             else:
@@ -218,7 +218,7 @@ class StockResource(BaseResource):
             if bundle.data["sectors"]:
                 # if specified sectors
                 for sector in MySector.objects.filter(
-                        id__in=bundle.data["sectors"]
+                    id__in=bundle.data["sectors"]
                 ):
                     sector.stocks.add(stock)
             else:
@@ -790,6 +790,7 @@ class DiaryResource(BaseResource):
             "content": ["contains"],
         }
         authorization = Authorization()
+
 
 class NewsResource(BaseResource):
     class Meta:

@@ -1,18 +1,9 @@
 import React, { useState, useContext } from "react";
-import {
-  Paper,
-  makeStyles,
-  Grid,
-  TextField,
-  Button,
-  Card,
-  CardContent,
-  CardActions,
-} from "@material-ui/core";
-import { Face, Fingerprint } from "@material-ui/icons";
+import { Paper, makeStyles, Box, Grid } from "@material-ui/core";
 import clsx from "clsx";
 import GlobalContext from "src/context";
 import { useNavigate } from "react-router-dom";
+import LoginCard from "src/components/auth/LoginCard";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -30,41 +21,35 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function LoginView() {
-  const { api, set_auth } = useContext(GlobalContext);
+  const { api } = useContext(GlobalContext);
   const classes = useStyles();
-  const [user, setUser] = useState("");
-  const [pwd, setPwd] = useState("");
-  const [resource] = useState(`/auth/login/`);
   const navigate = useNavigate();
 
-  const on_user_change = event => setUser(event.target.value);
-  const on_pwd_change = event => setPwd(event.target.value);
+  // states
+  const [resource] = useState("/auth/login/");
 
-  // call to login
-  const login = () => {
-    const uri = `${api}${resource}`;
-    const credentials = { username: user, password: pwd };
-
-    // Simple POST request with a JSON body using fetch
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      cache: "no-cache",
-      body: JSON.stringify(credentials),
-    };
-    return fetch(uri, options).then(response => response.json());
+  // MUST: login will set the keys, but navigate will not force this
+  // view to reload! Therefore, it's necessary to pass this call to
+  // login so that once logged in, this view will be refreshed because
+  // state has changed.
+  const session = window.sessionStorage;
+  const save_auth = resp => {
+    session.setItem("user", resp.data.user);
+    session.setItem("api_key", resp.data.key);
   };
 
-  // call login handler
-  const on_submit = async e => {
-    e.preventDefault();
-    const resp = await login({ user, pwd });
-
+  // you decide what to do if logged in
+  const on_success = resp => {
     if (resp.success) {
-      set_auth(user, resp.data);
+      // save auth somewhere for all calls
+      save_auth(resp);
+
+      // go to a landing page
       navigate("/");
     }
   };
+
+  const on_error = err =>console.log(err);
 
   // render
   return (
@@ -72,63 +57,11 @@ export default function LoginView() {
       <Grid container justifyContent="center" className={classes.margin}>
         <Grid item lg={6} sm={6} xs={12}></Grid>
         <Grid item lg={4} sm={5} xs={12}>
-          <Card className={clsx(classes.card)}>
-            <CardContent>
-              <Grid container spacing={1} alignItems="flex-end">
-                <Grid item lg={1} sm={2} xs={3}>
-                  <Face />
-                </Grid>
-                <Grid item lg={11} sm={10} xs={9}>
-                  <TextField
-                    id="username"
-                    label="Username"
-                    value={user}
-                    fullWidth
-                    autoFocus
-                    required
-                    onChange={on_user_change}
-                  />
-                </Grid>
-
-                <Grid item lg={1} sm={2} xs={3}>
-                  <Fingerprint />
-                </Grid>
-                <Grid item lg={11} sm={10} xs={9}>
-                  <TextField
-                    id="password"
-                    label="Password"
-                    type="password"
-                    value={pwd}
-                    fullWidth
-                    required
-                    onChange={on_pwd_change}
-                  />
-                </Grid>
-              </Grid>
-            </CardContent>
-
-            <CardActions>
-              <Grid
-                container
-                spacing={1}
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Button
-                  disableFocusRipple
-                  disableRipple
-                  variant="text"
-                  color="primary"
-                >
-                  Forgot password ?
-                </Button>
-
-                <Button variant="contained" color="primary" onClick={on_submit}>
-                  Login
-                </Button>
-              </Grid>
-            </CardActions>
-          </Card>
+          <Box className={clsx(classes.card)}>
+            <LoginCard
+              {...{ resource: `${api}${resource}`, on_success, on_error }}
+            />
+          </Box>
         </Grid>
       </Grid>
     </Paper>
