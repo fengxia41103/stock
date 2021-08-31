@@ -1,5 +1,5 @@
 # build environment
-FROM node:16-alpine3.11 as builder
+FROM node:14.17-alpine3.11 as builder
 
 # Set up code destination
 RUN mkdir /code
@@ -10,6 +10,7 @@ COPY package.json /code/package.json
 
 # Install app dependencies
 RUN yarn install
+RUN yarn upgrade
 
 # Copy app code to host
 COPY . /code
