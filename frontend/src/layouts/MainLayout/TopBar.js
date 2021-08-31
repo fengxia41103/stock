@@ -47,9 +47,7 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <IconButton color="inherit">
-          <LogoutIcon />
-        </IconButton>
+        <LogoutIcon />
         <Hidden lgUp>
           <IconButton color="inherit" onClick={onMobileNavOpen}>
             <MenuIcon />

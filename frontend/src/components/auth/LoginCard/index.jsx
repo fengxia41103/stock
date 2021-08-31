@@ -8,7 +8,6 @@ import {
   CardActions,
 } from "@material-ui/core";
 import { Face, Fingerprint } from "@material-ui/icons";
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import LoginButton from "src/components/auth/LoginButton";
 
@@ -77,7 +76,15 @@ export default function LoginCard(props) {
             Forgot password ?
           </Button>
 
-          <LoginButton {...{ username: user, password: pwd, ...props }} />
+          <LoginButton
+            {...{
+              username: user,
+              password: pwd,
+              resource,
+              on_success,
+              on_error,
+            }}
+          />
         </Grid>
       </CardActions>
     </Card>

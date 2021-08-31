@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import GlobalContext from "src/context";
 import PropTypes from "prop-types";
 import CircularProgress from "@material-ui/core/CircularProgress";
