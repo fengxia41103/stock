@@ -17,7 +17,7 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
-import Post from "src/components/common/Post";
+import CreateResource from "src/components/common/CreateResource";
 
 export default function AddNewStockDialog() {
   // states
@@ -63,7 +63,7 @@ export default function AddNewStockDialog() {
 
   // rendering contents
   const creates = map(symbol, s => (
-    <Post
+    <CreateResource
       key={s}
       {...{
         resource,

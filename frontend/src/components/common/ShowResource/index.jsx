@@ -4,7 +4,7 @@ import Get from "src/components/common/Get";
 import PropTypes from "prop-types";
 
 export default function ShowResource(props) {
-  const { resource, on_success, silent } = props;
+  const { resource } = props;
 
   // get user and api key
   const session = window.sessionStorage;
@@ -18,7 +18,7 @@ export default function ShowResource(props) {
   //if (mounted && !mounted.current) return null;
 
   // everything is good, render
-  return <Get {...{ uri: resource, options, on_success, on_error, silent }} />;
+  return <Get {...{ uri: resource, options, on_error, ...props }} />;
 }
 
 ShowResource.propTypes = {

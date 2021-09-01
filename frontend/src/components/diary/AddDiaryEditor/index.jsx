@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import { isUndefined } from "lodash";
 import PropTypes from "prop-types";
-import Post from "src/components/common/Post";
+import CreateResource from "src/components/common/CreateResource";
 
 export default function AddDiaryEditor(props) {
   // props
@@ -33,7 +33,7 @@ export default function AddDiaryEditor(props) {
   const on_success = () => setComment("");
 
   // event handlers
-  const prediction_change = (event) => {
+  const prediction_change = event => {
     setPrediction(parseInt(event.target.value));
   };
 
@@ -95,7 +95,7 @@ export default function AddDiaryEditor(props) {
         </Button>
       </Box>
       {submit ? (
-        <Post
+        <CreateResource
           {...{
             resource,
             data: {
@@ -105,7 +105,7 @@ export default function AddDiaryEditor(props) {
               content: comment,
               judgement: prediction,
             },
-            on_success,
+            //on_success,
             success_msg,
           }}
         />

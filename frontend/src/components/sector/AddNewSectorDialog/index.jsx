@@ -11,7 +11,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import AddIcon from "@material-ui/icons/Add";
 import ShowResource from "src/components/common/ShowResource";
 import { map, filter, truncate } from "lodash";
-import Post from "src/components/common/Post";
+import CreateResource from "src/components/common/CreateResource";
 
 export default function AddNewSectorDialog() {
   const [open, setOpen] = useState(false);
@@ -43,7 +43,7 @@ export default function AddNewSectorDialog() {
 
   // call API and close this dialog
   const creates = map(sector, s => (
-    <Post
+    <CreateResource
       key={s}
       {...{
         resource,

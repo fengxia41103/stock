@@ -1,93 +1,69 @@
-import React, { useState, useContext, useEffect } from "react";
-import PropTypes from "prop-types";
-
-import { useMutate } from "restful-react";
-import GlobalContext from "src/context";
-import NotFoundView from "src/views/errors/NotFoundView";
+import React, { useEffect } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SimpleSnackbar from "src/components/common/SimpleSnackbar";
+import PropTypes from "prop-types";
+import { useMutate } from "restful-react";
 
 export default function Post(props) {
-  const { api } = useContext(GlobalContext);
+  // hardcoded
+  const DEFAULT_SUCCESS = "Call to API was successful";
+  const DEFAULT_ERROR = "Call to API failed";
+
+  // props
   const {
-    resource,
+    uri,
+    options,
     data,
     on_success,
     on_error,
-    silent,
     success_msg,
     error_msg,
+    silent,
   } = props;
-  const [notification, setNotification] = useState(
-    "Done as you wish, my master"
-  );
 
-  // get user and api key
-  const session = window.sessionStorage;
-  const [user] = useState(session.getItem("user"));
-  const [api_key] = useState(session.getItem("api_key"));
+  const call_options = { path: encodeURI(uri), debounce: 200, ...options };
 
-  // actual POST call
-  const {
-    mutate: create,
-    loading,
-    error,
-  } = useMutate({
-    verb: "POST",
-    path: `${api}${resource}/`,
-    headers: { Authorization: `ApiKey ${user}:${api_key}` },
-  });
-
-  // actual call to API
-  const action = () => {
-    // call API
-    create(data).then(() => {
-      if (!!on_success) on_success();
-
-      if (!!success_msg) {
-        setNotification(success_msg);
-      } else {
-        setNotification(`Call to ${resource} was a success`);
-      }
-    });
-
-    // if in error
-    if (error) {
-      if (!!on_error) on_error();
-
-      if (!!error_msg) {
-        setNotification(error_msg);
-      } else {
-        setNotification(`Call to ${resource} failed`);
-      }
-    }
-    return null;
-  };
+  const { mutate, loading, error } = useMutate(call_options);
 
   // call API upon component mount
   useEffect(() => {
-    action();
-  }, [resource]);
+    // call API
+    mutate(data);
 
-  // if loading, wait
+    // when I'm done
+    // MUST: For POST, we call on_success here because caller may choose to set
+    // its state as its on_success
+    return () => {
+      if (error && !!on_error) on_error(error);
+
+      if (!!!error && !!on_success) on_success();
+    };
+  }, [mutate, data, error, on_error, on_success]);
+
+  // when waiting
   if (loading) {
-    if (!!!silent) {
+    if (!!silent) return null;
+    else {
       return <CircularProgress />;
-    } else {
-      return null;
     }
   }
 
-  // after action, just show a message if any
-  return <SimpleSnackbar msg={notification} />;
+  // when error
+  if (error) {
+    return <SimpleSnackbar msg={!!error_msg ? error_msg : DEFAULT_ERROR} />;
+  }
+
+  // when success
+  return <SimpleSnackbar msg={!!success_msg ? success_msg : DEFAULT_SUCCESS} />;
 }
 
 Post.propTypes = {
-  resource: PropTypes.string.isRequired,
+  uri: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
-  silent: PropTypes.bool,
+  options: PropTypes.object.isRequired,
   on_success: PropTypes.func,
   on_error: PropTypes.func,
   success_msg: PropTypes.string,
   error_msg: PropTypes.string,
+  silent: PropTypes.bool,
 };
