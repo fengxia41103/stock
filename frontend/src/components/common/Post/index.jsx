@@ -40,21 +40,24 @@ export default function Post(props) {
     };
   }, [mutate, data, error, on_error, on_success]);
 
-  // when waiting
-  if (loading) {
-    if (!!silent) return null;
-    else {
+  if (!!silent) {
+    // when waiting
+    if (loading) {
       return <CircularProgress />;
     }
-  }
 
-  // when error
-  if (error) {
-    return <SimpleSnackbar msg={!!error_msg ? error_msg : DEFAULT_ERROR} />;
-  }
+    // when error
+    if (error) {
+      return <SimpleSnackbar msg={!!error_msg ? error_msg : DEFAULT_ERROR} />;
+    }
 
-  // when success
-  return <SimpleSnackbar msg={!!success_msg ? success_msg : DEFAULT_SUCCESS} />;
+    // when success
+    return (
+      <SimpleSnackbar msg={!!success_msg ? success_msg : DEFAULT_SUCCESS} />
+    );
+  } else {
+    return null;
+  }
 }
 
 Post.propTypes = {
