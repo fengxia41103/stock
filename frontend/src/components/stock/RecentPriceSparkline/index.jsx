@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
+
 import { map } from "lodash";
 import moment from "moment";
 import { Sparklines, SparklinesCurve } from "react-sparklines";
@@ -30,7 +31,9 @@ export default function RecentPriceSparkline(props) {
     );
   };
 
-  return <Fetch {...{ resource, render_data, silent: true }} />;
+  return (
+    <ShowResource {...{ resource, on_success: render_data, silent: true }} />
+  );
 }
 
 RecentPriceSparkline.propTypes = {

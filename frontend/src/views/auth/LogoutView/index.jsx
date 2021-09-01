@@ -20,7 +20,7 @@ export default function LogoutView() {
   };
 
   // you decide what to do if logged in
-  const on_success = resp => {
+  const on_success = (resp) => {
     if (resp.success) {
       remove_auth();
 
@@ -29,7 +29,7 @@ export default function LogoutView() {
     }
   };
 
-  const on_error = err => console.log(err);
+  const on_error = (err) => console.log(err);
 
   // render
   return (

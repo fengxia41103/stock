@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Typography } from "@material-ui/core";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import DictCard from "src/components/common/DictCard";
 
 function StockSummaryView() {
@@ -29,7 +29,7 @@ function StockSummaryView() {
     );
   };
 
-  return <Fetch {...{ resource, render_data }} />;
+  return <ShowResource {...{ resource, on_success: render_data }} />;
 }
 
 export default StockSummaryView;

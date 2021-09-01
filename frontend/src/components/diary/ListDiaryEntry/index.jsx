@@ -21,7 +21,7 @@ import PropTypes from "prop-types";
 import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@material-ui/icons/ThumbDownOutlined";
 import DiaryStockTag from "src/components/diary/DiaryStockTag";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 
 const useStyles = makeStyles((theme) => ({
   diary: {
@@ -134,7 +134,9 @@ export default function ListDiaryEntry(props) {
     );
   };
 
-  return <Fetch {...{ key: to_refresh, resource, render_data }} />;
+  return (
+    <ShowResource {...{ key: to_refresh, resource, on_success: render_data }} />
+  );
 }
 
 ListDiaryEntry.propTypes = {

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { map, remove } from "lodash";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import {
   Box,
   FormControl,
@@ -168,7 +168,9 @@ export default function StockLinkToSector(props) {
         </Typography>
       </Tooltip>
       {open ? (
-        <Fetch {...{ api, resource, render_data, silent: true }} />
+        <ShowResource
+          {...{ resource, on_success: render_data, silent: true }}
+        />
       ) : null}
     </Box>
   );

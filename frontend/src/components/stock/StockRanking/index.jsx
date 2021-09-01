@@ -1,6 +1,6 @@
 import React from "react";
 import { map, filter } from "lodash";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import StockRankingRow from "src/components/stock/StockRankingRow";
 import PropTypes from "prop-types";
 import {
@@ -74,7 +74,8 @@ export default function StockRanking(props) {
       </Card>
     );
   };
-  return <Fetch {...{ resource, render_data }} />;
+
+  return <ShowResource {...{ resource, on_success: render_data }} />;
 }
 
 StockRanking.propTypes = {

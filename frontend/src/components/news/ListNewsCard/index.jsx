@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { map, isUndefined, isEmpty, isNull } from "lodash";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import {
   makeStyles,
   Button,
@@ -104,7 +104,7 @@ export default function ListNewsCard(props) {
     );
   };
 
-  return <Fetch {...{ key: resource, resource, render_data }} />;
+  return <ShowResource {...{ resource, on_success: render_data }} />;
 }
 
 ListNewsCard.propTypes = {

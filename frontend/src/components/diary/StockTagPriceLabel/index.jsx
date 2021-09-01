@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Grid, Divider } from "@material-ui/core";
 import PropTypes from "prop-types";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import ColoredNumber from "src/components/common/ColoredNumber";
 
 export default function StockTagPriceLabel(props) {
@@ -45,7 +45,9 @@ export default function StockTagPriceLabel(props) {
       </Grid>
     );
   };
-  return <Fetch {...{ resource, render_data, silent: true }} />;
+  return (
+    <ShowResource {...{ resource, on_success: render_data, silent: true }} />
+  );
 }
 
 StockTagPriceLabel.propTypes = {

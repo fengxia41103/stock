@@ -20,8 +20,8 @@ export default function LoginCard(props) {
   const [pwd, setPwd] = useState("");
 
   // event handlers
-  const on_user_change = event => setUser(event.target.value);
-  const on_pwd_change = event => setPwd(event.target.value);
+  const on_user_change = (event) => setUser(event.target.value);
+  const on_pwd_change = (event) => setPwd(event.target.value);
 
   // render
   return (

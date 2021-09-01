@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import {
   Box,
   Container,
@@ -163,5 +163,5 @@ export default function TodayDashboardView() {
     );
   };
 
-  return <Fetch {...{ resource, render_data }} />;
+  return <ShowResource {...{ resource, on_success: render_data }} />;
 }

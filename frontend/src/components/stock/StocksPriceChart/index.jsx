@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { map, groupBy } from "lodash";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import MultilineChart from "src/components/common/MultilineChart";
 import PropTypes from "prop-types";
 
@@ -33,8 +33,7 @@ export default function StocksPriceChart(props) {
       />
     );
   };
-
-  return <Fetch {...{ resource, render_data }} />;
+  return <ShowResource {...{ resource, on_success: render_data }} />;
 }
 
 StocksPriceChart.propTypes = {

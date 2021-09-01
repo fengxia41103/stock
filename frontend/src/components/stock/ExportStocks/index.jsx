@@ -6,7 +6,7 @@ import { map } from "lodash";
 
 export default function ExportStocks(props) {
   const { stocks } = props;
-  const symbols = map(stocks, s => s.symbol);
+  const symbols = map(stocks, (s) => s.symbol);
 
   return (
     <Link

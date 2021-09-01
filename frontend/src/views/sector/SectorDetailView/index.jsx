@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import Page from "src/components/common/Page";
 import MenuBar from "src/components/common/MenuBar";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import GlobalContext from "src/context";
 import SectorDetailContext from "./context.jsx";
 import { useMutate } from "restful-react";
@@ -198,5 +198,5 @@ export default function SectorDetailView() {
   }
 
   // render as usual to get data
-  return <Fetch {...{ api, resource, render_data, mounted }} />;
+  return <ShowResource {...{ resource, on_success: render_data }} />;
 }

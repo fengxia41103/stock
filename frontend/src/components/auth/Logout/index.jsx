@@ -22,11 +22,11 @@ export default function Logout(props) {
       },
     };
     return fetch(uri, options)
-      .then(response => response.json())
-      .then(resp => {
+      .then((response) => response.json())
+      .then((resp) => {
         if (!!on_success) on_success(resp);
       })
-      .catch(error => {
+      .catch((error) => {
         if (!!on_error) on_error(error);
       });
   };

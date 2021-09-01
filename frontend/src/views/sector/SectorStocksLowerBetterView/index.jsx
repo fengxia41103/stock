@@ -11,7 +11,7 @@ import {
 import { map } from "lodash";
 import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
 import PriceLastLowerNextBetterChart from "src/components/stock/PriceLastLowerNextBetterChart";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 
 export default function SectorStocksLowerBetterView() {
   const sector = useContext(SectorDetailContext);
@@ -38,7 +38,11 @@ export default function SectorStocksLowerBetterView() {
       );
     };
 
-    return <Fetch key={d.id} {...{ resource, render_data, silent: true }} />;
+    return (
+      <ShowResource
+        {...{ key: d.id, resource, on_success: render_data, silent: true }}
+      />
+    );
   });
 
   return (

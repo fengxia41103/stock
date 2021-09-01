@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 import FinancialCard from "src/components/stock/FinancialCard";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 
 function CashFlowView(props) {
@@ -34,7 +34,7 @@ function CashFlowView(props) {
     dividend_payout_ratio: "Dividend Paid/Net Income",
   };
 
-  const render_data = resp => {
+  const render_data = (resp) => {
     const data = resp.objects;
 
     return (
@@ -46,7 +46,7 @@ function CashFlowView(props) {
       </>
     );
   };
-  return <Fetch {...{ resource, render_data }} />;
+  return <ShowResource {...{ resource, on_success: render_data }} />;
 }
 
 export default CashFlowView;

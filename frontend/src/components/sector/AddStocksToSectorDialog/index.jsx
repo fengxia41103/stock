@@ -10,7 +10,7 @@ import GlobalContext from "src/context";
 import AddIcon from "@material-ui/icons/Add";
 import ListItem from "@material-ui/core/ListItem";
 import { map, remove, isEmpty } from "lodash";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import { FormControlLabel, Checkbox, Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
 
@@ -135,7 +135,7 @@ export default function AddStocksToSectorDialog(props) {
     );
   };
 
-  return <Fetch {...{ resource, render_data }} />;
+  return <ShowResource {...{ resource, on_success: render_data }} />;
 }
 
 AddStocksToSectorDialog.propTypes = {

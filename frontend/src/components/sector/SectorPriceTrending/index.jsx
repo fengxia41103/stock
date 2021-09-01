@@ -8,7 +8,7 @@ import {
   Grid,
 } from "@material-ui/core";
 import { map } from "lodash";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import PropTypes from "prop-types";
 import { stocks_daily_ranking } from "src/utils/stock/ranking";
 import DailyRankingBarRaceChart from "src/components/dashboard/DailyRankingBarRaceChart";
@@ -74,7 +74,7 @@ export default function SectorPriceTrending(props) {
     );
   };
 
-  return <Fetch {...{ resource, render_data }} />;
+  return <ShowResource {...{ resource, on_success: render_data }} />;
 }
 
 SectorPriceTrending.propTypes = {

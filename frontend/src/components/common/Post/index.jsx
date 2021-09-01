@@ -28,7 +28,11 @@ export default function Post(props) {
   const [api_key] = useState(session.getItem("api_key"));
 
   // actual POST call
-  const { mutate: create, loading, error } = useMutate({
+  const {
+    mutate: create,
+    loading,
+    error,
+  } = useMutate({
     verb: "POST",
     path: `${api}${resource}/`,
     headers: { Authorization: `ApiKey ${user}:${api_key}` },

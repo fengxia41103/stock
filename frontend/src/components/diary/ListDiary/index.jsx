@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardContent,
 } from "@material-ui/core";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import { map } from "lodash";
 import AddDiaryEditor from "src/components/diary/AddDiaryEditor";
 import ListDiaryEntry from "src/components/diary/ListDiaryEntry";
@@ -77,7 +77,9 @@ export default function ListDiary(props) {
   };
 
   // render as usual to get data
-  return <Fetch {...{ key: toRefresh, resource, render_data }} />;
+  return (
+    <ShowResource {...{ key: to_refresh, resource, on_success: render_data }} />
+  );
 }
 
 ListDiary.propTypes = {

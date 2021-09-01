@@ -7,7 +7,7 @@ export default function LoginButton(props) {
   const { resource, username, password, on_success, on_error } = props;
 
   // event handlers
-  const on_login = event => {
+  const on_login = (event) => {
     event.preventDefault();
 
     // Simple POST request with a JSON body using fetch
@@ -20,11 +20,11 @@ export default function LoginButton(props) {
 
     // call API
     return fetch(resource, options)
-      .then(response => response.json())
-      .then(resp => {
+      .then((response) => response.json())
+      .then((resp) => {
         if (!!on_success) on_success(resp);
       })
-      .catch(error => {
+      .catch((error) => {
         if (!!on_error) on_error(error);
       });
   };

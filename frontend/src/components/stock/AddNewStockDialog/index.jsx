@@ -8,7 +8,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import GlobalContext from "src/context";
 import { map, truncate, remove, clone } from "lodash";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import {
   Box,
   FormControl,
@@ -35,10 +35,10 @@ export default function AddNewStockDialog() {
   // event handlers
   const on_click_open = () => setOpen(true);
   const on_click_close = () => setOpen(false);
-  const on_symbol_change = event => {
+  const on_symbol_change = (event) => {
     // symbol is always in upper case
     let tmp = event.target.value.toUpperCase();
-    tmp = map(tmp.replaceAll(",", " ").split(" "), s => s.trim());
+    tmp = map(tmp.replaceAll(",", " ").split(" "), (s) => s.trim());
     setSymbol(tmp);
 
     // set success msg
@@ -46,7 +46,7 @@ export default function AddNewStockDialog() {
     setSuccessMsg(`Symbols: ${symbols} have been added to your portfolio.`);
   };
 
-  const handle_sector_selection = event => {
+  const handle_sector_selection = (event) => {
     if (event.target.checked) {
       // add to selected sector
       let tmp = clone(selectedSectors);
@@ -56,7 +56,7 @@ export default function AddNewStockDialog() {
     } else {
       // remove from selected sector list
       setSelectedSectors(
-        remove(selectedSectors, x => x.id === event.target.value)
+        remove(selectedSectors, (x) => x.id === event.target.value)
       );
     }
   };
@@ -65,7 +65,7 @@ export default function AddNewStockDialog() {
   const on_success = () => setOpen(false);
 
   // rendering contents
-  const creates = map(symbol, s => (
+  const creates = map(symbol, (s) => (
     <Post
       key={s}
       {...{
@@ -77,9 +77,9 @@ export default function AddNewStockDialog() {
     />
   ));
 
-  const render_data = data => {
+  const render_data = (data) => {
     const sectors = data.objects;
-    const selections = map(sectors, s => {
+    const selections = map(sectors, (s) => {
       return (
         <Grid item key={s.id} lg={4} sm={6} xs={6}>
           <FormControlLabel
@@ -141,7 +141,10 @@ export default function AddNewStockDialog() {
             placeholder="symbol"
             fullWidth
           />
-          <Fetch {...{ api, resource: sectors_resource, render_data }} />
+          <ShowResource
+            {...{ resource: sectors_resource, on_success: render_data }}
+          />
+
           {submit ? creates : null}
         </DialogContent>
         <DialogActions>

@@ -7,7 +7,7 @@ import EditSectorDialog from "src/components/sector/EditSectorDialog";
 import DeleteSectorDialog from "src/components/sector/DeleteSectorDialog";
 import { Button, Link } from "@material-ui/core";
 import MultilineChartIcon from "@material-ui/icons/MultilineChart";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 
 export default function ListSectorCard(props) {
   const { me, all } = props;
@@ -38,5 +38,7 @@ export default function ListSectorCard(props) {
   };
 
   // render as usual to get data
-  return <Fetch {...{ resource, render_data, silent: true }} />;
+  return (
+    <ShowResource {...{ resource, on_success: render_data, silent: true }} />
+  );
 }

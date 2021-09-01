@@ -33,7 +33,7 @@ export default function AddDiaryEditor(props) {
   const on_success = () => setComment("");
 
   // event handlers
-  const prediction_change = event => {
+  const prediction_change = (event) => {
     setPrediction(parseInt(event.target.value));
   };
 

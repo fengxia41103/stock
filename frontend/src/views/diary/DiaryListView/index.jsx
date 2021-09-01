@@ -3,7 +3,7 @@ import { Box, Container } from "@material-ui/core";
 import ListDiary from "src/components/diary/ListDiary";
 import Page from "src/components/common/Page";
 import DiaryListContext from "./context.jsx";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 
 export default function DiaryListView() {
   const [resource] = useState("/stocks");
@@ -22,5 +22,5 @@ export default function DiaryListView() {
     );
   };
 
-  return <Fetch {...{ resource, render_data }} />;
+  return <ShowResource {...{ resource, on_success: render_data }} />;
 }

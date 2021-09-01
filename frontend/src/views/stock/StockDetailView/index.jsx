@@ -3,7 +3,7 @@ import { Outlet, useParams } from "react-router-dom";
 import { Container, Box, Grid } from "@material-ui/core";
 import Page from "src/components/common/Page";
 import MenuBar from "src/components/common/MenuBar";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import StockDetailContext from "./context.jsx";
 import StockLinkToSector from "src/components/stock/StockLinkToSector";
 import ListDiary from "src/components/diary/ListDiary";
@@ -175,7 +175,7 @@ function StockDetailView() {
   }
 
   // render as usual to get data
-  return <Fetch {...{ resource, render_data, mounted }} />;
+  return <ShowResource {...{ resource, on_success: render_data }} />;
 }
 
 export default StockDetailView;
