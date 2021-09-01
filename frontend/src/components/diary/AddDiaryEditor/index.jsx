@@ -105,7 +105,7 @@ export default function AddDiaryEditor(props) {
               content: comment,
               judgement: prediction,
             },
-            //on_success,
+            on_success,
             success_msg,
           }}
         />

@@ -36,7 +36,7 @@ export default function Post(props) {
     return () => {
       if (error && !!on_error) on_error(error);
 
-      if (!!!error && !!on_success) on_success();
+      if (!!on_success) on_success();
     };
   }, [mutate, data, error, on_error, on_success]);
 
