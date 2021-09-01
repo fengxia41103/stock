@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -8,14 +8,12 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import GlobalContext from "src/context";
 import AddIcon from "@material-ui/icons/Add";
 import ShowResource from "src/components/common/ShowResource";
 import { map, filter, truncate } from "lodash";
 import Post from "src/components/common/Post";
 
 export default function AddNewSectorDialog() {
-  const { api } = useContext(GlobalContext);
   const [open, setOpen] = useState(false);
   const [resource] = useState("/sectors");
   const [sector, setSector] = useState("");
@@ -28,10 +26,10 @@ export default function AddNewSectorDialog() {
   // event handlers
   const on_click_open = () => setOpen(true);
   const on_click_close = () => setOpen(false);
-  const on_sector_change = (event) => {
+  const on_sector_change = event => {
     // symbol is always in upper case
     let tmp = event.target.value;
-    tmp = map(tmp.split(","), (s) => s.trim());
+    tmp = map(tmp.split(","), s => s.trim());
     setSector(tmp);
 
     // set success msg
@@ -44,7 +42,7 @@ export default function AddNewSectorDialog() {
   };
 
   // call API and close this dialog
-  const creates = map(sector, (s) => (
+  const creates = map(sector, s => (
     <Post
       key={s}
       {...{
@@ -56,11 +54,11 @@ export default function AddNewSectorDialog() {
     />
   ));
 
-  const render_data = (data) => {
+  const render_data = data => {
     let sectors = data.objects;
     sectors = map(
-      filter(sectors, (s) => s.name.includes(sector)),
-      (s) => <Chip key={s.id} color="primary" label={s.name} />
+      filter(sectors, s => s.name.includes(sector)),
+      s => <Chip key={s.id} color="primary" label={s.name} />
     );
     const is_error = sectors.includes(sector);
 

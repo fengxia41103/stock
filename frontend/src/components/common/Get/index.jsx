@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import PropTypes from "prop-types";
@@ -12,7 +12,6 @@ export default function Get(props) {
   // props
   const {
     uri,
-    verb,
     options,
     on_success,
     on_error,
