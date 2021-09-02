@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -8,69 +8,59 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import GlobalContext from "src/context";
+import { useMutate } from "restful-react";
 import AddIcon from "@material-ui/icons/Add";
-import ShowResource from "src/components/common/ShowResource";
-import { map, filter, truncate } from "lodash";
-import CreateResource from "src/components/common/CreateResource";
+import Fetch from "src/components/common/Fetch";
+import { map, filter } from "lodash";
 
 export default function AddNewSectorDialog() {
+  const { api } = useContext(GlobalContext);
   const [open, setOpen] = useState(false);
   const [resource] = useState("/sectors");
   const [sector, setSector] = useState("");
-  const [submit, setSubmit] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
 
-  // action
+  const { mutate: create } = useMutate({
+    verb: "POST",
+    path: `${api}${resource}/`,
+  });
+
   const reload = () => window.location.reload();
+  const handleClickOpen = () => setOpen(true);
 
-  // event handlers
-  const on_click_open = () => setOpen(true);
-  const on_click_close = () => setOpen(false);
-  const on_sector_change = event => {
+  const handleClose = () => setOpen(false);
+
+  const on_sector_change = (event) => {
     // symbol is always in upper case
     let tmp = event.target.value;
-    tmp = map(tmp.split(","), s => s.trim());
+    tmp = map(tmp.split(","), (s) => s.trim());
     setSector(tmp);
-
-    // set success msg
-    const sectors = truncate(tmp.join(","), 20);
-    setSuccessMsg(`Sectors: ${sectors} have been added to your portfolio.`);
   };
-  const on_success = () => {
+
+  // call API and close this dialog
+  const on_create = () => {
+    map(sector, (s) => create({ name: s }));
     setOpen(false);
     reload();
   };
 
-  // call API and close this dialog
-  const creates = map(sector, s => (
-    <CreateResource
-      key={s}
-      {...{
-        resource,
-        data: { name: s },
-        on_success,
-        successMsg,
-      }}
-    />
-  ));
-
-  const render_data = data => {
+  const render_data = (data) => {
     let sectors = data.objects;
     sectors = map(
-      filter(sectors, s => s.name.includes(sector)),
-      s => <Chip key={s.id} color="primary" label={s.name} />
+      filter(sectors, (s) => s.name.includes(sector)),
+      (s) => <Chip key={s.id} color="primary" label={s.name} />
     );
     const is_error = sectors.includes(sector);
 
     return (
       <>
-        <Button color="secondary" onClick={on_click_open}>
+        <Button color="secondary" onClick={handleClickOpen}>
           <AddIcon />
           Add New Sector
         </Button>
         <Dialog
           open={open}
-          onClose={on_click_close}
+          onClose={handleClose}
           aria-labelledby="form-dialog-title"
         >
           <DialogTitle id="form-dialog-title">Add New Sector</DialogTitle>
@@ -94,16 +84,15 @@ export default function AddNewSectorDialog() {
             />
 
             <Box mt={2}>{sectors}</Box>
-            {submit ? creates : null}
           </DialogContent>
           <DialogActions>
-            <Button onClick={on_click_close} color="primary">
+            <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
             <Button
               variant="contained"
               color="primary"
-              onClick={() => setSubmit(true)}
+              onClick={on_create}
               disabled={is_error}
             >
               Add
@@ -114,5 +103,5 @@ export default function AddNewSectorDialog() {
     );
   };
   // render as usual to get data
-  return <ShowResource {...{ resource, on_success: render_data }} />;
+  return <Fetch {...{ api, resource, render_data }} />;
 }

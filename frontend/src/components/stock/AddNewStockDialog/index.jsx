@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -6,8 +6,11 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import GlobalContext from "src/context";
+import { useMutate } from "restful-react";
 import { map, truncate, remove, clone } from "lodash";
-import ShowResource from "src/components/common/ShowResource";
+import SimpleSnackbar from "src/components/common/SimpleSnackbar";
+import Fetch from "src/components/common/Fetch";
 import {
   Box,
   FormControl,
@@ -17,33 +20,42 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
-import CreateResource from "src/components/common/CreateResource";
 
 export default function AddNewStockDialog() {
-  // states
-  const [resource] = useState("/stocks");
-  const [sectors_resource] = useState("/sectors");
+  const { api } = useContext(GlobalContext);
   const [open, setOpen] = useState(false);
+  const [resource] = useState("/stocks");
   const [symbol, setSymbol] = useState([]);
+  const [notification, setNotification] = useState("");
+  const [sectors_resource] = useState("/sectors");
   const [selectedSectors, setSelectedSectors] = useState([]);
-  const [submit, setSubmit] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
 
-  // event handlers
-  const on_click_open = () => setOpen(true);
-  const on_click_close = () => setOpen(false);
-  const on_symbol_change = event => {
+  const { mutate: create } = useMutate({
+    verb: "POST",
+    path: `${api}${resource}/`,
+  });
+
+  const handleClickOpen = () => setOpen(true);
+
+  const handleClose = () => setOpen(false);
+
+  const on_symbol_change = (event) => {
     // symbol is always in upper case
     let tmp = event.target.value.toUpperCase();
-    tmp = map(tmp.replaceAll(",", " ").split(" "), s => s.trim());
+    tmp = map(tmp.replaceAll(",", " ").split(" "), (s) => s.trim());
     setSymbol(tmp);
-
-    // set success msg
-    const symbols = truncate(tmp.join(","), 20);
-    setSuccessMsg(`Symbols: ${symbols} have been added to your portfolio.`);
   };
 
-  const handle_sector_selection = event => {
+  // call API and close this dialog
+  const on_create = () => {
+    map(symbol, (s) => create({ symbol: s, sectors: selectedSectors }));
+    setOpen(false);
+
+    const msg = truncate(symbol.join(","), 20);
+    setNotification(`Symbols: ${msg} have been added to your portfolio.`);
+  };
+
+  const handle_sector_selection = (event) => {
     if (event.target.checked) {
       // add to selected sector
       let tmp = clone(selectedSectors);
@@ -53,30 +65,14 @@ export default function AddNewStockDialog() {
     } else {
       // remove from selected sector list
       setSelectedSectors(
-        remove(selectedSectors, x => x.id === event.target.value)
+        remove(selectedSectors, (x) => x.id === event.target.value)
       );
     }
   };
 
-  // actions
-  const on_success = () => setOpen(false);
-
-  // rendering contents
-  const creates = map(symbol, s => (
-    <CreateResource
-      key={s}
-      {...{
-        resource,
-        data: { symbol: s, sectors: selectedSectors },
-        on_success,
-        successMsg,
-      }}
-    />
-  ));
-
-  const render_data = data => {
+  const render_data = (data) => {
     const sectors = data.objects;
-    const selections = map(sectors, s => {
+    const selections = map(sectors, (s) => {
       return (
         <Grid item key={s.id} lg={4} sm={6} xs={6}>
           <FormControlLabel
@@ -116,12 +112,13 @@ export default function AddNewStockDialog() {
 
   return (
     <>
-      <Button color="secondary" variant="contained" onClick={on_click_open}>
+      <Button color="secondary" variant="contained" onClick={handleClickOpen}>
         Add new stocks
+        <SimpleSnackbar msg={notification} />
       </Button>
       <Dialog
         open={open}
-        onClose={on_click_close}
+        onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Add New Stock</DialogTitle>
@@ -138,21 +135,13 @@ export default function AddNewStockDialog() {
             placeholder="symbol"
             fullWidth
           />
-          <ShowResource
-            {...{ resource: sectors_resource, on_success: render_data }}
-          />
-
-          {submit ? creates : null}
+          <Fetch {...{ api, resource: sectors_resource, render_data }} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={on_click_close} color="primary">
+          <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setSubmit(true)}
-          >
+          <Button variant="contained" color="primary" onClick={on_create}>
             Add
           </Button>
         </DialogActions>

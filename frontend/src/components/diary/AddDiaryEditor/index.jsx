@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import { useMutate } from "restful-react";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import TrendingDownIcon from "@material-ui/icons/TrendingDown";
+import GlobalContext from "src/context";
 import MDEditor from "@uiw/react-md-editor";
 import {
-  Box,
-  Button,
-  Typography,
   FormControl,
   FormLabel,
   FormControlLabel,
@@ -14,35 +16,51 @@ import {
 } from "@material-ui/core";
 import { isUndefined } from "lodash";
 import PropTypes from "prop-types";
-import CreateResource from "src/components/common/CreateResource";
+import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 
 export default function AddDiaryEditor(props) {
-  // props
-  const { stock: stock_id, to_refresh } = props;
-
-  // states
+  const { api } = useContext(GlobalContext);
   const [resource] = useState("/diaries");
   const [comment, setComment] = useState("");
+  const { stock: stock_id, to_refresh } = props;
   const [prediction, setPrediction] = useState(1);
-  const [submit, setSubmit] = useState(false);
+  const [notification, setNotification] = useState("");
+  const session = window.sessionStorage;
+  const [user] = useState(session.getItem("user"));
+  const [api_key] = useState(session.getItem("api_key"));
 
-  // hardcode
-  const success_msg = "New note has been saved.";
+  const { mutate: create } = useMutate({
+    verb: "POST",
+    path: `${api}${resource}/?`,
+    requestOptions: (url, method, requestBody) => ({
+      headers: {
+        "content-type": "application/json",
+        Authorization: `ApiKey ${user}:${api_key}`,
+      },
+    }),
+  });
 
-  // actions
-  const on_success = () => setComment("");
+  // call API and close this dialog
+  const on_create = () => {
+    const msg = "New note has been saved.";
 
-  // event handlers
-  const prediction_change = event => {
-    setPrediction(parseInt(event.target.value));
+    create({
+      stock: isUndefined(stock_id) ? null : `/api/v1/stocks/${stock_id}/`,
+      content: comment,
+      judgement: prediction,
+    })
+      .then(setComment(""))
+      .then(setNotification(msg));
   };
 
-  // on mount
   useEffect(() => {
     return () => to_refresh();
   }, [to_refresh]);
 
-  // rendering contents
+  const prediction_change = event => {
+    setPrediction(parseInt(event.target.value));
+  };
+
   const judgement_selection = (
     <FormControl component="fieldset">
       <FormLabel component="legend">
@@ -69,7 +87,6 @@ export default function AddDiaryEditor(props) {
     </FormControl>
   );
 
-  // render
   return (
     <>
       <Typography variant="body2">
@@ -86,30 +103,12 @@ export default function AddDiaryEditor(props) {
       </Box>
       <Box mt={2}>{judgement_selection}</Box>
       <Box mt={1} justifyContent="flex-end">
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setSubmit(true)}
-        >
+        <Button variant="contained" color="primary" onClick={on_create}>
           Save
         </Button>
       </Box>
-      {submit ? (
-        <CreateResource
-          {...{
-            resource,
-            data: {
-              stock: isUndefined(stock_id)
-                ? null
-                : `/api/v1/stocks/${stock_id}/`,
-              content: comment,
-              judgement: prediction,
-            },
-            on_success,
-            success_msg,
-          }}
-        />
-      ) : null}
+
+      <SimpleSnackbar msg={notification} />
     </>
   );
 }
