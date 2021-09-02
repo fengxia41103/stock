@@ -16,8 +16,8 @@ export default function DeleteStock(props) {
     path: `${host}${resource_uri}`,
   });
 
-  const handle_delete = (event) => {
-    del({}).then(setNotification(`Stock ${symbol} has been deleted.`));
+  const handle_delete = event => {
+    del().then(setNotification(`Stock ${symbol} has been deleted.`));
   };
 
   return (

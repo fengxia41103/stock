@@ -22,6 +22,7 @@ import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@material-ui/icons/ThumbDownOutlined";
 import DiaryStockTag from "src/components/diary/DiaryStockTag";
 import ShowResource from "src/components/common/ShowResource";
+import { useMutate } from "restful-react";
 
 const useStyles = makeStyles((theme) => ({
   diary: {
@@ -38,11 +39,13 @@ export default function ListDiaryEntry(props) {
   const created = new Date(diary.created);
 
   // call to update backend
+  const { mutate: del } = useMutate({
+    verb: "DELETE",
+    path: `${host}${diary.resource_uri}`,
+  });
+
   const on_del = () => {
-    const uri = `${host}${diary.resource_uri}`;
-    fetch(uri, {
-      method: "DELETE",
-    }).then(to_refresh());
+    del().then(to_refresh());
   };
 
   const menu_content = (
