@@ -11,7 +11,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import GlobalContext from "src/context";
 import { useMutate } from "restful-react";
 import AddIcon from "@material-ui/icons/Add";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import { map, filter } from "lodash";
 
 export default function AddNewSectorDialog() {
@@ -30,25 +30,25 @@ export default function AddNewSectorDialog() {
 
   const handleClose = () => setOpen(false);
 
-  const on_sector_change = (event) => {
+  const on_sector_change = event => {
     // symbol is always in upper case
     let tmp = event.target.value;
-    tmp = map(tmp.split(","), (s) => s.trim());
+    tmp = map(tmp.split(","), s => s.trim());
     setSector(tmp);
   };
 
   // call API and close this dialog
   const on_create = () => {
-    map(sector, (s) => create({ name: s }));
+    map(sector, s => create({ name: s }));
     setOpen(false);
     reload();
   };
 
-  const render_data = (data) => {
+  const render_data = data => {
     let sectors = data.objects;
     sectors = map(
-      filter(sectors, (s) => s.name.includes(sector)),
-      (s) => <Chip key={s.id} color="primary" label={s.name} />
+      filter(sectors, s => s.name.includes(sector)),
+      s => <Chip key={s.id} color="primary" label={s.name} />
     );
     const is_error = sectors.includes(sector);
 
@@ -103,5 +103,5 @@ export default function AddNewSectorDialog() {
     );
   };
   // render as usual to get data
-  return <Fetch {...{ api, resource, render_data }} />;
+  return <ShowResource {...{ resource, on_success: render_data }} />;
 }

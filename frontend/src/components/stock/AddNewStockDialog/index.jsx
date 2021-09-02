@@ -10,7 +10,7 @@ import GlobalContext from "src/context";
 import { useMutate } from "restful-react";
 import { map, truncate, remove, clone } from "lodash";
 import SimpleSnackbar from "src/components/common/SimpleSnackbar";
-import Fetch from "src/components/common/Fetch";
+import ShowResource from "src/components/common/ShowResource";
 import {
   Box,
   FormControl,
@@ -39,23 +39,23 @@ export default function AddNewStockDialog() {
 
   const handleClose = () => setOpen(false);
 
-  const on_symbol_change = (event) => {
+  const on_symbol_change = event => {
     // symbol is always in upper case
     let tmp = event.target.value.toUpperCase();
-    tmp = map(tmp.replaceAll(",", " ").split(" "), (s) => s.trim());
+    tmp = map(tmp.replaceAll(",", " ").split(" "), s => s.trim());
     setSymbol(tmp);
   };
 
   // call API and close this dialog
   const on_create = () => {
-    map(symbol, (s) => create({ symbol: s, sectors: selectedSectors }));
+    map(symbol, s => create({ symbol: s, sectors: selectedSectors }));
     setOpen(false);
 
     const msg = truncate(symbol.join(","), 20);
     setNotification(`Symbols: ${msg} have been added to your portfolio.`);
   };
 
-  const handle_sector_selection = (event) => {
+  const handle_sector_selection = event => {
     if (event.target.checked) {
       // add to selected sector
       let tmp = clone(selectedSectors);
@@ -65,14 +65,14 @@ export default function AddNewStockDialog() {
     } else {
       // remove from selected sector list
       setSelectedSectors(
-        remove(selectedSectors, (x) => x.id === event.target.value)
+        remove(selectedSectors, x => x.id === event.target.value)
       );
     }
   };
 
-  const render_data = (data) => {
+  const render_data = data => {
     const sectors = data.objects;
-    const selections = map(sectors, (s) => {
+    const selections = map(sectors, s => {
       return (
         <Grid item key={s.id} lg={4} sm={6} xs={6}>
           <FormControlLabel
@@ -135,7 +135,9 @@ export default function AddNewStockDialog() {
             placeholder="symbol"
             fullWidth
           />
-          <Fetch {...{ api, resource: sectors_resource, render_data }} />
+          <ShowResource
+            {...{ resource: sectors_resource, on_success: render_data }}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
