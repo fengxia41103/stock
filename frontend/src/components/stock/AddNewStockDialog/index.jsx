@@ -48,11 +48,17 @@ export default function AddNewStockDialog() {
 
   // call API and close this dialog
   const on_create = () => {
-    map(symbol, s => create({ symbol: s, sectors: selectedSectors }));
-    setOpen(false);
-
-    const msg = truncate(symbol.join(","), 20);
-    setNotification(`Symbols: ${msg} have been added to your portfolio.`);
+    const success_msg = truncate(symbol.join(","), 20);
+    const promises = map(symbol, s =>
+      create({ symbol: s, sectors: selectedSectors })
+    );
+    Promise.all(promises)
+      .then(setOpen(false))
+      .then(
+        setNotification(
+          `Symbols: ${success_msg} have been added to your portfolio.`
+        )
+      );
   };
 
   const handle_sector_selection = event => {

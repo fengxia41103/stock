@@ -32,7 +32,7 @@ const App = () => {
 
     // this bool is for convenience
     setIsAuthenticated(!!user && !!api_key);
-  });
+  }, [user, api_key, setUser, setApiKey]);
 
   return (
     <ThemeProvider theme={theme}>

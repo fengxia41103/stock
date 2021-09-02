@@ -13,12 +13,11 @@ export default function UpdateAllStock(props) {
   const [notification, setNotification] = useState("");
 
   // API will treat `all:True` as a request to update all stocks.
-  const update_all = (stocks) => {
-    const symbols = truncate(map(stocks, (s) => s.symbol).join(","), 20);
-
-    const call_api = (s) => {
+  const symbols = truncate(map(stocks, s => s.symbol).join(","), 20);
+  const update_all = stocks => {
+    const call_api = s => {
       const uri = `${api}${resource}/${s.id}/`;
-      fetch(uri, {
+      return fetch(uri, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -26,7 +25,8 @@ export default function UpdateAllStock(props) {
         body: JSON.stringify({}),
       });
     };
-    let promises = stocks.map((s) => call_api(s));
+
+    const promises = stocks.map(s => call_api(s));
     Promise.all(promises).then(
       setNotification(`${symbols} updates have been requested.`)
     );

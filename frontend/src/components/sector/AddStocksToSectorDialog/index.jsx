@@ -28,14 +28,14 @@ export default function AddStocksToSectorDialog(props) {
     setOpen(false);
   };
 
-  const stock_links = map(stocks, (v) => {
+  const stock_links = map(stocks, v => {
     return <ListItem key={v.id}>{v.symbol}</ListItem>;
   });
 
   let sectors = [];
   let selected_sectors = [];
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     for (let i = 0; i < sectors.length; i++) {
       let s = sectors[i];
 
@@ -46,21 +46,21 @@ export default function AddStocksToSectorDialog(props) {
           selected_sectors.push(s);
         } else {
           // remove
-          remove(selected_sectors, (k) => s.name === k.name);
+          remove(selected_sectors, k => s.name === k.name);
         }
       }
     }
   };
 
   const add = () => {
-    const add_stock_resources = map(stocks, (s) => s.resource_uri);
-    const call_api = (s) => {
+    const add_stock_resources = map(stocks, s => s.resource_uri);
+    const call_api = s => {
       // add selected stocks to the list
       const stock_resources = s.stocks.concat(add_stock_resources);
 
       // call to update backend
       const uri = `${host}${s.resource_uri}`;
-      fetch(uri, {
+      return fetch(uri, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -70,20 +70,21 @@ export default function AddStocksToSectorDialog(props) {
     };
 
     // for each sector, enumerate to update
-    selected_sectors.forEach((s) => call_api(s));
-
-    // close the dialog
-    handleClose();
+    const promises = selected_sectors.map(s => call_api(s));
+    Promise.all(promises).then(
+      // close the dialog
+      handleClose()
+    );
   };
 
-  const render_data = (data) => {
+  const render_data = data => {
     if (isEmpty(sectors)) {
       sectors = data.objects;
     }
 
-    const selections = map(sectors, (s) => {
+    const selections = map(sectors, s => {
       return (
-        <Grid item xs={4} key={s.id}>
+        <Grid key={s.id} item lg={3} md={4} sm={6} xs={6} >
           <FormControlLabel
             control={<Checkbox onChange={handleChange} name={s.name} />}
             label={s.name}

@@ -25,9 +25,6 @@ export default function AddDiaryEditor(props) {
   const { stock: stock_id, to_refresh } = props;
   const [prediction, setPrediction] = useState(1);
   const [notification, setNotification] = useState("");
-  const session = window.sessionStorage;
-  const [user] = useState(session.getItem("user"));
-  const [api_key] = useState(session.getItem("api_key"));
 
   const { mutate: create } = useMutate({
     verb: "POST",
