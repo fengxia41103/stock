@@ -35,7 +35,9 @@ export default function Get(props) {
   if (error) {
     return (
       <>
-        <SimpleSnackbar msg={!!error_msg ? error_msg : DEFAULT_ERROR} />
+        {silent === false ? (
+          <SimpleSnackbar msg={!!error_msg ? error_msg : DEFAULT_ERROR} />
+        ) : null}
         {!!on_error ? on_error(data) : null}
       </>
     );
@@ -44,7 +46,9 @@ export default function Get(props) {
   // when success
   return (
     <>
-      <SimpleSnackbar msg={!!success_msg ? success_msg : DEFAULT_SUCCESS} />
+      {silent === false ? (
+        <SimpleSnackbar msg={!!success_msg ? success_msg : DEFAULT_SUCCESS} />
+      ) : null}
       {!!on_success ? on_success(data) : null}
     </>
   );

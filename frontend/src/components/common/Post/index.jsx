@@ -40,12 +40,19 @@ export default function Post(props) {
     };
   }, [mutate, data, error, on_error, on_success]);
 
-  if (!!silent) {
-    // when waiting
-    if (loading) {
+  if (loading) {
+    if (!!silent) return null;
+    else {
       return <CircularProgress />;
     }
+  }
 
+  // show something if any of the followings is true:
+  // 1. if silent set to false specifically, default will be show nothing!
+  // 2. if there is an error_msg to display
+  // 3. if there is a success_msg to display
+
+  if (silent===false || !!error_msg || !!success_msg) {
     // when error
     if (error) {
       return <SimpleSnackbar msg={!!error_msg ? error_msg : DEFAULT_ERROR} />;

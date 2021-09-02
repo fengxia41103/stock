@@ -26,22 +26,22 @@ function StockListView(props) {
   const [searching, setSearching] = useState("");
   const [group_by, setGroupBy] = useState("last_reporting_date");
 
-  const symbol_filter_change = (event) => {
+  const symbol_filter_change = event => {
     const tmp = event.target.value.trim().toUpperCase();
     setSearching(tmp);
   };
 
-  const group_by_change = (event) => {
+  const group_by_change = event => {
     setGroupBy(event.target.value);
   };
 
-  const render_data = (data) => {
+  const render_data = data => {
     const stocks = data.objects;
     // filter based on search string
-    const filtered = filter(stocks, (x) => x.symbol.includes(searching));
+    const filtered = filter(stocks, x => x.symbol.includes(searching));
 
     // when select
-    const grouped = groupBy(filtered, (v) => {
+    const grouped = groupBy(filtered, v => {
       let g = null;
 
       switch (group_by) {
@@ -58,9 +58,9 @@ function StockListView(props) {
     });
 
     const sorted_keys = sortBy(Object.keys(grouped));
-    const selectors = map(sorted_keys, (index) => {
+    const selectors = map(sorted_keys, index => {
       const symbols = grouped[index];
-      const sorted = sortBy(symbols, (s) => s.symbol);
+      const sorted = sortBy(symbols, s => s.symbol);
 
       const actions = [<AddStocksToSectorDialog stocks={sorted} />];
       return (

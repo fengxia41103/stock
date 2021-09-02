@@ -4,6 +4,7 @@ import { map, truncate } from "lodash";
 import PropTypes from "prop-types";
 import UpdateIcon from "@material-ui/icons/Update";
 import UpdateResource from "src/components/common/UpdateResource";
+import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 
 export default function UpdateAllStock(props) {
   const { stocks } = props;
@@ -13,13 +14,16 @@ export default function UpdateAllStock(props) {
   // API will treat `all:True` as a request to update all stocks.
   const update_all = map(stocks, s => {
     const uri = `${resource}/${s.id}/`;
-    const success_msg = `${s.symbol} updates have been requested.`;
     return (
       <UpdateResource
-        {...{ resource: uri, data: {}, success_msg, silent: true }}
+        key={s.id}
+        {...{ resource: uri, data: {}, silent: true }}
       />
     );
   });
+
+  const symbols = truncate(map(stocks, s => s.symbol).join(","), 20);
+  const success_msg = `${symbols} updates have been requested.`;
 
   return (
     <>
@@ -27,7 +31,12 @@ export default function UpdateAllStock(props) {
         <UpdateIcon />
         Update All
       </Button>
-      {submit ? update_all : null}
+      {submit ? (
+        <>
+          {update_all}
+          <SimpleSnackbar msg={success_msg} />
+        </>
+      ) : null}
     </>
   );
 }
