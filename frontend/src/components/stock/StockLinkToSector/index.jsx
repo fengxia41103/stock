@@ -91,7 +91,7 @@ export default function StockLinkToSector(props) {
 
     const selections = map(mapped_sectors, (s) => {
       return (
-        <Grid item key={s.id} lg={2} sm={3} xs={4}>
+        <Grid item key={s.id} lg={2} sm={4} xs={6}>
           <FormControlLabel
             control={
               <Checkbox
