@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import { useMutate } from "restful-react";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import TrendingDownIcon from "@material-ui/icons/TrendingDown";
 import GlobalContext from "src/context";
@@ -12,28 +13,31 @@ import {
   RadioGroup,
   Radio,
 } from "@material-ui/core";
-import UpdateResource from "src/components/common/UpdateResource";
+import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 
 export default function EditDiaryEditor(props) {
-  // context
   const { host } = useContext(GlobalContext);
-
-  // props
   const { diary, inEditing } = props;
-
-  // states
   const [comment, setComment] = useState(diary.content);
+  const [notification, setNotification] = useState("");
   const [prediction, setPrediction] = useState(diary.judgement);
-  const [submit, setSubmit] = useState(false);
 
-  const success_msg = "Notes have been updated";
+  const { mutate: update } = useMutate({
+    verb: "PATCH",
+    path: `${host}${diary.resource_uri}`,
+  });
 
-  // event handlers
-  const prediction_change = event => {
+  const prediction_change = (event) => {
     setPrediction(parseInt(event.target.value));
   };
 
-  // render contents
+  const handle_update = (event) => {
+    const msg = "Notes have been updated";
+    update({ content: comment, judgement: prediction }).then(
+      setNotification(msg)
+    );
+  };
+
   const judgement_selection = (
     <FormControl component="fieldset">
       <FormLabel component="legend">
@@ -71,24 +75,11 @@ export default function EditDiaryEditor(props) {
         />
         <Box mt={2}>{judgement_selection}</Box>
         <Box>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => setSubmit(true)}
-          >
+          <Button variant="contained" color="secondary" onClick={handle_update}>
             Save
           </Button>
         </Box>
-
-        {submit ? (
-          <UpdateResource
-            {...{
-              resource: `${host}${diary.resource_uri}`,
-              data: { content: comment, judgement: prediction },
-              success_msg,
-            }}
-          />
-        ) : null}
+        <SimpleSnackbar msg={notification} />
       </>
     );
   } else {

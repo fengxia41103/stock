@@ -1,43 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button } from "@material-ui/core";
 import { map, truncate } from "lodash";
-import PropTypes from "prop-types";
-import UpdateIcon from "@material-ui/icons/Update";
-import UpdateResource from "src/components/common/UpdateResource";
 import SimpleSnackbar from "src/components/common/SimpleSnackbar";
+import PropTypes from "prop-types";
+import GlobalContext from "src/context";
+import UpdateIcon from "@material-ui/icons/Update";
 
 export default function UpdateAllStock(props) {
-  const { stocks } = props;
+  const { api } = useContext(GlobalContext);
   const [resource] = useState("/stocks");
-  const [submit, setSubmit] = useState(false);
+  const { stocks } = props;
+  const [notification, setNotification] = useState("");
 
   // API will treat `all:True` as a request to update all stocks.
-  const update_all = map(stocks, s => {
-    const uri = `${resource}/${s.id}/`;
-    return (
-      <UpdateResource
-        key={s.id}
-        {...{ resource: uri, data: {}, silent: true }}
-      />
-    );
-  });
+  const update_all = (stocks) => {
+    const symbols = truncate(map(stocks, (s) => s.symbol).join(","), 20);
 
-  const symbols = truncate(map(stocks, s => s.symbol).join(","), 20);
-  const success_msg = `${symbols} updates have been requested.`;
+    const call_api = (s) => {
+      const uri = `${api}${resource}/${s.id}/`;
+      fetch(uri, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+    };
+    let promises = stocks.map((s) => call_api(s));
+    Promise.all(promises).then(
+      setNotification(`${symbols} updates have been requested.`)
+    );
+  };
 
   return (
-    <>
-      <Button color="secondary" onClick={() => setSubmit(true)}>
-        <UpdateIcon />
-        Update All
-      </Button>
-      {submit ? (
-        <>
-          {update_all}
-          <SimpleSnackbar msg={success_msg} />
-        </>
-      ) : null}
-    </>
+    <Button color="secondary" onClick={() => update_all(stocks)}>
+      <UpdateIcon />
+      Update All
+      <SimpleSnackbar msg={notification} />
+    </Button>
   );
 }
 
