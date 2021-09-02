@@ -32,12 +32,6 @@ export default function AddDiaryEditor(props) {
   const { mutate: create } = useMutate({
     verb: "POST",
     path: `${api}${resource}/?`,
-    requestOptions: (url, method, requestBody) => ({
-      headers: {
-        "content-type": "application/json",
-        Authorization: `ApiKey ${user}:${api_key}`,
-      },
-    }),
   });
 
   // call API and close this dialog

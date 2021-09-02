@@ -37,7 +37,15 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <RestfulProvider base={backend.api}>
+      <RestfulProvider
+        base={backend.api}
+        requestOptions={(url, method, requestBody) => ({
+          headers: {
+            "content-type": "application/json",
+            Authorization: `ApiKey ${user}:${api_key}`,
+          },
+        })}
+      >
         <GlobalContext.Provider value={{ ...backend }}>
           {isAuthenticated ? routing : <LoginView />}
         </GlobalContext.Provider>
