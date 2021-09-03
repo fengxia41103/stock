@@ -8,8 +8,6 @@ export default function LogoutView() {
 
   // states
   const [resource] = useState("/auth/logout/");
-  const [user] = useState(session.getItem("user"));
-  const [api_key] = useState(session.getItem("api_key"));
 
   // callbacks
   const remove_auth = () => {
@@ -25,14 +23,13 @@ export default function LogoutView() {
       remove_auth();
 
       // go to a landing page
-      navigate("/");
+      navigate("/login");
     }
   };
-
-  const on_error = (err) => console.log(err);
+  const on_error = (err) => console.error(err);
 
   // render
   return (
-    <Logout {...{ username: user, api_key, resource, on_success, on_error }} />
+    <Logout {...{ resource, on_success, on_error }} />
   );
 }
