@@ -37,6 +37,7 @@ export default function LoginView() {
 
   // you decide what to do if logged in
   const on_success = (resp) => {
+
     if (resp.success) {
       // save auth somewhere for all calls
       save_auth(resp);
@@ -46,7 +47,7 @@ export default function LoginView() {
     }
   };
 
-  const on_error = (err) => console.log(err);
+  const on_error = (err) => console.error(err);
 
   // render
   return (

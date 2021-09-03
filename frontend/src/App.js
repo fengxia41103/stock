@@ -25,6 +25,10 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const routing = useRoutes(routes);
 
+  // MUST: no dependency!
+  // This is a special case because the change of these two key info `user` and
+  // `api_key` will not be known through any mean. So reading them from session
+  // storage is the only way to get an update.
   useEffect(() => {
     // MUST: read each time we mount this component!
     setUser(session.getItem("user"));
@@ -32,7 +36,7 @@ const App = () => {
 
     // this bool is for convenience
     setIsAuthenticated(!!user && !!api_key);
-  }, [user, api_key, setUser, setApiKey]);
+  });
 
   return (
     <ThemeProvider theme={theme}>
