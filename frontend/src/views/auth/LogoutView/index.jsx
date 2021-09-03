@@ -23,7 +23,7 @@ export default function LogoutView() {
       remove_auth();
 
       // go to a landing page
-      navigate("/login");
+      navigate("/login", {replace:true});
     }
   };
   const on_error = (err) => console.error(err);

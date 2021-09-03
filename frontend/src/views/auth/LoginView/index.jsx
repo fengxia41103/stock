@@ -43,7 +43,7 @@ export default function LoginView() {
       save_auth(resp);
 
       // go to a landing page
-      navigate("/");
+      navigate("/", {replace: true});
     }
   };
 
