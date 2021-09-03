@@ -56,8 +56,8 @@ export default function Get(props) {
 
 Get.propTypes = {
   uri: PropTypes.string.isRequired,
-  options: PropTypes.object.isRequired,
   on_success: PropTypes.func.isRequired,
+  options: PropTypes.object,
   on_error: PropTypes.func,
   success_msg: PropTypes.string,
   error_msg: PropTypes.string,

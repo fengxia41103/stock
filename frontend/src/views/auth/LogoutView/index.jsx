@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Logout from "src/components/auth/Logout";
+import Get from "src/components/common/Get";
+import LoginView from "src/views/auth/LoginView";
 
 export default function LogoutView() {
-  const navigate = useNavigate();
   const session = window.sessionStorage;
 
   // states
@@ -18,18 +17,15 @@ export default function LogoutView() {
   };
 
   // you decide what to do if logged in
-  const on_success = (resp) => {
+  const on_success = resp => {
     if (resp.success) {
       remove_auth();
 
       // go to a landing page
-      navigate("/login", {replace:true});
+      return <LoginView />;
     }
   };
-  const on_error = (err) => console.error(err);
+  const on_error = err => console.error(err);
 
-  // render
-  return (
-    <Logout {...{ resource, on_success, on_error }} />
-  );
+  return <Get {...{ uri: resource, on_success, on_error, silent: true }} />;
 }
