@@ -18,7 +18,7 @@ export default function TodayDashboardView() {
   const [resource, setResource] = useState("");
   const [today, setToday] = useState(moment());
 
-  const set_today = (now) => {
+  const set_today = now => {
     let adjust_in_day;
     switch (now.day()) {
       case 0:
@@ -43,7 +43,7 @@ export default function TodayDashboardView() {
     set_today(today);
   });
 
-  const today_change = (event) => {
+  const today_change = event => {
     const now = moment(event.target.value, "YYYY-MM-DD");
 
     // update state
@@ -53,14 +53,14 @@ export default function TodayDashboardView() {
     set_today(now);
   };
 
-  const render_data = (data) => {
+  const render_data = data => {
     let stocks = data.objects;
 
-    const stocks_with_unique_id = map(uniqBy(stocks, "stock_id"), (s) => {
-      return { id: s.stock_id };
+    const stocks_with_unique_id = map(uniqBy(stocks, "stock_id"), s => {
+      return { id: s.stock_id, symbol: s.symbol };
     });
 
-    stocks = map(stocks, (s) => {
+    stocks = map(stocks, s => {
       return {
         gain: ((s.close_price - s.open_price) / s.open_price) * 100,
         volatility: ((s.high_price - s.low_price) / s.low_price) * 100,
@@ -70,21 +70,18 @@ export default function TodayDashboardView() {
 
     const gainer = reverse(
       sortBy(
-        filter(stocks, (s) => s.gain > 0),
-        (s) => s.gain
+        filter(stocks, s => s.gain > 0),
+        s => s.gain
       )
     ).slice(0, 10);
     const loser = sortBy(
-      filter(stocks, (s) => s.gain < 0),
-      (s) => s.gain
+      filter(stocks, s => s.gain < 0),
+      s => s.gain
     ).slice(0, 10);
     const mover = reverse(
-      sortBy(stocks, (s) => s.vol_over_share_outstanding)
+      sortBy(stocks, s => s.vol_over_share_outstanding)
     ).slice(0, 10);
-    const volatility = reverse(sortBy(stocks, (s) => s.volatility)).slice(
-      0,
-      10
-    );
+    const volatility = reverse(sortBy(stocks, s => s.volatility)).slice(0, 10);
 
     const today_string = today.format("dddd, ll");
 
