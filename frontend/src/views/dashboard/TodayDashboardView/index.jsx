@@ -95,9 +95,11 @@ export default function TodayDashboardView() {
               direction="row"
               justifyContent="flex-end"
             >
-              <Grid item xs>
-                <UpdateAllStock stocks={stocks_with_unique_id} />
-              </Grid>
+              {stocks_with_unique_id.length > 0 ? (
+                <Grid item xs>
+                  <UpdateAllStock stocks={stocks_with_unique_id} />
+                </Grid>
+              ) : null}
             </Grid>
           </Box>
 
