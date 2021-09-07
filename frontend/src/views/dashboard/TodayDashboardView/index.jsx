@@ -82,6 +82,7 @@ export default function TodayDashboardView() {
       sortBy(stocks, s => s.vol_over_share_outstanding)
     ).slice(0, 10);
     const volatility = reverse(sortBy(stocks, s => s.volatility)).slice(0, 10);
+    const last_lower = reverse(sortBy(stocks, s => s.last_lower)).slice(0, 10);
 
     const today_string = today.format("dddd, ll");
 
@@ -119,6 +120,15 @@ export default function TodayDashboardView() {
 
           <Box mt={1}>
             <Grid container spacing={1}>
+              <Grid item lg={4} sm={6} xs={12}>
+                <MoverCard
+                  date={today_string}
+                  title="Last Lower"
+                  subtitle="days ago when saw this low"
+                  stocks={last_lower}
+                  value="last_lower"
+                />
+              </Grid>
               <Grid item lg={4} sm={6} xs={12}>
                 <MoverCard
                   date={today_string}
