@@ -242,6 +242,7 @@ class HistoricalResource(BaseResource):
     stock_id = fields.IntegerField("stock_id", null=True)
     last_lower = fields.IntegerField("last_lower", null=True)
     next_better = fields.IntegerField("next_better", null=True)
+    gain_probability = fields.FloatField("gain_probability", null=True)
 
     class Meta:
         resource_name = "historicals"

@@ -10,6 +10,7 @@ import {
   Box,
   Typography,
 } from "@material-ui/core";
+import GainProbabilityChart from "src/components/stock/GainProbabilityChart";
 
 export default function LastLowerNextBetterView() {
   const data = useContext(StockHistoricalContext);
@@ -42,6 +43,33 @@ export default function LastLowerNextBetterView() {
           </Box>
         </CardContent>
       </Card>
+      <Box mt={1}>
+        <Card>
+          <CardHeader
+            title={
+              <Typography variant="h3">
+                {data[0].symbol} Gain Probabilities
+              </Typography>
+            }
+          />
+          <CardContent>
+            <Typography variant="body2">
+              Gain probabilities measure how like you could gain by purchasing
+              at close price on a particular day. The `Gain bought today & hold`
+              is, as name indicates, is an absolute gain/loss in percentage if
+              you buy at today's close price and hold till now. The "Gain
+              probability" measures likelyhood you could make a positive gain
+              from this date on. For example, if there are 30 days from the date
+              to the end of period, and 10 days had prices higher than the
+              date's close price, the probability is 10/30=1/3=33%. In other
+              words, you have 33% chance to make a positive gain.
+            </Typography>
+            <Box mt={3}>
+              <GainProbabilityChart data={data} />
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
       <Box mt={1}>
         <Card>
           <CardContent>

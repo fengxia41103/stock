@@ -374,7 +374,7 @@ class MyStock(models.Model):
         if tmp:
             cash_per_share = tmp.cash_and_cash_equivalent_per_share
             if cash_per_share:
-                return self.latest_close_price/cash_per_share
+                return self.latest_close_price / cash_per_share
             else:
                 return None
         else:
@@ -424,7 +424,7 @@ class MyStockHistorical(models.Model):
         """
         last_saw = (
             self.stock.historicals.filter(
-                close_price__lte=self.close_price, on__lt=self.on
+                close_price__lt=self.close_price, on__lt=self.on
             )
             .order_by("-on")
             .first()
@@ -442,12 +442,13 @@ class MyStockHistorical(models.Model):
         long did it take for it to surpass today's **open** price?
 
         If we saw a drop today, this measures how long it takes to
-        recover back to today's open price.
+        recover back to today's open price. A 0 is equivalent to a
+        PEAK that no higher price than this can be detected.
 
         """
         next_saw = (
             self.stock.historicals.filter(
-                close_price__gte=self.open_price, on__gt=self.on
+                close_price__gt=self.open_price, on__gt=self.on
             )
             .order_by("on")
             .first()
@@ -457,6 +458,30 @@ class MyStockHistorical(models.Model):
                 on__gt=self.on, on__lte=next_saw.on
             ).count()
 
+        else:
+            return 0
+
+    @property
+    def gain_probability(self):
+        """How likely we can make a gain in the future.
+
+        Taking a historical, pretending we can look into the future
+        (thus we have a God's view), counting days when I could make a
+        gain w/ higher price up to the latest price point. The
+        percentage of this count vs. the total days elapse from this
+        date represents a probability. For example, if I see 10 days
+        out of 30 days I could have made a gain on this current price,
+        the probability = 10/30=33%.
+        """
+
+        gain_days = self.stock.historicals.filter(
+            close_price__gt=self.open_price, on__gt=self.on
+        ).count()
+
+        total_days = self.stock.historicals.filter(on__gt=self.on).count()
+
+        if total_days:
+            return gain_days / total_days * 100.0
         else:
             return 0
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Box, Typography } from "@material-ui/core";
-import { isNumber, isUndefined } from "lodash";
+import { isNumber } from "lodash";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 
@@ -35,7 +35,7 @@ export default function ColoredNumber(props) {
     let tmp = val;
 
     if (isNumber(val)) {
-      tmp = !isUndefined(roundTo) ? val.toFixed(roundTo) : val.toFixed(2);
+      tmp = !!roundTo ? val.toFixed(roundTo) : val.toFixed(2);
       if (val < 0) {
         color = clsx(classes.negative);
       } else if (val === 0) {
