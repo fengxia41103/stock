@@ -56,10 +56,6 @@ export default function TodayDashboardView() {
   const render_data = data => {
     let stocks = data.objects;
 
-    const stocks_with_unique_id = map(uniqBy(stocks, "stock_id"), s => {
-      return { id: s.stock_id, symbol: s.symbol };
-    });
-
     stocks = map(stocks, s => {
       return {
         gain: ((s.close_price - s.open_price) / s.open_price) * 100,
@@ -89,21 +85,6 @@ export default function TodayDashboardView() {
     return (
       <Page title="Today">
         <Container maxWidth={false}>
-          <Box mt={1}>
-            <Grid
-              container
-              spacing={1}
-              direction="row"
-              justifyContent="flex-end"
-            >
-              {stocks_with_unique_id.length > 0 ? (
-                <Grid item xs>
-                  <UpdateAllStock stocks={stocks_with_unique_id} />
-                </Grid>
-              ) : null}
-            </Grid>
-          </Box>
-
           <Box mt={1}>
             <Card>
               <CardContent>
