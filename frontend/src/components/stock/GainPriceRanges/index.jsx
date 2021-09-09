@@ -3,7 +3,6 @@ import { map, last, filter, minBy, range, reverse, findIndex } from "lodash";
 import PropTypes from "prop-types";
 import { Box, Grid, List, ListItem, Chip, Tooltip } from "@material-ui/core";
 import ColoredNumber from "src/components/common/ColoredNumber";
-import moment from "moment";
 import GaugeChart from "react-gauge-chart";
 
 export default function GainPriceRanges(props) {
@@ -28,21 +27,22 @@ export default function GainPriceRanges(props) {
     );
 
     // map this range into price ranges
-    let age = 0,
+    let risk = null,
       min_price = null;
     const buy_at = minBy(gain, d => d.open_price);
     if (!!buy_at) {
       // this is the price to buy
       min_price = buy_at.open_price;
 
-      // how many days is this strategy valid?
-      const me = moment(buy_at.on);
-      const last = moment(last_one.on);
-      age = last.diff(me, "days");
-      age = data.length - findIndex(data, buy_at);
+      // By counting how many trading days left in this period, we measure a
+      // risk value, 0-100, 0 meaning this is the last date of the period, 100
+      // meaning this is the first date of the period.
+      risk = Math.floor(
+        ((data.length - findIndex(data, buy_at)) / total_data_count) * 100
+      );
     }
     // result
-    return { ...{ min_price, age }, ...threshold };
+    return { ...{ min_price, risk }, ...threshold };
   });
 
   const content = map(range_data, d => {
@@ -52,14 +52,16 @@ export default function GainPriceRanges(props) {
       <ListItem key={range} divider={true}>
         <Grid container spacing={1} alignItems="center">
           <Grid item xs>
-            <Chip label={range} variant="default" color="primary" />
+            <Tooltip title="Chance to make a gain">
+              <Chip label={range} variant="default" color="primary" />
+            </Tooltip>
           </Grid>
           <Grid item xs>
             <ColoredNumber val={d.min_price} />
           </Grid>
           <Grid item xs>
-            {!!d.age ? (
-              <Tooltip title="Risk Guage">
+            {!!d.risk ? (
+              <Tooltip title={`Risk Guage: ${d.risk}`}>
                 <Box>
                   <GaugeChart
                     id={range}
@@ -67,7 +69,7 @@ export default function GainPriceRanges(props) {
                     style={{ width: "100px" }}
                     arcsLength={[0.33, 0.34, 0.33]}
                     colors={["#5BE12C", "#F5CD19", "#EA4228"]}
-                    percent={d.age / total_data_count}
+                    percent={d.risk / 100}
                     hideText={true}
                   />
                 </Box>
