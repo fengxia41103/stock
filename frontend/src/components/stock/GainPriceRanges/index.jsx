@@ -1,12 +1,16 @@
 import React from "react";
-import { map, filter, minBy, range, reverse } from "lodash";
+import { map, last, filter, minBy, range, reverse, findIndex } from "lodash";
 import PropTypes from "prop-types";
-import { Grid, List, ListItem, Chip } from "@material-ui/core";
+import { Box, Grid, List, ListItem, Chip, Tooltip } from "@material-ui/core";
 import ColoredNumber from "src/components/common/ColoredNumber";
+import moment from "moment";
+import GaugeChart from "react-gauge-chart";
 
 export default function GainPriceRanges(props) {
   const STEP = 10;
   const { data } = props;
+  const last_one = last(data);
+  const total_data_count = data.length;
 
   const ranges = map(reverse(range(100 / STEP)), range_index => {
     const lower = range_index * STEP;
@@ -24,24 +28,51 @@ export default function GainPriceRanges(props) {
     );
 
     // map this range into price ranges
-    let min_price = minBy(gain, d => d.open_price);
-    if (!!min_price) min_price = min_price.open_price;
+    let age = 0,
+      min_price = null;
+    const buy_at = minBy(gain, d => d.open_price);
+    if (!!buy_at) {
+      // this is the price to buy
+      min_price = buy_at.open_price;
 
+      // how many days is this strategy valid?
+      const me = moment(buy_at.on);
+      const last = moment(last_one.on);
+      age = last.diff(me, "days");
+      age = data.length - findIndex(data, buy_at);
+    }
     // result
-    return { ...{ min_price }, ...threshold };
+    return { ...{ min_price, age }, ...threshold };
   });
 
   const content = map(range_data, d => {
     const range = `${d.upper} -- ${d.lower}%`;
 
     return (
-      <ListItem key={d.upper} divider={true}>
+      <ListItem key={range} divider={true}>
         <Grid container spacing={1} alignItems="center">
           <Grid item xs>
             <Chip label={range} variant="default" color="primary" />
           </Grid>
           <Grid item xs>
             <ColoredNumber val={d.min_price} />
+          </Grid>
+          <Grid item xs>
+            {!!d.age ? (
+              <Tooltip title="Risk Guage">
+                <Box>
+                  <GaugeChart
+                    id={range}
+                    nrOfLevels={total_data_count}
+                    style={{ width: "100px" }}
+                    arcsLength={[0.33, 0.34, 0.33]}
+                    colors={["#5BE12C", "#F5CD19", "#EA4228"]}
+                    percent={d.age / total_data_count}
+                    hideText={true}
+                  />
+                </Box>
+              </Tooltip>
+            ) : null}
           </Grid>
         </Grid>
       </ListItem>
@@ -53,8 +84,7 @@ export default function GainPriceRanges(props) {
 GainPriceRanges.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      on: PropTypes.string,
-      close_price: PropTypes.number,
+      open_price: PropTypes.number,
       gain_probability: PropTypes.number,
     })
   ).isRequired,
