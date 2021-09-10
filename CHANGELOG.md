@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/fengxia41103/stock/compare/v1.1.0...v1.1.1) (2021-09-10)
+
+
+### Features
+
+* Add last lower to dashboard ([d5fdafd](https://github.com/fengxia41103/stock/commit/d5fdafdfb337407fc2df1bc768c8e02a0e10931a))
+* Add risk guage for gain probability ([29bd6d4](https://github.com/fengxia41103/stock/commit/29bd6d4ac77c6b3746941b35bfa90f8cb67ccd92))
+* Compute gain probability of a price ([ed032ce](https://github.com/fengxia41103/stock/commit/ed032ce198cb74d1b27883167e7504d82acd3990))
+* Hide updateall icon on dashboard ([94a821a](https://github.com/fengxia41103/stock/commit/94a821ad13b36a941513a453dcb76d58099f2ca2))
+* Improve gain probability risk exposure math ([9bd51c9](https://github.com/fengxia41103/stock/commit/9bd51c983d09ff991e4eca902fb2096ca22f4721))
+* Remove update all from dashboard ([fc958bc](https://github.com/fengxia41103/stock/commit/fc958bcca23e4aa6ac0741ece6f54ae222c65a4c))
+
+
+### Bug Fixes
+
+* Add replace:true to navigate ([8f5f646](https://github.com/fengxia41103/stock/commit/8f5f6465cd2ce05ab399ead9f18094c4ec176b13))
+* Change stock sector link dialog layout ([e8c3d3d](https://github.com/fengxia41103/stock/commit/e8c3d3d03fb207df147df417c20231117e26c322))
+* Remove useEffect dependency from App ([384867c](https://github.com/fengxia41103/stock/commit/384867cd93f0b45306c3561501714a313e993340))
+* Show symbols at UpdateAllStock on dashboard ([596f0da](https://github.com/fengxia41103/stock/commit/596f0dab33ac5c8e660209bbe3010267666f54ff))
+* Simplify logout code ([8a34812](https://github.com/fengxia41103/stock/commit/8a348122025bac0512946cbad35a9ca9717bdae2))
+* Simplify logout steps and navigation ([de28aba](https://github.com/fengxia41103/stock/commit/de28aba0fdb4cd1c83244abe33abf3fb4a443b28))
+
 ## [1.1.0](https://github.com/fengxia41103/stock/compare/v1.0.0...v1.1.0) (2021-08-31)
 
 
