@@ -113,8 +113,6 @@ STATICFILES_FINDERS = (
     "compressor.finders.CompressorFinder",
 )
 
-# crispy forms
-CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 TEMPLATES = [
     {

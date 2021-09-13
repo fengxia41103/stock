@@ -61,10 +61,11 @@ services:
       DJANGO_DB_HOST: db
       DJANGO_DB_PORT: 3306
       DJANGO_REDIS_HOST: redis
-      DJANGO_SUPERUSER_USERNAME: fengxia
-      DJANGO_SUPERUSER_PASSWORD: natalie
-      DJANGO_SUPERUSER_EMAIL: feng_xia41103@hotmail.com
-    command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py createsuperuser --noinput && python /code/manage.py runserver 0.0.0.0:8001"
+      # DJANGO_SUPERUSER_USERNAME: fengxia
+      # DJANGO_SUPERUSER_PASSWORD: natalie
+      # DJANGO_SUPERUSER_EMAIL: feng_xia41103@hotmail.com
+    #command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py createsuperuser --noinput && python /code/manage.py runserver 0.0.0.0:8001"
+    command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py runserver 0.0.0.0:8001"
     # command:
     #   "python /code/manage.py createsuperuser --noinput && gunicorn -w 1 -t 300 -b 0.0.0.0:8001 --log-level=info fin.wsgi"
 
@@ -133,5 +134,3 @@ services:
     command: [nginx-debug, '-g', 'daemon off;']
     networks:
       - management
-    depends_on:
-      - backend-proxy
