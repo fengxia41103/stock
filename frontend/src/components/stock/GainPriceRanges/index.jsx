@@ -27,7 +27,7 @@ export default function GainPriceRanges(props) {
     );
 
     // map this range into price ranges
-    let risk = null,
+    let gain_window = null,
       min_price = null;
     const buy_at = minBy(gain, d => d.open_price);
     if (!!buy_at) {
@@ -35,14 +35,14 @@ export default function GainPriceRanges(props) {
       min_price = buy_at.open_price;
 
       // By counting how many trading days left in this period, we measure a
-      // risk value, 0-100, 0 meaning this is the last date of the period, 100
-      // meaning this is the first date of the period.
-      risk = Math.floor(
+      // gain_window value, 0-100, 0 meaning this is the last date of the
+      // period, 100meaning this is the first date of the period.
+      gain_window = Math.floor(
         ((data.length - findIndex(data, buy_at)) / total_data_count) * 100
       );
     }
     // result
-    return { ...{ min_price, risk }, ...threshold };
+    return { ...{ min_price, gain_window }, ...threshold };
   });
 
   const content = map(range_data, d => {
@@ -60,8 +60,10 @@ export default function GainPriceRanges(props) {
             <ColoredNumber val={d.min_price} />
           </Grid>
           <Grid item xs>
-            {!!d.risk ? (
-              <Tooltip title={`Risk Guage: ${d.risk}`}>
+            {!!d.gain_window ? (
+              <Tooltip
+                title={`Likelyhood to get out (0-100): ${d.gain_window}`}
+              >
                 <Box>
                   <GaugeChart
                     id={range}
@@ -69,7 +71,7 @@ export default function GainPriceRanges(props) {
                     style={{ width: "100px" }}
                     arcsLength={[0.33, 0.34, 0.33]}
                     colors={["#5BE12C", "#F5CD19", "#EA4228"]}
-                    percent={d.risk / 100}
+                    percent={d.gain_window / 100}
                     hideText={true}
                   />
                 </Box>
