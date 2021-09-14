@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { map } from "lodash";
+
 import {
   Box,
   Grid,
@@ -10,11 +10,14 @@ import {
 } from "@material-ui/core";
 import { BarChart, Timeline } from "@material-ui/icons";
 import CompareArrowsSharpIcon from "@material-ui/icons/CompareArrowsSharp";
+import { map } from "lodash";
+import PropTypes from "prop-types";
+
+import HighlightedText from "src/components/common/HighlightedText";
 import RankChart from "src/components/common/RankChart";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
-import HighlightedText from "src/components/common/HighlightedText";
 import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
-import PropTypes from "prop-types";
+
 
 export default function StockRankingRow(props) {
   const [show_rank_graph, setShowRank] = useState(false);
@@ -41,7 +44,7 @@ export default function StockRankingRow(props) {
 
   // show threshold cutoff if any
   let cutoff = null;
-  if (!!threshold) {
+  if (threshold) {
     cutoff = (
       <TextField
         label="Threshold"
@@ -108,7 +111,7 @@ StockRankingRow.propTypes = {
       on: PropTypes.string,
       symbol: PropTypes.string,
       val: PropTypes.number,
-    })
+    }),
   ).isRequired,
   threshold: PropTypes.string,
   handle_ratio_change: PropTypes.func,

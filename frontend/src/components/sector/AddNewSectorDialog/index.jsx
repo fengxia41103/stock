@@ -1,18 +1,20 @@
 import React, { useState, useContext } from "react";
+
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
 import Chip from "@material-ui/core/Chip";
+import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import GlobalContext from "src/context";
-import { useMutate } from "restful-react";
+import TextField from "@material-ui/core/TextField";
 import AddIcon from "@material-ui/icons/Add";
-import ShowResource from "src/components/common/ShowResource";
 import { map, filter } from "lodash";
+import { useMutate } from "restful-react";
+
+import ShowResource from "src/components/common/ShowResource";
+import GlobalContext from "src/context";
 
 export default function AddNewSectorDialog() {
   const { api } = useContext(GlobalContext);
@@ -47,8 +49,8 @@ export default function AddNewSectorDialog() {
   const render_data = data => {
     let sectors = data.objects;
     sectors = map(
-      filter(sectors, s => s.name.includes(sector)),
-      s => <Chip key={s.id} color="primary" label={s.name} />
+      filter(sectors, (s) => s.name.includes(sector)),
+      (s) => <Chip key={s.id} color="primary" label={s.name} />,
     );
     const is_error = sectors.includes(sector);
 

@@ -1,36 +1,37 @@
 import React from "react";
-import { map, last, filter, minBy, range, reverse, findIndex } from "lodash";
-import PropTypes from "prop-types";
+
 import { Box, Grid, List, ListItem, Chip, Tooltip } from "@material-ui/core";
-import ColoredNumber from "src/components/common/ColoredNumber";
+import { map, filter, minBy, range, reverse, findIndex } from "lodash";
+import PropTypes from "prop-types";
 import GaugeChart from "react-gauge-chart";
+
+import ColoredNumber from "src/components/common/ColoredNumber";
 
 export default function GainPriceRanges(props) {
   const STEP = 10;
   const { data } = props;
-  const last_one = last(data);
   const total_data_count = data.length;
 
-  const ranges = map(reverse(range(100 / STEP)), range_index => {
+  const ranges = map(reverse(range(100 / STEP)), (range_index) => {
     const lower = range_index * STEP;
     const upper = (range_index + 1) * STEP;
     return { ...{ lower, upper } };
   });
 
-  const range_data = map(ranges, threshold => {
+  const range_data = map(ranges, (threshold) => {
     // get data within thresholds
     const gain = filter(
       data,
-      d =>
+      (d) =>
         d.gain_probability > threshold.lower &&
-        d.gain_probability <= threshold.upper
+        d.gain_probability <= threshold.upper,
     );
 
     // map this range into price ranges
-    let gain_window = null,
-      min_price = null;
-    const buy_at = minBy(gain, d => d.open_price);
-    if (!!buy_at) {
+    let gain_window = null;
+    let min_price = null;
+    const buy_at = minBy(gain, (d) => d.open_price);
+    if (buy_at) {
       // this is the price to buy
       min_price = buy_at.open_price;
 
@@ -38,14 +39,14 @@ export default function GainPriceRanges(props) {
       // gain_window value, 0-100, 0 meaning this is the last date of the
       // period, 100meaning this is the first date of the period.
       gain_window = Math.floor(
-        ((data.length - findIndex(data, buy_at)) / total_data_count) * 100
+        ((data.length - findIndex(data, buy_at)) / total_data_count) * 100,
       );
     }
     // result
     return { ...{ min_price, gain_window }, ...threshold };
   });
 
-  const content = map(range_data, d => {
+  const content = map(range_data, (d) => {
     const range = `${d.upper} -- ${d.lower}%`;
 
     return (
@@ -60,7 +61,7 @@ export default function GainPriceRanges(props) {
             <ColoredNumber val={d.min_price} />
           </Grid>
           <Grid item xs>
-            {!!d.gain_window ? (
+            {d.gain_window ? (
               <Tooltip
                 title={`Likelyhood to get out (0-100): ${d.gain_window}`}
               >
@@ -90,6 +91,6 @@ GainPriceRanges.propTypes = {
     PropTypes.shape({
       open_price: PropTypes.number,
       gain_probability: PropTypes.number,
-    })
+    }),
   ).isRequired,
 };

@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
+
 import { map } from "lodash";
+import PropTypes from "prop-types";
+
 import MultilineChart from "src/components/common/MultilineChart";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
-import PropTypes from "prop-types";
 
 export default function SectorDupontLineChart(props) {
   const { property } = props;

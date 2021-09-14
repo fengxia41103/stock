@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { map, isUndefined, isEmpty, isNull } from "lodash";
-import ShowResource from "src/components/common/ShowResource";
+
 import {
   makeStyles,
   Button,
@@ -15,8 +14,11 @@ import {
   Link,
   Grid,
 } from "@material-ui/core";
-import PropTypes from "prop-types";
 import clsx from "clsx";
+import { map, isUndefined, isEmpty, isNull } from "lodash";
+import PropTypes from "prop-types";
+
+import ShowResource from "src/components/common/ShowResource";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +34,7 @@ export default function ListNewsCard(props) {
   const { topic, limit, searching } = props;
   const [resource, setResource] = useState();
   const classes = useStyles();
-  let limit_count = isUndefined(limit) ? 10 : limit;
+  const limit_count = isUndefined(limit) ? 10 : limit;
 
   const get_uri = () => {
     let base_uri = `/news?topic=${topic}&limit=${limit_count}`;
@@ -46,11 +48,11 @@ export default function ListNewsCard(props) {
   // MUST: use effect to set initial URI because of searching string.
   useEffect(() => {
     setResource(get_uri());
-  }, [searching]);
+  }, [searching, get_uri]);
 
   const on_next = (next_page) => {
     if (!isNull(next_page)) {
-      let next_offset = next_page.split("=").pop();
+      const next_offset = next_page.split("=").pop();
       setResource(get_uri() + `&offset=${next_offset}`);
     }
   };

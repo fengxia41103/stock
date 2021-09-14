@@ -1,8 +1,9 @@
 import React from "react";
-import { makeStyles } from "@material-ui/styles";
+
 import { Box, Typography } from "@material-ui/core";
-import { isNumber } from "lodash";
+import { makeStyles } from "@material-ui/styles";
 import clsx from "clsx";
+import { isNumber } from "lodash";
 import PropTypes from "prop-types";
 
 // A style sheet
@@ -22,7 +23,7 @@ export default function ColoredNumber(props) {
   const classes = useStyles();
   const { val, unit, roundTo } = props;
 
-  if (!!!val) {
+  if (!val) {
     return (
       <Typography variant="body2" color="error" display="inline">
         n/a
@@ -30,12 +31,12 @@ export default function ColoredNumber(props) {
     );
   }
 
-  const style_me = (val) => {
+  const style_me = (me) => {
     let color = null;
-    let tmp = val;
+    let tmp = me;
 
-    if (isNumber(val)) {
-      tmp = !!roundTo ? val.toFixed(roundTo) : val.toFixed(2);
+    if (isNumber(me)) {
+      tmp = roundTo ? me.toFixed(roundTo) : me.toFixed(2);
       if (val < 0) {
         color = clsx(classes.negative);
       } else if (val === 0) {
@@ -48,7 +49,7 @@ export default function ColoredNumber(props) {
     return (
       <Box className={color} display="inline">
         {tmp}
-        {!!unit ? unit : null}
+        {unit ? unit : null}
       </Box>
     );
   };

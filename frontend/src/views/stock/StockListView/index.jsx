@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { map, filter, sortBy, groupBy } from "lodash";
-import ShowResource from "src/components/common/ShowResource";
+
 import {
   Box,
   Container,
@@ -14,12 +13,15 @@ import {
   RadioGroup,
   Radio,
 } from "@material-ui/core";
-import Page from "src/components/common/Page";
-import ListStockCard from "src/components/stock/ListStockCard";
+import { map, filter, sortBy, groupBy } from "lodash";
+
 import DropdownMenu from "src/components/common/DropdownMenu";
-import UpdateAllStock from "src/components/stock/UpdateAllStock";
+import Page from "src/components/common/Page";
+import ShowResource from "src/components/common/ShowResource";
 import AddStocksToSectorDialog from "src/components/sector/AddStocksToSectorDialog";
 import ExportStocks from "src/components/stock/ExportStocks";
+import ListStockCard from "src/components/stock/ListStockCard";
+import UpdateAllStock from "src/components/stock/UpdateAllStock";
 
 function StockListView(props) {
   const [resource] = useState("/stocks");
@@ -45,13 +47,13 @@ function StockListView(props) {
       let g = null;
 
       switch (group_by) {
-        case "name":
-          g = v.symbol.charAt(0);
-          break;
+      case "name":
+        g = v.symbol.charAt(0);
+        break;
 
-        default:
-          g = v.last_reporting_date;
-          break;
+      default:
+        g = v.last_reporting_date;
+        break;
       }
 
       return g;

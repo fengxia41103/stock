@@ -1,8 +1,10 @@
 import React from "react";
-import { randomId } from "src/utils/helper.jsx";
-import HighchartGraphBox from "src/components/common/Highchart";
+
 import { map } from "lodash";
 import PropTypes from "prop-types";
+
+import HighchartGraphBox from "src/components/common/Highchart";
+import { randomId } from "src/utils/helper.jsx";
 
 export default function TimeSeriesColumnChart(props) {
   const containerId = randomId();
@@ -10,7 +12,7 @@ export default function TimeSeriesColumnChart(props) {
   const categories = map(data, (d) => d.on);
   const chart_data = [
     {
-      name: name,
+      name,
       data: map(data, (d) => d.val),
     },
   ];
@@ -33,6 +35,6 @@ TimeSeriesColumnChart.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       val: PropTypes.number,
-    })
+    }),
   ).isRequired,
 };

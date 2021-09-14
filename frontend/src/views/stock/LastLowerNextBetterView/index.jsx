@@ -1,7 +1,4 @@
 import React, { useContext } from "react";
-import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
-import PriceLastLowerNextBetterChart from "src/components/stock/PriceLastLowerNextBetterChart";
-import PriceTable from "src/components/stock/PriceTable";
 
 import {
   Card,
@@ -10,7 +7,11 @@ import {
   Box,
   Typography,
 } from "@material-ui/core";
+
 import GainProbabilityChart from "src/components/stock/GainProbabilityChart";
+import PriceLastLowerNextBetterChart from "src/components/stock/PriceLastLowerNextBetterChart";
+import PriceTable from "src/components/stock/PriceTable";
+import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
 
 export default function LastLowerNextBetterView() {
   const data = useContext(StockHistoricalContext);

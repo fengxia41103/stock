@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import Highcharts from "highcharts";
 import HC_more from "highcharts/highcharts-more"; //module
 import addFunnel from "highcharts/modules/funnel";
@@ -66,10 +67,10 @@ export default function HighchartGraphBox(props) {
   };
 
   const _fit_zero = (data) => {
-    let tmp = [...data];
+    const tmp = [...data];
     let prev_non_zero = 0;
     for (let i = 0; i < tmp.length; i++) {
-      let val = tmp[i];
+      const val = tmp[i];
       if (val === 0 || val === "n/a") {
         if (i > 0) {
           tmp[i] = prev_non_zero;
@@ -84,7 +85,6 @@ export default function HighchartGraphBox(props) {
   const makeViz = () => {
     const {
       type,
-      title,
       footer,
       categories,
       xLabel,
@@ -97,9 +97,9 @@ export default function HighchartGraphBox(props) {
 
     // chart data can be normalized for comparison purpose
     let chart_data = data;
-    if (!!normalize) {
+    if (normalize) {
       chart_data = map(chart_data, (d) => {
-        let tmp = d;
+        const tmp = d;
         tmp.data = _fit_zero(_normalize(d.data));
         return tmp;
       });
@@ -112,11 +112,11 @@ export default function HighchartGraphBox(props) {
     // Chart options
     const options = {
       chart: {
-        type: type,
+        type,
         plotBackgroundColor: null,
         plotBorderWidth: 0,
         plotShadow: false,
-        height: height,
+        height,
         styleMode: true,
         zoomType: "xy",
       },
@@ -127,7 +127,7 @@ export default function HighchartGraphBox(props) {
         text: footer,
       },
       xAxis: {
-        categories: categories,
+        categories,
         crosshair: true,
         title: {
           text: xLabel ? xLabel : "",
@@ -155,13 +155,13 @@ export default function HighchartGraphBox(props) {
         column: {
           pointPadding: 0.2,
           borderWidth: 0,
-          negativeColor: !!!keepNegative ? "#d52349" : null,
+          negativeColor: !keepNegative ? "#d52349" : null,
         },
         bar: {
           negativeColor: "#d52349",
         },
         line: {
-          negativeColor: !!!keepNegative ? "#d52349" : null,
+          negativeColor: !keepNegative ? "#d52349" : null,
         },
         scatter: {
           marker: {

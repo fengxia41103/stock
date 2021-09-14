@@ -1,8 +1,10 @@
 import React from "react";
+
 import { Grid } from "@material-ui/core";
 import { map, isEmpty } from "lodash";
-import ABDonutChart from "src/components/common/ABDonutChart";
 import PropTypes from "prop-types";
+
+import ABDonutChart from "src/components/common/ABDonutChart";
 
 export default function RankingOccuranceCharts(props) {
   const { scores } = props;
@@ -45,6 +47,6 @@ RankingOccuranceCharts.propTypes = {
       symbol: PropTypes.string,
       on_it_count: PropTypes.number,
       missing_it_count: PropTypes.number,
-    })
+    }),
   ).isRequired,
 };

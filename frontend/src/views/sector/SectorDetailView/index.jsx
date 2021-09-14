@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { Outlet, useParams } from "react-router-dom";
+
 import {
   Container,
   Box,
@@ -10,16 +10,19 @@ import {
   List,
   ListItem,
 } from "@material-ui/core";
-import Page from "src/components/common/Page";
-import MenuBar from "src/components/common/MenuBar";
-import ShowResource from "src/components/common/ShowResource";
-import GlobalContext from "src/context";
-import SectorDetailContext from "./context.jsx";
-import { useMutate } from "restful-react";
-import { map } from "lodash";
-import DropdownMenu from "src/components/common/DropdownMenu";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import { map } from "lodash";
+import { Outlet, useParams } from "react-router-dom";
+import { useMutate } from "restful-react";
+
+import DropdownMenu from "src/components/common/DropdownMenu";
+import MenuBar from "src/components/common/MenuBar";
+import Page from "src/components/common/Page";
+import ShowResource from "src/components/common/ShowResource";
+import GlobalContext from "src/context";
+
+import SectorDetailContext from "./context.jsx";
 
 const price_menus = [
   {
@@ -105,7 +108,10 @@ export default function SectorDetailView() {
 
   useEffect(() => {
     mounted.current = true;
-    return () => (mounted.current = false);
+    return () => {
+      mounted.current = false;
+      return null;
+    };
   });
 
   const render_data = (sector) => {
@@ -166,7 +172,12 @@ export default function SectorDetailView() {
               <Grid item xs>
                 <Button
                   color="secondary"
-                  onClick={() => del().then((mounted.current = false))}
+                  onClick={() =>
+                    del().then(() => {
+                      mounted.current = false;
+                      return null;
+                    })
+                  }
                 >
                   <DeleteForeverIcon />
                   Delete

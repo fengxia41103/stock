@@ -1,8 +1,10 @@
 import React from "react";
+
 import CircularProgress from "@material-ui/core/CircularProgress";
-import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import PropTypes from "prop-types";
 import { useGet } from "restful-react";
+
+import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 
 export default function Get(props) {
   // hardcoded
@@ -25,7 +27,7 @@ export default function Get(props) {
   // when waiting
   const { data, loading, error } = useGet(call_options);
   if (loading) {
-    if (!!silent) return null;
+    if (silent) return null;
     else {
       return <CircularProgress />;
     }
@@ -36,9 +38,9 @@ export default function Get(props) {
     return (
       <>
         {silent === false ? (
-          <SimpleSnackbar msg={!!error_msg ? error_msg : DEFAULT_ERROR} />
+          <SimpleSnackbar msg={error_msg ? error_msg : DEFAULT_ERROR} />
         ) : null}
-        {!!on_error ? on_error(data) : null}
+        {on_error ? on_error(data) : null}
       </>
     );
   }
@@ -47,9 +49,9 @@ export default function Get(props) {
   return (
     <>
       {silent === false ? (
-        <SimpleSnackbar msg={!!success_msg ? success_msg : DEFAULT_SUCCESS} />
+        <SimpleSnackbar msg={success_msg ? success_msg : DEFAULT_SUCCESS} />
       ) : null}
-      {!!on_success ? on_success(data) : null}
+      {on_success ? on_success(data) : null}
     </>
   );
 }

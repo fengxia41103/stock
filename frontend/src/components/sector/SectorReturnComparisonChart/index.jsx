@@ -1,9 +1,11 @@
 import React from "react";
+
 import { map, groupBy, merge, forEach } from "lodash";
+import PropTypes from "prop-types";
+
 import HighchartGraphBox from "src/components/common/Highchart";
 import { randomId } from "src/utils/helper.jsx";
 import { daily_returns, overnight_returns } from "src/utils/stock/returns";
-import PropTypes from "prop-types";
 
 export default function SectorReturnComparisonChart(props) {
   const { data: stocks, kind } = props;
@@ -16,26 +18,26 @@ export default function SectorReturnComparisonChart(props) {
     let returns = null;
 
     switch (kind) {
-      case "daily":
-        returns = daily_returns(prices);
-        break;
+    case "daily":
+      returns = daily_returns(prices);
+      break;
 
-      case "overnight":
-        returns = overnight_returns(prices);
-        break;
+    case "overnight":
+      returns = overnight_returns(prices);
+      break;
 
-      default:
-        returns = daily_returns(prices);
-        break;
+    default:
+      returns = daily_returns(prices);
+      break;
     }
 
     // update categories
     categories = merge(
       categories,
-      map(returns, (d) => d.on)
+      map(returns, (d) => d.on),
     );
 
-    let aligned_returns = [];
+    const aligned_returns = [];
     forEach(returns, (d) => {
       if (categories.includes(d.on)) {
         aligned_returns.push(d.val);
@@ -78,7 +80,7 @@ SectorReturnComparisonChart.propTypes = {
       low_price: PropTypes.number,
       adj_close: PropTypes.number,
       vol: PropTypes.number,
-    })
+    }),
   ).isRequired,
   kind: PropTypes.string.isRequired,
 };

@@ -1,9 +1,11 @@
 import React from "react";
+
 import { Card, CardContent, CardHeader, Grid } from "@material-ui/core";
-import ShowResource from "src/components/common/ShowResource";
 import { map, groupBy } from "lodash";
-import MultilineChart from "src/components/common/MultilineChart";
 import PropTypes from "prop-types";
+
+import MultilineChart from "src/components/common/MultilineChart";
+import ShowResource from "src/components/common/ShowResource";
 
 export default function SectorStatementComparisonCharts(props) {
   const { resource } = props;
@@ -12,13 +14,13 @@ export default function SectorStatementComparisonCharts(props) {
 
   const render_data = (resp) => {
     const data = resp.objects;
-    let attrs = Object.keys(data[0]);
+    const attrs = Object.keys(data[0]);
     attrs.sort();
 
     const group_by_symbol = groupBy(data, (d) => d.symbol);
     const chart_data = map(group_by_symbol, (vals, symbol) => {
       return {
-        symbol: symbol,
+        symbol,
         data: vals,
       };
     });

@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+
 import {
   makeStyles,
   Card,
@@ -11,12 +12,13 @@ import {
   Chip,
 } from "@material-ui/core";
 import clsx from "clsx";
-import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
 import { map, groupBy, reverse } from "lodash";
 import moment from "moment";
-import PriceChart from "src/components/stock/PriceChart";
+
 import ColoredNumber from "src/components/common/ColoredNumber";
 import GainPriceRanges from "src/components/stock/GainPriceRanges";
+import PriceChart from "src/components/stock/PriceChart";
+import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -74,7 +76,7 @@ export default function PriceView() {
           </Card>
         </Grid>
       );
-    })
+    }),
   );
 
   return (

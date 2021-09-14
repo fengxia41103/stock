@@ -1,8 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
+
 import { Link, Typography, Grid } from "@material-ui/core";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import { map } from "lodash";
+import PropTypes from "prop-types";
 
 export default function ExportStocks(props) {
   const { stocks } = props;
@@ -11,7 +12,7 @@ export default function ExportStocks(props) {
   return (
     <Link
       href={`data:text/text;charset=utf-8,${encodeURIComponent(
-        symbols.join(",")
+        symbols.join(","),
       )}`}
       download="stocks.txt"
     >
@@ -27,6 +28,6 @@ ExportStocks.propTypes = {
   stocks: PropTypes.arrayOf(
     PropTypes.shape({
       symbol: PropTypes.string,
-    })
+    }),
   ).isRequired,
 };

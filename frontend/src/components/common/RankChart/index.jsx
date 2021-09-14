@@ -1,8 +1,10 @@
 import React from "react";
-import { map, isInteger } from "lodash";
-import PropTypes from "prop-types";
+
 import { Box, Grid } from "@material-ui/core";
 import blueGrey from "@material-ui/core/colors/blueGrey";
+import { map, isInteger } from "lodash";
+import PropTypes from "prop-types";
+
 import StockSymbol from "src/components/stock/StockSymbol";
 
 export default function RankChart(props) {
@@ -11,13 +13,13 @@ export default function RankChart(props) {
 
   const max_score = Math.max(
     ...map(ranks, (r) => {
-      const val = !!!rank_val_name ? r.val : r[rank_val_name];
+      const val = !rank_val_name ? r.val : r[rank_val_name];
       return val;
-    })
+    }),
   );
 
   const the_chart = map(ranks, (r) => {
-    let val = !!!rank_val_name ? r.val : r[rank_val_name];
+    let val = !rank_val_name ? r.val : r[rank_val_name];
     if (!isInteger(val)) {
       val = val.toFixed(2);
     }
@@ -51,7 +53,7 @@ RankChart.propTypes = {
       val: PropTypes.number,
       stock_id: PropTypes.number,
       stock_resource: PropTypes.string,
-    })
+    }),
   ).isRequired,
 
   // optional, which is my rank value?

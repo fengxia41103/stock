@@ -36,6 +36,7 @@
     "clsx": "^1.1.1",
     "d3": "^6.6.0",
     "d3-format": "^2.0.0",
+    "d3-time-format": "^4.0.0",
     "echarts": "^5.1.2",
     "echarts-for-react": "^3.0.1",
     "fg-loadcss": "^3.1.0",

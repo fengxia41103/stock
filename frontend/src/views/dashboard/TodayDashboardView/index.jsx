@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ShowResource from "src/components/common/ShowResource";
+
 import {
   Box,
   Container,
@@ -8,34 +8,36 @@ import {
   CardContent,
   TextField,
 } from "@material-ui/core";
-import Page from "src/components/common/Page";
-import MoverCard from "src/components/dashboard/MoverCard";
-import { map, sortBy, reverse, filter, uniqBy } from "lodash";
+import { map, sortBy, reverse, filter } from "lodash";
 import moment from "moment";
-import UpdateAllStock from "src/components/stock/UpdateAllStock";
+
+import Page from "src/components/common/Page";
+import ShowResource from "src/components/common/ShowResource";
+import MoverCard from "src/components/dashboard/MoverCard";
 
 export default function TodayDashboardView() {
   const [resource, setResource] = useState("");
   const [today, setToday] = useState(moment());
 
-  const set_today = now => {
+  const set_today = (now) => {
     let adjust_in_day;
     switch (now.day()) {
-      case 0:
-        // sunday
-        adjust_in_day = -2;
-        break;
-      case 6:
-        // saturday
-        adjust_in_day = -1;
-        break;
+    case 0:
+      // sunday
+      adjust_in_day = -2;
+      break;
 
-      default:
-        adjust_in_day = 0;
-        break;
+    case 6:
+      // saturday
+      adjust_in_day = -1;
+      break;
+
+    default:
+      adjust_in_day = 0;
+      break;
     }
 
-    let tmp = now.add(adjust_in_day, "days").format("YYYY-MM-DD");
+    const tmp = now.add(adjust_in_day, "days").format("YYYY-MM-DD");
     setResource(`/historicals?on__range=${tmp},${tmp}`);
   };
 
@@ -43,7 +45,7 @@ export default function TodayDashboardView() {
     set_today(today);
   });
 
-  const today_change = event => {
+  const today_change = (event) => {
     const now = moment(event.target.value, "YYYY-MM-DD");
 
     // update state
@@ -53,10 +55,10 @@ export default function TodayDashboardView() {
     set_today(now);
   };
 
-  const render_data = data => {
+  const render_data = (data) => {
     let stocks = data.objects;
 
-    stocks = map(stocks, s => {
+    stocks = map(stocks, (s) => {
       return {
         gain: ((s.close_price - s.open_price) / s.open_price) * 100,
         volatility: ((s.high_price - s.low_price) / s.low_price) * 100,
@@ -66,19 +68,25 @@ export default function TodayDashboardView() {
 
     const gainer = reverse(
       sortBy(
-        filter(stocks, s => s.gain > 0),
-        s => s.gain
-      )
+        filter(stocks, (s) => s.gain > 0),
+        (s) => s.gain,
+      ),
     ).slice(0, 10);
     const loser = sortBy(
-      filter(stocks, s => s.gain < 0),
-      s => s.gain
+      filter(stocks, (s) => s.gain < 0),
+      (s) => s.gain,
     ).slice(0, 10);
     const mover = reverse(
-      sortBy(stocks, s => s.vol_over_share_outstanding)
+      sortBy(stocks, (s) => s.vol_over_share_outstanding),
     ).slice(0, 10);
-    const volatility = reverse(sortBy(stocks, s => s.volatility)).slice(0, 10);
-    const last_lower = reverse(sortBy(stocks, s => s.last_lower)).slice(0, 10);
+    const volatility = reverse(sortBy(stocks, (s) => s.volatility)).slice(
+      0,
+      10,
+    );
+    const last_lower = reverse(sortBy(stocks, (s) => s.last_lower)).slice(
+      0,
+      10,
+    );
 
     const today_string = today.format("dddd, ll");
 

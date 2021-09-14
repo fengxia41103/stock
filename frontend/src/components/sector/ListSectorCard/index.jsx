@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 
-import ListStockCard from "src/components/stock/ListStockCard";
-import { map, sortBy } from "lodash";
 
-import EditSectorDialog from "src/components/sector/EditSectorDialog";
-import DeleteSectorDialog from "src/components/sector/DeleteSectorDialog";
 import { Button, Link } from "@material-ui/core";
 import MultilineChartIcon from "@material-ui/icons/MultilineChart";
+import { map, sortBy } from "lodash";
+
 import ShowResource from "src/components/common/ShowResource";
+import DeleteSectorDialog from "src/components/sector/DeleteSectorDialog";
+import EditSectorDialog from "src/components/sector/EditSectorDialog";
+import ListStockCard from "src/components/stock/ListStockCard";
 
 export default function ListSectorCard(props) {
   const { me, all } = props;

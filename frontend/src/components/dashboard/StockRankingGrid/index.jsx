@@ -1,8 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
-import StockRankingGridColumn from "src/components/dashboard/StockRankingGridColumn";
+
 import { Grid } from "@material-ui/core";
 import { map } from "lodash";
+import PropTypes from "prop-types";
+
+import StockRankingGridColumn from "src/components/dashboard/StockRankingGridColumn";
 
 export default function StockRankingGrid(props) {
   const { ranks } = props;
@@ -40,9 +42,9 @@ StockRankingGrid.propTypes = {
 
           // stock resource uri
           stock: PropTypes.string,
-        })
+        }),
       ),
-    })
+    }),
   ).isRequired,
   highlights: PropTypes.object.isRequired,
 };

@@ -1,15 +1,5 @@
 import React, { useContext } from "react";
-import { useParams } from "react-router-dom";
-import StockHistoricalContext from "src/views/stock/StockHistoricalView/context.jsx";
-import { map } from "lodash";
-import { timeParse } from "d3-time-format";
-import CandleStickChartWithBollingerBandOverlay from "./bollinger.jsx";
-import CandleStickChartWithFullStochasticsIndicator from "./stochastics.jsx";
-import CandleStickChartWithMACDIndicator from "./macd.jsx";
-import CandleStickChartWithSAR from "./sar.jsx";
-import CandleStickChartWithRSIIndicator from "./rsi.jsx";
-import OHLCChartWithElderRayIndicator from "./elder.jsx";
-import HeikinAshi from "./heikin.jsx";
+
 import {
   Box,
   Card,
@@ -17,6 +7,19 @@ import {
   CardHeader,
   Typography,
 } from "@material-ui/core";
+import { timeParse } from "d3-time-format";
+import { map } from "lodash";
+import { useParams } from "react-router-dom";
+
+import StockHistoricalContext from "src/views/stock/StockHistoricalView/context.jsx";
+
+import CandleStickChartWithBollingerBandOverlay from "./bollinger.jsx";
+import OHLCChartWithElderRayIndicator from "./elder.jsx";
+import HeikinAshi from "./heikin.jsx";
+import CandleStickChartWithMACDIndicator from "./macd.jsx";
+import CandleStickChartWithRSIIndicator from "./rsi.jsx";
+import CandleStickChartWithSAR from "./sar.jsx";
+import CandleStickChartWithFullStochasticsIndicator from "./stochastics.jsx";
 
 export default function TechIndicatorView() {
   const { type } = useParams();
@@ -40,47 +43,47 @@ export default function TechIndicatorView() {
   let title = null;
   let chart = null;
   switch (type) {
-    case "bollinger":
-      title = "Bollinger Bands Indicator";
-      chart = <CandleStickChartWithBollingerBandOverlay data={chart_data} />;
-      break;
+  case "bollinger":
+    title = "Bollinger Bands Indicator";
+    chart = <CandleStickChartWithBollingerBandOverlay data={chart_data} />;
+    break;
 
-    case "stochastics":
-      title = "Full Stochastics Indicator";
-      chart = (
-        <CandleStickChartWithFullStochasticsIndicator data={chart_data} />
-      );
-      break;
+  case "stochastics":
+    title = "Full Stochastics Indicator";
+    chart = (
+      <CandleStickChartWithFullStochasticsIndicator data={chart_data} />
+    );
+    break;
 
-    case "macd":
-      title = "MACD Indicator";
-      chart = <CandleStickChartWithMACDIndicator data={chart_data} />;
-      break;
+  case "macd":
+    title = "MACD Indicator";
+    chart = <CandleStickChartWithMACDIndicator data={chart_data} />;
+    break;
 
-    case "sar":
-      title = "Parabolic SAR Indicator";
-      chart = <CandleStickChartWithSAR data={chart_data} />;
-      break;
+  case "sar":
+    title = "Parabolic SAR Indicator";
+    chart = <CandleStickChartWithSAR data={chart_data} />;
+    break;
 
-    case "rsi":
-      title = "Relative Strength Index (RSI) Indicator";
-      chart = <CandleStickChartWithRSIIndicator data={chart_data} />;
-      break;
+  case "rsi":
+    title = "Relative Strength Index (RSI) Indicator";
+    chart = <CandleStickChartWithRSIIndicator data={chart_data} />;
+    break;
 
-    case "elder":
-      title = "Elder Ray Indicator";
-      chart = <OHLCChartWithElderRayIndicator data={chart_data} />;
-      break;
+  case "elder":
+    title = "Elder Ray Indicator";
+    chart = <OHLCChartWithElderRayIndicator data={chart_data} />;
+    break;
 
-    case "heikin":
-      title = "Heikin-Ashi Indicator";
-      chart = <HeikinAshi data={chart_data} />;
-      break;
+  case "heikin":
+    title = "Heikin-Ashi Indicator";
+    chart = <HeikinAshi data={chart_data} />;
+    break;
 
-    default:
-      title = "Parabolic SAR Indicator";
-      chart = <CandleStickChartWithSAR data={chart_data} />;
-      break;
+  default:
+    title = "Parabolic SAR Indicator";
+    chart = <CandleStickChartWithSAR data={chart_data} />;
+    break;
   }
   return (
     <Card>

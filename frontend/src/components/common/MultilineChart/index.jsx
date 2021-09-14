@@ -1,8 +1,10 @@
 import React from "react";
+
 import { map, isEmpty } from "lodash";
-import { randomId } from "src/utils/helper.jsx";
-import HighchartGraphBox from "src/components/common/Highchart";
 import PropTypes from "prop-types";
+
+import HighchartGraphBox from "src/components/common/Highchart";
+import { randomId } from "src/utils/helper.jsx";
 
 export default function MultilineChart(props) {
   const { data, category_by, label_by, data_by, normalized } = props;
@@ -11,7 +13,7 @@ export default function MultilineChart(props) {
   const containerId = randomId();
 
   let categories;
-  if (!!!category_by) {
+  if (!category_by) {
     categories = [];
   } else {
     categories = map(data[0].data, (d) => d[category_by]);
@@ -42,7 +44,7 @@ MultilineChart.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       data: PropTypes.arrayOf(PropTypes.object).isRequired,
-    })
+    }),
   ).isRequired,
   category_by: PropTypes.string,
   label_by: PropTypes.string.isRequired,

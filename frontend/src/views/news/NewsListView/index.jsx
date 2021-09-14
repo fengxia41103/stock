@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   Box,
   Container,
@@ -7,8 +8,9 @@ import {
   Card,
   CardContent,
 } from "@material-ui/core";
-import Page from "src/components/common/Page";
 import { map } from "lodash";
+
+import Page from "src/components/common/Page";
 import ListNewsCard from "src/components/news/ListNewsCard";
 
 export default function NewsListView() {

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
+
 import {
   Box,
   Card,
@@ -9,9 +9,11 @@ import {
   Grid,
 } from "@material-ui/core";
 import { map } from "lodash";
-import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
-import PriceLastLowerNextBetterChart from "src/components/stock/PriceLastLowerNextBetterChart";
+
 import ShowResource from "src/components/common/ShowResource";
+import PriceLastLowerNextBetterChart from "src/components/stock/PriceLastLowerNextBetterChart";
+import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
+import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
 export default function SectorStocksLowerBetterView() {
   const sector = useContext(SectorDetailContext);
@@ -22,7 +24,7 @@ export default function SectorStocksLowerBetterView() {
     const resource = `/historicals?stock=${d.id}&on__range=${start},${end}&order_by=on`;
 
     const render_data = (data) => {
-      let historicals = data.objects;
+      const historicals = data.objects;
       return (
         <Grid item lg={6} sm={6} xs={12}>
           <Card>

@@ -1,5 +1,4 @@
 import React from "react";
-import { map } from "lodash";
 
 import {
   Box,
@@ -9,6 +8,8 @@ import {
   CardHeader,
   Grid,
 } from "@material-ui/core";
+import { map } from "lodash";
+
 import SectorDupontBreakdownChart from "src/components/sector/SectorDupontBreakdownChart";
 import SectorDupontLineChart from "src/components/sector/SectorDupontLineChart";
 import SectorRoeColumnChart from "src/components/sector/SectorRoeColumnChart";

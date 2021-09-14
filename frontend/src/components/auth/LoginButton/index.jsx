@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Button } from "@material-ui/core";
 import PropTypes from "prop-types";
 
@@ -22,10 +23,10 @@ export default function LoginButton(props) {
     return fetch(resource, options)
       .then((response) => response.json())
       .then((resp) => {
-        if (!!on_success) on_success(resp);
+        if (on_success) on_success(resp);
       })
       .catch((error) => {
-        if (!!on_error) on_error(error);
+        if (on_error) on_error(error);
       });
   };
 

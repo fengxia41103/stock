@@ -1,13 +1,15 @@
 import React, { useState } from "react";
+
 import { map, groupBy } from "lodash";
-import ShowResource from "src/components/common/ShowResource";
-import MultilineChart from "src/components/common/MultilineChart";
 import PropTypes from "prop-types";
+
+import MultilineChart from "src/components/common/MultilineChart";
+import ShowResource from "src/components/common/ShowResource";
 
 export default function StocksPriceChart(props) {
   const { stocks: stock_ids, start, end } = props;
   const [resource] = useState(
-    `/historicals?stock__in=${stock_ids.join(",")}&on__range=${start},${end}`
+    `/historicals?stock__in=${stock_ids.join(",")}&on__range=${start},${end}`,
   );
 
   const render_data = (resp) => {
@@ -16,7 +18,7 @@ export default function StocksPriceChart(props) {
 
     const chart_data = map(group_by_symbol, (prices, symbol) => {
       return {
-        symbol: symbol,
+        symbol,
         data: prices,
       };
     });

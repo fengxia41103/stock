@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ShowResource from "src/components/common/ShowResource";
+
 import {
   Box,
   Container,
@@ -18,15 +18,17 @@ import {
   ListItem,
   Switch,
 } from "@material-ui/core";
-import Page from "src/components/common/Page";
-import { map } from "lodash";
-import moment from "moment";
-import RankingScores from "src/components/dashboard/RankingScores";
-import { get_highlights } from "src/utils/helper.jsx";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import { map } from "lodash";
+import moment from "moment";
+
+import Page from "src/components/common/Page";
+import ShowResource from "src/components/common/ShowResource";
 import DailyRankingBarRaceChart from "src/components/dashboard/DailyRankingBarRaceChart";
+import RankingScores from "src/components/dashboard/RankingScores";
 import StockRankingGrid from "src/components/dashboard/StockRankingGrid";
+import { get_highlights } from "src/utils/helper.jsx";
 import { stocks_daily_ranking } from "src/utils/stock/ranking";
 
 export default function DashboardTrendingView() {
@@ -45,7 +47,7 @@ export default function DashboardTrendingView() {
 
   // adjusting the starting point, handling weekends
   const update_data = () => {
-    let now = moment(today);
+    const now = moment(today);
 
     // NOTE: must set `end` first because this modifies the `temp_now`
     // in place!
@@ -108,37 +110,37 @@ export default function DashboardTrendingView() {
     </FormControl>
   );
 
-  let symbols = [],
-    highlights = [];
+  let symbols = [];
+  let highlights = [];
 
   // map option to data key
   let order_by = null;
   switch (follow) {
-    case "gainer":
-    case "loser":
-      order_by = "gain";
-      break;
-    case "volume":
-      order_by = "vol_over_share_outstanding";
-      break;
-    case "volatility":
-      order_by = "volatility";
-      break;
+  case "gainer":
+  case "loser":
+    order_by = "gain";
+    break;
+  case "volume":
+    order_by = "vol_over_share_outstanding";
+    break;
+  case "volatility":
+    order_by = "volatility";
+    break;
 
-    case "last lower":
-      order_by = "last_lower";
-      break;
-    case "next better":
-      order_by = "next_better";
-      break;
+  case "last lower":
+    order_by = "last_lower";
+    break;
+  case "next better":
+    order_by = "next_better";
+    break;
 
-    default:
-      order_by = "gain";
-      break;
+  default:
+    order_by = "gain";
+    break;
   }
 
   const render_data = (data) => {
-    let stocks = data.objects;
+    const stocks = data.objects;
 
     // all symbols are color-coded
     symbols = [...new Set(map(stocks, (s) => s.symbol))];

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { map, clone } from "lodash";
+
 import {
   Box,
   Container,
@@ -9,6 +9,8 @@ import {
   CardContent,
   Typography,
 } from "@material-ui/core";
+import { map, clone } from "lodash";
+
 import Page from "src/components/common/Page";
 import StockRanking from "src/components/stock/StockRanking";
 import { get_highlights } from "src/utils/helper.jsx";
@@ -58,7 +60,7 @@ export default function RankingView() {
   const handle_top_change = (event) => setTop(event.target.value);
 
   const handle_ratio_change = (event) => {
-    let old_thresholds = clone(thresholds);
+    const old_thresholds = clone(thresholds);
 
     old_thresholds[event.target.name] = event.target.value;
     setThresholds(old_thresholds);

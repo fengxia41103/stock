@@ -1,18 +1,20 @@
 import React, { useState, useContext } from "react";
+
+import { FormControlLabel, Checkbox, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import GlobalContext from "src/context";
-import AddIcon from "@material-ui/icons/Add";
+import Grid from "@material-ui/core/Grid";
 import ListItem from "@material-ui/core/ListItem";
+import AddIcon from "@material-ui/icons/Add";
 import { map, remove, isEmpty } from "lodash";
-import ShowResource from "src/components/common/ShowResource";
-import { FormControlLabel, Checkbox, Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
+
+import ShowResource from "src/components/common/ShowResource";
+import GlobalContext from "src/context";
 
 export default function AddStocksToSectorDialog(props) {
   const { host } = useContext(GlobalContext);
@@ -33,11 +35,11 @@ export default function AddStocksToSectorDialog(props) {
   });
 
   let sectors = [];
-  let selected_sectors = [];
+  const selected_sectors = [];
 
   const handleChange = event => {
     for (let i = 0; i < sectors.length; i++) {
-      let s = sectors[i];
+      const s = sectors[i];
 
       // conditions
       if (s.name === event.target.name) {
@@ -73,7 +75,7 @@ export default function AddStocksToSectorDialog(props) {
     const promises = selected_sectors.map(s => call_api(s));
     Promise.all(promises).then(
       // close the dialog
-      handleClose()
+      handleClose(),
     );
   };
 
@@ -144,6 +146,6 @@ AddStocksToSectorDialog.propTypes = {
     PropTypes.shape({
       id: PropTypes.number,
       symbol: PropTypes.string,
-    })
+    }),
   ).isRequired,
 };

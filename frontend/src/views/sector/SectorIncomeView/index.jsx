@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
-import SectorStatementComparisonCharts from "src/components/sector/SectorStatementComparisonCharts";
 import { Box, Typography } from "@material-ui/core";
-
 import { map } from "lodash";
+
+import SectorStatementComparisonCharts from "src/components/sector/SectorStatementComparisonCharts";
+import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
 export default function SectorIncomeView() {
   const sector = useContext(SectorDetailContext);

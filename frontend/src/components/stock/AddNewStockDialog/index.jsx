@@ -1,16 +1,5 @@
 import React, { useState, useContext } from "react";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import GlobalContext from "src/context";
-import { useMutate } from "restful-react";
-import { map, truncate, remove, clone } from "lodash";
-import SimpleSnackbar from "src/components/common/SimpleSnackbar";
-import ShowResource from "src/components/common/ShowResource";
+
 import {
   Box,
   FormControl,
@@ -20,6 +9,19 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import TextField from "@material-ui/core/TextField";
+import { map, truncate, remove, clone } from "lodash";
+import { useMutate } from "restful-react";
+
+import ShowResource from "src/components/common/ShowResource";
+import SimpleSnackbar from "src/components/common/SimpleSnackbar";
+import GlobalContext from "src/context";
 
 export default function AddNewStockDialog() {
   const { api } = useContext(GlobalContext);
@@ -49,29 +51,29 @@ export default function AddNewStockDialog() {
   // call API and close this dialog
   const on_create = () => {
     const success_msg = truncate(symbol.join(","), 20);
-    const promises = map(symbol, s =>
-      create({ symbol: s, sectors: selectedSectors })
+    const promises = map(symbol, (s) =>
+      create({ symbol: s, sectors: selectedSectors }),
     );
     Promise.all(promises)
       .then(setOpen(false))
       .then(
         setNotification(
-          `Symbols: ${success_msg} have been added to your portfolio.`
-        )
+          `Symbols: ${success_msg} have been added to your portfolio.`,
+        ),
       );
   };
 
   const handle_sector_selection = event => {
     if (event.target.checked) {
       // add to selected sector
-      let tmp = clone(selectedSectors);
+      const tmp = clone(selectedSectors);
       tmp.push(event.target.value);
 
       setSelectedSectors(tmp);
     } else {
       // remove from selected sector list
       setSelectedSectors(
-        remove(selectedSectors, x => x.id === event.target.value)
+        remove(selectedSectors, (x) => x.id === event.target.value),
       );
     }
   };

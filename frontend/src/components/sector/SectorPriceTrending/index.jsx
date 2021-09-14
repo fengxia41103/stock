@@ -8,11 +8,12 @@ import {
   Grid,
 } from "@material-ui/core";
 import { map } from "lodash";
-import ShowResource from "src/components/common/ShowResource";
 import PropTypes from "prop-types";
-import { stocks_daily_ranking } from "src/utils/stock/ranking";
+
+import ShowResource from "src/components/common/ShowResource";
 import DailyRankingBarRaceChart from "src/components/dashboard/DailyRankingBarRaceChart";
 import { get_highlights } from "src/utils/helper.jsx";
+import { stocks_daily_ranking } from "src/utils/stock/ranking";
 
 export default function SectorPriceTrending(props) {
   const INTERESTS = [
@@ -25,15 +26,15 @@ export default function SectorPriceTrending(props) {
   const { start, end, stocks: stock_ids } = props;
   const [resource] = useState(
     `/historicals?stock__in=${stock_ids.join(
-      ","
-    )}&on__range=${start},${end}&order_by=-on`
+      ",",
+    )}&on__range=${start},${end}&order_by=-on`,
   );
 
   const render_data = (data) => {
-    let stocks = data.objects;
+    const stocks = data.objects;
 
     // all symbols are color-coded
-    let symbols = [...new Set(map(stocks, (s) => s.symbol))];
+    const symbols = [...new Set(map(stocks, (s) => s.symbol))];
 
     let highlights = [];
     if (symbols.length !== highlights.length) {

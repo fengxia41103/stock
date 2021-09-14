@@ -1,9 +1,11 @@
 import React, { useState, useContext } from "react";
+
 import { Paper, makeStyles, Box, Grid } from "@material-ui/core";
 import clsx from "clsx";
-import GlobalContext from "src/context";
 import { useNavigate } from "react-router-dom";
+
 import LoginCard from "src/components/auth/LoginCard";
+import GlobalContext from "src/context";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -43,7 +45,7 @@ export default function LoginView() {
       save_auth(resp);
 
       // go to a landing page
-      navigate("/", {replace: true});
+      navigate("/", { replace: true });
     }
   };
 

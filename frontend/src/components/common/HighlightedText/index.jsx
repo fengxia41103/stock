@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+
 import { Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import { isNil } from "lodash";
 import PropTypes from "prop-types";
 
@@ -12,8 +13,8 @@ export default function HighlightedText(props) {
   const { highlights, text, val } = props;
 
   // assing a special color to text I'm interested in
-  let bk_color = "",
-    font_color = "";
+  let bk_color = "";
+  let font_color = "";
   if (!isNil(highlights[text])) {
     bk_color = "#" + highlights[text].background;
     font_color = highlights[text].font;
@@ -45,7 +46,7 @@ HighlightedText.propTypes = {
     PropTypes.shape({
       background: PropTypes.string,
       font: PropTypes.string,
-    })
+    }),
   ).isRequired,
   text: PropTypes.string.isRequired,
   val: PropTypes.number.isRequired,

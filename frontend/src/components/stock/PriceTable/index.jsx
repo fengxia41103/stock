@@ -1,4 +1,5 @@
 import React from "react";
+
 import { DataGrid } from "@material-ui/data-grid";
 import PropTypes from "prop-types";
 
@@ -80,6 +81,6 @@ PriceTable.propTypes = {
       vol: PropTypes.number,
       last_lower: PropTypes.number,
       next_better: PropTypes.number,
-    })
+    }),
   ).isRequired,
 };

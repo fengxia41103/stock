@@ -1,10 +1,12 @@
 import React, { useState, useContext } from "react";
+
 import { Button } from "@material-ui/core";
-import { map, truncate } from "lodash";
-import SimpleSnackbar from "src/components/common/SimpleSnackbar";
-import PropTypes from "prop-types";
-import GlobalContext from "src/context";
 import UpdateIcon from "@material-ui/icons/Update";
+import { map, truncate } from "lodash";
+import PropTypes from "prop-types";
+
+import SimpleSnackbar from "src/components/common/SimpleSnackbar";
+import GlobalContext from "src/context";
 
 export default function UpdateAllStock(props) {
   const { api } = useContext(GlobalContext);
@@ -28,7 +30,7 @@ export default function UpdateAllStock(props) {
 
     const promises = stocks.map(s => call_api(s));
     Promise.all(promises).then(
-      setNotification(`${symbols} updates have been requested.`)
+      setNotification(`${symbols} updates have been requested.`),
     );
   };
 
@@ -45,6 +47,6 @@ UpdateAllStock.propTypes = {
   stocks: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
-    })
+    }),
   ),
 };

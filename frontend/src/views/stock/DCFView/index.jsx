@@ -1,6 +1,4 @@
 import React, { useState, useContext } from "react";
-import FinancialCard from "src/components/stock/FinancialCard";
-import { map, merge } from "lodash";
 
 import {
   Box,
@@ -12,6 +10,9 @@ import {
   Drawer,
   Button,
 } from "@material-ui/core";
+import { map, merge } from "lodash";
+
+import FinancialCard from "src/components/stock/FinancialCard";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 
 function DCFView() {
@@ -46,8 +47,8 @@ function DCFView() {
     setTerminalGrowthRate(event.target.value);
   };
 
-  const compute_dcf = (stock) => {
-    const { cross_statements_model, beta } = stock;
+  const compute_dcf = (stock_data) => {
+    const { cross_statements_model, beta } = stock_data;
 
     const dcf_values = map(cross_statements_model, (d) => {
       const cost_of_equity = risk_free / 100 + (beta * market_premium) / 100;
@@ -61,8 +62,8 @@ function DCFView() {
 
       // year 0-5, growing at growth rate
       for (let i = 0; i <= Math.floor(project_year / 2); i++) {
-        let tmp = d.fcf * Math.pow(1 + growth_rate / 100, i);
-        let discounted = tmp / Math.pow(1 + wacc, i);
+        const tmp = d.fcf * Math.pow(1 + growth_rate / 100, i);
+        const discounted = tmp / Math.pow(1 + wacc, i);
         income += discounted;
       }
 
@@ -74,8 +75,8 @@ function DCFView() {
       //
       // Well, these are a lot to assume!
       for (let i = Math.floor(project_year / 2) + 1; i <= project_year; i++) {
-        let tmp = d.fcf * Math.pow(1 + growth_rate / 200, i);
-        let discounted = tmp / Math.pow(1 + wacc, i);
+        const tmp = d.fcf * Math.pow(1 + growth_rate / 200, i);
+        const discounted = tmp / Math.pow(1 + wacc, i);
         income += discounted;
       }
 
@@ -83,7 +84,7 @@ function DCFView() {
       // (FCF * (1 + g)) / (d - g)
       let terminal_value = 0;
       if (wacc > terminal_growth_rate / 100) {
-        let terminal = terminal_growth_rate / 100;
+        const terminal = terminal_growth_rate / 100;
 
         terminal_value = (d.fcf * (1 + terminal)) / (wacc - terminal);
       }
@@ -96,15 +97,15 @@ function DCFView() {
 
       return merge(
         {
-          dcf: dcf,
+          dcf,
           dcf_to_price_ratio: dcf / d.close_price,
           cost_of_equity: cost_of_equity * 100,
           debt_cost: debt_cost * 100,
           wacc: wacc * 100,
-          income: income,
-          terminal_value: terminal_value,
+          income,
+          terminal_value,
         },
-        d
+        d,
       );
     });
     return dcf_values;

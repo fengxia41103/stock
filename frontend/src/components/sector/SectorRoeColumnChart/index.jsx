@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
+
 import { map, sortBy } from "lodash";
+
 import HighchartGraphBox from "src/components/common/Highchart";
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 import { randomId } from "src/utils/helper.jsx";
+import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
 export default function SectorRoeColumnChart() {
   const sector = useContext(SectorDetailContext);

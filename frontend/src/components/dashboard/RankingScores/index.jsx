@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   makeStyles,
   Box,
@@ -8,12 +9,13 @@ import {
   CardContent,
   Typography,
 } from "@material-ui/core";
+import clsx from "clsx";
 import { map, sortBy, reverse, filter, forEach } from "lodash";
+import PropTypes from "prop-types";
+
+import RankChart from "src/components/common/RankChart";
 import RankingOccuranceCharts from "src/components/dashboard/RankingOccuranceCharts";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
-import RankChart from "src/components/common/RankChart";
-import PropTypes from "prop-types";
-import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +43,7 @@ export default function RankingScores(props) {
     ...new Set(map(stocks, (s) => [s.symbol, s.stock])),
   ]);
 
-  let scores = [];
+  const scores = [];
 
   forEach(symbols, (symbol) => {
     let positive_score = 0;
@@ -55,7 +57,7 @@ export default function RankingScores(props) {
       const picked_symbols = map(r.stocks, (p) => p.symbol);
       const max_score = picked_symbols.length;
 
-      let index = picked_symbols.indexOf(symbol);
+      const index = picked_symbols.indexOf(symbol);
       if (index > -1) {
         on_the_list_count += 1;
         positive_score += max_score - index;
@@ -67,7 +69,7 @@ export default function RankingScores(props) {
     });
 
     scores.push({
-      symbol: symbol,
+      symbol,
       stock_id: symbol_id_lookup.get(symbol),
       stock_resource: symbol_resource_lookup.get(symbol),
       total: positive_score - missing_the_list_count,
@@ -82,8 +84,8 @@ export default function RankingScores(props) {
   const rank_by_score_descending = reverse(
     sortBy(
       filter(scores, (s) => s.total > 0),
-      (s) => s.total
-    )
+      (s) => s.total,
+    ),
   );
 
   // get price charts
@@ -91,27 +93,27 @@ export default function RankingScores(props) {
   // greater than the number of days I'm looking at.
   const my_interests = map(
     rank_by_score_descending.slice(0, 5),
-    (s) => s.stock_id
+    (s) => s.stock_id,
   );
 
   // put the most hit ones first
   const rank_by_on_it_count = reverse(
     sortBy(
       filter(scores, (s) => s.on_it_count > 0),
-      (s) => s.on_it_count
-    )
+      (s) => s.on_it_count,
+    ),
   );
 
   // occurance above 50%
   const rank_upper_50 = filter(
     rank_by_on_it_count,
-    (r) => r.on_it_count >= r.missing_it_count
+    (r) => r.on_it_count >= r.missing_it_count,
   );
 
   // occurance below 50%
   const rank_lower_50 = filter(
     rank_by_on_it_count,
-    (r) => r.on_it_count < r.missing_it_count
+    (r) => r.on_it_count < r.missing_it_count,
   );
 
   return (
@@ -221,9 +223,9 @@ RankingScores.propTypes = {
 
           // stock resource uri
           stock: PropTypes.string,
-        })
+        }),
       ),
-    })
+    }),
   ).isRequired,
   start: PropTypes.string.isRequired,
   end: PropTypes.string.isRequired,

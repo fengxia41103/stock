@@ -1,9 +1,11 @@
 import React from "react";
+
 import { makeStyles, Grid, Link, Typography } from "@material-ui/core";
-import PropTypes from "prop-types";
-import HighlightedText from "src/components/common/HighlightedText";
 import clsx from "clsx";
 import { map } from "lodash";
+import PropTypes from "prop-types";
+
+import HighlightedText from "src/components/common/HighlightedText";
 
 const useStyles = makeStyles((theme) => ({
   category: {
@@ -20,7 +22,7 @@ export default function StockRankingGridColumn(props) {
     return (
       <Grid item key={p.stock_id} xs>
         <Link href={`/stocks/${p.stock_id}/historical/price`}>
-          <HighlightedText {...{ highlights, text: p.symbol, val: val }} />
+          <HighlightedText {...{ highlights, text: p.symbol, val }} />
         </Link>
       </Grid>
     );
@@ -43,7 +45,7 @@ StockRankingGridColumn.propTypes = {
     PropTypes.shape({
       stock_id: PropTypes.number,
       symbol: PropTypes.string,
-    })
+    }),
   ).isRequired,
   highlights: PropTypes.object.isRequired,
 };

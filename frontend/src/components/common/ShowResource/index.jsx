@@ -1,7 +1,9 @@
 import React from "react";
-import NotFoundView from "src/views/errors/NotFoundView";
-import Get from "src/components/common/Get";
+
 import PropTypes from "prop-types";
+
+import Get from "src/components/common/Get";
+import NotFoundView from "src/views/errors/NotFoundView";
 
 export default function ShowResource(props) {
   const { resource } = props;

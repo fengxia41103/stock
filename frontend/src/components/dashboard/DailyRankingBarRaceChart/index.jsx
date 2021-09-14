@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
+
 import { Typography, Grid, Button } from "@material-ui/core";
-import PropTypes from "prop-types";
-import { map, reverse, minBy, maxBy } from "lodash";
-import ReactECharts from "echarts-for-react";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import RefreshIcon from "@material-ui/icons/Refresh";
 import PauseCircleFilledIcon from "@material-ui/icons/PauseCircleFilled";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
+import RefreshIcon from "@material-ui/icons/Refresh";
+import ReactECharts from "echarts-for-react";
+import { map, reverse, minBy, maxBy } from "lodash";
+import PropTypes from "prop-types";
 
 export default function DailyRankingBarRaceChart(props) {
   const { ranks, order_by, highlights, negative } = props;
@@ -66,7 +67,7 @@ export default function DailyRankingBarRaceChart(props) {
             valueAnimation: true,
             fontFamily: "monospace",
             formatter: "{b}",
-            position: !!negative ? "left" : "right",
+            position: negative ? "left" : "right",
           },
         },
       ],
@@ -141,9 +142,9 @@ DailyRankingBarRaceChart.propTypes = {
 
           // stock resource uri
           stock: PropTypes.string,
-        })
+        }),
       ),
-    })
+    }),
   ).isRequired,
   highlights: PropTypes.object.isRequired,
   negative: PropTypes.bool,

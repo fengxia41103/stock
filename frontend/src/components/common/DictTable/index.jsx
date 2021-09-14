@@ -1,18 +1,22 @@
 import React from "react";
-import { useTheme } from "@material-ui/core/styles";
-import { map, isEmpty } from "lodash";
+
 import Box from "@material-ui/core/Box";
+import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import { randomId } from "src/utils/helper.jsx";
-import HighchartGraphBox from "src/components/common/Highchart";
+import { useTheme } from "@material-ui/core/styles";
+import { map, isEmpty } from "lodash";
 import PropTypes from "prop-types";
+
+
+
 import ColoredNumber from "src/components/common/ColoredNumber";
+import HighchartGraphBox from "src/components/common/Highchart";
+import { randomId } from "src/utils/helper.jsx";
 
 export default function DictTable(props) {
   const { table } = useTheme();
@@ -28,7 +32,7 @@ export default function DictTable(props) {
     const row = map(data, (c) => {
       return (
         <TableCell key={c.on}>
-          <ColoredNumber val={!!c[key] ? c[key] : null} />
+          <ColoredNumber val={c[key] ? c[key] : null} />
         </TableCell>
       );
     });

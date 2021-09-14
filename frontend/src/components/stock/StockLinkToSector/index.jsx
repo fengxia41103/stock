@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
-import { map, remove } from "lodash";
-import ShowResource from "src/components/common/ShowResource";
+
 import {
   Box,
   FormControl,
@@ -12,13 +11,20 @@ import {
   Grid,
   Divider,
 } from "@material-ui/core";
-import GlobalContext from "src/context";
-import { useMutate } from "restful-react";
-import SimpleSnackbar from "src/components/common/SimpleSnackbar";
-import PropTypes from "prop-types";
 import Popover from "@material-ui/core/Popover";
-import UpdateStock from "src/components/stock/UpdateStock";
+import { map, remove } from "lodash";
+import PropTypes from "prop-types";
+import { useMutate } from "restful-react";
+
+import ShowResource from "src/components/common/ShowResource";
+import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import DeleteStock from "src/components/stock/DeleteStock";
+import UpdateStock from "src/components/stock/UpdateStock";
+import GlobalContext from "src/context";
+
+
+
+
 
 export default function StockLinkToSector(props) {
   const { api } = useContext(GlobalContext);
@@ -45,10 +51,10 @@ export default function StockLinkToSector(props) {
 
   const handle_update = (sectors, event) => {
     for (let i = 0; i < sectors.length; i++) {
-      let s = sectors[i];
+      const s = sectors[i];
 
       // make a local copy for manipulation
-      let tmp = [...s.stocks];
+      const tmp = [...s.stocks];
 
       let msg = "";
 
@@ -84,7 +90,7 @@ export default function StockLinkToSector(props) {
 
   const render_data = (data) => {
     const sectors = data.objects;
-    let mapped_sectors = map(sectors, (s) => {
+    const mapped_sectors = map(sectors, (s) => {
       // add checked bool
       return { ...s, checked: s.stocks.some((i) => i.includes(resource_uri)) };
     });
@@ -140,7 +146,7 @@ export default function StockLinkToSector(props) {
         <Box padding={2}>
           {form}
 
-          {!!resource_uri ? (
+          {resource_uri ? (
             <>
               <Divider />
               <Box mt={2}>
@@ -164,7 +170,7 @@ export default function StockLinkToSector(props) {
         arrow
       >
         <Typography color="secondary" display="inline">
-          &#47;&#47; {!!minimal ? null : "Link to Sector"}
+          &#47;&#47; {minimal ? null : "Link to Sector"}
         </Typography>
       </Tooltip>
       {open ? (

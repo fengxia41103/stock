@@ -1,8 +1,10 @@
 import React from "react";
-import { randomId } from "src/utils/helper.jsx";
-import HighchartGraphBox from "src/components/common/Highchart";
+
 import { map } from "lodash";
 import PropTypes from "prop-types";
+
+import HighchartGraphBox from "src/components/common/Highchart";
+import { randomId } from "src/utils/helper.jsx";
 
 export default function PriceLastLowerNextBetterChart(props) {
   const containerId = randomId();
@@ -42,6 +44,6 @@ PriceLastLowerNextBetterChart.propTypes = {
       next_better: PropTypes.number,
       open_price: PropTypes.number,
       close_price: PropTypes.number,
-    })
+    }),
   ).isRequired,
 };

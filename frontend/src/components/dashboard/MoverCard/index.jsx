@@ -1,5 +1,5 @@
 import React from "react";
-import clsx from "clsx";
+
 import {
   makeStyles,
   Grid,
@@ -12,8 +12,10 @@ import {
   ListItem,
   Typography,
 } from "@material-ui/core";
-import PropTypes from "prop-types";
+import clsx from "clsx";
 import { map } from "lodash";
+import PropTypes from "prop-types";
+
 import ColoredNumber from "src/components/common/ColoredNumber";
 import StockSymbol from "src/components/stock/StockSymbol";
 
@@ -83,7 +85,7 @@ MoverCard.propTypes = {
 
       // stock's own resource uri
       stock: PropTypes.string,
-    })
+    }),
   ).isRequired,
   value: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,

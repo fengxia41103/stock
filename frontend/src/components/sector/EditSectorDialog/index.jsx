@@ -1,17 +1,19 @@
 import React, { useState, useContext } from "react";
+
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
+import Chip from "@material-ui/core/Chip";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import GlobalContext from "src/context";
-import { useMutate } from "restful-react";
+import TextField from "@material-ui/core/TextField";
 import EditIcon from "@material-ui/icons/Edit";
-import PropTypes from "prop-types";
-import Chip from "@material-ui/core/Chip";
 import { map, filter } from "lodash";
+import PropTypes from "prop-types";
+import { useMutate } from "restful-react";
+
+import GlobalContext from "src/context";
 
 export default function EditSectorDialog(props) {
   const { host } = useContext(GlobalContext);
@@ -46,7 +48,7 @@ export default function EditSectorDialog(props) {
   // filtered existing list
   const filtered_existings = map(
     filter(existings, (s) => s.includes(new_name)),
-    (s) => <Chip key={s} color="primary" label={s} />
+    (s) => <Chip key={s} color="primary" label={s} />,
   );
 
   return (

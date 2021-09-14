@@ -1,11 +1,5 @@
 import React, { useState, useContext } from "react";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import { useMutate } from "restful-react";
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
-import TrendingDownIcon from "@material-ui/icons/TrendingDown";
-import GlobalContext from "src/context";
-import MDEditor from "@uiw/react-md-editor";
+
 import {
   FormControl,
   FormLabel,
@@ -13,7 +7,15 @@ import {
   RadioGroup,
   Radio,
 } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import TrendingDownIcon from "@material-ui/icons/TrendingDown";
+import TrendingUpIcon from "@material-ui/icons/TrendingUp";
+import MDEditor from "@uiw/react-md-editor";
+import { useMutate } from "restful-react";
+
 import SimpleSnackbar from "src/components/common/SimpleSnackbar";
+import GlobalContext from "src/context";
 
 export default function EditDiaryEditor(props) {
   const { host } = useContext(GlobalContext);
@@ -34,7 +36,7 @@ export default function EditDiaryEditor(props) {
   const handle_update = (event) => {
     const msg = "Notes have been updated";
     update({ content: comment, judgement: prediction }).then(
-      setNotification(msg)
+      setNotification(msg),
     );
   };
 

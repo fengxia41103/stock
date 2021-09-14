@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   Button,
   Box,
@@ -9,19 +10,23 @@ import {
   CardHeader,
   CardContent,
 } from "@material-ui/core";
-import ShowResource from "src/components/common/ShowResource";
+import AddIcon from "@material-ui/icons/Add";
 import { map } from "lodash";
+import PropTypes from "prop-types";
+
+import DropdownMenu from "src/components/common/DropdownMenu";
+import ShowResource from "src/components/common/ShowResource";
 import AddDiaryEditor from "src/components/diary/AddDiaryEditor";
 import ListDiaryEntry from "src/components/diary/ListDiaryEntry";
-import AddIcon from "@material-ui/icons/Add";
-import DropdownMenu from "src/components/common/DropdownMenu";
-import PropTypes from "prop-types";
+
+
+
 
 export default function ListDiary(props) {
   const { stock } = props;
 
   let resource_uri = "/diaries";
-  if (!!stock) {
+  if (stock) {
     resource_uri += `?content__contains=${stock.symbol}`;
   }
   const [resource] = useState(resource_uri);
@@ -55,7 +60,7 @@ export default function ListDiary(props) {
       content = (
         <Box mt={1}>
           <AddDiaryEditor
-            stock={!!!stock ? stock : stock.id}
+            stock={!stock ? stock : stock.id}
             to_refresh={to_refresh}
           />
           <Button variant="text" onClick={() => setToAdd(false)}>

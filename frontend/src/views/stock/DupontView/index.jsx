@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
+
 import { Typography } from "@material-ui/core";
+
 import FinancialCard from "src/components/stock/FinancialCard";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 

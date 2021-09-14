@@ -1,8 +1,5 @@
 import React from "react";
-import { map, filter } from "lodash";
-import ShowResource from "src/components/common/ShowResource";
-import StockRankingRow from "src/components/stock/StockRankingRow";
-import PropTypes from "prop-types";
+
 import {
   Card,
   CardHeader,
@@ -11,6 +8,11 @@ import {
   ListItem,
   Typography,
 } from "@material-ui/core";
+import { map, filter, has } from "lodash";
+import PropTypes from "prop-types";
+
+import ShowResource from "src/components/common/ShowResource";
+import StockRankingRow from "src/components/stock/StockRankingRow";
 
 export default function StockRanking(props) {
   const { title, resource, top, thresholds } = props;
@@ -21,7 +23,7 @@ export default function StockRanking(props) {
       let threshold = null;
 
       // if this value has a threshold
-      if (!!thresholds && thresholds.hasOwnProperty(d.name)) {
+      if (!!thresholds && has(thresholds, d.name)) {
         threshold = thresholds[d.name];
         const tmp = threshold.split("=");
 
@@ -43,7 +45,7 @@ export default function StockRanking(props) {
 
       // FILTER: showing the top N items.
       let ranks = stats;
-      if (!!top) {
+      if (top) {
         ranks = ranks.slice(0, parseInt(top));
       }
 

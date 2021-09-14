@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+
 import {
   Box,
   Card,
@@ -7,9 +7,11 @@ import {
   Typography,
   CardHeader,
 } from "@material-ui/core";
-import TimeSeriesColumnChart from "src/components/common/TimeSeriesColumnChart";
-import DictCard from "src/components/common/DictCard";
+import PropTypes from "prop-types";
+
 import ABDonutChart from "src/components/common/ABDonutChart";
+import DictCard from "src/components/common/DictCard";
+import TimeSeriesColumnChart from "src/components/common/TimeSeriesColumnChart";
 
 export default function PriceReturnStat(props) {
   const { data } = props;

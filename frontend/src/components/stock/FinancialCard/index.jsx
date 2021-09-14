@@ -1,5 +1,5 @@
 import React from "react";
-import { isEmpty, map } from "lodash";
+
 import {
   Box,
   Typography,
@@ -7,8 +7,11 @@ import {
   CardContent,
   CardHeader,
 } from "@material-ui/core";
-import DictTable from "src/components/common/DictTable";
+import { isEmpty, map } from "lodash";
 import PropTypes from "prop-types";
+
+import DictTable from "src/components/common/DictTable";
+
 
 export default function FinancialCard(props) {
   const {
@@ -55,7 +58,7 @@ export default function FinancialCard(props) {
   ];
 
   const cards = map(mapping, (m) => {
-    if (!!!m.data) return null;
+    if (!m.data) return null;
 
     return (
       <Box key={m.title} mt={1}>
@@ -66,7 +69,7 @@ export default function FinancialCard(props) {
               data={data}
               interests={m.data}
               chart={true}
-              normalized={!!!normalized ? true : normalized}
+              normalized={!normalized ? true : normalized}
             />
           </CardContent>
         </Card>

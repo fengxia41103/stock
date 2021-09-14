@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Outlet, useParams } from "react-router-dom";
-import { Container, Box, Grid } from "@material-ui/core";
-import Page from "src/components/common/Page";
-import MenuBar from "src/components/common/MenuBar";
-import ShowResource from "src/components/common/ShowResource";
-import StockDetailContext from "./context.jsx";
-import StockLinkToSector from "src/components/stock/StockLinkToSector";
-import ListDiary from "src/components/diary/ListDiary";
 
+import { Container, Box, Grid } from "@material-ui/core";
+import { Outlet, useParams } from "react-router-dom";
+
+import MenuBar from "src/components/common/MenuBar";
+import Page from "src/components/common/Page";
+import ShowResource from "src/components/common/ShowResource";
+import ListDiary from "src/components/diary/ListDiary";
 import DeleteStock from "src/components/stock/DeleteStock";
+import StockLinkToSector from "src/components/stock/StockLinkToSector";
 import UpdateStock from "src/components/stock/UpdateStock";
+
+import StockDetailContext from "./context.jsx";
 
 const price_menus = [
   {
@@ -107,7 +109,10 @@ function StockDetailView() {
 
   useEffect(() => {
     mounted.current = true;
-    return () => (mounted.current = false);
+    return () => {
+      mounted.current = false;
+      return null;
+    };
   });
 
   const render_data = (stock) => {

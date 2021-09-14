@@ -14,7 +14,7 @@ export const days_in_between = (start, end) => {
   const date2 = new Date(end);
 
   // To calculate the time difference of two dates
-  var difference_in_time = date2.getTime() - date1.getTime();
+  const difference_in_time = date2.getTime() - date1.getTime();
 
   // To calculate the no. of days between two dates
   return difference_in_time / (1000 * 3600 * 24);

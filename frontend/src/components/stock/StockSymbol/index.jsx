@@ -1,6 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
+
 import { Link, Box } from "@material-ui/core";
+import PropTypes from "prop-types";
+
 import StockLinkToSector from "src/components/stock/StockLinkToSector";
 
 export default function StockSymbol(props) {

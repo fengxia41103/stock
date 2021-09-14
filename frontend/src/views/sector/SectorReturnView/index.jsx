@@ -1,8 +1,4 @@
 import React, { useState, useContext } from "react";
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
-import { map, groupBy, reverse } from "lodash";
-import ShowResource from "src/components/common/ShowResource";
-import moment from "moment";
 
 import {
   Box,
@@ -12,9 +8,13 @@ import {
   CardHeader,
   Grid,
 } from "@material-ui/core";
+import { map, groupBy, reverse } from "lodash";
+import moment from "moment";
 
+import ShowResource from "src/components/common/ShowResource";
 import SectorReturnComparisonChart from "src/components/sector/SectorReturnComparisonChart";
 import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
+import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
 export default function SectorReturnView() {
   const sector = useContext(SectorDetailContext);
@@ -23,7 +23,7 @@ export default function SectorReturnView() {
   const [start] = useState(get_last_month_string());
   const [end] = useState(get_today_string());
   const [resource] = useState(
-    `/historicals?stock__in=${stock_ids}&on__range=${start},${end}`
+    `/historicals?stock__in=${stock_ids}&on__range=${start},${end}`,
   );
 
   const render_data = (data) => {
@@ -67,7 +67,7 @@ export default function SectorReturnView() {
             </Card>
           </Box>
         );
-      })
+      }),
     );
 
     return (

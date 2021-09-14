@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
+
 import {
   Box,
   Card,
@@ -7,10 +7,12 @@ import {
   Typography,
   CardHeader,
 } from "@material-ui/core";
-import StocksPriceChart from "src/components/stock/StocksPriceChart";
 import { map } from "lodash";
-import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
+
 import SectorPriceTrending from "src/components/sector/SectorPriceTrending";
+import StocksPriceChart from "src/components/stock/StocksPriceChart";
+import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
+import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
 export default function SectorPriceView() {
   const sector = useContext(SectorDetailContext);

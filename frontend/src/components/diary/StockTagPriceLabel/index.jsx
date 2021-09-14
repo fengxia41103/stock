@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+
 import { Grid, Divider } from "@material-ui/core";
 import PropTypes from "prop-types";
-import ShowResource from "src/components/common/ShowResource";
+
 import ColoredNumber from "src/components/common/ColoredNumber";
+import ShowResource from "src/components/common/ShowResource";
 
 export default function StockTagPriceLabel(props) {
   const { diary, stock } = props;
@@ -10,13 +12,13 @@ export default function StockTagPriceLabel(props) {
   const [start] = useState(new Date(diary.created).toLocaleDateString("en-CA"));
   const [end] = useState(new Date().toLocaleDateString("en-CA"));
   const [resource] = useState(
-    `/historicals?stock=${stock.id}&on__range=${start},${end}`
+    `/historicals?stock=${stock.id}&on__range=${start},${end}`,
   );
 
   const render_data = (data) => {
     const prices = data.objects;
-    let price_then = 0,
-      price_now = 0;
+    let price_then = 0;
+    let price_now = 0;
 
     if (prices.length > 0) {
       price_then = prices[0].close_price;

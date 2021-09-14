@@ -1,10 +1,11 @@
 import React from "react";
 
-import { map, filter } from "lodash";
-import { randomId } from "src/utils/helper.jsx";
-import HighchartGraphBox from "src/components/common/Highchart";
 import { Typography } from "@material-ui/core";
+import { map, filter } from "lodash";
 import PropTypes from "prop-types";
+
+import HighchartGraphBox from "src/components/common/Highchart";
+import { randomId } from "src/utils/helper.jsx";
 
 export default function SectorOwnershipChart(props) {
   const { sector } = props;
@@ -29,7 +30,7 @@ export default function SectorOwnershipChart(props) {
           },
         ],
       };
-    }
+    },
   );
 
   return (
@@ -62,7 +63,7 @@ SectorOwnershipChart.propTypes = {
         top_ten_institution_ownership: PropTypes.number,
         institution_count: PropTypes.number,
         shares_outstanding: PropTypes.number,
-      })
+      }),
     ),
   }).isRequired,
 };

@@ -1,5 +1,5 @@
-import { map, isUndefined, filter } from "lodash";
 import { jStat } from "jstat";
+import { map, isUndefined, filter } from "lodash";
 
 // daily: today's open-2-today's close
 export function daily_returns(prices) {
@@ -106,10 +106,10 @@ export function compute_stats(data) {
     // if I guess 50-50, === median
     fifty_percentile: jStat.percentile(data, 0.5),
 
-    positive_count: positive_count,
-    negative_count: negative_count,
-    positive_mean: positive_mean,
-    negative_mean: negative_mean,
+    positive_count,
+    negative_count,
+    positive_mean,
+    negative_mean,
   };
 }
 

@@ -4,10 +4,10 @@ export function stocks_daily_ranking(
   historicals,
   order_by,
   high_to_low,
-  truncate
+  truncate,
 ) {
   // compute values
-  let stocks = map(historicals, (s) => {
+  const stocks = map(historicals, (s) => {
     return {
       gain: ((s.close_price - s.open_price) / s.open_price) * 100,
       volatility: ((s.high_price - s.low_price) / s.low_price) * 100,
@@ -19,18 +19,18 @@ export function stocks_daily_ranking(
   const group_by_on = groupBy(stocks, (s) => s.on);
 
   // compute ranks
-  let ranks = [];
+  const ranks = [];
   forEach(group_by_on, (histories, on) => {
     // sort low->high
     let picks = sortBy(histories, (s) => s[order_by]);
 
     // for positive indexes, we rank high->low
-    if (!!high_to_low) {
+    if (high_to_low) {
       picks = reverse(picks);
     }
 
     // if truncate
-    if (!!truncate) {
+    if (truncate) {
       picks = picks.slice(0, truncate);
     }
 

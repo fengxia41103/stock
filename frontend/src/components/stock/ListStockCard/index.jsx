@@ -1,6 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
-import clsx from "clsx";
+
 import {
   makeStyles,
   Avatar,
@@ -15,12 +14,15 @@ import {
   Tooltip,
 } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import ErrorIcon from "@material-ui/icons/Error";
+import clsx from "clsx";
 import { map, isUndefined } from "lodash";
+import PropTypes from "prop-types";
+
+import ColoredNumber from "src/components/common/ColoredNumber";
 import DropdownMenu from "src/components/common/DropdownMenu";
 import RecentPriceSparkline from "src/components/stock/RecentPriceSparkline";
-import ColoredNumber from "src/components/common/ColoredNumber";
 import StockSymbol from "src/components/stock/StockSymbol";
-import ErrorIcon from "@material-ui/icons/Error";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,21 +45,21 @@ export default function ListStockCard(props) {
 
   let title;
   switch (group_by) {
-    case "last_reporting_date":
-      title = index === "null" ? "ETF" : index;
-      break;
+  case "last_reporting_date":
+    title = index === "null" ? "ETF" : index;
+    break;
 
-    default:
-      title = index;
-      break;
+  default:
+    title = index;
+    break;
   }
 
   // if any menu contents
   let menu_content = null;
 
   if (!isUndefined(actions)) {
-    const action_menu_content_list = map(actions, (action, index) => (
-      <ListItem key={index}>{action}</ListItem>
+    const action_menu_content_list = map(actions, (action, i) => (
+      <ListItem key={i}>{action}</ListItem>
     ));
     menu_content = <List>{action_menu_content_list}</List>;
   }
@@ -141,7 +143,7 @@ ListStockCard.propTypes = {
       ps: PropTypes.number,
       pb: PropTypes.number,
       resource_uri: PropTypes.string,
-    })
+    }),
   ).isRequired,
   actions: PropTypes.arrayOf(PropTypes.any),
 };

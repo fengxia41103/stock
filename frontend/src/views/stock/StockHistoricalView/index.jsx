@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet, useParams } from "react-router-dom";
+
 import {
   Box,
   Grid,
@@ -8,17 +8,19 @@ import {
   CardContent,
   Typography,
 } from "@material-ui/core";
+import { Outlet, useParams } from "react-router-dom";
 
-import StockHistoricalContext from "./context.jsx";
 import ShowResource from "src/components/common/ShowResource";
 import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
+
+import StockHistoricalContext from "./context.jsx";
 
 function StockHistoricalView() {
   const { id } = useParams();
   const [start, setStart] = useState(get_last_month_string());
   const [end, setEnd] = useState(get_today_string);
   const [resource, setResource] = useState(
-    `/historicals?stock=${id}&on__range=${start},${end}`
+    `/historicals?stock=${id}&on__range=${start},${end}`,
   );
 
   const start_change = (event) => {

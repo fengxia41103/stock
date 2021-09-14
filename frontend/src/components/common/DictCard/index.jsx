@@ -1,5 +1,4 @@
 import React from "react";
-import { map } from "lodash";
 
 import {
   Grid,
@@ -8,14 +7,16 @@ import {
   Typography,
   CardHeader,
 } from "@material-ui/core";
+import { map } from "lodash";
 import PropTypes from "prop-types";
+
 import ColoredNumber from "src/components/common/ColoredNumber";
 
 export default function DictCard(props) {
   const { data, interests } = props;
 
   const cards = map(interests, (description, key) => {
-    let val = data[key];
+    const val = data[key];
     return (
       <Grid item key={key} lg={4} sm={6} xs={12}>
         <Card>
