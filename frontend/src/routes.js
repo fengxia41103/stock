@@ -49,8 +49,8 @@ import SectorIncomeRankingView from "src/views/sector/SectorIncomeRankingView";
 import SectorCashRankingView from "src/views/sector/SectorCashRankingView";
 import SectorValuationRankingView from "src/views/sector/SectorValuationRankingView";
 import SectorStocksLowerBetterView from "src/views/sector/SectorStocksLowerBetterView";
-import LoginView from "src/views/auth/LoginView";
 import LogoutView from "src/views/auth/LogoutView";
+import LoginView from "src/views/auth/LoginView";
 
 const navbar_items = [
   {

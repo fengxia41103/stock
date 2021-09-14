@@ -1,0 +1,88 @@
+{
+  "root": true,
+  "plugins": ["import"],
+  "extends": ["react-app", "eslint:recommended", "plugin:import/recommended"],
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2020
+  },
+  "rules": {
+    "comma-dangle": [2, "always-multiline"],
+    "comma-style": [2, "last"],
+    "curly": [2, "multi-line"],
+    "eol-last": [2, "always"],
+    "eqeqeq": [2, "allow-null"],
+    "func-call-spacing": 2,
+    "indent": [2, 2],
+    "keyword-spacing": [
+      "error",
+      {
+        "before": true,
+        "after": true,
+        "overrides": {
+          "return": { "after": true },
+          "throw": { "after": true },
+          "case": { "after": true }
+        }
+      }
+    ],
+    "max-len": [1, 72, 2],
+    "no-cond-assign": [2, "always"],
+    "no-return-assign": [2, "always"],
+    "no-shadow": 1,
+    "no-var": 2,
+    "object-curly-spacing": [2, "always"],
+    "object-shorthand": [
+      "error",
+      "always",
+      {
+        "ignoreConstructors": false,
+        "avoidQuotes": true
+      }
+    ],
+    "one-var": [2, "never"],
+    "prefer-const": 2,
+    "quotes": [
+      2,
+      "double",
+      {
+        "allowTemplateLiterals": true,
+        "avoidEscape": true
+      }
+    ],
+    "semi": [2, "always"],
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "always",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ],
+
+    // dog fooding
+    "import/no-unresolved": [2, { "commonjs": true, "amd": true }],
+    "import/named": 2,
+    "import/namespace": 2,
+    "import/default": 2,
+    "import/export": 2,
+    "import/no-extraneous-dependencies": "error",
+    "import/unambiguous": "off"
+  },
+
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      },
+      "alias": {
+        "map": [["src", "./src"]],
+        "extensions": [".js", ".jsx"]
+      }
+    }
+  }
+}
