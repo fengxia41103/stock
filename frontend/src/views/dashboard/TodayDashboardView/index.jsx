@@ -72,10 +72,12 @@ export default function TodayDashboardView() {
         (s) => s.gain,
       ),
     ).slice(0, 10);
+
     const loser = sortBy(
       filter(stocks, (s) => s.gain < 0),
       (s) => s.gain,
     ).slice(0, 10);
+
     const mover = reverse(
       sortBy(stocks, (s) => s.vol_over_share_outstanding),
     ).slice(0, 10);
