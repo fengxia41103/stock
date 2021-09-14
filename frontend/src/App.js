@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
+
+import { ThemeProvider } from "@material-ui/core";
 import { useRoutes } from "react-router-dom";
 import "react-perfect-scrollbar/dist/css/styles.css";
-import { ThemeProvider } from "@material-ui/core";
+import { RestfulProvider } from "restful-react";
+
 import GlobalStyles from "src/components/common/GlobalStyles";
 import "src/mixins/chartjs";
-import theme from "src/theme";
-import routes from "src/routes";
-import LoginView from "src/views/auth/LoginView";
 import GlobalContext from "src/context";
-import { RestfulProvider } from "restful-react";
+import routes from "src/routes";
+import theme from "src/theme";
+import LoginView from "src/views/auth/LoginView";
 
 const globals = {
   localhost: {
@@ -36,7 +38,7 @@ const App = () => {
 
     // this bool is for convenience
     setIsAuthenticated(!!user && !!api_key);
-  });
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

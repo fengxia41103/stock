@@ -30,7 +30,7 @@
         }
       }
     ],
-    "max-len": [1, 72, 2],
+    "max-len": [1, 99, 2],
     "no-cond-assign": [2, "always"],
     "no-return-assign": [2, "always"],
     "no-shadow": 1,
@@ -61,6 +61,25 @@
         "anonymous": "always",
         "named": "never",
         "asyncArrow": "always"
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": false
+        }
       }
     ],
 

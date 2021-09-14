@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+
 import { makeStyles, Box } from "@material-ui/core";
+import { Outlet } from "react-router-dom";
+
 import NavBar from "./NavBar";
 import TopBar from "./TopBar";
 

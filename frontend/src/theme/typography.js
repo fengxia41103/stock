@@ -1,4 +1,4 @@
-export default {
+export const typography = {
   // Tell Material-UI what's the font-size on the html element is.
   fontSize: 14,
   h1: {

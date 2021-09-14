@@ -1,7 +1,8 @@
 import { colors } from "@material-ui/core";
 import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
-import shadows from "./shadows";
-import typography from "./typography";
+
+import { shadows } from "./shadows";
+import { typography } from "./typography";
 
 let theme = createTheme({
   spacing: 8,
