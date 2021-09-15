@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 
 import { Typography, Grid, Button } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
@@ -8,6 +7,7 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import ReactECharts from "echarts-for-react";
 import { map, reverse, minBy, maxBy } from "lodash";
 import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 
 export default function DailyRankingBarRaceChart(props) {
   const { ranks, order_by, highlights, negative } = props;

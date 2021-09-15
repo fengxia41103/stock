@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-
 import { ThemeProvider } from "@material-ui/core";
-import { useRoutes } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import "react-perfect-scrollbar/dist/css/styles.css";
+import { useRoutes } from "react-router-dom";
 import { RestfulProvider } from "restful-react";
 
 import GlobalStyles from "src/components/common/GlobalStyles";
@@ -11,6 +10,8 @@ import GlobalContext from "src/context";
 import routes from "src/routes";
 import theme from "src/theme";
 import LoginView from "src/views/auth/LoginView";
+
+
 
 const globals = {
   localhost: {

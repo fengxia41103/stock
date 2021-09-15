@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-
 import { Box, Typography } from "@material-ui/core";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import DictCard from "src/components/common/DictCard";

@@ -1,4 +1,3 @@
-import React, { useState, useContext } from "react";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -11,6 +10,7 @@ import ListItem from "@material-ui/core/ListItem";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { map } from "lodash";
 import PropTypes from "prop-types";
+import React, { useState, useContext } from "react";
 import { useMutate } from "restful-react";
 
 import StockSymbol from "src/components/stock/StockSymbol";

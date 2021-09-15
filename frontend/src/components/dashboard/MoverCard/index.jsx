@@ -1,4 +1,3 @@
-import React from "react";
 
 import {
   makeStyles,
@@ -15,6 +14,7 @@ import {
 import clsx from "clsx";
 import { map } from "lodash";
 import PropTypes from "prop-types";
+import React from "react";
 
 import ColoredNumber from "src/components/common/ColoredNumber";
 import StockSymbol from "src/components/stock/StockSymbol";

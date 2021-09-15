@@ -1,8 +1,8 @@
-import React from "react";
 
 import { Card, CardContent, CardHeader, Grid } from "@material-ui/core";
 import { map, groupBy } from "lodash";
 import PropTypes from "prop-types";
+import React from "react";
 
 import MultilineChart from "src/components/common/MultilineChart";
 import ShowResource from "src/components/common/ShowResource";

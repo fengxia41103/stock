@@ -1,4 +1,6 @@
-import React from "react";
+
+
+
 
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import BusinessIcon from "@material-ui/icons/Business";
@@ -7,8 +9,8 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import SortIcon from "@material-ui/icons/Sort";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
+import React from "react";
 import { Navigate } from "react-router-dom";
-
 
 import MainLayout from "src/layouts/MainLayout";
 import LoginView from "src/views/auth/LoginView";
@@ -35,8 +37,8 @@ import SectorStocksLowerBetterView from "src/views/sector/SectorStocksLowerBette
 import SectorValuationRankingView from "src/views/sector/SectorValuationRankingView";
 import BalanceView from "src/views/stock/BalanceView";
 import CashFlowView from "src/views/stock/CashFlowView";
-import DCFView from "src/views/stock/DCFView";
 import DailyReturnView from "src/views/stock/DailyReturnView";
+import DCFView from "src/views/stock/DCFView";
 import DupontView from "src/views/stock/DupontView";
 import IncomeView from "src/views/stock/IncomeView";
 import LastLowerNextBetterView from "src/views/stock/LastLowerNextBetterView";
@@ -51,6 +53,8 @@ import StockSummaryView from "src/views/stock/StockSummaryView";
 import TechIndicatorView from "src/views/stock/TechIndicatorView";
 import TwentyFourHourReturnView from "src/views/stock/TwentyFourHourReturnView";
 import ValuationRatiosView from "src/views/stock/ValuationRatiosView";
+
+
 
 const navbar_items = [
   {

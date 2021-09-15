@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-
 import { Container, Box, Grid } from "@material-ui/core";
+import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useParams } from "react-router-dom";
 
 import MenuBar from "src/components/common/MenuBar";

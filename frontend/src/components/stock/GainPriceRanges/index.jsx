@@ -1,8 +1,8 @@
-import React from "react";
 
 import { Box, Grid, List, ListItem, Chip, Tooltip } from "@material-ui/core";
 import { map, filter, minBy, range, reverse, findIndex } from "lodash";
 import PropTypes from "prop-types";
+import React from "react";
 import GaugeChart from "react-gauge-chart";
 
 import ColoredNumber from "src/components/common/ColoredNumber";

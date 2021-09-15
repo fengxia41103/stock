@@ -1,6 +1,6 @@
+import { Box, Container } from "@material-ui/core";
 import React, { useState } from "react";
 
-import { Box, Container } from "@material-ui/core";
 
 import Page from "src/components/common/Page";
 import ShowResource from "src/components/common/ShowResource";

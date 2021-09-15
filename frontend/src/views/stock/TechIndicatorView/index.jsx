@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 
 import {
   Box,
@@ -9,6 +8,7 @@ import {
 } from "@material-ui/core";
 import { timeParse } from "d3-time-format";
 import { map } from "lodash";
+import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context.jsx";

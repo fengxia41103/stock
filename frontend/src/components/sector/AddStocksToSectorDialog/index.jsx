@@ -1,4 +1,3 @@
-import React, { useState, useContext } from "react";
 
 import { FormControlLabel, Checkbox, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
@@ -12,6 +11,7 @@ import ListItem from "@material-ui/core/ListItem";
 import AddIcon from "@material-ui/icons/Add";
 import { map, remove, isEmpty } from "lodash";
 import PropTypes from "prop-types";
+import React, { useState, useContext } from "react";
 
 import ShowResource from "src/components/common/ShowResource";
 import GlobalContext from "src/context";

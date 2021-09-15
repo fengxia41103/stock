@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 import {
   Box,
   Grid,
@@ -8,6 +6,7 @@ import {
   CardContent,
   Typography,
 } from "@material-ui/core";
+import React, { useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 
 import ShowResource from "src/components/common/ShowResource";

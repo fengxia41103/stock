@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 
 import {
   Card,
@@ -9,6 +8,7 @@ import {
 } from "@material-ui/core";
 import { map } from "lodash";
 import PropTypes from "prop-types";
+import React, { useState } from "react";
 
 import ShowResource from "src/components/common/ShowResource";
 import DailyRankingBarRaceChart from "src/components/dashboard/DailyRankingBarRaceChart";

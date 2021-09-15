@@ -1,4 +1,3 @@
-import React, { useState, useContext } from "react";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -11,6 +10,7 @@ import TextField from "@material-ui/core/TextField";
 import EditIcon from "@material-ui/icons/Edit";
 import { map, filter } from "lodash";
 import PropTypes from "prop-types";
+import React, { useState, useContext } from "react";
 import { useMutate } from "restful-react";
 
 import GlobalContext from "src/context";

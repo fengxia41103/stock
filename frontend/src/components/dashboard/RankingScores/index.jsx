@@ -1,4 +1,3 @@
-import React from "react";
 
 import {
   makeStyles,
@@ -12,6 +11,7 @@ import {
 import clsx from "clsx";
 import { map, sortBy, reverse, filter, forEach } from "lodash";
 import PropTypes from "prop-types";
+import React from "react";
 
 import RankChart from "src/components/common/RankChart";
 import RankingOccuranceCharts from "src/components/dashboard/RankingOccuranceCharts";

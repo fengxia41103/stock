@@ -1,4 +1,3 @@
-import React, { useState, useContext } from "react";
 
 import {
   Box,
@@ -17,6 +16,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import { map, truncate, remove, clone } from "lodash";
+import React, { useState, useContext } from "react";
 import { useMutate } from "restful-react";
 
 import ShowResource from "src/components/common/ShowResource";

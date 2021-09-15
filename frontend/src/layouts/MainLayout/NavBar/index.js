@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 
 import {
   Avatar,
@@ -11,6 +10,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
+import React, { useEffect } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 
 import NavItem from "./NavItem";

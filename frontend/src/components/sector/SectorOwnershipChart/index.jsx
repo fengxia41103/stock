@@ -1,8 +1,8 @@
-import React from "react";
 
 import { Typography } from "@material-ui/core";
 import { map, filter } from "lodash";
 import PropTypes from "prop-types";
+import React from "react";
 
 import HighchartGraphBox from "src/components/common/Highchart";
 import { randomId } from "src/utils/helper.jsx";

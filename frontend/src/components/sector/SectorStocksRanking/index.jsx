@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
 
 import { Box, Typography } from "@material-ui/core";
 import { map } from "lodash";
 import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 
 import StockRanking from "src/components/stock/StockRanking";
 import { get_highlights } from "src/utils/helper.jsx";

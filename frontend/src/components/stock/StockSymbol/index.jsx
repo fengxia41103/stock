@@ -1,7 +1,7 @@
-import React from "react";
 
 import { Link, Box } from "@material-ui/core";
 import PropTypes from "prop-types";
+import React from "react";
 
 import StockLinkToSector from "src/components/stock/StockLinkToSector";
 

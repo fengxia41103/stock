@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 
 import {
   Box,
@@ -12,6 +11,7 @@ import { BarChart, Timeline } from "@material-ui/icons";
 import CompareArrowsSharpIcon from "@material-ui/icons/CompareArrowsSharp";
 import { map } from "lodash";
 import PropTypes from "prop-types";
+import React, { useState } from "react";
 
 import HighlightedText from "src/components/common/HighlightedText";
 import RankChart from "src/components/common/RankChart";

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
 
 import { map, groupBy } from "lodash";
 import PropTypes from "prop-types";
+import React, { useState } from "react";
 
 import MultilineChart from "src/components/common/MultilineChart";
 import ShowResource from "src/components/common/ShowResource";

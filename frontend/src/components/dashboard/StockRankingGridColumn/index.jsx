@@ -1,9 +1,9 @@
-import React from "react";
 
 import { makeStyles, Grid, Link, Typography } from "@material-ui/core";
 import clsx from "clsx";
 import { map } from "lodash";
 import PropTypes from "prop-types";
+import React from "react";
 
 import HighlightedText from "src/components/common/HighlightedText";
 

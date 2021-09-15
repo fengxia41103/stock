@@ -1,8 +1,8 @@
-import React from "react";
 
 import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
 import PropTypes from "prop-types";
+import React from "react";
 import { ChartCanvas, Chart } from "react-stockcharts";
 import { XAxis, YAxis } from "react-stockcharts/lib/axes";
 import {

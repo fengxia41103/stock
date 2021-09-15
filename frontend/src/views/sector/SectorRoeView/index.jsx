@@ -1,4 +1,3 @@
-import React from "react";
 
 import {
   Box,
@@ -9,6 +8,7 @@ import {
   Grid,
 } from "@material-ui/core";
 import { map } from "lodash";
+import React from "react";
 
 import SectorDupontBreakdownChart from "src/components/sector/SectorDupontBreakdownChart";
 import SectorDupontLineChart from "src/components/sector/SectorDupontLineChart";

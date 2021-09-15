@@ -1,8 +1,8 @@
-import React from "react";
 
 import { Grid } from "@material-ui/core";
 import { map } from "lodash";
 import PropTypes from "prop-types";
+import React from "react";
 
 import StockRankingGridColumn from "src/components/dashboard/StockRankingGridColumn";
 

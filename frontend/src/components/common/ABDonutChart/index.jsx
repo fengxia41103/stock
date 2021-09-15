@@ -1,4 +1,3 @@
-import React from "react";
 
 import {
   Box,
@@ -14,6 +13,7 @@ import TrendingDownIcon from "@material-ui/icons/TrendingDown";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import { isUndefined } from "lodash";
 import PropTypes from "prop-types";
+import React from "react";
 import { Doughnut } from "react-chartjs-2";
 
 export default function ABDonutChart(props) {

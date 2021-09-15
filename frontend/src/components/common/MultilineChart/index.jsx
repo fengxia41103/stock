@@ -1,7 +1,7 @@
-import React from "react";
 
 import { map, isEmpty } from "lodash";
 import PropTypes from "prop-types";
+import React from "react";
 
 import HighchartGraphBox from "src/components/common/Highchart";
 import { randomId } from "src/utils/helper.jsx";

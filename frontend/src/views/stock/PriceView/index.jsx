@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 
 import {
   makeStyles,
@@ -14,6 +13,7 @@ import {
 import clsx from "clsx";
 import { map, groupBy, reverse } from "lodash";
 import moment from "moment";
+import React, { useContext } from "react";
 
 import ColoredNumber from "src/components/common/ColoredNumber";
 import GainPriceRanges from "src/components/stock/GainPriceRanges";

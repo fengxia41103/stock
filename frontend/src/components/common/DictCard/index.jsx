@@ -1,4 +1,3 @@
-import React from "react";
 
 import {
   Grid,
@@ -9,6 +8,7 @@ import {
 } from "@material-ui/core";
 import { map } from "lodash";
 import PropTypes from "prop-types";
+import React from "react";
 
 import ColoredNumber from "src/components/common/ColoredNumber";
 

@@ -1,6 +1,6 @@
+import PropTypes from "prop-types";
 import React from "react";
 
-import PropTypes from "prop-types";
 
 import Get from "src/components/common/Get";
 import NotFoundView from "src/views/errors/NotFoundView";

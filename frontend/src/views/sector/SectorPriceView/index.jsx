@@ -1,4 +1,3 @@
-import React, { useState, useContext } from "react";
 
 import {
   Box,
@@ -8,6 +7,7 @@ import {
   CardHeader,
 } from "@material-ui/core";
 import { map } from "lodash";
+import React, { useState, useContext } from "react";
 
 import SectorPriceTrending from "src/components/sector/SectorPriceTrending";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
