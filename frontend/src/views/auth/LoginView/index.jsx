@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import LoginCard from "src/components/auth/LoginCard";
 import GlobalContext from "src/context";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   card: {
     marginTop: "37vh",
   },
@@ -31,13 +31,13 @@ export default function LoginView() {
 
   // callbacks
   const session = window.sessionStorage;
-  const save_auth = resp => {
+  const save_auth = (resp) => {
     session.setItem("user", resp.data.user);
     session.setItem("api_key", resp.data.key);
   };
 
   // you decide what to do if logged in
-  const on_success = resp => {
+  const on_success = (resp) => {
     if (resp.success) {
       // save auth somewhere for all calls
       save_auth(resp);
@@ -47,7 +47,7 @@ export default function LoginView() {
     }
   };
 
-  const on_error = err => console.error(err);
+  const on_error = (err) => console.error(err);
 
   // render
   return (

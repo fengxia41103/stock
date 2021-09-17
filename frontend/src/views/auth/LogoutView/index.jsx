@@ -17,7 +17,7 @@ export default function LogoutView() {
   };
 
   // you decide what to do if logged out
-  const on_success = resp => {
+  const on_success = (resp) => {
     if (resp.success) {
       // clear session storage
       remove_auth();
@@ -26,7 +26,7 @@ export default function LogoutView() {
       return <LoginView />;
     }
   };
-  const on_error = err => console.error(err);
+  const on_error = (err) => console.error(err);
 
   return <Get {...{ uri: resource, on_success, on_error, silent: true }} />;
 }

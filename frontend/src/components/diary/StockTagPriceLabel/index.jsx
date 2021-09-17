@@ -14,7 +14,7 @@ export default function StockTagPriceLabel(props) {
     `/historicals?stock=${stock.id}&on__range=${start},${end}`
   );
 
-  const render_data = data => {
+  const render_data = (data) => {
     const prices = data.objects;
     let price_then = 0;
     let price_now = 0;

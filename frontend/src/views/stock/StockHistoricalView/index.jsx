@@ -20,16 +20,16 @@ function StockHistoricalView() {
   const [end, setEnd] = useState(get_today_string());
   const resource = `/historicals?stock=${id}&on__range=${start},${end}`;
 
-  const start_change = event => {
+  const start_change = (event) => {
     const new_start = event.target.value;
     setStart(new_start);
   };
-  const end_change = event => {
+  const end_change = (event) => {
     const new_end = event.target.value;
     setEnd(new_end);
   };
 
-  const render_data = resp => {
+  const render_data = (resp) => {
     const data = resp.objects;
 
     // WARNING: for some reason I don't have its price, thus nothing
