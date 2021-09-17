@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import { useRoutes } from "react-router-dom";
 import { RestfulProvider } from "restful-react";
@@ -21,24 +21,11 @@ const globals = {
 
 const App = () => {
   const backend = globals.p517;
-  const session = window.sessionStorage;
-  const [user, setUser] = useState();
-  const [api_key, setApiKey] = useState();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [session] = useState(window.sessionStorage);
+  const user = useMemo(()=>session.getItem("user"));
+  const api_key = useMemo(()=>session.getItem("api_key"));
+  const isAuthenticated = useMemo(()=>!!user && !!api_key, [user, api_key]);
   const routing = useRoutes(routes);
-
-  // MUST: no dependency!
-  // This is a special case because the change of these two key info `user` and
-  // `api_key` will not be known through any mean. So reading them from session
-  // storage is the only way to get an update.
-  useEffect(() => {
-    // MUST: read each time we mount this component!
-    setUser(session.getItem("user"));
-    setApiKey(session.getItem("api_key"));
-
-    // this bool is for convenience
-    setIsAuthenticated(!!user && !!api_key);
-  }, [user, api_key]);
 
   return (
     <ThemeProvider theme={theme}>
