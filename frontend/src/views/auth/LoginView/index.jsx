@@ -38,13 +38,13 @@ export default function LoginView() {
 
   // you decide what to do if logged in
   const on_success = (resp) => {
-
     if (resp.success) {
       // save auth somewhere for all calls
       save_auth(resp);
 
       // go to a landing page
-      navigate("/", { replace: true });
+      console.log("login ok, going to /");
+      navigate("/dashboard", true);
     }
   };
 

@@ -5,7 +5,6 @@ import { useRoutes } from "react-router-dom";
 import { RestfulProvider } from "restful-react";
 
 import GlobalStyles from "src/components/common/GlobalStyles";
-import "src/mixins/chartjs";
 import GlobalContext from "src/context";
 import routes from "src/routes";
 import theme from "src/theme";
@@ -14,14 +13,14 @@ import LoginView from "src/views/auth/LoginView";
 
 
 const globals = {
-  localhost: {
-    api: "http://localhost:8003/api/v1",
-    host: "http://localhost:8003",
+  p517: {
+    api: "http://192.168.68.107:8003/api/v1",
+    host: "http://192.168.68.107:8003",
   },
 };
 
 const App = () => {
-  const backend = globals.localhost;
+  const backend = globals.p517;
   const session = window.sessionStorage;
   const [user, setUser] = useState();
   const [api_key, setApiKey] = useState();
@@ -39,7 +38,7 @@ const App = () => {
 
     // this bool is for convenience
     setIsAuthenticated(!!user && !!api_key);
-  }, []);
+  }, [user, api_key]);
 
   return (
     <ThemeProvider theme={theme}>
