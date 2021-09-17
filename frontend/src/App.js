@@ -22,9 +22,9 @@ const globals = {
 const App = () => {
   const backend = globals.p517;
   const [session] = useState(window.sessionStorage);
-  const user = useMemo(()=>session.getItem("user"));
-  const api_key = useMemo(()=>session.getItem("api_key"));
-  const isAuthenticated = useMemo(()=>!!user && !!api_key, [user, api_key]);
+  const user = useMemo(() => session.getItem("user"));
+  const api_key = useMemo(() => session.getItem("api_key"));
+  const isAuthenticated = useMemo(() => !!user && !!api_key, [user, api_key]);
   const routing = useRoutes(routes);
 
   return (
