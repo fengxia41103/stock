@@ -1,4 +1,3 @@
-
 import {
   Box,
   FormControl,
@@ -21,10 +20,6 @@ import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import DeleteStock from "src/components/stock/DeleteStock";
 import UpdateStock from "src/components/stock/UpdateStock";
 import GlobalContext from "src/context";
-
-
-
-
 
 export default function StockLinkToSector(props) {
   const { api } = useContext(GlobalContext);

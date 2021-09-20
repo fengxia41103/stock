@@ -1,7 +1,3 @@
-
-
-
-
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import BusinessIcon from "@material-ui/icons/Business";
 import CompareIcon from "@material-ui/icons/Compare";
@@ -53,8 +49,6 @@ import StockSummaryView from "src/views/stock/StockSummaryView";
 import TechIndicatorView from "src/views/stock/TechIndicatorView";
 import TwentyFourHourReturnView from "src/views/stock/TwentyFourHourReturnView";
 import ValuationRatiosView from "src/views/stock/ValuationRatiosView";
-
-
 
 const navbar_items = [
   {

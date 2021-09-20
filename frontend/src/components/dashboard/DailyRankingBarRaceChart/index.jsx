@@ -1,4 +1,3 @@
-
 import { Typography, Grid, Button } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import PauseCircleFilledIcon from "@material-ui/icons/PauseCircleFilled";

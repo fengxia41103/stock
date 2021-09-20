@@ -1,6 +1,6 @@
-
 import { Box, Grid, List, ListItem, Chip, Tooltip } from "@material-ui/core";
-import { map, filter, minBy, range, reverse, findIndex } from "lodash";
+import FlagIcon from "@material-ui/icons/Flag";
+import { map, filter, minBy, range, reverse, findIndex, last } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 import GaugeChart from "react-gauge-chart";
@@ -11,6 +11,7 @@ export default function GainPriceRanges(props) {
   const STEP = 10;
   const { data } = props;
   const total_data_count = data.length;
+  const last_price = last(data).close_price;
 
   const ranges = map(reverse(range(100 / STEP)), (range_index) => {
     const lower = range_index * STEP;
@@ -79,6 +80,9 @@ export default function GainPriceRanges(props) {
               </Tooltip>
             ) : null}
           </Grid>
+          <Grid item xs>
+            {last_price <= d.min_price ? <FlagIcon /> : null}
+          </Grid>
         </Grid>
       </ListItem>
     );
@@ -90,6 +94,7 @@ GainPriceRanges.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       open_price: PropTypes.number,
+      close_price: PropTypes.number,
       gain_probability: PropTypes.number,
     }),
   ).isRequired,

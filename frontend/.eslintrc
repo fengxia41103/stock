@@ -37,15 +37,7 @@
         "pathGroupsExcludedImportTypes": []
       }
     ],
-
-    // dog fooding
-    "import/no-unresolved": [2, { "commonjs": true, "amd": true }],
-    "import/named": 2,
-    "import/namespace": 2,
-    "import/default": 2,
-    "import/export": 2,
-    "import/no-extraneous-dependencies": "error",
-    "import/unambiguous": "off"
+    "arrow-parens": ["warn", "always"]
   },
 
   "settings": {

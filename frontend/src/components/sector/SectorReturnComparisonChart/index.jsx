@@ -1,4 +1,3 @@
-
 import { map, groupBy, merge, forEach } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
@@ -18,17 +17,17 @@ export default function SectorReturnComparisonChart(props) {
     let returns = null;
 
     switch (kind) {
-    case "daily":
-      returns = daily_returns(prices);
-      break;
+      case "daily":
+        returns = daily_returns(prices);
+        break;
 
-    case "overnight":
-      returns = overnight_returns(prices);
-      break;
+      case "overnight":
+        returns = overnight_returns(prices);
+        break;
 
-    default:
-      returns = daily_returns(prices);
-      break;
+      default:
+        returns = daily_returns(prices);
+        break;
     }
 
     // update categories

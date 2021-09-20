@@ -1,4 +1,3 @@
-
 import { Button } from "@material-ui/core";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import PropTypes from "prop-types";
@@ -18,7 +17,7 @@ export default function DeleteStock(props) {
     path: `${host}${resource_uri}`,
   });
 
-  const handle_delete = event => {
+  const handle_delete = (event) => {
     del().then(setNotification(`Stock ${symbol} has been deleted.`));
   };
 

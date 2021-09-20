@@ -1,7 +1,6 @@
 import { map, sortBy } from "lodash";
 import React, { useContext } from "react";
 
-
 import HighchartGraphBox from "src/components/common/Highchart";
 import { randomId } from "src/utils/helper.jsx";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";

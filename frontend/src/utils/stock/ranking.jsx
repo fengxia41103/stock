@@ -4,7 +4,7 @@ export function stocks_daily_ranking(
   historicals,
   order_by,
   high_to_low,
-  truncate
+  truncate,
 ) {
   // compute values
   const stocks = map(historicals, (s) => {

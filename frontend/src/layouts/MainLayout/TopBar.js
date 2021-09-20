@@ -1,6 +1,3 @@
-
-
-
 import {
   AppBar,
   Badge,
@@ -20,9 +17,6 @@ import { Link as RouterLink } from "react-router-dom";
 import LogoutIcon from "src/components/auth/LogoutIcon";
 import Logo from "src/components/common/Logo";
 import AddNewStockDialog from "src/components/stock/AddNewStockDialog";
-
-
-
 
 const useStyles = makeStyles(() => ({
   root: {},

@@ -1,4 +1,3 @@
-
 import {
   Box,
   Container,
@@ -116,27 +115,27 @@ export default function DashboardTrendingView() {
   // map option to data key
   let order_by = null;
   switch (follow) {
-  case "gainer":
-  case "loser":
-    order_by = "gain";
-    break;
-  case "volume":
-    order_by = "vol_over_share_outstanding";
-    break;
-  case "volatility":
-    order_by = "volatility";
-    break;
+    case "gainer":
+    case "loser":
+      order_by = "gain";
+      break;
+    case "volume":
+      order_by = "vol_over_share_outstanding";
+      break;
+    case "volatility":
+      order_by = "volatility";
+      break;
 
-  case "last lower":
-    order_by = "last_lower";
-    break;
-  case "next better":
-    order_by = "next_better";
-    break;
+    case "last lower":
+      order_by = "last_lower";
+      break;
+    case "next better":
+      order_by = "next_better";
+      break;
 
-  default:
-    order_by = "gain";
-    break;
+    default:
+      order_by = "gain";
+      break;
   }
 
   const render_data = (data) => {

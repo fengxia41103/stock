@@ -1,4 +1,3 @@
-
 import {
   makeStyles,
   Avatar,
@@ -45,13 +44,13 @@ export default function ListStockCard(props) {
 
   let title;
   switch (group_by) {
-  case "last_reporting_date":
-    title = index === "null" ? "ETF" : index;
-    break;
+    case "last_reporting_date":
+      title = index === "null" ? "ETF" : index;
+      break;
 
-  default:
-    title = index;
-    break;
+    default:
+      title = index;
+      break;
   }
 
   // if any menu contents

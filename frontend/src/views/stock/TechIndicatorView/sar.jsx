@@ -1,4 +1,3 @@
-
 import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
 import PropTypes from "prop-types";
@@ -38,8 +37,9 @@ function SAR(props) {
   const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
     (d) => d.date,
   );
-  const { data, xScale, xAccessor, displayXAccessor } =
-    xScaleProvider(calculatedData);
+  const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(
+    calculatedData,
+  );
 
   const start = xAccessor(last(data));
 

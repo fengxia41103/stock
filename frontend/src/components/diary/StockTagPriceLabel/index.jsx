@@ -11,7 +11,7 @@ export default function StockTagPriceLabel(props) {
   const [start] = useState(new Date(diary.created).toLocaleDateString("en-CA"));
   const [end] = useState(new Date().toLocaleDateString("en-CA"));
   const [resource] = useState(
-    `/historicals?stock=${stock.id}&on__range=${start},${end}`
+    `/historicals?stock=${stock.id}&on__range=${start},${end}`,
   );
 
   const render_data = (data) => {

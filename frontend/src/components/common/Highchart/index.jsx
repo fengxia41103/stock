@@ -1,4 +1,3 @@
-
 import Highcharts from "highcharts";
 import HC_more from "highcharts/highcharts-more"; //module
 import addFunnel from "highcharts/modules/funnel";

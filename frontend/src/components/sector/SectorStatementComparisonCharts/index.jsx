@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, Grid } from "@material-ui/core";
 import { map, groupBy } from "lodash";
 import PropTypes from "prop-types";
@@ -29,7 +28,10 @@ export default function SectorStatementComparisonCharts(props) {
       // these two have no meaning in this context
       if (to_ignore_list.includes(a)) return null;
 
-      const title = a.split("_").join(" ").toUpperCase();
+      const title = a
+        .split("_")
+        .join(" ")
+        .toUpperCase();
       return (
         <Grid item key={a} lg={4} sm={6} xs={12}>
           <Card>

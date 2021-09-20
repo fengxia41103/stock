@@ -1,4 +1,3 @@
-
 import {
   Button,
   Box,
@@ -18,9 +17,6 @@ import DropdownMenu from "src/components/common/DropdownMenu";
 import ShowResource from "src/components/common/ShowResource";
 import AddDiaryEditor from "src/components/diary/AddDiaryEditor";
 import ListDiaryEntry from "src/components/diary/ListDiaryEntry";
-
-
-
 
 export default function ListDiary(props) {
   const { stock } = props;

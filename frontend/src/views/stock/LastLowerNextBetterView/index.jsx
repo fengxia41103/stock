@@ -7,7 +7,6 @@ import {
 } from "@material-ui/core";
 import React, { useContext } from "react";
 
-
 import GainProbabilityChart from "src/components/stock/GainProbabilityChart";
 import PriceLastLowerNextBetterChart from "src/components/stock/PriceLastLowerNextBetterChart";
 import PriceTable from "src/components/stock/PriceTable";

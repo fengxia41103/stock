@@ -1,4 +1,3 @@
-
 import { FormControlLabel, Checkbox, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -30,14 +29,14 @@ export default function AddStocksToSectorDialog(props) {
     setOpen(false);
   };
 
-  const stock_links = map(stocks, v => {
+  const stock_links = map(stocks, (v) => {
     return <ListItem key={v.id}>{v.symbol}</ListItem>;
   });
 
   let sectors = [];
   const selected_sectors = [];
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     for (let i = 0; i < sectors.length; i++) {
       const s = sectors[i];
 
@@ -48,15 +47,15 @@ export default function AddStocksToSectorDialog(props) {
           selected_sectors.push(s);
         } else {
           // remove
-          remove(selected_sectors, k => s.name === k.name);
+          remove(selected_sectors, (k) => s.name === k.name);
         }
       }
     }
   };
 
   const add = () => {
-    const add_stock_resources = map(stocks, s => s.resource_uri);
-    const call_api = s => {
+    const add_stock_resources = map(stocks, (s) => s.resource_uri);
+    const call_api = (s) => {
       // add selected stocks to the list
       const stock_resources = s.stocks.concat(add_stock_resources);
 
@@ -72,21 +71,21 @@ export default function AddStocksToSectorDialog(props) {
     };
 
     // for each sector, enumerate to update
-    const promises = selected_sectors.map(s => call_api(s));
+    const promises = selected_sectors.map((s) => call_api(s));
     Promise.all(promises).then(
       // close the dialog
       handleClose(),
     );
   };
 
-  const render_data = data => {
+  const render_data = (data) => {
     if (isEmpty(sectors)) {
       sectors = data.objects;
     }
 
-    const selections = map(sectors, s => {
+    const selections = map(sectors, (s) => {
       return (
-        <Grid key={s.id} item lg={3} md={4} sm={6} xs={6} >
+        <Grid key={s.id} item lg={3} md={4} sm={6} xs={6}>
           <FormControlLabel
             control={<Checkbox onChange={handleChange} name={s.name} />}
             label={s.name}

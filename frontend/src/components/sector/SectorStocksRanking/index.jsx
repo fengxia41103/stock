@@ -1,4 +1,3 @@
-
 import { Box, Typography } from "@material-ui/core";
 import { map } from "lodash";
 import PropTypes from "prop-types";

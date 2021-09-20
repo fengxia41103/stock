@@ -1,4 +1,3 @@
-
 import {
   FormControl,
   FormLabel,
@@ -50,7 +49,7 @@ export default function AddDiaryEditor(props) {
     return () => to_refresh();
   }, [to_refresh]);
 
-  const prediction_change = event => {
+  const prediction_change = (event) => {
     setPrediction(parseInt(event.target.value));
   };
 

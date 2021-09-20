@@ -1,4 +1,3 @@
-
 import { Button } from "@material-ui/core";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import PropTypes from "prop-types";
@@ -7,7 +6,6 @@ import { useMutate } from "restful-react";
 
 import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import GlobalContext from "src/context";
-
 
 export default function UpdateStock(props) {
   const { host } = useContext(GlobalContext);

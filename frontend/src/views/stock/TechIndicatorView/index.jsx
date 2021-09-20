@@ -1,4 +1,3 @@
-
 import {
   Box,
   Card,
@@ -43,47 +42,47 @@ export default function TechIndicatorView() {
   let title = null;
   let chart = null;
   switch (type) {
-  case "bollinger":
-    title = "Bollinger Bands Indicator";
-    chart = <CandleStickChartWithBollingerBandOverlay data={chart_data} />;
-    break;
+    case "bollinger":
+      title = "Bollinger Bands Indicator";
+      chart = <CandleStickChartWithBollingerBandOverlay data={chart_data} />;
+      break;
 
-  case "stochastics":
-    title = "Full Stochastics Indicator";
-    chart = (
-      <CandleStickChartWithFullStochasticsIndicator data={chart_data} />
-    );
-    break;
+    case "stochastics":
+      title = "Full Stochastics Indicator";
+      chart = (
+        <CandleStickChartWithFullStochasticsIndicator data={chart_data} />
+      );
+      break;
 
-  case "macd":
-    title = "MACD Indicator";
-    chart = <CandleStickChartWithMACDIndicator data={chart_data} />;
-    break;
+    case "macd":
+      title = "MACD Indicator";
+      chart = <CandleStickChartWithMACDIndicator data={chart_data} />;
+      break;
 
-  case "sar":
-    title = "Parabolic SAR Indicator";
-    chart = <CandleStickChartWithSAR data={chart_data} />;
-    break;
+    case "sar":
+      title = "Parabolic SAR Indicator";
+      chart = <CandleStickChartWithSAR data={chart_data} />;
+      break;
 
-  case "rsi":
-    title = "Relative Strength Index (RSI) Indicator";
-    chart = <CandleStickChartWithRSIIndicator data={chart_data} />;
-    break;
+    case "rsi":
+      title = "Relative Strength Index (RSI) Indicator";
+      chart = <CandleStickChartWithRSIIndicator data={chart_data} />;
+      break;
 
-  case "elder":
-    title = "Elder Ray Indicator";
-    chart = <OHLCChartWithElderRayIndicator data={chart_data} />;
-    break;
+    case "elder":
+      title = "Elder Ray Indicator";
+      chart = <OHLCChartWithElderRayIndicator data={chart_data} />;
+      break;
 
-  case "heikin":
-    title = "Heikin-Ashi Indicator";
-    chart = <HeikinAshi data={chart_data} />;
-    break;
+    case "heikin":
+      title = "Heikin-Ashi Indicator";
+      chart = <HeikinAshi data={chart_data} />;
+      break;
 
-  default:
-    title = "Parabolic SAR Indicator";
-    chart = <CandleStickChartWithSAR data={chart_data} />;
-    break;
+    default:
+      title = "Parabolic SAR Indicator";
+      chart = <CandleStickChartWithSAR data={chart_data} />;
+      break;
   }
   return (
     <Card>

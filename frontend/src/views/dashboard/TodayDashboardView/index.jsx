@@ -1,4 +1,3 @@
-
 import {
   Box,
   Container,
@@ -68,25 +67,25 @@ export default function TodayDashboardView() {
 
     let gainer = sortBy(
       filter(stocks, (s) => s.gain > 0),
-      (s) => s.gain
+      (s) => s.gain,
     );
     gainer = reverse(gainer).slice(0, 10);
 
     const loser = sortBy(
       filter(stocks, (s) => s.gain < 0),
-      (s) => s.gain
+      (s) => s.gain,
     ).slice(0, 10);
 
     const mover = reverse(
-      sortBy(stocks, (s) => s.vol_over_share_outstanding)
+      sortBy(stocks, (s) => s.vol_over_share_outstanding),
     ).slice(0, 10);
     const volatility = reverse(sortBy(stocks, (s) => s.volatility)).slice(
       0,
-      10
+      10,
     );
     const last_lower = reverse(sortBy(stocks, (s) => s.last_lower)).slice(
       0,
-      10
+      10,
     );
 
     const today_string = today.format("dddd, ll");

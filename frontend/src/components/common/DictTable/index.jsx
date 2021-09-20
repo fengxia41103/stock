@@ -1,4 +1,3 @@
-
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import { useTheme } from "@material-ui/core/styles";
@@ -11,8 +10,6 @@ import TableRow from "@material-ui/core/TableRow";
 import { map, isEmpty } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
-
-
 
 import ColoredNumber from "src/components/common/ColoredNumber";
 import HighchartGraphBox from "src/components/common/Highchart";

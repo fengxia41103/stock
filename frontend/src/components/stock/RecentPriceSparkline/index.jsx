@@ -1,5 +1,3 @@
-
-
 import { map } from "lodash";
 import moment from "moment";
 import PropTypes from "prop-types";
@@ -11,7 +9,11 @@ import ShowResource from "src/components/common/ShowResource";
 export default function RecentPriceSparkline(props) {
   const DATE_FORMAT = "YYYY-MM-DD";
   const [resource, setResource] = useState("");
-  const [start] = useState(moment().add(-10, "d").format(DATE_FORMAT));
+  const [start] = useState(
+    moment()
+      .add(-10, "d")
+      .format(DATE_FORMAT),
+  );
   const [end] = useState(moment().format(DATE_FORMAT));
   const { stock } = props;
 

@@ -1,4 +1,3 @@
-
 import {
   Box,
   Grid,
@@ -17,7 +16,6 @@ import HighlightedText from "src/components/common/HighlightedText";
 import RankChart from "src/components/common/RankChart";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
 import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
-
 
 export default function StockRankingRow(props) {
   const [show_rank_graph, setShowRank] = useState(false);

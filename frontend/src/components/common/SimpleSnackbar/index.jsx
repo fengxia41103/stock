@@ -1,4 +1,3 @@
-
 import Snackbar from "@material-ui/core/Snackbar";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";

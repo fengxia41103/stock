@@ -1,4 +1,3 @@
-
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Chip from "@material-ui/core/Chip";
@@ -32,21 +31,21 @@ export default function AddNewSectorDialog() {
 
   const handleClose = () => setOpen(false);
 
-  const on_sector_change = event => {
+  const on_sector_change = (event) => {
     // symbol is always in upper case
     let tmp = event.target.value;
-    tmp = map(tmp.split(","), s => s.trim());
+    tmp = map(tmp.split(","), (s) => s.trim());
     setSector(tmp);
   };
 
   // call API and close this dialog
   const on_create = () => {
-    map(sector, s => create({ name: s }));
+    map(sector, (s) => create({ name: s }));
     setOpen(false);
     reload();
   };
 
-  const render_data = data => {
+  const render_data = (data) => {
     let sectors = data.objects;
     sectors = map(
       filter(sectors, (s) => s.name.includes(sector)),

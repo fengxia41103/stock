@@ -1,4 +1,3 @@
-
 import {
   Box,
   Typography,
@@ -11,7 +10,6 @@ import PropTypes from "prop-types";
 import React from "react";
 
 import DictTable from "src/components/common/DictTable";
-
 
 export default function FinancialCard(props) {
   const {

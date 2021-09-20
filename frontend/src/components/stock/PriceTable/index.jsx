@@ -1,4 +1,3 @@
-
 import { DataGrid } from "@material-ui/data-grid";
 import PropTypes from "prop-types";
 import React from "react";

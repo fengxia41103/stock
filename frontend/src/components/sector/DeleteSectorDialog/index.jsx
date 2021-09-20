@@ -1,4 +1,3 @@
-
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -37,7 +36,9 @@ export default function DeleteSectorDialog(props) {
   };
 
   const on_sector_delete = () => {
-    del().then(setOpen(false)).then(reload());
+    del()
+      .then(setOpen(false))
+      .then(reload());
   };
 
   const stock_links = map(stocks, (v) => {

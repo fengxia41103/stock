@@ -1,4 +1,3 @@
-
 import {
   Chip,
   makeStyles,
@@ -73,30 +72,30 @@ export default function ListDiaryEntry(props) {
 
   let trending = null;
   switch (diary.judgement) {
-  case 1:
-    trending = (
-      <Chip
-        icon={<TrendingUpIcon />}
-        label={`Prediction: go higher from ${diary.price.toFixed(2)}`}
-        variant="outlined"
-        color="primary"
-      />
-    );
-    break;
+    case 1:
+      trending = (
+        <Chip
+          icon={<TrendingUpIcon />}
+          label={`Prediction: go higher from ${diary.price.toFixed(2)}`}
+          variant="outlined"
+          color="primary"
+        />
+      );
+      break;
 
-  case 2:
-    trending = (
-      <Chip
-        icon={<TrendingDownIcon />}
-        label={`Prediction: go down from ${diary.price.toFixed(0)}`}
-        variant="outlined"
-        color="secondary"
-      />
-    );
-    break;
+    case 2:
+      trending = (
+        <Chip
+          icon={<TrendingDownIcon />}
+          label={`Prediction: go down from ${diary.price.toFixed(0)}`}
+          variant="outlined"
+          color="secondary"
+        />
+      );
+      break;
 
-  default:
-    break;
+    default:
+      break;
   }
 
   const render_data = (data) => {

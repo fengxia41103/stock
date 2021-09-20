@@ -1,4 +1,3 @@
-
 import {
   Box,
   FormControl,
@@ -41,10 +40,10 @@ export default function AddNewStockDialog() {
 
   const handleClose = () => setOpen(false);
 
-  const on_symbol_change = event => {
+  const on_symbol_change = (event) => {
     // symbol is always in upper case
     let tmp = event.target.value.toUpperCase();
-    tmp = map(tmp.replaceAll(",", " ").split(" "), s => s.trim());
+    tmp = map(tmp.replaceAll(",", " ").split(" "), (s) => s.trim());
     setSymbol(tmp);
   };
 
@@ -63,7 +62,7 @@ export default function AddNewStockDialog() {
       );
   };
 
-  const handle_sector_selection = event => {
+  const handle_sector_selection = (event) => {
     if (event.target.checked) {
       // add to selected sector
       const tmp = clone(selectedSectors);
@@ -78,9 +77,9 @@ export default function AddNewStockDialog() {
     }
   };
 
-  const render_data = data => {
+  const render_data = (data) => {
     const sectors = data.objects;
-    const selections = map(sectors, s => {
+    const selections = map(sectors, (s) => {
       return (
         <Grid item key={s.id} lg={4} sm={6} xs={6}>
           <FormControlLabel
