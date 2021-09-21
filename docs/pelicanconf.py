@@ -3,9 +3,7 @@
 from __future__ import unicode_literals
 
 AUTHOR = "Feng Xia"
-SITENAME = "Be Care Free"
-# SITEURL = "http://fengxia.co"
-# SITEURL = "https://fengxia41103.github.io/myblog/"
+SITENAME = "My Stocks"
 SITEURL = ""
 
 PATH = "content"
