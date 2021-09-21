@@ -1,0 +1,27 @@
+{% extends "article.html" %} {% block main_content %} {% block list_title %} {%
+endblock %} {% for article in articles_page.object_list %}
+<div class="row">
+  <div class="col s12">
+    <div class="label label-default">
+      <i class="fa fa-calendar" style="opacity: 0.5">&nbsp;</i>
+      {{ article.date|strftime('%Y-%m-%d') }} {% if
+      article.tags|tags_contain("love") %}
+      <i class="fa fa-heart myhighlight"></i>
+      {% endif %}
+    </div>
+  </div>
+  <div class="col s12">
+    <h4>{{ article.title }}</h4>
+
+    <p>{{ article.summary }}</p>
+  </div>
+
+  <div class="col s12 right-align">
+    <a class="btn wave-effect" href="{{SITEURL}}/{{article.url}}">
+      read more
+    </a>
+  </div>
+  <div class="col s12 divider" style="margin-top: 1em"></div>
+</div>
+{% endfor %} {% include 'pagination.html' %} {% endblock %} {% block related %}
+{% endblock related %}

@@ -1,0 +1,51 @@
+{% extends "index.html" %} {% block content %}
+
+<article>
+  {% block main_content %} {# article title #}
+  <div>
+    {# article date #}
+    <i class="fa fa-calendar" style="opacity: 0.5">&nbsp;</i>
+    {{ article.date|strftime('%Y-%m-%d') }} {# translations #} {% if
+    article.translations %} &nbsp;|%nbsp;
+    <i class="fa fa-language"></i>
+    <span class="active">{{ article.lang }}</span>
+
+    {% for t in article.translations %}
+    <a href="{{ t.url }}"> | {{ t.lang }} </a>
+
+    {% endfor %} {% endif %} {# tags & categories #} {# article category #} {%
+    if article.category %}
+    <a class="wave-effect" href="{{article.category.url}}">
+      <i class="fa fa-folder-open-o"></i>
+      {{ article.category.name }}
+    </a>
+    {% endif %} {# tags #} {% if article.tags %} {% for t in article.tags %}
+    <a class="wave-effect" href="{{ t.url }}">
+      <i class="fa fa-tag"></i>
+      {{ t.name }}
+    </a>
+    {% endfor %} {% endif %} {# article title #}
+    <h1 class="myhighlight">{{ article.title }}</h1>
+  </div>
+
+  {# table of contents #}
+  <ol id="toc" class="row"></ol>
+
+  {# article contents #}
+  <div>
+    {# article main body #}
+    <div id="article-content">
+      <p>{{ article.content }}</p>
+
+      {# article footer #}
+      <p>
+        &mdash; by
+        <a href="{{article.author.url}}">{{ article.author }}</a>
+      </p>
+    </div>
+  </div>
+
+  {% endblock %}
+</article>
+
+{% endblock %}

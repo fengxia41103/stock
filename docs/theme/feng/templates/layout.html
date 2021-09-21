@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta
+      name="viewport"
+      content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"
+    />
+
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    {% block core_library %}
+    <script src="{{ SITEURL }}/theme/js/html5shiv.min.js"></script>
+    <script src="{{ SITEURL }}/theme/js/respond.min.js"></script>
+
+    {# Fontawesome #}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ SITEURL }}/theme/bower_components/font-awesome/css/font-awesome.min.css"
+    />
+
+    {# DataTable #}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ SITEURL }}/theme/bower_components/datatables/media/css/dataTables.bootstrap.min.css"
+    />
+
+
+    {# highlight.js #}
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css"
+    />
+
+    {# google fonts #}
+    <link
+      href="https://fonts.googleapis.com/css?family=Alfa+Slab+One|Archivo+Narrow|Montserrat|Jaldi|Teko"
+      rel="stylesheet"
+    />
+
+    {# material css #}
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css"
+    />
+
+    {# my own #}
+    <link rel="stylesheet" href="{{ SITEURL }}/theme/css/my.css" />
+
+    {# JQuery lib #}
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+
+    {% endblock %}
+
+    {# page title #}
+    {% block title %}
+    <title>{{SITENAME}}</title>
+    {% endblock %}
+  </head>
+
+  <body>
+    {# static pages #} {% block navbar %}
+    <header id="mypage-index">
+      <a href="{{SITEURL}}/">{{ SITENAME }} </a>
+      {% for p in pages %}
+      <a href="{{SITEURL}}/{{ p.url }}"> . {{ p.title }} </a>
+      {% endfor %}
+    </header>
+    {% endblock %}
+    <!-- end of block navbar -->
+
+    {% block main %}
+    <div class="split-screen">
+      <div class="split-left-pane">
+        {# front page intro section #}
+        {% block introduction %}
+        {% endblock %}
+      </div>
+
+      <div class="split-right-pane">
+        {# main content #}
+        <div id="content" class="container">
+          {% block content %} {% endblock %} {# pagination #} {% block
+          pagination %} {% endblock %} {# block of related contents #}
+          <div id="related">{% block related %} {% endblock %}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col l8 m8 s12">
+            <p>
+              2016-2021 PY Consulting Ltd. 1236 Beacon Street, Brookline, MA
+              02146
+            </p>
+
+            <p>
+              <a href="mailto:{{EMAIL_ADDRESS}}">
+                <i class="fa fa-envelope"></i>
+              </a>
+
+              <a href="{{GITHUB_ADDRESS}}">
+                <i class="fa fa-github"></i>
+              </a>
+
+              <a href="{{LINKEDIN_ADDRESS}}">
+                <i class="fa fa-linkedin"></i>
+              </a>
+
+              <a href="">
+                <i class="fa fa-phone-square"></i>
+                (508)801-1794
+              </a>
+            </p>
+          </div>
+          <div class="col l4 m4 s12">
+            <p class="right">
+              <i class="fa fa-copyright"></i>
+              All rights reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock %} {# block push #} {% block push %} {% endblock %}
+    <!-- end of block main -->
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    {% block Javascripts %}
+
+    {# jquery-ui #}
+    <script
+      type="text/javascript"
+      src="{{ SITEURL }}/theme/bower_components/jquery-ui/jquery-ui.min.js"
+    ></script>
+
+    {# material css #}
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"
+    ></script>
+
+    {# DataTable #}
+    <script
+      type="text/javascript"
+      src="{{ SITEURL }}/theme/bower_components/datatables/media/js/jquery.dataTables.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{ SITEURL }}/theme/bower_components/datatables/media/js/dataTables.bootstrap.min.js"
+    ></script>
+
+
+    {# highlight.js #}
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/shell.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/lisp.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/xml.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/diff.min.js"
+    ></script>
+
+    {# application js #}
+    <script type="text/javascript">
+     var j$ = jQuery.noConflict();
+
+     j$(document).ready(function () {
+       // common global widget initializations
+       var table = j$("table.my-datatable").dataTable({
+         paging: false,
+         info: false,
+         pagingType: "simple",
+       });
+
+       // highlight.js initialization
+       hljs.initHighlightingOnLoad();
+       j$("pre").each(function (i, block) {
+         hljs.highlightBlock(block);
+       });
+     });
+    </script>
+    {% endblock %}
+    <!-- end of block JS -->
+
+    {# extra javascript code #}
+
+    {% block theme_js %}
+    {% endblock %}
+    {% block custom_js %}
+    {% endblock %}
+  </body>
+</html>

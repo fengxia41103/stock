@@ -100,3 +100,8 @@ ENV/
 
 # emacs
 *~
+
+# doc static
+
+output/
+bower_components/

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% include 'pagination.html' %}
+{% for article in articles_page.object_list %}
+<div>
+  <i class="fa fa-calendar" style="opacity: 0.5"></i>
+  <em>
+    {{ article.date|strftime('%Y-%m-%d')}} {% if
+    article.tags|tags_contain("love") %}
+    <i class="fa fa-heart myhighlight"></i>
+    {% endif %}
+  </em>
+  <h3>{{ article.title }}</h3>
+
+  <blockquote>
+    {% if article.tags|tags_contain("lenovo") %}
+    <span class="myhighlight">Copyright @ Lenovo US</span>
+    {% endif %}
+  </blockquote>
+</div>
+
+{# Dont' use article.content. The content is generated HTML. #}
+<p>{{ article.summary }}</p>
+
+<p style="margin-top: 3em">
+  <a class="btn btn-default button" href="{{ article.url }}">
+    <i class="fa fa-coffee" style="opacity: 0.5"></i>
+    continue reading
+  </a>
+</p>
+{% endfor %}
+
+{% endblock %}
