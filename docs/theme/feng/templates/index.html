@@ -1,8 +1,4 @@
-{% extends "layout.html" %}
-
-{% block content %}
-
-{% include 'pagination.html' %}
+{% extends "layout.html" %} {% block content %} {% include 'pagination.html' %}
 {% for article in articles_page.object_list %}
 <div>
   <i class="fa fa-calendar" style="opacity: 0.5"></i>
@@ -12,13 +8,7 @@
     <i class="fa fa-heart myhighlight"></i>
     {% endif %}
   </em>
-  <h3>{{ article.title }}</h3>
-
-  <blockquote>
-    {% if article.tags|tags_contain("lenovo") %}
-    <span class="myhighlight">Copyright @ Lenovo US</span>
-    {% endif %}
-  </blockquote>
+  <h1>{{ article.title }}</h1>
 </div>
 
 {# Dont' use article.content. The content is generated HTML. #}
@@ -30,6 +20,4 @@
     continue reading
   </a>
 </p>
-{% endfor %}
-
-{% endblock %}
+{% endfor %} {% endblock %}

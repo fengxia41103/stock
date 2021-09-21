@@ -11,7 +11,7 @@ h6 {
   word-wrap: break-word;
 }
 
-article {
+article, #content {
   counter-reset: h2;
 }
 
@@ -19,31 +19,30 @@ article {
   counter-reset: figures 1;
 }
 
-#article-content h1 {
+h1 {
   border-bottom: 1px solid #cecece;
   font-size: 1.5em !important;
 }
 
-#article-content h2 {
+h2 {
   counter-reset: h3;
   //border-bottom: 1px solid #cecece;
   font-size: 1.5em;
 }
 
-#article-content h3 {
+h3 {
   counter-reset: h4;
   font-size: 1.2em;
 }
 
-#article-content h4 {
+h4 {
   counter-reset: h5;
   font-size: 1em;
 }
 
-#article-content h5 {
+h5 {
   counter-reset: h6;
 }
-
 
 h2::before {
   counter-increment: h2;
@@ -62,10 +61,8 @@ h4::before {
 
 h5::before {
   counter-increment: h5;
-  content: counter(h2) "." counter(h3) "." counter(h4) "."
-    counter(h5) " ";
+  content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) " ";
 }
-
 
 #article-content h2,
 #article-content h3,
@@ -299,11 +296,9 @@ figure img {
   width: 100%;
 }
 
-
 #showMore:hover {
   color: #ffe933;
 }
-
 
 code {
   font-family: "Inconsolata", monospace;
@@ -413,7 +408,7 @@ footer {
 }
 
 .split-left-pane ul {
-  margin-top:100px;
+  margin-top: 100px;
   counter-reset: page-index 0;
 }
 
@@ -428,7 +423,6 @@ footer {
   content: counter(page-index) ". ";
   counter-increment: page-index;
 }
-
 
 #site-title {
   font-family: "Francois One", sans-serif;
