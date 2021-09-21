@@ -161,7 +161,7 @@ Model names are intuitive.
 | ValuationRatio    | Published valuation ratios, eg. P/E. They are source dependent. |
 
 <figure class="col s12">
-  <img src="images/stock/stock.png"/>
+  <img src="images/stock.png"/>
   <figcaption>Stock app data models</figcaption>
 </figure>
 
