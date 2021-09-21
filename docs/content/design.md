@@ -131,7 +131,7 @@ but distracting from analysis itself.
 # System design
 
 <figure class="col s12 center">
-  <img src="images/stock/high%20level%20design.png"/>
+  <img src="images/high%20level%20design.png"/>
   <figcaption>Stock app high level design</figcaption>
 </figure>
 
@@ -190,7 +190,7 @@ Using docker, the following data volumes are used:
 Network of the setup is fairly simple. We distinguish `data` vs. `management`:
 
 <figure class="col s12 center">
-  <img src="images/stock/backend%20network.png"/>
+  <img src="images/backend%20network.png"/>
   <figcaption>Stock app networks</figcaption>
 </figure>
 

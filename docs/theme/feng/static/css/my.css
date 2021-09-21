@@ -12,11 +12,11 @@ h6 {
 }
 
 article {
-  counter-reset: figures 1;
+  counter-reset: h1;
 }
 
 #article-content {
-  counter-reset: h1 1;
+  counter-reset: figures 1;
 }
 
 #article-content h1 {
@@ -45,44 +45,34 @@ article {
   counter-reset: h6;
 }
 
-h1::before {
-  counter-increment: h1;
-  content: counter(h1) ". ";
-}
 
 h2::before {
   counter-increment: h2;
-  content: counter(h1) "." counter(h2) " ";
+  content: counter(h2) " ";
 }
 
-#article-content h3:before {
+h3::before {
   counter-increment: h3;
-  content: counter(h1) "." counter(h2) "." counter(h3) " ";
+  content: counter(h2) "." counter(h3) " ";
 }
 
-#article-content h4:before {
+h4::before {
   counter-increment: h4;
-  content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) " ";
+  content: counter(h2) "." counter(h3) "." counter(h4) " ";
 }
 
-#article-content h5:before {
+h5::before {
   counter-increment: h5;
-  content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "."
+  content: counter(h2) "." counter(h3) "." counter(h4) "."
     counter(h5) " ";
 }
 
-#article-content h6:before {
-  counter-increment: h6;
-  content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "."
-    counter(h5) "." counter(h6) " ";
-}
 
 #article-content h2,
 #article-content h3,
 #article-content h4,
 #article-content h5,
 #article-content h6 {
-  font-size: 1em;
   border-bottom: 1px solid #cecece;
 }
 
@@ -285,27 +275,6 @@ strong {
   color: #d52349;
 }
 
-.my-resume-header {
-  font-weight: bold;
-  //font-variant: small-caps;
-  padding: 1em;
-  //background-color: #eee;
-  border: 1px solid #eee;
-  border-left: 0.5em solid #eee;
-  color: #232323;
-  margin-bottom: 1em;
-  font-size: 0.9em;
-}
-
-.my-resume-header:hover {
-  border: 1px solid #d52349;
-  border-left: 0.5em solid #d52349;
-}
-
-resume li:last-child {
-  margin-bottom: 1em;
-}
-
 img {
   margin-bottom: 1em;
   width: 100%;
@@ -322,8 +291,8 @@ img {
   text-align: left;
 }
 
-figcaption:before,
-img:before {
+figcaption::before,
+img::before {
   content: "Fig." counter(figures) ": ";
 }
 
@@ -331,52 +300,11 @@ figure img {
   width: 100%;
 }
 
-.fa-expand:hover {
-  -webkit-transition: all 0.6s ease-in-out;
-  -moz-transition: all 0.6s ease-in-out;
-  -o-transition: all 0.6s ease-in-out;
-  -ms-transition: all 0.6s ease-in-out;
-  -webkit-transform: rotate(360deg);
-  -moz-transform: rotate(360deg);
-  -o-transform: rotate(360deg);
-  -ms-transform: rotate(360deg);
-  color: #ffe933;
-}
 
 #showMore:hover {
   color: #ffe933;
 }
 
-.mythumbnail {
-  width: 80px;
-  height: 100px;
-}
-
-.mynav {
-  opacity: 0.5;
-}
-
-/* Reveal tweaks */
-
-.reveal {
-  font-size: 18pt !important;
-}
-
-.reveal * pre {
-  font-family: "Inconsolata", monospace;
-}
-
-.reveal section img {
-  border: none;
-}
-
-.reveal * .mywhite {
-  color: #efefec;
-}
-
-.reveal * code {
-  font-family: "Inconsolata", monospace;
-}
 
 code {
   font-family: "Inconsolata", monospace;
@@ -387,55 +315,6 @@ code {
   line-height: 1;
   padding: 1px 4px 3px;
   background: rgba(23, 42, 58, 0.06);
-}
-
-.iframe-container {
-  overflow: hidden;
-  padding-top: 56.25%;
-  position: relative;
-}
-
-.iframe-container iframe {
-  border: 0;
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
-
-/* 4x3 Aspect Ratio */
-.iframe-container-4x3 {
-  padding-top: 75%;
-}
-
-.mybottom-25 {
-  margin-top: 25%;
-}
-
-.mybottom-10 {
-  margin-top: 10%;
-}
-
-.flabel {
-  display: inline-block;
-  float: left;
-  padding: 0 10px;
-  margin-right: 6px;
-  margin-bottom: 6px;
-  border: 1px solid #fefefe;
-  font: 13px/28px Universcom57Condensed, Arial, Helvetica, sans-serif;
-  font-family: Universcom57Condensed, Arial, Helvetica, sans-serif;
-  font-size: 15px;
-  line-height: 28px;
-  /*color: #8c8c8c;*/
-  text-decoration: none;
-  transition: border-color 0.3s ease-out;
-  transition-property: border-color;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-out;
-  transition-delay: initial;
-  background-color: #fefff5;
 }
 
 /* new CSS for grid layout */
@@ -519,6 +398,7 @@ footer {
   //grid-template-rows: repeat(3, 1fr);
   row-gap: 10px;
 
+  background: url("/theme/images/background-1684.jpg") no-repeat;
   background-color: rgba(52, 52, 52, 0.5);
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -532,6 +412,24 @@ footer {
 .split-right-pane {
   overflow: auto;
 }
+
+.split-left-pane ul {
+  margin-top:100px;
+  counter-reset: page-index 0;
+}
+
+.split-left-pane a {
+  color: white;
+}
+.split-left-pane a:hover {
+  border-bottom: 1px solid #d52349;
+}
+
+.split-left-pane a:::before {
+  content: counter(page-index) ". ";
+  counter-increment: page-index;
+}
+
 
 #site-title {
   font-family: "Francois One", sans-serif;

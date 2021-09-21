@@ -95,25 +95,6 @@ services:
       - db
       - redis
 
-  # beat:
-  #   image: backend_stock
-  #   environment:
-  #     DJANGO_DEBUG: 0 # 0 or 1
-  #     DEPLOY_TYPE: dev # dev or prod
-  #     DJANGO_DB_USER: fengxia
-  #     DJANGO_DB_PWD: natalie
-  #     DJANGO_DB_HOST: db
-  #     DJANGO_DB_PORT: 3306
-  #     DJANGO_REDIS_HOST: redis
-  #     MYSQL_DATABASE: stock
-  #   command: celery -A fin.celery beat
-  #   volumes:
-  #     - .:/code
-  #   networks:
-  #     - data
-  #   depends_on:
-  #     - celery
-
   redis:
     image: redis
     volumes:
