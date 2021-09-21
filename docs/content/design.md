@@ -185,42 +185,17 @@ Using docker, the following data volumes are used:
 | stock-data | Main DB data storage |
 | redis-data | Redis data storage   |
 
-# Network
-
-Network of the setup is fairly simple. We distinguish `data` vs. `management`:
-
-<figure class="col s12 center">
-  <img src="images/backend%20network.png"/>
-  <figcaption>Stock app networks</figcaption>
-</figure>
-
-## Ports
-
-A service is a function unit. In this implementation, each is a
-docker. I try to limit exposure of ports on docker host so this
-application can be easily co-hosted with others without causing port
-conflicts. In essence, `8084` is the frontend UI port, and `8003` is
-the backend API port. All others are docker-to-docker only.
-
-| Component | Docker Port | Service                             | Host Map |
-|-----------|-------------|-------------------------------------|----------|
-| Frontend  | 80          | Main frontend app w/ Nginx built-in | 8084     |
-| Backend   | 80          | Nginx proxy                         | 8003     |
-| Backend   | 3306        | MySql DB                            | none     |
-| Backend   | 8001        | Django app                          | none     |
-| Backend   | 6379        | Redis                               | none     |
 
 # Develop & Deployment
 
-Assuming you have `docker` and `docker-compose` installed already, clone the [repo][1], and under `/backend` and `/frontend`, use the `docker-compose up --build` for the first run to build initial images, and `docker-compose up -d` for incremental changes.
-
-Frontend development can be benefited by a non-docker setup. So you need to `npm install` then `npm run dev`. Once you are satisfied w/ your frontend code, production deployment can be `docker-compose up --build -d`.
+See [dev & deployment][6] for details.
 
 [1]: {filename}/thoughts/stock.md
 [2]: https://django-tastypie.readthedocs.io/en/latest/
 [3]: https://reactjs.org/
 [4]: https://yahooquery.dpguthrie.com/
 [5]: https://github.com/fengxia41103/stock
+[6]: {filename}/dev%20and%20deployment.md
 
 [^1]: Some source provide indicators such as MACD. Most, however, only
     provide raw/reported data such as sales of an Income Statement. My

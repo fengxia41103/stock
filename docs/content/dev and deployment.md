@@ -6,19 +6,50 @@ Author: Feng Xia
 Both the backend and the frontend have been dockerized. Thus,
 regardless your platform, install Docker & `docker-compose` first.
 
-## Initial setup
+## For user
 
 1. Clone the [repo][1].
 2. Go to the project root folder, `docker-compose up --build -d`.
 3. Create a backend admin user: `docker-compose run web python
-   manage.py createsuperuser`, and follow the instructions.
+   manage.py createsuperuser`, and follow the instructions. Email is
+   optional.
 4. Go to browser `http://localhost:8084`, and use the user account to
    login.
 
 Now you should be ready to use the application by adding stocks and
 sectors.
 
-## Ports
+## For developers
+
+### Modify code
+
+Using the docker way is preferred. Code will be mounted into the
+docker as `volume` (see `docker-compose.yaml` for details). Thus
+changes done on your local editor will be reflected in the running
+docker as `live`.
+
+### Debugging
+
+It may sound 1980. But the most effective way is to use
+`docker-compose logs -f <service name>` to see stack trace and/or
+error messages.
+
+### Testing
+
+Looking for **volunteers**!!
+
+## For network admins
+
+### networks
+
+Network of the setup is fairly simple. We distinguish `data` vs. `management`:
+
+<figure class="col s12 center">
+  <img src="images/backend%20network.png"/>
+  <figcaption>Stock app networks</figcaption>
+</figure>
+
+### ports
 
 I try to limit exposure of ports on docker host so this application
 can be easily co-hosted with others without causing port conflicts.
