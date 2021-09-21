@@ -11,15 +11,15 @@ import theme from "src/theme";
 import LoginView from "src/views/auth/LoginView";
 
 const globals = {
-  p517: {
-    api: "http://192.168.68.107:8003/api/v1",
-    host: "http://192.168.68.107:8003",
+  localhost: {
+    api: "http://localhost:8003/api/v1",
+    host: "http://localhost:8003",
   },
 };
 
 const App = () => {
   // global config
-  const backend = globals.p517;
+  const backend = globals.localhost;
 
   // check authentication
   const session = window.sessionStorage;
