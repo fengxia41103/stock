@@ -1,0 +1,36 @@
+{
+  "name": "babel.in.browser",
+  "version": "6.4.6",
+  "description": "Standalone build of Babel for use in non-Node.js environments. Similar to the (now deprecacted) babel-browser. Fork with a Bower support.",
+  "main": "babel.js",
+  "authors": [
+    "Daniel Lo Nigro <daniel@dan.cx> (http://dan.cx/)"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "babel",
+    "babeljs",
+    "6to5",
+    "transpile",
+    "transpiler"
+  ],
+  "homepage": "https://github.com/antivanov/babel-standalone",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "src",
+    "gulpfile.js"
+  ],
+  "_release": "6.4.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "6.4.6",
+    "commit": "2e8a99dcec0ef0f1fb4126baafb443cc09d77fb2"
+  },
+  "_source": "https://github.com/antivanov/babel-standalone.git",
+  "_target": "^6.4.6",
+  "_originalSource": "babel.in.browser"
+}

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>My Stocks - Feng Xia</title><link>https://fengxia41103.github.io/stock/</link><description></description><lastBuildDate>Tue, 21 Sep 2021 11:00:00 -0400</lastBuildDate><item><title>Dev &amp; Deployment</title><link>https://fengxia41103.github.io/stock/dev%20and%20deployment.html</link><description>&lt;p&gt;Both the backend and the frontend have been dockerized. Thus,
+regardless your platform, install Docker &amp;amp; &lt;code&gt;docker-compose&lt;/code&gt; first.&lt;/p&gt;
+&lt;h2&gt;For user&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Clone the &lt;a href="https://github.com/fengxia41103/stock"&gt;repo&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Go to the project root folder, &lt;code&gt;docker-compose up --build -d&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Create a backend admin user: &lt;code&gt;docker-compose run web python
+   manage.py createsuperuser&lt;/code&gt;, and follow the instructions. Email is
+   optional.&lt;/li&gt;
+&lt;li&gt;Go to browser &lt;code&gt;http://localhost:8084&lt;/code&gt;, and use the user account to
+   login.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Now you should be ready to use the application by adding stocks and
+sectors.&lt;/p&gt;
+&lt;h2&gt;For developers&lt;/h2&gt;
+&lt;h3&gt;Modify code&lt;/h3&gt;
+&lt;p&gt;Using the docker way is preferred. Code will be mounted into the
+docker as &lt;code&gt;volume&lt;/code&gt; (see &lt;code&gt;docker-compose.yaml&lt;/code&gt; for details). Thus
+changes done on your local editor will be reflected in the running
+docker as &lt;code&gt;live&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Debugging&lt;/h3&gt;
+&lt;p&gt;It may sound 1980. But the most effective way is to use
+&lt;code&gt;docker-compose logs -f &amp;lt;service name&amp;gt;&lt;/code&gt; to see stack trace and/or
+error messages.&lt;/p&gt;
+&lt;h3&gt;Testing&lt;/h3&gt;
+&lt;p&gt;Looking for &lt;strong&gt;volunteers&lt;/strong&gt;!!&lt;/p&gt;
+&lt;h2&gt;For network admins&lt;/h2&gt;
+&lt;h3&gt;networks&lt;/h3&gt;
+&lt;p&gt;Network of the setup is fairly simple. We distinguish &lt;code&gt;data&lt;/code&gt; vs. &lt;code&gt;management&lt;/code&gt;:&lt;/p&gt;
+&lt;figure class="col s12 center"&gt;
+  &lt;img src="images/backend%20network.png"/&gt;
+  &lt;figcaption&gt;Stock app networks&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h3&gt;ports&lt;/h3&gt;
+&lt;p&gt;I try to limit exposure of ports …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Tue, 21 Sep 2021 11:00:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-21:/stock/dev and deployment.html</guid><category>misc</category></item><item><title>Stock App Design</title><link>https://fengxia41103.github.io/stock/stock%20app%20design.html</link><description>&lt;figure class="col s12"&gt;
+  &lt;img src="images/stock-detail.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h1&gt;Backdrop&lt;/h1&gt;
+&lt;p&gt;The app is a complete rewrite of one which I wrote five years
+ago. At the time Jookun approached me that he had some wise strategies
+of investment. I was intrigued by his passion, but wanted to verify
+its worth using some simulation. Thus a Django was created with Yahoo
+finance daily data as the input, and some data crunch based on his
+idea. Like all other ideas, I started to come up some of my own while
+working on it, and gradually it let me deep down into the rabbit hole
+&amp;mdash; for the first time in my career, I had computation so intense
+that it would overheat my laptop and had it shut down! I felt I was on
+track of something. However, it had then been left to rot
+since. Though I had tried to revive it over the years, some of the
+code was done in such a complex manner that I didn't have the heart to
+read it again. One impression, however, always left me with a hope,
+the difficulty …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Thu, 09 Sep 2021 17:38:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-09:/stock/stock app design.html</guid><category>misc</category></item></channel></rss>

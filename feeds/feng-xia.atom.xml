@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>My Stocks - Feng Xia</title><link href="https://fengxia41103.github.io/stock/" rel="alternate"></link><link href="https://fengxia41103.github.io/stock/feeds/feng-xia.atom.xml" rel="self"></link><id>https://fengxia41103.github.io/stock/</id><updated>2021-09-21T11:00:00-04:00</updated><entry><title>Dev &amp; Deployment</title><link href="https://fengxia41103.github.io/stock/dev%20and%20deployment.html" rel="alternate"></link><published>2021-09-21T11:00:00-04:00</published><updated>2021-09-21T11:00:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-21:/stock/dev and deployment.html</id><summary type="html">&lt;p&gt;Both the backend and the frontend have been dockerized. Thus,
+regardless your platform, install Docker &amp;amp; &lt;code&gt;docker-compose&lt;/code&gt; first.&lt;/p&gt;
+&lt;h2&gt;For user&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Clone the &lt;a href="https://github.com/fengxia41103/stock"&gt;repo&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Go to the project root folder, &lt;code&gt;docker-compose up --build -d&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Create a backend admin user: &lt;code&gt;docker-compose run web python
+   manage.py createsuperuser&lt;/code&gt;, and follow the instructions. Email is
+   optional.&lt;/li&gt;
+&lt;li&gt;Go to browser &lt;code&gt;http://localhost:8084&lt;/code&gt;, and use the user account to
+   login.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Now you should be ready to use the application by adding stocks and
+sectors.&lt;/p&gt;
+&lt;h2&gt;For developers&lt;/h2&gt;
+&lt;h3&gt;Modify code&lt;/h3&gt;
+&lt;p&gt;Using the docker way is preferred. Code will be mounted into the
+docker as &lt;code&gt;volume&lt;/code&gt; (see &lt;code&gt;docker-compose.yaml&lt;/code&gt; for details). Thus
+changes done on your local editor will be reflected in the running
+docker as &lt;code&gt;live&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Debugging&lt;/h3&gt;
+&lt;p&gt;It may sound 1980. But the most effective way is to use
+&lt;code&gt;docker-compose logs -f &amp;lt;service name&amp;gt;&lt;/code&gt; to see stack trace and/or
+error messages.&lt;/p&gt;
+&lt;h3&gt;Testing&lt;/h3&gt;
+&lt;p&gt;Looking for &lt;strong&gt;volunteers&lt;/strong&gt;!!&lt;/p&gt;
+&lt;h2&gt;For network admins&lt;/h2&gt;
+&lt;h3&gt;networks&lt;/h3&gt;
+&lt;p&gt;Network of the setup is fairly simple. We distinguish &lt;code&gt;data&lt;/code&gt; vs. &lt;code&gt;management&lt;/code&gt;:&lt;/p&gt;
+&lt;figure class="col s12 center"&gt;
+  &lt;img src="images/backend%20network.png"/&gt;
+  &lt;figcaption&gt;Stock app networks&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h3&gt;ports&lt;/h3&gt;
+&lt;p&gt;I try to limit exposure of ports …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Both the backend and the frontend have been dockerized. Thus,
+regardless your platform, install Docker &amp;amp; &lt;code&gt;docker-compose&lt;/code&gt; first.&lt;/p&gt;
+&lt;h2&gt;For user&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Clone the &lt;a href="https://github.com/fengxia41103/stock"&gt;repo&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Go to the project root folder, &lt;code&gt;docker-compose up --build -d&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Create a backend admin user: &lt;code&gt;docker-compose run web python
+   manage.py createsuperuser&lt;/code&gt;, and follow the instructions. Email is
+   optional.&lt;/li&gt;
+&lt;li&gt;Go to browser &lt;code&gt;http://localhost:8084&lt;/code&gt;, and use the user account to
+   login.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Now you should be ready to use the application by adding stocks and
+sectors.&lt;/p&gt;
+&lt;h2&gt;For developers&lt;/h2&gt;
+&lt;h3&gt;Modify code&lt;/h3&gt;
+&lt;p&gt;Using the docker way is preferred. Code will be mounted into the
+docker as &lt;code&gt;volume&lt;/code&gt; (see &lt;code&gt;docker-compose.yaml&lt;/code&gt; for details). Thus
+changes done on your local editor will be reflected in the running
+docker as &lt;code&gt;live&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Debugging&lt;/h3&gt;
+&lt;p&gt;It may sound 1980. But the most effective way is to use
+&lt;code&gt;docker-compose logs -f &amp;lt;service name&amp;gt;&lt;/code&gt; to see stack trace and/or
+error messages.&lt;/p&gt;
+&lt;h3&gt;Testing&lt;/h3&gt;
+&lt;p&gt;Looking for &lt;strong&gt;volunteers&lt;/strong&gt;!!&lt;/p&gt;
+&lt;h2&gt;For network admins&lt;/h2&gt;
+&lt;h3&gt;networks&lt;/h3&gt;
+&lt;p&gt;Network of the setup is fairly simple. We distinguish &lt;code&gt;data&lt;/code&gt; vs. &lt;code&gt;management&lt;/code&gt;:&lt;/p&gt;
+&lt;figure class="col s12 center"&gt;
+  &lt;img src="images/backend%20network.png"/&gt;
+  &lt;figcaption&gt;Stock app networks&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h3&gt;ports&lt;/h3&gt;
+&lt;p&gt;I try to limit exposure of ports on docker host so this application
+can be easily co-hosted with others without causing port conflicts.
+In essence, &lt;code&gt;8084&lt;/code&gt; is the frontend UI port, and &lt;code&gt;8003&lt;/code&gt; is the backend
+API port. All others are docker-to-docker only.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Component&lt;/th&gt;
+&lt;th&gt;Docker Port&lt;/th&gt;
+&lt;th&gt;Service&lt;/th&gt;
+&lt;th&gt;Host Map&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Frontend&lt;/td&gt;
+&lt;td&gt;80&lt;/td&gt;
+&lt;td&gt;Main frontend app w/ Nginx built-in&lt;/td&gt;
+&lt;td&gt;8084&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Backend&lt;/td&gt;
+&lt;td&gt;80&lt;/td&gt;
+&lt;td&gt;Nginx proxy&lt;/td&gt;
+&lt;td&gt;8003&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Backend&lt;/td&gt;
+&lt;td&gt;3306&lt;/td&gt;
+&lt;td&gt;MySql DB&lt;/td&gt;
+&lt;td&gt;none&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Backend&lt;/td&gt;
+&lt;td&gt;8001&lt;/td&gt;
+&lt;td&gt;Django app&lt;/td&gt;
+&lt;td&gt;none&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Backend&lt;/td&gt;
+&lt;td&gt;6379&lt;/td&gt;
+&lt;td&gt;Redis&lt;/td&gt;
+&lt;td&gt;none&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Port mapping can be changed in &lt;code&gt;docker-compose.yml&lt;/code&gt;. For example, if
+to change the frontend proxy from &lt;code&gt;8084&lt;/code&gt; to &lt;code&gt;9999&lt;/code&gt;, change the line
+&lt;code&gt;ports&lt;/code&gt; from &lt;code&gt;8084:80&lt;/code&gt; to &lt;code&gt;9999:80&lt;/code&gt;. See &lt;a href="https://docs.docker.com/compose/compose-file/compose-file-v3/#ports"&gt;&lt;code&gt;docker-compose&lt;/code&gt; doc&lt;/a&gt; for
+details.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nt"&gt;frontend&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;....&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;ports&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;8084:80&amp;quot;&lt;/span&gt;  &lt;span class="c1"&gt;# &amp;lt;========= change this line!&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;....&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="misc"></category></entry><entry><title>Stock App Design</title><link href="https://fengxia41103.github.io/stock/stock%20app%20design.html" rel="alternate"></link><published>2021-09-09T17:38:00-04:00</published><updated>2021-09-09T17:38:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-09:/stock/stock app design.html</id><summary type="html">&lt;figure class="col s12"&gt;
+  &lt;img src="images/stock-detail.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h1&gt;Backdrop&lt;/h1&gt;
+&lt;p&gt;The app is a complete rewrite of one which I wrote five years
+ago. At the time Jookun approached me that he had some wise strategies
+of investment. I was intrigued by his passion, but wanted to verify
+its worth using some simulation. Thus a Django was created with Yahoo
+finance daily data as the input, and some data crunch based on his
+idea. Like all other ideas, I started to come up some of my own while
+working on it, and gradually it let me deep down into the rabbit hole
+&amp;mdash; for the first time in my career, I had computation so intense
+that it would overheat my laptop and had it shut down! I felt I was on
+track of something. However, it had then been left to rot
+since. Though I had tried to revive it over the years, some of the
+code was done in such a complex manner that I didn't have the heart to
+read it again. One impression, however, always left me with a hope,
+the difficulty …&lt;/p&gt;</summary><content type="html">&lt;figure class="col s12"&gt;
+  &lt;img src="images/stock-detail.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h1&gt;Backdrop&lt;/h1&gt;
+&lt;p&gt;The app is a complete rewrite of one which I wrote five years
+ago. At the time Jookun approached me that he had some wise strategies
+of investment. I was intrigued by his passion, but wanted to verify
+its worth using some simulation. Thus a Django was created with Yahoo
+finance daily data as the input, and some data crunch based on his
+idea. Like all other ideas, I started to come up some of my own while
+working on it, and gradually it let me deep down into the rabbit hole
+&amp;mdash; for the first time in my career, I had computation so intense
+that it would overheat my laptop and had it shut down! I felt I was on
+track of something. However, it had then been left to rot
+since. Though I had tried to revive it over the years, some of the
+code was done in such a complex manner that I didn't have the heart to
+read it again. One impression, however, always left me with a hope,
+the difficulty of obtain these free daily data. As mentioned, I
+started with Yahoo data. However, it was shut down just around that
+time. Later I shifted to Alpha Advantage while it was still free of
+use. Well, not anymore. Soon after I switched to it, I guess it gained
+enough popularity that it went on with memberships and so on. What
+jumping through these hoops occurred to me that if I could just
+publish these historical data somehow, and let people download and use
+them, there are already value.&lt;/p&gt;
+&lt;p&gt;So recently, I started to think about this idea. Starting with another
+round of reviving the old app, I implemented Django command to dump DB
+data into CSVs, thus creating 500+ files, each representing a SP500
+symbol, which were what I had. However, I want more &amp;mdash; how about
+a better user experience? how about some computation of probabilities
+based on a layman's observation? how about DCF?... all these,
+eventually propelled me to rewrite this from scratch, and here it is.&lt;/p&gt;
+&lt;h1&gt;Audience &amp;amp; goals&lt;/h1&gt;
+&lt;p&gt;First, it is an absolute illusion if a beginner like myself will beat
+the market by these analysis, not only because of limitation of
+knowledge, information, and experience, but of personality. I don't
+know what the winners are like. Internet is filled with articles on
+what it takes to be a good investor. I have some of those qualities,
+but there is no guarantee nonetheless. Therefore, I'm back to zero.&lt;/p&gt;
+&lt;p&gt;But one thing I am certain, that everyone will experience what I have
+experienced, at some point of his/her life, that they are curious, or
+interested in, the stock market, have the itch to try, know some bits
+of it, but not a whole lot, and have some basic &lt;strong&gt;hunch&lt;/strong&gt; of some
+&lt;em&gt;pattern&lt;/em&gt;, or &lt;em&gt;frequency&lt;/em&gt;, or &lt;em&gt;occurance&lt;/em&gt;, and thought there might be
+a gold mine buried underneath and yourself might be the lucky one. So,
+how to find out, or to verify?&lt;/p&gt;
+&lt;p&gt;Here are five levels of users I sense:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Tool&lt;/th&gt;
+&lt;th&gt;Audience&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;apps &amp;amp; websites&lt;/td&gt;
+&lt;td&gt;Have basic knowledge, satisfied with reported info&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;Excel&lt;/td&gt;
+&lt;td&gt;Think they have some data/info analysis edge&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;3&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Excel + VBA&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Automate routine computation and data assembly&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;Script or lib&lt;/td&gt;
+&lt;td&gt;Programmer who gained more computation power over Excel&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;Commercial&lt;/td&gt;
+&lt;td&gt;Professional, sky is the limit, membership&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Difference between 3 &amp;amp; 4 are blurry, but the idea is that
+scripting/lib will give you a much wider selection of tools than
+VBA. Further, VBA is not as good a building block if you want to stand
+on the shoulder of a giant.&lt;/p&gt;
+&lt;p&gt;Users of type 1 and type 5 are not my audience. User of type 2,3,4 are
+essentially the same people &amp;mdash;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;they are independent/self-confident enough to think of their own
+  method, but are yet willing to go with a commercial source or
+  solution&lt;/li&gt;
+&lt;li&gt;they have some financial knowledge, and&lt;/li&gt;
+&lt;li&gt;are not afraid of (or even fond of) data crunching.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Their routine follows these steps &amp;mdash;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Obtain raw data:&lt;/li&gt;
+&lt;li&gt;daily price (well, you could also have finer grain data)&lt;/li&gt;
+&lt;li&gt;financial reports: balance sheet, income statement, cash flow&lt;/li&gt;
+&lt;li&gt;computed ratios, eg. P/E, beta&lt;/li&gt;
+&lt;li&gt;some popular indicator or evaluation values&lt;/li&gt;
+&lt;li&gt;Crunch of his own indicator or measure using these data&lt;/li&gt;
+&lt;li&gt;Draw a graph here and there to visualize his results&lt;/li&gt;
+&lt;li&gt;Search for pattern&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;During my research and implementation, following this pattern, I found
+a few places where this tool can help:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Getting data&lt;/strong&gt;. represented the first barrier higher than expected. I have
+  related my experience w/ Yahoo, Google, Alpha. I'm surprised how
+  limited such data sources are there considering how widely spread
+  the Internet has become, and stock data being always in the public
+  domain.&lt;/p&gt;
+&lt;p&gt;A value of this tool is to handle API of available data
+  sources so to retrieve available &lt;em&gt;raw&lt;/em&gt; data.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Cleansing data&lt;/strong&gt;. Once you get data, consuming data represents
+  another barrier &amp;mdash; understanding particular data form (&amp;larr;
+  this is usually source dependent) and handling data anomaly.&lt;/p&gt;
+&lt;p&gt;2nd value of this tool is to normalize these data points, and
+  potentially amending missing data by providing reasonable default.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Computing standard ratios&lt;/strong&gt;. Crunching a clean data set is usually not the
+  challenge at all.  Of course you can go with your fancy where the
+  &lt;em&gt;edge&lt;/em&gt; is believed to be. However, there are always a few &lt;em&gt;standard&lt;/em&gt;
+  ratios everyone seems to begin with, eg. growth rate of a number
+  from period to period, or pcnt of one expanse of the total, things
+  like that. They are not difficult to compute, but rather
+  mechanical/tedious, and are not readily available from a data
+  source&lt;sup id="fnref:1"&gt;&lt;a class="footnote-ref" href="#fn:1"&gt;1&lt;/a&gt;&lt;/sup&gt;. Therefore, you have to do them &lt;em&gt;manually&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Therefore, 3rd value of this tool is to provide some computed values
+  out of box. One beauty of historical data is that they don't
+  change. Therefore, a pre-calculated result is as good as new.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In short, one can view this tool as a fancy automated Excel template
+that I have built to facilitate routine works and get you going w/
+your analysis quickly less the mechanical build-up that is necessary
+but distracting from analysis itself.&lt;/p&gt;
+&lt;h1&gt;System design&lt;/h1&gt;
+&lt;figure class="col s12 center"&gt;
+  &lt;img src="images/high%20level%20design.png"/&gt;
+  &lt;figcaption&gt;Stock app high level design&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;System is split into backend and fronend. Backend is a Django app w/
+exposed REST API using &lt;a href="https://django-tastypie.readthedocs.io/en/latest/"&gt;Tastypie&lt;/a&gt;. Frontend is &lt;a href="https://reactjs.org/"&gt;React&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Primary data source is Yahoo's financial data. In particular, I'm pulling these:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;historical stock daily prices &amp;mdash; high, low, open, close, volume&lt;/li&gt;
+&lt;li&gt;financial statements &amp;mdash; balance sheet, income statement, and cash flow statement&lt;/li&gt;
+&lt;li&gt;published meta &amp;mdash; beta, P/E, and so on. Since these are
+  opinionated, Yahoo is just one of many alternatives.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;Data model&lt;/h1&gt;
+&lt;p&gt;Model names are intuitive.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;MyStock&lt;/td&gt;
+&lt;td&gt;Place for name, symbol&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;MyStockHistorical&lt;/td&gt;
+&lt;td&gt;Daily trading data&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;MyStrategyValue&lt;/td&gt;
+&lt;td&gt;Pre-computed values based on historical, eg. moving average&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;IncomeStatement&lt;/td&gt;
+&lt;td&gt;As name&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BalanceSheet&lt;/td&gt;
+&lt;td&gt;As name&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CashFlow&lt;/td&gt;
+&lt;td&gt;As name&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ValuationRatio&lt;/td&gt;
+&lt;td&gt;Published valuation ratios, eg. P/E. They are source dependent.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;figure class="col s12"&gt;
+  &lt;img src="images/stock.png"/&gt;
+  &lt;figcaption&gt;Stock app data models&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h1&gt;Data persistence &amp;amp; processing&lt;/h1&gt;
+&lt;p&gt;Data persistence is MySql 5.7. Using Django's ORM, this is not a hard requirement if your preference is something else.&lt;/p&gt;
+&lt;p&gt;Data processing is handled by Redis via Celery so to achieve ease of scale. As mentioned earlier, &lt;code&gt;MyStrategeValue&lt;/code&gt; are derived from historicals, thus are computed prehand using this mechanism: Django custom command &amp;rarr; compose celery task &amp;rarr; submit task to Redis queue &amp;rarr; task executed and data is persisted to DB.&lt;/p&gt;
+&lt;p&gt;There are also custom model property which is computed on the
+fly. Most of them can be pre-computed also since historicals are not
+static. However, to minimize dependency on these values that must be
+prepared as a separate step, I opted to the current method. By
+observation, performance penalty by not having them in DB is
+acceptable.&lt;/p&gt;
+&lt;p&gt;Using docker, the following data volumes are used:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Volume&lt;/th&gt;
+&lt;th&gt;Attach to&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;stock-data&lt;/td&gt;
+&lt;td&gt;Main DB data storage&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;redis-data&lt;/td&gt;
+&lt;td&gt;Redis data storage&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1&gt;Develop &amp;amp; Deployment&lt;/h1&gt;
+&lt;p&gt;See &lt;a href="https://fengxia41103.github.io/stock/dev and deployment.html"&gt;dev &amp;amp; deployment&lt;/a&gt; for details.&lt;/p&gt;
+&lt;div class="footnote"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;Some source provide indicators such as MACD. Most, however, only
+provide raw/reported data such as sales of an Income Statement. My
+goal, therefore, is to follow the conventional train of thought by
+converting these values into percentage, and some period-to-period
+change rate, and so on, which I found myself doing a lot whenever
+I receive an Excel full of numbers.&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content><category term="misc"></category></entry></feed>

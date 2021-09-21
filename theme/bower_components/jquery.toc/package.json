@@ -1,0 +1,20 @@
+{
+    "name": "jquery.toc",
+    "version": "0.4.0",
+    "description": "A minimal, tiny jQuery plugin that will generate a table of contents, drawing from headings on the page.",
+    "main": "jquery.toc.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ndabas/toc.git"
+    },
+    "author": "Nikhil Dabas",
+    "license": "Apache-2.0",
+    "dependencies": {},
+    "devDependencies": {
+        "grunt": "^1.0.1",
+        "grunt-contrib-compress": "^1.3.0",
+        "grunt-contrib-copy": "^1.0.0",
+        "grunt-contrib-jshint": "^1.0.0",
+        "grunt-contrib-uglify": "^2.0.0"
+    }
+}

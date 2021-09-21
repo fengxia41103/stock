@@ -1,0 +1,14 @@
+{
+  "name": "financejs",
+  "homepage": "https://github.com/essamjoubori/finance.js",
+  "version": "4.1.0",
+  "_release": "4.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v4.1.0",
+    "commit": "6ada1192efada6db7574bb17a0c6538fae12da32"
+  },
+  "_source": "https://github.com/essamjoubori/finance.js.git",
+  "_target": "^4.0.1",
+  "_originalSource": "financejs"
+}

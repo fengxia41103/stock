@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta
+      name="viewport"
+      content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"
+    />
+
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <script src="https://fengxia41103.github.io/stock/theme/js/html5shiv.min.js"></script>
+    <script src="https://fengxia41103.github.io/stock/theme/js/respond.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://fengxia41103.github.io/stock/theme/bower_components/font-awesome/css/font-awesome.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://fengxia41103.github.io/stock/theme/bower_components/datatables/media/css/dataTables.bootstrap.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Alfa+Slab+One|Archivo+Narrow|Montserrat|Jaldi|Teko"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css"
+    />
+
+    <link rel="stylesheet" href="https://fengxia41103.github.io/stock/theme/css/my.css" />
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+
+      <title>My Stocks</title>
+  </head>
+
+  <body>
+     <header id="mypage-index">
+      <a href="https://fengxia41103.github.io/stock/">My Stocks </a>
+    </header>
+    <!-- end of block navbar -->
+
+    <div class="split-screen">
+      <div class="split-left-pane">
+         <ul>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System design</a>
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/dev%20and%20deployment.html"
+              >Dev & Deployment</a
+            >
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System design</a>
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System design</a>
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System design</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="split-right-pane">
+        <div id="content" class="container">
+
+<article>
+   <div>
+    <i class="fa fa-calendar" style="opacity: 0.5">&nbsp;</i>
+    2021-09-09         <a class="wave-effect" href="misc.html">
+      <i class="fa fa-folder-open-o"></i>
+      misc
+    </a>
+       <h1 class="myhighlight">Stock App Design</h1>
+  </div>
+
+  <ol id="toc" class="row"></ol>
+
+  <div>
+    <div id="article-content">
+      <p><figure class="col s12">
+  <img src="images/stock-detail.png"/>
+</figure>
+
+<h1>Backdrop</h1>
+<p>The app is a complete rewrite of one which I wrote five years
+ago. At the time Jookun approached me that he had some wise strategies
+of investment. I was intrigued by his passion, but wanted to verify
+its worth using some simulation. Thus a Django was created with Yahoo
+finance daily data as the input, and some data crunch based on his
+idea. Like all other ideas, I started to come up some of my own while
+working on it, and gradually it let me deep down into the rabbit hole
+&mdash; for the first time in my career, I had computation so intense
+that it would overheat my laptop and had it shut down! I felt I was on
+track of something. However, it had then been left to rot
+since. Though I had tried to revive it over the years, some of the
+code was done in such a complex manner that I didn't have the heart to
+read it again. One impression, however, always left me with a hope,
+the difficulty of obtain these free daily data. As mentioned, I
+started with Yahoo data. However, it was shut down just around that
+time. Later I shifted to Alpha Advantage while it was still free of
+use. Well, not anymore. Soon after I switched to it, I guess it gained
+enough popularity that it went on with memberships and so on. What
+jumping through these hoops occurred to me that if I could just
+publish these historical data somehow, and let people download and use
+them, there are already value.</p>
+<p>So recently, I started to think about this idea. Starting with another
+round of reviving the old app, I implemented Django command to dump DB
+data into CSVs, thus creating 500+ files, each representing a SP500
+symbol, which were what I had. However, I want more &mdash; how about
+a better user experience? how about some computation of probabilities
+based on a layman's observation? how about DCF?... all these,
+eventually propelled me to rewrite this from scratch, and here it is.</p>
+<h1>Audience &amp; goals</h1>
+<p>First, it is an absolute illusion if a beginner like myself will beat
+the market by these analysis, not only because of limitation of
+knowledge, information, and experience, but of personality. I don't
+know what the winners are like. Internet is filled with articles on
+what it takes to be a good investor. I have some of those qualities,
+but there is no guarantee nonetheless. Therefore, I'm back to zero.</p>
+<p>But one thing I am certain, that everyone will experience what I have
+experienced, at some point of his/her life, that they are curious, or
+interested in, the stock market, have the itch to try, know some bits
+of it, but not a whole lot, and have some basic <strong>hunch</strong> of some
+<em>pattern</em>, or <em>frequency</em>, or <em>occurance</em>, and thought there might be
+a gold mine buried underneath and yourself might be the lucky one. So,
+how to find out, or to verify?</p>
+<p>Here are five levels of users I sense:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Tool</th>
+<th>Audience</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>apps &amp; websites</td>
+<td>Have basic knowledge, satisfied with reported info</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Excel</td>
+<td>Think they have some data/info analysis edge</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td><strong>Excel + VBA</strong></td>
+<td><strong>Automate routine computation and data assembly</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Script or lib</td>
+<td>Programmer who gained more computation power over Excel</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Commercial</td>
+<td>Professional, sky is the limit, membership</td>
+</tr>
+</tbody>
+</table>
+<p>Difference between 3 &amp; 4 are blurry, but the idea is that
+scripting/lib will give you a much wider selection of tools than
+VBA. Further, VBA is not as good a building block if you want to stand
+on the shoulder of a giant.</p>
+<p>Users of type 1 and type 5 are not my audience. User of type 2,3,4 are
+essentially the same people &mdash;</p>
+<ul>
+<li>they are independent/self-confident enough to think of their own
+  method, but are yet willing to go with a commercial source or
+  solution</li>
+<li>they have some financial knowledge, and</li>
+<li>are not afraid of (or even fond of) data crunching.</li>
+</ul>
+<p>Their routine follows these steps &mdash;</p>
+<ol>
+<li>Obtain raw data:</li>
+<li>daily price (well, you could also have finer grain data)</li>
+<li>financial reports: balance sheet, income statement, cash flow</li>
+<li>computed ratios, eg. P/E, beta</li>
+<li>some popular indicator or evaluation values</li>
+<li>Crunch of his own indicator or measure using these data</li>
+<li>Draw a graph here and there to visualize his results</li>
+<li>Search for pattern</li>
+</ol>
+<p>During my research and implementation, following this pattern, I found
+a few places where this tool can help:</p>
+<ul>
+<li>
+<p><strong>Getting data</strong>. represented the first barrier higher than expected. I have
+  related my experience w/ Yahoo, Google, Alpha. I'm surprised how
+  limited such data sources are there considering how widely spread
+  the Internet has become, and stock data being always in the public
+  domain.</p>
+<p>A value of this tool is to handle API of available data
+  sources so to retrieve available <em>raw</em> data.</p>
+</li>
+<li>
+<p><strong>Cleansing data</strong>. Once you get data, consuming data represents
+  another barrier &mdash; understanding particular data form (&larr;
+  this is usually source dependent) and handling data anomaly.</p>
+<p>2nd value of this tool is to normalize these data points, and
+  potentially amending missing data by providing reasonable default.</p>
+</li>
+<li>
+<p><strong>Computing standard ratios</strong>. Crunching a clean data set is usually not the
+  challenge at all.  Of course you can go with your fancy where the
+  <em>edge</em> is believed to be. However, there are always a few <em>standard</em>
+  ratios everyone seems to begin with, eg. growth rate of a number
+  from period to period, or pcnt of one expanse of the total, things
+  like that. They are not difficult to compute, but rather
+  mechanical/tedious, and are not readily available from a data
+  source<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>. Therefore, you have to do them <em>manually</em>.</p>
+<p>Therefore, 3rd value of this tool is to provide some computed values
+  out of box. One beauty of historical data is that they don't
+  change. Therefore, a pre-calculated result is as good as new.</p>
+</li>
+</ul>
+<p>In short, one can view this tool as a fancy automated Excel template
+that I have built to facilitate routine works and get you going w/
+your analysis quickly less the mechanical build-up that is necessary
+but distracting from analysis itself.</p>
+<h1>System design</h1>
+<figure class="col s12 center">
+  <img src="images/high%20level%20design.png"/>
+  <figcaption>Stock app high level design</figcaption>
+</figure>
+
+<p>System is split into backend and fronend. Backend is a Django app w/
+exposed REST API using <a href="https://django-tastypie.readthedocs.io/en/latest/">Tastypie</a>. Frontend is <a href="https://reactjs.org/">React</a>.</p>
+<p>Primary data source is Yahoo's financial data. In particular, I'm pulling these:</p>
+<ul>
+<li>historical stock daily prices &mdash; high, low, open, close, volume</li>
+<li>financial statements &mdash; balance sheet, income statement, and cash flow statement</li>
+<li>published meta &mdash; beta, P/E, and so on. Since these are
+  opinionated, Yahoo is just one of many alternatives.</li>
+</ul>
+<h1>Data model</h1>
+<p>Model names are intuitive.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MyStock</td>
+<td>Place for name, symbol</td>
+</tr>
+<tr>
+<td>MyStockHistorical</td>
+<td>Daily trading data</td>
+</tr>
+<tr>
+<td>MyStrategyValue</td>
+<td>Pre-computed values based on historical, eg. moving average</td>
+</tr>
+<tr>
+<td>IncomeStatement</td>
+<td>As name</td>
+</tr>
+<tr>
+<td>BalanceSheet</td>
+<td>As name</td>
+</tr>
+<tr>
+<td>CashFlow</td>
+<td>As name</td>
+</tr>
+<tr>
+<td>ValuationRatio</td>
+<td>Published valuation ratios, eg. P/E. They are source dependent.</td>
+</tr>
+</tbody>
+</table>
+<figure class="col s12">
+  <img src="images/stock.png"/>
+  <figcaption>Stock app data models</figcaption>
+</figure>
+
+<h1>Data persistence &amp; processing</h1>
+<p>Data persistence is MySql 5.7. Using Django's ORM, this is not a hard requirement if your preference is something else.</p>
+<p>Data processing is handled by Redis via Celery so to achieve ease of scale. As mentioned earlier, <code>MyStrategeValue</code> are derived from historicals, thus are computed prehand using this mechanism: Django custom command &rarr; compose celery task &rarr; submit task to Redis queue &rarr; task executed and data is persisted to DB.</p>
+<p>There are also custom model property which is computed on the
+fly. Most of them can be pre-computed also since historicals are not
+static. However, to minimize dependency on these values that must be
+prepared as a separate step, I opted to the current method. By
+observation, performance penalty by not having them in DB is
+acceptable.</p>
+<p>Using docker, the following data volumes are used:</p>
+<table>
+<thead>
+<tr>
+<th>Volume</th>
+<th>Attach to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stock-data</td>
+<td>Main DB data storage</td>
+</tr>
+<tr>
+<td>redis-data</td>
+<td>Redis data storage</td>
+</tr>
+</tbody>
+</table>
+<h1>Develop &amp; Deployment</h1>
+<p>See <a href="https://fengxia41103.github.io/stock/dev and deployment.html">dev &amp; deployment</a> for details.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Some source provide indicators such as MACD. Most, however, only
+provide raw/reported data such as sales of an Income Statement. My
+goal, therefore, is to follow the conventional train of thought by
+converting these values into percentage, and some period-to-period
+change rate, and so on, which I found myself doing a lot whenever
+I receive an Excel full of numbers.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div></p>
+
+      <p>
+        &mdash; by
+        <a href="feng-xia.html">Feng Xia</a>
+      </p>
+    </div>
+  </div>
+
+</article>
+
+              <div id="related"> </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col l8 m8 s12">
+            <p>
+              2016-2021 PY Consulting Ltd. 1236 Beacon Street, Brookline, MA
+              02146
+            </p>
+
+            <p>
+              <a href="mailto:feng_xia41103@hotmail.com">
+                <i class="fa fa-envelope"></i>
+              </a>
+
+              <a href="http://github.com/fengxia41103">
+                <i class="fa fa-github"></i>
+              </a>
+
+              <a href="https://www.linkedin.com/in/fengxia41103">
+                <i class="fa fa-linkedin"></i>
+              </a>
+
+              <a href="">
+                <i class="fa fa-phone-square"></i>
+                (508)801-1794
+              </a>
+            </p>
+          </div>
+          <div class="col l4 m4 s12">
+            <p class="right">
+              <i class="fa fa-copyright"></i>
+              All rights reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+       <!-- end of block main -->
+
+    <!-- Placed at the end of the document so the pages load faster -->
+     <script
+      type="text/javascript"
+      src="https://fengxia41103.github.io/stock/theme/bower_components/jquery-ui/jquery-ui.min.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="https://fengxia41103.github.io/stock/theme/bower_components/datatables/media/js/jquery.dataTables.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://fengxia41103.github.io/stock/theme/bower_components/datatables/media/js/dataTables.bootstrap.min.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/shell.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/lisp.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/xml.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/diff.min.js"
+    ></script>
+
+    <script type="text/javascript">
+      var j$ = jQuery.noConflict();
+
+      j$(document).ready(function () {
+        // common global widget initializations
+        var table = j$("table.my-datatable").dataTable({
+          paging: false,
+          info: false,
+          pagingType: "simple",
+        });
+
+        // highlight.js initialization
+        hljs.initHighlightingOnLoad();
+        j$("pre").each(function (i, block) {
+          hljs.highlightBlock(block);
+        });
+      });
+    </script>
+    <!-- end of block JS -->
+
+      </body>
+</html>

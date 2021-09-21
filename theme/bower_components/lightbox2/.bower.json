@@ -1,0 +1,39 @@
+{
+  "name": "lightbox2",
+  "homepage": "http://lokeshdhakar.com/projects/lightbox2/",
+  "authors": [
+    "Lokesh Dhakar <lokesh.dhakar@gmail.com>"
+  ],
+  "description": "The original Lightbox script. Uses jQuery.",
+  "main": [
+    "./dist/js/lightbox.js",
+    "./dist/css/lightbox.css"
+  ],
+  "keywords": [
+    "lightbox",
+    "lightbox2",
+    "overlay",
+    "gallery",
+    "slideshow",
+    "images"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "jquery": ">2"
+  },
+  "version": "2.11.3",
+  "_release": "2.11.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.11.3",
+    "commit": "e51998c067f95a7d23599c2d1efa130f6662ec11"
+  },
+  "_source": "https://github.com/lokesh/lightbox2.git",
+  "_target": "^2.8.2",
+  "_originalSource": "lightbox"
+}
