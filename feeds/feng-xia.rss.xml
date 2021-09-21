@@ -38,18 +38,49 @@ error messages.&lt;/p&gt;
   &lt;img src="images/stock-detail.png"/&gt;
 &lt;/figure&gt;
 
-&lt;h1&gt;Backdrop&lt;/h1&gt;
-&lt;p&gt;The app is a complete rewrite of one which I wrote five years
-ago. At the time Jookun approached me that he had some wise strategies
-of investment. I was intrigued by his passion, but wanted to verify
-its worth using some simulation. Thus a Django was created with Yahoo
-finance daily data as the input, and some data crunch based on his
-idea. Like all other ideas, I started to come up some of my own while
-working on it, and gradually it let me deep down into the rabbit hole
-&amp;mdash; for the first time in my career, I had computation so intense
-that it would overheat my laptop and had it shut down! I felt I was on
-track of something. However, it had then been left to rot
-since. Though I had tried to revive it over the years, some of the
-code was done in such a complex manner that I didn't have the heart to
-read it again. One impression, however, always left me with a hope,
-the difficulty …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Thu, 09 Sep 2021 17:38:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-09:/stock/stock app design.html</guid><category>misc</category></item></channel></rss>
+&lt;h1&gt;Disclaimer, philosophy&lt;/h1&gt;
+&lt;p&gt;First of all, this isn't a magic tool to beat the market. We firmly
+believe the final conclusion should be drawn by the user whose brain
+power holds the edge over the market, if ever.&lt;/p&gt;
+&lt;p&gt;The purpose of this tool is to assemble information in a fashion to
+assist the user process these information more efficiently by
+liberating his/her from tedious, but necessary, steps such as data
+collection, ratio computation, drawing a line graph, etc., than
+without such a helper. Thus with this tool, the user could focus onto
+creating value instead of being bogged down by less value-added works.&lt;/p&gt;
+&lt;figure class="col l6 m6 s12"&gt;
+    &lt;img src="https://imgs.xkcd.com/comics/efficiency_2x.png" /&gt;
+&lt;/figure&gt;
+
+&lt;h1&gt;Audience &amp;amp; goals&lt;/h1&gt;
+&lt;p&gt;This application is written for users who have interest in the
+stock market, in particular, data analysis of the stock data. In my
+experience, there are five levels of users:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Tool&lt;/th&gt;
+&lt;th&gt;Audience&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;apps &amp;amp; websites&lt;/td&gt;
+&lt;td&gt;Have basic knowledge, satisfied with reported info&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;Excel&lt;/td&gt;
+&lt;td&gt;Think they have some data/info analysis edge&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;3&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Excel + VBA&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Automate routine computation and data assembly&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;Script or lib&lt;/td&gt;
+&lt;td&gt;Programmer who gained more …&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Thu, 09 Sep 2021 17:38:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-09:/stock/stock app design.html</guid><category>misc</category></item></channel></rss>
