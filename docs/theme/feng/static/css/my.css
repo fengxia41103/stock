@@ -12,7 +12,7 @@ h6 {
 }
 
 article {
-  counter-reset: h1;
+  counter-reset: h2;
 }
 
 #article-content {
@@ -20,7 +20,6 @@ article {
 }
 
 #article-content h1 {
-  counter-reset: h2;
   border-bottom: 1px solid #cecece;
   font-size: 1.5em !important;
 }
@@ -28,7 +27,7 @@ article {
 #article-content h2 {
   counter-reset: h3;
   //border-bottom: 1px solid #cecece;
-  font-size: 1.2em;
+  font-size: 1.5em;
 }
 
 #article-content h3 {
