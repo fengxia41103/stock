@@ -2,6 +2,7 @@ Title: Stock App Design
 Date: 2021-09-09 17:38
 Slug: stock app design
 Author: Feng Xia
+Modified: 2021-09-21 17:00
 
 <figure class="col s12">
   <img src="images/stock-detail.png"/>
