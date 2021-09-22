@@ -8,13 +8,14 @@ dip it was?"&lt;/p&gt;
 &lt;h2&gt;Price time span&lt;/h2&gt;
 &lt;p&gt;Price time span is a way to analyze one day's &lt;code&gt;close&lt;/code&gt; in the context
 of both in the history and in the future.&lt;/p&gt;
+&lt;h3&gt;Last lower&lt;/h3&gt;
 &lt;p&gt;First, we search into the history for a price &lt;strong&gt;lower than&lt;/strong&gt; this
 price, then counting the days between the two dates. This value
 represents the &lt;em&gt;last time&lt;/em&gt; I have seen a price lower than this. We
 call this the &lt;strong&gt;last lower&lt;/strong&gt;. Now imagine a day when AAPL went down,
 was $5, or 5% a lot? Should I buy this dip? The last lower value, say,
 30, would mean that this dip just put AAPL back to its 30 day's
-ago. Therefore, if you had bought it 30 days …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In the &lt;a href="{filename}/single%20stock%price.md"&gt;stock price analysis&lt;/a&gt;, we have seen the analysis of &lt;strong&gt;gain
+ago. Therefore, if you had bought it …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In the &lt;a href="{filename}/single%20stock%price.md"&gt;stock price analysis&lt;/a&gt;, we have seen the analysis of &lt;strong&gt;gain
 probability&lt;/strong&gt; by computing its likelihood of making a gain in the
 selected period. In this trend analysis page, we extend the analysis
 further by looking at each day's price, especially the down days', to
@@ -23,6 +24,7 @@ dip it was?"&lt;/p&gt;
 &lt;h2&gt;Price time span&lt;/h2&gt;
 &lt;p&gt;Price time span is a way to analyze one day's &lt;code&gt;close&lt;/code&gt; in the context
 of both in the history and in the future.&lt;/p&gt;
+&lt;h3&gt;Last lower&lt;/h3&gt;
 &lt;p&gt;First, we search into the history for a price &lt;strong&gt;lower than&lt;/strong&gt; this
 price, then counting the days between the two dates. This value
 represents the &lt;em&gt;last time&lt;/em&gt; I have seen a price lower than this. We
@@ -35,13 +37,14 @@ moment, you would have gained zero.&lt;/p&gt;
 time than of $5 or 5% return. It is translating that $5 into a
 time-based measure.&lt;/p&gt;
 &lt;figure class="col s12"&gt;
-    &lt;figcaption&gt;Stock price span&lt;/figcaption&gt;
+    &lt;figcaption&gt;Stock last lower&lt;/figcaption&gt;
     &lt;img src="images/stock%20last%20lower.png"/&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;In this example, AAPL lost 40 days' worth of ground on 9/20/2021, and
 clearly you could see the negative trend became larger and larger
 starting 9/13.&lt;/p&gt;
+&lt;h3&gt;Next better&lt;/h3&gt;
 &lt;p&gt;Inverse to the &lt;strong&gt;last lower&lt;/strong&gt;, we now turn our lens into the future
 when standing on a date. The &lt;strong&gt;next better&lt;/strong&gt; is to count days between
 this date and the &lt;em&gt;next price higher than me&lt;/em&gt;. If the stock is on a
@@ -49,6 +52,13 @@ rising trend, this value would always be 1, meaning you see a higher
 price on the next day. Similarly, a 0 is the day when the price peaked
 out because we can't any higher price, and a large value is the time
 it took while for the stock to recover.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock next better&lt;/figcaption&gt;
+    &lt;img src="images/stock%20next%20better.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;So to sum it up, these two are measuring a price's significance in
+term of time, thus highlight a stock's price trend.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -60,13 +70,13 @@ it took while for the stock to recover.&lt;/p&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;0&lt;/td&gt;
-&lt;td&gt;at bottom, or continously rising&lt;/td&gt;
+&lt;td&gt;at bottom, or continuously rising&lt;/td&gt;
 &lt;td&gt;at peak, or continously falling&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;1 or -1&lt;/td&gt;
-&lt;td&gt;turning trend&lt;/td&gt;
-&lt;td&gt;turning trend&lt;/td&gt;
+&lt;td&gt;reverse previous trend&lt;/td&gt;
+&lt;td&gt;reverse previous trend&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;large value&lt;/td&gt;
@@ -74,7 +84,51 @@ it took while for the stock to recover.&lt;/p&gt;
 &lt;td&gt;slow recovery&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;</content><category term="misc"></category></entry><entry><title>Stock Returns</title><link href="https://fengxia41103.github.io/stock/stock%20returns.html" rel="alternate"></link><published>2021-09-21T23:33:00-04:00</published><updated>2021-09-21T23:33:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-21:/stock/stock returns.html</id><summary type="html">&lt;p&gt;There are three types of return: daily, nightly, and 24-hour. Return
+&lt;/table&gt;
+&lt;h2&gt;Gain bought today &amp;amp; hold&lt;/h2&gt;
+&lt;p&gt;Gain bought today &amp;amp; hold is an evaluation if you were to buy at the
+day's &lt;code&gt;close&lt;/code&gt; price&lt;sup id="fnref:1"&gt;&lt;a class="footnote-ref" href="#fn:1"&gt;1&lt;/a&gt;&lt;/sup&gt; and hold till the end of the selected
+period. The gain &lt;code&gt;= (last close today's close)/today's close&lt;/code&gt;.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock gain bought today &amp; hold&lt;/figcaption&gt;
+    &lt;img src="images/stock%20gain%20bought%20and%20hold.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In this example, AAPL would have rendered most of the days a loss if
+you had invested because its last &lt;code&gt;close&lt;/code&gt; price was low. The larger
+the negative area, the more significant the difference is between its
+high price points and low price points.&lt;/p&gt;
+&lt;p&gt;Inversely, one could imagine that area would be in the positives if
+stock had a rising week.&lt;/p&gt;
+&lt;h2&gt;Daily gain probability&lt;/h2&gt;
+&lt;p&gt;This is a sibling analysis of the &lt;code&gt;gain probability ranges&lt;/code&gt; on the
+&lt;a href="{filename}/single%20stock%price.md"&gt;stock price&lt;/a&gt; view. Instead of a range, we present a day-by-day
+view of how a gain probability will change over time, thus
+highlighting a moving trend of this value.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock gain probability daily trend&lt;/figcaption&gt;
+    &lt;img src="images/stock%20gain%20probability%20daily.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In this example, AAPL had good gain probability at the start,
+indicating the price then was good. However, the probability shrank
+because price started rising. On 9/8 it reached 0, meaning the &lt;code&gt;close&lt;/code&gt;
+was the peak for its remaining days. Then it started its decline. On
+9/16 it had a good &lt;code&gt;open&lt;/code&gt;, the only one in the last 4 days. This made
+the &lt;code&gt;close&lt;/code&gt; price on 9/15 having a 25% chance of making a gain.&lt;/p&gt;
+&lt;div class="footnote"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;The &lt;code&gt;close&lt;/code&gt; price was chosen rather arbitrarily. We have no
+assumption of someone's trading habit &amp;mdash; whether he likes to
+buy at market opening, or close, or in between. Therefore, the
+analysis demonstrates the power of the tool and what it can
+deliver. Choosing a different &lt;strong&gt;price point&lt;/strong&gt; for the calculation
+will be addressed by future features.&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content><category term="misc"></category></entry><entry><title>Stock Returns</title><link href="https://fengxia41103.github.io/stock/stock%20returns.html" rel="alternate"></link><published>2021-09-21T23:33:00-04:00</published><updated>2021-09-21T23:33:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-21:/stock/stock returns.html</id><summary type="html">&lt;p&gt;There are three types of return: daily, nightly, and 24-hour. Return
 values are in &lt;strong&gt;percentage (%)&lt;/strong&gt;, and negative returns are colored
 in &lt;strong&gt;red&lt;/strong&gt;. Since the analysis done to them are similar, we are to
 address them together here.&lt;/p&gt;
@@ -205,14 +259,17 @@ all other charts, clicking legends will toggle a data set on/off.&lt;/p&gt;
     &lt;img src="images/stock%20price%20chart%20weekly.png"/&gt;
 &lt;/figure&gt;
 
-&lt;h3&gt;Gain probability&lt;/h3&gt;
+&lt;h3&gt;Gain probability ranges&lt;/h3&gt;
 &lt;figure class="col l6 m7 s12"&gt;
     &lt;figcaption&gt;Stock gain probability&lt;/figcaption&gt;
     &lt;img src="images/stock%20price%20gain%20probability.png"/&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;The gain probability is to address this common question &amp;mdash; &lt;em&gt;if I
-buy stock at this price, how likely I would make a positive return?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The gain probability range is to address this common question &amp;mdash;
+&lt;em&gt;if I buy stock at this price, how likely I would make a positive
+return?&lt;/em&gt; To answer this, we create 10 ranges over 0-100%. Then we
+would use each day's price to estimate which range its probability
+will fall into.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;percentage&lt;/strong&gt;: The percentage measures the total likelyhood you

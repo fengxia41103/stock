@@ -8,13 +8,14 @@ dip it was?"&lt;/p&gt;
 &lt;h2&gt;Price time span&lt;/h2&gt;
 &lt;p&gt;Price time span is a way to analyze one day's &lt;code&gt;close&lt;/code&gt; in the context
 of both in the history and in the future.&lt;/p&gt;
+&lt;h3&gt;Last lower&lt;/h3&gt;
 &lt;p&gt;First, we search into the history for a price &lt;strong&gt;lower than&lt;/strong&gt; this
 price, then counting the days between the two dates. This value
 represents the &lt;em&gt;last time&lt;/em&gt; I have seen a price lower than this. We
 call this the &lt;strong&gt;last lower&lt;/strong&gt;. Now imagine a day when AAPL went down,
 was $5, or 5% a lot? Should I buy this dip? The last lower value, say,
 30, would mean that this dip just put AAPL back to its 30 day's
-ago. Therefore, if you had bought it 30 days …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Wed, 22 Sep 2021 11:16:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-22:/stock/stock trend.html</guid><category>misc</category></item><item><title>Stock Returns</title><link>https://fengxia41103.github.io/stock/stock%20returns.html</link><description>&lt;p&gt;There are three types of return: daily, nightly, and 24-hour. Return
+ago. Therefore, if you had bought it …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Wed, 22 Sep 2021 11:16:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-22:/stock/stock trend.html</guid><category>misc</category></item><item><title>Stock Returns</title><link>https://fengxia41103.github.io/stock/stock%20returns.html</link><description>&lt;p&gt;There are three types of return: daily, nightly, and 24-hour. Return
 values are in &lt;strong&gt;percentage (%)&lt;/strong&gt;, and negative returns are colored
 in &lt;strong&gt;red&lt;/strong&gt;. Since the analysis done to them are similar, we are to
 address them together here.&lt;/p&gt;
