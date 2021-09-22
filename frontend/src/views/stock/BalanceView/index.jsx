@@ -41,7 +41,6 @@ function BalanceView() {
   };
   const p2p_growth = {
     share_issued_growth_rate: "Shares Issued",
-    capital_structure: "Debt % of Asset",
     equity_growth_rate: "Equity",
     debt_growth_rate: "Debt",
     ap_growth_rate: "Account Payable",
