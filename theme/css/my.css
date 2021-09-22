@@ -20,13 +20,12 @@ article, #content {
 }
 
 h1 {
-  border-bottom: 1px solid #cecece;
   font-size: 1.5em !important;
 }
 
 h2 {
   counter-reset: h3;
-  //border-bottom: 1px solid #cecece;
+  border-bottom: 1px solid #cecece;
   font-size: 1.5em;
 }
 

@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>My Stocks - Feng Xia</title><link>https://fengxia41103.github.io/stock/</link><description></description><lastBuildDate>Tue, 21 Sep 2021 23:33:00 -0400</lastBuildDate><item><title>Stock Returns</title><link>https://fengxia41103.github.io/stock/single%20stock%20returns.html</link><description>&lt;p&gt;There are three types of return: daily, nightly, and 24-hour. Return
+<rss version="2.0"><channel><title>My Stocks - Feng Xia</title><link>https://fengxia41103.github.io/stock/</link><description></description><lastBuildDate>Wed, 22 Sep 2021 11:16:00 -0400</lastBuildDate><item><title>Stock Trend</title><link>https://fengxia41103.github.io/stock/stock%20trend.html</link><description>&lt;p&gt;In the &lt;a href="{filename}/single%20stock%price.md"&gt;stock price analysis&lt;/a&gt;, we have seen the analysis of &lt;strong&gt;gain
+probability&lt;/strong&gt; by computing its likelihood of making a gain in the
+selected period. In this trend analysis page, we extend the analysis
+further by looking at each day's price, especially the down days', to
+measure its &lt;strong&gt;significance&lt;/strong&gt; &amp;mdash; "if I see a price dip, how big a
+dip it was?"&lt;/p&gt;
+&lt;h2&gt;Price time span&lt;/h2&gt;
+&lt;p&gt;Price time span is a way to analyze one day's &lt;code&gt;close&lt;/code&gt; in the context
+of both in the history and in the future.&lt;/p&gt;
+&lt;p&gt;First, we search into the history for a price &lt;strong&gt;lower than&lt;/strong&gt; this
+price, then counting the days between the two dates. This value
+represents the &lt;em&gt;last time&lt;/em&gt; I have seen a price lower than this. We
+call this the &lt;strong&gt;last lower&lt;/strong&gt;. Now imagine a day when AAPL went down,
+was $5, or 5% a lot? Should I buy this dip? The last lower value, say,
+30, would mean that this dip just put AAPL back to its 30 day's
+ago. Therefore, if you had bought it 30 days …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Wed, 22 Sep 2021 11:16:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-22:/stock/stock trend.html</guid><category>misc</category></item><item><title>Stock Returns</title><link>https://fengxia41103.github.io/stock/stock%20returns.html</link><description>&lt;p&gt;There are three types of return: daily, nightly, and 24-hour. Return
 values are in &lt;strong&gt;percentage (%)&lt;/strong&gt;, and negative returns are colored
 in &lt;strong&gt;red&lt;/strong&gt;. Since the analysis done to them are similar, we are to
 address them together here.&lt;/p&gt;
@@ -22,10 +37,10 @@ address them together here.&lt;/p&gt;
 
 &lt;p&gt;Now with computed returns, we do some basic counting and statistic
 analysis of the return data.&lt;/p&gt;
-&lt;h3&gt;positive vs. negative occurrence&lt;/h3&gt;
+&lt;h2&gt;positive vs. negative occurrence&lt;/h2&gt;
 &lt;p&gt;This answers that out of the return data, how many were positive and
 how many were negative. If a stock were on a rise, we would expect it
-having more positive days than …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Tue, 21 Sep 2021 23:33:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-21:/stock/single stock returns.html</guid><category>misc</category></item><item><title>Stock Price</title><link>https://fengxia41103.github.io/stock/single%20stock%20price.html</link><description>&lt;p&gt;Stock's price and return views are part of the stock's detail
+having more positive days than …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Tue, 21 Sep 2021 23:33:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-21:/stock/stock returns.html</guid><category>misc</category></item><item><title>Stock Price</title><link>https://fengxia41103.github.io/stock/stock%20price.html</link><description>&lt;p&gt;Stock's price and return views are part of the stock's detail
 analysis. In this section we will show in-depth analysis of stock's
 price trending and returns.&lt;/p&gt;
 &lt;h2&gt;Date range&lt;/h2&gt;
@@ -53,35 +68,7 @@ chart includes prices of &lt;code&gt;open&lt;/code&gt;, &lt;code&gt;close&lt;/co
 &lt;p&gt;The weekly price chart breaks down price over the selected date range
 so to zoom into each week's performance as well as each week's
 &lt;code&gt;end-2-end return = (week's close - week's open)/week's open&lt;/code&gt;. Like
-all other …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Tue, 21 Sep 2021 19:22:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-21:/stock/single stock price.html</guid><category>misc</category></item><item><title>Tmpjlksjd lfs feng</title><link>https://fengxia41103.github.io/stock/tmp.html</link><description>&lt;p&gt;Stock's price and return views are part of the stock's detail
-analysis. In this section we will show in-depth analysis of stock's
-price trending and returns.&lt;/p&gt;
-&lt;h2&gt;Date range&lt;/h2&gt;
-&lt;p&gt;User can set a date range by using the date picker:&lt;/p&gt;
-&lt;figure class="col s12"&gt;
-    &lt;figcaption&gt;Stock historical price date picker&lt;/figcaption&gt;
-    &lt;img src="images/stock%20date%20picker.png"/&gt;
-&lt;/figure&gt;
-
-&lt;p&gt;Default &lt;code&gt;end date&lt;/code&gt; is TODAY, and the default range is set to be
-30 days back from TODAY. Setting an insensible date range, eg. start
-date is greater than the end date, or some distant dates in the
-future, will not produce an error. Instead, the backend will return
-an empty date set, thus rendering this view blank.&lt;/p&gt;
-&lt;h2&gt;Historical daily price&lt;/h2&gt;
-&lt;h3&gt;Price line chart&lt;/h3&gt;
-&lt;p&gt;Price line chart is the quickest way to see how a stock is going. The
-chart includes prices of &lt;code&gt;open&lt;/code&gt;, &lt;code&gt;close&lt;/code&gt;, &lt;code&gt;high&lt;/code&gt; and &lt;code&gt;low&lt;/code&gt;.&lt;/p&gt;
-&lt;figure class="col s12"&gt;
-    &lt;figcaption&gt;Stock historical price line chart&lt;/figcaption&gt;
-    &lt;img src="images/stock%20price%20chart.png"/&gt;
-&lt;/figure&gt;
-
-&lt;h3&gt;Weekly price chart&lt;/h3&gt;
-&lt;p&gt;The weekly price chart breaks down price over the selected date range
-so to zoom into each week's performance as well as each week's
-&lt;code&gt;end-2-end return = (week's close - week's open)/week's open&lt;/code&gt;. Like
-all other …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Tue, 21 Sep 2021 19:22:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-21:/stock/tmp.html</guid><category>misc</category></item><item><title>Dev &amp; Deployment</title><link>https://fengxia41103.github.io/stock/dev%20and%20deployment.html</link><description>&lt;p&gt;Both the backend and the frontend have been dockerized. Thus,
+all other …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Tue, 21 Sep 2021 19:22:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-21:/stock/stock price.html</guid><category>misc</category></item><item><title>Dev &amp; Deployment</title><link>https://fengxia41103.github.io/stock/dev%20and%20deployment.html</link><description>&lt;p&gt;Both the backend and the frontend have been dockerized. Thus,
 regardless your platform, install Docker &amp;amp; &lt;code&gt;docker-compose&lt;/code&gt; first.&lt;/p&gt;
 &lt;h2&gt;For user&lt;/h2&gt;
 &lt;ol&gt;

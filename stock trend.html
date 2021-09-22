@@ -75,137 +75,96 @@
             >
           </li>
           <li>
-            <a href="https://fengxia41103.github.io/stock/single%20stock%20price.html">Stock Price</a>
+            <a href="https://fengxia41103.github.io/stock/stock%20price.html">Stock Price</a>
           </li>
           <li>
-            <a href="https://fengxia41103.github.io/stock/single%20stock%20returns.html"
-              >Stock Returns</a
-            >
+            <a href="https://fengxia41103.github.io/stock/stock%20returns.html">Stock Returns</a>
           </li>
           <li>
-            <a href="https://fengxia41103.github.io/stock/tmp.html">TMP</a>
+            <a href="https://fengxia41103.github.io/stock/stock%20trend.html">Stock Trends</a>
           </li>
         </ul>
 
       </div>
 
       <div class="split-right-pane">
-        <div id="content" class="container">
+        <div id="content" class="container row">
 
 <article>
    <div>
     <i class="fa fa-calendar" style="opacity: 0.5">&nbsp;</i>
-    2021-09-21         <a class="wave-effect" href="misc.html">
+    2021-09-22         <a class="wave-effect" href="misc.html">
       <i class="fa fa-folder-open-o"></i>
       misc
     </a>
-       <h1 class="myhighlight">Tmpjlksjd lfs feng</h1>
+       <h1 class="myhighlight">Stock Trend</h1>
   </div>
 
   <ol id="toc" class="row"></ol>
 
   <div>
-    <div id="article-content" class="row">
-      <p><p>Stock's price and return views are part of the stock's detail
-analysis. In this section we will show in-depth analysis of stock's
-price trending and returns.</p>
-<h2>Date range</h2>
-<p>User can set a date range by using the date picker:</p>
+    <div id="article-content">
+      <p><p>In the <a href="{filename}/single%20stock%price.md">stock price analysis</a>, we have seen the analysis of <strong>gain
+probability</strong> by computing its likelihood of making a gain in the
+selected period. In this trend analysis page, we extend the analysis
+further by looking at each day's price, especially the down days', to
+measure its <strong>significance</strong> &mdash; "if I see a price dip, how big a
+dip it was?"</p>
+<h2>Price time span</h2>
+<p>Price time span is a way to analyze one day's <code>close</code> in the context
+of both in the history and in the future.</p>
+<p>First, we search into the history for a price <strong>lower than</strong> this
+price, then counting the days between the two dates. This value
+represents the <em>last time</em> I have seen a price lower than this. We
+call this the <strong>last lower</strong>. Now imagine a day when AAPL went down,
+was $5, or 5% a lot? Should I buy this dip? The last lower value, say,
+30, would mean that this dip just put AAPL back to its 30 day's
+ago. Therefore, if you had bought it 30 days back and held till this
+moment, you would have gained zero.</p>
+<p>This value is useful if you are more accustomed to think in term of
+time than of $5 or 5% return. It is translating that $5 into a
+time-based measure.</p>
 <figure class="col s12">
-    <figcaption>Stock historical price date picker</figcaption>
-    <img src="images/stock%20date%20picker.png"/>
+    <figcaption>Stock price span</figcaption>
+    <img src="images/stock%20last%20lower.png"/>
 </figure>
 
-<p>Default <code>end date</code> is TODAY, and the default range is set to be
-30 days back from TODAY. Setting an insensible date range, eg. start
-date is greater than the end date, or some distant dates in the
-future, will not produce an error. Instead, the backend will return
-an empty date set, thus rendering this view blank.</p>
-<h2>Historical daily price</h2>
-<h3>Price line chart</h3>
-<p>Price line chart is the quickest way to see how a stock is going. The
-chart includes prices of <code>open</code>, <code>close</code>, <code>high</code> and <code>low</code>.</p>
-<figure class="col s12">
-    <figcaption>Stock historical price line chart</figcaption>
-    <img src="images/stock%20price%20chart.png"/>
-</figure>
-
-<h3>Weekly price chart</h3>
-<p>The weekly price chart breaks down price over the selected date range
-so to zoom into each week's performance as well as each week's
-<code>end-2-end return = (week's close - week's open)/week's open</code>. Like
-all other charts, clicking legends will toggle a data set on/off.</p>
-<figure class="col s12">
-    <figcaption>Stock historical weekly price chart</figcaption>
-    <img src="images/stock%20price%20chart%20weekly.png"/>
-</figure>
-
-<h3>Gain probability</h3>
-<figure class="col l6 m7 s12">
-    <figcaption>Stock gain probability</figcaption>
-    <img src="images/stock%20price%20gain%20probability.png"/>
-</figure>
-
-<p>The gain probability is to address this common question &mdash; <em>if I
-buy stock at this price, how likely I would make a positive return?</em></p>
-<ol>
-<li>
-<p><strong>percentage</strong>: The percentage measures the total likelyhood you
-  will get a positive return counting day by day. Taking a historical,
-  pretending we can look into the future (thus we have a God's view),
-  counting days when you could make a gain w/ a higher price. The
-  percentage of this count vs. the total days elapse from this date
-  represents a probability. For example, if there are 10 days out of
-  30 days this one could have made a gain on this current price, the
-  probability will be <code>10/30=33%</code>.</p>
-</li>
-<li>
-<p><strong>open price</strong>: This is the minimal <code>open price</code> you could have
-  purchased to achieve the percentage above. Continuing the example
-  above, if there were 10 days one could have made a positive return,
-  we sort and display the <strong>lowest</strong> open price, thus assuming you
-  would have paid the least for such a gain probability. A <code>n/a</code> means
-  no price could have achieved such probability<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">1</a></sup>.</p>
-</li>
-<li>
-<p><strong>time window gauge</strong>: Time window is the days left if you made
-  purchase on a day. For example, buying at $148.56 (the <code>30-20%</code>
-  probability one) would have less trading days left for you to get
-  out, than buying at $153.87 (the <code>40-30%</code> probability one). The best
-  pattern would be a high probability and a long trading window
-  to realize such probability.</p>
-</li>
-<li>
-<p><strong>the TODAY-is-cheaper flag</strong>: The flag uses the latest known
-  <code>close</code> price (as a proxy to the SPOT price) to compare with the
-  suggested <code>open price</code> above. If the <code>close</code> is less than the
-  <code>open</code>, it puts a flag indicating the current price is more
-  attractive than the <code>open</code> we saw before<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">2</a></sup>.</p>
-</li>
-</ol>
-<p>It may now seem pointless why one would care such probability at all
-if it tells no future. However, these probabilities give you a
-reference point against current price so you get a sense of how it had
-(or could have) behaved.</p>
-<div class="footnote">
-<hr>
-<ol>
-<li id="fn:2">
-<p><strong>WARNING</strong>: We choose <code>open</code> pretending you are buying it on the
-beginning of day. Of course, the actual purchase price would be
-different. So this price value is more of a sense how well it will
-fare instead of being a precise point to act upon.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 1 in the text">&#8617;</a></p>
-</li>
-<li id="fn:3">
-<p><strong>WARNING</strong>: This is not a guaranteed winner because the stock price may be
-on a sliding trend, thus a lower price now doesn't warrant you
-would be able to realize the gain even. For example, if the
-<code>close</code> price is today's, the probability is only testifying that
-such price could have made gains in the past, but has no
-predicting power whatsoever.&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 2 in the text">&#8617;</a></p>
-</li>
-</ol>
-</div></p>
+<p>In this example, AAPL lost 40 days' worth of ground on 9/20/2021, and
+clearly you could see the negative trend became larger and larger
+starting 9/13.</p>
+<p>Inverse to the <strong>last lower</strong>, we now turn our lens into the future
+when standing on a date. The <strong>next better</strong> is to count days between
+this date and the <em>next price higher than me</em>. If the stock is on a
+rising trend, this value would always be 1, meaning you see a higher
+price on the next day. Similarly, a 0 is the day when the price peaked
+out because we can't any higher price, and a large value is the time
+it took while for the stock to recover.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>last lower</th>
+<th>next better</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>at bottom, or continously rising</td>
+<td>at peak, or continously falling</td>
+</tr>
+<tr>
+<td>1 or -1</td>
+<td>turning trend</td>
+<td>turning trend</td>
+</tr>
+<tr>
+<td>large value</td>
+<td>significant drop</td>
+<td>slow recovery</td>
+</tr>
+</tbody>
+</table></p>
 
       <p>
         &mdash; by
