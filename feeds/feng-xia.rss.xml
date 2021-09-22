@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>My Stocks - Feng Xia</title><link>https://fengxia41103.github.io/stock/</link><description></description><lastBuildDate>Wed, 22 Sep 2021 11:16:00 -0400</lastBuildDate><item><title>Stock Trend</title><link>https://fengxia41103.github.io/stock/stock%20trend.html</link><description>&lt;p&gt;In the &lt;a href="{filename}/single%20stock%price.md"&gt;stock price analysis&lt;/a&gt;, we have seen the analysis of &lt;strong&gt;gain
+<rss version="2.0"><channel><title>My Stocks - Feng Xia</title><link>https://fengxia41103.github.io/stock/</link><description></description><lastBuildDate>Wed, 22 Sep 2021 13:32:00 -0400</lastBuildDate><item><title>Stock Financial Statements</title><link>https://fengxia41103.github.io/stock/stock%20financial%20statements.html</link><description>&lt;p&gt;Financial statements are called fundamentals. It is outside the scope
+of this doc to explain what these statements are and how to read
+them. As stated in the &lt;a href="https://fengxia41103.github.io/stock/stock app design.html"&gt;design&lt;/a&gt;, the reported values were often
+found less useful without computing a ratio, a percentage, or
+period-to-period comparison. Therefore, this tool takes on the data
+crunching by providing such computation and comparisons.&lt;/p&gt;
+&lt;h2&gt;Four data categories&lt;/h2&gt;
+&lt;p&gt;This is applicable to all three statements. On each page one would
+find data grouped into four categories:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;reported&lt;/strong&gt;: These are straight out-of-report numbers. &lt;strong&gt;NOTE&lt;/strong&gt;
+   that units are often omitted and a unit of &lt;strong&gt;billion&lt;/strong&gt; is
+   implied. For example, &lt;em&gt;shared issued&lt;/em&gt; of &lt;code&gt;17.14&lt;/code&gt; would be 17.14
+   billion shares, whereas &lt;em&gt;working capital&lt;/em&gt; of &lt;code&gt;44.75&lt;/code&gt; would be 44.75
+   billion dollars.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ratio&lt;/strong&gt;: Ratios are common technique in financial statement
+   analysis. We have covered many of them so far, and the list will
+   continue to grow w/ newer releases.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;period-to-period growth rate (%)&lt;/strong&gt;: Using quarterly
+   statement data provided by the Yahoo! API, we picked some data
+   points to compute its growth rate from …&lt;/li&gt;&lt;/ol&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Wed, 22 Sep 2021 13:32:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-22:/stock/stock financial statements.html</guid><category>misc</category></item><item><title>Stock Trend</title><link>https://fengxia41103.github.io/stock/stock%20trend.html</link><description>&lt;p&gt;In the &lt;a href="{filename}/single%20stock%price.md"&gt;stock price analysis&lt;/a&gt;, we have seen the analysis of &lt;strong&gt;gain
 probability&lt;/strong&gt; by computing its likelihood of making a gain in the
 selected period. In this trend analysis page, we extend the analysis
 further by looking at each day's price, especially the down days', to

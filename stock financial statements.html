@@ -98,61 +98,242 @@
 <article>
    <div>
     <i class="fa fa-calendar" style="opacity: 0.5">&nbsp;</i>
-    2021-09-21         <a class="wave-effect" href="misc.html">
+    2021-09-22         <a class="wave-effect" href="misc.html">
       <i class="fa fa-folder-open-o"></i>
       misc
     </a>
-       <h1 class="myhighlight">Stock Returns</h1>
+       <h1 class="myhighlight">Stock Financial Statements</h1>
   </div>
 
   <ol id="toc" class="row"></ol>
 
   <div>
     <div id="article-content">
-      <p><p>There are three types of return: daily, nightly, and 24-hour. Return
-values are in <strong>percentage (%)</strong>, and negative returns are colored
-in <strong>red</strong>. Since the analysis done to them are similar, we are to
-address them together here.</p>
+      <p><p>Financial statements are called fundamentals. It is outside the scope
+of this doc to explain what these statements are and how to read
+them. As stated in the <a href="https://fengxia41103.github.io/stock/stock app design.html">design</a>, the reported values were often
+found less useful without computing a ratio, a percentage, or
+period-to-period comparison. Therefore, this tool takes on the data
+crunching by providing such computation and comparisons.</p>
+<h2>Four data categories</h2>
+<p>This is applicable to all three statements. On each page one would
+find data grouped into four categories:</p>
 <ol>
-<li><strong>daily return</strong>: <code>(today's close - today's open)/today's
-   open</code>. This measures the return during normal market hours.</li>
-<li><strong>nightly return</strong>: <code>(today's open - yesterday's close)/yesterday's
-   close</code>. This measures the return during off market hours.</li>
-<li><strong>24-hour return</strong>: <code>(today's close - yesterday's
-   close)/yesterday's close</code>. This measures the over effect of a
-   24-hour day, thus including both the market hours and off market
-   hours (for example, many companies choose to make announcement
-   after market close, thus causing price to fluctuate prior to next
-   day's market opening).</li>
+<li><strong>reported</strong>: These are straight out-of-report numbers. <strong>NOTE</strong>
+   that units are often omitted and a unit of <strong>billion</strong> is
+   implied. For example, <em>shared issued</em> of <code>17.14</code> would be 17.14
+   billion shares, whereas <em>working capital</em> of <code>44.75</code> would be 44.75
+   billion dollars.</li>
+<li><strong>ratio</strong>: Ratios are common technique in financial statement
+   analysis. We have covered many of them so far, and the list will
+   continue to grow w/ newer releases.</li>
+<li><strong>period-to-period growth rate (%)</strong>: Using quarterly
+   statement data provided by the Yahoo! API, we picked some data
+   points to compute its growth rate from quarter to quarter. <strong>NOTE</strong>
+   that all the data points on a statement can be subjected to this
+   calculation. However, we have limited the list on purpose, and will
+   consider to expand this list in the future.</li>
+<li><strong>A-over-B as %</strong>: This is another common technique to establish a
+   relative position between two values. For example, what percentage
+   is the administrative expanse (<strong>A</strong>) over sales (<strong>B</strong>)<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>?</li>
 </ol>
+<h2>Normalized comparison chart</h2>
+<p>When we analyze financial statement, the number itself isn't
+interesting. It is their relative position and trend what we are
+really after. Therefore, we applied <strong>normalization</strong> &mdash; taking
+the first value as the <em>base</em>, then divide the rest of the data each
+to the base. Thus, an array <code>[2,3,4,5,6,...]</code> would produce a base of
+<code>2</code>, and the <em>normalized</em> array would be <code>[1,1.5,2,2.5,3,...]</code>.</p>
+<p>Now w/ normalized data, we could put data points side-by-side to see
+which is rising and which is falling at the same time, and who is
+rising/falling faster<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>.</p>
 <figure class="col s12">
-    <figcaption>Stock 24-hour return chart</figcaption>
-    <img src="images/stock%2024%20hour%20return%20bar%20chart.png"/>
+    <figcaption>Stock statement normalized chart</figcaption>
+    <img src="images/stock%20statement%20normalized%20chart.png"/>
 </figure>
 
-<p>Now with computed returns, we do some basic counting and statistic
-analysis of the return data.</p>
-<h2>positive vs. negative occurrence</h2>
-<p>This answers that out of the return data, how many were positive and
-how many were negative. If a stock were on a rise, we would expect it
-having more positive days than negative ones. However, this takes no
-account for the scale of each positive/negative return.</p>
-<figure class="col s12">
-    <figcaption>Stock 24-hour return positive vs. negative occurances</figcaption>
-    <img src="images/stock%2024%20hour%20positive%20negative%20chart.png"/>
-</figure>
-
-<p>In this example, this stock has had 40% positive days vs. 60% negative
-days. One would thus think it wasn't performing well over this period.</p>
-<h2>return statistics</h2>
-<p>These are some common statistic values computed over the return data,
-including average, max, min, median, standard deviation, range of,
-variance, skewness, Kurtosis, average of positive returns, average of
-negative returns, and compounded return (= product of all returns).</p>
-<figure class="col s12">
-    <figcaption>Stock 24-hour return statistics</figcaption>
-    <img src="images/stock%2024%20hour%20return%20stats.png"/>
-</figure></p>
+<p>In this example, both the <em>working capital</em>(purple) and <em>quick
+ratio</em>(black) were deteriorating over time while the <em>working
+capital</em> fared worse as it had a sharper slope.</p>
+<h2>Balance Sheet</h2>
+<h3>Reported</h3>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Calculation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Share Issued</td>
+<td>as is</td>
+</tr>
+<tr>
+<td>Common Stock</td>
+<td>as is</td>
+</tr>
+<tr>
+<td>Retained Earnings</td>
+<td>as is</td>
+</tr>
+<tr>
+<td>Cash &amp; Equivalents Per Share</td>
+<td><code>(cash &amp; cash equivalent)/(share issued)</code></td>
+</tr>
+<tr>
+<td>Working Capital</td>
+<td>as is</td>
+</tr>
+<tr>
+<td>Invested Capital</td>
+<td>as is</td>
+</tr>
+<tr>
+<td>Tangible Book Value Per Share</td>
+<td><code>(tangible book value)/(share issued)</code></td>
+</tr>
+</tbody>
+</table>
+<h3>Ratios</h3>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Calculation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Current Ratio</td>
+<td><code>current assets/current liabilities</code></td>
+</tr>
+<tr>
+<td>Quick Ratio</td>
+<td>see below</td>
+</tr>
+<tr>
+<td>Debt/Equity Ratio</td>
+<td><code>total debt/stockholders equity</code></td>
+</tr>
+<tr>
+<td>Equity Multiplier</td>
+<td><code>total assets/stockholders equity</code></td>
+</tr>
+<tr>
+<td>Working Capital/Current Liabilities</td>
+<td><code>working capital/current liabilities</code></td>
+</tr>
+<tr>
+<td>Price/Cash Premium</td>
+<td><code>cash and equivalents per share/latest close price</code></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><strong>Quick ratio</strong>: <code>(cash &amp; equivalents &amp; short-term investments + 50% of
+   account receivable - inventory)/(current liabilities)</code>. <strong>NOTE</strong>
+   that we take into account for a <strong>50%</strong> account receivable
+   loss. We are also assuming a total loss of inventory.</li>
+<li><strong>Price/Cash Premium</strong>: Can the company redeem today's <code>close</code>
+   price w/ nothing but its cash!? This is a what-if analysis if
+   stock investors were to take higher priority than creditors if the
+   company went belly up today ~~</li>
+</ol>
+<h3>Period-to-Period Growth Rates (%)</h3>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Calculation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Shares Issued</td>
+<td><code>(this period - last period)/last period</code></td>
+</tr>
+<tr>
+<td>Equity</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Debt</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Account Payable</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Account Receivable</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Cashes</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Working Capital</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Invested Capital</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Net PP&amp;E</td>
+<td>same</td>
+</tr>
+</tbody>
+</table>
+<h3>A-over-B as %</h3>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Calculation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Capital Structure</td>
+<td><code>total debt/total assets</code></td>
+</tr>
+<tr>
+<td>Total Liabilities/Total Assets</td>
+<td>as name</td>
+</tr>
+<tr>
+<td>Current Assets/Total Assets</td>
+<td>as name</td>
+</tr>
+<tr>
+<td>Retained Earnings/Equity</td>
+<td><code>retained earning/stockerholders equity</code></td>
+</tr>
+<tr>
+<td>Inventory/Current Assets</td>
+<td>as name</td>
+</tr>
+<tr>
+<td>Cash Equivalents/Current Assets</td>
+<td><code>cash &amp; equivalents &amp; short-term investments/current assets</code></td>
+</tr>
+</tbody>
+</table>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Mathematically it is identical to a ratio, just a different name.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p><strong>NOTE</strong> that this technique has been applied broadly to many
+charts in the tool. You will see this a lot.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div></p>
 
       <p>
         &mdash; by

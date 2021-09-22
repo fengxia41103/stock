@@ -1,5 +1,249 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>My Stocks - Feng Xia</title><link href="https://fengxia41103.github.io/stock/" rel="alternate"></link><link href="https://fengxia41103.github.io/stock/feeds/feng-xia.atom.xml" rel="self"></link><id>https://fengxia41103.github.io/stock/</id><updated>2021-09-22T11:16:00-04:00</updated><entry><title>Stock Trend</title><link href="https://fengxia41103.github.io/stock/stock%20trend.html" rel="alternate"></link><published>2021-09-22T11:16:00-04:00</published><updated>2021-09-22T11:16:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-22:/stock/stock trend.html</id><summary type="html">&lt;p&gt;In the &lt;a href="{filename}/single%20stock%price.md"&gt;stock price analysis&lt;/a&gt;, we have seen the analysis of &lt;strong&gt;gain
+<feed xmlns="http://www.w3.org/2005/Atom"><title>My Stocks - Feng Xia</title><link href="https://fengxia41103.github.io/stock/" rel="alternate"></link><link href="https://fengxia41103.github.io/stock/feeds/feng-xia.atom.xml" rel="self"></link><id>https://fengxia41103.github.io/stock/</id><updated>2021-09-22T13:32:00-04:00</updated><entry><title>Stock Financial Statements</title><link href="https://fengxia41103.github.io/stock/stock%20financial%20statements.html" rel="alternate"></link><published>2021-09-22T13:32:00-04:00</published><updated>2021-09-22T13:32:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-22:/stock/stock financial statements.html</id><summary type="html">&lt;p&gt;Financial statements are called fundamentals. It is outside the scope
+of this doc to explain what these statements are and how to read
+them. As stated in the &lt;a href="https://fengxia41103.github.io/stock/stock app design.html"&gt;design&lt;/a&gt;, the reported values were often
+found less useful without computing a ratio, a percentage, or
+period-to-period comparison. Therefore, this tool takes on the data
+crunching by providing such computation and comparisons.&lt;/p&gt;
+&lt;h2&gt;Four data categories&lt;/h2&gt;
+&lt;p&gt;This is applicable to all three statements. On each page one would
+find data grouped into four categories:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;reported&lt;/strong&gt;: These are straight out-of-report numbers. &lt;strong&gt;NOTE&lt;/strong&gt;
+   that units are often omitted and a unit of &lt;strong&gt;billion&lt;/strong&gt; is
+   implied. For example, &lt;em&gt;shared issued&lt;/em&gt; of &lt;code&gt;17.14&lt;/code&gt; would be 17.14
+   billion shares, whereas &lt;em&gt;working capital&lt;/em&gt; of &lt;code&gt;44.75&lt;/code&gt; would be 44.75
+   billion dollars.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ratio&lt;/strong&gt;: Ratios are common technique in financial statement
+   analysis. We have covered many of them so far, and the list will
+   continue to grow w/ newer releases.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;period-to-period growth rate (%)&lt;/strong&gt;: Using quarterly
+   statement data provided by the Yahoo! API, we picked some data
+   points to compute its growth rate from …&lt;/li&gt;&lt;/ol&gt;</summary><content type="html">&lt;p&gt;Financial statements are called fundamentals. It is outside the scope
+of this doc to explain what these statements are and how to read
+them. As stated in the &lt;a href="https://fengxia41103.github.io/stock/stock app design.html"&gt;design&lt;/a&gt;, the reported values were often
+found less useful without computing a ratio, a percentage, or
+period-to-period comparison. Therefore, this tool takes on the data
+crunching by providing such computation and comparisons.&lt;/p&gt;
+&lt;h2&gt;Four data categories&lt;/h2&gt;
+&lt;p&gt;This is applicable to all three statements. On each page one would
+find data grouped into four categories:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;reported&lt;/strong&gt;: These are straight out-of-report numbers. &lt;strong&gt;NOTE&lt;/strong&gt;
+   that units are often omitted and a unit of &lt;strong&gt;billion&lt;/strong&gt; is
+   implied. For example, &lt;em&gt;shared issued&lt;/em&gt; of &lt;code&gt;17.14&lt;/code&gt; would be 17.14
+   billion shares, whereas &lt;em&gt;working capital&lt;/em&gt; of &lt;code&gt;44.75&lt;/code&gt; would be 44.75
+   billion dollars.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ratio&lt;/strong&gt;: Ratios are common technique in financial statement
+   analysis. We have covered many of them so far, and the list will
+   continue to grow w/ newer releases.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;period-to-period growth rate (%)&lt;/strong&gt;: Using quarterly
+   statement data provided by the Yahoo! API, we picked some data
+   points to compute its growth rate from quarter to quarter. &lt;strong&gt;NOTE&lt;/strong&gt;
+   that all the data points on a statement can be subjected to this
+   calculation. However, we have limited the list on purpose, and will
+   consider to expand this list in the future.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;A-over-B as %&lt;/strong&gt;: This is another common technique to establish a
+   relative position between two values. For example, what percentage
+   is the administrative expanse (&lt;strong&gt;A&lt;/strong&gt;) over sales (&lt;strong&gt;B&lt;/strong&gt;)&lt;sup id="fnref:1"&gt;&lt;a class="footnote-ref" href="#fn:1"&gt;1&lt;/a&gt;&lt;/sup&gt;?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Normalized comparison chart&lt;/h2&gt;
+&lt;p&gt;When we analyze financial statement, the number itself isn't
+interesting. It is their relative position and trend what we are
+really after. Therefore, we applied &lt;strong&gt;normalization&lt;/strong&gt; &amp;mdash; taking
+the first value as the &lt;em&gt;base&lt;/em&gt;, then divide the rest of the data each
+to the base. Thus, an array &lt;code&gt;[2,3,4,5,6,...]&lt;/code&gt; would produce a base of
+&lt;code&gt;2&lt;/code&gt;, and the &lt;em&gt;normalized&lt;/em&gt; array would be &lt;code&gt;[1,1.5,2,2.5,3,...]&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Now w/ normalized data, we could put data points side-by-side to see
+which is rising and which is falling at the same time, and who is
+rising/falling faster&lt;sup id="fnref:2"&gt;&lt;a class="footnote-ref" href="#fn:2"&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock statement normalized chart&lt;/figcaption&gt;
+    &lt;img src="images/stock%20statement%20normalized%20chart.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In this example, both the &lt;em&gt;working capital&lt;/em&gt;(purple) and &lt;em&gt;quick
+ratio&lt;/em&gt;(black) were deteriorating over time while the &lt;em&gt;working
+capital&lt;/em&gt; fared worse as it had a sharper slope.&lt;/p&gt;
+&lt;h2&gt;Balance Sheet&lt;/h2&gt;
+&lt;h3&gt;Reported&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Data&lt;/th&gt;
+&lt;th&gt;Calculation&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Share Issued&lt;/td&gt;
+&lt;td&gt;as is&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Common Stock&lt;/td&gt;
+&lt;td&gt;as is&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Retained Earnings&lt;/td&gt;
+&lt;td&gt;as is&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Cash &amp;amp; Equivalents Per Share&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;(cash &amp;amp; cash equivalent)/(share issued)&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Working Capital&lt;/td&gt;
+&lt;td&gt;as is&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Invested Capital&lt;/td&gt;
+&lt;td&gt;as is&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Tangible Book Value Per Share&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;(tangible book value)/(share issued)&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3&gt;Ratios&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Data&lt;/th&gt;
+&lt;th&gt;Calculation&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Current Ratio&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;current assets/current liabilities&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Quick Ratio&lt;/td&gt;
+&lt;td&gt;see below&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Debt/Equity Ratio&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;total debt/stockholders equity&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Equity Multiplier&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;total assets/stockholders equity&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Working Capital/Current Liabilities&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;working capital/current liabilities&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Price/Cash Premium&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cash and equivalents per share/latest close price&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Quick ratio&lt;/strong&gt;: &lt;code&gt;(cash &amp;amp; equivalents &amp;amp; short-term investments + 50% of
+   account receivable - inventory)/(current liabilities)&lt;/code&gt;. &lt;strong&gt;NOTE&lt;/strong&gt;
+   that we take into account for a &lt;strong&gt;50%&lt;/strong&gt; account receivable
+   loss. We are also assuming a total loss of inventory.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Price/Cash Premium&lt;/strong&gt;: Can the company redeem today's &lt;code&gt;close&lt;/code&gt;
+   price w/ nothing but its cash!? This is a what-if analysis if
+   stock investors were to take higher priority than creditors if the
+   company went belly up today ~~&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Period-to-Period Growth Rates (%)&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Data&lt;/th&gt;
+&lt;th&gt;Calculation&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Shares Issued&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;(this period - last period)/last period&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Equity&lt;/td&gt;
+&lt;td&gt;same&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Debt&lt;/td&gt;
+&lt;td&gt;same&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Account Payable&lt;/td&gt;
+&lt;td&gt;same&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Account Receivable&lt;/td&gt;
+&lt;td&gt;same&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Cashes&lt;/td&gt;
+&lt;td&gt;same&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Working Capital&lt;/td&gt;
+&lt;td&gt;same&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Invested Capital&lt;/td&gt;
+&lt;td&gt;same&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Net PP&amp;amp;E&lt;/td&gt;
+&lt;td&gt;same&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3&gt;A-over-B as %&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Data&lt;/th&gt;
+&lt;th&gt;Calculation&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Capital Structure&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;total debt/total assets&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Total Liabilities/Total Assets&lt;/td&gt;
+&lt;td&gt;as name&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Current Assets/Total Assets&lt;/td&gt;
+&lt;td&gt;as name&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Retained Earnings/Equity&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;retained earning/stockerholders equity&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Inventory/Current Assets&lt;/td&gt;
+&lt;td&gt;as name&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Cash Equivalents/Current Assets&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cash &amp;amp; equivalents &amp;amp; short-term investments/current assets&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class="footnote"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;Mathematically it is identical to a ratio, just a different name.&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt; that this technique has been applied broadly to many
+charts in the tool. You will see this a lot.&amp;#160;&lt;a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content><category term="misc"></category></entry><entry><title>Stock Trend</title><link href="https://fengxia41103.github.io/stock/stock%20trend.html" rel="alternate"></link><published>2021-09-22T11:16:00-04:00</published><updated>2021-09-22T11:16:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-22:/stock/stock trend.html</id><summary type="html">&lt;p&gt;In the &lt;a href="{filename}/single%20stock%price.md"&gt;stock price analysis&lt;/a&gt;, we have seen the analysis of &lt;strong&gt;gain
 probability&lt;/strong&gt; by computing its likelihood of making a gain in the
 selected period. In this trend analysis page, we extend the analysis
 further by looking at each day's price, especially the down days', to
