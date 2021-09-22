@@ -16,7 +16,7 @@ article, #content {
 }
 
 #article-content {
-  counter-reset: figures 1;
+  counter-reset: figures;
 }
 
 h1 {

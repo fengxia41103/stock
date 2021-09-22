@@ -1,5 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>My Stocks</title><link href="https://fengxia41103.github.io/stock/" rel="alternate"></link><link href="https://fengxia41103.github.io/stock/feeds/all.atom.xml" rel="self"></link><id>https://fengxia41103.github.io/stock/</id><updated>2021-09-21T11:00:00-04:00</updated><entry><title>Dev &amp; Deployment</title><link href="https://fengxia41103.github.io/stock/dev%20and%20deployment.html" rel="alternate"></link><published>2021-09-21T11:00:00-04:00</published><updated>2021-09-21T11:00:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-21:/stock/dev and deployment.html</id><summary type="html">&lt;p&gt;Both the backend and the frontend have been dockerized. Thus,
+<feed xmlns="http://www.w3.org/2005/Atom"><title>My Stocks</title><link href="https://fengxia41103.github.io/stock/" rel="alternate"></link><link href="https://fengxia41103.github.io/stock/feeds/all.atom.xml" rel="self"></link><id>https://fengxia41103.github.io/stock/</id><updated>2021-09-21T23:33:00-04:00</updated><entry><title>Stock Returns</title><link href="https://fengxia41103.github.io/stock/single%20stock%20returns.html" rel="alternate"></link><published>2021-09-21T23:33:00-04:00</published><updated>2021-09-21T23:33:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-21:/stock/single stock returns.html</id><summary type="html">&lt;p&gt;There are three types of return: daily, nightly, and 24-hour. Return
+values are in &lt;strong&gt;percentage (%)&lt;/strong&gt;, and negative returns are colored
+in &lt;strong&gt;red&lt;/strong&gt;. Since the analysis done to them are similar, we are to
+address them together here.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;daily return&lt;/strong&gt;: &lt;code&gt;(today's close - today's open)/today's
+   open&lt;/code&gt;. This measures the return during normal market hours.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;nightly return&lt;/strong&gt;: &lt;code&gt;(today's open - yesterday's close)/yesterday's
+   close&lt;/code&gt;. This measures the return during off market hours.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;24-hour return&lt;/strong&gt;: &lt;code&gt;(today's close - yesterday's
+   close)/yesterday's close&lt;/code&gt;. This measures the over effect of a
+   24-hour day, thus including both the market hours and off market
+   hours (for example, many companies choose to make announcement
+   after market close, thus causing price to fluctuate prior to next
+   day's market opening).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock 24-hour return chart&lt;/figcaption&gt;
+    &lt;img src="images/stock%2024%20hour%20return%20bar%20chart.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Now with computed returns, we do some basic counting and statistic
+analysis of the return data.&lt;/p&gt;
+&lt;h3&gt;positive vs. negative occurrence&lt;/h3&gt;
+&lt;p&gt;This answers that out of the return data, how many were positive and
+how many were negative. If a stock were on a rise, we would expect it
+having more positive days than …&lt;/p&gt;</summary><content type="html">&lt;p&gt;There are three types of return: daily, nightly, and 24-hour. Return
+values are in &lt;strong&gt;percentage (%)&lt;/strong&gt;, and negative returns are colored
+in &lt;strong&gt;red&lt;/strong&gt;. Since the analysis done to them are similar, we are to
+address them together here.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;daily return&lt;/strong&gt;: &lt;code&gt;(today's close - today's open)/today's
+   open&lt;/code&gt;. This measures the return during normal market hours.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;nightly return&lt;/strong&gt;: &lt;code&gt;(today's open - yesterday's close)/yesterday's
+   close&lt;/code&gt;. This measures the return during off market hours.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;24-hour return&lt;/strong&gt;: &lt;code&gt;(today's close - yesterday's
+   close)/yesterday's close&lt;/code&gt;. This measures the over effect of a
+   24-hour day, thus including both the market hours and off market
+   hours (for example, many companies choose to make announcement
+   after market close, thus causing price to fluctuate prior to next
+   day's market opening).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock 24-hour return chart&lt;/figcaption&gt;
+    &lt;img src="images/stock%2024%20hour%20return%20bar%20chart.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Now with computed returns, we do some basic counting and statistic
+analysis of the return data.&lt;/p&gt;
+&lt;h3&gt;positive vs. negative occurrence&lt;/h3&gt;
+&lt;p&gt;This answers that out of the return data, how many were positive and
+how many were negative. If a stock were on a rise, we would expect it
+having more positive days than negative ones. However, this takes no
+account for the scale of each positive/negative return.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock 24-hour return positive vs. negative occurances&lt;/figcaption&gt;
+    &lt;img src="images/stock%2024%20hour%20positive%20negative%20chart.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In this example, this stock has had 40% positive days vs. 60% negative
+days. One would thus think it wasn't performing well over this period.&lt;/p&gt;
+&lt;h3&gt;return statistics&lt;/h3&gt;
+&lt;p&gt;These are some common statistic values computed over the return data,
+including average, max, min, median, standard deviation, range of,
+variance, skewness, Kurtosis, average of positive returns, average of
+negative returns, and compounded return (= product of all returns).&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock 24-hour return statistics&lt;/figcaption&gt;
+    &lt;img src="images/stock%2024%20hour%20return%20stats.png"/&gt;
+&lt;/figure&gt;</content><category term="misc"></category></entry><entry><title>Stock Price</title><link href="https://fengxia41103.github.io/stock/single%20stock%20price.html" rel="alternate"></link><published>2021-09-21T19:22:00-04:00</published><updated>2021-09-21T19:22:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-21:/stock/single stock price.html</id><summary type="html">&lt;p&gt;Stock's price and return views are part of the stock's detail
+analysis. In this section we will show in-depth analysis of stock's
+price trending and returns.&lt;/p&gt;
+&lt;h2&gt;Date range&lt;/h2&gt;
+&lt;p&gt;User can set a date range by using the date picker:&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock historical price date picker&lt;/figcaption&gt;
+    &lt;img src="images/stock%20date%20picker.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Default &lt;code&gt;end date&lt;/code&gt; is TODAY, and the default range is set to be
+30 days back from TODAY. Setting an insensible date range, eg. start
+date is greater than the end date, or some distant dates in the
+future, will not produce an error. Instead, the backend will return
+an empty date set, thus rendering this view blank.&lt;/p&gt;
+&lt;h2&gt;Historical daily price&lt;/h2&gt;
+&lt;h3&gt;Price line chart&lt;/h3&gt;
+&lt;p&gt;Price line chart is the quickest way to see how a stock is going. The
+chart includes prices of &lt;code&gt;open&lt;/code&gt;, &lt;code&gt;close&lt;/code&gt;, &lt;code&gt;high&lt;/code&gt; and &lt;code&gt;low&lt;/code&gt;.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock historical price line chart&lt;/figcaption&gt;
+    &lt;img src="images/stock%20price%20chart.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h3&gt;Weekly price chart&lt;/h3&gt;
+&lt;p&gt;The weekly price chart breaks down price over the selected date range
+so to zoom into each week's performance as well as each week's
+&lt;code&gt;end-2-end return = (week's close - week's open)/week's open&lt;/code&gt;. Like
+all other …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Stock's price and return views are part of the stock's detail
+analysis. In this section we will show in-depth analysis of stock's
+price trending and returns.&lt;/p&gt;
+&lt;h2&gt;Date range&lt;/h2&gt;
+&lt;p&gt;User can set a date range by using the date picker:&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock historical price date picker&lt;/figcaption&gt;
+    &lt;img src="images/stock%20date%20picker.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Default &lt;code&gt;end date&lt;/code&gt; is TODAY, and the default range is set to be
+30 days back from TODAY. Setting an insensible date range, eg. start
+date is greater than the end date, or some distant dates in the
+future, will not produce an error. Instead, the backend will return
+an empty date set, thus rendering this view blank.&lt;/p&gt;
+&lt;h2&gt;Historical daily price&lt;/h2&gt;
+&lt;h3&gt;Price line chart&lt;/h3&gt;
+&lt;p&gt;Price line chart is the quickest way to see how a stock is going. The
+chart includes prices of &lt;code&gt;open&lt;/code&gt;, &lt;code&gt;close&lt;/code&gt;, &lt;code&gt;high&lt;/code&gt; and &lt;code&gt;low&lt;/code&gt;.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock historical price line chart&lt;/figcaption&gt;
+    &lt;img src="images/stock%20price%20chart.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h3&gt;Weekly price chart&lt;/h3&gt;
+&lt;p&gt;The weekly price chart breaks down price over the selected date range
+so to zoom into each week's performance as well as each week's
+&lt;code&gt;end-2-end return = (week's close - week's open)/week's open&lt;/code&gt;. Like
+all other charts, clicking legends will toggle a data set on/off.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock historical weekly price chart&lt;/figcaption&gt;
+    &lt;img src="images/stock%20price%20chart%20weekly.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h3&gt;Gain probability&lt;/h3&gt;
+&lt;figure class="col l6 m7 s12"&gt;
+    &lt;figcaption&gt;Stock gain probability&lt;/figcaption&gt;
+    &lt;img src="images/stock%20price%20gain%20probability.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;The gain probability is to address this common question &amp;mdash; &lt;em&gt;if I
+buy stock at this price, how likely I would make a positive return?&lt;/em&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;percentage&lt;/strong&gt;: The percentage measures the total likelyhood you
+  will get a positive return counting day by day. Taking a historical,
+  pretending we can look into the future (thus we have a God's view),
+  counting days when you could make a gain w/ a higher price. The
+  percentage of this count vs. the total days elapse from this date
+  represents a probability. For example, if there are 10 days out of
+  30 days this one could have made a gain on this current price, the
+  probability will be &lt;code&gt;10/30=33%&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;open price&lt;/strong&gt;: This is the minimal &lt;code&gt;open price&lt;/code&gt; you could have
+  purchased to achieve the percentage above. Continuing the example
+  above, if there were 10 days one could have made a positive return,
+  we sort and display the &lt;strong&gt;lowest&lt;/strong&gt; open price, thus assuming you
+  would have paid the least for such a gain probability. A &lt;code&gt;n/a&lt;/code&gt; means
+  no price could have achieved such probability&lt;sup id="fnref:2"&gt;&lt;a class="footnote-ref" href="#fn:2"&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;time window gauge&lt;/strong&gt;: Time window is the days left if you made
+  purchase on a day. For example, buying at $148.56 (the &lt;code&gt;30-20%&lt;/code&gt;
+  probability one) would have less trading days left for you to get
+  out, than buying at $153.87 (the &lt;code&gt;40-30%&lt;/code&gt; probability one). The best
+  pattern would be a high probability and a long trading window
+  to realize such probability.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;the TODAY-is-cheaper flag&lt;/strong&gt;: The flag uses the latest known
+  &lt;code&gt;close&lt;/code&gt; price (as a proxy to the SPOT price) to compare with the
+  suggested &lt;code&gt;open price&lt;/code&gt; above. If the &lt;code&gt;close&lt;/code&gt; is less than the
+  &lt;code&gt;open&lt;/code&gt;, it puts a flag indicating the current price is more
+  attractive than the &lt;code&gt;open&lt;/code&gt; we saw before&lt;sup id="fnref:3"&gt;&lt;a class="footnote-ref" href="#fn:3"&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;It may now seem pointless why one would care such probability at all
+if it tells no future. However, these probabilities give you a
+reference point against current price so you get a sense of how it had
+(or could have) behaved.&lt;/p&gt;
+&lt;div class="footnote"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;&lt;strong&gt;WARNING&lt;/strong&gt;: We choose &lt;code&gt;open&lt;/code&gt; pretending you are buying it on the
+beginning of day. Of course, the actual purchase price would be
+different. So this price value is more of a sense how well it will
+fare instead of being a precise point to act upon.&amp;#160;&lt;a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:3"&gt;
+&lt;p&gt;&lt;strong&gt;WARNING&lt;/strong&gt;: This is not a guaranteed winner because the stock price may be
+on a sliding trend, thus a lower price now doesn't warrant you
+would be able to realize the gain even. For example, if the
+&lt;code&gt;close&lt;/code&gt; price is today's, the probability is only testifying that
+such price could have made gains in the past, but has no
+predicting power whatsoever.&amp;#160;&lt;a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 2 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content><category term="misc"></category></entry><entry><title>Dev &amp; Deployment</title><link href="https://fengxia41103.github.io/stock/dev%20and%20deployment.html" rel="alternate"></link><published>2021-09-21T11:00:00-04:00</published><updated>2021-09-21T11:00:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-21:/stock/dev and deployment.html</id><summary type="html">&lt;p&gt;Both the backend and the frontend have been dockerized. Thus,
 regardless your platform, install Docker &amp;amp; &lt;code&gt;docker-compose&lt;/code&gt; first.&lt;/p&gt;
 &lt;h2&gt;For user&lt;/h2&gt;
 &lt;ol&gt;
@@ -124,7 +320,7 @@ details.&lt;/p&gt;
   &lt;span class="l l-Scalar l-Scalar-Plain"&gt;ports&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
     &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;8084:80&amp;quot;&lt;/span&gt;  &lt;span class="c1"&gt;# &amp;lt;========= change this line!&lt;/span&gt;
   &lt;span class="l l-Scalar l-Scalar-Plain"&gt;....&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="misc"></category></entry><entry><title>Stock App Design</title><link href="https://fengxia41103.github.io/stock/stock%20app%20design.html" rel="alternate"></link><published>2021-09-09T17:38:00-04:00</published><updated>2021-09-09T17:38:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-09:/stock/stock app design.html</id><summary type="html">&lt;figure class="col s12"&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="misc"></category></entry><entry><title>Stock App Design</title><link href="https://fengxia41103.github.io/stock/stock%20app%20design.html" rel="alternate"></link><published>2021-09-09T17:38:00-04:00</published><updated>2021-09-21T17:00:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-09:/stock/stock app design.html</id><summary type="html">&lt;figure class="col s12"&gt;
   &lt;img src="images/stock-detail.png"/&gt;
 &lt;/figure&gt;
 

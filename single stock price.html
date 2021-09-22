@@ -95,104 +95,113 @@
       <i class="fa fa-folder-open-o"></i>
       misc
     </a>
-       <h1 class="myhighlight">Dev & Deployment</h1>
+       <h1 class="myhighlight">Stock Price</h1>
   </div>
 
   <ol id="toc" class="row"></ol>
 
   <div>
     <div id="article-content" class="row">
-      <p><p>Both the backend and the frontend have been dockerized. Thus,
-regardless your platform, install Docker &amp; <code>docker-compose</code> first.</p>
-<h2>For user</h2>
-<ol>
-<li>Clone the <a href="https://github.com/fengxia41103/stock">repo</a>.</li>
-<li>Go to the project root folder, <code>docker-compose up --build -d</code>.</li>
-<li>Create a backend admin user: <code>docker-compose run web python
-   manage.py createsuperuser</code>, and follow the instructions. Email is
-   optional.</li>
-<li>Go to browser <code>http://localhost:8084</code>, and use the user account to
-   login.</li>
-</ol>
-<p>Now you should be ready to use the application by adding stocks and
-sectors.</p>
-<h2>For developers</h2>
-<h3>Modify code</h3>
-<p>Using the docker way is preferred. Code will be mounted into the
-docker as <code>volume</code> (see <code>docker-compose.yaml</code> for details). Thus
-changes done on your local editor will be reflected in the running
-docker as <code>live</code>.</p>
-<h3>Debugging</h3>
-<p>It may sound 1980. But the most effective way is to use
-<code>docker-compose logs -f &lt;service name&gt;</code> to see stack trace and/or
-error messages.</p>
-<h3>Testing</h3>
-<p>Looking for <strong>volunteers</strong>!!</p>
-<h2>For network admins</h2>
-<h3>networks</h3>
-<p>Network of the setup is fairly simple. We distinguish <code>data</code> vs. <code>management</code>:</p>
-<figure class="col s12 center">
-  <img src="images/backend%20network.png"/>
-  <figcaption>Stock app networks</figcaption>
+      <p><p>Stock's price and return views are part of the stock's detail
+analysis. In this section we will show in-depth analysis of stock's
+price trending and returns.</p>
+<h2>Date range</h2>
+<p>User can set a date range by using the date picker:</p>
+<figure class="col s12">
+    <figcaption>Stock historical price date picker</figcaption>
+    <img src="images/stock%20date%20picker.png"/>
 </figure>
 
-<h3>ports</h3>
-<p>I try to limit exposure of ports on docker host so this application
-can be easily co-hosted with others without causing port conflicts.
-In essence, <code>8084</code> is the frontend UI port, and <code>8003</code> is the backend
-API port. All others are docker-to-docker only.</p>
-<table>
-<thead>
-<tr>
-<th>Component</th>
-<th>Docker Port</th>
-<th>Service</th>
-<th>Host Map</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Frontend</td>
-<td>80</td>
-<td>Main frontend app w/ Nginx built-in</td>
-<td>8084</td>
-</tr>
-<tr>
-<td>Backend</td>
-<td>80</td>
-<td>Nginx proxy</td>
-<td>8003</td>
-</tr>
-<tr>
-<td>Backend</td>
-<td>3306</td>
-<td>MySql DB</td>
-<td>none</td>
-</tr>
-<tr>
-<td>Backend</td>
-<td>8001</td>
-<td>Django app</td>
-<td>none</td>
-</tr>
-<tr>
-<td>Backend</td>
-<td>6379</td>
-<td>Redis</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p>Port mapping can be changed in <code>docker-compose.yml</code>. For example, if
-to change the frontend proxy from <code>8084</code> to <code>9999</code>, change the line
-<code>ports</code> from <code>8084:80</code> to <code>9999:80</code>. See <a href="https://docs.docker.com/compose/compose-file/compose-file-v3/#ports"><code>docker-compose</code> doc</a> for
-details.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">frontend</span><span class="p">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">....</span>
-  <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
-    <span class="p p-Indicator">-</span> <span class="s">&quot;8084:80&quot;</span>  <span class="c1"># &lt;========= change this line!</span>
-  <span class="l l-Scalar l-Scalar-Plain">....</span>
-</code></pre></div></p>
+<p>Default <code>end date</code> is TODAY, and the default range is set to be
+30 days back from TODAY. Setting an insensible date range, eg. start
+date is greater than the end date, or some distant dates in the
+future, will not produce an error. Instead, the backend will return
+an empty date set, thus rendering this view blank.</p>
+<h2>Historical daily price</h2>
+<h3>Price line chart</h3>
+<p>Price line chart is the quickest way to see how a stock is going. The
+chart includes prices of <code>open</code>, <code>close</code>, <code>high</code> and <code>low</code>.</p>
+<figure class="col s12">
+    <figcaption>Stock historical price line chart</figcaption>
+    <img src="images/stock%20price%20chart.png"/>
+</figure>
+
+<h3>Weekly price chart</h3>
+<p>The weekly price chart breaks down price over the selected date range
+so to zoom into each week's performance as well as each week's
+<code>end-2-end return = (week's close - week's open)/week's open</code>. Like
+all other charts, clicking legends will toggle a data set on/off.</p>
+<figure class="col s12">
+    <figcaption>Stock historical weekly price chart</figcaption>
+    <img src="images/stock%20price%20chart%20weekly.png"/>
+</figure>
+
+<h3>Gain probability</h3>
+<figure class="col l6 m7 s12">
+    <figcaption>Stock gain probability</figcaption>
+    <img src="images/stock%20price%20gain%20probability.png"/>
+</figure>
+
+<p>The gain probability is to address this common question &mdash; <em>if I
+buy stock at this price, how likely I would make a positive return?</em></p>
+<ol>
+<li>
+<p><strong>percentage</strong>: The percentage measures the total likelyhood you
+  will get a positive return counting day by day. Taking a historical,
+  pretending we can look into the future (thus we have a God's view),
+  counting days when you could make a gain w/ a higher price. The
+  percentage of this count vs. the total days elapse from this date
+  represents a probability. For example, if there are 10 days out of
+  30 days this one could have made a gain on this current price, the
+  probability will be <code>10/30=33%</code>.</p>
+</li>
+<li>
+<p><strong>open price</strong>: This is the minimal <code>open price</code> you could have
+  purchased to achieve the percentage above. Continuing the example
+  above, if there were 10 days one could have made a positive return,
+  we sort and display the <strong>lowest</strong> open price, thus assuming you
+  would have paid the least for such a gain probability. A <code>n/a</code> means
+  no price could have achieved such probability<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">1</a></sup>.</p>
+</li>
+<li>
+<p><strong>time window gauge</strong>: Time window is the days left if you made
+  purchase on a day. For example, buying at $148.56 (the <code>30-20%</code>
+  probability one) would have less trading days left for you to get
+  out, than buying at $153.87 (the <code>40-30%</code> probability one). The best
+  pattern would be a high probability and a long trading window
+  to realize such probability.</p>
+</li>
+<li>
+<p><strong>the TODAY-is-cheaper flag</strong>: The flag uses the latest known
+  <code>close</code> price (as a proxy to the SPOT price) to compare with the
+  suggested <code>open price</code> above. If the <code>close</code> is less than the
+  <code>open</code>, it puts a flag indicating the current price is more
+  attractive than the <code>open</code> we saw before<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">2</a></sup>.</p>
+</li>
+</ol>
+<p>It may now seem pointless why one would care such probability at all
+if it tells no future. However, these probabilities give you a
+reference point against current price so you get a sense of how it had
+(or could have) behaved.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:2">
+<p><strong>WARNING</strong>: We choose <code>open</code> pretending you are buying it on the
+beginning of day. Of course, the actual purchase price would be
+different. So this price value is more of a sense how well it will
+fare instead of being a precise point to act upon.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p><strong>WARNING</strong>: This is not a guaranteed winner because the stock price may be
+on a sliding trend, thus a lower price now doesn't warrant you
+would be able to realize the gain even. For example, if the
+<code>close</code> price is today's, the probability is only testifying that
+such price could have made gains in the past, but has no
+predicting power whatsoever.&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div></p>
 
       <p>
         &mdash; by

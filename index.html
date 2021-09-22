@@ -75,13 +75,12 @@
             >
           </li>
           <li>
-            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System design</a>
+            <a href="https://fengxia41103.github.io/stock/single%20stock%20price.html">Stock Price</a>
           </li>
           <li>
-            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System design</a>
-          </li>
-          <li>
-            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System design</a>
+            <a href="https://fengxia41103.github.io/stock/single%20stock%20returns.html"
+              >Stock Returns</a
+            >
           </li>
         </ul>
       </div>
@@ -105,48 +104,39 @@
   <i class="fa fa-calendar" style="opacity: 0.5"></i>
   <em>
     2021-09-21   </em>
-  <h1>Dev & Deployment</h1>
+  <h1>Stock Returns</h1>
 </div>
 
-<p><p>Both the backend and the frontend have been dockerized. Thus,
-regardless your platform, install Docker &amp; <code>docker-compose</code> first.</p>
-<h2>For user</h2>
+<p><p>There are three types of return: daily, nightly, and 24-hour. Return
+values are in <strong>percentage (%)</strong>, and negative returns are colored
+in <strong>red</strong>. Since the analysis done to them are similar, we are to
+address them together here.</p>
 <ol>
-<li>Clone the <a href="https://github.com/fengxia41103/stock">repo</a>.</li>
-<li>Go to the project root folder, <code>docker-compose up --build -d</code>.</li>
-<li>Create a backend admin user: <code>docker-compose run web python
-   manage.py createsuperuser</code>, and follow the instructions. Email is
-   optional.</li>
-<li>Go to browser <code>http://localhost:8084</code>, and use the user account to
-   login.</li>
+<li><strong>daily return</strong>: <code>(today's close - today's open)/today's
+   open</code>. This measures the return during normal market hours.</li>
+<li><strong>nightly return</strong>: <code>(today's open - yesterday's close)/yesterday's
+   close</code>. This measures the return during off market hours.</li>
+<li><strong>24-hour return</strong>: <code>(today's close - yesterday's
+   close)/yesterday's close</code>. This measures the over effect of a
+   24-hour day, thus including both the market hours and off market
+   hours (for example, many companies choose to make announcement
+   after market close, thus causing price to fluctuate prior to next
+   day's market opening).</li>
 </ol>
-<p>Now you should be ready to use the application by adding stocks and
-sectors.</p>
-<h2>For developers</h2>
-<h3>Modify code</h3>
-<p>Using the docker way is preferred. Code will be mounted into the
-docker as <code>volume</code> (see <code>docker-compose.yaml</code> for details). Thus
-changes done on your local editor will be reflected in the running
-docker as <code>live</code>.</p>
-<h3>Debugging</h3>
-<p>It may sound 1980. But the most effective way is to use
-<code>docker-compose logs -f &lt;service name&gt;</code> to see stack trace and/or
-error messages.</p>
-<h3>Testing</h3>
-<p>Looking for <strong>volunteers</strong>!!</p>
-<h2>For network admins</h2>
-<h3>networks</h3>
-<p>Network of the setup is fairly simple. We distinguish <code>data</code> vs. <code>management</code>:</p>
-<figure class="col s12 center">
-  <img src="images/backend%20network.png"/>
-  <figcaption>Stock app networks</figcaption>
+<figure class="col s12">
+    <figcaption>Stock 24-hour return chart</figcaption>
+    <img src="images/stock%2024%20hour%20return%20bar%20chart.png"/>
 </figure>
 
-<h3>ports</h3>
-<p>I try to limit exposure of ports …</p></p>
+<p>Now with computed returns, we do some basic counting and statistic
+analysis of the return data.</p>
+<h3>positive vs. negative occurrence</h3>
+<p>This answers that out of the return data, how many were positive and
+how many were negative. If a stock were on a rise, we would expect it
+having more positive days than …</p></p>
 
 <p style="margin-top: 3em">
-  <a class="btn btn-default button" href="dev and deployment.html">
+  <a class="btn btn-default button" href="single stock returns.html">
     <i class="fa fa-coffee" style="opacity: 0.5"></i>
     continue reading
   </a>

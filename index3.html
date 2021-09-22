@@ -87,22 +87,32 @@
 
       <div class="split-right-pane">
         <div id="content" class="container">
+ 
+<div class="row">
+  <ul class="pagination">
+     <li class="wave-effect">
+      <a href="https://fengxia41103.github.io/stock/index2.html">
+        <i class="fa fa-angle-left"></i>
+      </a>
+    </li>
+     <li class="wave-effect">
+      <a
+        href="https://fengxia41103.github.io/stock/index4.html"
+      >
+        <i class="fa fa-angle-right"></i>
+      </a>
+    </li>
+  </ul>
+</div>
 
-<article>
-   <div>
-    <i class="fa fa-calendar" style="opacity: 0.5">&nbsp;</i>
-    2021-09-21         <a class="wave-effect" href="misc.html">
-      <i class="fa fa-folder-open-o"></i>
-      misc
-    </a>
-       <h1 class="myhighlight">Dev & Deployment</h1>
-  </div>
+<div>
+  <i class="fa fa-calendar" style="opacity: 0.5"></i>
+  <em>
+    2021-09-21   </em>
+  <h1>Dev & Deployment</h1>
+</div>
 
-  <ol id="toc" class="row"></ol>
-
-  <div>
-    <div id="article-content" class="row">
-      <p><p>Both the backend and the frontend have been dockerized. Thus,
+<p><p>Both the backend and the frontend have been dockerized. Thus,
 regardless your platform, install Docker &amp; <code>docker-compose</code> first.</p>
 <h2>For user</h2>
 <ol>
@@ -137,73 +147,15 @@ error messages.</p>
 </figure>
 
 <h3>ports</h3>
-<p>I try to limit exposure of ports on docker host so this application
-can be easily co-hosted with others without causing port conflicts.
-In essence, <code>8084</code> is the frontend UI port, and <code>8003</code> is the backend
-API port. All others are docker-to-docker only.</p>
-<table>
-<thead>
-<tr>
-<th>Component</th>
-<th>Docker Port</th>
-<th>Service</th>
-<th>Host Map</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Frontend</td>
-<td>80</td>
-<td>Main frontend app w/ Nginx built-in</td>
-<td>8084</td>
-</tr>
-<tr>
-<td>Backend</td>
-<td>80</td>
-<td>Nginx proxy</td>
-<td>8003</td>
-</tr>
-<tr>
-<td>Backend</td>
-<td>3306</td>
-<td>MySql DB</td>
-<td>none</td>
-</tr>
-<tr>
-<td>Backend</td>
-<td>8001</td>
-<td>Django app</td>
-<td>none</td>
-</tr>
-<tr>
-<td>Backend</td>
-<td>6379</td>
-<td>Redis</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p>Port mapping can be changed in <code>docker-compose.yml</code>. For example, if
-to change the frontend proxy from <code>8084</code> to <code>9999</code>, change the line
-<code>ports</code> from <code>8084:80</code> to <code>9999:80</code>. See <a href="https://docs.docker.com/compose/compose-file/compose-file-v3/#ports"><code>docker-compose</code> doc</a> for
-details.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">frontend</span><span class="p">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">....</span>
-  <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
-    <span class="p p-Indicator">-</span> <span class="s">&quot;8084:80&quot;</span>  <span class="c1"># &lt;========= change this line!</span>
-  <span class="l l-Scalar l-Scalar-Plain">....</span>
-</code></pre></div></p>
+<p>I try to limit exposure of ports …</p></p>
 
-      <p>
-        &mdash; by
-        <a href="feng-xia.html">Feng Xia</a>
-      </p>
-    </div>
-  </div>
-
-</article>
-
-              <div id="related"> </div>
+<p style="margin-top: 3em">
+  <a class="btn btn-default button" href="dev and deployment.html">
+    <i class="fa fa-coffee" style="opacity: 0.5"></i>
+    continue reading
+  </a>
+</p>
+               <div id="related"> </div>
         </div>
       </div>
     </div>

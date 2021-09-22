@@ -95,104 +95,57 @@
       <i class="fa fa-folder-open-o"></i>
       misc
     </a>
-       <h1 class="myhighlight">Dev & Deployment</h1>
+       <h1 class="myhighlight">Stock Returns</h1>
   </div>
 
   <ol id="toc" class="row"></ol>
 
   <div>
     <div id="article-content" class="row">
-      <p><p>Both the backend and the frontend have been dockerized. Thus,
-regardless your platform, install Docker &amp; <code>docker-compose</code> first.</p>
-<h2>For user</h2>
+      <p><p>There are three types of return: daily, nightly, and 24-hour. Return
+values are in <strong>percentage (%)</strong>, and negative returns are colored
+in <strong>red</strong>. Since the analysis done to them are similar, we are to
+address them together here.</p>
 <ol>
-<li>Clone the <a href="https://github.com/fengxia41103/stock">repo</a>.</li>
-<li>Go to the project root folder, <code>docker-compose up --build -d</code>.</li>
-<li>Create a backend admin user: <code>docker-compose run web python
-   manage.py createsuperuser</code>, and follow the instructions. Email is
-   optional.</li>
-<li>Go to browser <code>http://localhost:8084</code>, and use the user account to
-   login.</li>
+<li><strong>daily return</strong>: <code>(today's close - today's open)/today's
+   open</code>. This measures the return during normal market hours.</li>
+<li><strong>nightly return</strong>: <code>(today's open - yesterday's close)/yesterday's
+   close</code>. This measures the return during off market hours.</li>
+<li><strong>24-hour return</strong>: <code>(today's close - yesterday's
+   close)/yesterday's close</code>. This measures the over effect of a
+   24-hour day, thus including both the market hours and off market
+   hours (for example, many companies choose to make announcement
+   after market close, thus causing price to fluctuate prior to next
+   day's market opening).</li>
 </ol>
-<p>Now you should be ready to use the application by adding stocks and
-sectors.</p>
-<h2>For developers</h2>
-<h3>Modify code</h3>
-<p>Using the docker way is preferred. Code will be mounted into the
-docker as <code>volume</code> (see <code>docker-compose.yaml</code> for details). Thus
-changes done on your local editor will be reflected in the running
-docker as <code>live</code>.</p>
-<h3>Debugging</h3>
-<p>It may sound 1980. But the most effective way is to use
-<code>docker-compose logs -f &lt;service name&gt;</code> to see stack trace and/or
-error messages.</p>
-<h3>Testing</h3>
-<p>Looking for <strong>volunteers</strong>!!</p>
-<h2>For network admins</h2>
-<h3>networks</h3>
-<p>Network of the setup is fairly simple. We distinguish <code>data</code> vs. <code>management</code>:</p>
-<figure class="col s12 center">
-  <img src="images/backend%20network.png"/>
-  <figcaption>Stock app networks</figcaption>
+<figure class="col s12">
+    <figcaption>Stock 24-hour return chart</figcaption>
+    <img src="images/stock%2024%20hour%20return%20bar%20chart.png"/>
 </figure>
 
-<h3>ports</h3>
-<p>I try to limit exposure of ports on docker host so this application
-can be easily co-hosted with others without causing port conflicts.
-In essence, <code>8084</code> is the frontend UI port, and <code>8003</code> is the backend
-API port. All others are docker-to-docker only.</p>
-<table>
-<thead>
-<tr>
-<th>Component</th>
-<th>Docker Port</th>
-<th>Service</th>
-<th>Host Map</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Frontend</td>
-<td>80</td>
-<td>Main frontend app w/ Nginx built-in</td>
-<td>8084</td>
-</tr>
-<tr>
-<td>Backend</td>
-<td>80</td>
-<td>Nginx proxy</td>
-<td>8003</td>
-</tr>
-<tr>
-<td>Backend</td>
-<td>3306</td>
-<td>MySql DB</td>
-<td>none</td>
-</tr>
-<tr>
-<td>Backend</td>
-<td>8001</td>
-<td>Django app</td>
-<td>none</td>
-</tr>
-<tr>
-<td>Backend</td>
-<td>6379</td>
-<td>Redis</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p>Port mapping can be changed in <code>docker-compose.yml</code>. For example, if
-to change the frontend proxy from <code>8084</code> to <code>9999</code>, change the line
-<code>ports</code> from <code>8084:80</code> to <code>9999:80</code>. See <a href="https://docs.docker.com/compose/compose-file/compose-file-v3/#ports"><code>docker-compose</code> doc</a> for
-details.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">frontend</span><span class="p">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">....</span>
-  <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
-    <span class="p p-Indicator">-</span> <span class="s">&quot;8084:80&quot;</span>  <span class="c1"># &lt;========= change this line!</span>
-  <span class="l l-Scalar l-Scalar-Plain">....</span>
-</code></pre></div></p>
+<p>Now with computed returns, we do some basic counting and statistic
+analysis of the return data.</p>
+<h3>positive vs. negative occurrence</h3>
+<p>This answers that out of the return data, how many were positive and
+how many were negative. If a stock were on a rise, we would expect it
+having more positive days than negative ones. However, this takes no
+account for the scale of each positive/negative return.</p>
+<figure class="col s12">
+    <figcaption>Stock 24-hour return positive vs. negative occurances</figcaption>
+    <img src="images/stock%2024%20hour%20positive%20negative%20chart.png"/>
+</figure>
+
+<p>In this example, this stock has had 40% positive days vs. 60% negative
+days. One would thus think it wasn't performing well over this period.</p>
+<h3>return statistics</h3>
+<p>These are some common statistic values computed over the return data,
+including average, max, min, median, standard deviation, range of,
+variance, skewness, Kurtosis, average of positive returns, average of
+negative returns, and compounded return (= product of all returns).</p>
+<figure class="col s12">
+    <figcaption>Stock 24-hour return statistics</figcaption>
+    <img src="images/stock%2024%20hour%20return%20stats.png"/>
+</figure></p>
 
       <p>
         &mdash; by
