@@ -46,15 +46,18 @@ all other charts, clicking legends will toggle a data set on/off.
     <img src="images/stock%20price%20chart%20weekly.png"/>
 </figure>
 
-### Gain probability
+### Gain probability ranges
 
 <figure class="col l6 m7 s12">
     <figcaption>Stock gain probability</figcaption>
     <img src="images/stock%20price%20gain%20probability.png"/>
 </figure>
 
-The gain probability is to address this common question &mdash; _if I
-buy stock at this price, how likely I would make a positive return?_
+The gain probability range is to address this common question &mdash;
+_if I buy stock at this price, how likely I would make a positive
+return?_ To answer this, we create 10 ranges over 0-100%. Then we
+would use each day's price to estimate which range its probability
+will fall into.
 
 
 1. **percentage**: The percentage measures the total likelyhood you
