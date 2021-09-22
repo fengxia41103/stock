@@ -92,20 +92,22 @@
             >
           </li>
           <li>
-            <a href="{{SITEURL}}/single%20stock%20price.html">Stock Price</a>
+            <a href="{{SITEURL}}/stock%20price.html">Stock Price</a>
           </li>
           <li>
-            <a href="{{SITEURL}}/single%20stock%20returns.html"
-              >Stock Returns</a
-            >
+            <a href="{{SITEURL}}/stock%20returns.html">Stock Returns</a>
+          </li>
+          <li>
+            <a href="{{SITEURL}}/stock%20trend.html">Stock Trends</a>
           </li>
         </ul>
+
         {% endblock %}
       </div>
 
       <div class="split-right-pane">
         {# main content #}
-        <div id="content" class="container">
+        <div id="content" class="container row">
           {% block content %} {% endblock %} {# pagination #} {% block
           pagination %} {% endblock %} {# block of related contents #}
           <div id="related">{% block related %} {% endblock %}</div>

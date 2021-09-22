@@ -1,6 +1,6 @@
 Title: Stock Price
 Date: 2021-09-21 19:22
-Slug: single stock price
+Slug: stock price
 Author: Feng Xia
 
 Stock's price and return views are part of the stock's detail

@@ -1,6 +1,6 @@
 Title: Stock Returns
 Date: 2021-09-21 23:33
-Slug: single stock returns
+Slug: stock returns
 Author: Feng Xia
 
 
@@ -28,7 +28,7 @@ address them together here.
 Now with computed returns, we do some basic counting and statistic
 analysis of the return data.
 
-### positive vs. negative occurrence
+## positive vs. negative occurrence
 
 This answers that out of the return data, how many were positive and
 how many were negative. If a stock were on a rise, we would expect it
@@ -43,7 +43,7 @@ account for the scale of each positive/negative return.
 In this example, this stock has had 40% positive days vs. 60% negative
 days. One would thus think it wasn't performing well over this period.
 
-### return statistics
+## return statistics
 
 These are some common statistic values computed over the return data,
 including average, max, min, median, standard deviation, range of,
