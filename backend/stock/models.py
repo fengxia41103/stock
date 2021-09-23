@@ -601,7 +601,11 @@ class StatementBase(models.Model):
         )
 
         if tmp:
-            return tmp[0].close_price
+            if tmp[0].adj_close:
+                # prefer adj close price
+                return tmp[0].adj_close
+            else:
+                return tmp[0].close_price
         else:
             # When I have an updated report today, but no historical
             # yet, eg. reported tonight after market close, and I
