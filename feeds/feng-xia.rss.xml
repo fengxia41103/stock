@@ -1,5 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>My Stocks - Feng Xia</title><link>https://fengxia41103.github.io/stock/</link><description></description><lastBuildDate>Wed, 22 Sep 2021 20:13:00 -0400</lastBuildDate><item><title>Stock Valuation Models</title><link>https://fengxia41103.github.io/stock/stock%20valuation%20models.html</link><description>&lt;p&gt;We offer analysis of four valuation methods: DuPont ROE model,
+<rss version="2.0"><channel><title>My Stocks - Feng Xia</title><link>https://fengxia41103.github.io/stock/</link><description></description><lastBuildDate>Thu, 23 Sep 2021 08:08:00 -0400</lastBuildDate><item><title>Technical Indicators</title><link>https://fengxia41103.github.io/stock/technical%20indicators.html</link><description>&lt;p&gt;Technical analysis is mainly based on &lt;a href="https://github.com/rrag/react-stockcharts"&gt;react-stockcharts&lt;/a&gt;. We
+currently support the following indicators: Bollinger Band, Elder Ray,
+SAR, Full Stochastics Oscillator, Heikin-Ashi, MACD, and Relative
+Strength (RSI). More indicator visuals will be added in future.&lt;/p&gt;
+&lt;h2&gt;Date range&lt;/h2&gt;
+&lt;p&gt;User can set a date range by using the date picker. Default end date
+is TODAY, and start date is 1-month from TODAY. Depending on the
+indicator, this default date range may not provide enough data points
+for the analysis, thus the first appearance of the chart may look
+incomplete. In this case, user should adjust the range to provide more
+data points. Graph will refresh automatically when date range is
+changed.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt; that switching between indicators will &lt;strong&gt;reset&lt;/strong&gt; the date
+range.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock technical indicator date picker&lt;/figcaption&gt;
+    &lt;img src="images/stock%20date%20picker.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Bollinger Band&lt;/h2&gt;
+&lt;p&gt;See &lt;a href="https://en.wikipedia.org/wiki/Bollinger_Bands"&gt;wiki&lt;/a&gt;.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+  &lt;figcaption&gt;Example of Bollinger Band&lt;/figcaption&gt;
+  &lt;img src="images/bollinger%20band.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Elder Ray&lt;/h2&gt;
+&lt;p&gt;See &lt;a href="https://www.investopedia.com/terms/e/elderray.asp"&gt;intro&lt;/a&gt;.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+  &lt;figcaption&gt;Example of Elder Ray&lt;/figcaption&gt;
+  &lt;img src="images/elder%20ray.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;SAR&lt;/h2&gt;
+&lt;p&gt;See &lt;a href="https://en.wikipedia.org/wiki/Parabolic_SAR"&gt;wiki&lt;/a&gt;.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+  &lt;figcaption&gt;Example of SAR&lt;/figcaption&gt;
+  &lt;img src="images/SAR.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Full Stochastics Oscillator&lt;/h2&gt;
+&lt;p&gt;See &lt;a href="https://en.wikipedia.org/wiki/Stochastic_oscillator"&gt;wiki&lt;/a&gt;.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+  &lt;figcaption&gt;Example of Full Stochastics oscillator&lt;/figcaption&gt;
+  &lt;img src="images/full%20stochastics.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Heikin-Ashi&lt;/h2&gt;
+&lt;p&gt;Read &lt;a href="https://www.investopedia.com/trading/heikin-ashi-better-candlestick/"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+  &lt;figcaption&gt;Example of Heikin Ashi&lt;/figcaption&gt;
+  &lt;img src="images/heikin%20ashi.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;MACD&lt;/h2&gt;
+&lt;p&gt;See &lt;a href="https://en.wikipedia.org/wiki/MACD"&gt;wiki&lt;/a&gt;.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+  &lt;figcaption&gt;Example of MACD&lt;/figcaption&gt;
+  &lt;img src="images/MACD.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Relative Strength (RSI)&lt;/h2&gt;
+&lt;p&gt;See &lt;a href="https://www.investopedia.com/terms/r/rsi.asp"&gt;intro&lt;/a&gt;.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+  &lt;figcaption&gt;Example …&lt;/figcaption&gt;&lt;/figure&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Thu, 23 Sep 2021 08:08:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-23:/stock/technical indicators.html</guid><category>misc</category></item><item><title>Stock Valuation Models</title><link>https://fengxia41103.github.io/stock/stock%20valuation%20models.html</link><description>&lt;p&gt;We offer analysis of four valuation methods: DuPont ROE model,
 discounted cash flow model, valuation ratios such as P/E, P/B, and net
 asset value.&lt;/p&gt;
 &lt;h2&gt;DuPont ROE&lt;/h2&gt;
@@ -86,7 +150,8 @@ having more positive days than …&lt;/p&gt;</description><dc:creator xmlns:dc="
 analysis. In this section we will show in-depth analysis of stock's
 price trending and returns.&lt;/p&gt;
 &lt;h2&gt;Date range&lt;/h2&gt;
-&lt;p&gt;User can set a date range by using the date picker:&lt;/p&gt;
+&lt;p&gt;User can set a date range by using the date picker. Default end date
+is TODAY, and start date is 1-month from TODAY.&lt;/p&gt;
 &lt;figure class="col s12"&gt;
     &lt;figcaption&gt;Stock historical price date picker&lt;/figcaption&gt;
     &lt;img src="images/stock%20date%20picker.png"/&gt;
@@ -108,9 +173,7 @@ chart includes prices of &lt;code&gt;open&lt;/code&gt;, &lt;code&gt;close&lt;/co
 
 &lt;h3&gt;Weekly price chart&lt;/h3&gt;
 &lt;p&gt;The weekly price chart breaks down price over the selected date range
-so to zoom into each week's performance as well as each week's
-&lt;code&gt;end-2-end return = (week's close - week's open)/week's open&lt;/code&gt;. Like
-all other …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Tue, 21 Sep 2021 19:22:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-21:/stock/stock price.html</guid><category>misc</category></item><item><title>Dev &amp; Deployment</title><link>https://fengxia41103.github.io/stock/dev%20and%20deployment.html</link><description>&lt;p&gt;Both the backend and the frontend have been dockerized. Thus,
+so to zoom into each week's performance as well as each …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Tue, 21 Sep 2021 19:22:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-21:/stock/stock price.html</guid><category>misc</category></item><item><title>Dev &amp; Deployment</title><link>https://fengxia41103.github.io/stock/dev%20and%20deployment.html</link><description>&lt;p&gt;Both the backend and the frontend have been dockerized. Thus,
 regardless your platform, install Docker &amp;amp; &lt;code&gt;docker-compose&lt;/code&gt; first.&lt;/p&gt;
 &lt;h2&gt;For user&lt;/h2&gt;
 &lt;ol&gt;
