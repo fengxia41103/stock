@@ -109,67 +109,133 @@
         <div id="content" class="container row">
 
 <article>
- <h2>Feng Xia</h2>
- <div class="row">
-  <div class="col s12">
-    <div class="label label-default">
-      <i class="fa fa-calendar" style="opacity: 0.5">&nbsp;</i>
-      2021-09-22     </div>
-  </div>
-  <div class="col s12">
-    <h4>Stock Financial Statements</h4>
-
-    <p><p>Financial statements are called fundamentals. It is outside the scope
-of this doc to explain what these statements are and how to read
-them. As stated in the <a href="https://fengxia41103.github.io/stock/stock app design.html">design</a>, the reported values were often
-found less useful without computing a ratio, a percentage, or
-period-to-period comparison. Therefore, this tool takes on the data
-crunching by providing such computation and comparisons.</p>
-<h2>Four data categories</h2>
-<p>This is applicable to all three statements. On each page one would
-find data grouped into four categories:</p>
-<ol>
-<li><strong>reported</strong>: These are straight out-of-report numbers. <strong>NOTE</strong>
-   that units are often omitted and a unit of <strong>billion</strong> is
-   implied. For example, <em>shared issued</em> of <code>17.14</code> would be 17.14
-   billion shares, whereas <em>working capital</em> of <code>44.75</code> would be 44.75
-   billion dollars.</li>
-<li><strong>ratio</strong>: Ratios are common technique in financial statement
-   analysis. We have covered many of them so far, and the list will
-   continue to grow w/ newer releases.</li>
-<li><strong>period-to-period growth rate (%)</strong>: Using quarterly
-   statement data provided by the Yahoo! API, we picked some data
-   points to compute its growth rate from …</li></ol></p>
-  </div>
-
-  <div class="col s12 right-align">
-    <a class="btn wave-effect" href="https://fengxia41103.github.io/stock/stock financial statements.html">
-      read more
+   <div>
+    <i class="fa fa-calendar" style="opacity: 0.5">&nbsp;</i>
+    2021-09-23         <a class="wave-effect" href="misc.html">
+      <i class="fa fa-folder-open-o"></i>
+      misc
     </a>
+       <h1 class="myhighlight">Rankings</h1>
   </div>
-  <div class="col s12 divider" style="margin-top: 1em"></div>
-</div>
- 
-<div class="row">
-  <ul class="pagination">
-     <li class="wave-effect">
-      <a href="https://fengxia41103.github.io/stock/feng-xia3.html">
-        <i class="fa fa-angle-left"></i>
-      </a>
-    </li>
-     <li class="wave-effect">
-      <a
-        href="https://fengxia41103.github.io/stock/feng-xia5.html"
-      >
-        <i class="fa fa-angle-right"></i>
-      </a>
-    </li>
-  </ul>
-</div>
 
- </article>
+  <ol id="toc" class="row"></ol>
 
-              <div id="related"></div>
+  <div>
+    <div id="article-content">
+      <p><p>Now with each stock having an army of indexes computed from its price,
+statements and so on, one's ultimate goal is to use them to select the
+<em>good</em> stock. Instead of building a complex filter, we simplify the
+picking by ranking stocks along these indexes, and provide a rich
+feature using these rankings to help you verify your stock picking
+strategy.</p>
+<h2>Overview</h2>
+<figure class="col s12">
+    <figcaption>Stock ranking overview</figcaption>
+    <img src="images/stock%20ranking.png"/>
+</figure>
+
+<p>There are five categories of data point we are providing:</p>
+<ol>
+<li>by ROE analysis: reported ROE, DuPont ROE</li>
+<li>by balance sheet analysis</li>
+<li>by income statement analysis</li>
+<li>by cash flow statement analysis</li>
+<li>by valuation ratios: P/E, P/B, P/S</li>
+</ol>
+<p>Ranking could be from high-to-low or low-to-high depending on the
+meaning of that particular index. For example, for <code>current ratio</code>,
+higher is better, thus it is ranked from high to low, whereas for
+<code>debt growth rate</code>, we view a growing debt negatively, thus it is
+ranked low to high.</p>
+<h2>Color coding &amp; top ranks</h2>
+<p>There are two controls on the top of the page where user can set to
+bring more information to light: filter by symbol, and top ranks.</p>
+<h3>Set top ranks</h3>
+<p>By default we show the top 5 of each index. User can use the _top
+ranks` control to adjust this, for example, to view top 10. The max is
+limited by how many stocks you have added in your portfolio.</p>
+<figure class="col s12">
+    <figcaption>Stock ranking set top ranks</figcaption>
+    <img src="images/stock%20ranking%20set%20top%20ranks%20control.png"/>
+    <img src="images/stock%20ranking%20set%20top%20ranks.png"/>
+</figure>
+
+<p><strong>NOTE</strong> that rankings are computed on the fly. Therefore, the higher
+this number is, the more computation load it presents to the tool. So
+it will be much longer to show a top 20 than to show a top 3.</p>
+<h3>Color coding</h3>
+<p>Color coding is a great feature to visualize how a stock is positioned
+according each ranking. Instead of viewing all ranked stocks
+generally, user can input a list of stock symbols using <strong>space
+delimited</strong> or <strong>comma delimited</strong> format, and the symbol will be
+automatically assigned a color for visual highlight.</p>
+<figure class="col s12">
+    <figcaption>Stock ranking color coding</figcaption>
+    <img src="images/stock%20ranking%20color%20coding%20control.png"/>
+    <img src="images/stock%20ranking%20color%20coding.png"/>
+</figure>
+
+<p>In this example, <code>UPS</code> ranked the best for <code>equity growth
+rate</code>. However, it didn't make the top 9 for any other indexes. <code>FB</code>,
+by contrast, ranked well for most of the balance sheet indexes, but
+also missed on the <code>debt growth rate</code> list (for better or worse).</p>
+<h2>Ranking</h2>
+<p>Each ranking provides a list of controls which mean to provide
+context to the ranks. From left to right, they are: rank bar chart,
+price comparison chart, and value threshold.</p>
+<figure class="col s12">
+    <figcaption>Stock ranking controls</figcaption>
+    <img src="images/stock%20ranking%20controls.png"/>
+</figure>
+
+<h3>Rank bar chart</h3>
+<p>When to research these ranks, we want to see how the values are
+relative in strength to each other. There are two ways to get the
+values: hovering mouse over the stock symbol, or show the rank bar
+chart. Clicking the bar chart control will toggle.</p>
+<figure class="col s12">
+    <figcaption>Stock ranking bar chart</figcaption>
+    <img src="images/stock%20ranking%20bar%20chart.png"/>
+</figure>
+
+<p>Here in this example, we now see not only the rankings in order, but a
+sense of strength in this side-by-side comparison. NET's current
+ratio is <code>6.78</code>, about 1/2 of the SNDL's, thus is a <em>distant second</em>
+by this measure.</p>
+<h3>Price comparison chart</h3>
+<p>Viewing a rank often leads to the question whether this rank is
+<em>reflected</em> in the stock's performance. By showing the price of these
+stocks over the <em>last 30 days</em>, user can examine how the price is
+corresponding to this particular index. In our view, this is a great
+way to <strong>test a theory (or dismiss a myth)</strong> that "stock A is better than
+stock B because it has a better [<em>fill in an index name</em>]".</p>
+<figure class="col s12">
+    <figcaption>Stock ranking price chart</figcaption>
+    <img src="images/stock%20ranking%20price%20chart.png"/>
+</figure>
+
+<h3>Value threshold</h3>
+<p>For some indexes we have also implemented value threshold. We support
+equation of <code>&gt;</code> (greater than), <code>&gt;=</code> (greater than or equal to), <code>&lt;</code>
+(less than), and <code>&lt;=</code> (less than or equal to). User can use these
+thresholds to further narrow down the ranking list for
+research. <strong>NOTE</strong> that these thresholds are not saved once you leave
+the page.</p>
+<figure class="col s12">
+    <figcaption>Stock ranking value threshold</figcaption>
+    <img src="images/stock%20ranking%20value%20threshold.png"/>
+</figure></p>
+
+      <p>
+        &mdash; by
+        <a href="feng-xia.html">Feng Xia</a>
+      </p>
+    </div>
+  </div>
+
+</article>
+
+              <div id="related"> </div>
         </div>
       </div>
     </div>

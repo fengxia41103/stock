@@ -98,6 +98,9 @@
               >Technical Indicators</a
             >
           </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/rankings.html">Rankings</a>
+          </li>
         </ul>
 
       </div>
@@ -114,48 +117,40 @@
       2021-09-21     </div>
   </div>
   <div class="col s12">
-    <h4>Dev & Deployment</h4>
+    <h4>Stock Price</h4>
 
-    <p><p>Both the backend and the frontend have been dockerized. Thus,
-regardless your platform, install Docker &amp; <code>docker-compose</code> first.</p>
-<h2>For user</h2>
-<ol>
-<li>Clone the <a href="https://github.com/fengxia41103/stock">repo</a>.</li>
-<li>Go to the project root folder, <code>docker-compose up --build -d</code>.</li>
-<li>Create a backend admin user: <code>docker-compose run web python
-   manage.py createsuperuser</code>, and follow the instructions. Email is
-   optional.</li>
-<li>Go to browser <code>http://localhost:8084</code>, and use the user account to
-   login.</li>
-</ol>
-<p>Now you should be ready to use the application by adding stocks and
-sectors.</p>
-<h2>For developers</h2>
-<h3>Modify code</h3>
-<p>Using the docker way is preferred. Code will be mounted into the
-docker as <code>volume</code> (see <code>docker-compose.yaml</code> for details). Thus
-changes done on your local editor will be reflected in the running
-docker as <code>live</code>.</p>
-<h3>Debugging</h3>
-<p>It may sound 1980. But the most effective way is to use
-<code>docker-compose logs -f &lt;service name&gt;</code> to see stack trace and/or
-error messages.</p>
-<h3>Testing</h3>
-<p>Looking for <strong>volunteers</strong>!!</p>
-<h2>For network admins</h2>
-<h3>networks</h3>
-<p>Network of the setup is fairly simple. We distinguish <code>data</code> vs. <code>management</code>:</p>
-<figure class="col s12 center">
-  <img src="images/backend%20network.png"/>
-  <figcaption>Stock app networks</figcaption>
+    <p><p>Stock's price and return views are part of the stock's detail
+analysis. In this section we will show in-depth analysis of stock's
+price trending and returns.</p>
+<h2>Date range</h2>
+<p>User can set a date range by using the date picker. Default end date
+is TODAY, and start date is 1-month from TODAY.</p>
+<figure class="col s12">
+    <figcaption>Stock historical price date picker</figcaption>
+    <img src="images/stock%20date%20picker.png"/>
 </figure>
 
-<h3>ports</h3>
-<p>I try to limit exposure of ports …</p></p>
+<p>Default <code>end date</code> is TODAY, and the default range is set to be
+30 days back from TODAY. Setting an insensible date range, eg. start
+date is greater than the end date, or some distant dates in the
+future, will not produce an error. Instead, the backend will return
+an empty date set, thus rendering this view blank.</p>
+<h2>Historical daily price</h2>
+<h3>Price line chart</h3>
+<p>Price line chart is the quickest way to see how a stock is going. The
+chart includes prices of <code>open</code>, <code>close</code>, <code>high</code> and <code>low</code>.</p>
+<figure class="col s12">
+    <figcaption>Stock historical price line chart</figcaption>
+    <img src="images/stock%20price%20chart.png"/>
+</figure>
+
+<h3>Weekly price chart</h3>
+<p>The weekly price chart breaks down price over the selected date range
+so to zoom into each week's performance as well as each …</p></p>
   </div>
 
   <div class="col s12 right-align">
-    <a class="btn wave-effect" href="https://fengxia41103.github.io/stock/dev and deployment.html">
+    <a class="btn wave-effect" href="https://fengxia41103.github.io/stock/stock price.html">
       read more
     </a>
   </div>

@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>My Stocks - Feng Xia</title><link>https://fengxia41103.github.io/stock/</link><description></description><lastBuildDate>Thu, 23 Sep 2021 08:08:00 -0400</lastBuildDate><item><title>Technical Indicators</title><link>https://fengxia41103.github.io/stock/technical%20indicators.html</link><description>&lt;p&gt;Technical analysis is mainly based on &lt;a href="https://github.com/rrag/react-stockcharts"&gt;react-stockcharts&lt;/a&gt;. We
+<rss version="2.0"><channel><title>My Stocks - Feng Xia</title><link>https://fengxia41103.github.io/stock/</link><description></description><lastBuildDate>Thu, 23 Sep 2021 08:37:00 -0400</lastBuildDate><item><title>Rankings</title><link>https://fengxia41103.github.io/stock/rankings.html</link><description>&lt;p&gt;Now with each stock having an army of indexes computed from its price,
+statements and so on, one's ultimate goal is to use them to select the
+&lt;em&gt;good&lt;/em&gt; stock. Instead of building a complex filter, we simplify the
+picking by ranking stocks along these indexes, and provide a rich
+feature using these rankings to help you verify your stock picking
+strategy.&lt;/p&gt;
+&lt;h2&gt;Overview&lt;/h2&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock ranking overview&lt;/figcaption&gt;
+    &lt;img src="images/stock%20ranking.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;There are five categories of data point we are providing:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;by ROE analysis: reported ROE, DuPont ROE&lt;/li&gt;
+&lt;li&gt;by balance sheet analysis&lt;/li&gt;
+&lt;li&gt;by income statement analysis&lt;/li&gt;
+&lt;li&gt;by cash flow statement analysis&lt;/li&gt;
+&lt;li&gt;by valuation ratios: P/E, P/B, P/S&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Ranking could be from high-to-low or low-to-high depending on the
+meaning of that particular index. For example, for &lt;code&gt;current ratio&lt;/code&gt;,
+higher is better, thus it is ranked from high to low, whereas for
+&lt;code&gt;debt growth rate&lt;/code&gt;, we view a growing debt negatively, thus it is
+ranked low to high.&lt;/p&gt;
+&lt;h2&gt;Color coding &amp;amp; top ranks&lt;/h2&gt;
+&lt;p&gt;There are two controls on the top of the page where user can set to
+bring more information …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Thu, 23 Sep 2021 08:37:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-23:/stock/rankings.html</guid><category>misc</category></item><item><title>Technical Indicators</title><link>https://fengxia41103.github.io/stock/technical%20indicators.html</link><description>&lt;p&gt;Technical analysis is mainly based on &lt;a href="https://github.com/rrag/react-stockcharts"&gt;react-stockcharts&lt;/a&gt;. We
 currently support the following indicators: Bollinger Band, Elder Ray,
 SAR, Full Stochastics Oscillator, Heikin-Ashi, MACD, and Relative
 Strength (RSI). More indicator visuals will be added in future.&lt;/p&gt;

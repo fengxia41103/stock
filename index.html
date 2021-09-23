@@ -98,6 +98,9 @@
               >Technical Indicators</a
             >
           </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/rankings.html">Rankings</a>
+          </li>
         </ul>
 
       </div>
@@ -121,77 +124,40 @@
   <i class="fa fa-calendar" style="opacity: 0.5"></i>
   <em>
     2021-09-23   </em>
-  <h1>Technical Indicators</h1>
+  <h1>Rankings</h1>
 </div>
 
-<p><p>Technical analysis is mainly based on <a href="https://github.com/rrag/react-stockcharts">react-stockcharts</a>. We
-currently support the following indicators: Bollinger Band, Elder Ray,
-SAR, Full Stochastics Oscillator, Heikin-Ashi, MACD, and Relative
-Strength (RSI). More indicator visuals will be added in future.</p>
-<h2>Date range</h2>
-<p>User can set a date range by using the date picker. Default end date
-is TODAY, and start date is 1-month from TODAY. Depending on the
-indicator, this default date range may not provide enough data points
-for the analysis, thus the first appearance of the chart may look
-incomplete. In this case, user should adjust the range to provide more
-data points. Graph will refresh automatically when date range is
-changed.</p>
-<p><strong>NOTE</strong> that switching between indicators will <strong>reset</strong> the date
-range.</p>
+<p><p>Now with each stock having an army of indexes computed from its price,
+statements and so on, one's ultimate goal is to use them to select the
+<em>good</em> stock. Instead of building a complex filter, we simplify the
+picking by ranking stocks along these indexes, and provide a rich
+feature using these rankings to help you verify your stock picking
+strategy.</p>
+<h2>Overview</h2>
 <figure class="col s12">
-    <figcaption>Stock technical indicator date picker</figcaption>
-    <img src="images/stock%20date%20picker.png"/>
+    <figcaption>Stock ranking overview</figcaption>
+    <img src="images/stock%20ranking.png"/>
 </figure>
 
-<h2>Bollinger Band</h2>
-<p>See <a href="https://en.wikipedia.org/wiki/Bollinger_Bands">wiki</a>.</p>
-<figure class="col s12">
-  <figcaption>Example of Bollinger Band</figcaption>
-  <img src="images/bollinger%20band.png"/>
-</figure>
-
-<h2>Elder Ray</h2>
-<p>See <a href="https://www.investopedia.com/terms/e/elderray.asp">intro</a>.</p>
-<figure class="col s12">
-  <figcaption>Example of Elder Ray</figcaption>
-  <img src="images/elder%20ray.png"/>
-</figure>
-
-<h2>SAR</h2>
-<p>See <a href="https://en.wikipedia.org/wiki/Parabolic_SAR">wiki</a>.</p>
-<figure class="col s12">
-  <figcaption>Example of SAR</figcaption>
-  <img src="images/SAR.png"/>
-</figure>
-
-<h2>Full Stochastics Oscillator</h2>
-<p>See <a href="https://en.wikipedia.org/wiki/Stochastic_oscillator">wiki</a>.</p>
-<figure class="col s12">
-  <figcaption>Example of Full Stochastics oscillator</figcaption>
-  <img src="images/full%20stochastics.png"/>
-</figure>
-
-<h2>Heikin-Ashi</h2>
-<p>Read <a href="https://www.investopedia.com/trading/heikin-ashi-better-candlestick/">here</a>.</p>
-<figure class="col s12">
-  <figcaption>Example of Heikin Ashi</figcaption>
-  <img src="images/heikin%20ashi.png"/>
-</figure>
-
-<h2>MACD</h2>
-<p>See <a href="https://en.wikipedia.org/wiki/MACD">wiki</a>.</p>
-<figure class="col s12">
-  <figcaption>Example of MACD</figcaption>
-  <img src="images/MACD.png"/>
-</figure>
-
-<h2>Relative Strength (RSI)</h2>
-<p>See <a href="https://www.investopedia.com/terms/r/rsi.asp">intro</a>.</p>
-<figure class="col s12">
-  <figcaption>Example …</figcaption></figure></p>
+<p>There are five categories of data point we are providing:</p>
+<ol>
+<li>by ROE analysis: reported ROE, DuPont ROE</li>
+<li>by balance sheet analysis</li>
+<li>by income statement analysis</li>
+<li>by cash flow statement analysis</li>
+<li>by valuation ratios: P/E, P/B, P/S</li>
+</ol>
+<p>Ranking could be from high-to-low or low-to-high depending on the
+meaning of that particular index. For example, for <code>current ratio</code>,
+higher is better, thus it is ranked from high to low, whereas for
+<code>debt growth rate</code>, we view a growing debt negatively, thus it is
+ranked low to high.</p>
+<h2>Color coding &amp; top ranks</h2>
+<p>There are two controls on the top of the page where user can set to
+bring more information …</p></p>
 
 <p style="margin-top: 3em">
-  <a class="btn btn-default button" href="technical indicators.html">
+  <a class="btn btn-default button" href="rankings.html">
     <i class="fa fa-coffee" style="opacity: 0.5"></i>
     continue reading
   </a>
