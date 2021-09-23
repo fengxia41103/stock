@@ -4,11 +4,12 @@ Slug: stock app design
 Author: Feng Xia
 Modified: 2021-09-21 17:00
 
-<figure class="col s12">
-  <img src="images/stock-detail.png"/>
-</figure>
 
-# Disclaimer, philosophy
+## Disclaimer, philosophy
+
+<figure class="col l7 m6 s12">
+    <img src="https://imgs.xkcd.com/comics/efficiency_2x.png" />
+</figure>
 
 First of all, this isn't a magic tool to beat the market. We firmly
 believe the final conclusion should be drawn by the user whose brain
@@ -21,11 +22,9 @@ collection, ratio computation, drawing a line graph, etc., than
 without such a helper. Thus with this tool, the user could focus onto
 creating value instead of being bogged down by less value-added works.
 
-<figure class="col l6 m6 s12">
-    <img src="https://imgs.xkcd.com/comics/efficiency_2x.png" />
-</figure>
 
-# Audience & goals
+
+## Audience & goals
 
 This application is written for users who have interest in the
 stock market, in particular, data analysis of the stock data. In my
@@ -51,13 +50,13 @@ A common pattern/workflow these users follow:
 3. Draw a graph here and there to visualize his results
 4. Search for pattern, signal, clue...
 
-# Challenges & Values
+## Challenges & Values
 
 It's always easier said than done. If you echo the work pattern listed
 above, you would also recognize the challenges, thus the values this
-tool is hoping to create:
+tool is hoping to create.
 
-## Getting data
+### Getting data
 
 Surprisingly it is rather difficult to find a free data source for
 stock data. For this tool, we have opted to use the [Yahoo! finance
@@ -69,7 +68,7 @@ extended by [TBD: write plugin]();
 > sources so to retrieve available _raw_ data.
 >
 
-## Cleansing data
+### Cleansing data
 
 Data quality is the next challenge. By establishing a solid data model
 in the backend, the tool takes care of cleansing and normalizing the
@@ -81,7 +80,7 @@ possible by the tool.
 > potentially amending missing data by providing reasonable default.
 >
 
-## Computation of ratios, percentages
+### Computation of ratios, percentages
 
 In stock analysis, straight-off-the-SEC-report data, such as a sales
 figure, is less interesting than comparisons. For example, it's less
@@ -103,7 +102,7 @@ side-by-side comparisons so to ease the pain.
 > change. Therefore, a pre-calculated result is as good as new.
 >
 
-## RESTful ready
+### RESTful ready
 
 The backend readily serves a RESTful API. Thus it is ready to
 integrate with another toolchain of your choice. We strive to provided
@@ -112,7 +111,7 @@ also anticipate that needs vary.
 
 See the [API doc][] for details.
 
-# System design
+## System design
 
 <figure class="col s12 center">
   <img src="images/high%20level%20design.png"/>
@@ -130,7 +129,7 @@ Primary data source is Yahoo's financial data. In particular, I'm pulling these:
   opinionated, Yahoo is just one of many alternatives.
 
 
-# Data model
+## Data model
 
 Model names are intuitive.
 
@@ -149,7 +148,7 @@ Model names are intuitive.
   <figcaption>Stock app data models</figcaption>
 </figure>
 
-# Data persistence & processing
+## Data persistence & processing
 
 Data persistence is MySql 5.7. Using Django's ORM, this is not a hard
 requirement if your preference is something else.
@@ -175,7 +174,7 @@ Using docker, the following data volumes are used:
 | redis-data | Redis data storage   |
 
 
-# Develop & Deployment
+## Develop & Deployment
 
 See [dev & deployment][6] for details.
 

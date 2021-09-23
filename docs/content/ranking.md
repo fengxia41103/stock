@@ -31,6 +31,12 @@ higher is better, thus it is ranked from high to low, whereas for
 `debt growth rate`, we view a growing debt negatively, thus it is
 ranked low to high.
 
+> **WARNING**: Due to stocks having different reporting periods, there
+> isn't an alignment to compare A's balance sheet on date XYZ w/ the B's
+> on the same date &mdash; the data were simply not
+> available. Therefore, these ranking values are using the **latest**
+> one in our data source.
+>
 
 ## Color coding & top ranks
 
