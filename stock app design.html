@@ -67,7 +67,7 @@
       <div class="split-left-pane">
          <ul>
           <li>
-            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System design</a>
+            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System Design</a>
           </li>
           <li>
             <a href="https://fengxia41103.github.io/stock/dev%20and%20deployment.html"
@@ -101,6 +101,9 @@
           <li>
             <a href="https://fengxia41103.github.io/stock/rankings.html">Rankings</a>
           </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/trending.html">Price Trending</a>
+          </li>
         </ul>
 
       </div>
@@ -122,11 +125,11 @@
 
   <div>
     <div id="article-content">
-      <p><figure class="col s12">
-  <img src="images/stock-detail.png"/>
+      <p><h2>Disclaimer, philosophy</h2>
+<figure class="col l7 m6 s12">
+    <img src="https://imgs.xkcd.com/comics/efficiency_2x.png" />
 </figure>
 
-<h1>Disclaimer, philosophy</h1>
 <p>First of all, this isn't a magic tool to beat the market. We firmly
 believe the final conclusion should be drawn by the user whose brain
 power holds the edge over the market, if ever.</p>
@@ -136,11 +139,7 @@ liberating his/her from tedious, but necessary, steps such as data
 collection, ratio computation, drawing a line graph, etc., than
 without such a helper. Thus with this tool, the user could focus onto
 creating value instead of being bogged down by less value-added works.</p>
-<figure class="col l6 m6 s12">
-    <img src="https://imgs.xkcd.com/comics/efficiency_2x.png" />
-</figure>
-
-<h1>Audience &amp; goals</h1>
+<h2>Audience &amp; goals</h2>
 <p>This application is written for users who have interest in the
 stock market, in particular, data analysis of the stock data. In my
 experience, there are five levels of users:</p>
@@ -191,11 +190,11 @@ experience, there are five levels of users:</p>
 <li>Draw a graph here and there to visualize his results</li>
 <li>Search for pattern, signal, clue...</li>
 </ol>
-<h1>Challenges &amp; Values</h1>
+<h2>Challenges &amp; Values</h2>
 <p>It's always easier said than done. If you echo the work pattern listed
 above, you would also recognize the challenges, thus the values this
-tool is hoping to create:</p>
-<h2>Getting data</h2>
+tool is hoping to create.</p>
+<h3>Getting data</h3>
 <p>Surprisingly it is rather difficult to find a free data source for
 stock data. For this tool, we have opted to use the <a href="https://finance.yahoo.com/quotes/API,Documentation/view/v1/">Yahoo! finance
 API</a>, and in particular, the <a href="https://github.com/dpguthrie/yahooquery/">yahooquery</a> library, as the data
@@ -206,7 +205,7 @@ extended by <a href="">TBD: write plugin</a>;</p>
 sources so to retrieve available <em>raw</em> data.
 </p>
 </blockquote>
-<h2>Cleansing data</h2>
+<h3>Cleansing data</h3>
 <p>Data quality is the next challenge. By establishing a solid data model
 in the backend, the tool takes care of cleansing and normalizing the
 data before serving them for consumption. Headaches such as missing
@@ -217,7 +216,7 @@ possible by the tool.</p>
 potentially amending missing data by providing reasonable default.
 </p>
 </blockquote>
-<h2>Computation of ratios, percentages</h2>
+<h3>Computation of ratios, percentages</h3>
 <p>In stock analysis, straight-off-the-SEC-report data, such as a sales
 figure, is less interesting than comparisons. For example, it's less
 useful to know that AMZN's last reported sales was 68B than to know
@@ -236,13 +235,13 @@ out of box. One beauty of historical data is that they don't
 change. Therefore, a pre-calculated result is as good as new.
 </p>
 </blockquote>
-<h2>RESTful ready</h2>
+<h3>RESTful ready</h3>
 <p>The backend readily serves a RESTful API. Thus it is ready to
 integrate with another toolchain of your choice. We strive to provided
 a good user experience w/ our frontend implementation. However, we
 also anticipate that needs vary.</p>
 <p>See the [API doc][] for details.</p>
-<h1>System design</h1>
+<h2>System design</h2>
 <figure class="col s12 center">
   <img src="images/high%20level%20design.png"/>
   <figcaption>Stock app high level design</figcaption>
@@ -257,7 +256,7 @@ exposed REST API using <a href="https://django-tastypie.readthedocs.io/en/latest
 <li>published meta &mdash; beta, P/E, and so on. Since these are
   opinionated, Yahoo is just one of many alternatives.</li>
 </ul>
-<h1>Data model</h1>
+<h2>Data model</h2>
 <p>Model names are intuitive.</p>
 <table>
 <thead>
@@ -302,7 +301,7 @@ exposed REST API using <a href="https://django-tastypie.readthedocs.io/en/latest
   <figcaption>Stock app data models</figcaption>
 </figure>
 
-<h1>Data persistence &amp; processing</h1>
+<h2>Data persistence &amp; processing</h2>
 <p>Data persistence is MySql 5.7. Using Django's ORM, this is not a hard
 requirement if your preference is something else.</p>
 <p>Data processing is handled by Redis via Celery so to achieve ease of
@@ -335,7 +334,7 @@ in DB is acceptable.</p>
 </tr>
 </tbody>
 </table>
-<h1>Develop &amp; Deployment</h1>
+<h2>Develop &amp; Deployment</h2>
 <p>See <a href="https://fengxia41103.github.io/stock/dev and deployment.html">dev &amp; deployment</a> for details.</p>
 <div class="footnote">
 <hr>

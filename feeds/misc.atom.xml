@@ -1,5 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>My Stocks - misc</title><link href="https://fengxia41103.github.io/stock/" rel="alternate"></link><link href="https://fengxia41103.github.io/stock/feeds/misc.atom.xml" rel="self"></link><id>https://fengxia41103.github.io/stock/</id><updated>2021-09-23T08:37:00-04:00</updated><entry><title>Rankings</title><link href="https://fengxia41103.github.io/stock/rankings.html" rel="alternate"></link><published>2021-09-23T08:37:00-04:00</published><updated>2021-09-23T08:37:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-23:/stock/rankings.html</id><summary type="html">&lt;p&gt;Now with each stock having an army of indexes computed from its price,
+<feed xmlns="http://www.w3.org/2005/Atom"><title>My Stocks - misc</title><link href="https://fengxia41103.github.io/stock/" rel="alternate"></link><link href="https://fengxia41103.github.io/stock/feeds/misc.atom.xml" rel="self"></link><id>https://fengxia41103.github.io/stock/</id><updated>2021-09-23T10:17:00-04:00</updated><entry><title>Price Trending</title><link href="https://fengxia41103.github.io/stock/trending.html" rel="alternate"></link><published>2021-09-23T10:17:00-04:00</published><updated>2021-09-23T10:17:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-23:/stock/trending.html</id><summary type="html">&lt;p&gt;Trending function is a unique feature we don't find in other
+tools. The idea is: if I could rank the stock's &lt;em&gt;performance&lt;/em&gt;, how to
+see this performance changes over time? If &lt;a href="https://fengxia41103.github.io/stock/rankings.html"&gt;ranking&lt;/a&gt; was a snapshot
+in time based on the latest data available, trending now introduced a
+time line which makes the comparison much interesting.&lt;/p&gt;
+&lt;h2&gt;Trending Values&lt;/h2&gt;
+&lt;p&gt;We provide trending on these indexes:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Gainer&lt;/td&gt;
+&lt;td&gt;positive daytime return %&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Loser&lt;/td&gt;
+&lt;td&gt;negative daytime return %&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Volume&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;reported volume/share outstanding&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Volatility&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;(high-low)/low&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Last Lower&lt;/td&gt;
+&lt;td&gt;see &lt;a href="https://fengxia41103.github.io/stock/stock trend.html"&gt;stock trend&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Next Better&lt;/td&gt;
+&lt;td&gt;see &lt;a href="https://fengxia41103.github.io/stock/stock trend.html"&gt;stock trend&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;User can set a date range by changing the &lt;code&gt;end&lt;/code&gt; date (default to
+TODAY), and how far back he wants to go (default to 1 week).&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Trending controls&lt;/figcaption&gt;
+    &lt;img src="images/trending%20controls.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Top Ranks&lt;/h2&gt;
+&lt;p&gt;Top ranks show ranks of each day based on selected value index and the
+time period. There are two types of view we provide: a static/matrix
+view, and a race chart.&lt;/p&gt;
+&lt;h3&gt;Matrix view&lt;/h3&gt;
+&lt;p&gt;The matrix view shows the ranks in a grid. Each column represents a
+date. Dates are arranged in order with …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Trending function is a unique feature we don't find in other
+tools. The idea is: if I could rank the stock's &lt;em&gt;performance&lt;/em&gt;, how to
+see this performance changes over time? If &lt;a href="https://fengxia41103.github.io/stock/rankings.html"&gt;ranking&lt;/a&gt; was a snapshot
+in time based on the latest data available, trending now introduced a
+time line which makes the comparison much interesting.&lt;/p&gt;
+&lt;h2&gt;Trending Values&lt;/h2&gt;
+&lt;p&gt;We provide trending on these indexes:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Gainer&lt;/td&gt;
+&lt;td&gt;positive daytime return %&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Loser&lt;/td&gt;
+&lt;td&gt;negative daytime return %&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Volume&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;reported volume/share outstanding&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Volatility&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;(high-low)/low&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Last Lower&lt;/td&gt;
+&lt;td&gt;see &lt;a href="https://fengxia41103.github.io/stock/stock trend.html"&gt;stock trend&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Next Better&lt;/td&gt;
+&lt;td&gt;see &lt;a href="https://fengxia41103.github.io/stock/stock trend.html"&gt;stock trend&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;User can set a date range by changing the &lt;code&gt;end&lt;/code&gt; date (default to
+TODAY), and how far back he wants to go (default to 1 week).&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Trending controls&lt;/figcaption&gt;
+    &lt;img src="images/trending%20controls.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Top Ranks&lt;/h2&gt;
+&lt;p&gt;Top ranks show ranks of each day based on selected value index and the
+time period. There are two types of view we provide: a static/matrix
+view, and a race chart.&lt;/p&gt;
+&lt;h3&gt;Matrix view&lt;/h3&gt;
+&lt;p&gt;The matrix view shows the ranks in a grid. Each column represents a
+date. Dates are arranged in order with &lt;strong&gt;the most recent shown first&lt;/strong&gt;
+(from left to right). Each symbol is color coded, assisting user to
+quickly identify a pattern, for example, a certain symbol/color is on
+the rise or falling.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Trending top ranks&lt;/figcaption&gt;
+    &lt;img src="images/trending%20top%20ranks.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In this example, we can quickly observe a few things about volumes:
+AMC is dominating, meaning lots of transactions are happening, CCL,
+AMD, ROKU, TSL, EDU, DKS were also busy, BB got some attention in the
+last couple days but not before, .... you get the idea.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt; that these rainbow colors are auto-generated to provide the
+largest contrast. However, due to limitation of the algorithm, some
+colors may become hard to distinguish visually. Changing any control
+value would force a re-assignment of colors. Thus, user can repeat
+this till he finds a color combination he likes.
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;Race chart&lt;/h3&gt;
+&lt;p&gt;Using the toggle control user can switch between the matrix view and a
+race chart. The race chart is a great way to watch how a stock's rank
+changes over time in comparison to its peers. The race can be
+&lt;strong&gt;paused&lt;/strong&gt; and &lt;strong&gt;rerun&lt;/strong&gt;.&lt;/p&gt;
+&lt;video width="100%" height="100%" controls="controls"&gt;
+  &lt;source src="images/trending%20race%20chart.mp4 "
+          type="video/mp4" /&gt;
+  Your browser does not support the video tag.
+  /* instead of the last line you could also add the flash player*/
+&lt;/video&gt;
+
+&lt;h2&gt;Overall Score&lt;/h2&gt;
+&lt;p&gt;A day-to-day is great, but how to evaluate a stock's if it had a top
+position one day, but a 3rd place another, then maybe not even show up
+on some days? To address this we have developed a &lt;strong&gt;score&lt;/strong&gt; to include
+both its position on a given day and its frequency of on the list.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;We assign a 1-10 points to each position, with top position worth 10
+points, 2nd place 9 point, and so on. Then we keep score for each
+stock in this analysis and compute a total points, thus the score.
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Now rank them by this score and view price chart of the top 5 of
+them. Here in the example we are showing a two week score of
+&lt;em&gt;gainers&lt;/em&gt;. NET (green) ranked top and indeed its price went up
+slightly. However, EDU (blue) by comparison underperformed even though
+it had a 2nd place in score. This became sensible when we also look at
+the ranking matrix (below). EDU had high score because it scored high
+position 3 our 4 times it made the list. So during the days it missed
+the list it must have had quite a down time, thus explained why its
+actual price was underperformed despite of its high score.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Trending overall score&lt;/figcaption&gt;
+    &lt;img src="images/trending%20overall%20score.png"/&gt;
+    &lt;img src="images/trending%20overall%20score%20matrix.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Occurrences&lt;/h2&gt;
+&lt;p&gt;Occurences counts the time a stock made to a list. The meaning of the
+list depends on the value index you have selected. For example, being
+often on the &lt;em&gt;gainer&lt;/em&gt; list speaks well of a stock, while being often
+on the &lt;em&gt;loser&lt;/em&gt; list doesn't.&lt;/p&gt;
+&lt;p&gt;Occurrences are grouped into two: greater than or equal to 50%, and
+less than 50%. For each stock, a chart is drawn to exactly how many
+days (as percentage of the total days selected) it made to the list.
+In this example below, showing the occurrences of volume ranks, we
+could suspect that AMC w/ its 95% of the time &lt;em&gt;in&lt;/em&gt; the list saw more
+&lt;em&gt;market attention&lt;/em&gt; than DKS w/ a 75% in. Make sense?&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Trending occurrences&lt;/figcaption&gt;
+    &lt;img src="images/trending%20occurance.png"/&gt;
+&lt;/figure&gt;
+
+&lt;div class="footnote"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;&lt;code&gt;daytime return % = (close-open)/open&lt;/code&gt;&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content><category term="misc"></category></entry><entry><title>Rankings</title><link href="https://fengxia41103.github.io/stock/rankings.html" rel="alternate"></link><published>2021-09-23T08:37:00-04:00</published><updated>2021-09-23T08:37:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-23:/stock/rankings.html</id><summary type="html">&lt;p&gt;Now with each stock having an army of indexes computed from its price,
 statements and so on, one's ultimate goal is to use them to select the
 &lt;em&gt;good&lt;/em&gt; stock. Instead of building a complex filter, we simplify the
 picking by ranking stocks along these indexes, and provide a rich
@@ -24,9 +214,9 @@ meaning of that particular index. For example, for &lt;code&gt;current ratio&lt;
 higher is better, thus it is ranked from high to low, whereas for
 &lt;code&gt;debt growth rate&lt;/code&gt;, we view a growing debt negatively, thus it is
 ranked low to high.&lt;/p&gt;
-&lt;h2&gt;Color coding &amp;amp; top ranks&lt;/h2&gt;
-&lt;p&gt;There are two controls on the top of the page where user can set to
-bring more information …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Now with each stock having an army of indexes computed from its price,
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;WARNING&lt;/strong&gt;: Due to stocks having different reporting periods, there
+isn't an alignment to compare A's balance sheet on date XYZ w/ the …&lt;/p&gt;&lt;/blockquote&gt;</summary><content type="html">&lt;p&gt;Now with each stock having an army of indexes computed from its price,
 statements and so on, one's ultimate goal is to use them to select the
 &lt;em&gt;good&lt;/em&gt; stock. Instead of building a complex filter, we simplify the
 picking by ranking stocks along these indexes, and provide a rich
@@ -51,6 +241,14 @@ meaning of that particular index. For example, for &lt;code&gt;current ratio&lt;
 higher is better, thus it is ranked from high to low, whereas for
 &lt;code&gt;debt growth rate&lt;/code&gt;, we view a growing debt negatively, thus it is
 ranked low to high.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;WARNING&lt;/strong&gt;: Due to stocks having different reporting periods, there
+isn't an alignment to compare A's balance sheet on date XYZ w/ the B's
+on the same date &amp;mdash; the data were simply not
+available. Therefore, these ranking values are using the &lt;strong&gt;latest&lt;/strong&gt;
+one in our data source.
+&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2&gt;Color coding &amp;amp; top ranks&lt;/h2&gt;
 &lt;p&gt;There are two controls on the top of the page where user can set to
 bring more information to light: filter by symbol, and top ranks.&lt;/p&gt;
@@ -1131,11 +1329,11 @@ details.&lt;/p&gt;
   &lt;span class="l l-Scalar l-Scalar-Plain"&gt;ports&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
     &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;8084:80&amp;quot;&lt;/span&gt;  &lt;span class="c1"&gt;# &amp;lt;========= change this line!&lt;/span&gt;
   &lt;span class="l l-Scalar l-Scalar-Plain"&gt;....&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="misc"></category></entry><entry><title>Stock App Design</title><link href="https://fengxia41103.github.io/stock/stock%20app%20design.html" rel="alternate"></link><published>2021-09-09T17:38:00-04:00</published><updated>2021-09-21T17:00:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-09:/stock/stock app design.html</id><summary type="html">&lt;figure class="col s12"&gt;
-  &lt;img src="images/stock-detail.png"/&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="misc"></category></entry><entry><title>Stock App Design</title><link href="https://fengxia41103.github.io/stock/stock%20app%20design.html" rel="alternate"></link><published>2021-09-09T17:38:00-04:00</published><updated>2021-09-21T17:00:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-09:/stock/stock app design.html</id><summary type="html">&lt;h2&gt;Disclaimer, philosophy&lt;/h2&gt;
+&lt;figure class="col l7 m6 s12"&gt;
+    &lt;img src="https://imgs.xkcd.com/comics/efficiency_2x.png" /&gt;
 &lt;/figure&gt;
 
-&lt;h1&gt;Disclaimer, philosophy&lt;/h1&gt;
 &lt;p&gt;First of all, this isn't a magic tool to beat the market. We firmly
 believe the final conclusion should be drawn by the user whose brain
 power holds the edge over the market, if ever.&lt;/p&gt;
@@ -1145,11 +1343,7 @@ liberating his/her from tedious, but necessary, steps such as data
 collection, ratio computation, drawing a line graph, etc., than
 without such a helper. Thus with this tool, the user could focus onto
 creating value instead of being bogged down by less value-added works.&lt;/p&gt;
-&lt;figure class="col l6 m6 s12"&gt;
-    &lt;img src="https://imgs.xkcd.com/comics/efficiency_2x.png" /&gt;
-&lt;/figure&gt;
-
-&lt;h1&gt;Audience &amp;amp; goals&lt;/h1&gt;
+&lt;h2&gt;Audience &amp;amp; goals&lt;/h2&gt;
 &lt;p&gt;This application is written for users who have interest in the
 stock market, in particular, data analysis of the stock data. In my
 experience, there are five levels of users:&lt;/p&gt;
@@ -1180,11 +1374,11 @@ experience, there are five levels of users:&lt;/p&gt;
 &lt;tr&gt;
 &lt;td&gt;4&lt;/td&gt;
 &lt;td&gt;Script or lib&lt;/td&gt;
-&lt;td&gt;Programmer who gained more …&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</summary><content type="html">&lt;figure class="col s12"&gt;
-  &lt;img src="images/stock-detail.png"/&gt;
+&lt;td&gt;Programmer who gained more …&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</summary><content type="html">&lt;h2&gt;Disclaimer, philosophy&lt;/h2&gt;
+&lt;figure class="col l7 m6 s12"&gt;
+    &lt;img src="https://imgs.xkcd.com/comics/efficiency_2x.png" /&gt;
 &lt;/figure&gt;
 
-&lt;h1&gt;Disclaimer, philosophy&lt;/h1&gt;
 &lt;p&gt;First of all, this isn't a magic tool to beat the market. We firmly
 believe the final conclusion should be drawn by the user whose brain
 power holds the edge over the market, if ever.&lt;/p&gt;
@@ -1194,11 +1388,7 @@ liberating his/her from tedious, but necessary, steps such as data
 collection, ratio computation, drawing a line graph, etc., than
 without such a helper. Thus with this tool, the user could focus onto
 creating value instead of being bogged down by less value-added works.&lt;/p&gt;
-&lt;figure class="col l6 m6 s12"&gt;
-    &lt;img src="https://imgs.xkcd.com/comics/efficiency_2x.png" /&gt;
-&lt;/figure&gt;
-
-&lt;h1&gt;Audience &amp;amp; goals&lt;/h1&gt;
+&lt;h2&gt;Audience &amp;amp; goals&lt;/h2&gt;
 &lt;p&gt;This application is written for users who have interest in the
 stock market, in particular, data analysis of the stock data. In my
 experience, there are five levels of users:&lt;/p&gt;
@@ -1249,11 +1439,11 @@ experience, there are five levels of users:&lt;/p&gt;
 &lt;li&gt;Draw a graph here and there to visualize his results&lt;/li&gt;
 &lt;li&gt;Search for pattern, signal, clue...&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h1&gt;Challenges &amp;amp; Values&lt;/h1&gt;
+&lt;h2&gt;Challenges &amp;amp; Values&lt;/h2&gt;
 &lt;p&gt;It's always easier said than done. If you echo the work pattern listed
 above, you would also recognize the challenges, thus the values this
-tool is hoping to create:&lt;/p&gt;
-&lt;h2&gt;Getting data&lt;/h2&gt;
+tool is hoping to create.&lt;/p&gt;
+&lt;h3&gt;Getting data&lt;/h3&gt;
 &lt;p&gt;Surprisingly it is rather difficult to find a free data source for
 stock data. For this tool, we have opted to use the &lt;a href="https://finance.yahoo.com/quotes/API,Documentation/view/v1/"&gt;Yahoo! finance
 API&lt;/a&gt;, and in particular, the &lt;a href="https://github.com/dpguthrie/yahooquery/"&gt;yahooquery&lt;/a&gt; library, as the data
@@ -1264,7 +1454,7 @@ extended by &lt;a href=""&gt;TBD: write plugin&lt;/a&gt;;&lt;/p&gt;
 sources so to retrieve available &lt;em&gt;raw&lt;/em&gt; data.
 &lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2&gt;Cleansing data&lt;/h2&gt;
+&lt;h3&gt;Cleansing data&lt;/h3&gt;
 &lt;p&gt;Data quality is the next challenge. By establishing a solid data model
 in the backend, the tool takes care of cleansing and normalizing the
 data before serving them for consumption. Headaches such as missing
@@ -1275,7 +1465,7 @@ possible by the tool.&lt;/p&gt;
 potentially amending missing data by providing reasonable default.
 &lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2&gt;Computation of ratios, percentages&lt;/h2&gt;
+&lt;h3&gt;Computation of ratios, percentages&lt;/h3&gt;
 &lt;p&gt;In stock analysis, straight-off-the-SEC-report data, such as a sales
 figure, is less interesting than comparisons. For example, it's less
 useful to know that AMZN's last reported sales was 68B than to know
@@ -1294,13 +1484,13 @@ out of box. One beauty of historical data is that they don't
 change. Therefore, a pre-calculated result is as good as new.
 &lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2&gt;RESTful ready&lt;/h2&gt;
+&lt;h3&gt;RESTful ready&lt;/h3&gt;
 &lt;p&gt;The backend readily serves a RESTful API. Thus it is ready to
 integrate with another toolchain of your choice. We strive to provided
 a good user experience w/ our frontend implementation. However, we
 also anticipate that needs vary.&lt;/p&gt;
 &lt;p&gt;See the [API doc][] for details.&lt;/p&gt;
-&lt;h1&gt;System design&lt;/h1&gt;
+&lt;h2&gt;System design&lt;/h2&gt;
 &lt;figure class="col s12 center"&gt;
   &lt;img src="images/high%20level%20design.png"/&gt;
   &lt;figcaption&gt;Stock app high level design&lt;/figcaption&gt;
@@ -1315,7 +1505,7 @@ exposed REST API using &lt;a href="https://django-tastypie.readthedocs.io/en/lat
 &lt;li&gt;published meta &amp;mdash; beta, P/E, and so on. Since these are
   opinionated, Yahoo is just one of many alternatives.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1&gt;Data model&lt;/h1&gt;
+&lt;h2&gt;Data model&lt;/h2&gt;
 &lt;p&gt;Model names are intuitive.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -1360,7 +1550,7 @@ exposed REST API using &lt;a href="https://django-tastypie.readthedocs.io/en/lat
   &lt;figcaption&gt;Stock app data models&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;h1&gt;Data persistence &amp;amp; processing&lt;/h1&gt;
+&lt;h2&gt;Data persistence &amp;amp; processing&lt;/h2&gt;
 &lt;p&gt;Data persistence is MySql 5.7. Using Django's ORM, this is not a hard
 requirement if your preference is something else.&lt;/p&gt;
 &lt;p&gt;Data processing is handled by Redis via Celery so to achieve ease of
@@ -1393,7 +1583,7 @@ in DB is acceptable.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h1&gt;Develop &amp;amp; Deployment&lt;/h1&gt;
+&lt;h2&gt;Develop &amp;amp; Deployment&lt;/h2&gt;
 &lt;p&gt;See &lt;a href="https://fengxia41103.github.io/stock/dev and deployment.html"&gt;dev &amp;amp; deployment&lt;/a&gt; for details.&lt;/p&gt;
 &lt;div class="footnote"&gt;
 &lt;hr&gt;

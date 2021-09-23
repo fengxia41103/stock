@@ -67,7 +67,7 @@
       <div class="split-left-pane">
          <ul>
           <li>
-            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System design</a>
+            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System Design</a>
           </li>
           <li>
             <a href="https://fengxia41103.github.io/stock/dev%20and%20deployment.html"
@@ -101,6 +101,9 @@
           <li>
             <a href="https://fengxia41103.github.io/stock/rankings.html">Rankings</a>
           </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/trending.html">Price Trending</a>
+          </li>
         </ul>
 
       </div>
@@ -129,40 +132,39 @@
   <i class="fa fa-calendar" style="opacity: 0.5"></i>
   <em>
     2021-09-21   </em>
-  <h1>Stock Price</h1>
+  <h1>Stock Returns</h1>
 </div>
 
-<p><p>Stock's price and return views are part of the stock's detail
-analysis. In this section we will show in-depth analysis of stock's
-price trending and returns.</p>
-<h2>Date range</h2>
-<p>User can set a date range by using the date picker. Default end date
-is TODAY, and start date is 1-month from TODAY.</p>
+<p><p>There are three types of return: daily, nightly, and 24-hour. Return
+values are in <strong>percentage (%)</strong>, and negative returns are colored
+in <strong>red</strong>. Since the analysis done to them are similar, we are to
+address them together here.</p>
+<ol>
+<li><strong>daily return</strong>: <code>(today's close - today's open)/today's
+   open</code>. This measures the return during normal market hours.</li>
+<li><strong>nightly return</strong>: <code>(today's open - yesterday's close)/yesterday's
+   close</code>. This measures the return during off market hours.</li>
+<li><strong>24-hour return</strong>: <code>(today's close - yesterday's
+   close)/yesterday's close</code>. This measures the over effect of a
+   24-hour day, thus including both the market hours and off market
+   hours (for example, many companies choose to make announcement
+   after market close, thus causing price to fluctuate prior to next
+   day's market opening).</li>
+</ol>
 <figure class="col s12">
-    <figcaption>Stock historical price date picker</figcaption>
-    <img src="images/stock%20date%20picker.png"/>
+    <figcaption>Stock 24-hour return chart</figcaption>
+    <img src="images/stock%2024%20hour%20return%20bar%20chart.png"/>
 </figure>
 
-<p>Default <code>end date</code> is TODAY, and the default range is set to be
-30 days back from TODAY. Setting an insensible date range, eg. start
-date is greater than the end date, or some distant dates in the
-future, will not produce an error. Instead, the backend will return
-an empty date set, thus rendering this view blank.</p>
-<h2>Historical daily price</h2>
-<h3>Price line chart</h3>
-<p>Price line chart is the quickest way to see how a stock is going. The
-chart includes prices of <code>open</code>, <code>close</code>, <code>high</code> and <code>low</code>.</p>
-<figure class="col s12">
-    <figcaption>Stock historical price line chart</figcaption>
-    <img src="images/stock%20price%20chart.png"/>
-</figure>
-
-<h3>Weekly price chart</h3>
-<p>The weekly price chart breaks down price over the selected date range
-so to zoom into each week's performance as well as each …</p></p>
+<p>Now with computed returns, we do some basic counting and statistic
+analysis of the return data.</p>
+<h2>positive vs. negative occurrence</h2>
+<p>This answers that out of the return data, how many were positive and
+how many were negative. If a stock were on a rise, we would expect it
+having more positive days than …</p></p>
 
 <p style="margin-top: 3em">
-  <a class="btn btn-default button" href="stock price.html">
+  <a class="btn btn-default button" href="stock returns.html">
     <i class="fa fa-coffee" style="opacity: 0.5"></i>
     continue reading
   </a>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta
+      name="viewport"
+      content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"
+    />
+
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <script src="https://fengxia41103.github.io/stock/theme/js/html5shiv.min.js"></script>
+    <script src="https://fengxia41103.github.io/stock/theme/js/respond.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://fengxia41103.github.io/stock/theme/bower_components/font-awesome/css/font-awesome.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://fengxia41103.github.io/stock/theme/bower_components/datatables/media/css/dataTables.bootstrap.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Alfa+Slab+One|Archivo+Narrow|Montserrat|Jaldi|Teko"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css"
+    />
+
+    <link rel="stylesheet" href="https://fengxia41103.github.io/stock/theme/css/my.css" />
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+
+      <title>My Stocks</title>
+  </head>
+
+  <body>
+     <header id="mypage-index">
+      <a href="https://fengxia41103.github.io/stock/">My Stocks </a>
+    </header>
+    <!-- end of block navbar -->
+
+    <div class="split-screen">
+      <div class="split-left-pane">
+         <ul>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System Design</a>
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/dev%20and%20deployment.html"
+              >Dev & Deployment</a
+            >
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20price.html">Stock Price</a>
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20returns.html">Stock Returns</a>
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20trend.html">Stock Trends</a>
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20financial%20statements.html"
+              >Financial Statements</a
+            >
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20valuation%20models.html"
+              >Valuation Models</a
+            >
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/technical%20indicators.html"
+              >Technical Indicators</a
+            >
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/rankings.html">Rankings</a>
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/trending.html">Price Trending</a>
+          </li>
+        </ul>
+
+      </div>
+
+      <div class="split-right-pane">
+        <div id="content" class="container row">
+
+<article>
+   <div>
+    <i class="fa fa-calendar" style="opacity: 0.5">&nbsp;</i>
+    2021-09-23         <a class="wave-effect" href="misc.html">
+      <i class="fa fa-folder-open-o"></i>
+      misc
+    </a>
+       <h1 class="myhighlight">Price Trending</h1>
+  </div>
+
+  <ol id="toc" class="row"></ol>
+
+  <div>
+    <div id="article-content">
+      <p><p>Trending function is a unique feature we don't find in other
+tools. The idea is: if I could rank the stock's <em>performance</em>, how to
+see this performance changes over time? If <a href="https://fengxia41103.github.io/stock/rankings.html">ranking</a> was a snapshot
+in time based on the latest data available, trending now introduced a
+time line which makes the comparison much interesting.</p>
+<h2>Trending Values</h2>
+<p>We provide trending on these indexes:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gainer</td>
+<td>positive daytime return %</td>
+</tr>
+<tr>
+<td>Loser</td>
+<td>negative daytime return %</td>
+</tr>
+<tr>
+<td>Volume</td>
+<td><code>reported volume/share outstanding</code></td>
+</tr>
+<tr>
+<td>Volatility</td>
+<td><code>(high-low)/low</code></td>
+</tr>
+<tr>
+<td>Last Lower</td>
+<td>see <a href="https://fengxia41103.github.io/stock/stock trend.html">stock trend</a></td>
+</tr>
+<tr>
+<td>Next Better</td>
+<td>see <a href="https://fengxia41103.github.io/stock/stock trend.html">stock trend</a></td>
+</tr>
+</tbody>
+</table>
+<p>User can set a date range by changing the <code>end</code> date (default to
+TODAY), and how far back he wants to go (default to 1 week).</p>
+<figure class="col s12">
+    <figcaption>Trending controls</figcaption>
+    <img src="images/trending%20controls.png"/>
+</figure>
+
+<h2>Top Ranks</h2>
+<p>Top ranks show ranks of each day based on selected value index and the
+time period. There are two types of view we provide: a static/matrix
+view, and a race chart.</p>
+<h3>Matrix view</h3>
+<p>The matrix view shows the ranks in a grid. Each column represents a
+date. Dates are arranged in order with <strong>the most recent shown first</strong>
+(from left to right). Each symbol is color coded, assisting user to
+quickly identify a pattern, for example, a certain symbol/color is on
+the rise or falling.</p>
+<figure class="col s12">
+    <figcaption>Trending top ranks</figcaption>
+    <img src="images/trending%20top%20ranks.png"/>
+</figure>
+
+<p>In this example, we can quickly observe a few things about volumes:
+AMC is dominating, meaning lots of transactions are happening, CCL,
+AMD, ROKU, TSL, EDU, DKS were also busy, BB got some attention in the
+last couple days but not before, .... you get the idea.</p>
+<blockquote>
+<p><strong>NOTE</strong> that these rainbow colors are auto-generated to provide the
+largest contrast. However, due to limitation of the algorithm, some
+colors may become hard to distinguish visually. Changing any control
+value would force a re-assignment of colors. Thus, user can repeat
+this till he finds a color combination he likes.
+</p>
+</blockquote>
+<h3>Race chart</h3>
+<p>Using the toggle control user can switch between the matrix view and a
+race chart. The race chart is a great way to watch how a stock's rank
+changes over time in comparison to its peers. The race can be
+<strong>paused</strong> and <strong>rerun</strong>.</p>
+<video width="100%" height="100%" controls="controls">
+  <source src="images/trending%20race%20chart.mp4 "
+          type="video/mp4" />
+  Your browser does not support the video tag.
+  /* instead of the last line you could also add the flash player*/
+</video>
+
+<h2>Overall Score</h2>
+<p>A day-to-day is great, but how to evaluate a stock's if it had a top
+position one day, but a 3rd place another, then maybe not even show up
+on some days? To address this we have developed a <strong>score</strong> to include
+both its position on a given day and its frequency of on the list.</p>
+<blockquote>
+<p>We assign a 1-10 points to each position, with top position worth 10
+points, 2nd place 9 point, and so on. Then we keep score for each
+stock in this analysis and compute a total points, thus the score.
+</p>
+</blockquote>
+<p>Now rank them by this score and view price chart of the top 5 of
+them. Here in the example we are showing a two week score of
+<em>gainers</em>. NET (green) ranked top and indeed its price went up
+slightly. However, EDU (blue) by comparison underperformed even though
+it had a 2nd place in score. This became sensible when we also look at
+the ranking matrix (below). EDU had high score because it scored high
+position 3 our 4 times it made the list. So during the days it missed
+the list it must have had quite a down time, thus explained why its
+actual price was underperformed despite of its high score.</p>
+<figure class="col s12">
+    <figcaption>Trending overall score</figcaption>
+    <img src="images/trending%20overall%20score.png"/>
+    <img src="images/trending%20overall%20score%20matrix.png"/>
+</figure>
+
+<h2>Occurrences</h2>
+<p>Occurences counts the time a stock made to a list. The meaning of the
+list depends on the value index you have selected. For example, being
+often on the <em>gainer</em> list speaks well of a stock, while being often
+on the <em>loser</em> list doesn't.</p>
+<p>Occurrences are grouped into two: greater than or equal to 50%, and
+less than 50%. For each stock, a chart is drawn to exactly how many
+days (as percentage of the total days selected) it made to the list.
+In this example below, showing the occurrences of volume ranks, we
+could suspect that AMC w/ its 95% of the time <em>in</em> the list saw more
+<em>market attention</em> than DKS w/ a 75% in. Make sense?</p>
+<figure class="col s12">
+    <figcaption>Trending occurrences</figcaption>
+    <img src="images/trending%20occurance.png"/>
+</figure>
+
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:1">
+<p><code>daytime return % = (close-open)/open</code>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div></p>
+
+      <p>
+        &mdash; by
+        <a href="feng-xia.html">Feng Xia</a>
+      </p>
+    </div>
+  </div>
+
+</article>
+
+              <div id="related"> </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col l8 m8 s12">
+            <p>
+              2016-2021 PY Consulting Ltd. 1236 Beacon Street, Brookline, MA
+              02146
+            </p>
+
+            <p>
+              <a href="mailto:feng_xia41103@hotmail.com">
+                <i class="fa fa-envelope"></i>
+              </a>
+
+              <a href="http://github.com/fengxia41103">
+                <i class="fa fa-github"></i>
+              </a>
+
+              <a href="https://www.linkedin.com/in/fengxia41103">
+                <i class="fa fa-linkedin"></i>
+              </a>
+
+              <a href="">
+                <i class="fa fa-phone-square"></i>
+                (508)801-1794
+              </a>
+            </p>
+          </div>
+          <div class="col l4 m4 s12">
+            <p class="right">
+              <i class="fa fa-copyright"></i>
+              All rights reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+       <!-- end of block main -->
+
+    <!-- Placed at the end of the document so the pages load faster -->
+     <script
+      type="text/javascript"
+      src="https://fengxia41103.github.io/stock/theme/bower_components/jquery-ui/jquery-ui.min.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="https://fengxia41103.github.io/stock/theme/bower_components/datatables/media/js/jquery.dataTables.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://fengxia41103.github.io/stock/theme/bower_components/datatables/media/js/dataTables.bootstrap.min.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/shell.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/lisp.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/xml.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/diff.min.js"
+    ></script>
+
+    <script type="text/javascript">
+      var j$ = jQuery.noConflict();
+
+      j$(document).ready(function () {
+        // common global widget initializations
+        var table = j$("table.my-datatable").dataTable({
+          paging: false,
+          info: false,
+          pagingType: "simple",
+        });
+
+        // highlight.js initialization
+        hljs.initHighlightingOnLoad();
+        j$("pre").each(function (i, block) {
+          hljs.highlightBlock(block);
+        });
+      });
+    </script>
+    <!-- end of block JS -->
+
+      </body>
+</html>

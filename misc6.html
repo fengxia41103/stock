@@ -67,7 +67,7 @@
       <div class="split-left-pane">
          <ul>
           <li>
-            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System design</a>
+            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System Design</a>
           </li>
           <li>
             <a href="https://fengxia41103.github.io/stock/dev%20and%20deployment.html"
@@ -101,6 +101,9 @@
           <li>
             <a href="https://fengxia41103.github.io/stock/rankings.html">Rankings</a>
           </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/trending.html">Price Trending</a>
+          </li>
         </ul>
 
       </div>
@@ -114,42 +117,32 @@
   <div class="col s12">
     <div class="label label-default">
       <i class="fa fa-calendar" style="opacity: 0.5">&nbsp;</i>
-      2021-09-21     </div>
+      2021-09-22     </div>
   </div>
   <div class="col s12">
-    <h4>Stock Returns</h4>
+    <h4>Stock Trend</h4>
 
-    <p><p>There are three types of return: daily, nightly, and 24-hour. Return
-values are in <strong>percentage (%)</strong>, and negative returns are colored
-in <strong>red</strong>. Since the analysis done to them are similar, we are to
-address them together here.</p>
-<ol>
-<li><strong>daily return</strong>: <code>(today's close - today's open)/today's
-   open</code>. This measures the return during normal market hours.</li>
-<li><strong>nightly return</strong>: <code>(today's open - yesterday's close)/yesterday's
-   close</code>. This measures the return during off market hours.</li>
-<li><strong>24-hour return</strong>: <code>(today's close - yesterday's
-   close)/yesterday's close</code>. This measures the over effect of a
-   24-hour day, thus including both the market hours and off market
-   hours (for example, many companies choose to make announcement
-   after market close, thus causing price to fluctuate prior to next
-   day's market opening).</li>
-</ol>
-<figure class="col s12">
-    <figcaption>Stock 24-hour return chart</figcaption>
-    <img src="images/stock%2024%20hour%20return%20bar%20chart.png"/>
-</figure>
-
-<p>Now with computed returns, we do some basic counting and statistic
-analysis of the return data.</p>
-<h2>positive vs. negative occurrence</h2>
-<p>This answers that out of the return data, how many were positive and
-how many were negative. If a stock were on a rise, we would expect it
-having more positive days than …</p></p>
+    <p><p>In the <a href="{filename}/single%20stock%price.md">stock price analysis</a>, we have seen the analysis of <strong>gain
+probability</strong> by computing its likelihood of making a gain in the
+selected period. In this trend analysis page, we extend the analysis
+further by looking at each day's price, especially the down days', to
+measure its <strong>significance</strong> &mdash; "if I see a price dip, how big a
+dip it was?"</p>
+<h2>Price time span</h2>
+<p>Price time span is a way to analyze one day's <code>close</code> in the context
+of both in the history and in the future.</p>
+<h3>Last lower</h3>
+<p>First, we search into the history for a price <strong>lower than</strong> this
+price, then counting the days between the two dates. This value
+represents the <em>last time</em> I have seen a price lower than this. We
+call this the <strong>last lower</strong>. Now imagine a day when AAPL went down,
+was $5, or 5% a lot? Should I buy this dip? The last lower value, say,
+30, would mean that this dip just put AAPL back to its 30 day's
+ago. Therefore, if you had bought it …</p></p>
   </div>
 
   <div class="col s12 right-align">
-    <a class="btn wave-effect" href="https://fengxia41103.github.io/stock/stock returns.html">
+    <a class="btn wave-effect" href="https://fengxia41103.github.io/stock/stock trend.html">
       read more
     </a>
   </div>
