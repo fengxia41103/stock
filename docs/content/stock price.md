@@ -9,7 +9,8 @@ price trending and returns.
 
 ## Date range
 
-User can set a date range by using the date picker:
+User can set a date range by using the date picker. Default end date
+is TODAY, and start date is 1-month from TODAY.
 
 <figure class="col s12">
     <figcaption>Stock historical price date picker</figcaption>
