@@ -107,124 +107,166 @@
       <i class="fa fa-folder-open-o"></i>
       misc
     </a>
-       <h1 class="myhighlight">Stock Trend</h1>
+       <h1 class="myhighlight">Stock Valuation Models</h1>
   </div>
 
   <ol id="toc" class="row"></ol>
 
   <div>
     <div id="article-content">
-      <p><p>In the <a href="{filename}/single%20stock%price.md">stock price analysis</a>, we have seen the analysis of <strong>gain
-probability</strong> by computing its likelihood of making a gain in the
-selected period. In this trend analysis page, we extend the analysis
-further by looking at each day's price, especially the down days', to
-measure its <strong>significance</strong> &mdash; "if I see a price dip, how big a
-dip it was?"</p>
-<h2>Price time span</h2>
-<p>Price time span is a way to analyze one day's <code>close</code> in the context
-of both in the history and in the future.</p>
-<h3>Last lower</h3>
-<p>First, we search into the history for a price <strong>lower than</strong> this
-price, then counting the days between the two dates. This value
-represents the <em>last time</em> I have seen a price lower than this. We
-call this the <strong>last lower</strong>. Now imagine a day when AAPL went down,
-was $5, or 5% a lot? Should I buy this dip? The last lower value, say,
-30, would mean that this dip just put AAPL back to its 30 day's
-ago. Therefore, if you had bought it 30 days back and held till this
-moment, you would have gained zero.</p>
-<p>This value is useful if you are more accustomed to think in term of
-time than of $5 or 5% return. It is translating that $5 into a
-time-based measure.</p>
+      <p><p>We offer analysis of four valuation methods: DuPont ROE model,
+discounted cash flow model, valuation ratios such as P/E, P/B, and net
+asset value.</p>
+<h2>DuPont ROE</h2>
+<p><a href="https://www.investopedia.com/terms/d/dupontanalysis.asp">DuPont ROE model</a> is "a useful technique used to decompose the
+different drivers of return on equity (ROE)". In a nutshell it breaks
+down a single ROE value into three components:</p>
+<ol>
+<li><strong>net profit margin %</strong>: Some businesses are by nature high profit
+   margin but small volume, such as a luxury brand, while others are
+   the opposite, eg. WalMart. Thus a trend of this aspect shows
+   whether the business is performing as expected, or has shifted its
+   strategy.</li>
+<li><strong>asset turn over %</strong>: Wholesale business such as WalMart often
+   rely on thin margin but large volume, thus shows a high asset turn
+   over rate.</li>
+<li><strong>equity multiplier</strong>: In other words, debt leverage over
+   equity. Borrowing power is a magnifier, and it works both ways.</li>
+</ol>
+<p>Yahoo! API provides a latest ROE value. However, our tool take this
+one step further by computing the ROE value of each reporting
+period. By doing so the tool also shows how the ROE value and its DuPont
+factors change over time. Thus the user gets a sense how the business
+is growing or deteriorating.</p>
 <figure class="col s12">
-    <figcaption>Stock last lower</figcaption>
-    <img src="images/stock%20last%20lower.png"/>
+    <figcaption>Stock ROE DuPont Model</figcaption>
+    <img src="images/dupont.png"/>
 </figure>
 
-<p>In this example, AAPL lost 40 days' worth of ground on 9/20/2021, and
-clearly you could see the negative trend became larger and larger
-starting 9/13.</p>
-<h3>Next better</h3>
-<p>Inverse to the <strong>last lower</strong>, we now turn our lens into the future
-when standing on a date. The <strong>next better</strong> is to count days between
-this date and the <em>next price higher than me</em>. If the stock is on a
-rising trend, this value would always be 1, meaning you see a higher
-price on the next day. Similarly, a 0 is the day when the price peaked
-out because we can't any higher price, and a large value is the time
-it took while for the stock to recover.</p>
+<p>In the example, AAPL's ROE (blue) jumped based on the 3/31/2021
+reporting data. DuPont model shows that its profit margin and debt
+leverage didn't change much, and the drive of this jump was mainly by
+an increase of asset turnover rate (green). Further, if we examine the
+net profit margin vs. the debt leverage, we would see that the debt
+leverage was growing from 1 to 1.2, while the net profit margin grew
+even quicker from <code>1</code> to <code>1.3</code>. Now to think of it, if AAPL had a
+higher margin, an explosive volume, and not taking on much debt, I
+would say its business is in a good shape by this valuation.</p>
 <figure class="col s12">
-    <figcaption>Stock next better</figcaption>
-    <img src="images/stock%20next%20better.png"/>
+    <figcaption>Example DuPont Model: net profit vs. debt leverage</figcaption>
+    <img src="images/dupont%20net%20margin%20vs%20leverage.png"/>
 </figure>
 
-<p>So to sum it up, these two are measuring a price's significance in
-term of time, thus highlight a stock's price trend.</p>
+<h2>Discounted Cash Flow (DCF)</h2>
+<p><a href="https://www.investopedia.com/terms/d/dcf.asp">DCF model</a> is a fairly complex one. There are many assumptions
+involved, each could have throw off the estimation significantly into
+insensible land. Here we are not to offer a better DCF number. Rather,
+it is to give user the power to tweak and test these assumptions and
+see their effect on the estimation, thus allowing user to test his
+methods as well as honing his understanding w/ quick feedbacks.</p>
+<p>Another thing worth noting is many of the DCF templates/tools on the
+web use <em>average</em> to smooth out sales or cash flow and so forth, and
+usually provides a single DCF value in the end. Ours, instead,
+computes per each reporting period using its <strong>reported data
+only</strong>. Due to the data quality of our data source, some stocks may
+have a missing data point in a reporting period. In this case, we look
+back for the closest reporting period that can provide this value and
+use that. All these would introduce distortion to the
+estimation. However, as a modeling tool, we think the benefit of being
+able to see the estimation changes over time outweighs the tradeoffs.</p>
+<figure class="col s12">
+    <figcaption>Stock DCF assumptions</figcaption>
+    <img src="images/dcf%20assumptions.png"/>
+</figure>
+
+<ol>
+<li><strong>risk free rate</strong>: Default <code>1.242%</code>. However, one should look up
+   the published <a href="https://www.treasury.gov/resource-center/data-chart-center/interest-rates/pages/textview.aspx?data=yield">Treasury Rates</a> for an up-to-date value.</li>
+<li><strong>project years</strong>: Default <code>5</code>, meaning we are projecting its sales
+   for these many years. There is also an underline assumption that
+   the business would exist for this long.</li>
+<li><strong>growth rate</strong>: Projected free cash flow growth rate per
+   year. Default to <code>7%</code>.</li>
+<li><strong>terminal growth rate</strong>: Default to <code>1%</code>. The DCF model is
+    sensitive to this value.</li>
+<li><strong>market premium</strong>: Default to <code>7%</code>.</li>
+<li><strong>cost of debt</strong>: Default to <code>10%</code>.</li>
+</ol>
+<p>Changing any of these assumptions would refresh both the chart and
+table w/ newly computed values. As our practice, the chart is drawn w/
+data normalized, thus showing both their relative strength to each
+other, and a trend over time.</p>
+<figure class="col s12">
+    <figcaption>Stock DCF chart</figcaption>
+    <img src="images/dcf%20chart.png"/>
+</figure>
+
+<figure class="col s12">
+    <figcaption>Stock DCF table</figcaption>
+    <img src="images/dcf%20table.png"/>
+</figure>
+
+<p>In the table, we list all the values used in this valuation, thus
+allowing user to further verify and investigate, for example, for
+outlier values based on his own judgment or knowledge. Most of the
+values are self-explanatory. A few are discussed below:</p>
 <table>
 <thead>
 <tr>
-<th></th>
-<th>last lower</th>
-<th>next better</th>
+<th>Value</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>0</td>
-<td>at bottom, or continuously rising</td>
-<td>at peak, or continously falling</td>
+<td>Last Close Price</td>
+<td>The <code>close</code> price on the reporting date</td>
 </tr>
 <tr>
-<td>1 or -1</td>
-<td>reverse previous trend</td>
-<td>reverse previous trend</td>
+<td>Discounted Cash Flow Valuation</td>
+<td>Estimated DCF price</td>
 </tr>
 <tr>
-<td>large value</td>
-<td>significant drop</td>
-<td>slow recovery</td>
+<td>Valuation/Price Ratio</td>
+<td><code>DCF price / last close price</code></td>
+</tr>
+<tr>
+<td>Cost of Equity</td>
+<td><code>risk free + (beta * market premium)</code></td>
 </tr>
 </tbody>
 </table>
-<h2>Gain bought today &amp; hold</h2>
-<p>Gain bought today &amp; hold is an evaluation if you were to buy at the
-day's <code>close</code> price<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> and hold till the end of the selected
-period. The gain <code>= (last close today's close)/today's close</code>.</p>
+<p>We assume a constant <code>cost of equity</code>. This is obviously
+inadequate. However, since we do not yet allow changing risk free
+rate, beta and market premium per reporting period, this value is used
+in all periods' estimation. This will be improved in future releases.</p>
+<p>The <code>valuation/price ratio</code> is meant to show how well the DCF
+estimation was compared to the actual market. A value greater than 1
+means DCF was more optimistic than the market, and a value less than 1
+is the opposite. Therefore, by testing different assumptions, the tool
+provides a <strong>feedback loop</strong>to the user how likely his assumptions
+were approximating the actuality. Market may not be always right. But
+it's being very wrong is rare, also.</p>
+<h2>Valuation Ratios</h2>
+<p>These valuation ratios are published by the data source. Thus, here
+the tool simply present them as reported.</p>
 <figure class="col s12">
-    <figcaption>Stock gain bought today & hold</figcaption>
-    <img src="images/stock%20gain%20bought%20and%20hold.png"/>
+    <figcaption>Stock Valuation Ratios</figcaption>
+    <img src="images/valuation%20ratios.png"/>
 </figure>
 
-<p>In this example, AAPL would have rendered most of the days a loss if
-you had invested because its last <code>close</code> price was low. The larger
-the negative area, the more significant the difference is between its
-high price points and low price points.</p>
-<p>Inversely, one could imagine that area would be in the positives if
-stock had a rising week.</p>
-<h2>Daily gain probability</h2>
-<p>This is a sibling analysis of the <code>gain probability ranges</code> on the
-<a href="{filename}/single%20stock%price.md">stock price</a> view. Instead of a range, we present a day-by-day
-view of how a gain probability will change over time, thus
-highlighting a moving trend of this value.</p>
+<h2>Net Asset Value (NAV)</h2>
+<p>These values are published by the data source.</p>
 <figure class="col s12">
-    <figcaption>Stock gain probability daily trend</figcaption>
-    <img src="images/stock%20gain%20probability%20daily.png"/>
+    <figcaption>Stock NAV model</figcaption>
+    <img src="images/nav.png"/>
 </figure>
 
-<p>In this example, AAPL had good gain probability at the start,
-indicating the price then was good. However, the probability shrank
-because price started rising. On 9/8 it reached 0, meaning the <code>close</code>
-was the peak for its remaining days. Then it started its decline. On
-9/16 it had a good <code>open</code>, the only one in the last 4 days. This made
-the <code>close</code> price on 9/15 having a 25% chance of making a gain.</p>
 <div class="footnote">
 <hr>
 <ol>
 <li id="fn:1">
-<p>The <code>close</code> price was chosen rather arbitrarily. We have no
-assumption of someone's trading habit &mdash; whether he likes to
-buy at market opening, or close, or in between. Therefore, the
-analysis demonstrates the power of the tool and what it can
-deliver. Choosing a different <strong>price point</strong> for the calculation
-will be addressed by future features.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p>These values are <strong>normalized</strong> as 1 being the base.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div></p>

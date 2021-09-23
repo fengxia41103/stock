@@ -88,6 +88,11 @@
               >Financial Statements</a
             >
           </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20valuation%20models.html"
+              >Valuation Models</a
+            >
+          </li>
         </ul>
 
       </div>
@@ -111,33 +116,34 @@
   <i class="fa fa-calendar" style="opacity: 0.5"></i>
   <em>
     2021-09-22   </em>
-  <h1>Stock Financial Statements</h1>
+  <h1>Stock Valuation Models</h1>
 </div>
 
-<p><p>Financial statements are called fundamentals. It is outside the scope
-of this doc to explain what these statements are and how to read
-them. As stated in the <a href="https://fengxia41103.github.io/stock/stock app design.html">design</a>, the reported values were often
-found less useful without computing a ratio, a percentage, or
-period-to-period comparison. Therefore, this tool takes on the data
-crunching by providing such computation and comparisons.</p>
-<h2>Four data categories</h2>
-<p>This is applicable to all three statements. On each page one would
-find data grouped into four categories:</p>
+<p><p>We offer analysis of four valuation methods: DuPont ROE model,
+discounted cash flow model, valuation ratios such as P/E, P/B, and net
+asset value.</p>
+<h2>DuPont ROE</h2>
+<p><a href="https://www.investopedia.com/terms/d/dupontanalysis.asp">DuPont ROE model</a> is "a useful technique used to decompose the
+different drivers of return on equity (ROE)". In a nutshell it breaks
+down a single ROE value into three components:</p>
 <ol>
-<li><strong>reported</strong>: These are straight out-of-report numbers. <strong>NOTE</strong>
-   that units are often omitted and a unit of <strong>billion</strong> is
-   implied. For example, <em>shared issued</em> of <code>17.14</code> would be 17.14
-   billion shares, whereas <em>working capital</em> of <code>44.75</code> would be 44.75
-   billion dollars.</li>
-<li><strong>ratio</strong>: Ratios are common technique in financial statement
-   analysis. We have covered many of them so far, and the list will
-   continue to grow w/ newer releases.</li>
-<li><strong>period-to-period growth rate (%)</strong>: Using quarterly
-   statement data provided by the Yahoo! API, we picked some data
-   points to compute its growth rate from …</li></ol></p>
+<li><strong>net profit margin %</strong>: Some businesses are by nature high profit
+   margin but small volume, such as a luxury brand, while others are
+   the opposite, eg. WalMart. Thus a trend of this aspect shows
+   whether the business is performing as expected, or has shifted its
+   strategy.</li>
+<li><strong>asset turn over %</strong>: Wholesale business such as WalMart often
+   rely on thin margin but large volume, thus shows a high asset turn
+   over rate.</li>
+<li><strong>equity multiplier</strong>: In other words, debt leverage over
+   equity. Borrowing power is a magnifier, and it works both ways.</li>
+</ol>
+<p>Yahoo! API provides a latest ROE value. However, our tool take this
+one step further by computing the ROE value of each reporting
+period. By doing so the …</p></p>
 
 <p style="margin-top: 3em">
-  <a class="btn btn-default button" href="stock financial statements.html">
+  <a class="btn btn-default button" href="stock valuation models.html">
     <i class="fa fa-coffee" style="opacity: 0.5"></i>
     continue reading
   </a>

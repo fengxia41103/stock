@@ -1,5 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>My Stocks</title><link href="https://fengxia41103.github.io/stock/" rel="alternate"></link><link href="https://fengxia41103.github.io/stock/feeds/all.atom.xml" rel="self"></link><id>https://fengxia41103.github.io/stock/</id><updated>2021-09-22T13:32:00-04:00</updated><entry><title>Stock Financial Statements</title><link href="https://fengxia41103.github.io/stock/stock%20financial%20statements.html" rel="alternate"></link><published>2021-09-22T13:32:00-04:00</published><updated>2021-09-22T13:32:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-22:/stock/stock financial statements.html</id><summary type="html">&lt;p&gt;Financial statements are called fundamentals. It is outside the scope
+<feed xmlns="http://www.w3.org/2005/Atom"><title>My Stocks</title><link href="https://fengxia41103.github.io/stock/" rel="alternate"></link><link href="https://fengxia41103.github.io/stock/feeds/all.atom.xml" rel="self"></link><id>https://fengxia41103.github.io/stock/</id><updated>2021-09-22T20:13:00-04:00</updated><entry><title>Stock Valuation Models</title><link href="https://fengxia41103.github.io/stock/stock%20valuation%20models.html" rel="alternate"></link><published>2021-09-22T20:13:00-04:00</published><updated>2021-09-22T20:13:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-22:/stock/stock valuation models.html</id><summary type="html">&lt;p&gt;We offer analysis of four valuation methods: DuPont ROE model,
+discounted cash flow model, valuation ratios such as P/E, P/B, and net
+asset value.&lt;/p&gt;
+&lt;h2&gt;DuPont ROE&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.investopedia.com/terms/d/dupontanalysis.asp"&gt;DuPont ROE model&lt;/a&gt; is "a useful technique used to decompose the
+different drivers of return on equity (ROE)". In a nutshell it breaks
+down a single ROE value into three components:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;net profit margin %&lt;/strong&gt;: Some businesses are by nature high profit
+   margin but small volume, such as a luxury brand, while others are
+   the opposite, eg. WalMart. Thus a trend of this aspect shows
+   whether the business is performing as expected, or has shifted its
+   strategy.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;asset turn over %&lt;/strong&gt;: Wholesale business such as WalMart often
+   rely on thin margin but large volume, thus shows a high asset turn
+   over rate.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;equity multiplier&lt;/strong&gt;: In other words, debt leverage over
+   equity. Borrowing power is a magnifier, and it works both ways.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Yahoo! API provides a latest ROE value. However, our tool take this
+one step further by computing the ROE value of each reporting
+period. By doing so the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We offer analysis of four valuation methods: DuPont ROE model,
+discounted cash flow model, valuation ratios such as P/E, P/B, and net
+asset value.&lt;/p&gt;
+&lt;h2&gt;DuPont ROE&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.investopedia.com/terms/d/dupontanalysis.asp"&gt;DuPont ROE model&lt;/a&gt; is "a useful technique used to decompose the
+different drivers of return on equity (ROE)". In a nutshell it breaks
+down a single ROE value into three components:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;net profit margin %&lt;/strong&gt;: Some businesses are by nature high profit
+   margin but small volume, such as a luxury brand, while others are
+   the opposite, eg. WalMart. Thus a trend of this aspect shows
+   whether the business is performing as expected, or has shifted its
+   strategy.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;asset turn over %&lt;/strong&gt;: Wholesale business such as WalMart often
+   rely on thin margin but large volume, thus shows a high asset turn
+   over rate.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;equity multiplier&lt;/strong&gt;: In other words, debt leverage over
+   equity. Borrowing power is a magnifier, and it works both ways.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Yahoo! API provides a latest ROE value. However, our tool take this
+one step further by computing the ROE value of each reporting
+period. By doing so the tool also shows how the ROE value and its DuPont
+factors change over time. Thus the user gets a sense how the business
+is growing or deteriorating.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock ROE DuPont Model&lt;/figcaption&gt;
+    &lt;img src="images/dupont.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In the example, AAPL's ROE (blue) jumped based on the 3/31/2021
+reporting data. DuPont model shows that its profit margin and debt
+leverage didn't change much, and the drive of this jump was mainly by
+an increase of asset turnover rate (green). Further, if we examine the
+net profit margin vs. the debt leverage, we would see that the debt
+leverage was growing from 1 to 1.2, while the net profit margin grew
+even quicker from &lt;code&gt;1&lt;/code&gt; to &lt;code&gt;1.3&lt;/code&gt;. Now to think of it, if AAPL had a
+higher margin, an explosive volume, and not taking on much debt, I
+would say its business is in a good shape by this valuation.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Example DuPont Model: net profit vs. debt leverage&lt;/figcaption&gt;
+    &lt;img src="images/dupont%20net%20margin%20vs%20leverage.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Discounted Cash Flow (DCF)&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.investopedia.com/terms/d/dcf.asp"&gt;DCF model&lt;/a&gt; is a fairly complex one. There are many assumptions
+involved, each could have throw off the estimation significantly into
+insensible land. Here we are not to offer a better DCF number. Rather,
+it is to give user the power to tweak and test these assumptions and
+see their effect on the estimation, thus allowing user to test his
+methods as well as honing his understanding w/ quick feedbacks.&lt;/p&gt;
+&lt;p&gt;Another thing worth noting is many of the DCF templates/tools on the
+web use &lt;em&gt;average&lt;/em&gt; to smooth out sales or cash flow and so forth, and
+usually provides a single DCF value in the end. Ours, instead,
+computes per each reporting period using its &lt;strong&gt;reported data
+only&lt;/strong&gt;. Due to the data quality of our data source, some stocks may
+have a missing data point in a reporting period. In this case, we look
+back for the closest reporting period that can provide this value and
+use that. All these would introduce distortion to the
+estimation. However, as a modeling tool, we think the benefit of being
+able to see the estimation changes over time outweighs the tradeoffs.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock DCF assumptions&lt;/figcaption&gt;
+    &lt;img src="images/dcf%20assumptions.png"/&gt;
+&lt;/figure&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;risk free rate&lt;/strong&gt;: Default &lt;code&gt;1.242%&lt;/code&gt;. However, one should look up
+   the published &lt;a href="https://www.treasury.gov/resource-center/data-chart-center/interest-rates/pages/textview.aspx?data=yield"&gt;Treasury Rates&lt;/a&gt; for an up-to-date value.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;project years&lt;/strong&gt;: Default &lt;code&gt;5&lt;/code&gt;, meaning we are projecting its sales
+   for these many years. There is also an underline assumption that
+   the business would exist for this long.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;growth rate&lt;/strong&gt;: Projected free cash flow growth rate per
+   year. Default to &lt;code&gt;7%&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;terminal growth rate&lt;/strong&gt;: Default to &lt;code&gt;1%&lt;/code&gt;. The DCF model is
+    sensitive to this value.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;market premium&lt;/strong&gt;: Default to &lt;code&gt;7%&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;cost of debt&lt;/strong&gt;: Default to &lt;code&gt;10%&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Changing any of these assumptions would refresh both the chart and
+table w/ newly computed values. As our practice, the chart is drawn w/
+data normalized, thus showing both their relative strength to each
+other, and a trend over time.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock DCF chart&lt;/figcaption&gt;
+    &lt;img src="images/dcf%20chart.png"/&gt;
+&lt;/figure&gt;
+
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock DCF table&lt;/figcaption&gt;
+    &lt;img src="images/dcf%20table.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In the table, we list all the values used in this valuation, thus
+allowing user to further verify and investigate, for example, for
+outlier values based on his own judgment or knowledge. Most of the
+values are self-explanatory. A few are discussed below:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Last Close Price&lt;/td&gt;
+&lt;td&gt;The &lt;code&gt;close&lt;/code&gt; price on the reporting date&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Discounted Cash Flow Valuation&lt;/td&gt;
+&lt;td&gt;Estimated DCF price&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Valuation/Price Ratio&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;DCF price / last close price&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Cost of Equity&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;risk free + (beta * market premium)&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;We assume a constant &lt;code&gt;cost of equity&lt;/code&gt;. This is obviously
+inadequate. However, since we do not yet allow changing risk free
+rate, beta and market premium per reporting period, this value is used
+in all periods' estimation. This will be improved in future releases.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;valuation/price ratio&lt;/code&gt; is meant to show how well the DCF
+estimation was compared to the actual market. A value greater than 1
+means DCF was more optimistic than the market, and a value less than 1
+is the opposite. Therefore, by testing different assumptions, the tool
+provides a &lt;strong&gt;feedback loop&lt;/strong&gt;to the user how likely his assumptions
+were approximating the actuality. Market may not be always right. But
+it's being very wrong is rare, also.&lt;/p&gt;
+&lt;h2&gt;Valuation Ratios&lt;/h2&gt;
+&lt;p&gt;These valuation ratios are published by the data source. Thus, here
+the tool simply present them as reported.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock Valuation Ratios&lt;/figcaption&gt;
+    &lt;img src="images/valuation%20ratios.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Net Asset Value (NAV)&lt;/h2&gt;
+&lt;p&gt;These values are published by the data source.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Stock NAV model&lt;/figcaption&gt;
+    &lt;img src="images/nav.png"/&gt;
+&lt;/figure&gt;
+
+&lt;div class="footnote"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;These values are &lt;strong&gt;normalized&lt;/strong&gt; as 1 being the base.&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content><category term="misc"></category></entry><entry><title>Stock Financial Statements</title><link href="https://fengxia41103.github.io/stock/stock%20financial%20statements.html" rel="alternate"></link><published>2021-09-22T13:32:00-04:00</published><updated>2021-09-22T13:32:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-22:/stock/stock financial statements.html</id><summary type="html">&lt;p&gt;Financial statements are called fundamentals. It is outside the scope
 of this doc to explain what these statements are and how to read
 them. As stated in the &lt;a href="https://fengxia41103.github.io/stock/stock app design.html"&gt;design&lt;/a&gt;, the reported values were often
 found less useful without computing a ratio, a percentage, or
