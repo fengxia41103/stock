@@ -104,6 +104,9 @@
           <li>
             <a href="https://fengxia41103.github.io/stock/trending.html">Price Trending</a>
           </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/notes.html">Notes</a>
+          </li>
         </ul>
 
       </div>
@@ -118,65 +121,62 @@
         <i class="fa fa-angle-left"></i>
       </a>
     </li>
-   </ul>
+     <li class="wave-effect">
+      <a
+        href="https://fengxia41103.github.io/stock/index11.html"
+      >
+        <i class="fa fa-angle-right"></i>
+      </a>
+    </li>
+  </ul>
 </div>
 
 <div>
   <i class="fa fa-calendar" style="opacity: 0.5"></i>
   <em>
-    2021-09-09   </em>
-  <h1>Stock App Design</h1>
+    2021-09-21   </em>
+  <h1>Dev & Deployment</h1>
 </div>
 
-<p><h2>Disclaimer, philosophy</h2>
-<figure class="col l7 m6 s12">
-    <img src="https://imgs.xkcd.com/comics/efficiency_2x.png" />
+<p><p>Both the backend and the frontend have been dockerized. Thus,
+regardless your platform, install Docker &amp; <code>docker-compose</code> first.</p>
+<h2>For user</h2>
+<ol>
+<li>Clone the <a href="https://github.com/fengxia41103/stock">repo</a>.</li>
+<li>Go to the project root folder, <code>docker-compose up --build -d</code>.</li>
+<li>Create a backend admin user: <code>docker-compose run web python
+   manage.py createsuperuser</code>, and follow the instructions. Email is
+   optional.</li>
+<li>Go to browser <code>http://localhost:8084</code>, and use the user account to
+   login.</li>
+</ol>
+<p>Now you should be ready to use the application by adding stocks and
+sectors.</p>
+<h2>For developers</h2>
+<h3>Modify code</h3>
+<p>Using the docker way is preferred. Code will be mounted into the
+docker as <code>volume</code> (see <code>docker-compose.yaml</code> for details). Thus
+changes done on your local editor will be reflected in the running
+docker as <code>live</code>.</p>
+<h3>Debugging</h3>
+<p>It may sound 1980. But the most effective way is to use
+<code>docker-compose logs -f &lt;service name&gt;</code> to see stack trace and/or
+error messages.</p>
+<h3>Testing</h3>
+<p>Looking for <strong>volunteers</strong>!!</p>
+<h2>For network admins</h2>
+<h3>networks</h3>
+<p>Network of the setup is fairly simple. We distinguish <code>data</code> vs. <code>management</code>:</p>
+<figure class="col s12 center">
+  <img src="images/backend%20network.png"/>
+  <figcaption>Stock app networks</figcaption>
 </figure>
 
-<p>First of all, this isn't a magic tool to beat the market. We firmly
-believe the final conclusion should be drawn by the user whose brain
-power holds the edge over the market, if ever.</p>
-<p>The purpose of this tool is to assemble information in a fashion to
-assist the user process these information more efficiently by
-liberating his/her from tedious, but necessary, steps such as data
-collection, ratio computation, drawing a line graph, etc., than
-without such a helper. Thus with this tool, the user could focus onto
-creating value instead of being bogged down by less value-added works.</p>
-<h2>Audience &amp; goals</h2>
-<p>This application is written for users who have interest in the
-stock market, in particular, data analysis of the stock data. In my
-experience, there are five levels of users:</p>
-<table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Tool</th>
-<th>Audience</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>apps &amp; websites</td>
-<td>Have basic knowledge, satisfied with reported info</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Excel</td>
-<td>Think they have some data/info analysis edge</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td><strong>Excel + VBA</strong></td>
-<td><strong>Automate routine computation and data assembly</strong></td>
-</tr>
-<tr>
-<td>4</td>
-<td>Script or lib</td>
-<td>Programmer who gained more …</td></tr></tbody></table></p>
+<h3>ports</h3>
+<p>I try to limit exposure of ports …</p></p>
 
 <p style="margin-top: 3em">
-  <a class="btn btn-default button" href="stock app design.html">
+  <a class="btn btn-default button" href="dev and deployment.html">
     <i class="fa fa-coffee" style="opacity: 0.5"></i>
     continue reading
   </a>

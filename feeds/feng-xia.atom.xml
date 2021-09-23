@@ -1,5 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>My Stocks - Feng Xia</title><link href="https://fengxia41103.github.io/stock/" rel="alternate"></link><link href="https://fengxia41103.github.io/stock/feeds/feng-xia.atom.xml" rel="self"></link><id>https://fengxia41103.github.io/stock/</id><updated>2021-09-23T10:17:00-04:00</updated><entry><title>Price Trending</title><link href="https://fengxia41103.github.io/stock/trending.html" rel="alternate"></link><published>2021-09-23T10:17:00-04:00</published><updated>2021-09-23T10:17:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-23:/stock/trending.html</id><summary type="html">&lt;p&gt;Trending function is a unique feature we don't find in other
+<feed xmlns="http://www.w3.org/2005/Atom"><title>My Stocks - Feng Xia</title><link href="https://fengxia41103.github.io/stock/" rel="alternate"></link><link href="https://fengxia41103.github.io/stock/feeds/feng-xia.atom.xml" rel="self"></link><id>https://fengxia41103.github.io/stock/</id><updated>2021-09-23T16:23:00-04:00</updated><entry><title>Notes</title><link href="https://fengxia41103.github.io/stock/notes.html" rel="alternate"></link><published>2021-09-23T16:23:00-04:00</published><updated>2021-09-23T16:23:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-23:/stock/notes.html</id><summary type="html">&lt;p&gt;One thing we find useful for beginners is study note. The experience
+of researching a stock is not different from your class &amp;mdash; you
+take notes, jog down your thoughts, review them, and learn from
+mistakes.&lt;/p&gt;
+&lt;p&gt;Rather than keeping your notes outside the system, our &lt;strong&gt;Notes&lt;/strong&gt;
+function is for you to keep your thoughts close to where the data is.&lt;/p&gt;
+&lt;h2&gt;Create a new note&lt;/h2&gt;
+&lt;p&gt;Creating a new note is easy. We provided a powerful Markdown editor
+that has rich features.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Creating a new note&lt;/figcaption&gt;
+    &lt;img src="images/new%20notes.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Once a note is created, one can also &lt;em&gt;edit&lt;/em&gt; it or &lt;em&gt;delete&lt;/em&gt; it if needed.&lt;/p&gt;
+&lt;h3&gt;Types of notes&lt;/h3&gt;
+&lt;p&gt;There are two types of notes: one of general purpose, and one of a
+specific stock. The two are nearly identical in all aspects except the
+latter is created from a stock's detail page, thus having a clear
+association w/ a stock at creation, while the other is created from
+the Notes list page, thus having no special dedication to a stock.&lt;/p&gt;
+&lt;p&gt;There is no limitation on contents for either stock. The distinction
+only …&lt;/p&gt;</summary><content type="html">&lt;p&gt;One thing we find useful for beginners is study note. The experience
+of researching a stock is not different from your class &amp;mdash; you
+take notes, jog down your thoughts, review them, and learn from
+mistakes.&lt;/p&gt;
+&lt;p&gt;Rather than keeping your notes outside the system, our &lt;strong&gt;Notes&lt;/strong&gt;
+function is for you to keep your thoughts close to where the data is.&lt;/p&gt;
+&lt;h2&gt;Create a new note&lt;/h2&gt;
+&lt;p&gt;Creating a new note is easy. We provided a powerful Markdown editor
+that has rich features.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Creating a new note&lt;/figcaption&gt;
+    &lt;img src="images/new%20notes.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Once a note is created, one can also &lt;em&gt;edit&lt;/em&gt; it or &lt;em&gt;delete&lt;/em&gt; it if needed.&lt;/p&gt;
+&lt;h3&gt;Types of notes&lt;/h3&gt;
+&lt;p&gt;There are two types of notes: one of general purpose, and one of a
+specific stock. The two are nearly identical in all aspects except the
+latter is created from a stock's detail page, thus having a clear
+association w/ a stock at creation, while the other is created from
+the Notes list page, thus having no special dedication to a stock.&lt;/p&gt;
+&lt;p&gt;There is no limitation on contents for either stock. The distinction
+only becomes important when you use the &lt;em&gt;Preduction&lt;/em&gt; function (see next).&lt;/p&gt;
+&lt;h3&gt;Prediction&lt;/h3&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Make a prediction&lt;/figcaption&gt;
+    &lt;img src="images/notes%20prediction.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;The &lt;strong&gt;Prediction&lt;/strong&gt; is a feedback loop to help user hone in his
+judgment and understanding of his material. When writing a note, user
+is &lt;strong&gt;required&lt;/strong&gt; to make a prediction for the &lt;em&gt;stock&lt;/em&gt; this note is
+linked with. For general purpose note, the prediction is applied to a
+S&amp;amp;P500 INDEX&lt;sup id="fnref:1"&gt;&lt;a class="footnote-ref" href="#fn:1"&gt;1&lt;/a&gt;&lt;/sup&gt;, thus you can view it as a &lt;em&gt;prediction of the general
+market&lt;/em&gt;. For stock specific note, the prediction is for that stock
+only.&lt;/p&gt;
+&lt;p&gt;There are only two options: up, or down. Default is UP.&lt;/p&gt;
+&lt;h2&gt;Review notes&lt;/h2&gt;
+&lt;p&gt;Reviewing note is the best way to recall what the market was like
+then, what was on my mind, and how well my understand/prediction
+panned out comparing to the real market.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;A sample note&lt;/figcaption&gt;
+    &lt;img src="images/notes.png"/&gt;
+&lt;/figure&gt;
+
+&lt;h3&gt;Stock tracker&lt;/h3&gt;
+&lt;p&gt;All symbols in the notes would be picked up automatically and
+tracked. Each symbol has three data, from left to right:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;close&lt;/code&gt; price on the date the note was created&lt;/li&gt;
+&lt;li&gt;latest &lt;code&gt;close&lt;/code&gt; price&lt;/li&gt;
+&lt;li&gt;return % between these two price points&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Notes stock tracker&lt;/figcaption&gt;
+    &lt;img src="images/notes%20stock%20tracker.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Taking CCL in the picture as example, its price was at $21.16 on
+8/3/201, the day this note was created. Now its latest price is at
+$24.69, representing a 16.68% gain from 8/3. Therefore, you can use
+this to review what you wrote and thought about CCL on 8/3, and see
+how well you have judged its performance.&lt;/p&gt;
+&lt;h3&gt;Prediction checking&lt;/h3&gt;
+&lt;p&gt;Use the creation timestamp, the tool will indicate the price point the
+prediction was made against. A &lt;strong&gt;thumb up&lt;/strong&gt; or &lt;strong&gt;down&lt;/strong&gt; would then
+indicate whether the current price makes the prediction true or false.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Notes prediction checking&lt;/figcaption&gt;
+    &lt;img src="images/notes%20prediction%20checking.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In this example, the price point was at $439.46 on 8/3, and our
+prediction was that it would go up, and it did!&lt;/p&gt;
+&lt;div class="footnote"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;We are using VOO by default. This is subject to change to SPY or
+equivalent in the future.&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content><category term="misc"></category></entry><entry><title>Price Trending</title><link href="https://fengxia41103.github.io/stock/trending.html" rel="alternate"></link><published>2021-09-23T10:17:00-04:00</published><updated>2021-09-23T10:17:00-04:00</updated><author><name>Feng Xia</name></author><id>tag:fengxia41103.github.io,2021-09-23:/stock/trending.html</id><summary type="html">&lt;p&gt;Trending function is a unique feature we don't find in other
 tools. The idea is: if I could rank the stock's &lt;em&gt;performance&lt;/em&gt;, how to
 see this performance changes over time? If &lt;a href="https://fengxia41103.github.io/stock/rankings.html"&gt;ranking&lt;/a&gt; was a snapshot
 in time based on the latest data available, trending now introduced a

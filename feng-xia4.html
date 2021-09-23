@@ -104,6 +104,9 @@
           <li>
             <a href="https://fengxia41103.github.io/stock/trending.html">Price Trending</a>
           </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/notes.html">Notes</a>
+          </li>
         </ul>
 
       </div>
@@ -117,37 +120,80 @@
   <div class="col s12">
     <div class="label label-default">
       <i class="fa fa-calendar" style="opacity: 0.5">&nbsp;</i>
-      2021-09-22     </div>
+      2021-09-23     </div>
   </div>
   <div class="col s12">
-    <h4>Stock Valuation Models</h4>
+    <h4>Technical Indicators</h4>
 
-    <p><p>We offer analysis of four valuation methods: DuPont ROE model,
-discounted cash flow model, valuation ratios such as P/E, P/B, and net
-asset value.</p>
-<h2>DuPont ROE</h2>
-<p><a href="https://www.investopedia.com/terms/d/dupontanalysis.asp">DuPont ROE model</a> is "a useful technique used to decompose the
-different drivers of return on equity (ROE)". In a nutshell it breaks
-down a single ROE value into three components:</p>
-<ol>
-<li><strong>net profit margin %</strong>: Some businesses are by nature high profit
-   margin but small volume, such as a luxury brand, while others are
-   the opposite, eg. WalMart. Thus a trend of this aspect shows
-   whether the business is performing as expected, or has shifted its
-   strategy.</li>
-<li><strong>asset turn over %</strong>: Wholesale business such as WalMart often
-   rely on thin margin but large volume, thus shows a high asset turn
-   over rate.</li>
-<li><strong>equity multiplier</strong>: In other words, debt leverage over
-   equity. Borrowing power is a magnifier, and it works both ways.</li>
-</ol>
-<p>Yahoo! API provides a latest ROE value. However, our tool take this
-one step further by computing the ROE value of each reporting
-period. By doing so the …</p></p>
+    <p><p>Technical analysis is mainly based on <a href="https://github.com/rrag/react-stockcharts">react-stockcharts</a>. We
+currently support the following indicators: Bollinger Band, Elder Ray,
+SAR, Full Stochastics Oscillator, Heikin-Ashi, MACD, and Relative
+Strength (RSI). More indicator visuals will be added in future.</p>
+<h2>Date range</h2>
+<p>User can set a date range by using the date picker. Default end date
+is TODAY, and start date is 1-month from TODAY. Depending on the
+indicator, this default date range may not provide enough data points
+for the analysis, thus the first appearance of the chart may look
+incomplete. In this case, user should adjust the range to provide more
+data points. Graph will refresh automatically when date range is
+changed.</p>
+<p><strong>NOTE</strong> that switching between indicators will <strong>reset</strong> the date
+range.</p>
+<figure class="col s12">
+    <figcaption>Stock technical indicator date picker</figcaption>
+    <img src="images/stock%20date%20picker.png"/>
+</figure>
+
+<h2>Bollinger Band</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Bollinger_Bands">wiki</a>.</p>
+<figure class="col s12">
+  <figcaption>Example of Bollinger Band</figcaption>
+  <img src="images/bollinger%20band.png"/>
+</figure>
+
+<h2>Elder Ray</h2>
+<p>See <a href="https://www.investopedia.com/terms/e/elderray.asp">intro</a>.</p>
+<figure class="col s12">
+  <figcaption>Example of Elder Ray</figcaption>
+  <img src="images/elder%20ray.png"/>
+</figure>
+
+<h2>SAR</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Parabolic_SAR">wiki</a>.</p>
+<figure class="col s12">
+  <figcaption>Example of SAR</figcaption>
+  <img src="images/SAR.png"/>
+</figure>
+
+<h2>Full Stochastics Oscillator</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Stochastic_oscillator">wiki</a>.</p>
+<figure class="col s12">
+  <figcaption>Example of Full Stochastics oscillator</figcaption>
+  <img src="images/full%20stochastics.png"/>
+</figure>
+
+<h2>Heikin-Ashi</h2>
+<p>Read <a href="https://www.investopedia.com/trading/heikin-ashi-better-candlestick/">here</a>.</p>
+<figure class="col s12">
+  <figcaption>Example of Heikin Ashi</figcaption>
+  <img src="images/heikin%20ashi.png"/>
+</figure>
+
+<h2>MACD</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/MACD">wiki</a>.</p>
+<figure class="col s12">
+  <figcaption>Example of MACD</figcaption>
+  <img src="images/MACD.png"/>
+</figure>
+
+<h2>Relative Strength (RSI)</h2>
+<p>See <a href="https://www.investopedia.com/terms/r/rsi.asp">intro</a>.</p>
+<figure class="col s12">
+  <figcaption>Example …</figcaption></figure></p>
   </div>
 
   <div class="col s12 right-align">
-    <a class="btn wave-effect" href="https://fengxia41103.github.io/stock/stock valuation models.html">
+    <a class="btn wave-effect" href="https://fengxia41103.github.io/stock/technical indicators.html">
       read more
     </a>
   </div>

@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>My Stocks - Feng Xia</title><link>https://fengxia41103.github.io/stock/</link><description></description><lastBuildDate>Thu, 23 Sep 2021 10:17:00 -0400</lastBuildDate><item><title>Price Trending</title><link>https://fengxia41103.github.io/stock/trending.html</link><description>&lt;p&gt;Trending function is a unique feature we don't find in other
+<rss version="2.0"><channel><title>My Stocks - Feng Xia</title><link>https://fengxia41103.github.io/stock/</link><description></description><lastBuildDate>Thu, 23 Sep 2021 16:23:00 -0400</lastBuildDate><item><title>Notes</title><link>https://fengxia41103.github.io/stock/notes.html</link><description>&lt;p&gt;One thing we find useful for beginners is study note. The experience
+of researching a stock is not different from your class &amp;mdash; you
+take notes, jog down your thoughts, review them, and learn from
+mistakes.&lt;/p&gt;
+&lt;p&gt;Rather than keeping your notes outside the system, our &lt;strong&gt;Notes&lt;/strong&gt;
+function is for you to keep your thoughts close to where the data is.&lt;/p&gt;
+&lt;h2&gt;Create a new note&lt;/h2&gt;
+&lt;p&gt;Creating a new note is easy. We provided a powerful Markdown editor
+that has rich features.&lt;/p&gt;
+&lt;figure class="col s12"&gt;
+    &lt;figcaption&gt;Creating a new note&lt;/figcaption&gt;
+    &lt;img src="images/new%20notes.png"/&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Once a note is created, one can also &lt;em&gt;edit&lt;/em&gt; it or &lt;em&gt;delete&lt;/em&gt; it if needed.&lt;/p&gt;
+&lt;h3&gt;Types of notes&lt;/h3&gt;
+&lt;p&gt;There are two types of notes: one of general purpose, and one of a
+specific stock. The two are nearly identical in all aspects except the
+latter is created from a stock's detail page, thus having a clear
+association w/ a stock at creation, while the other is created from
+the Notes list page, thus having no special dedication to a stock.&lt;/p&gt;
+&lt;p&gt;There is no limitation on contents for either stock. The distinction
+only …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Feng Xia</dc:creator><pubDate>Thu, 23 Sep 2021 16:23:00 -0400</pubDate><guid isPermaLink="false">tag:fengxia41103.github.io,2021-09-23:/stock/notes.html</guid><category>misc</category></item><item><title>Price Trending</title><link>https://fengxia41103.github.io/stock/trending.html</link><description>&lt;p&gt;Trending function is a unique feature we don't find in other
 tools. The idea is: if I could rank the stock's &lt;em&gt;performance&lt;/em&gt;, how to
 see this performance changes over time? If &lt;a href="https://fengxia41103.github.io/stock/rankings.html"&gt;ranking&lt;/a&gt; was a snapshot
 in time based on the latest data available, trending now introduced a
