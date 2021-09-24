@@ -5,6 +5,13 @@ This is a fully dockerized Django+React application for data analysis
 hobbyist who is interested in the stock market, and uses the Yahoo!
 Finance API data.
 
+It tries to provide analysis that are not readily available from
+Google or Yahoo, but are often asked. Especially, we hope the analysis
+feels more human friendly than hard numbers. For example, if a stock
+drops 5% today, is this a lot? In our analysis, we will give an answer
+"last time I saw a price lower than this was 30 days ago" &mdash; it
+just lost 30 days worth of ground.
+
 # Quick Start
 
 - documentation:
