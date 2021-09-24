@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/fengxia41103/stock/compare/v1.1.1...v2.0.0) (2021-09-24)
+
+
+### Features
+
+* Add pelican based doc ([c50fc0e](https://github.com/fengxia41103/stock/commit/c50fc0e2238d002534c753817fbbcc64a9fbeded))
+* Integrate eslint-import w/ frontend ([6109dfc](https://github.com/fengxia41103/stock/commit/6109dfc29c5c1f454aa8780104730f7c7f8aebb6))
+
+
+### Bug Fixes
+
+* Collect static and create superuser auto ([aea1352](https://github.com/fengxia41103/stock/commit/aea1352000585edf557c17c447ea7897c7afcd0d))
+* Export theme shadow ([f58b420](https://github.com/fengxia41103/stock/commit/f58b420d2bbc4b5e686675dadc3738891bd06a8f))
+* Fix unclosed html tag in layout ([e70891c](https://github.com/fengxia41103/stock/commit/e70891c136501eb30480e3ef47e75c3d4096704d))
+* Fixed mismatch parenthesis thanks to eslint ([508625e](https://github.com/fengxia41103/stock/commit/508625e10dcd0b26b323128e2d4abe99f54e0e29))
+* Keep default backend IP to localhost ([5dfdbe0](https://github.com/fengxia41103/stock/commit/5dfdbe0a1dda309239afd01c10ca4e79d6e1254c))
+* Lint legacy .js files ([d3f1b94](https://github.com/fengxia41103/stock/commit/d3f1b948c9121e614c09015d0215f9eaab2a9fd9))
+* Replace stock risk gauge w/ gain window ([7f7a0fe](https://github.com/fengxia41103/stock/commit/7f7a0fe6565a6986a0708f8ef0d9db8eb504b70c))
+* Replace stock risk gauge w/ gain window ([1585e78](https://github.com/fengxia41103/stock/commit/1585e78bd2fd517735fb903487b67e88015c4a92))
+
 ### [1.1.1](https://github.com/fengxia41103/stock/compare/v1.1.0...v1.1.1) (2021-09-10)
 
 
