@@ -59,6 +59,27 @@ approachable**.
 
 ---
 
+# If you find yourself
+
+In our view, there are 5 level of users in term of the complexity of
+their toolset:
+
+| Level  | Tool                      | Audience                                                |
+|-------|---------------------------|---------------------------------------------------------|
+| **1** | apps & websites           | Satisfied with the published info                       |
+| **2** | Excel                     | Think they have some data/info analysis edge            |
+| **3** | Excel + VBA               | Automate routine computation and data assembly          |
+| **4** | Script/programming or lib | Programmer who gain more computation power over Excel |
+| 5     | Commercial                | Professional, sky is the limit, membership              |
+
+If you are Level 5, you probably have advanced tool & knowledge for the
+work.
+
+If you are **Level 1-4**, read on, because you will now have more
+computing power and better user experience at hand.
+
+---
+
 # Quick Start
 
 - documentation:
@@ -81,6 +102,7 @@ approachable**.
 - Technical indicators [&rarr;](https://fengxia41103.github.io/stock/technical%20indicators.html)
 - Peer comparison [&rarr;]()
 - Integrated personal journal [&rarr;](https://fengxia41103.github.io/stock/notes.html)
+
 
 ---
 
