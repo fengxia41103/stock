@@ -5,6 +5,19 @@ body {
     background-position: 90% 96%;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.reveal{
+  font-size: 18pt !important;
+}
+
 .reveal section,
 .reveal section div {
     margin-bottom: 16px;
@@ -180,4 +193,8 @@ section div.mybottom {
 
 .reveal ol {
     margin-top: 1em;
+}
+
+.reveal * .mywhite{
+  color: #efefec;
 }
