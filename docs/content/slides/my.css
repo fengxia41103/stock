@@ -178,14 +178,6 @@ section.myhighlight p {
     color: #d52349;
 }
 
-section div.mytop,
-section h6.mytop {
-    margin-bottom: 60%;
-}
-
-section div.mybottom {
-    margin-top: 50%;
-}
 
 .reveal li {
     margin-bottom: 1em;
@@ -197,4 +189,8 @@ section div.mybottom {
 
 .reveal * .mywhite{
   color: #efefec;
+}
+
+strong {
+  color: #d52349;
 }

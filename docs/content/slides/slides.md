@@ -94,3 +94,23 @@ Thanks for these tools and their teams whose work made this possible:
 
 Last but not the least, I'd like to thank Yahoo! for continuing to
 make free stock data available.
+
+---
+
+# Quick start
+
+1. Clone the [repo][1].
+2. Go to the project root folder, `docker-compose up --build -d`.
+3. Create a backend admin user: `docker-compose run web python
+   manage.py createsuperuser`, and follow the instructions. Email is
+   optional.
+4. Go to browser `http://localhost:8084`, and use the user account to
+   login.
+
+[1]: https://github.com/fengxia41103/stock
+
+---
+
+
+Enjoy ~~
+# [&rArr;](https://fengxia41103.github.io/stock/dev%20and%20deployment.html)
