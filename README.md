@@ -32,3 +32,7 @@ Thanks for these tools and their teams whose work made this possible:
 
 Last but not the least, I'd like to thank Yahoo! for continuing to
 make free stock data available.
+
+# License
+
+This project is licensed under the terms of the MIT license.
