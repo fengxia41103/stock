@@ -1,78 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="utf-8" />
-
-    <title>Project ThinkAgile CP</title>
-
-    <meta name="description" content="Project ThinkAgile CP" />
-    <meta name="author" content="feng Xia" />
-
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta
       name="apple-mobile-web-app-status-bar-style"
       content="black-translucent"
     />
-
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"
+    />
+
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <script src="https://fengxia41103.github.io/stock/theme/js/html5shiv.min.js"></script>
+    <script src="https://fengxia41103.github.io/stock/theme/js/respond.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://fengxia41103.github.io/stock/theme/bower_components/font-awesome/css/font-awesome.min.css"
     />
 
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
-    />
-    <link rel="stylesheet" href="slides/reveal.js/css/reveal.css" />
-    <link
-      rel="stylesheet"
-      href="slides/reveal.js/css/theme/white.css"
-      id="theme"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Maven+Pro|Muli"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      type="text/css"
+      href="https://fengxia41103.github.io/stock/theme/bower_components/datatables/media/css/dataTables.bootstrap.min.css"
     />
 
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCore.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css"
     />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Alfa+Slab+One|Archivo+Narrow|Montserrat|Jaldi|Teko"
+      rel="stylesheet"
+    />
+
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shThemeDefault.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css"
     />
-
-    <!-- My css -->
-    <link rel="stylesheet" href="slides/my.css" />
-
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
-    ></script>
-
-    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
-    <script>
-      if (window.location.search.match(/print-pdf/gi)) {
-        var link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.type = "text/css";
-        link.href = "slides/reveal.js/css/print/pdf.css";
-        document.getElementsByTagName("head")[0].appendChild(link);
-      }
-    </script>
-
-    <!--[if lt IE 9]>
-      <script src="slides/reveal.js/lib/js/html5shiv.js"></script>
-    <![endif]-->
 
     <link
       href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
@@ -83,125 +55,320 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
+
+    <link rel="stylesheet" href="https://fengxia41103.github.io/stock/theme/css/my.css" />
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+
+      <title>My Stocks</title>
   </head>
 
   <body>
-    <div class="reveal">
-      <div class="slides">
-        <section
-          data-markdown="slides/slides.md"
-          data-separator="^---"
-          data-vertical="^--"
-          data-notes="^Note:"
-          data-charset="utf-8"
-        ></section>
-        <p align="right" class="copyright footer">
-          <i class="fa fa-copyright"></i>
-          2020 PY Consulting LTD. All rights reserved.
-        </p>
+     <header id="mypage-index">
+      <a href="https://fengxia41103.github.io/stock/">My Stocks </a>
+    </header>
+    <!-- end of block navbar -->
+
+    <div class="split-screen">
+      <div class="split-left-pane">
+         <ul>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System Design</a>
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/dev%20and%20deployment.html"
+              >Dev & Deployment</a
+            >
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20price.html">Stock Price</a>
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20returns.html">Stock Returns</a>
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20trend.html">Stock Trends</a>
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20financial%20statements.html"
+              >Financial Statements</a
+            >
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/stock%20valuation%20models.html"
+              >Valuation Models</a
+            >
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/technical%20indicators.html"
+              >Technical Indicators</a
+            >
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/rankings.html">Rankings</a>
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/trending.html">Price Trending</a>
+          </li>
+          <li>
+            <a href="https://fengxia41103.github.io/stock/notes.html">Notes</a>
+          </li>
+        </ul>
+
+      </div>
+
+      <div class="split-right-pane">
+        <div id="content" class="container row">
+
+<article>
+   <div>
+    <i class="fa fa-calendar" style="opacity: 0.5">&nbsp;</i>
+    2021-09-21         <a class="wave-effect" href="misc.html">
+      <i class="fa fa-folder-open-o"></i>
+      misc
+    </a>
+       <h1 class="myhighlight">Stock Price</h1>
+  </div>
+
+  <ol id="toc" class="row"></ol>
+
+  <div>
+    <div id="article-content">
+      <p><p>Stock's price and return views are part of the stock's detail
+analysis. In this section we will show in-depth analysis of stock's
+price trending and returns.</p>
+<h2>Date range</h2>
+<p>User can set a date range by using the date picker. Default end date
+is TODAY, and start date is 1-month from TODAY.</p>
+<figure class="col s12">
+    <figcaption>Stock historical price date picker</figcaption>
+    <img src="images/stock%20date%20picker.png"/>
+</figure>
+
+<p>Default <code>end date</code> is TODAY, and the default range is set to be
+30 days back from TODAY. Setting an insensible date range, eg. start
+date is greater than the end date, or some distant dates in the
+future, will not produce an error. Instead, the backend will return
+an empty date set, thus rendering this view blank.</p>
+<h2>Historical daily price</h2>
+<h3>Price line chart</h3>
+<p>Price line chart is the quickest way to see how a stock is going. The
+chart includes prices of <code>open</code>, <code>close</code>, <code>high</code> and <code>low</code>.</p>
+<figure class="col s12">
+    <figcaption>Stock historical price line chart</figcaption>
+    <img src="images/stock%20price%20chart.png"/>
+</figure>
+
+<h3>Weekly price chart</h3>
+<p>The weekly price chart breaks down price over the selected date range
+so to zoom into each week's performance as well as each week's
+<code>end-2-end return = (week's close - week's open)/week's open</code>. Like
+all other charts, clicking legends will toggle a data set on/off.</p>
+<figure class="col s12">
+    <figcaption>Stock historical weekly price chart</figcaption>
+    <img src="images/stock%20price%20chart%20weekly.png"/>
+</figure>
+
+<h3>Gain probability ranges</h3>
+<figure class="col l6 m7 s12">
+    <figcaption>Stock gain probability</figcaption>
+    <img src="images/stock%20price%20gain%20probability.png"/>
+</figure>
+
+<p>The gain probability range is to address this common question &mdash;
+<em>if I buy stock at this price, how likely I would make a positive
+return?</em> To answer this, we create 10 ranges over 0-100%. Then we
+would use each day's price to estimate which range its probability
+will fall into.</p>
+<ol>
+<li>
+<p><strong>percentage</strong>: The percentage measures the total likelyhood you
+  will get a positive return counting day by day. Taking a historical,
+  pretending we can look into the future (thus we have a God's view),
+  counting days when you could make a gain w/ a higher price. The
+  percentage of this count vs. the total days elapse from this date
+  represents a probability. For example, if there are 10 days out of
+  30 days this one could have made a gain on this current price, the
+  probability will be <code>10/30=33%</code>.</p>
+</li>
+<li>
+<p><strong>open price</strong>: This is the minimal <code>open price</code> you could have
+  purchased to achieve the percentage above. Continuing the example
+  above, if there were 10 days one could have made a positive return,
+  we sort and display the <strong>lowest</strong> open price, thus assuming you
+  would have paid the least for such a gain probability. A <code>n/a</code> means
+  no price could have achieved such probability<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">1</a></sup>.</p>
+</li>
+<li>
+<p><strong>time window gauge</strong>: Time window is the days left if you made
+  purchase on a day. For example, buying at $148.56 (the <code>30-20%</code>
+  probability one) would have less trading days left for you to get
+  out, than buying at $153.87 (the <code>40-30%</code> probability one). The best
+  pattern would be a high probability and a long trading window
+  to realize such probability.</p>
+</li>
+<li>
+<p><strong>the TODAY-is-cheaper flag</strong>: The flag uses the latest known
+  <code>close</code> price (as a proxy to the SPOT price) to compare with the
+  suggested <code>open price</code> above. If the <code>close</code> is less than the
+  <code>open</code>, it puts a flag indicating the current price is more
+  attractive than the <code>open</code> we saw before<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">2</a></sup>.</p>
+</li>
+</ol>
+<p>It may now seem pointless why one would care such probability at all
+if it tells no future. However, these probabilities give you a
+reference point against current price so you get a sense of how it had
+(or could have) behaved.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:2">
+<p><strong>WARNING</strong>: We choose <code>open</code> pretending you are buying it on the
+beginning of day. Of course, the actual purchase price would be
+different. So this price value is more of a sense how well it will
+fare instead of being a precise point to act upon.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p><strong>WARNING</strong>: This is not a guaranteed winner because the stock price may be
+on a sliding trend, thus a lower price now doesn't warrant you
+would be able to realize the gain even. For example, if the
+<code>close</code> price is today's, the probability is only testifying that
+such price could have made gains in the past, but has no
+predicting power whatsoever.&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div></p>
+
+      <p>
+        &mdash; by
+        <a href="feng-xia.html">Feng Xia</a>
+      </p>
+    </div>
+  </div>
+
+</article>
+
+              <div id="related"> </div>
+        </div>
       </div>
     </div>
 
-    <script src="slides/reveal.js/lib/js/head.min.js"></script>
-    <script src="slides/reveal.js/js/reveal.js"></script>
+    <div class="footer-copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col l8 m8 s12">
+            <p>
+              2016-2021 PY Consulting Ltd. 1236 Beacon Street, Brookline, MA
+              02146
+            </p>
+
+            <p>
+              <a href="mailto:feng_xia41103@hotmail.com">
+                <i class="fa fa-envelope"></i>
+              </a>
+
+              <a href="http://github.com/fengxia41103">
+                <i class="fa fa-github"></i>
+              </a>
+
+              <a href="https://www.linkedin.com/in/fengxia41103">
+                <i class="fa fa-linkedin"></i>
+              </a>
+
+              <a href="">
+                <i class="fa fa-phone-square"></i>
+                (508)801-1794
+              </a>
+            </p>
+          </div>
+          <div class="col l4 m4 s12">
+            <p class="right">
+              <i class="fa fa-copyright"></i>
+              All rights reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+       <!-- end of block main -->
+
+    <!-- Placed at the end of the document so the pages load faster -->
+     <script
+      type="text/javascript"
+      src="https://fengxia41103.github.io/stock/theme/bower_components/jquery-ui/jquery-ui.min.js"
+    ></script>
 
     <script
       type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"
+      src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"
     ></script>
 
-    <script>
-      var j$ = jQuery.noConflict();
-      j$(document).ready(function () {
-        j$("table").addClass("table table-striped table-responsive");
+    <script
+      type="text/javascript"
+      src="https://fengxia41103.github.io/stock/theme/bower_components/datatables/media/js/jquery.dataTables.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://fengxia41103.github.io/stock/theme/bower_components/datatables/media/js/dataTables.bootstrap.min.js"
+    ></script>
 
-        Reveal.addEventListener("ready", function (event) {
-          // event.currentSlide, event.indexh, event.indexv
-          j$(".animate")
-            .animate(
-              {
-                opacity: "0.25",
-              },
-              20000
-            )
-            .animate(
-              {
-                opacity: "1.0",
-              },
-              80000
-            );
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/shell.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/lisp.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/xml.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/diff.min.js"
+    ></script>
+
+    <script type="text/javascript">
+      var j$ = jQuery.noConflict();
+
+      j$(document).ready(function () {
+        // common global widget initializations
+        var table = j$("table.my-datatable").dataTable({
+          paging: false,
+          info: false,
+          pagingType: "simple",
         });
 
-        // Full list of configuration options available here:
-        // https://github.com/hakimelslides/reveal.js#configuration
-        Reveal.initialize({
-          controls: true,
-          progress: true,
-          history: true,
-          center: true,
-
-          // The "normal" size of the presentation, aspect ratio will be preserved
-          // when the presentation is scaled to fit different resolutions. Can be
-          // specified using percentage units.
-          /* width: 960,
-           * height: 700, */
-
-          // Factor of the display size that should remain empty around the content
-          /*      margin: 0.2, */
-
-          // Display the page number of the current slide
-          slideNumber: true,
-
-          // available themes are in /csstheme
-          theme: Reveal.getQueryHash().theme,
-
-          // default/cube/page/concave/zoom/linear/fade/none
-          transition: Reveal.getQueryHash().transition || "fade",
-
-          // Optional libraries used to extend on slides/reveal.js
-          dependencies: [
-            {
-              src: "slides/reveal.js/lib/js/classList.js",
-              condition: function () {
-                return !document.body.classList;
-              },
-            },
-            {
-              src: "slides/reveal.js/plugin/markdown/marked.js",
-              condition: function () {
-                return !!document.querySelector("[data-markdown]");
-              },
-            },
-            {
-              src: "slides/reveal.js/plugin/markdown/markdown.js",
-              condition: function () {
-                return !!document.querySelector("[data-markdown]");
-              },
-            },
-            {
-              src: "slides/reveal.js/plugin/highlight/highlight.js",
-              async: true,
-              callback: function () {
-                hljs.initHighlightingOnLoad();
-              },
-            },
-            {
-              src: "slides/reveal.js/plugin/zoom-js/zoom.js",
-              async: true,
-              condition: function () {
-                return !!document.body.classList;
-              },
-            },
-            {
-              src: "slides/reveal.js/plugin/notes/notes.js",
-              async: true,
-              condition: function () {
-                return !!document.body.classList;
-              },
-            },
-          ],
+        // highlight.js initialization
+        hljs.initHighlightingOnLoad();
+        j$("pre").each(function (i, block) {
+          hljs.highlightBlock(block);
         });
       });
     </script>
-  </body>
+    <!-- end of block JS -->
+
+      </body>
 </html>
