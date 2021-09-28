@@ -485,3 +485,189 @@ footer h5 {
 .btn {
   background-color: rgba(12, 12, 22, 0.8);
 }
+
+.mystock-index-header {
+  background: url("../images/auth.jpeg") no-repeat;
+  background-color: rgba(52, 52, 52, 0.5);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  color: #efefef;
+  padding: 1em;
+  overflow: hidden;
+  min-height: 80vh;
+
+}
+
+.page {
+  text-align: center;
+}
+
+/* reveal */
+.reveal section,
+.reveal section div{
+  margin-bottom:16px;
+  text-align:left;
+}
+
+.reveal section p,
+.reveal section div,
+.reveal section dd,
+.reveal li,
+.reveal td,
+.reveal table th
+{
+  font-family: 'Muli', sans-serif;
+  font-size: 16px !important;
+}
+
+.syntaxhighlithger .gutter div,
+.syntaxhighlighter code.python,
+.syntaxhighlighter code.plain{
+  font-size: 12px !important;
+}
+
+.reveal blockquote{
+  width: 100%;
+  border-left: 2px solid #d52349;
+  /* box-shadow: none; */
+  font-size: 14px;
+  font-style: normal;
+  padding-left: 2em;
+}
+
+.reveal h1,
+.reveal h2{
+  font-family: 'Maven Pro', sans-serif;
+  text-align: left;
+  color: #323232;
+}
+
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  font-family: 'Maven Pro', sans-serif;
+  text-align: left;
+  font-size: 16pt !important;
+  border-bottom:1px solid #ccc;
+  color: navy;
+  font-weight: normal !important;
+}
+
+.reveal img{
+  max-height: 550px;
+}
+
+.reveal iframe{
+  width: 100%;
+  height: 550px;
+  max-height: 600px;
+}
+
+* .myhighlight{
+  color: #d52349;
+}
+* .mywhite {
+  color: #efefef;
+}
+
+.reveal section dt{
+  color: #323232;
+  margin-bottom:10px;
+}
+
+.reveal section dd {
+  margin-bottom:20px;
+}
+
+.center{
+  /*required to make reveal.js navigation arror work
+  when we are also importing materialize.css*/
+  text-align: left;
+}
+
+section strong{
+  font-weight: normal !important;
+}
+
+
+.copyright{
+  font-size: 8pt !important;
+  color: #cecece;
+  /* float:right; */
+  position: absolute;
+  top: 0;
+  right: -20%;
+}
+
+.subtitle{
+  font-size: 0.6em;
+}
+.author p {
+  font-size: 0.6em;
+}
+
+section div.mytop,
+section h6.mytop{
+  margin-bottom: 60%;
+}
+
+section div.mybottom{
+  margin-top:50%;
+}
+
+.reveal section img.no-shadow{
+  box-shadow: none;
+}
+
+.reveal * code {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.8em;
+  border-radius: 2px;
+  display: inline-block;
+  color: rgba(164,3,111,1);
+  line-height: 1;
+  padding: 1px 4px 3px;
+  background: rgba(23,42,58,.06);
+}
+
+li.slide-menu-item{
+  font-size: 10px !important;
+}
+
+.reference {
+  position: fixed;
+  bottom: 0%;
+  width: 100%;
+}
+
+
+section.mywhite h1,
+section.mywhite h2,
+section.mywhite h3,
+section.mywhite h4,
+section.mywhite h5,
+section.mywhite h6,
+section.mywhite p {
+  color: #efefef;
+}
+section.myhighlight h1,
+section.myhighlight h2,
+section.myhighlight h3,
+section.myhighlight h4,
+section.myhighlight h5,
+section.myhighlight h6,
+section.myhighlight p {
+  color: #d52349;
+}
+
+section div.mytop,
+section h6.mytop{
+  margin-bottom: 60%;
+}
+
+section div.mybottom{
+  margin-top:50%;
+}

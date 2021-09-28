@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Project ThinkAgile CP</title>
+
+    <meta name="description" content="Project ThinkAgile CP" />
+    <meta name="author" content="feng Xia" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
+    />
+    <link rel="stylesheet" href="./reveal.js/css/reveal.css" />
+    <link rel="stylesheet" href="./reveal.js/css/theme/white.css" id="theme" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Maven+Pro|Muli"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCore.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shThemeDefault.min.css"
+    />
+
+    <!-- My css -->
+    <link rel="stylesheet" href="../css/my.css" />
+    <link rel="stylesheet" href="my.css" />
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+    ></script>
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if (window.location.search.match(/print-pdf/gi)) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.type = "text/css";
+        link.href = "./reveal.js/css/print/pdf.css";
+        document.getElementsByTagName("head")[0].appendChild(link);
+      }
+    </script>
+
+    <!--[if lt IE 9]>
+      <script src="./reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <link
+      href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section
+          data-markdown="slides.md"
+          data-separator="^---"
+          data-vertical="^--"
+          data-notes="^Note:"
+          data-charset="utf-8"
+        ></section>
+        <p align="right" class="copyright footer">
+          <i class="fa fa-copyright"></i>
+          2020 PY Consulting LTD. All rights reserved.
+        </p>
+      </div>
+    </div>
+
+    <script src="./reveal.js/lib/js/head.min.js"></script>
+    <script src="./reveal.js/js/reveal.js"></script>
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"
+    ></script>
+
+    <script>
+      var j$ = jQuery.noConflict();
+      j$(document).ready(function () {
+        j$("table").addClass("table table-striped table-responsive");
+
+        Reveal.addEventListener("ready", function (event) {
+          // event.currentSlide, event.indexh, event.indexv
+          j$(".animate")
+            .animate(
+              {
+                opacity: "0.25",
+              },
+              20000
+            )
+            .animate(
+              {
+                opacity: "1.0",
+              },
+              80000
+            );
+        });
+
+        // Full list of configuration options available here:
+        // https://github.com/hakimel./reveal.js#configuration
+        Reveal.initialize({
+          controls: true,
+          progress: true,
+          history: true,
+          center: true,
+
+          // The "normal" size of the presentation, aspect ratio will be preserved
+          // when the presentation is scaled to fit different resolutions. Can be
+          // specified using percentage units.
+          /* width: 960,
+           * height: 700, */
+
+          // Factor of the display size that should remain empty around the content
+          /*      margin: 0.2, */
+
+          // Display the page number of the current slide
+          slideNumber: true,
+
+          // available themes are in /csstheme
+          theme: Reveal.getQueryHash().theme,
+
+          // default/cube/page/concave/zoom/linear/fade/none
+          transition: Reveal.getQueryHash().transition || "fade",
+
+          // Optional libraries used to extend on ./reveal.js
+          dependencies: [
+            {
+              src: "./reveal.js/lib/js/classList.js",
+              condition: function () {
+                return !document.body.classList;
+              },
+            },
+            {
+              src: "./reveal.js/plugin/markdown/marked.js",
+              condition: function () {
+                return !!document.querySelector("[data-markdown]");
+              },
+            },
+            {
+              src: "./reveal.js/plugin/markdown/markdown.js",
+              condition: function () {
+                return !!document.querySelector("[data-markdown]");
+              },
+            },
+            {
+              src: "./reveal.js/plugin/highlight/highlight.js",
+              async: true,
+              callback: function () {
+                hljs.initHighlightingOnLoad();
+              },
+            },
+            {
+              src: "./reveal.js/plugin/zoom-js/zoom.js",
+              async: true,
+              condition: function () {
+                return !!document.body.classList;
+              },
+            },
+            {
+              src: "./reveal.js/plugin/notes/notes.js",
+              async: true,
+              condition: function () {
+                return !!document.body.classList;
+              },
+            },
+          ],
+        });
+      });
+    </script>
+  </body>
+</html>

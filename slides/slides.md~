@@ -1,0 +1,509 @@
+<section class="row"
+         data-background="images/mycompany%20slides%20background.png">
+
+  <div align="left"
+       class="col s12">
+    <h3 class="mywhite">
+      Mycompany
+    </h3>
+    <h1 class="mywhite">
+      Mouse
+    </h1>
+  </div>
+  <div class="col
+              s12
+              mywhite">
+    <p>
+      [Feng Xia](mailto:noreply@feng.com) | 9/27/2021
+    </p>
+  </div>
+</section>
+
+---
+
+<h3 class="menu-title">
+    Table of contents
+</h3>
+
+1. CP portal backend
+2. CP portal frontend
+3. CP portal today's status
+4. CP portal workshops
+    1. UX, workflow, toolchain
+    2. UI next
+    3. UI retrospective
+
+---
+
+### CP Portal backend: barebone MVC/MWC
+
+<div class="row">
+    <div class="col s6">
+        <img data-src="images/mvc%20general.png" style="box-shadow:none;">
+    </div>
+    <div class="col s6">
+        <ol>
+          <li>
+            Data model/[ORM][1]: object relational mapping, directly
+            mapped into DB schema &mdash; a SQL translator plus more!
+            </li>
+
+            <p>
+              Model CRUD:
+            </p>
+
+            <ol>
+              <li>
+                **C**reate: `new` &rarr; `save`
+              </li><li>
+                **R**ead: single (get by `id`), a list/set,
+                aggregation
+              </li><li>
+                **U**pdate: `get` &rarr; `set` &rarr;
+                `save`. Batch saving is either supported natively
+                by DB, or trasnlated into enumeration by ORM.
+              </li><li>
+                **D**elete: `get` &rarr; `delete`. Again, batch is
+                either native or translated.
+              </li>
+            </ol>
+
+            <li>
+              Control: **some** application logics
+            </li><li>
+              View: rendered HTML, usually by plugging in value into a
+              HTML template, eg. `<span>{{myvalue}}</span>`.
+            </li><li>
+              Data persistence: can be other than DB &larr; the source
+              of truth.
+            </li>
+        </ol>
+    </div>
+</div>
+
+[1]: https://en.wikipedia.org/wiki/Object-relational_mapping
+
+Note:
+
+1. DB is one form of data persistence. There can be many kinds &mdash;
+   key-value store, in memory database, plain file... essentially
+   whatever ends up writing onto a physical storage and retrievable
+   later, can play this role.
+2. Control: application logics, ideally, is captured in one
+   place. However, it i s now spilled in many places, which we will
+   talk about it. This makes it both flexible, and difficult to
+   maintain and debug.
+
+---
+
+### CP Portal backend: MWC & async jobs
+
+<div class="row">
+  <div class="col s6">
+    <img data-src="images/mvc%20with%20a%20queue.png"
+         style="box-shadow:none;">
+  </div>
+  <div class="col s6">
+    <ol>
+      <li>
+        There are always need for long-running jobs, eg. start an
+        application. The nature of these tasks are _async_.
+      </li><li>
+        Execution status can be queried from queue directly, or
+        exchanged through DB.
+      </li><li>
+        Task will result in changes of model data in the DB.
+      </li><li>
+        Can MWC be alerted by a data change, such as subscribing to
+        DB? **Yes & No**.
+
+        <p> **No**. You have to initiate a poll somewhere: </p>
+        <ol>
+          <li> refresh page </li>
+          <li> timer in MWC </li>
+          <li> timer in browser </li>
+          <li> periodic job/task registered w/ the queue </li>
+        </ol>
+
+        <p>
+          **Yes**, if we change the persistence layer implementation.
+        </p>
+      </li><li>
+        Business logics as a whole can reside in > 1 places &mdash;
+        MWC's controller, the queue (including queue itself, eg. tasks
+        chain/workflow, and worker's specific code). Arguably, it can
+        exist even further down the chain into DB using view, stored
+        procedure, and so on.
+      </li>
+    </ol>
+  </div>
+</div>
+
+---
+
+### CP Portal: backend & frontend
+
+<div class="row">
+  <div class="col s7">
+    <img data-src="images/mwc%20with%20frontend.png"
+         style="box-shadow:none;">
+  </div>
+  <div class="col s5">
+    <ol>
+      <li>
+        Frontend speaks to an API.
+        MWC swagger: http://192.168.122.194:8080/swagger-ui.html
+      </li><li>
+        These are three types of APIs:
+
+        <ol>
+          <li>
+            **RESTful by the data model**: straight CRUD. Usually we don't
+            write the code, but use a 3rd-party library on top of ORM.
+          </li><li>
+            **We implemented a RESTful** from scratch &mdash; always on
+            manipulation of more than 1 data models.
+          </li><li>
+            **We implemented a URL** for data exchange, eg. accepting json
+            POST, or returning a JSON.
+          </li>
+        </ol>
+
+      </li>
+      <li>
+        We can customize the data (de)serialization. Serialization is
+        to convert native data structure into plain text JSON as
+        paylaod in HTTP.
+      </li><li>
+        More business logic splills: frontend, API.
+      </li>
+    </ol>
+  </div>
+</div>
+
+---
+
+### CP Portal frontend
+
+<div class="row">
+  <div class="col s8">
+    <img data-src="images/cp%20frontend.png"
+         style="box-shadow:none;">
+  </div>
+  <div class="col s4">
+    <ol>
+      <li>
+        The entire frontend code will be loaded in the customer
+        browser &rarr; making it a **good** place for hackers, a
+        **bad** place for critical logics &mdash; the integrity of the
+        application must be held however frontend is being abused.
+      </li><li>
+        A component is the base functional unit. It is a logical
+        package of two things:
+
+        <ol>
+          <li>the controller determines the behavior </li>
+          <li>the template determines the look </li>
+        </ol>
+      </li><li>
+        A component is defined as
+        `.component('mwcCriticalAlertsTable',
+        CriticalAlertsTableComponent)`, where `mwcCriticalAlertTable`
+        will be plugged into HTML as a ` <mwc-critical-alert-table />`
+        tag, and `CriticalAlertsTableComponent` is the Angular class.
+      </li><li>
+        In component HTML template, you can include other components,
+        thus becoming nested (show in DOM/debugger).
+      </li>
+    </ol>
+  </div>
+</div>
+
+---
+
+### CP Portal frontend: more on components
+
+<div class="row">
+  <div class="col s9">
+    <img data-src="images/example%20component.png"
+         style="box-shadow:none;">
+  </div>
+  <div class="col s3">
+    <ol>
+      <li>
+        There isn't a fixed rule on
+        how small a component should be.
+      </li><li>
+        We can build a catelogue of components in 30 min (show selenium).
+      </li><li>
+        The current catelogue has 260+ (show catelogue).
+      </li><li>
+        Missing snapshots (not automated because):
+        <ol>
+          <li>one-time screen (eg. HW registration) </li>
+          <li>intrusive actions (eg. delete sth) </li>
+          <li>external trigger (eg. SMS code) </li>
+        </ol>
+      </li><li>
+        Most translations are done at component level (more on
+        next slide).
+      </li>
+    </ol>
+  </div>
+</div>
+
+---
+
+### CP Portal frontend: today.1
+
+| Layout    | Color                                   | Font              | Image              | Translation |
+|-----------|-----------------------------------------|-------------------|--------------------|-------------|
+| Bootstrap | customized Bootstrap comp + CP comp CSS | some google fonts | Logo, favicon, fa5 | en-US       |
+
+**Cosmetics**
+
+- Base lib: Bootstrap (version?) &rarr; determines the base look of
+most elements. But we know **basic layout is messed up already**!
+
+- Color: mostly Cloudistics', especially charts/graphs
+
+- Images: Mycompany's
+
+- Overall customization is a bit shaky &larr; should go w/ CP
+Bootstrap theme (something systematic) instead of piece meal
+changes.
+
+- Fonts: google fonts? windows fonts? what would happen when we
+internationalize?
+
+**Translation & contents**
+
+See next
+
+---
+
+### CP Portal frontend: today.2
+
+**Control/behavior/logic**
+
+- AngularJS (experts: Andrei D. & Andrei O.)
+
+
+
+** Contents & internationalization **
+
+1. POC-ed by setting locale in code. Data scattered in `en-US.json`
+within each component &larr; these are ready to be translated.
+2. This makes HTML template hard to read.
+
+But:
+
+2. hardcoded, eg. 206 of `this.alertService.success("msg....")`
+3. external to frontend, eg. notification msg is inserted in DB
+4. email template
+5. SMS message
+6. Zendesk widget & its email/msg
+
+---
+
+Thank you, and Q&A
+
+---
+
+### CP Portal: UI workshops
+
+1. UX + UI workflow, toolchains
+2. UI next
+3. UI restrospective
+
+---
+
+### CP Portal workshops 1/4: UX & workflow, and others
+
+Audience: UX, management
+
+<img data-src="images/cp%20workflow.png"
+     style="box-shadow:none;">
+
+1. Reference for UI devs.
+
+2. Reference for QA, eg. no more "I think" or "I don't think", but a
+ref to a design doc/item.
+
+Note:
+
+1. Dragos confirmed that mockup tool can and will import bootstrap as base lib.
+2. Dragos will compare side by side of his element libray w/ existing
+   UI to confirm that these elements are sufficient to build this UI.
+3. **POC**: Dragos will export delta CSS, and Andrei O. will take that to POC
+   at least 1 screen of the new UX mockup.
+
+---
+
+### CP Portal workshops 1/4: UX design, toolchain
+
+<div class="row">
+  <div class="col s6">
+    <img data-src="images/cp%20component%20css.png"
+         style="box-shadow:none;">
+    </div>
+    <div class="col s6">
+        <ol>
+            <li> Mockup is a combination of all
+                cascaded CSS &rarr; thus must load base lib in mockup. </li>
+            <li>
+                Base lib decisions: bootstrap, materialize, flexbox, ... </li>
+            <li>
+                We will never use inline styles! </li>
+            <li> Figma/UX toolchain must
+                be able to export **CP css only** </li>
+            <li>
+                Define general elements at least; define component
+  level if possible.
+            </li><li>
+                Style isn't sufficient. Need to define behavior:
+                <ol>
+                    <li>end result of a single-click</li>
+                    <li>when to enable/disable</li>
+                    <li>when to hide/display</li>
+                    <li>what happens if action is success? in progress? failed?</li>
+                </ol>
+            </li>
+        </ol>
+    </div>
+</div>
+
+Note:
+
+1. See notes in the previous slide.
+2. Who owns definition of behaviors at spec level?
+
+---
+
+### CP portal workshops 2/4: UI next
+
+Audience: UI team.
+
+1. Frontend CSS cleanup, even if we stay w/ Bootstrap
+
+    1. Clean separation between default style and CP customization
+    2. CP theme
+
+2. frontend & backend separation
+
+    1. packaging & deployment separately
+    2. abolish server rendered HTML? (or keep it for admin)
+
+3. [non-public APIs][2]?
+
+4. Doc of this call chain:
+
+    **frontend user click &rarr; frontend component &rarr; frontend
+    service (`$resource`) &rarr; backend API &rarr; DB model change**
+
+5. Feasibility and roadmap to migrate from AngularJS to Angular &larr;
+technology swap, big change! Had a rudimentary POC of Angular
+[Material][3].
+
+6. We don't do tests, yet
+
+[2]:
+https://confluence1.labs.mycompany.com:8443/display/OL/MWC+Public+API
+[3]: https://material.io/
+
+Note:
+
+1. frontend CSS cleanup:
+
+   1. Keep 5393 on hold.
+   2. Andrei O: POC the workflow w/ UX to build a login page mockup using UX export -- html, css only. No angular change. See previous UX workflow notes.
+
+1. front & back separation:
+
+    1. Andrei O. will work w/ Alex M. to go through all the `.jsp` files,
+    and map them into a single `index.html`. Test is to deploy frontend
+    `/build/*` & this `index.html` to a static file server, and launch a
+    portal in browser w/ identical capability as we see today.
+
+    2. Once this is proven working, we will not package frontend `/build`
+    in the `.war` file anymore, thus frontend is completely separated from
+    wildfly and MWC.
+
+2. non-pub API:
+
+    1. Alex & I already POC-ed that we can decorate non-pub API to
+    generate swagger.
+
+    2. Alex will compare pub vs. non-pub to conslidate functions into one
+    set, thus end state will be one single set of API satisfying these
+    functions.
+
+    3. Then, this API will be swagger-ed.
+
+    4. Alex will create a API diff list between this new list vs. the
+    current one, so to propose API changes for future release &rarr; there
+    will contract/legal concern, and release note, and so on.
+
+    5. Andrei O. is to create list of all frontend calling APIs, and then
+    later work w/ Alex's new list to ensure frontend function still works
+    &larr; pay attention to payload diff.
+
+3. Feasibility:
+
+    1. Andrei D. will POC [material-ui](https://material-ui.com/) to
+       repliate an exiting UI page/function.
+
+    2. Andrei D. POC includes react developer tool &larr; can replace
+       the `stack trace log` idea.
+
+4. Doc chain:
+
+    1. Andrei D. try out an architecture drawing of current AngularJS-frontend, eg. layer cake.
+
+    2. Identify a list of DB models (physical-one first), and list
+    CRUD conditions for each one.
+
+5. Test:
+
+    1. Andrei D. categorize current tests.
+    2. Andrei D. w/ QA to understand how these tests are being exercised &mdash; by CICD/QA? how? and when?
+
+6. Take S3 & two-factor authentication features to POC spec format:
+    1. Based on proposed workflow w/ UX (and in general), Andrei
+       O. clean up the wiki page of two-factor authentication.
+
+    Proposed TOC:
+
+    - product spec & UAT test cases (use the sections in PO jira)
+    - UX
+        - mockup
+        - overall layout
+        - per element
+            - type
+            - position
+            - size
+            - color
+            - CP css
+            - behavior
+                - when click
+                - when hover
+                - when to show/hide
+                - when to disable
+---
+
+### CP portal workshops 3/4: retrospectives
+
+Audience: UI, management.
+
+Worked:
+
+1. Analysis has been great.
+2. Peer review.
+
+Not worked:
+
+1. Offline approval process is strange. Decision maker should be the
+   owner of MR, even the Jira.
+
+2. Jira backlog are stale.
+3. Need dedicated QA working w/

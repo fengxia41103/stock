@@ -1,304 +1,207 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+
+    <title>Project ThinkAgile CP</title>
+
+    <meta name="description" content="Project ThinkAgile CP" />
+    <meta name="author" content="feng Xia" />
+
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta
       name="apple-mobile-web-app-status-bar-style"
       content="black-translucent"
     />
+
     <meta
       name="viewport"
-      content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"
-    />
-
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-
-    <script src="https://fengxia41103.github.io/stock/theme/js/html5shiv.min.js"></script>
-    <script src="https://fengxia41103.github.io/stock/theme/js/respond.min.js"></script>
-
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://fengxia41103.github.io/stock/theme/bower_components/font-awesome/css/font-awesome.min.css"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
 
     <link
       rel="stylesheet"
-      type="text/css"
-      href="https://fengxia41103.github.io/stock/theme/bower_components/datatables/media/css/dataTables.bootstrap.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
+    />
+    <link rel="stylesheet" href="slides/reveal.js/css/reveal.css" />
+    <link
+      rel="stylesheet"
+      href="slides/reveal.js/css/theme/white.css"
+      id="theme"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Maven+Pro|Muli"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
 
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCore.min.css"
     />
-
-    <link
-      href="https://fonts.googleapis.com/css?family=Alfa+Slab+One|Archivo+Narrow|Montserrat|Jaldi|Teko"
-      rel="stylesheet"
-    />
-
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shThemeDefault.min.css"
     />
 
-    <link rel="stylesheet" href="https://fengxia41103.github.io/stock/theme/css/my.css" />
+    <!-- My css -->
+    <link rel="stylesheet" href="slides/my.css" />
 
     <script
-      src="https://code.jquery.com/jquery-3.4.1.min.js"
-      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-      crossorigin="anonymous"
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
     ></script>
 
-      <title>My Stocks</title>
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if (window.location.search.match(/print-pdf/gi)) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.type = "text/css";
+        link.href = "slides/reveal.js/css/print/pdf.css";
+        document.getElementsByTagName("head")[0].appendChild(link);
+      }
+    </script>
+
+    <!--[if lt IE 9]>
+      <script src="slides/reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <link
+      href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
   </head>
 
   <body>
-     <header id="mypage-index">
-      <a href="https://fengxia41103.github.io/stock/">My Stocks </a>
-    </header>
-    <!-- end of block navbar -->
-
-    <div class="split-screen">
-      <div class="split-left-pane">
-         <ul>
-          <li>
-            <a href="https://fengxia41103.github.io/stock/stock%20app%20design.html">System Design</a>
-          </li>
-          <li>
-            <a href="https://fengxia41103.github.io/stock/dev%20and%20deployment.html"
-              >Dev & Deployment</a
-            >
-          </li>
-          <li>
-            <a href="https://fengxia41103.github.io/stock/stock%20price.html">Stock Price</a>
-          </li>
-          <li>
-            <a href="https://fengxia41103.github.io/stock/stock%20returns.html">Stock Returns</a>
-          </li>
-          <li>
-            <a href="https://fengxia41103.github.io/stock/stock%20trend.html">Stock Trends</a>
-          </li>
-          <li>
-            <a href="https://fengxia41103.github.io/stock/stock%20financial%20statements.html"
-              >Financial Statements</a
-            >
-          </li>
-          <li>
-            <a href="https://fengxia41103.github.io/stock/stock%20valuation%20models.html"
-              >Valuation Models</a
-            >
-          </li>
-          <li>
-            <a href="https://fengxia41103.github.io/stock/technical%20indicators.html"
-              >Technical Indicators</a
-            >
-          </li>
-          <li>
-            <a href="https://fengxia41103.github.io/stock/rankings.html">Rankings</a>
-          </li>
-          <li>
-            <a href="https://fengxia41103.github.io/stock/trending.html">Price Trending</a>
-          </li>
-          <li>
-            <a href="https://fengxia41103.github.io/stock/notes.html">Notes</a>
-          </li>
-        </ul>
-
-      </div>
-
-      <div class="split-right-pane">
-        <div id="content" class="container row">
-
-<article>
-   <div>
-    <i class="fa fa-calendar" style="opacity: 0.5">&nbsp;</i>
-    2021-09-21         <a class="wave-effect" href="misc.html">
-      <i class="fa fa-folder-open-o"></i>
-      misc
-    </a>
-       <h1 class="myhighlight">Stock Returns</h1>
-  </div>
-
-  <ol id="toc" class="row"></ol>
-
-  <div>
-    <div id="article-content">
-      <p><p>There are three types of return: daily, nightly, and 24-hour. Return
-values are in <strong>percentage (%)</strong>, and negative returns are colored
-in <strong>red</strong>. Since the analysis done to them are similar, we are to
-address them together here.</p>
-<ol>
-<li><strong>daily return</strong>: <code>(today's close - today's open)/today's
-   open</code>. This measures the return during normal market hours.</li>
-<li><strong>nightly return</strong>: <code>(today's open - yesterday's close)/yesterday's
-   close</code>. This measures the return during off market hours.</li>
-<li><strong>24-hour return</strong>: <code>(today's close - yesterday's
-   close)/yesterday's close</code>. This measures the over effect of a
-   24-hour day, thus including both the market hours and off market
-   hours (for example, many companies choose to make announcement
-   after market close, thus causing price to fluctuate prior to next
-   day's market opening).</li>
-</ol>
-<figure class="col s12">
-    <figcaption>Stock 24-hour return chart</figcaption>
-    <img src="images/stock%2024%20hour%20return%20bar%20chart.png"/>
-</figure>
-
-<p>Now with computed returns, we do some basic counting and statistic
-analysis of the return data.</p>
-<h2>positive vs. negative occurrence</h2>
-<p>This answers that out of the return data, how many were positive and
-how many were negative. If a stock were on a rise, we would expect it
-having more positive days than negative ones. However, this takes no
-account for the scale of each positive/negative return.</p>
-<figure class="col s12">
-    <figcaption>Stock 24-hour return positive vs. negative occurances</figcaption>
-    <img src="images/stock%2024%20hour%20positive%20negative%20chart.png"/>
-</figure>
-
-<p>In this example, this stock has had 40% positive days vs. 60% negative
-days. One would thus think it wasn't performing well over this period.</p>
-<h2>return statistics</h2>
-<p>These are some common statistic values computed over the return data,
-including average, max, min, median, standard deviation, range of,
-variance, skewness, Kurtosis, average of positive returns, average of
-negative returns, and compounded return (= product of all returns).</p>
-<figure class="col s12">
-    <figcaption>Stock 24-hour return statistics</figcaption>
-    <img src="images/stock%2024%20hour%20return%20stats.png"/>
-</figure></p>
-
-      <p>
-        &mdash; by
-        <a href="feng-xia.html">Feng Xia</a>
-      </p>
-    </div>
-  </div>
-
-</article>
-
-              <div id="related"> </div>
-        </div>
+    <div class="reveal">
+      <div class="slides">
+        <section
+          data-markdown="slides/slides.md"
+          data-separator="^---"
+          data-vertical="^--"
+          data-notes="^Note:"
+          data-charset="utf-8"
+        ></section>
+        <p align="right" class="copyright footer">
+          <i class="fa fa-copyright"></i>
+          2020 PY Consulting LTD. All rights reserved.
+        </p>
       </div>
     </div>
 
-    <div class="footer-copyright">
-      <div class="container">
-        <div class="row">
-          <div class="col l8 m8 s12">
-            <p>
-              2016-2021 PY Consulting Ltd. 1236 Beacon Street, Brookline, MA
-              02146
-            </p>
-
-            <p>
-              <a href="mailto:feng_xia41103@hotmail.com">
-                <i class="fa fa-envelope"></i>
-              </a>
-
-              <a href="http://github.com/fengxia41103">
-                <i class="fa fa-github"></i>
-              </a>
-
-              <a href="https://www.linkedin.com/in/fengxia41103">
-                <i class="fa fa-linkedin"></i>
-              </a>
-
-              <a href="">
-                <i class="fa fa-phone-square"></i>
-                (508)801-1794
-              </a>
-            </p>
-          </div>
-          <div class="col l4 m4 s12">
-            <p class="right">
-              <i class="fa fa-copyright"></i>
-              All rights reserved.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-       <!-- end of block main -->
-
-    <!-- Placed at the end of the document so the pages load faster -->
-     <script
-      type="text/javascript"
-      src="https://fengxia41103.github.io/stock/theme/bower_components/jquery-ui/jquery-ui.min.js"
-    ></script>
+    <script src="slides/reveal.js/lib/js/head.min.js"></script>
+    <script src="slides/reveal.js/js/reveal.js"></script>
 
     <script
       type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"
+      src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"
     ></script>
 
-    <script
-      type="text/javascript"
-      src="https://fengxia41103.github.io/stock/theme/bower_components/datatables/media/js/jquery.dataTables.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://fengxia41103.github.io/stock/theme/bower_components/datatables/media/js/dataTables.bootstrap.min.js"
-    ></script>
-
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/shell.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"
-    ></script>
-
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/lisp.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/xml.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/diff.min.js"
-    ></script>
-
-    <script type="text/javascript">
+    <script>
       var j$ = jQuery.noConflict();
-
       j$(document).ready(function () {
-        // common global widget initializations
-        var table = j$("table.my-datatable").dataTable({
-          paging: false,
-          info: false,
-          pagingType: "simple",
+        j$("table").addClass("table table-striped table-responsive");
+
+        Reveal.addEventListener("ready", function (event) {
+          // event.currentSlide, event.indexh, event.indexv
+          j$(".animate")
+            .animate(
+              {
+                opacity: "0.25",
+              },
+              20000
+            )
+            .animate(
+              {
+                opacity: "1.0",
+              },
+              80000
+            );
         });
 
-        // highlight.js initialization
-        hljs.initHighlightingOnLoad();
-        j$("pre").each(function (i, block) {
-          hljs.highlightBlock(block);
+        // Full list of configuration options available here:
+        // https://github.com/hakimelslides/reveal.js#configuration
+        Reveal.initialize({
+          controls: true,
+          progress: true,
+          history: true,
+          center: true,
+
+          // The "normal" size of the presentation, aspect ratio will be preserved
+          // when the presentation is scaled to fit different resolutions. Can be
+          // specified using percentage units.
+          /* width: 960,
+           * height: 700, */
+
+          // Factor of the display size that should remain empty around the content
+          /*      margin: 0.2, */
+
+          // Display the page number of the current slide
+          slideNumber: true,
+
+          // available themes are in /csstheme
+          theme: Reveal.getQueryHash().theme,
+
+          // default/cube/page/concave/zoom/linear/fade/none
+          transition: Reveal.getQueryHash().transition || "fade",
+
+          // Optional libraries used to extend on slides/reveal.js
+          dependencies: [
+            {
+              src: "slides/reveal.js/lib/js/classList.js",
+              condition: function () {
+                return !document.body.classList;
+              },
+            },
+            {
+              src: "slides/reveal.js/plugin/markdown/marked.js",
+              condition: function () {
+                return !!document.querySelector("[data-markdown]");
+              },
+            },
+            {
+              src: "slides/reveal.js/plugin/markdown/markdown.js",
+              condition: function () {
+                return !!document.querySelector("[data-markdown]");
+              },
+            },
+            {
+              src: "slides/reveal.js/plugin/highlight/highlight.js",
+              async: true,
+              callback: function () {
+                hljs.initHighlightingOnLoad();
+              },
+            },
+            {
+              src: "slides/reveal.js/plugin/zoom-js/zoom.js",
+              async: true,
+              condition: function () {
+                return !!document.body.classList;
+              },
+            },
+            {
+              src: "slides/reveal.js/plugin/notes/notes.js",
+              async: true,
+              condition: function () {
+                return !!document.body.classList;
+              },
+            },
+          ],
         });
       });
     </script>
-    <!-- end of block JS -->
-
-      </body>
+  </body>
 </html>
