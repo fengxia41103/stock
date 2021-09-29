@@ -35,13 +35,13 @@ experience, there are five levels of users:
 | 1     | apps & websites | Have basic knowledge, satisfied with reported info      |
 | 2     | Excel           | Think they have some data/info analysis edge            |
 | **3** | **Excel + VBA** | **Automate routine computation and data assembly**      |
-| 4     | Script or lib   | Programmer who gained more computation power over Excel |
+| **4**     | Script or lib   | Programmer who gained more computation power over Excel |
 | 5     | Commercial      | Professional, sky is the limit, membership              |
 
 
 A common pattern/workflow these users follow:
 
-1. Obtain raw data:
+1. Obtain raw data: 
    1. daily price (well, you could also have finer grain data)
    2. financial reports: balance sheet, income statement, cash flow
    3. computed ratios, eg. P/E, beta
