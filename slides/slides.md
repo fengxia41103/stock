@@ -7,7 +7,7 @@
       Free Data Analysis
     </h3>
     <h1 class="mywhite">
-      My Stock FENG
+      My Stock Analyzer
     </h1>
   </div>
   <div class="col
