@@ -162,7 +162,7 @@ const routes = [
       },
 
       // landing page, default to dashboard
-      { path: "/", element: <Navigate to="/dashboard" /> },
+      { path: "/", element: <Navigate to="/stocks" /> },
       { path: "404", element: <NotFoundView /> },
       // catch all, 404
       { path: "*", element: <Navigate to="/404" /> },
