@@ -17,6 +17,7 @@ import MoverCard from "src/components/dashboard/MoverCard";
 export default function TodayDashboardView() {
   const [resource, setResource] = useState("");
   const [today, setToday] = useState(moment());
+  const TOP = 10;
 
   const set_today = (now) => {
     let adjust_in_day;
@@ -65,30 +66,66 @@ export default function TodayDashboardView() {
       };
     });
 
-    let gainer = sortBy(
-      filter(stocks, (s) => s.gain > 0),
-      (s) => s.gain,
-    );
-    gainer = reverse(gainer).slice(0, 10);
-
-    const loser = sortBy(
-      filter(stocks, (s) => s.gain < 0),
-      (s) => s.gain,
-    ).slice(0, 10);
-
-    const mover = reverse(
-      sortBy(stocks, (s) => s.vol_over_share_outstanding),
-    ).slice(0, 10);
-    const volatility = reverse(sortBy(stocks, (s) => s.volatility)).slice(
-      0,
-      10,
-    );
-    const last_lower = reverse(sortBy(stocks, (s) => s.last_lower)).slice(
-      0,
-      10,
-    );
-
     const today_string = today.format("dddd, ll");
+
+    const dashboards = [
+      {
+        title: "Drop Scale (days)",
+        subtitle: "days ago when saw this low",
+        stocks: reverse(sortBy(stocks, (s) => s.last_lower)),
+        value: "last_lower",
+      },
+      {
+        title: "Rebound Scale (days)",
+        subtitle: "days ago when saw this high",
+        stocks: reverse(sortBy(stocks, (s) => s.last_better)),
+        value: "last_better",
+      },
+      {
+        title: "Top Volume Movers",
+        subtitle: "as % of share outstanding",
+        stocks: reverse(sortBy(stocks, (s) => s.vol_over_share_outstanding)),
+        value: "vol_over_share_outstanding",
+      },
+      {
+        title: "Top Volatility",
+        subtitle: "as % of (high-low)/low",
+        stocks: reverse(sortBy(stocks, (s) => s.volatility)),
+        value: "volatility",
+      },
+      {
+        title: "Top Gainers",
+        subtitle: "as % of (close-open)/open",
+        stocks: reverse(
+          sortBy(
+            filter(stocks, (s) => s.gain > 0),
+            (s) => s.gain,
+          ),
+        ),
+        value: "gain",
+      },
+      {
+        title: "Top Losers",
+        subtitle: "as % of (close-open)/open",
+        stocks: sortBy(
+          filter(stocks, (s) => s.gain < 0),
+          (s) => s.gain,
+        ),
+        value: "gain",
+      },
+    ];
+
+    const dashboard_tops = map(dashboards, (d) => {
+      return { ...d, stocks: d.stocks.slice(0, TOP) };
+    });
+
+    const contents = map(dashboard_tops, (d) => {
+      return (
+        <Grid item lg={4} sm={6} xs={12}>
+          <MoverCard date={today_string} {...d} />
+        </Grid>
+      );
+    });
 
     return (
       <Page title="Today">
@@ -109,51 +146,7 @@ export default function TodayDashboardView() {
 
           <Box mt={1}>
             <Grid container spacing={1}>
-              <Grid item lg={4} sm={6} xs={12}>
-                <MoverCard
-                  date={today_string}
-                  title="Last Lower"
-                  subtitle="days ago when saw this low"
-                  stocks={last_lower}
-                  value="last_lower"
-                />
-              </Grid>
-              <Grid item lg={4} sm={6} xs={12}>
-                <MoverCard
-                  date={today_string}
-                  title="Top Volume Movers"
-                  subtitle="as % of share outstanding"
-                  stocks={mover}
-                  value="vol_over_share_outstanding"
-                />
-              </Grid>
-              <Grid item lg={4} sm={6} xs={12}>
-                <MoverCard
-                  date={today_string}
-                  title="Top Volatility"
-                  subtitle="as % of (high-low)/low"
-                  stocks={volatility}
-                  value="volatility"
-                />
-              </Grid>
-              <Grid item lg={4} sm={6} xs={12}>
-                <MoverCard
-                  date={today_string}
-                  title="Top Gainers"
-                  subtitle="as % of (close-open)/open"
-                  stocks={gainer}
-                  value="gain"
-                />
-              </Grid>
-              <Grid item lg={4} sm={6} xs={12}>
-                <MoverCard
-                  date={today_string}
-                  title="Top Losers"
-                  subtitle="as % of (close-open)/open"
-                  stocks={loser}
-                  value="gain"
-                />
-              </Grid>
+              {contents}
             </Grid>
           </Box>
         </Container>
