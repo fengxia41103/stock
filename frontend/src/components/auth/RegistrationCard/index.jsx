@@ -1,20 +1,30 @@
 import {
+  Box,
   Button,
   TextField,
   Card,
   CardContent,
   CardActions,
+  Typography,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useMutate } from "restful-react";
 
 import GlobalContext from "src/context";
 
 export default function RegistrationCard() {
+  // context
   const { api } = useContext(GlobalContext);
+
+  // states
   const [resource] = useState("/users");
+  const [error, setError] = useState("");
+
+  // other hooks
+  const navigate = useNavigate();
 
   const { mutate: create } = useMutate({
     verb: "POST",
@@ -30,8 +40,15 @@ export default function RegistrationCard() {
         username,
       },
     })
-      .then((resp) => console.log(resp))
+      .then(() => {
+        // go to a landing page
+        navigate("/", true);
+      })
       .catch((error) => {
+        // set error message to display
+        setError(error.data.error);
+
+        // print to console
         console.error(error);
       });
   };
@@ -39,8 +56,8 @@ export default function RegistrationCard() {
   // render
   return (
     <Card>
-      <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <CardContent>
           <Controller
             name="firstName"
             control={control}
@@ -107,15 +124,20 @@ export default function RegistrationCard() {
             )}
             rules={{ required: "Password required" }}
           />
-          <div>
-            <Button type="submit" variant="contained" color="primary">
-              Signup
-            </Button>
-          </div>
-        </form>
-      </CardContent>
 
-      <CardActions></CardActions>
+          <Box mt={2}>
+            <Typography variant="body1" color="error">
+              {error}
+            </Typography>
+          </Box>
+        </CardContent>
+
+        <CardActions>
+          <Button type="submit" variant="contained" color="primary">
+            Signup
+          </Button>
+        </CardActions>
+      </form>
     </Card>
   );
 }
