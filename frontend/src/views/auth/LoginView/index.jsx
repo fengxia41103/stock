@@ -4,6 +4,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import LoginCard from "src/components/auth/LoginCard";
+import RegistrationCard from "src/components/auth/RegistrationCard";
 import GlobalContext from "src/context";
 
 const useStyles = makeStyles((theme) => ({
@@ -58,6 +59,9 @@ export default function LoginView() {
           <Box className={clsx(classes.card)}>
             <LoginCard
               {...{ resource: `${api}${resource}`, on_success, on_error }}
+            />
+            <RegistrationCard
+              {...{ resource: `${api}/users`, on_success, on_error }}
             />
           </Box>
         </Grid>

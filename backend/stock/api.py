@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from tastypie import fields
@@ -15,6 +16,7 @@ from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.authorization import DjangoAuthorization
 from tastypie.constants import ALL
+from tastypie.exceptions import BadRequest
 from tastypie.http import HttpForbidden
 from tastypie.http import HttpUnauthorized
 from tastypie.models import ApiKey
@@ -36,6 +38,35 @@ from stock.models import ValuationRatio
 from stock.tasks import batch_update_helper
 
 logger = logging.getLogger("stock")
+
+
+class UserResource(ModelResource):
+    class Meta:
+        object_class = User
+        resource_name = "users"
+        allowed_methods = ["post"]
+
+    def obj_create(self, bundle, request=None, **kwargs):
+        # sanity check
+        username = bundle.data["username"]
+        email = bundle.data["email"]
+        if User.objects.filter(email=email):
+            raise BadRequest("This email address is already used")
+        if User.objects.filter(username=username):
+            raise BadRequest("This username is already taken")
+
+        try:
+            new_user = User.objects.create_user(
+                bundle.data["username"],
+                bundle.data["email"],
+                bundle.data["password"])
+            new_user.first_name = bundle.data["firstName"]
+            new_user.last_name = bundle.data["lastName"]
+            new_user.save()
+        except IntegrityError:
+            raise BadRequest(
+                "Sorry we can't create an account for you right now.")
+        return bundle
 
 
 class AuthResource(Resource):
@@ -120,7 +151,7 @@ class AuthResource(Resource):
             )
 
 
-class BaseResource(ModelResource):
+class ProtectedResource(ModelResource):
     class Meta:
         abstract = True
         allowed_methods = ["get", "post", "patch", "delete"]
@@ -130,14 +161,7 @@ class BaseResource(ModelResource):
         limit = 0
 
 
-class UserResource(BaseResource):
-    class Meta:
-        resource_name = "users"
-        queryset = User.objects.all()
-        fields = ["first_name", "last_name", "email"]
-
-
-class SectorResource(BaseResource):
+class SectorResource(ProtectedResource):
     name = fields.CharField("name")
     stocks = fields.ManyToManyField(
         "stock.api.StockResource", "stocks", null=True
@@ -167,7 +191,7 @@ class SectorResource(BaseResource):
             batch_update_helper(stock.symbol)
 
 
-class StockResource(BaseResource):
+class StockResource(ProtectedResource):
     symbol = fields.CharField("symbol")
     tax_rate = fields.FloatField("tax_rate", null=True, use_in="detail")
     latest_close_price = fields.FloatField(
@@ -234,7 +258,7 @@ class StockResource(BaseResource):
         return bundle
 
 
-class HistoricalResource(BaseResource):
+class HistoricalResource(ProtectedResource):
     stock = fields.ForeignKey("stock.api.StockResource", "stock")
     symbol = fields.CharField("symbol", null=True)
     vol_over_share_outstanding = fields.FloatField(
@@ -261,7 +285,7 @@ class HistoricalResource(BaseResource):
         return bundle.obj.stock.id
 
 
-class IncomeStatementResource(BaseResource):
+class IncomeStatementResource(ProtectedResource):
     stock = fields.ForeignKey("stock.api.StockResource", "stock")
     symbol = fields.CharField("symbol", null=True)
 
@@ -326,7 +350,7 @@ class IncomeStatementResource(BaseResource):
         return bundle.obj.stock.symbol
 
 
-class CashFlowResource(BaseResource):
+class CashFlowResource(ProtectedResource):
     stock = fields.ForeignKey("stock.api.StockResource", "stock")
     symbol = fields.CharField("symbol", null=True)
 
@@ -361,7 +385,7 @@ class CashFlowResource(BaseResource):
         return bundle.obj.stock.symbol
 
 
-class BalanceSheetResource(BaseResource):
+class BalanceSheetResource(ProtectedResource):
     stock = fields.ForeignKey("stock.api.StockResource", "stock")
     symbol = fields.CharField("symbol", null=True)
 
@@ -440,7 +464,7 @@ class BalanceSheetResource(BaseResource):
         return bundle.obj.stock.symbol
 
 
-class ValuationRatioResource(BaseResource):
+class ValuationRatioResource(ProtectedResource):
     stock = fields.ForeignKey("stock.api.StockResource", "stock")
     symbol = fields.CharField("symbol", null=True)
 
@@ -776,7 +800,7 @@ class RankValuationRatioResource(RankingResource):
         return self._get_ranks(ValuationRatio.objects, attrs)
 
 
-class DiaryResource(BaseResource):
+class DiaryResource(ProtectedResource):
 
     created = fields.DateTimeField("created", readonly=True)
     stock = fields.ForeignKey("stock.api.StockResource", "stock", null=True)
@@ -796,7 +820,7 @@ class DiaryResource(BaseResource):
         authorization = Authorization()
 
 
-class NewsResource(BaseResource):
+class NewsResource(ProtectedResource):
     class Meta:
         queryset = MyNews.objects.all().order_by("-pub_time")
         resource_name = "news"

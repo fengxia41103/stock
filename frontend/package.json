@@ -54,6 +54,7 @@
     "react-feather": "^2.0.8",
     "react-gauge-chart": "^0.4.0",
     "react-helmet": "^6.1.0",
+    "react-hook-form": "^7.17.1",
     "react-perfect-scrollbar": "^1.5.8",
     "react-router": "^6.0.0-beta.0",
     "react-router-dom": "^6.0.0-beta.0",
@@ -67,7 +68,6 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.0",
-    "lint-staged": "^11.1.2",
     "eslint": "^7.5.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -79,10 +79,11 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.8",
+    "lint-staged": "^11.1.2",
     "prettier": "^1.19.1"
   },
   "lint-staged": {
-    "*": "prettier --ignore-unknown --write",
-    "*.{js,jsx}": "eslint --cache --fix"
+    "*.{js,jsx}": "eslint --cache --fix",
+    "*": "prettier --ignore-unknown --write"
   }
 }
