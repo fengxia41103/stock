@@ -102,6 +102,14 @@ class MyStock(models.Model):
             return None
 
     @property
+    def last_better(self):
+        hist = self.historicals.order_by("-on").first()
+        if hist:
+            return hist.last_better
+        else:
+            return None
+
+    @property
     def dupont_roe(self):
         """ROE by Dupont model.
 
@@ -282,7 +290,8 @@ class MyStock(models.Model):
             # statements than balance sheets.
             capital_structure = 0
             share_issued = 0
-            balance = self.balances.filter(on__lte=d.on).order_by("-on").first()
+            balance = self.balances.filter(
+                on__lte=d.on).order_by("-on").first()
             if balance:
                 capital_structure = balance.capital_structure
                 share_issued = balance.share_issued
@@ -408,23 +417,53 @@ class MyStockHistorical(models.Model):
 
     @property
     def last_lower(self):
-        """Using the close price, when was the last time we saw this price?
+        """Using the close price, when was the last time we saw a
+        price lower than me?
 
-        On a given day when I saw a drop, I always have this urge to
-        buy on the dip. However, many times I notice that this isn't
-        the lowest on a chart within even the recent time range, say a
-        week. Therefore, it's useful to show a gauge when we saw this
-        price last time. For example, a dip today, but I saw this dip
-        last week, then it's quite a volatile signal; but if I saw
-        this one year ago, hmm, maybe it's an opportunity, just a dip.
+                On a given day when I saw a drop, I always have this urge to
+                buy on the dip. However, many times I notice that this isn't
+                the lowest on a chart within even the recent time range, say a
+                week. Therefore, it's useful to show a gauge when we saw this
+                price last time. For example, a dip today, but I saw this dip
+                last week, then it's quite a volatile signal; but if I saw
+                this one year ago, hmm, maybe it's an opportunity, just a dip.
 
-        This serves as an indicator for:
+                This serves as an indicator for:
 
-        - in what time span is today the new low?
+                - in what time span is today the new low?
+
         """
         last_saw = (
             self.stock.historicals.filter(
                 close_price__lt=self.close_price, on__lt=self.on
+            )
+            .order_by("-on")
+            .first()
+        )
+        if last_saw:
+            return self.stock.historicals.filter(
+                on__lt=self.on, on__gte=last_saw.on
+            ).count()
+        else:
+            return 0
+
+    @property
+    def last_better(self):
+        """Using the close price, when was the last time we saw price higher
+        than me?
+
+                The idea is to show a rebound cycle that a stock had gone low,
+                but now is coming back to a previous price point. This is
+                especially true if the vlaue has been 1s because the stock is
+                continuously declining (thus the 1), then saw a large value,
+                which is the rebound. So this will show the rebound in term of
+                time, just like the last lower which shows the drop in term of
+                time.
+
+        """
+        last_saw = (
+            self.stock.historicals.filter(
+                close_price__gt=self.close_price, on__lt=self.on
             )
             .order_by("-on")
             .first()
@@ -900,7 +939,8 @@ class CashFlow(StatementBase):
     dividend_paid = models.FloatField(null=True, blank=True, default=0)
     common_stock_issuance = models.FloatField(null=True, blank=True, default=0)
     purchase_of_business = models.FloatField(null=True, blank=True, default=0)
-    purchase_of_investment = models.FloatField(null=True, blank=True, default=0)
+    purchase_of_investment = models.FloatField(
+        null=True, blank=True, default=0)
     repayment_of_debt = models.FloatField(null=True, blank=True, default=0)
     repurchase_of_capital_stock = models.FloatField(
         null=True, blank=True, default=0

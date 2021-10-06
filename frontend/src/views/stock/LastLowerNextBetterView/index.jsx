@@ -28,16 +28,22 @@ export default function LastLowerNextBetterView() {
 
         <CardContent>
           <Typography variant="body2">
-            Time span measures how far out we have seen a `close` price both in
-            the past and in the future. This is meant to measure the trend of
-            price. Take a day's close price, we look back to find the last time
-            we have seen anything lower than this, then peeking into the future
-            to find the first time we saw a price higher than this. On a dip,
-            last lower shows how long the bull run has been; on a continuous
-            rising, last lower will always be 1! Conversely, next better will be
-            0 if the stock has been continuously dropping, and 1 if it is
-            continuously rising.
+            Translate price movement into a time term. For a price drop, the
+            drop scale measures in <code>days</code> when we saw a price lower
+            than this. It's equivalent to say that if you had bought and held
+            this stock between these dates, this drop would have wiped out all
+            the gains in between. If stock has forever risen, this scale will
+            always be 0; and if it has forever declining, this will always be 1.
+            Thus, any value other than 0 or 1 indicates a drop.
           </Typography>
+
+          <Typography variant="body2">
+            Conversely, the rebound scale shows a price climbing back to a
+            historical point. If it has forever risen, this scale will always be
+            0; and if it has forever declining, it would have been always 1.
+            Thus, any value other than 0 or 1 indicates a rebound.
+          </Typography>
+
           <Box mt={3}>
             <PriceLastLowerNextBetterChart data={data} />
           </Box>

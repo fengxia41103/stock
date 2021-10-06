@@ -11,13 +11,13 @@ export default function PriceLastLowerNextBetterChart(props) {
   const categories = map(data, (d) => d.on);
   const chart_data = [
     {
-      name: "Last Time Saw a Price < Today (days)",
-      data: map(data, (d) => -1 * d.last_lower),
+      name: "Drop scale (days)",
+      data: map(data, (d) => (d.last_lower === 1 ? 0 : -1 * d.last_lower)),
       lineWidth: 1,
     },
     {
-      name: "Next Time See a Price > Today (days)",
-      data: map(data, (d) => d.next_better),
+      name: "Rebound scale (days)",
+      data: map(data, (d) => (d.last_better === 1 ? 0 : d.last_better)),
       lineWidth: 1,
     },
   ];

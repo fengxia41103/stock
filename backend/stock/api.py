@@ -191,6 +191,7 @@ class StockResource(BaseResource):
     pb = fields.FloatField("pb", null=True)
     ps = fields.FloatField("ps", null=True)
     last_lower = fields.IntegerField("last_lower", null=True)
+    last_better = fields.IntegerField("last_better", null=True)
     price_to_cash_premium = fields.FloatField(
         "price_to_cash_premium", null=True
     )
@@ -241,6 +242,7 @@ class HistoricalResource(BaseResource):
     )
     stock_id = fields.IntegerField("stock_id", null=True)
     last_lower = fields.IntegerField("last_lower", null=True)
+    last_better = fields.IntegerField("last_better", null=True)
     next_better = fields.IntegerField("next_better", null=True)
     gain_probability = fields.FloatField("gain_probability", null=True)
 
@@ -281,7 +283,8 @@ class IncomeStatementResource(BaseResource):
     )
     selling_ga_to_revenue = fields.FloatField("selling_ga_to_revenue")
 
-    interest_income_to_revenue = fields.FloatField("interest_income_to_revenue")
+    interest_income_to_revenue = fields.FloatField(
+        "interest_income_to_revenue")
 
     other_income_expense_to_revenue = fields.FloatField(
         "other_income_expense_to_revenue"
