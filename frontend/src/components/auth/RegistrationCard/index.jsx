@@ -1,34 +1,25 @@
 import {
-  Box,
   Button,
   TextField,
   Card,
   CardContent,
+  CardHeader,
   CardActions,
   Typography,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
-import React, { useContext, useState } from "react";
+import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { useMutate } from "restful-react";
 
-import GlobalContext from "src/context";
+export default function RegistrationCard(props) {
+  // props
+  const { resource, on_success, on_error } = props;
 
-export default function RegistrationCard() {
-  // context
-  const { api } = useContext(GlobalContext);
-
-  // states
-  const [resource] = useState("/users");
-  const [error, setError] = useState("");
-
-  // other hooks
-  const navigate = useNavigate();
-
+  // hooks
   const { mutate: create } = useMutate({
     verb: "POST",
-    path: `${api}${resource}/?`,
+    path: resource,
   });
 
   const { handleSubmit, control } = useForm();
@@ -41,21 +32,19 @@ export default function RegistrationCard() {
       },
     })
       .then(() => {
-        // go to a landing page
-        navigate("/", true);
+        if (on_success) on_success();
       })
       .catch((error) => {
-        // set error message to display
-        setError(error.data.error);
-
-        // print to console
-        console.error(error);
+        if (on_error) on_error();
       });
   };
 
   // render
   return (
     <Card>
+      <CardHeader
+        title={<Typography variant="h3">Welcome to MyStock</Typography>}
+      ></CardHeader>
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardContent>
           <Controller
@@ -124,12 +113,6 @@ export default function RegistrationCard() {
             )}
             rules={{ required: "Password required" }}
           />
-
-          <Box mt={2}>
-            <Typography variant="body1" color="error">
-              {error}
-            </Typography>
-          </Box>
         </CardContent>
 
         <CardActions>

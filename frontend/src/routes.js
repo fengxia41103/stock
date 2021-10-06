@@ -11,6 +11,7 @@ import { Navigate } from "react-router-dom";
 import MainLayout from "src/layouts/MainLayout";
 import LoginView from "src/views/auth/LoginView";
 import LogoutView from "src/views/auth/LogoutView";
+import RegistrationView from "src/views/auth/RegistrationView";
 import DashboardTrendingView from "src/views/dashboard/DashboardTrendingView";
 import TodayDashboardView from "src/views/dashboard/TodayDashboardView";
 import DiaryListView from "src/views/diary/DiaryListView";
@@ -92,6 +93,7 @@ const routes = [
   // auth
   { path: "login", element: <LoginView /> },
   { path: "logout", element: <LogoutView /> },
+  { path: "registration", element: <RegistrationView /> },
 
   // application specific
   {

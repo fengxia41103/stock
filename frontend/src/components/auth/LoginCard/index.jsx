@@ -1,10 +1,10 @@
 import {
   Grid,
   TextField,
-  Button,
   Card,
   CardContent,
   CardActions,
+  Link,
 } from "@material-ui/core";
 import { Face, Fingerprint } from "@material-ui/icons";
 import PropTypes from "prop-types";
@@ -68,15 +68,7 @@ export default function LoginCard(props) {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Button
-            disableFocusRipple
-            disableRipple
-            variant="text"
-            color="primary"
-          >
-            Forgot password ?
-          </Button>
-
+          <Link href="/registration">Signup</Link>
           <LoginButton
             {...{
               username: user,
