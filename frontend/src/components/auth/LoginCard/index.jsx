@@ -4,7 +4,9 @@ import {
   TextField,
   Card,
   CardContent,
+  CardHeader,
   Link,
+  Typography,
 } from "@material-ui/core";
 import { Face, Fingerprint } from "@material-ui/icons";
 import PropTypes from "prop-types";
@@ -27,6 +29,10 @@ export default function LoginCard(props) {
   // render
   return (
     <Card>
+      <CardHeader
+        title={<Typography variant="h3">Welcome to MyStock</Typography>}
+      ></CardHeader>
+
       <CardContent>
         <Grid container spacing={1} alignItems="flex-end">
           <Grid item lg={1} sm={2} xs={3}>
@@ -34,12 +40,12 @@ export default function LoginCard(props) {
           </Grid>
           <Grid item lg={11} sm={10} xs={9}>
             <TextField
-              id="username"
-              label="Username"
-              value={user}
               fullWidth
               autoFocus
               required
+              id="username"
+              label="Username"
+              value={user}
               onChange={on_user_change}
             />
           </Grid>
@@ -49,12 +55,12 @@ export default function LoginCard(props) {
           </Grid>
           <Grid item lg={11} sm={10} xs={9}>
             <TextField
+              fullWidth
+              required
               id="password"
               label="Password"
               type="password"
               value={pwd}
-              fullWidth
-              required
               onChange={on_pwd_change}
             />
           </Grid>

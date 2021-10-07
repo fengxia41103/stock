@@ -9,15 +9,18 @@ import {
   Link,
   Typography,
 } from "@material-ui/core";
+import { Face } from "@material-ui/icons";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useMutate } from "restful-react";
-import { Face } from "@material-ui/icons";
 
 export default function RegistrationCard(props) {
   // props
   const { resource, on_success, on_error } = props;
+
+  // states
+  const [error, setError] = useState();
 
   // hooks
   const { mutate: create } = useMutate({
@@ -38,7 +41,9 @@ export default function RegistrationCard(props) {
         if (on_success) on_success();
       })
       .catch((error) => {
-        if (on_error) on_error();
+        setError(error.data.error);
+
+        if (on_error) on_error(error);
       });
   };
 
@@ -47,15 +52,15 @@ export default function RegistrationCard(props) {
     <Card>
       <CardHeader
         title={
-          <Typography variant="h3">
+          <Grid container direction="row" alignItems="center">
             <Face />
-            Come to Join Us
-          </Typography>
+            <Typography variant="h3">Join Us</Typography>
+          </Grid>
         }
       ></CardHeader>
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardContent>
-          <Box mt={1}>
+          <Box padding={1}>
             <Controller
               name="firstName"
               control={control}
@@ -66,6 +71,8 @@ export default function RegistrationCard(props) {
               }) => (
                 <TextField
                   required
+                  fullWidth
+                  autoFocus
                   label="First Name"
                   variant="standard"
                   value={value}
@@ -86,6 +93,7 @@ export default function RegistrationCard(props) {
               }) => (
                 <TextField
                   required
+                  fullWidth
                   label="Last Name"
                   variant="standard"
                   value={value}
@@ -96,9 +104,7 @@ export default function RegistrationCard(props) {
               )}
               rules={{ required: "Last name required" }}
             />
-          </Box>
 
-          <Box mt={2}>
             <Controller
               name="email"
               control={control}
@@ -108,6 +114,8 @@ export default function RegistrationCard(props) {
                 fieldState: { error },
               }) => (
                 <TextField
+                  fullWidth
+                  required
                   label="Email"
                   variant="standard"
                   value={value}
@@ -129,6 +137,7 @@ export default function RegistrationCard(props) {
               }) => (
                 <TextField
                   required
+                  fullWidth
                   label="Password"
                   variant="standard"
                   value={value}
@@ -148,6 +157,12 @@ export default function RegistrationCard(props) {
                 Signup
               </Button>
             </Grid>
+          </Box>
+
+          <Box mt={1}>
+            <Typography variant="body1" color="error">
+              {error}
+            </Typography>
           </Box>
         </CardContent>
       </form>

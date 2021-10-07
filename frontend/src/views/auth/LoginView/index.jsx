@@ -8,7 +8,7 @@ import GlobalContext from "src/context";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    marginTop: "37vh",
+    marginTop: "30vh",
   },
   paper: {
     padding: theme.spacing(3),

@@ -1,4 +1,4 @@
-import { Paper, makeStyles, Box, Grid, Typography } from "@material-ui/core";
+import { Paper, makeStyles, Box, Grid } from "@material-ui/core";
 import clsx from "clsx";
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -27,19 +27,12 @@ export default function RegistrationView() {
   const navigate = useNavigate();
 
   // states
-  const [resource] = useState("/users");
-  const [error, setError] = useState();
+  const [resource] = useState("/users/");
 
   // you decide what to do if logged in
-  const on_success = (resp) => {
-    if (resp.success) {
-      // go to a landing page
-      navigate("/", true);
-    }
-  };
-
-  const on_error = (err) => {
-    setError(err.data.error);
+  const on_success = () => {
+    // go to a landing page
+    navigate("/", true);
   };
 
   // render
@@ -50,13 +43,8 @@ export default function RegistrationView() {
         <Grid item lg={4} sm={5} xs={12}>
           <Box className={clsx(classes.card)}>
             <RegistrationCard
-              {...{ resource: `${api}${resource}`, on_success, on_error }}
+              {...{ resource: `${api}${resource}`, on_success }}
             />
-            <Box mt={2}>
-              <Typography variant="body1" color="error">
-                {error}
-              </Typography>
-            </Box>
           </Box>
         </Grid>
       </Grid>
