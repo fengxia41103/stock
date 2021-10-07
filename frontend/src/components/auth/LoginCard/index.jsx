@@ -1,9 +1,9 @@
 import {
+  Box,
   Grid,
   TextField,
   Card,
   CardContent,
-  CardActions,
   Link,
 } from "@material-ui/core";
 import { Face, Fingerprint } from "@material-ui/icons";
@@ -59,27 +59,22 @@ export default function LoginCard(props) {
             />
           </Grid>
         </Grid>
-      </CardContent>
 
-      <CardActions>
-        <Grid
-          container
-          spacing={1}
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Link href="/registration">Signup</Link>
-          <LoginButton
-            {...{
-              username: user,
-              password: pwd,
-              resource,
-              on_success,
-              on_error,
-            }}
-          />
-        </Grid>
-      </CardActions>
+        <Box mt={3}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Link href="/registration">Signup</Link>
+            <LoginButton
+              {...{
+                username: user,
+                password: pwd,
+                resource,
+                on_success,
+                on_error,
+              }}
+            />
+          </Grid>
+        </Box>
+      </CardContent>
     </Card>
   );
 }

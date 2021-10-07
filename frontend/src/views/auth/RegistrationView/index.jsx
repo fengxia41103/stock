@@ -8,11 +8,11 @@ import GlobalContext from "src/context";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    marginTop: "37vh",
+    marginTop: "30vh",
   },
   paper: {
     padding: theme.spacing(3),
-    backgroundImage: `url(${"/static/images/auth.jpeg"})`,
+    backgroundImage: `url(${"/static/images/DSC_1379.JPG"})`,
     height: "100vh",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center center",
@@ -40,7 +40,6 @@ export default function RegistrationView() {
 
   const on_error = (err) => {
     setError(err.data.error);
-    console.error(err);
   };
 
   // render

@@ -11,10 +11,7 @@
     "eject": "react-scripts eject"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -84,6 +81,6 @@
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint --cache --fix",
-    "*": "prettier --ignore-unknown --write"
+    "*.{js,jsx}": "prettier --ignore-unknown --write"
   }
 }
