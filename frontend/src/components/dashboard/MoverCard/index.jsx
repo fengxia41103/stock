@@ -62,14 +62,8 @@ export default function MoverCard(props) {
         }
       />
       <CardContent>
-        <List>{entries}</List>
+        {stocks.length ? <List>{entries}</List> : "No stock for this list"}
       </CardContent>
-      <CardActions>
-        <Grid container spacing={1} justifyContent="flex-end">
-          <Typography variant="body2">on {date}</Typography>
-          <Link href={`/trending`}>&rArr;</Link>
-        </Grid>
-      </CardActions>
     </Card>
   );
 }
