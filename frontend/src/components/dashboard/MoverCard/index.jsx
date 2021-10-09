@@ -1,11 +1,9 @@
 import {
   makeStyles,
   Grid,
-  Link,
   Card,
   CardContent,
   CardHeader,
-  CardActions,
   List,
   ListItem,
   Typography,
@@ -29,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MoverCard(props) {
-  const { title, subtitle, stocks, value, date } = props;
+  const { title, subtitle, stocks, value } = props;
   const classes = useStyles();
 
   const entries = map(stocks, (s) => {
