@@ -234,7 +234,8 @@ class StockResource(ModelResource):
 
     class Meta:
         authentication = ApiKeyAuthentication()
-        authorization = DjangoAuthorization()
+        # authorization = DjangoAuthorization()
+        allowed_methods = ["get", "create", "patch", "delete"]
         limit = 0
         max_limit = 0
 
@@ -244,11 +245,10 @@ class StockResource(ModelResource):
 
     def get_object_list(self, request):
         """Can only see user's sectors"""
-        return (
-            super(StockResource, self)
-            .get_object_list(request)
-            .filter(sectors__user=request.user)
-        )
+        user = request.user
+        ids = set(MyStock.objects.filter(
+            sectors__user=user).values_list("id", flat=True))
+        return MyStock.objects.filter(id__in=ids)
 
     def obj_update(self, bundle, **kwargs):
         stock = bundle.obj
@@ -314,13 +314,8 @@ class HistoricalResource(ModelResource):
         # all eligible stocks
         user = request.user
         stocks = set(MyStock.objects.filter(
-            sectors__user=user).values_list("id"))
-
-        return (
-            super(HistoricalResource, self)
-            .get_object_list(request)
-            .filter(stock__in=stocks)
-        )
+            sectors__user=user).values_list("id", flat=True))
+        return MyStockHistorical.objects.filter(stock__in=stocks)
 
     def dehydrate_symbol(self, bundle):
         return bundle.obj.stock.symbol
@@ -349,46 +344,46 @@ class IncomeStatementResource(ModelResource):
     operating_expense_to_revenue = fields.FloatField(
         "operating_expense_to_revenue"
     )
-    selling_ga_to_revenue=fields.FloatField("selling_ga_to_revenue")
+    selling_ga_to_revenue = fields.FloatField("selling_ga_to_revenue")
 
-    interest_income_to_revenue=fields.FloatField(
+    interest_income_to_revenue = fields.FloatField(
         "interest_income_to_revenue")
 
-    other_income_expense_to_revenue=fields.FloatField(
+    other_income_expense_to_revenue = fields.FloatField(
         "other_income_expense_to_revenue"
     )
-    pretax_income_to_revenue=fields.FloatField("pretax_income_to_revenue")
-    operating_profit=fields.FloatField("operating_profit")
-    operating_profit_to_operating_income=fields.FloatField(
+    pretax_income_to_revenue = fields.FloatField("pretax_income_to_revenue")
+    operating_profit = fields.FloatField("operating_profit")
+    operating_profit_to_operating_income = fields.FloatField(
         "operating_profit_to_operating_income"
     )
-    net_income_to_operating_income=fields.FloatField(
+    net_income_to_operating_income = fields.FloatField(
         "net_income_to_operating_income"
     )
-    ebit_to_total_asset=fields.FloatField("ebit_to_total_asset")
-    net_income_to_equity=fields.FloatField("net_income_to_equity")
+    ebit_to_total_asset = fields.FloatField("ebit_to_total_asset")
+    net_income_to_equity = fields.FloatField("net_income_to_equity")
 
     # growth rates
-    net_income_growth_rate=fields.FloatField(
-        "net_income_growth_rate", null = True
+    net_income_growth_rate = fields.FloatField(
+        "net_income_growth_rate", null=True
     )
-    operating_income_growth_rate=fields.FloatField(
-        "operating_income_growth_rate", null = True
+    operating_income_growth_rate = fields.FloatField(
+        "operating_income_growth_rate", null=True
     )
 
     # ratios
-    cogs_to_inventory=fields.FloatField("cogs_to_inventory", null = True)
-    interest_coverage_ratio=fields.FloatField(
-        "interest_coverage_ratio", null = True
+    cogs_to_inventory = fields.FloatField("cogs_to_inventory", null=True)
+    interest_coverage_ratio = fields.FloatField(
+        "interest_coverage_ratio", null=True
     )
 
     class Meta:
-        queryset=IncomeStatement.objects.all()
-        resource_name="incomes"
-        filtering={"stock": ALL_WITH_RELATIONS}
-        ordering=["on"]
-        limit=0
-        max_limit=0
+        queryset = IncomeStatement.objects.all()
+        resource_name = "incomes"
+        filtering = {"stock": ALL_WITH_RELATIONS}
+        ordering = ["on"]
+        limit = 0
+        max_limit = 0
 
     def dehydrate_symbol(self, bundle):
         return bundle.obj.stock.symbol
