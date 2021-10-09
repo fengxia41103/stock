@@ -22,7 +22,7 @@ import ExportStocks from "src/components/stock/ExportStocks";
 import ListStockCard from "src/components/stock/ListStockCard";
 import UpdateAllStock from "src/components/stock/UpdateAllStock";
 
-function StockListView(props) {
+export default function StockListView(props) {
   const [resource] = useState("/stocks");
   const [searching, setSearching] = useState("");
   const [group_by, setGroupBy] = useState("last_reporting_date");
@@ -38,6 +38,7 @@ function StockListView(props) {
 
   const render_data = (data) => {
     const stocks = data.objects;
+
     // filter based on search string
     const filtered = filter(stocks, (x) => x.symbol.includes(searching));
 
@@ -133,4 +134,3 @@ function StockListView(props) {
 
   return <ShowResource {...{ resource, on_success: render_data }} />;
 }
-export default StockListView;

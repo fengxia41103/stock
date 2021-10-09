@@ -4,6 +4,7 @@
 import logging
 
 from django.apps import apps
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Avg
 
@@ -19,7 +20,11 @@ class MySector(models.Model):
 
     """
 
-    name = models.CharField(max_length=32, null=True, blank=True, unique=True)
+    # section has a user ownership
+    user = models.ForeignKey(
+        User, related_name="sectors", on_delete=models.CASCADE)
+
+    name = models.CharField(max_length=32, null=True, blank=True)
     stocks = models.ManyToManyField("MyStock", related_name="sectors")
 
     def __str__(self):

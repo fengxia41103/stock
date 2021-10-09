@@ -45,12 +45,7 @@ const NavItem = ({ className, href, icon: Icon, title, ...rest }) => {
       disableGutters
       {...rest}
     >
-      <Button
-        activeClassName={classes.active}
-        className={classes.button}
-        component={NavLink}
-        to={href}
-      >
+      <Button className={classes.button} component={NavLink} to={href}>
         {Icon && <Icon className={classes.icon} size="20" />}
         <span className={classes.title}>{title}</span>
       </Button>
