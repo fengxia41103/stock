@@ -42,8 +42,6 @@ export default function ListStockCard(props) {
   const { stocks, index, group_by, actions } = props;
   const classes = useStyles();
 
-  console.log(stocks);
-
   let title;
   switch (group_by) {
     case "last_reporting_date":

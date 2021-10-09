@@ -283,12 +283,22 @@ class HistoricalResource(ModelResource):
     gain_probability = fields.FloatField("gain_probability", null=True)
 
     class Meta:
+        authentication = ApiKeyAuthentication()
+
         resource_name = "historicals"
         queryset = MyStockHistorical.objects.all()
         filtering = {"on": ALL, "stock": ALL}
         ordering = ["on"]
         limit = 0
         max_limit = 0
+
+    def get_object_list(self, request):
+        """Can only see user's sectors"""
+        return (
+            super(HistoricalResource, self)
+            .get_object_list(request)
+            .filter(stock__sectors__user=request.user)
+        )
 
     def dehydrate_symbol(self, bundle):
         return bundle.obj.stock.symbol
