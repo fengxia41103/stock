@@ -514,9 +514,10 @@ class RankingResource(Resource):
 
     class Meta:
         abstract = True
-        allowed_methods = ["get", "post", "patch", "delete"]
+        allowed_methods = ["get"]
         authentication = ApiKeyAuthentication()
         authorization = DjangoAuthorization()
+
         object_class = StatSummary
         filtering = {"stats": ALL, "symbol": ALL}
 
@@ -565,7 +566,6 @@ class RankingResource(Resource):
 
         applicable_filters = self.build_filters(filters)
         return self.apply_filters(request, applicable_filters)
-        # return self.get_object_list(request)
 
     # The following methods will need overriding regardless of your
     # data source.
@@ -653,7 +653,7 @@ class RankingResource(Resource):
 
         return vals
 
-    def _get_ranks(self, objs, attrs):
+    def _get_ranks(self, request, objs, attrs):
         """
         Args
         ----
@@ -669,9 +669,12 @@ class RankingResource(Resource):
 
           list[StatSummary]
         """
+        user_viewable_objs = objs.filter(stock__sectors__user=request.user)
+
         ranks = []
         for (id, attr, high_to_low) in attrs:
-            vals = self._get_object_list_helper(objs, attr, high_to_low)
+            vals = self._get_object_list_helper(
+                user_viewable_objs, attr, high_to_low)
             ranks.append(StatSummary(id, attr, vals))
         return ranks
 
@@ -679,7 +682,7 @@ class RankingResource(Resource):
 class RankStockResource(RankingResource):
     """Ranking by values of MyStock model."""
 
-    class Meta:
+    class Meta(RankingResource.Meta):
         resource_name = "stock-ranks"
 
     def get_object_list(self, request):
@@ -705,7 +708,7 @@ class RankStockResource(RankingResource):
 class RankBalanceResource(RankingResource):
     """Ranking by values of BalanceSheet model."""
 
-    class Meta:
+    class Meta(RankingResource.Meta):
         resource_name = "balance-ranks"
 
     def get_object_list(self, request):
@@ -740,13 +743,13 @@ class RankBalanceResource(RankingResource):
             (index, name, high_to_low)
             for index, (name, high_to_low) in enumerate(attrs)
         ]
-        return self._get_ranks(BalanceSheet.objects, attrs)
+        return self._get_ranks(request, BalanceSheet.objects, attrs)
 
 
 class RankCashFlowResource(RankingResource):
     """Ranking by values of CashFlow model."""
 
-    class Meta:
+    class Meta(RankingResource.Meta):
         resource_name = "cash-ranks"
 
     def get_object_list(self, request):
@@ -765,13 +768,13 @@ class RankCashFlowResource(RankingResource):
             (index, name, high_to_low)
             for index, (name, high_to_low) in enumerate(attrs)
         ]
-        return self._get_ranks(CashFlow.objects, attrs)
+        return self._get_ranks(request, CashFlow.objects, attrs)
 
 
 class RankIncomeResource(RankingResource):
     """Ranking by values of IncomeStatement model."""
 
-    class Meta:
+    class Meta(RankingResource.Meta):
         resource_name = "income-ranks"
 
     def get_object_list(self, request):
@@ -804,13 +807,13 @@ class RankIncomeResource(RankingResource):
             (index, name, high_to_low)
             for index, (name, high_to_low) in enumerate(attrs)
         ]
-        return self._get_ranks(IncomeStatement.objects, attrs)
+        return self._get_ranks(request, IncomeStatement.objects, attrs)
 
 
 class RankValuationRatioResource(RankingResource):
     """Ranking by values of ValuationRatio model."""
 
-    class Meta:
+    class Meta(RankingResource.Meta):
         resource_name = "valuation-ranks"
 
     def get_object_list(self, request):
@@ -819,7 +822,7 @@ class RankValuationRatioResource(RankingResource):
             (index, name, high_to_low)
             for index, (name, high_to_low) in enumerate(attrs)
         ]
-        return self._get_ranks(ValuationRatio.objects, attrs)
+        return self._get_ranks(request, ValuationRatio.objects, attrs)
 
 
 class DiaryResource(ModelResource):
