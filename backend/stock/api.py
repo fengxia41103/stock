@@ -223,17 +223,20 @@ class StockResource(ModelResource):
 
     class Meta:
         authentication = ApiKeyAuthentication()
-        authorization = DjangoAuthorization()
 
         queryset = MyStock.objects.all()
         resource_name = "stocks"
         filtering = {"symbol": ALL, "id": ALL}
         limit = 0
         max_limit = 0
-        authorization = Authorization()
 
     def get_object_list(self, request):
         """Can only see user's sectors"""
+        print(request.user)
+        print(super(StockResource, self)
+              .get_object_list(request)
+              .filter(sectors__user=request.user)
+              )
         return (
             super(StockResource, self)
             .get_object_list(request)
@@ -247,22 +250,26 @@ class StockResource(ModelResource):
         batch_update_helper(stock.symbol)
 
     def obj_create(self, bundle, **kwargs):
+        user = bundle.request.user
+
         # new stock is default to be in "misc" sector
         stock, created = MyStock.objects.get_or_create(
             symbol=bundle.data["symbol"]
         )
-        if created:
-            if bundle.data["sectors"]:
-                # if specified sectors
-                for sector in MySector.objects.filter(
-                    id__in=bundle.data["sectors"]
-                ):
-                    sector.stocks.add(stock)
-            else:
-                # default to "misc" sector
-                misc, created = MySector.objects.get_or_create(name="misc")
-                misc.stocks.add(stock)
 
+        if bundle.data["sectors"]:
+            # if specified sectors
+            for sector in MySector.objects.filter(
+                id__in=bundle.data["sectors"], user=user
+            ):
+                sector.stocks.add(stock)
+        else:
+            # default to "misc" sector
+            misc, whatever = MySector.objects.get_or_create(
+                name="misc", user=user)
+            misc.stocks.add(stock)
+
+        if created:
             # kick off updates
             batch_update_helper(stock.symbol)
 
@@ -669,6 +676,8 @@ class RankingResource(Resource):
 
           list[StatSummary]
         """
+
+        # ASSUMPTION: all models have a foreign key to MyStock
         user_viewable_objs = objs.filter(stock__sectors__user=request.user)
 
         ranks = []
@@ -697,12 +706,34 @@ class RankStockResource(RankingResource):
             for index, (name, high_to_low) in enumerate(attrs)
         ]
 
+        objects = MyStock.objects.filter(sectors__user=request.user)
         return [
             StatSummary(
-                index, attr, MyStock.rank_manager.rank_by(attr, high_to_low)
+                index, attr, self._rank_by(objects, attr, high_to_low)
             )
             for (index, attr, high_to_low) in attrs
         ]
+
+    def _rank_by(self, objs, attr, high_to_low):
+        vals = []
+
+        for s in objs:
+            vals.append(
+                {"id": s.id, "symbol": s.symbol, "val": getattr(s, attr)}
+            )
+
+        # WARNING: eliminate 0 and -100, which are _invalid_ or
+        # _unknown_ internally becase some data anomalies.
+        valid_entries = list(
+            filter(lambda x: x["val"] and x["val"] != -100, vals)
+        )
+
+        # sort is low->high by default, high-to-low will be a reverse.
+        data_set = sorted(
+            valid_entries, key=lambda x: x["val"], reverse=high_to_low
+        )
+
+        return data_set
 
 
 class RankBalanceResource(RankingResource):

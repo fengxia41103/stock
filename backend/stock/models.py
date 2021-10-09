@@ -31,33 +31,7 @@ class MySector(models.Model):
         return str(self.name)
 
 
-class MyStockRankManager(models.Manager):
-    def rank_by(self, attr, high_to_low):
-        vals = []
-
-        for s in MyStock.objects.all():
-            vals.append(
-                {"id": s.id, "symbol": s.symbol, "val": getattr(s, attr)}
-            )
-
-        # WARNING: eliminate 0 and -100, which are _invalid_ or
-        # _unknown_ internally becase some data anomalies.
-        valid_entries = list(
-            filter(lambda x: x["val"] and x["val"] != -100, vals)
-        )
-
-        # sort is low->high by default, high-to-low will be a reverse.
-        data_set = sorted(
-            valid_entries, key=lambda x: x["val"], reverse=high_to_low
-        )
-
-        return data_set
-
-
 class MyStock(models.Model):
-    objects = models.Manager()
-    rank_manager = MyStockRankManager()
-
     symbol = models.CharField(max_length=32, unique=True)
     beta = models.FloatField(null=True, default=5)
     roa = models.FloatField(
@@ -71,9 +45,6 @@ class MyStock(models.Model):
 
     top_ten_institution_ownership = models.FloatField(null=True, default=-1)
     institution_count = models.IntegerField(null=True, default=-1)
-
-    class Meta:
-        base_manager_name = "rank_manager"
 
     def __str__(self):
         return self.symbol
