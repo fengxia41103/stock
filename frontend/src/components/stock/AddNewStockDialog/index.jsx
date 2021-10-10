@@ -79,6 +79,8 @@ export default function AddNewStockDialog() {
 
   const render_data = (data) => {
     const sectors = data.objects;
+    if (sectors.length === 0) return null;
+
     const selections = map(sectors, (s) => {
       return (
         <Grid item key={s.id} lg={4} sm={6} xs={6}>

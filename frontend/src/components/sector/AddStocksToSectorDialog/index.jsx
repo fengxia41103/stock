@@ -62,7 +62,7 @@ export default function AddStocksToSectorDialog(props) {
       // call to update backend
       const uri = `${host}${s.resource_uri}`;
       return fetch(uri, {
-        method: "PATCH",
+        method: "patch",
         headers: {
           "Content-Type": "application/json",
         },

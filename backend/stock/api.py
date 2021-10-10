@@ -173,7 +173,8 @@ class SectorResource(ModelResource):
         filtering = {"name": ALL}
 
         authentication = ApiKeyAuthentication()
-        allowed_methods = ["get", "create", "post", "patch", "delete"]
+        # MUST: for using PATCH, must include PUT also!!!!
+        allowed_methods = ["get", "post", "patch", "delete", "put"]
         limit = 0
         max_limit = 0
         authorization = DjangoAuthorization()
@@ -237,7 +238,7 @@ class StockResource(ModelResource):
         filtering = {"symbol": ALL, "id": ALL}
 
         authentication = ApiKeyAuthentication()
-        allowed_methods = ["get", "create", "post", "patch", "delete"]
+        allowed_methods = ["get", "post", "patch", "delete"]
         limit = 0
         max_limit = 0
         authorization = DjangoAuthorization()
@@ -878,10 +879,6 @@ class DiaryResource(ModelResource):
     content = fields.CharField("content", use_in="detail")
 
     class Meta:
-        authentication = ApiKeyAuthentication()
-        authorization = Authorization()
-        allowed_methods = ["get", "post", "patch", "delete"]
-
         queryset = MyDiary.objects.all().order_by("-created")
         resource_name = "diaries"
         filtering = {
@@ -889,6 +886,10 @@ class DiaryResource(ModelResource):
             "last_updated": ["range"],
             "content": ["contains"],
         }
+
+        authentication = ApiKeyAuthentication()
+        allowed_methods = ["get", "post", "patch", "delete"]
+        authorization = DjangoAuthorization()
 
     def get_object_list(self, request):
         """Can only see user's diaries"""
