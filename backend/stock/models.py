@@ -22,7 +22,8 @@ class MySector(models.Model):
 
     # section has a user ownership
     user = models.ForeignKey(
-        User, related_name="sectors", on_delete=models.CASCADE)
+        User, related_name="sectors", on_delete=models.CASCADE
+    )
 
     name = models.CharField(max_length=32, null=True, blank=True)
     stocks = models.ManyToManyField("MyStock", related_name="sectors")
@@ -1601,6 +1602,11 @@ class MyDiary(models.Model):
     """
 
     JUDGEMENT_CHOICES = [(1, "bull"), (2, "bear")]
+
+    # diary has a user ownership
+    user = models.ForeignKey(
+        User, related_name="diaries", on_delete=models.CASCADE
+    )
 
     # stock is optional. If not given, it will be a general notes, and
     # UI will later figure out whether the content contains a stock

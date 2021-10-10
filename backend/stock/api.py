@@ -246,8 +246,11 @@ class StockResource(ModelResource):
     def get_object_list(self, request):
         """Can only see user's sectors"""
         user = request.user
-        ids = set(MyStock.objects.filter(
-            sectors__user=user).values_list("id", flat=True))
+        ids = set(
+            MyStock.objects.filter(sectors__user=user).values_list(
+                "id", flat=True
+            )
+        )
         return MyStock.objects.filter(id__in=ids)
 
     def obj_update(self, bundle, **kwargs):
@@ -313,8 +316,11 @@ class HistoricalResource(ModelResource):
 
         # all eligible stocks
         user = request.user
-        stocks = set(MyStock.objects.filter(
-            sectors__user=user).values_list("id", flat=True))
+        stocks = set(
+            MyStock.objects.filter(sectors__user=user).values_list(
+                "id", flat=True
+            )
+        )
         return MyStockHistorical.objects.filter(stock__in=stocks)
 
     def dehydrate_symbol(self, bundle):
@@ -390,72 +396,72 @@ class IncomeStatementResource(ModelResource):
 
 
 class CashFlowResource(ModelResource):
-    stock=fields.ForeignKey("stock.api.StockResource", "stock")
-    symbol=fields.CharField("symbol", null = True)
+    stock = fields.ForeignKey("stock.api.StockResource", "stock")
+    symbol = fields.CharField("symbol", null=True)
 
     # reported
-    close_price=fields.FloatField("close_price", null = True)
+    close_price = fields.FloatField("close_price", null=True)
 
     # as of pcnt
-    fcf_over_ocf=fields.FloatField("fcf_over_ocf", null = True)
-    fcf_over_net_income=fields.FloatField("fcf_over_net_income", null = True)
-    ocf_over_net_income=fields.FloatField("ocf_over_net_income", null = True)
+    fcf_over_ocf = fields.FloatField("fcf_over_ocf", null=True)
+    fcf_over_net_income = fields.FloatField("fcf_over_net_income", null=True)
+    ocf_over_net_income = fields.FloatField("ocf_over_net_income", null=True)
 
     # growth rates
-    cash_change_pcnt=fields.FloatField("cash_change_pcnt", null = True)
-    operating_cash_flow_growth=fields.FloatField(
-        "operating_cash_flow_growth", null = True
+    cash_change_pcnt = fields.FloatField("cash_change_pcnt", null=True)
+    operating_cash_flow_growth = fields.FloatField(
+        "operating_cash_flow_growth", null=True
     )
 
     # ratio
-    dividend_payout_ratio=fields.FloatField(
-        "dividend_payout_ratio", null = True
+    dividend_payout_ratio = fields.FloatField(
+        "dividend_payout_ratio", null=True
     )
 
     class Meta:
-        queryset=CashFlow.objects.all()
-        resource_name="cashes"
-        filtering={"stock": ALL_WITH_RELATIONS}
-        ordering=["on"]
-        limit=0
-        max_limit=0
+        queryset = CashFlow.objects.all()
+        resource_name = "cashes"
+        filtering = {"stock": ALL_WITH_RELATIONS}
+        ordering = ["on"]
+        limit = 0
+        max_limit = 0
 
     def dehydrate_symbol(self, bundle):
         return bundle.obj.stock.symbol
 
 
 class BalanceSheetResource(ModelResource):
-    stock=fields.ForeignKey("stock.api.StockResource", "stock")
-    symbol=fields.CharField("symbol", null = True)
+    stock = fields.ForeignKey("stock.api.StockResource", "stock")
+    symbol = fields.CharField("symbol", null=True)
 
     # reported
-    close_price=fields.FloatField("close_price", null = True)
+    close_price = fields.FloatField("close_price", null=True)
 
     # ratio
-    current_ratio=fields.FloatField("current_ratio", null = True)
-    quick_ratio=fields.FloatField("quick_ratio", null = True)
-    debt_to_equity_ratio=fields.FloatField("debt_to_equity_ratio", null = True)
-    capital_structure=fields.FloatField("capital_structure", null = True)
-    equity_multiplier=fields.FloatField("equity_multiplier", null = True)
+    current_ratio = fields.FloatField("current_ratio", null=True)
+    quick_ratio = fields.FloatField("quick_ratio", null=True)
+    debt_to_equity_ratio = fields.FloatField("debt_to_equity_ratio", null=True)
+    capital_structure = fields.FloatField("capital_structure", null=True)
+    equity_multiplier = fields.FloatField("equity_multiplier", null=True)
 
     # as of pcnt
-    liability_to_asset=fields.FloatField("liability_to_asset", null = True)
-    current_asset_to_total_asset=fields.FloatField(
-        "current_asset_to_total_asset", null = True
+    liability_to_asset = fields.FloatField("liability_to_asset", null=True)
+    current_asset_to_total_asset = fields.FloatField(
+        "current_asset_to_total_asset", null=True
     )
-    working_capital_to_current_liabilities=fields.FloatField(
-        "working_capital_to_current_liabilities", null = True
+    working_capital_to_current_liabilities = fields.FloatField(
+        "working_capital_to_current_liabilities", null=True
     )
-    non_current_to_equity=fields.FloatField(
-        "non_current_to_equity", null = True
+    non_current_to_equity = fields.FloatField(
+        "non_current_to_equity", null=True
     )
-    retained_earnings_to_equity=fields.FloatField(
-        "retained_earnings_to_equity", null = True
+    retained_earnings_to_equity = fields.FloatField(
+        "retained_earnings_to_equity", null=True
     )
-    inventory_to_current_asset=fields.FloatField(
-        "inventory_to_current_asset", null = True
+    inventory_to_current_asset = fields.FloatField(
+        "inventory_to_current_asset", null=True
     )
-    cash_cash_equivalents_and_short_term_investments_to_current_asset=(
+    cash_cash_equivalents_and_short_term_investments_to_current_asset = (
         fields.FloatField(
             "cash_cash_equivalents_and_short_term_investments_to_current_asset",
             null=True,
@@ -463,86 +469,86 @@ class BalanceSheetResource(ModelResource):
     )
 
     # growth rates
-    equity_growth_rate=fields.FloatField("equity_growth_rate", null = True)
-    debt_growth_rate=fields.FloatField("debt_growth_rate", null = True)
-    ap_growth_rate=fields.FloatField("ap_growth_rate", null = True)
-    ar_growth_rate=fields.FloatField("ar_growth_rate", null = True)
-    all_cash_growth_rate=fields.FloatField("all_cash_growth_rate", null = True)
-    working_capital_growth_rate=fields.FloatField(
-        "working_capital_growth_rate", null = True
+    equity_growth_rate = fields.FloatField("equity_growth_rate", null=True)
+    debt_growth_rate = fields.FloatField("debt_growth_rate", null=True)
+    ap_growth_rate = fields.FloatField("ap_growth_rate", null=True)
+    ar_growth_rate = fields.FloatField("ar_growth_rate", null=True)
+    all_cash_growth_rate = fields.FloatField("all_cash_growth_rate", null=True)
+    working_capital_growth_rate = fields.FloatField(
+        "working_capital_growth_rate", null=True
     )
-    invested_capital_growth_rate=fields.FloatField(
-        "invested_capital_growth_rate", null = True
+    invested_capital_growth_rate = fields.FloatField(
+        "invested_capital_growth_rate", null=True
     )
-    net_ppe_growth_rate=fields.FloatField("net_ppe_growth_rate", null = True)
-    share_issued_growth_rate=fields.FloatField(
-        "share_issued_growth_rate", null = True
+    net_ppe_growth_rate = fields.FloatField("net_ppe_growth_rate", null=True)
+    share_issued_growth_rate = fields.FloatField(
+        "share_issued_growth_rate", null=True
     )
 
     # computed values
-    total_liability=fields.FloatField("total_liability", null = True)
-    tangible_book_value_per_share=fields.FloatField(
-        "tangible_book_value_per_share", null = True
+    total_liability = fields.FloatField("total_liability", null=True)
+    tangible_book_value_per_share = fields.FloatField(
+        "tangible_book_value_per_share", null=True
     )
-    cash_and_cash_equivalent_per_share=fields.FloatField(
-        "cash_and_cash_equivalent_per_share", null = True
+    cash_and_cash_equivalent_per_share = fields.FloatField(
+        "cash_and_cash_equivalent_per_share", null=True
     )
-    price_to_cash_premium=fields.FloatField(
-        "price_to_cash_premium", null = True
+    price_to_cash_premium = fields.FloatField(
+        "price_to_cash_premium", null=True
     )
 
     class Meta:
-        queryset=BalanceSheet.objects.all()
-        resource_name="balances"
-        filtering={"stock": ALL_WITH_RELATIONS}
-        ordering=["on"]
-        limit=0
-        max_limit=0
+        queryset = BalanceSheet.objects.all()
+        resource_name = "balances"
+        filtering = {"stock": ALL_WITH_RELATIONS}
+        ordering = ["on"]
+        limit = 0
+        max_limit = 0
 
     def dehydrate_symbol(self, bundle):
         return bundle.obj.stock.symbol
 
 
 class ValuationRatioResource(ModelResource):
-    stock=fields.ForeignKey("stock.api.StockResource", "stock")
-    symbol=fields.CharField("symbol", null = True)
+    stock = fields.ForeignKey("stock.api.StockResource", "stock")
+    symbol = fields.CharField("symbol", null=True)
 
     class Meta:
-        queryset=ValuationRatio.objects.all()
-        resource_name="ratios"
-        filtering={"stock": ALL_WITH_RELATIONS}
-        ordering=["on"]
+        queryset = ValuationRatio.objects.all()
+        resource_name = "ratios"
+        filtering = {"stock": ALL_WITH_RELATIONS}
+        ordering = ["on"]
 
     def dehydrate_symbol(self, bundle):
         return bundle.obj.stock.symbol
 
 
 class StatSummary:
-    def __init__(self, id = None, name = None, stats = None):
-        self.id=id
-        self.name=name
-        self.stats=stats
+    def __init__(self, id=None, name=None, stats=None):
+        self.id = id
+        self.name = name
+        self.stats = stats
 
 
 class RankingResource(Resource):
-    id=fields.IntegerField("id")
-    name=fields.CharField("name", null = True)
-    stats=fields.ListField("stats")
+    id = fields.IntegerField("id")
+    name = fields.CharField("name", null=True)
+    stats = fields.ListField("stats")
 
     class Meta:
-        abstract=True
-        allowed_methods=["get"]
-        authentication=ApiKeyAuthentication()
-        authorization=DjangoAuthorization()
+        abstract = True
+        allowed_methods = ["get"]
+        authentication = ApiKeyAuthentication()
+        authorization = DjangoAuthorization()
 
-        object_class=StatSummary
-        filtering={"stats": ALL, "symbol": ALL}
+        object_class = StatSummary
+        filtering = {"stats": ALL, "symbol": ALL}
 
-    def build_filters(self, filters = None, **kwargs):
+    def build_filters(self, filters=None, **kwargs):
         if filters is None:
-            filters={}
+            filters = {}
 
-        orm_filters=filters
+        orm_filters = filters
 
         if "stats__in" in filters:
             orm_filters["id__in"] = filters["stats__in"]
@@ -874,6 +880,8 @@ class DiaryResource(ModelResource):
     content = fields.CharField("content", use_in="detail")
 
     class Meta:
+        authentication = ApiKeyAuthentication()
+        authorization = DjangoAuthorization()
         queryset = MyDiary.objects.all().order_by("-created")
         resource_name = "diaries"
 
@@ -882,7 +890,11 @@ class DiaryResource(ModelResource):
             "last_updated": ["range"],
             "content": ["contains"],
         }
-        authorization = Authorization()
+
+    def get_object_list(self, request):
+        """Can only see user's diaries"""
+        user = request.user
+        return MyDiary.objects.filter(user=user)
 
 
 class NewsResource(ModelResource):
