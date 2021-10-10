@@ -6,7 +6,9 @@ from django.conf.urls import url
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
+from django.contrib.auth.models import Permission
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
@@ -54,6 +56,7 @@ class UserResource(ModelResource):
         if User.objects.filter(username=username):
             raise BadRequest("This username is already taken")
 
+        # create new user account
         try:
             new_user = User.objects.create_user(
                 bundle.data["username"],
@@ -67,6 +70,16 @@ class UserResource(ModelResource):
             raise BadRequest(
                 "Sorry we can't create an account for you right now."
             )
+
+        # assign permissions
+        for m in [MyStock, MySector, MyDiary]:
+            content_type = ContentType.objects.get_for_model(m)
+            all_permissions = Permission.objects.filter(
+                content_type=content_type)
+            for p in all_permissions:
+                new_user.user_permissions.add(p)
+
+        bundle.obj = new_user
         return bundle
 
 
