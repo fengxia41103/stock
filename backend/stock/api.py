@@ -12,7 +12,6 @@ from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
-from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.authorization import DjangoAuthorization
 from tastypie.constants import ALL
@@ -73,9 +72,10 @@ class UserResource(ModelResource):
 
 class AuthResource(Resource):
     class Meta:
+        authentication = ApiKeyAuthentication()
+        authourization = Authorization()
         allowed_methods = ["get", "post"]
         resource_name = "auth"
-        authentication = ApiKeyAuthentication()
 
     def prepend_urls(self):
         return [
@@ -168,21 +168,19 @@ class SectorResource(ModelResource):
     )
 
     class Meta:
-        authentication = ApiKeyAuthentication()
-        authorization = DjangoAuthorization()
-
         queryset = MySector.objects.all()
         resource_name = "sectors"
         filtering = {"name": ALL}
-        authorization = Authorization()
+
+        authentication = ApiKeyAuthentication()
+        allowed_methods = ["get", "create", "post", "patch", "delete"]
+        limit = 0
+        max_limit = 0
+        authorization = DjangoAuthorization()
 
     def get_object_list(self, request):
         """Can only see user's sectors"""
-        return (
-            super(SectorResource, self)
-            .get_object_list(request)
-            .filter(user=request.user)
-        )
+        return MySector.objects.filter(user=request.user)
 
     def obj_create(self, bundle, **kwargs):
         user = bundle.request.user
@@ -194,6 +192,7 @@ class SectorResource(ModelResource):
         return bundle
 
     def obj_update(self, bundle, **kwargs):
+        print(bundle.data)
         super().obj_update(bundle)
 
         sector = bundle.obj
@@ -233,15 +232,15 @@ class StockResource(ModelResource):
     )
 
     class Meta:
-        authentication = ApiKeyAuthentication()
-        # authorization = DjangoAuthorization()
-        allowed_methods = ["get", "create", "patch", "delete"]
-        limit = 0
-        max_limit = 0
-
         queryset = MyStock.objects.all()
         resource_name = "stocks"
         filtering = {"symbol": ALL, "id": ALL}
+
+        authentication = ApiKeyAuthentication()
+        allowed_methods = ["get", "create", "post", "patch", "delete"]
+        limit = 0
+        max_limit = 0
+        authorization = DjangoAuthorization()
 
     def get_object_list(self, request):
         """Can only see user's sectors"""
@@ -537,9 +536,8 @@ class RankingResource(Resource):
 
     class Meta:
         abstract = True
-        allowed_methods = ["get"]
         authentication = ApiKeyAuthentication()
-        authorization = DjangoAuthorization()
+        allowed_methods = ["get"]
 
         object_class = StatSummary
         filtering = {"stats": ALL, "symbol": ALL}
@@ -881,10 +879,11 @@ class DiaryResource(ModelResource):
 
     class Meta:
         authentication = ApiKeyAuthentication()
-        authorization = DjangoAuthorization()
+        authorization = Authorization()
+        allowed_methods = ["get", "post", "patch", "delete"]
+
         queryset = MyDiary.objects.all().order_by("-created")
         resource_name = "diaries"
-
         filtering = {
             "stock": ALL,
             "last_updated": ["range"],
@@ -894,7 +893,21 @@ class DiaryResource(ModelResource):
     def get_object_list(self, request):
         """Can only see user's diaries"""
         user = request.user
-        return MyDiary.objects.filter(user=user)
+        return MyDiary.objects.filter(user=user).order_by("-last_updated")
+
+    def obj_create(self, bundle, **kwargs):
+        user = bundle.request.user
+
+        stock = MyStock.objects.filter(id=bundle.data["stock"]).first()
+        diary = MyDiary(
+            user=user,
+            stock=stock,
+            content=bundle.data["content"],
+            judgement=bundle.data["judgement"],
+        )
+        diary.save()
+        bundle.obj = diary
+        return bundle
 
 
 class NewsResource(ModelResource):

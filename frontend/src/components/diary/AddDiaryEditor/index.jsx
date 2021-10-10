@@ -11,7 +11,6 @@ import Typography from "@material-ui/core/Typography";
 import TrendingDownIcon from "@material-ui/icons/TrendingDown";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import MDEditor from "@uiw/react-md-editor";
-import { isUndefined } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState, useContext, useEffect } from "react";
 import { useMutate } from "restful-react";
@@ -37,7 +36,7 @@ export default function AddDiaryEditor(props) {
     const msg = "New note has been saved.";
 
     create({
-      stock: isUndefined(stock_id) ? null : `/api/v1/stocks/${stock_id}/`,
+      stock: stock_id ? `/api/v1/stocks/${stock_id}/` : null,
       content: comment,
       judgement: prediction,
     })

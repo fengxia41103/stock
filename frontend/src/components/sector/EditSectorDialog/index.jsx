@@ -26,6 +26,8 @@ export default function EditSectorDialog(props) {
     path: `${host}${resource_uri}`,
   });
 
+  const reload = () => window.location.reload();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -42,7 +44,9 @@ export default function EditSectorDialog(props) {
 
   // call API and close this dialog
   const on_update = () =>
-    update({ resource_uri, name: new_name }).then(setOpen(false));
+    update({ resource_uri, name: new_name })
+      .then(setOpen(false))
+      .then(reload());
 
   // filtered existing list
   const filtered_existings = map(
