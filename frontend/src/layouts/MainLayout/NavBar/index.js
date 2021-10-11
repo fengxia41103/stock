@@ -1,16 +1,16 @@
 import {
-  Avatar,
   Box,
   Divider,
   Drawer,
   Hidden,
   List,
-  Typography,
   makeStyles,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
+import AuthenticatedUser from "src/components/user/AuthenticatedUser";
 
 import NavItem from "./NavItem";
 
@@ -29,11 +29,6 @@ const useStyles = makeStyles(() => ({
     top: 64,
     height: "calc(100% - 64px)",
   },
-  avatar: {
-    cursor: "pointer",
-    width: 64,
-    height: 64,
-  },
 }));
 
 export default function NavBar({ onMobileClose, openMobile, items }) {
@@ -49,20 +44,7 @@ export default function NavBar({ onMobileClose, openMobile, items }) {
 
   const content = (
     <Box height="100%" display="flex" flexDirection="column">
-      <Box alignItems="center" display="flex" flexDirection="column" p={2}>
-        <Avatar
-          className={classes.avatar}
-          component={RouterLink}
-          src={user.avatar}
-          to="/app/account"
-        />
-        <Typography className={classes.name} color="textPrimary" variant="h5">
-          {user.name}
-        </Typography>
-        <Typography color="secondary" variant="body2">
-          {user.jobTitle}
-        </Typography>
-      </Box>
+      <AuthenticatedUser {...{ user }} />
       <Divider />
       <Box p={2}>
         <List>
