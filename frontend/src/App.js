@@ -53,7 +53,7 @@ export default function App() {
           },
         })}
       >
-        <GlobalContext.Provider value={{ ...backend }}>
+        <GlobalContext.Provider value={{ ...backend, user }}>
           {here}
         </GlobalContext.Provider>
       </RestfulProvider>

@@ -6,19 +6,15 @@ import {
   List,
   makeStyles,
 } from "@material-ui/core";
+import faker from "faker";
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 
 import AuthenticatedUser from "src/components/user/AuthenticatedUser";
+import GlobalContext from "src/context";
 
 import NavItem from "./NavItem";
-
-const user = {
-  avatar: "/static/images/avatars/avatar_6.png",
-  jobTitle: "Senior Developer",
-  name: "Katarina Smith",
-};
 
 const useStyles = makeStyles(() => ({
   mobileDrawer: {
@@ -32,6 +28,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function NavBar({ onMobileClose, openMobile, items }) {
+  const { user: username } = useContext(GlobalContext);
+  const user = {
+    avatar: faker.image.animals(),
+    jobTitle: "Senior Developer",
+    name: username,
+  };
+
   const classes = useStyles();
   const location = useLocation();
 
