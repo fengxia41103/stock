@@ -1,7 +1,6 @@
 import { Avatar, Box, Typography, makeStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React from "react";
-import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   avatar: {
@@ -17,17 +16,12 @@ export default function AuthenticatedUser(props) {
 
   return (
     <Box alignItems="center" display="flex" flexDirection="column" p={2}>
-      <Avatar
-        className={classes.avatar}
-        component={RouterLink}
-        src={user.avatar}
-        to="/app/account"
-      />
+      <Avatar className={classes.avatar} src={user.avatar} />
       <Typography className={classes.name} color="textPrimary" variant="h5">
-        {user.name}
+        Welcome back
       </Typography>
       <Typography color="secondary" variant="body2">
-        {user.jobTitle}
+        {user.name}
       </Typography>
     </Box>
   );

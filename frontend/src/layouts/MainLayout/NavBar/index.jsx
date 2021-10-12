@@ -31,7 +31,6 @@ export default function NavBar({ onMobileClose, openMobile, items }) {
   const { user: username } = useContext(GlobalContext);
   const user = {
     avatar: faker.image.animals(),
-    jobTitle: "Senior Developer",
     name: username,
   };
 
