@@ -41,6 +41,7 @@ export default function App() {
     here = <LoginView />;
   }
 
+  const auth = `ApiKey ${user}:${api_key}`;
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
@@ -49,11 +50,11 @@ export default function App() {
         requestOptions={(url, method, requestBody) => ({
           headers: {
             "content-type": "application/json",
-            Authorization: `ApiKey ${user}:${api_key}`,
+            Authorization: auth,
           },
         })}
       >
-        <GlobalContext.Provider value={{ ...backend, user }}>
+        <GlobalContext.Provider value={{ ...backend, user, auth }}>
           {here}
         </GlobalContext.Provider>
       </RestfulProvider>

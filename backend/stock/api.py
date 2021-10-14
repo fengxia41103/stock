@@ -47,6 +47,8 @@ class UserResource(ModelResource):
         resource_name = "users"
         allowed_methods = ["post"]
 
+        authorization = DjangoAuthorization()
+
     def obj_create(self, bundle, request=None, **kwargs):
         # sanity check
         username = bundle.data["username"]
@@ -178,11 +180,12 @@ class SectorResource(ModelResource):
         filtering = {"name": ALL}
 
         authentication = ApiKeyAuthentication()
+        authorization = DjangoAuthorization()
+
         # MUST: for using PATCH, must include PUT also!!!!
         allowed_methods = ["get", "post", "patch", "delete", "put"]
         limit = 0
         max_limit = 0
-        authorization = DjangoAuthorization()
 
     def get_object_list(self, request):
         """Can only see user's sectors"""
@@ -198,7 +201,6 @@ class SectorResource(ModelResource):
         return bundle
 
     def obj_update(self, bundle, **kwargs):
-        print(bundle.data)
         super().obj_update(bundle)
 
         sector = bundle.obj
@@ -243,10 +245,10 @@ class StockResource(ModelResource):
         filtering = {"symbol": ALL, "id": ALL}
 
         authentication = ApiKeyAuthentication()
-        allowed_methods = ["get", "post", "patch", "delete"]
+        authorization = DjangoAuthorization()
+        allowed_methods = ["get", "post", "patch", "delete", "put"]
         limit = 0
         max_limit = 0
-        authorization = DjangoAuthorization()
 
     def get_object_list(self, request):
         """Can only see user's sectors"""
@@ -307,6 +309,7 @@ class HistoricalResource(ModelResource):
 
     class Meta:
         authentication = ApiKeyAuthentication()
+        authorization = DjangoAuthorization()
         allowed_methods = ["get"]
         limit = 0
         max_limit = 0

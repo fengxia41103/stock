@@ -8,7 +8,7 @@ import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import GlobalContext from "src/context";
 
 export default function UpdateAllStock(props) {
-  const { api } = useContext(GlobalContext);
+  const { api, auth } = useContext(GlobalContext);
   const [resource] = useState("/stocks");
   const { stocks } = props;
   const [notification, setNotification] = useState("");
@@ -22,6 +22,7 @@ export default function UpdateAllStock(props) {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          Authorization: auth,
         },
         body: JSON.stringify({}),
       });

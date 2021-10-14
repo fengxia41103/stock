@@ -16,7 +16,7 @@ import ShowResource from "src/components/common/ShowResource";
 import GlobalContext from "src/context";
 
 export default function AddStocksToSectorDialog(props) {
-  const { host } = useContext(GlobalContext);
+  const { host, auth } = useContext(GlobalContext);
   const [resource] = useState("/sectors");
   const { stocks } = props;
   const [open, setOpen] = useState(false);
@@ -65,6 +65,7 @@ export default function AddStocksToSectorDialog(props) {
         method: "patch",
         headers: {
           "Content-Type": "application/json",
+          Authorization: auth,
         },
         body: JSON.stringify({ stocks: stock_resources }),
       });
