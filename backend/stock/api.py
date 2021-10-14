@@ -56,7 +56,7 @@ class UserResource(ModelResource):
         if User.objects.filter(email=email):
             raise BadRequest("This email address is already used")
         if User.objects.filter(username=username):
-            raise BadRequest("This username is already taken")
+            raise BadRequest("This name is already taken")
 
         # create new user account
         try:
