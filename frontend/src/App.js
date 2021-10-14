@@ -12,7 +12,7 @@ import LoginView from "src/views/auth/LoginView";
 import RegistrationView from "src/views/auth/RegistrationView";
 
 const globals = {
-  localhost: {
+  backend: {
     api: "http://localhost:8003/api/v1",
     host: "http://localhost:8003",
   },
@@ -20,7 +20,7 @@ const globals = {
 
 export default function App() {
   // global config
-  const backend = globals.localhost;
+  const backend = globals.backend;
 
   // check authentication
   const session = window.sessionStorage;

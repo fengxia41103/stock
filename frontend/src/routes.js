@@ -99,7 +99,6 @@ const routes = [
   {
     path: "/",
     element: <MainLayout sideNavs={navbar_items} />,
-
     children: [
       // stocks
       { path: "stocks", element: <StockListView /> },
@@ -164,7 +163,7 @@ const routes = [
       },
 
       // landing page, default to dashboard
-      { path: "/", element: <Navigate to="/stocks" /> },
+      { path: "/", element: <Navigate to="/sectors" /> },
       { path: "404", element: <NotFoundView /> },
       // catch all, 404
       { path: "*", element: <Navigate to="/404" /> },
