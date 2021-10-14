@@ -59,7 +59,7 @@ INSTALLED_APPS = (
     "tastypie",  # django-tastypie
     "corsheaders",
     "django_extensions",
-    "stock",
+    "stock.apps.StockConfig",
 )
 
 MIDDLEWARE = (

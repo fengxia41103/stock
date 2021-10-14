@@ -71,14 +71,6 @@ class UserResource(ModelResource):
                 "Sorry we can't create an account for you right now."
             )
 
-        # assign permissions
-        for m in [MyStock, MySector, MyDiary]:
-            content_type = ContentType.objects.get_for_model(m)
-            all_permissions = Permission.objects.filter(
-                content_type=content_type)
-            for p in all_permissions:
-                new_user.user_permissions.add(p)
-
         bundle.obj = new_user
         return bundle
 
@@ -289,7 +281,7 @@ class StockResource(ModelResource):
         else:
             # default to "misc" sector
             misc, whatever = MySector.objects.get_or_create(
-                name="misc", user=user
+                name="demo", user=user
             )
             misc.stocks.add(stock)
 
