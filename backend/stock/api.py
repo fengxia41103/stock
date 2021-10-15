@@ -309,8 +309,7 @@ class HistoricalResource(ModelResource):
 
     class Meta:
         authentication = ApiKeyAuthentication()
-        authorization = DjangoAuthorization()
-        allowed_methods = ["get"]
+            allowed_methods = ["get"]
         limit = 0
         max_limit = 0
 

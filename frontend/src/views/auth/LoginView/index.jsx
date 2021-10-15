@@ -1,4 +1,4 @@
-import { Paper, makeStyles, Box, Grid, Typography } from "@material-ui/core";
+import { Paper, makeStyles, Box, Grid } from "@material-ui/core";
 import clsx from "clsx";
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -45,12 +45,9 @@ export default function LoginView() {
 
       // go to a landing page
       navigate("/", true);
+    } else {
+      setError(resp.message);
     }
-  };
-
-  const on_error = (err) => {
-    setError(err.data.error);
-    console.error(err);
   };
 
   // render
@@ -61,13 +58,8 @@ export default function LoginView() {
         <Grid item lg={4} sm={5} xs={12}>
           <Box className={clsx(classes.card)}>
             <LoginCard
-              {...{ resource: `${api}${resource}`, on_success, on_error }}
+              {...{ resource: `${api}${resource}`, on_success, error }}
             />
-            <Box mt={2}>
-              <Typography variant="body1" color="error">
-                {error}
-              </Typography>
-            </Box>
           </Box>
         </Grid>
       </Grid>

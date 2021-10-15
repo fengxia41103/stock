@@ -16,7 +16,7 @@ import LoginButton from "src/components/auth/LoginButton";
 
 export default function LoginCard(props) {
   // props
-  const { resource, on_success, on_error } = props;
+  const { resource, on_success, on_error, error } = props;
 
   // states
   const [user, setUser] = useState("");
@@ -80,6 +80,11 @@ export default function LoginCard(props) {
             />
           </Grid>
         </Box>
+        <Box mt={1}>
+          <Typography variant="body1" color="error">
+            {error}
+          </Typography>
+        </Box>
       </CardContent>
     </Card>
   );
@@ -89,4 +94,5 @@ LoginCard.propTypes = {
   resource: PropTypes.string.isRequired,
   on_success: PropTypes.func.isRequired,
   on_error: PropTypes.func,
+  error: PropTypes.string,
 };

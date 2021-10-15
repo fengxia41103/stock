@@ -7,6 +7,7 @@ from django.dispatch import receiver
 from stock.models import MyDiary
 from stock.models import MySector
 from stock.models import MyStock
+from stock.tasks import batch_update_helper
 
 
 @receiver(post_save, sender=User)
@@ -30,6 +31,10 @@ def on_new_user(sender, instance, **kwargs):
         # create stock
         mystock, created = MyStock.objects.get_or_create(symbol=symbol)
         mysector.stocks.add(mystock)
+
+        # if we see this symbol for the first time, pull data
+        if created:
+            batch_update_helper(symbol)
 
         # create sample notes
         diary, created = MyDiary.objects.get_or_create(

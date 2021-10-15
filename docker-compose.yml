@@ -94,6 +94,7 @@ services:
     depends_on:
       - db
       - redis
+      - web
 
   redis:
     image: redis
