@@ -23,7 +23,10 @@ import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import GlobalContext from "src/context";
 
 export default function AddNewStockDialog() {
+  // context
   const { api } = useContext(GlobalContext);
+
+  // states
   const [open, setOpen] = useState(false);
   const [resource] = useState("/stocks");
   const [symbol, setSymbol] = useState([]);
@@ -31,13 +34,14 @@ export default function AddNewStockDialog() {
   const [sectors_resource] = useState("/sectors");
   const [selectedSectors, setSelectedSectors] = useState([]);
 
+  // hooks
   const { mutate: create } = useMutate({
     verb: "POST",
     path: `${api}${resource}/`,
   });
 
+  // event handlres
   const handleClickOpen = () => setOpen(true);
-
   const handleClose = () => setOpen(false);
 
   const on_symbol_change = (event) => {
