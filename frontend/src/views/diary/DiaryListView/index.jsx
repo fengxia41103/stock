@@ -2,7 +2,7 @@ import { Box, Container } from "@material-ui/core";
 import React, { useState } from "react";
 
 import Page from "src/components/common/Page";
-import ShowResource from "src/components/common/ShowResource";
+import PollResource from "src/components/common/PollResource";
 import ListDiary from "src/components/diary/ListDiary";
 
 import DiaryListContext from "./context.jsx";
@@ -24,5 +24,5 @@ export default function DiaryListView() {
     );
   };
 
-  return <ShowResource {...{ resource, on_success: render_data }} />;
+  return <PollResource {...{ resource, on_success: render_data }} />;
 }

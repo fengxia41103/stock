@@ -16,7 +16,7 @@ import React, { useState } from "react";
 
 import DropdownMenu from "src/components/common/DropdownMenu";
 import Page from "src/components/common/Page";
-import ShowResource from "src/components/common/ShowResource";
+import PollResource from "src/components/common/PollResource";
 import AddStocksToSectorDialog from "src/components/sector/AddStocksToSectorDialog";
 import ExportStocks from "src/components/stock/ExportStocks";
 import ListStockCard from "src/components/stock/ListStockCard";
@@ -132,5 +132,5 @@ export default function StockListView(props) {
     );
   };
 
-  return <ShowResource {...{ resource, on_success: render_data }} />;
+  return <PollResource {...{ resource, on_success: render_data }} />;
 }
