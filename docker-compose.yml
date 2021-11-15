@@ -6,6 +6,7 @@ networks:
   data:
   management:
 
+
 # storage
 volumes:
   stock-data:

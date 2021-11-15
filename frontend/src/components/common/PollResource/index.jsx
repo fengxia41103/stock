@@ -20,6 +20,7 @@ export default function PollResource(props) {
     success_msg,
     interval,
     error_msg,
+    until,
   } = props;
 
   // helpers
@@ -61,6 +62,7 @@ export default function PollResource(props) {
       path={resource}
       interval={(interval || DEFAULT_INTERVAL) * 1000}
       resolve={(data) => data}
+      until={until}
     >
       {(data, { loading, error, finished, polling }, { start }) =>
         on_polling(data, loading, error, finished, polling)
@@ -75,6 +77,9 @@ PollResource.propTypes = {
   silent: PropTypes.bool,
   success_msg: PropTypes.string,
   error_msg: PropTypes.string,
+
+  // signature: (data, resp)=>{}
+  until: PropTypes.func,
 
   // in seconds
   interval: PropTypes.number,
