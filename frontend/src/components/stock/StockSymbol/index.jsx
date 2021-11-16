@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 
 import StockLinkToSector from "src/components/stock/StockLinkToSector";
+import TaskNotificationIcon from "src/components/task/TaskNotificationIcon";
 
 export default function StockSymbol(props) {
   const { symbol, id } = props;
@@ -11,6 +12,7 @@ export default function StockSymbol(props) {
     <Box display="inline">
       <StockLinkToSector {...props} minimal={true} />
       <Link href={`/stocks/${id}/historical/price`}>{symbol}</Link>
+      <TaskNotificationIcon {...props} />
     </Box>
   );
 }

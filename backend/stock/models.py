@@ -2,6 +2,7 @@
 
 
 import logging
+import uuid
 
 from django.apps import apps
 from django.contrib.auth.models import User
@@ -1689,3 +1690,13 @@ class MyNews(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class MyTask(models.Model):
+    # task has a user ownership
+    user = models.ForeignKey(
+        User, related_name="tasks", on_delete=models.CASCADE
+    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    state = models.CharField(max_length=128)
+    stocks = models.ManyToManyField(MyStock, related_name="tasks")

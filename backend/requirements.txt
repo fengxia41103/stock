@@ -43,3 +43,4 @@ pyyaml
 newscatcher
 gunicorn
 django-tastypie
+django-celery-results

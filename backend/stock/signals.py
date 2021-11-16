@@ -7,6 +7,7 @@ from django.dispatch import receiver
 from stock.models import MyDiary
 from stock.models import MySector
 from stock.models import MyStock
+from stock.models import MyTask
 from stock.tasks import batch_update_helper
 
 
@@ -17,7 +18,7 @@ def on_new_user(sender, instance, **kwargs):
     user = instance
 
     # assign permissions
-    for m in [MyStock, MySector, MyDiary]:
+    for m in [MyStock, MySector, MyDiary, MyTask]:
         content_type = ContentType.objects.get_for_model(m)
         all_permissions = Permission.objects.filter(content_type=content_type)
         for p in all_permissions:

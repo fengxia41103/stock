@@ -12,6 +12,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
+from django_celery_results.models import TaskResult
 from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import Authorization
@@ -35,6 +36,7 @@ from stock.models import MyNews
 from stock.models import MySector
 from stock.models import MyStock
 from stock.models import MyStockHistorical
+from stock.models import MyTask
 from stock.models import ValuationRatio
 from stock.tasks import batch_update_helper
 
@@ -928,3 +930,51 @@ class NewsResource(ModelResource):
             "summary": ALL,
             "pub_time": ALL,
         }
+
+
+class TaskResource(ModelResource):
+    stocks = fields.ManyToManyField(
+        "stock.api.StockResource", "stocks", null=True
+    )
+
+    class Meta:
+        queryset = MyTask.objects.all()
+        resource_name = "tasks"
+        filtering = {
+            "state": ALL,
+            "stocks": ALL_WITH_RELATIONS
+        }
+
+        authentication = ApiKeyAuthentication()
+        authorization = DjangoAuthorization()
+        allowed_methods = ["get", "delete"]
+
+    def get_object_list(self, request):
+        """Can only see user's tasks"""
+        user = request.user
+
+        # update ALL task state
+        for task in MyTask.objects.filter(user=user):
+            result = TaskResult.objects.filter(task_id=str(task.id)).first()
+
+            # if task is done, remove it from list
+            if result:
+                if result.status == "SUCCESS":
+                    task.delete()
+                else:
+                    task.state = result.status
+                    task.save()
+
+        return MyTask.objects.filter(user=user)
+
+
+class TaskResultResource(ModelResource):
+    class Meta:
+        queryset = TaskResult.objects.all()
+        resource_name = "task-results"
+        filtering = {
+            "task_id": ALL,
+        }
+
+        authentication = ApiKeyAuthentication()
+        allowed_methods = ["get"]

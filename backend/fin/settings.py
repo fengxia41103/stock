@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     "tastypie",  # django-tastypie
     "corsheaders",
     "django_extensions",
+    "django_celery_results",
     "stock.apps.StockConfig",
 )
 

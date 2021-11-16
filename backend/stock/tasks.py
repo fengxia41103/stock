@@ -8,6 +8,7 @@ from fin.celery import app
 from fin.tor_handler import PlainUtility
 from stock.models import MyNews
 from stock.models import MyStock
+from stock.models import MyTask
 from stock.workers.get_balance_sheet import MyBalanceSheet
 from stock.workers.get_cash_flow_statement import MyCashFlowStatement
 from stock.workers.get_historical import MyStockHistoricalYahoo
@@ -59,17 +60,29 @@ def batch_update_helper(symbol):
     # get price
     history_sig = __yahoo_consumer.s(symbol)
     summary_compute_sig = __summary_consumer.s(symbol)
-    task = chain(history_sig, summary_compute_sig)
-    task.apply_async()
+    get_prices = chain(history_sig, summary_compute_sig)
+    task = get_prices.apply_async()
+
+    # save task
+    saved_task = MyTask(id=task.id, state=task.state)
+    saved_task.save()
+    saved_task.stocks.add(MyStock.objects.get(symbol=symbol))
 
     # get statements
+    balance_sig = __balance_sheet_consumer.s(None, symbol)
+    income_sig = __income_statement_consumer.s(symbol)
+    cash_sig = __cash_flow_statement_consumer.s(symbol)
+    valuation_sig = __valuation_ratio_consumer.s(symbol)
+
     get_statements = chain(
-        __balance_sheet_consumer.s(None, symbol),
-        __income_statement_consumer.s(symbol),
-        __cash_flow_statement_consumer.s(symbol),
-        __valuation_ratio_consumer.s(symbol),
+        balance_sig, income_sig, cash_sig, valuation_sig
     )
-    get_statements.apply_async()
+    task = get_statements.apply_async()
+
+    # save task
+    saved_task = MyTask(id=task.id, state=task.state)
+    saved_task.save()
+    saved_task.stocks.add(MyStock.objects.get(symbol=symbol))
 
 
 @app.task(queue="price")

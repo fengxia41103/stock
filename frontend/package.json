@@ -22,12 +22,15 @@
     ]
   },
   "dependencies": {
+    "@emotion/react": "^11.6.0",
+    "@emotion/styled": "^11.6.0",
     "@material-ui/core": "^4.11.0",
     "@material-ui/data-grid": "^4.0.0-alpha.28",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/styles": "^4.10.0",
     "@mui/icons-material": "^5.1.0",
+    "@mui/material": "^5.1.1",
     "@uiw/react-md-editor": "^3.0.8",
     "chart.js": "^2.9.4",
     "classnames": "^2.2.6",
