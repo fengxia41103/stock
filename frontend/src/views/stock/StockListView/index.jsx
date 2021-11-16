@@ -132,5 +132,7 @@ export default function StockListView(props) {
     );
   };
 
-  return <PollResource {...{ resource, on_success: render_data }} />;
+  return (
+    <PollResource {...{ resource, on_success: render_data, interval: 10 }} />
+  );
 }

@@ -968,6 +968,10 @@ class TaskResource(ModelResource):
                 elif task.state != result.status:
                     task.state = result.status
                     task.save()
+            else:
+                # if no task result, state will never change
+                # just quit
+                task.delete()
 
         return MyTask.objects.filter(user=user)
 
