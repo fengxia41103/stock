@@ -1,6 +1,5 @@
 import {
   AppBar,
-  Badge,
   Box,
   Hidden,
   IconButton,
@@ -8,15 +7,15 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import LogoutIcon from "src/components/auth/LogoutIcon";
 import Logo from "src/components/common/Logo";
 import AddNewStockDialog from "src/components/stock/AddNewStockDialog";
+import TaskNotificationIcon from "src/components/task/TaskNotificationIcon";
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -28,7 +27,6 @@ const useStyles = makeStyles(() => ({
 
 const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
   const classes = useStyles();
-  const [notifications] = useState([]);
 
   return (
     <AppBar className={clsx(classes.root, className)} elevation={0} {...rest}>
@@ -39,15 +37,7 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
 
         <Box flexGrow={1} />
         <AddNewStockDialog />
-        <IconButton color="inherit">
-          <Badge
-            badgeContent={notifications.length}
-            color="primary"
-            variant="dot"
-          >
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
+        <TaskNotificationIcon />
         <LogoutIcon />
         <Hidden lgUp>
           <IconButton color="inherit" onClick={onMobileNavOpen}>
