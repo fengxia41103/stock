@@ -35,7 +35,7 @@ def on_new_user(sender, instance, **kwargs):
 
         # if we see this symbol for the first time, pull data
         if created:
-            batch_update_helper(symbol)
+            batch_update_helper(user, symbol)
 
         # create sample notes
         diary, created = MyDiary.objects.get_or_create(

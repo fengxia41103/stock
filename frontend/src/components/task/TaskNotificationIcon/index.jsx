@@ -61,7 +61,7 @@ export default function TaskNotificationIcon(props) {
 
         // map stock associated w/ this task
         const stocks_in_play = map(stocks, (d) => (
-          <Chip key={d.id} label={d.name} />
+          <Chip key={d.id} label={d.symbol} />
         ));
 
         return (

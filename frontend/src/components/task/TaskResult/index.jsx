@@ -9,11 +9,11 @@ export default function TaskResult(props) {
   const { task_id } = props;
 
   // states
-  const [resource] = useState(`/task-results/?task_id=${task_id}`);
+  const [resource] = useState(`/task-results?task_id=${task_id}`);
 
   // render
   const render_data = (data) => {
-    const { results } = data;
+    const { objects: results } = data;
 
     const result = results[0];
 

@@ -209,7 +209,7 @@ class SectorResource(ModelResource):
 
         for stock in sector.stocks.all():
             # kick off updates
-            batch_update_helper(stock.symbol)
+            batch_update_helper(bundle.request.user, stock.symbol)
 
 
 class StockResource(ModelResource):
@@ -266,7 +266,7 @@ class StockResource(ModelResource):
         stock = bundle.obj
 
         # kick off updates
-        batch_update_helper(stock.symbol)
+        batch_update_helper(bundle.request.user, stock.symbol)
 
     def obj_create(self, bundle, **kwargs):
         user = bundle.request.user
@@ -291,7 +291,7 @@ class StockResource(ModelResource):
 
         if created:
             # kick off updates
-            batch_update_helper(stock.symbol)
+            batch_update_helper(bundle.request.user, stock.symbol)
 
         bundle.obj = stock
         return bundle
@@ -934,7 +934,11 @@ class NewsResource(ModelResource):
 
 class TaskResource(ModelResource):
     stocks = fields.ManyToManyField(
-        "stock.api.StockResource", "stocks", null=True
+        "stock.api.StockResource",
+        "stocks",
+        null=True,
+        full=True,
+        readonly=True,
     )
 
     class Meta:
@@ -961,11 +965,15 @@ class TaskResource(ModelResource):
             if result:
                 if result.status == "SUCCESS":
                     task.delete()
-                else:
+                elif task.state != result.status:
                     task.state = result.status
                     task.save()
 
         return MyTask.objects.filter(user=user)
+
+    def dehydrate_stocks(self, bundle):
+        stocks = bundle.obj.stocks.all()
+        return [{"id": x.id, "symbol": x.symbol} for x in stocks]
 
 
 class TaskResultResource(ModelResource):

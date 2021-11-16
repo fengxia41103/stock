@@ -3,6 +3,7 @@ from datetime import timedelta
 
 from celery import chain
 from celery.schedules import crontab
+from django.contrib.auth.models import User
 
 from fin.celery import app
 from fin.tor_handler import PlainUtility
@@ -55,32 +56,41 @@ def __yahoo_consumer(symbol):
     crawler.parser(symbol)
 
 
-def batch_update_helper(symbol):
+def batch_update_helper(user, symbol):
+    """Helper function to build stock scan tasks.
 
+    Arguments
+    ---------
+
+      user: `User`: Requesting user. This will be logged into the task object.
+      symbol: string: Stock symbol.
+
+    Return
+    ------
+      None
+    """
     # get price
-    history_sig = __yahoo_consumer.s(symbol)
-    summary_compute_sig = __summary_consumer.s(symbol)
-    get_prices = chain(history_sig, summary_compute_sig)
+    get_prices = chain(__yahoo_consumer.s(symbol),
+                       __summary_consumer.s(symbol))
     task = get_prices.apply_async()
 
     # save task
-    saved_task = MyTask(id=task.id, state=task.state)
+    saved_task = MyTask(id=task.id, state=task.state, user=user)
     saved_task.save()
     saved_task.stocks.add(MyStock.objects.get(symbol=symbol))
 
     # get statements
-    balance_sig = __balance_sheet_consumer.s(None, symbol)
-    income_sig = __income_statement_consumer.s(symbol)
-    cash_sig = __cash_flow_statement_consumer.s(symbol)
-    valuation_sig = __valuation_ratio_consumer.s(symbol)
 
     get_statements = chain(
-        balance_sig, income_sig, cash_sig, valuation_sig
+        __balance_sheet_consumer.s(None, symbol),
+        __income_statement_consumer.s(symbol),
+        __cash_flow_statement_consumer.s(symbol),
+        __valuation_ratio_consumer.s(symbol),
     )
     task = get_statements.apply_async()
 
     # save task
-    saved_task = MyTask(id=task.id, state=task.state)
+    saved_task = MyTask(id=task.id, state=task.state, user=user)
     saved_task.save()
     saved_task.stocks.add(MyStock.objects.get(symbol=symbol))
 
