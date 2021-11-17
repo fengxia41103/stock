@@ -1,15 +1,13 @@
-from datetime import date
-from datetime import timedelta
+from datetime import date, timedelta
 
 from celery import chain
 from celery.schedules import crontab
 from django.contrib.auth.models import User
+from django.db import transaction
 
 from fin.celery import app
 from fin.tor_handler import PlainUtility
-from stock.models import MyNews
-from stock.models import MyStock
-from stock.models import MyTask
+from stock.models import MyNews, MyStock, MyTask
 from stock.workers.get_balance_sheet import MyBalanceSheet
 from stock.workers.get_cash_flow_statement import MyCashFlowStatement
 from stock.workers.get_historical import MyStockHistoricalYahoo
@@ -70,29 +68,25 @@ def batch_update_helper(user, symbol):
       None
     """
     # get price
-    get_prices = chain(__yahoo_consumer.s(symbol),
-                       __summary_consumer.s(symbol))
-    task = get_prices.apply_async()
-
-    # save task
-    saved_task = MyTask(id=task.id, state=task.state, user=user)
-    saved_task.save()
-    saved_task.stocks.add(MyStock.objects.get(symbol=symbol))
+    get_prices = chain(__yahoo_consumer.s(symbol), __summary_consumer.s(symbol))
 
     # get statements
-
     get_statements = chain(
         __balance_sheet_consumer.s(None, symbol),
         __income_statement_consumer.s(symbol),
         __cash_flow_statement_consumer.s(symbol),
         __valuation_ratio_consumer.s(symbol),
     )
-    task = get_statements.apply_async()
+
+    # https://stackoverflow.com/questions/42620917/immediately-access-django-celery-results-taskresult-after-starting
+    task_1 = get_prices.apply_async()
+    task_2 = get_statements.apply_async()
 
     # save task
-    saved_task = MyTask(id=task.id, state=task.state, user=user)
-    saved_task.save()
-    saved_task.stocks.add(MyStock.objects.get(symbol=symbol))
+    for task in [task_1, task_2]:
+        saved_task = MyTask(id=task.id, state=task.state, user=user)
+        saved_task.save()
+        saved_task.stocks.add(MyStock.objects.get(symbol=symbol))
 
 
 @app.task(queue="price")

@@ -10,7 +10,7 @@ import { map, filter } from "lodash";
 import React, { useState } from "react";
 
 import Page from "src/components/common/Page";
-import ShowResource from "src/components/common/ShowResource";
+import PollResource from "src/components/common/PollResource";
 import AddNewSectorDialog from "src/components/sector/AddNewSectorDialog";
 import ListSectorCard from "src/components/sector/ListSectorCard";
 
@@ -66,5 +66,5 @@ export default function SectorListView(props) {
     );
   };
 
-  return <ShowResource {...{ resource, on_success: render_data }} />;
+  return <PollResource {...{ resource, on_success: render_data }} />;
 }

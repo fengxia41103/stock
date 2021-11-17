@@ -120,7 +120,7 @@ export default function TaskNotificationIcon(props) {
         resource: resource,
         on_success: render_data,
         silent: true,
-        interval: 10,
+        interval: 3,
         until,
       }}
     />

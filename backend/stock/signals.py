@@ -1,13 +1,10 @@
-from django.contrib.auth.models import Permission
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Permission, User
 from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django_celery_results.models import TaskResult
 
-from stock.models import MyDiary
-from stock.models import MySector
-from stock.models import MyStock
-from stock.models import MyTask
+from stock.models import MyDiary, MySector, MyStock, MyTask
 from stock.tasks import batch_update_helper
 
 
@@ -48,3 +45,21 @@ def on_new_user(sender, instance, **kwargs):
             )
             diary.judgement = 1
             diary.save(0)
+
+
+@receiver(post_save, sender=TaskResult)
+def on_new_task_result(sender, instance, **kwargs):
+    """Link TaskResult to MyTask"""
+    result = instance
+
+    # sync w/ MyTask
+    my_task = MyTask.objects.filter(id=result.task_id).first()
+    if my_task:
+        my_task.result = result
+        my_task.state = result.status
+        my_task.save()
+
+    # we are done, remove yourself
+    if result.status == "SUCCESS":
+        # this deletion, in turn, will delete the linked MyTask also
+        result.delete()

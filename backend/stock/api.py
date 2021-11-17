@@ -1,43 +1,35 @@
 import logging
-from datetime import date
-from datetime import timedelta
+from datetime import date, timedelta
 
 from django.conf.urls import url
-from django.contrib.auth import authenticate
-from django.contrib.auth import login
-from django.contrib.auth import logout
-from django.contrib.auth.models import Permission
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import Permission, User
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError
-from django.http import HttpResponse
-from django.http import HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden
 from django_celery_results.models import TaskResult
 from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
-from tastypie.authorization import Authorization
-from tastypie.authorization import DjangoAuthorization
+from tastypie.authorization import Authorization, DjangoAuthorization
 from tastypie.constants import ALL
 from tastypie.exceptions import BadRequest
-from tastypie.http import HttpForbidden
-from tastypie.http import HttpUnauthorized
+from tastypie.http import HttpForbidden, HttpUnauthorized
 from tastypie.models import ApiKey
-from tastypie.resources import ALL_WITH_RELATIONS
-from tastypie.resources import Bundle
-from tastypie.resources import ModelResource
-from tastypie.resources import Resource
+from tastypie.resources import ALL_WITH_RELATIONS, Bundle, ModelResource, Resource
 from tastypie.utils import trailing_slash
 
-from stock.models import BalanceSheet
-from stock.models import CashFlow
-from stock.models import IncomeStatement
-from stock.models import MyDiary
-from stock.models import MyNews
-from stock.models import MySector
-from stock.models import MyStock
-from stock.models import MyStockHistorical
-from stock.models import MyTask
-from stock.models import ValuationRatio
+from stock.models import (
+    BalanceSheet,
+    CashFlow,
+    IncomeStatement,
+    MyDiary,
+    MyNews,
+    MySector,
+    MyStock,
+    MyStockHistorical,
+    MyTask,
+    ValuationRatio,
+)
 from stock.tasks import batch_update_helper
 
 logger = logging.getLogger("stock")
@@ -361,8 +353,7 @@ class IncomeStatementResource(ModelResource):
     )
     selling_ga_to_revenue = fields.FloatField("selling_ga_to_revenue")
 
-    interest_income_to_revenue = fields.FloatField(
-        "interest_income_to_revenue")
+    interest_income_to_revenue = fields.FloatField("interest_income_to_revenue")
 
     other_income_expense_to_revenue = fields.FloatField(
         "other_income_expense_to_revenue"
@@ -940,14 +931,18 @@ class TaskResource(ModelResource):
         full=True,
         readonly=True,
     )
+    result = fields.OneToOneField(
+        "stock.api.TaskResultResource",
+        "result",
+        null=True,
+        full=True,
+        readonly=True,
+    )
 
     class Meta:
         queryset = MyTask.objects.all()
         resource_name = "tasks"
-        filtering = {
-            "state": ALL,
-            "stocks": ALL_WITH_RELATIONS
-        }
+        filtering = {"state": ALL, "stocks": ALL_WITH_RELATIONS}
 
         authentication = ApiKeyAuthentication()
         authorization = DjangoAuthorization()
@@ -956,23 +951,6 @@ class TaskResource(ModelResource):
     def get_object_list(self, request):
         """Can only see user's tasks"""
         user = request.user
-
-        # update ALL task state
-        for task in MyTask.objects.filter(user=user):
-            result = TaskResult.objects.filter(task_id=str(task.id)).first()
-
-            # if task is done, remove it from list
-            if result:
-                if result.status == "SUCCESS":
-                    task.delete()
-                elif task.state != result.status:
-                    task.state = result.status
-                    task.save()
-            else:
-                # if no task result, state will never change
-                # just quit
-                task.delete()
-
         return MyTask.objects.filter(user=user)
 
     def dehydrate_stocks(self, bundle):

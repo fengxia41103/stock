@@ -25,8 +25,6 @@ export default function DeleteSectorDialog(props) {
     path: `${host}${sector}`,
   });
 
-  const reload = () => window.location.reload();
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -36,9 +34,7 @@ export default function DeleteSectorDialog(props) {
   };
 
   const on_sector_delete = () => {
-    del()
-      .then(setOpen(false))
-      .then(reload());
+    del().then(setOpen(false));
   };
 
   const stock_links = map(stocks, (v) => {

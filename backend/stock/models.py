@@ -8,6 +8,7 @@ from django.apps import apps
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Avg
+from django_celery_results.models import TaskResult
 
 logger = logging.getLogger("stock")
 logger.setLevel(logging.DEBUG)
@@ -268,8 +269,7 @@ class MyStock(models.Model):
             # statements than balance sheets.
             capital_structure = 0
             share_issued = 0
-            balance = self.balances.filter(
-                on__lte=d.on).order_by("-on").first()
+            balance = self.balances.filter(on__lte=d.on).order_by("-on").first()
             if balance:
                 capital_structure = balance.capital_structure
                 share_issued = balance.share_issued
@@ -917,8 +917,7 @@ class CashFlow(StatementBase):
     dividend_paid = models.FloatField(null=True, blank=True, default=0)
     common_stock_issuance = models.FloatField(null=True, blank=True, default=0)
     purchase_of_business = models.FloatField(null=True, blank=True, default=0)
-    purchase_of_investment = models.FloatField(
-        null=True, blank=True, default=0)
+    purchase_of_investment = models.FloatField(null=True, blank=True, default=0)
     repayment_of_debt = models.FloatField(null=True, blank=True, default=0)
     repurchase_of_capital_stock = models.FloatField(
         null=True, blank=True, default=0
@@ -1693,10 +1692,24 @@ class MyNews(models.Model):
 
 
 class MyTask(models.Model):
+    """TaskResult is not created when task is applied. Thus, we can't rely
+    on using it to track task we have initiated. Also, it lacks
+    reference to the stock this task is applied to.
+
+    """
+
     # task has a user ownership
     user = models.ForeignKey(
         User, related_name="tasks", on_delete=models.CASCADE
     )
+    result = models.OneToOneField(
+        TaskResult,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="mytask",
+    )
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     state = models.CharField(max_length=128)
     stocks = models.ManyToManyField(MyStock, related_name="tasks")
