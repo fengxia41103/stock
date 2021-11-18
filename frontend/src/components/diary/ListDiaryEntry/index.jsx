@@ -21,6 +21,7 @@ import { useMutate } from "restful-react";
 
 import DropdownMenu from "src/components/common/DropdownMenu";
 import ShowResource from "src/components/common/ShowResource";
+import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import DiaryStockTag from "src/components/diary/DiaryStockTag";
 import EditDiaryEditor from "src/components/diary/EditDiaryEditor";
 import GlobalContext from "src/context";
@@ -32,19 +33,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ListDiaryEntry(props) {
+  // context
   const { host } = useContext(GlobalContext);
-  const classes = useStyles();
+
+  // props
   const { diary } = props;
+
+  // states
   const [resource] = useState(`/diaries/${diary.id}`);
   const [inEditing, setInEditing] = useState(false);
-  const created = new Date(diary.created);
+  const [notification, setNotification] = useState("");
 
-  // call to update backend
+  // hooks
   const { mutate: del } = useMutate({
     verb: "DELETE",
     path: `${host}${diary.resource_uri}`,
   });
 
+  // styles
+  const classes = useStyles();
+
+  // private
+  const created = new Date(diary.created);
+
+  // renders
   const menu_content = (
     <List>
       <ListItem>
@@ -58,7 +70,11 @@ export default function ListDiaryEntry(props) {
         </Button>
       </ListItem>
       <ListItem>
-        <Button variant="text" color="primary" onClick={() => del()}>
+        <Button
+          variant="text"
+          color="primary"
+          onClick={() => del().then(setNotification("Note has been deleted"))}
+        >
           <DeleteIcon />
           Delete this note
         </Button>
@@ -132,6 +148,7 @@ export default function ListDiaryEntry(props) {
             <DiaryStockTag diary={data} />
           </Grid>
         </Grid>
+        <SimpleSnackbar msg={notification} />
       </>
     );
   };
