@@ -12,42 +12,41 @@ import TrendingDownIcon from "@material-ui/icons/TrendingDown";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import MDEditor from "@uiw/react-md-editor";
 import PropTypes from "prop-types";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { useMutate } from "restful-react";
 
-import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import GlobalContext from "src/context";
 
 export default function AddDiaryEditor(props) {
+  // context
   const { api } = useContext(GlobalContext);
+
+  // props
+  const { stock: stock_id } = props;
+
+  // states
   const [resource] = useState("/diaries");
   const [comment, setComment] = useState("");
-  const { stock: stock_id, to_refresh } = props;
   const [prediction, setPrediction] = useState(1);
-  const [notification, setNotification] = useState("");
 
+  // hooks
+  const navigate = useNavigate();
+
+  // hooks
   const { mutate: create } = useMutate({
     verb: "POST",
     path: `${api}${resource}/?`,
   });
 
-  // call API and close this dialog
+  // event handlers
   const on_create = () => {
-    const msg = "New note has been saved.";
-
     create({
       stock: stock_id ? `/api/v1/stocks/${stock_id}/` : null,
       content: comment,
       judgement: prediction,
-    })
-      .then(setComment(""))
-      .then(setNotification(msg));
+    }).then(() => navigate("/notes"));
   };
-
-  useEffect(() => {
-    return () => to_refresh();
-  }, [to_refresh]);
-
   const prediction_change = (event) => {
     setPrediction(parseInt(event.target.value));
   };
@@ -98,13 +97,11 @@ export default function AddDiaryEditor(props) {
           Save
         </Button>
       </Box>
-
-      <SimpleSnackbar msg={notification} />
     </>
   );
 }
 
 AddDiaryEditor.propTypes = {
+  // stock id
   stock: PropTypes.number,
-  to_refresh: PropTypes.func.isRequired,
 };

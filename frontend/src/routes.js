@@ -14,6 +14,7 @@ import LogoutView from "src/views/auth/LogoutView";
 import RegistrationView from "src/views/auth/RegistrationView";
 import DashboardTrendingView from "src/views/dashboard/DashboardTrendingView";
 import TodayDashboardView from "src/views/dashboard/TodayDashboardView";
+import AddDiaryView from "src/views/diary/AddDiaryView";
 import DiaryListView from "src/views/diary/DiaryListView";
 import NotFoundView from "src/views/errors/NotFoundView";
 import NewsListView from "src/views/news/NewsListView";
@@ -155,6 +156,7 @@ const routes = [
       },
       { path: "rankings", element: <RankingView /> },
       { path: "notes", element: <DiaryListView /> },
+      { path: "notes/add", element: <AddDiaryView /> },
       { path: "dashboard", element: <TodayDashboardView /> },
       { path: "trending", element: <DashboardTrendingView /> },
       {

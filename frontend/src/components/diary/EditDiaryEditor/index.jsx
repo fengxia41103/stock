@@ -17,24 +17,28 @@ import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import GlobalContext from "src/context";
 
 export default function EditDiaryEditor(props) {
+  // context
   const { host } = useContext(GlobalContext);
+
+  // props
   const { diary, inEditing } = props;
+
+  // states
   const [comment, setComment] = useState(diary.content);
   const [notification, setNotification] = useState("");
   const [prediction, setPrediction] = useState(diary.judgement);
 
+  // event handlers
   const { mutate: update } = useMutate({
     verb: "PATCH",
     path: `${host}${diary.resource_uri}`,
   });
-
   const prediction_change = (event) => {
     setPrediction(parseInt(event.target.value));
   };
-
-  const handle_update = (event) => {
+  const handle_update = () => {
     const msg = "Notes have been updated";
-    update({ content: comment, judgement: prediction }).then(
+    update({ content: comment, judgement: prediction }).then(() =>
       setNotification(msg),
     );
   };

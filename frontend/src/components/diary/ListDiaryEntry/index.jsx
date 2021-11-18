@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ListDiaryEntry(props) {
   const { host } = useContext(GlobalContext);
   const classes = useStyles();
-  const { diary, to_refresh } = props;
+  const { diary } = props;
   const [resource] = useState(`/diaries/${diary.id}`);
   const [inEditing, setInEditing] = useState(false);
   const created = new Date(diary.created);
@@ -44,10 +44,6 @@ export default function ListDiaryEntry(props) {
     verb: "DELETE",
     path: `${host}${diary.resource_uri}`,
   });
-
-  const on_del = () => {
-    del().then(to_refresh());
-  };
 
   const menu_content = (
     <List>
@@ -62,7 +58,7 @@ export default function ListDiaryEntry(props) {
         </Button>
       </ListItem>
       <ListItem>
-        <Button variant="text" color="primary" onClick={on_del}>
+        <Button variant="text" color="primary" onClick={() => del()}>
           <DeleteIcon />
           Delete this note
         </Button>
@@ -127,7 +123,9 @@ export default function ListDiaryEntry(props) {
           </Grid>
           {inEditing ? (
             <Grid item xs={12}>
-              <Button onClick={() => setInEditing(false)}>Cancel</Button>
+              <Button onClick={() => setInEditing(false)}>
+                I'm done editing
+              </Button>
             </Grid>
           ) : null}
           <Grid item xs={12}>
@@ -138,9 +136,7 @@ export default function ListDiaryEntry(props) {
     );
   };
 
-  return (
-    <ShowResource {...{ key: to_refresh, resource, on_success: render_data }} />
-  );
+  return <ShowResource {...{ resource, on_success: render_data }} />;
 }
 
 ListDiaryEntry.propTypes = {
@@ -151,5 +147,4 @@ ListDiaryEntry.propTypes = {
     judgement: PropTypes.number,
     is_correct: PropTypes.bool,
   }).isRequired,
-  to_refresh: PropTypes.any.isRequired,
 };
