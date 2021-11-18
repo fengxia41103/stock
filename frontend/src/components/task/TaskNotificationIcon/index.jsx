@@ -35,10 +35,6 @@ export default function TaskNotificationIcon(props) {
   // event handlers
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const until = (data, resp) => (data ? when_done(data?.objects) : false);
-
-  // helpers
-  const when_done = (tasks) => tasks.every((t) => t.state === "SUCCESS");
 
   // render
   const render_data = (data) => {
@@ -47,9 +43,6 @@ export default function TaskNotificationIcon(props) {
 
     // nothing to show
     if (count === 0) return null;
-
-    // if all tasks are in SUCCESS, show nothing
-    if (when_done(tasks)) return null;
 
     const tooltip = `There are ${count} tasks in progress`;
     const tasks_groupby_state = groupBy(tasks, (t) => t.state);
@@ -121,7 +114,6 @@ export default function TaskNotificationIcon(props) {
         on_success: render_data,
         silent: true,
         interval: 3,
-        until,
       }}
     />
   );
