@@ -18,7 +18,7 @@ import { groupBy, map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
-import ShowResource from "src/components/common/ShowResource";
+import PollResource from "src/components/common/PollResource";
 import TaskResult from "src/components/task/TaskResult";
 
 export default function TaskNotificationIcon(props) {
@@ -108,7 +108,7 @@ export default function TaskNotificationIcon(props) {
   };
 
   return (
-    <ShowResource
+    <PollResource
       {...{
         resource: resource,
         on_success: render_data,
