@@ -54,7 +54,7 @@ export default function AddDiaryEditor(props) {
   const judgement_selection = (
     <FormControl component="fieldset">
       <FormLabel component="legend">
-        How would this stock perform next?
+        How would {stock_id ? "this stock" : "the market"} perform next?
       </FormLabel>
       <RadioGroup
         aria-label="judgement"

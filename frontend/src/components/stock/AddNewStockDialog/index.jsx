@@ -8,16 +8,13 @@ import {
   Typography,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import { map, truncate, remove, clone } from "lodash";
 import React, { useState, useContext } from "react";
 import { useMutate } from "restful-react";
 
+import AsDialog from "src/components/common/AsDialog";
 import ShowResource from "src/components/common/ShowResource";
 import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import GlobalContext from "src/context";
@@ -27,7 +24,6 @@ export default function AddNewStockDialog() {
   const { api } = useContext(GlobalContext);
 
   // states
-  const [open, setOpen] = useState(false);
   const [resource] = useState("/stocks");
   const [symbol, setSymbol] = useState([]);
   const [notification, setNotification] = useState("");
@@ -41,9 +37,6 @@ export default function AddNewStockDialog() {
   });
 
   // event handlres
-  const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
   const on_symbol_change = (event) => {
     // symbol is always in upper case
     let tmp = event.target.value.toUpperCase();
@@ -57,13 +50,11 @@ export default function AddNewStockDialog() {
     const promises = map(symbol, (s) =>
       create({ symbol: s, sectors: selectedSectors }),
     );
-    Promise.all(promises)
-      .then(setOpen(false))
-      .then(
-        setNotification(
-          `Symbols: ${success_msg} have been added to your portfolio.`,
-        ),
-      );
+    Promise.all(promises).then(
+      setNotification(
+        `Symbols: ${success_msg} have been added to your portfolio.`,
+      ),
+    );
   };
 
   const handle_sector_selection = (event) => {
@@ -123,44 +114,47 @@ export default function AddNewStockDialog() {
     );
   };
 
-  return (
+  // dialog stuff
+  const dialog_as = (
+    <Button color="secondary" variant="contained">
+      Add new stocks
+      <SimpleSnackbar msg={notification} />
+    </Button>
+  );
+  const dialog_title = "Add New Stock";
+  const dialog_content = (
     <>
-      <Button color="secondary" variant="contained" onClick={handleClickOpen}>
-        Add new stocks
-        <SimpleSnackbar msg={notification} />
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Add New Stock</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            To add a stock, enter the stock symbol (in uppercase). It might take
-            some time for the stock to appear in your list.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            value={symbol}
-            onChange={on_symbol_change}
-            placeholder="symbol"
-            fullWidth
-          />
-          <ShowResource
-            {...{ resource: sectors_resource, on_success: render_data }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button variant="contained" color="primary" onClick={on_create}>
-            Add
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <DialogContentText>
+        To add a stock, enter the stock symbol (in uppercase). It might take
+        some time for the stock to appear in your list.
+      </DialogContentText>
+      <TextField
+        autoFocus
+        margin="dense"
+        value={symbol}
+        onChange={on_symbol_change}
+        placeholder="symbol"
+        fullWidth
+      />
+      <ShowResource
+        {...{ resource: sectors_resource, on_success: render_data }}
+      />
     </>
+  );
+  const dialog_when_confirm = (
+    <Button variant="contained" color="primary" onClick={on_create}>
+      Add
+    </Button>
+  );
+
+  return (
+    <AsDialog
+      {...{
+        as: dialog_as,
+        title: dialog_title,
+        content: dialog_content,
+        when_confirm: dialog_when_confirm,
+      }}
+    />
   );
 }

@@ -1,10 +1,12 @@
-import { Container, Box, Grid } from "@material-ui/core";
+import { Container, Box, Grid, List, ListItem } from "@material-ui/core";
 import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useParams } from "react-router-dom";
 
+import DropdownMenu from "src/components/common/DropdownMenu";
 import MenuBar from "src/components/common/MenuBar";
 import Page from "src/components/common/Page";
 import ShowResource from "src/components/common/ShowResource";
+import AddDiaryEditor from "src/components/diary/AddDiaryEditor";
 import ListDiary from "src/components/diary/ListDiary";
 import DeleteStock from "src/components/stock/DeleteStock";
 import StockLinkToSector from "src/components/stock/StockLinkToSector";
@@ -101,11 +103,14 @@ const valuation_menus = [
 ];
 
 function StockDetailView() {
+  // URL params
   const { id } = useParams();
+
+  // states
   const [resource] = useState(`/stocks/${id}`);
 
+  // hooks
   const mounted = useRef(true);
-
   useEffect(() => {
     mounted.current = true;
     return () => {
@@ -114,8 +119,27 @@ function StockDetailView() {
     };
   });
 
+  // renders
+
   const render_data = (stock) => {
     const has_statements = !!stock.last_reporting_date;
+
+    const actions = (
+      <List>
+        <ListItem>
+          <UpdateStock {...stock} />
+        </ListItem>
+        <ListItem>
+          <DeleteStock {...stock} />
+        </ListItem>
+        <ListItem>
+          <StockLinkToSector {...stock} />
+        </ListItem>
+        <ListItem>
+          <AddDiaryEditor stock={stock.id} />
+        </ListItem>
+      </List>
+    );
 
     return (
       <Page title={stock.symbol}>
@@ -146,14 +170,7 @@ function StockDetailView() {
                 title="Tech Indicators"
                 items={indicator_menus}
               />
-
-              <Grid item xs>
-                <UpdateStock {...stock} />
-              </Grid>
-              <Grid item xs>
-                <DeleteStock {...stock} />
-              </Grid>
-              <StockLinkToSector {...stock} />
+              <DropdownMenu content={actions} />
             </Grid>
           </Box>
 
