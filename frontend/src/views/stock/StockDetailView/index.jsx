@@ -1,7 +1,17 @@
-import { Container, Box, Grid, List, ListItem } from "@material-ui/core";
+import {
+  Container,
+  Box,
+  Grid,
+  List,
+  ListItem,
+  Button,
+  Divider,
+} from "@material-ui/core";
+import EventNoteIcon from "@material-ui/icons/EventNote";
 import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useParams } from "react-router-dom";
 
+import AsDialog from "src/components/common/AsDialog";
 import DropdownMenu from "src/components/common/DropdownMenu";
 import MenuBar from "src/components/common/MenuBar";
 import Page from "src/components/common/Page";
@@ -127,16 +137,26 @@ function StockDetailView() {
     const actions = (
       <List>
         <ListItem>
+          <StockLinkToSector {...stock} />
+        </ListItem>
+        <Divider />
+        <ListItem>
           <UpdateStock {...stock} />
         </ListItem>
         <ListItem>
           <DeleteStock {...stock} />
         </ListItem>
         <ListItem>
-          <StockLinkToSector {...stock} />
-        </ListItem>
-        <ListItem>
-          <AddDiaryEditor stock={stock.id} />
+          <AsDialog
+            as={
+              <Button color="secondary">
+                <EventNoteIcon />
+                Add a New Note
+              </Button>
+            }
+            title="Add a New Note"
+            content={<AddDiaryEditor stock={stock.id} />}
+          />
         </ListItem>
       </List>
     );

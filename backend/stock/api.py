@@ -900,10 +900,15 @@ class DiaryResource(ModelResource):
         user = bundle.request.user
 
         stock = MyStock.objects.filter(id=bundle.data["stock"]).first()
+        if stock and stock.symbol not in bundle.data["content"]:
+            content = bundle.data["content"]+f"\n- {stock.symbol}\n"
+        else:
+            content = bundle.data["content"]
+
         diary = MyDiary(
             user=user,
             stock=stock,
-            content=bundle.data["content"],
+            content=content,
             judgement=bundle.data["judgement"],
         )
         diary.save()

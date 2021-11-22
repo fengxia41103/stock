@@ -42,7 +42,7 @@ export default function AddDiaryEditor(props) {
   // event handlers
   const on_create = () => {
     create({
-      stock: stock_id ? `/api/v1/stocks/${stock_id}/` : null,
+      stock: stock_id,
       content: comment,
       judgement: prediction,
     }).then(() => navigate("/notes"));

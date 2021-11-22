@@ -47,5 +47,5 @@ AsDialog.propTypes = {
   content: PropTypes.any.isRequired,
 
   // confirm action
-  when_confirm: PropTypes.any.isRequired,
+  when_confirm: PropTypes.any,
 };
