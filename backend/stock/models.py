@@ -1665,11 +1665,12 @@ class MyDiary(models.Model):
         else:
             stock = self.stock
 
-        if stock.latest_close_price >= self.price and self.judgement == 1:
-            return True
+        if stock.latest_close_price:
+            if stock.latest_close_price >= self.price and self.judgement == 1:
+                return True
 
-        elif stock.latest_close_price <= self.price and self.judgement == 2:
-            return True
+            elif stock.latest_close_price <= self.price and self.judgement == 2:
+                return True
 
         return False
 
