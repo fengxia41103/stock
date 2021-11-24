@@ -74,12 +74,14 @@ export default function TodayDashboardView() {
         subtitle: "days ago when saw this low",
         stocks: reverse(sortBy(stocks, (s) => s.last_lower)),
         value: "last_lower",
+        roundTo: 0,
       },
       {
         title: "Rebound Scale (days)",
         subtitle: "days ago when saw this high",
         stocks: reverse(sortBy(stocks, (s) => s.last_better)),
         value: "last_better",
+        roundTo: 0,
       },
       {
         title: "Top Volume Movers",
@@ -121,7 +123,7 @@ export default function TodayDashboardView() {
 
     const contents = map(dashboard_tops, (d) => {
       return (
-        <Grid item lg={4} sm={6} xs={12}>
+        <Grid key={d.title} item lg={4} sm={6} xs={12}>
           <MoverCard date={today_string} {...d} />
         </Grid>
       );

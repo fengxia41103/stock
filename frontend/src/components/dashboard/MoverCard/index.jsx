@@ -27,15 +27,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MoverCard(props) {
-  const { title, subtitle, stocks, value } = props;
+  const { title, subtitle, stocks, value, roundTo } = props;
   const classes = useStyles();
 
   const entries = map(stocks, (s) => {
     return (
       <ListItem key={s.symbol} divider={true}>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs>
-            <ColoredNumber val={s[value]} />
+            <ColoredNumber {...{ val: s[value], roundTo }} />
           </Grid>
           <Grid item xs>
             <StockSymbol
@@ -80,4 +80,5 @@ MoverCard.propTypes = {
   ).isRequired,
   value: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
+  roundTo: PropTypes.number,
 };

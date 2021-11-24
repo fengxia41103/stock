@@ -54,39 +54,39 @@ import ValuationRatiosView from "src/views/stock/ValuationRatiosView";
 
 const navbar_items = [
   {
-    href: "/trending",
-    icon: TrendingUpIcon,
-    title: "Trending",
-  },
-  {
     href: "/dashboard",
     icon: DashboardIcon,
-    title: "Dashboard",
+    title: "Today",
   },
   {
-    href: "/notes",
-    icon: EventNoteIcon,
-    title: "Notes",
+    href: "/trending",
+    icon: TrendingUpIcon,
+    title: "Price Trending",
+  },
+  {
+    href: "/stocks",
+    icon: BusinessIcon,
+    title: "My Stocks",
+  },
+  {
+    href: "/sectors",
+    icon: CompareIcon,
+    title: "My Sectors",
   },
   {
     href: "/rankings",
     icon: SortIcon,
-    title: "Rankings",
+    title: "Stock Rankings",
+  },
+  {
+    href: "/notes",
+    icon: EventNoteIcon,
+    title: "My Notes",
   },
   {
     href: "/news",
     icon: AnnouncementIcon,
     title: "News",
-  },
-  {
-    href: "/sectors",
-    icon: CompareIcon,
-    title: "Sectors",
-  },
-  {
-    href: "/stocks",
-    icon: BusinessIcon,
-    title: "Stocks",
   },
 ];
 

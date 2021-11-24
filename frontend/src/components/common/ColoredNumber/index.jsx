@@ -35,7 +35,7 @@ export default function ColoredNumber(props) {
     let tmp = me;
 
     if (isNumber(me)) {
-      tmp = roundTo ? me.toFixed(roundTo) : me.toFixed(2);
+      tmp = isNumber(roundTo) ? me.toFixed(roundTo) : me.toFixed(2);
       if (val < 0) {
         color = clsx(classes.negative);
       } else if (val === 0) {

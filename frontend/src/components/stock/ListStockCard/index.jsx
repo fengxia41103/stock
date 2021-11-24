@@ -39,7 +39,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ListStockCard(props) {
+  // props
   const { stocks, index, group_by, actions } = props;
+
+  // hooks
   const classes = useStyles();
 
   let title;

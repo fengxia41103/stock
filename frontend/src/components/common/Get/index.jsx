@@ -1,6 +1,6 @@
-import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
 import React from "react";
+import ScaleLoader from "react-spinners/ScaleLoader";
 import { useGet } from "restful-react";
 
 import SimpleSnackbar from "src/components/common/SimpleSnackbar";
@@ -28,7 +28,7 @@ export default function Get(props) {
   if (loading) {
     if (silent) return null;
     else {
-      return <CircularProgress />;
+      return <ScaleLoader loading={true} />;
     }
   }
 
