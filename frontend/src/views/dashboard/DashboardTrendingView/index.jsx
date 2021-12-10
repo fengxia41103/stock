@@ -31,8 +31,11 @@ import { get_highlights } from "src/utils/helper.jsx";
 import { stocks_daily_ranking } from "src/utils/stock/ranking";
 
 export default function DashboardTrendingView() {
+  // constants
   const DATE_FORMAT = "YYYY-MM-DD";
   const TOP = 10;
+
+  // states
   const [resource, setResource] = useState("");
   const [today, setToday] = useState(moment());
   const [start, setStart] = useState();
@@ -44,6 +47,12 @@ export default function DashboardTrendingView() {
 
   const [follow, setFollow] = useState("gainer");
 
+  // hooks
+  useEffect(() => {
+    update_data(today);
+  });
+
+  // helpers
   // adjusting the starting point, handling weekends
   const update_data = () => {
     const now = moment(today);
@@ -55,10 +64,7 @@ export default function DashboardTrendingView() {
     setResource(`/historicals?on__range=${start},${end}&order_by=-on`);
   };
 
-  useEffect(() => {
-    update_data(today);
-  });
-
+  // event handlers
   const today_change = (event) => {
     const now = moment(event.target.value, DATE_FORMAT);
 
@@ -138,6 +144,7 @@ export default function DashboardTrendingView() {
       break;
   }
 
+  // renders
   const render_data = (data) => {
     const stocks = data.objects;
 

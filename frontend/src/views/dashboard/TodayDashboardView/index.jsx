@@ -10,15 +10,25 @@ import { map, sortBy, reverse, filter } from "lodash";
 import moment from "moment";
 import React, { useState, useEffect } from "react";
 
+import CountCards from "src/components/common/CountCards";
 import Page from "src/components/common/Page";
 import ShowResource from "src/components/common/ShowResource";
 import MoverCard from "src/components/dashboard/MoverCard";
 
 export default function TodayDashboardView() {
-  const [resource, setResource] = useState("");
-  const [today, setToday] = useState(moment());
+  // constant
   const TOP = 10;
 
+  // states
+  const [resource, setResource] = useState("");
+  const [today, setToday] = useState(moment());
+
+  // hooks
+  useEffect(() => {
+    set_today(today);
+  });
+
+  // helpers
   const set_today = (now) => {
     let adjust_in_day;
     switch (now.day()) {
@@ -41,10 +51,7 @@ export default function TodayDashboardView() {
     setResource(`/historicals?on__range=${tmp},${tmp}`);
   };
 
-  useEffect(() => {
-    set_today(today);
-  });
-
+  // event handlers
   const today_change = (event) => {
     const now = moment(event.target.value, "YYYY-MM-DD");
 
@@ -55,9 +62,11 @@ export default function TodayDashboardView() {
     set_today(now);
   };
 
+  // renders
   const render_data = (data) => {
     let stocks = data.objects;
 
+    // compute gain & volatility on the fly
     stocks = map(stocks, (s) => {
       return {
         gain: ((s.close_price - s.open_price) / s.open_price) * 100,
@@ -117,17 +126,21 @@ export default function TodayDashboardView() {
       },
     ];
 
+    // pick top 10
     const dashboard_tops = map(dashboards, (d) => {
       return { ...d, stocks: d.stocks.slice(0, TOP) };
     });
 
-    const contents = map(dashboard_tops, (d) => {
+    // render mover top contents
+    const mover_top_cards = map(dashboard_tops, (d) => {
       return (
         <Grid key={d.title} item lg={4} sm={6} xs={12}>
           <MoverCard date={today_string} {...d} />
         </Grid>
       );
     });
+
+    const count_by_gainer = (s) => s.gain > 0;
 
     return (
       <Page title="Today">
@@ -148,7 +161,16 @@ export default function TodayDashboardView() {
 
           <Box mt={1}>
             <Grid container spacing={1}>
-              {contents}
+              <CountCards
+                {...{
+                  data: stocks,
+                  count_by_lambda: count_by_gainer,
+                  title: "Gainers",
+                }}
+              />
+            </Grid>
+            <Grid container spacing={1}>
+              {mover_top_cards}
             </Grid>
           </Box>
         </Container>

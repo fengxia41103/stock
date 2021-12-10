@@ -26,7 +26,7 @@ export default function AsDialog(props) {
         <DialogContent>{content}</DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
+            Close
           </Button>
           {when_confirm}
         </DialogActions>
