@@ -26,14 +26,14 @@ export default function RankChart(props) {
 
     return (
       <Grid key={r.symbol} container spacing={1} alignItems="center">
-        <Grid item lg={2} sm={3} xs={4}>
+        <Grid item lg={3} sm={4} xs={5}>
           <StockSymbol
             id={r.stock_id}
             symbol={r.symbol}
             resource_uri={r.stock_resource}
           />
         </Grid>
-        <Grid item lg={8} sm={7} xs={6}>
+        <Grid item lg={7} sm={6} xs={5}>
           <Box height="10%" width={width} bgcolor={line_color} marginRight={2}>
             &nbsp;
           </Box>
