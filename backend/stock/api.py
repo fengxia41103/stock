@@ -1,12 +1,12 @@
 import logging
 from datetime import date, timedelta
 
-from django.conf.urls import url
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, logout
 from django.contrib.auth.models import Permission, User
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseForbidden
+from django.urls import re_path
 from django_celery_results.models import TaskResult
 from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
@@ -63,9 +63,7 @@ class UserResource(ModelResource):
             new_user.last_name = bundle.data["lastName"]
             new_user.save()
         except IntegrityError:
-            raise BadRequest(
-                "Sorry we can't create an account for you right now."
-            )
+            raise BadRequest("Sorry we can't create an account for you right now.")
 
         bundle.obj = new_user
         return bundle
@@ -80,13 +78,13 @@ class AuthResource(Resource):
 
     def prepend_urls(self):
         return [
-            url(
+            re_path(
                 r"^(?P<resource_name>%s)/login%s$"
                 % (self._meta.resource_name, trailing_slash()),
                 self.wrap_view("login"),
                 name="api_login",
             ),
-            url(
+            re_path(
                 r"^(?P<resource_name>%s)/logout%s$"
                 % (self._meta.resource_name, trailing_slash()),
                 self.wrap_view("logout"),
@@ -104,9 +102,7 @@ class AuthResource(Resource):
             logout(request)
             return self.create_response(request, {"success": True})
         else:
-            return self.create_response(
-                request, {"success": False}, HttpUnauthorized
-            )
+            return self.create_response(request, {"success": False}, HttpUnauthorized)
 
     def login(self, request, **kwargs):
         self.method_check(request, allowed=["post"])
@@ -156,9 +152,7 @@ class AuthResource(Resource):
 
 class SectorResource(ModelResource):
     name = fields.CharField("name")
-    stocks = fields.ManyToManyField(
-        "stock.api.StockResource", "stocks", null=True
-    )
+    stocks = fields.ManyToManyField("stock.api.StockResource", "stocks", null=True)
     stocks_detail = fields.ManyToManyField(
         "stock.api.StockResource",
         "stocks",
@@ -221,17 +215,13 @@ class StockResource(ModelResource):
         "cross_statements_model", null=True, use_in="detail"
     )
 
-    sectors = fields.ManyToManyField(
-        "stock.api.SectorResource", "sectors", null=True
-    )
+    sectors = fields.ManyToManyField("stock.api.SectorResource", "sectors", null=True)
     pe = fields.FloatField("pe", null=True)
     pb = fields.FloatField("pb", null=True)
     ps = fields.FloatField("ps", null=True)
     last_lower = fields.IntegerField("last_lower", null=True)
     last_better = fields.IntegerField("last_better", null=True)
-    price_to_cash_premium = fields.FloatField(
-        "price_to_cash_premium", null=True
-    )
+    price_to_cash_premium = fields.FloatField("price_to_cash_premium", null=True)
 
     class Meta:
         queryset = MyStock.objects.all()
@@ -248,9 +238,7 @@ class StockResource(ModelResource):
         """Can only see user's sectors"""
         user = request.user
         ids = set(
-            MyStock.objects.filter(sectors__user=user).values_list(
-                "id", flat=True
-            )
+            MyStock.objects.filter(sectors__user=user).values_list("id", flat=True)
         )
         return MyStock.objects.filter(id__in=ids)
 
@@ -264,9 +252,7 @@ class StockResource(ModelResource):
         user = bundle.request.user
 
         # new stock is default to be in "misc" sector
-        stock, created = MyStock.objects.get_or_create(
-            symbol=bundle.data["symbol"]
-        )
+        stock, created = MyStock.objects.get_or_create(symbol=bundle.data["symbol"])
 
         if bundle.data["sectors"]:
             # if specified sectors
@@ -276,9 +262,7 @@ class StockResource(ModelResource):
                 sector.stocks.add(stock)
         else:
             # default to "misc" sector
-            misc, whatever = MySector.objects.get_or_create(
-                name="demo", user=user
-            )
+            misc, whatever = MySector.objects.get_or_create(name="demo", user=user)
             misc.stocks.add(stock)
 
         if created:
@@ -318,9 +302,7 @@ class HistoricalResource(ModelResource):
         # all eligible stocks
         user = request.user
         stocks = set(
-            MyStock.objects.filter(sectors__user=user).values_list(
-                "id", flat=True
-            )
+            MyStock.objects.filter(sectors__user=user).values_list("id", flat=True)
         )
         return MyStockHistorical.objects.filter(stock__in=stocks)
 
@@ -345,12 +327,8 @@ class IncomeStatementResource(ModelResource):
 
     ebit_to_revenue = fields.FloatField("ebit_to_revenue")
     total_expense_to_revenue = fields.FloatField("total_expense_to_revenue")
-    operating_income_to_revenue = fields.FloatField(
-        "operating_income_to_revenue"
-    )
-    operating_expense_to_revenue = fields.FloatField(
-        "operating_expense_to_revenue"
-    )
+    operating_income_to_revenue = fields.FloatField("operating_income_to_revenue")
+    operating_expense_to_revenue = fields.FloatField("operating_expense_to_revenue")
     selling_ga_to_revenue = fields.FloatField("selling_ga_to_revenue")
 
     interest_income_to_revenue = fields.FloatField("interest_income_to_revenue")
@@ -363,25 +341,19 @@ class IncomeStatementResource(ModelResource):
     operating_profit_to_operating_income = fields.FloatField(
         "operating_profit_to_operating_income"
     )
-    net_income_to_operating_income = fields.FloatField(
-        "net_income_to_operating_income"
-    )
+    net_income_to_operating_income = fields.FloatField("net_income_to_operating_income")
     ebit_to_total_asset = fields.FloatField("ebit_to_total_asset")
     net_income_to_equity = fields.FloatField("net_income_to_equity")
 
     # growth rates
-    net_income_growth_rate = fields.FloatField(
-        "net_income_growth_rate", null=True
-    )
+    net_income_growth_rate = fields.FloatField("net_income_growth_rate", null=True)
     operating_income_growth_rate = fields.FloatField(
         "operating_income_growth_rate", null=True
     )
 
     # ratios
     cogs_to_inventory = fields.FloatField("cogs_to_inventory", null=True)
-    interest_coverage_ratio = fields.FloatField(
-        "interest_coverage_ratio", null=True
-    )
+    interest_coverage_ratio = fields.FloatField("interest_coverage_ratio", null=True)
 
     class Meta:
         queryset = IncomeStatement.objects.all()
@@ -414,9 +386,7 @@ class CashFlowResource(ModelResource):
     )
 
     # ratio
-    dividend_payout_ratio = fields.FloatField(
-        "dividend_payout_ratio", null=True
-    )
+    dividend_payout_ratio = fields.FloatField("dividend_payout_ratio", null=True)
 
     class Meta:
         queryset = CashFlow.objects.all()
@@ -452,9 +422,7 @@ class BalanceSheetResource(ModelResource):
     working_capital_to_current_liabilities = fields.FloatField(
         "working_capital_to_current_liabilities", null=True
     )
-    non_current_to_equity = fields.FloatField(
-        "non_current_to_equity", null=True
-    )
+    non_current_to_equity = fields.FloatField("non_current_to_equity", null=True)
     retained_earnings_to_equity = fields.FloatField(
         "retained_earnings_to_equity", null=True
     )
@@ -481,9 +449,7 @@ class BalanceSheetResource(ModelResource):
         "invested_capital_growth_rate", null=True
     )
     net_ppe_growth_rate = fields.FloatField("net_ppe_growth_rate", null=True)
-    share_issued_growth_rate = fields.FloatField(
-        "share_issued_growth_rate", null=True
-    )
+    share_issued_growth_rate = fields.FloatField("share_issued_growth_rate", null=True)
 
     # computed values
     total_liability = fields.FloatField("total_liability", null=True)
@@ -493,9 +459,7 @@ class BalanceSheetResource(ModelResource):
     cash_and_cash_equivalent_per_share = fields.FloatField(
         "cash_and_cash_equivalent_per_share", null=True
     )
-    price_to_cash_premium = fields.FloatField(
-        "price_to_cash_premium", null=True
-    )
+    price_to_cash_premium = fields.FloatField("price_to_cash_premium", null=True)
 
     class Meta:
         queryset = BalanceSheet.objects.all()
@@ -567,13 +531,9 @@ class RankingResource(Resource):
                 o.stats = list(filter(lambda x: x["id"] in ids, o.stats))
 
         if "symbol__in" in applicable_filters:
-            symbols = [
-                x.upper() for x in applicable_filters["symbol__in"].split(",")
-            ]
+            symbols = [x.upper() for x in applicable_filters["symbol__in"].split(",")]
             for o in obj_list:
-                o.stats = list(
-                    filter(lambda x: x["symbol"] in symbols, o.stats)
-                )
+                o.stats = list(filter(lambda x: x["symbol"] in symbols, o.stats))
 
         return obj_list
 
@@ -697,9 +657,7 @@ class RankingResource(Resource):
 
         ranks = []
         for (id, attr, high_to_low) in attrs:
-            vals = self._get_object_list_helper(
-                user_viewable_objs, attr, high_to_low
-            )
+            vals = self._get_object_list_helper(user_viewable_objs, attr, high_to_low)
             ranks.append(StatSummary(id, attr, vals))
         return ranks
 
@@ -732,20 +690,14 @@ class RankStockResource(RankingResource):
         vals = []
 
         for s in objs:
-            vals.append(
-                {"id": s.id, "symbol": s.symbol, "val": getattr(s, attr)}
-            )
+            vals.append({"id": s.id, "symbol": s.symbol, "val": getattr(s, attr)})
 
         # WARNING: eliminate 0 and -100, which are _invalid_ or
         # _unknown_ internally becase some data anomalies.
-        valid_entries = list(
-            filter(lambda x: x["val"] and x["val"] != -100, vals)
-        )
+        valid_entries = list(filter(lambda x: x["val"] and x["val"] != -100, vals))
 
         # sort is low->high by default, high-to-low will be a reverse.
-        data_set = sorted(
-            valid_entries, key=lambda x: x["val"], reverse=high_to_low
-        )
+        data_set = sorted(valid_entries, key=lambda x: x["val"], reverse=high_to_low)
 
         return data_set
 
@@ -901,7 +853,7 @@ class DiaryResource(ModelResource):
 
         stock = MyStock.objects.filter(id=bundle.data["stock"]).first()
         if stock and stock.symbol not in bundle.data["content"]:
-            content = bundle.data["content"]+f"\n- {stock.symbol}\n"
+            content = bundle.data["content"] + f"\n- {stock.symbol}\n"
         else:
             content = bundle.data["content"]
 
