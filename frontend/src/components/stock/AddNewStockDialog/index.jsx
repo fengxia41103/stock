@@ -10,6 +10,7 @@ import {
 import Button from "@material-ui/core/Button";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import TextField from "@material-ui/core/TextField";
+import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import { map, truncate, remove, clone } from "lodash";
 import React, { useState, useContext } from "react";
 import { useMutate } from "restful-react";
@@ -116,7 +117,8 @@ export default function AddNewStockDialog() {
 
   // dialog stuff
   const dialog_as = (
-    <Button color="secondary" variant="contained">
+    <Button color="secondary">
+      <AddBusinessIcon />
       Add new stocks
       <SimpleSnackbar msg={notification} />
     </Button>
