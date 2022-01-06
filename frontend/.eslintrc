@@ -1,7 +1,17 @@
 {
   "root": true,
-  "plugins": ["import"],
-  "extends": ["react-app", "eslint:recommended", "plugin:import/recommended"],
+  "plugins": ["import", "@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "react-app",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "eslint:recommended",
+    "plugin:import/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "env": {
     "node": true,
     "es6": true
@@ -37,7 +47,16 @@
         "pathGroupsExcludedImportTypes": []
       }
     ],
-    "arrow-parens": ["warn", "always"]
+    "arrow-parens": ["warn", "always"],
+
+    // dog fooding
+    "import/no-unresolved": [2, { "commonjs": true, "amd": true }],
+    "import/named": 2,
+    "import/namespace": 2,
+    "import/default": 2,
+    "import/export": 2,
+    "import/no-extraneous-dependencies": "error",
+    "import/unambiguous": "off"
   },
 
   "settings": {
