@@ -29,7 +29,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/styles": "^4.10.0",
-    "@mui/icons-material": "^5.1.0",
+    "@mui/icons-material": "^5.2.5",
     "@mui/material": "^5.1.1",
     "@uiw/react-md-editor": "^3.0.8",
     "chart.js": "^2.9.4",
