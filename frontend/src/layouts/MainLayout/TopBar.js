@@ -7,14 +7,17 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
+import Stack from "@mui/material/Stack";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import LogoutIcon from "src/components/auth/LogoutIcon";
+import DropdownMenu from "src/components/common/DropdownMenu";
 import Logo from "src/components/common/Logo";
 import AddNewStockDialog from "src/components/stock/AddNewStockDialog";
+import UpdateAllStock from "src/components/stock/UpdateAllStock";
 import TaskNotificationIcon from "src/components/task/TaskNotificationIcon";
 
 const useStyles = makeStyles(() => ({
@@ -28,6 +31,12 @@ const useStyles = makeStyles(() => ({
 const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
   const classes = useStyles();
 
+  const actions = (
+    <Stack alignItems="flex-start">
+      <AddNewStockDialog />
+      <UpdateAllStock />
+    </Stack>
+  );
   return (
     <AppBar className={clsx(classes.root, className)} elevation={0} {...rest}>
       <Toolbar>
@@ -36,7 +45,7 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
         </RouterLink>
 
         <Box flexGrow={1} />
-        <AddNewStockDialog />
+        <DropdownMenu title="Management" content={actions} />
         <TaskNotificationIcon />
         <LogoutIcon />
         <Hidden lgUp>

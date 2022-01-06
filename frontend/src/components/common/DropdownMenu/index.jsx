@@ -27,9 +27,7 @@ export default function DropdownMenu(props) {
         onClick={handleClick}
       >
         <MoreVertIcon />
-        <Typography variant={"body2"}>
-          {isUndefined(title) ? null : title}
-        </Typography>
+        <Typography>{isUndefined(title) ? null : title}</Typography>
       </IconButton>
       <Menu
         anchorEl={anchorEl}
