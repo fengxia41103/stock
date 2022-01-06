@@ -97,8 +97,8 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "eslint --cache --fix",
-      "prettier --ignore-unknown --write"
+      "prettier --ignore-unknown --write",
+      "eslint --cache --fix"
     ]
   }
 }
