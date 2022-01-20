@@ -13,8 +13,7 @@ import { useLocation } from "react-router-dom";
 
 import AuthenticatedUser from "src/components/user/AuthenticatedUser";
 import GlobalContext from "src/context";
-
-import NavItem from "./NavItem";
+import NavItem from "src/layouts/NavBarItem";
 
 const useStyles = makeStyles(() => ({
   mobileDrawer: {

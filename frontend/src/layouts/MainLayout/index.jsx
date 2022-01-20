@@ -2,8 +2,8 @@ import { makeStyles, Box } from "@material-ui/core";
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 
-import NavBar from "./NavBar";
-import TopBar from "./TopBar";
+import NavBar from "src/layouts/NavBar";
+import TopBar from "src/layouts/TopBar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
