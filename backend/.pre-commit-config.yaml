@@ -1,0 +1,22 @@
+repos:
+  -   repo: https://github.com/adamchainz/django-upgrade
+      rev: ''  # replace with latest tag on GitHub
+      hooks:
+      -   id: django-upgrade
+          args: [--target-version, "3.2"]   # Replace with Django version
+  - repo: https://github.com/psf/black
+    rev: stable
+    hooks:
+    - id: black
+      language_version: python3.8
+      exclude: .*migrations/
+  - repo: https://github.com/pycqa/flake8
+    rev: ''  # pick a git hash / tag to point to
+    hooks:
+    -   id: flake8
+        stages: [commit]
+  - repo: https://github.com/pycqa/isort
+    rev: 5.5.4
+    hooks:
+      - id: isort
+        args: ["--profile", "black", "--filter-files"]
