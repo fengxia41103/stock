@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core";
+import { Typography, Drawer } from "@material-ui/core";
 import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 
@@ -57,7 +57,11 @@ function BalanceView() {
     return (
       <>
         <Typography variant="h1">{stock.symbol} Balance Sheet</Typography>
-        <FinancialCard {...{ data, reported, ratio, pcnt, p2p_growth }} />
+        <Drawer
+          me={
+            <FinancialCard {...{ data, reported, ratio, pcnt, p2p_growth }} />
+          }
+        />
       </>
     );
   };
