@@ -1,5 +1,5 @@
 # docker-compose version
-version: '3.3'
+version: '3.4'
 
 # network
 networks:
@@ -11,6 +11,31 @@ networks:
 volumes:
   stock-data:
   redis-data:
+
+x-django-base: &django-base
+  build:
+    context: ./backend
+    dockerfile: ./Dockerfile-web
+  image: backend_stock
+  volumes:
+    - ./backend:/code
+    - type: bind
+      source: ./backend/static
+      target: /code/static
+  environment:
+    PYTHONUNBUFFERED: 1
+    DJANGO_DEBUG: 1 # 0 or 1
+    MYSQL_DATABASE: stock
+    DEPLOY_TYPE: dev # dev or prod
+    DJANGO_DB_USER: fengxia
+    DJANGO_DB_PWD: natalie
+    DJANGO_DB_HOST: db
+    DJANGO_DB_PORT: 3306
+    DJANGO_REDIS_HOST: redis
+    # DJANGO_SUPERUSER_USERNAME: fengxia
+    # DJANGO_SUPERUSER_PASSWORD: natalie
+    # DJANGO_SUPERUSER_EMAIL: feng_xia41103@hotmail.com
+
 
 # computes
 services:
@@ -43,28 +68,8 @@ services:
       - data
 
   web:
-    build:
-      context: ./backend
-      dockerfile: ./Dockerfile-web
-    image: backend_stock
-    volumes:
-      - ./backend:/code
-      - type: bind
-        source: ./backend/static
-        target: /code/static
-    environment:
-      PYTHONUNBUFFERED: 1
-      DJANGO_DEBUG: 1 # 0 or 1
-      MYSQL_DATABASE: stock
-      DEPLOY_TYPE: dev # dev or prod
-      DJANGO_DB_USER: fengxia
-      DJANGO_DB_PWD: natalie
-      DJANGO_DB_HOST: db
-      DJANGO_DB_PORT: 3306
-      DJANGO_REDIS_HOST: redis
-      # DJANGO_SUPERUSER_USERNAME: fengxia
-      # DJANGO_SUPERUSER_PASSWORD: natalie
-      # DJANGO_SUPERUSER_EMAIL: feng_xia41103@hotmail.com
+    <<: *django-base
+
     #command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py createsuperuser --noinput && python /code/manage.py runserver 0.0.0.0:8001"
     command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py runserver 0.0.0.0:8001"
     # command:
@@ -77,19 +82,8 @@ services:
       - db
 
   celery:
-    image: backend_stock
-    environment:
-      DJANGO_DEBUG: 1 # 0 or 1
-      DEPLOY_TYPE: dev # dev or prod
-      DJANGO_DB_USER: fengxia
-      DJANGO_DB_PWD: natalie
-      DJANGO_DB_HOST: db
-      DJANGO_DB_PORT: 3306
-      DJANGO_REDIS_HOST: redis
-      MYSQL_DATABASE: stock
+    <<: *django-base
     command: celery -A fin.celery worker -Q summary,stock,statement,price,news -l INFO
-    volumes:
-      - ./backend:/code
     networks:
       - data
     depends_on:
