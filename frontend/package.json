@@ -100,5 +100,8 @@
       "prettier --ignore-unknown --write",
       "eslint --cache --fix"
     ]
-  }
+  },
+  "description": "REACT stock analysis tool based on Yahoo! finance API data",
+  "main": "index.js",
+  "license": "MIT"
 }
