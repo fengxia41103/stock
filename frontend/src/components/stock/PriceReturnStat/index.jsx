@@ -1,12 +1,13 @@
+import PropTypes from "prop-types";
+import React from "react";
+
 import {
   Box,
   Card,
   CardContent,
-  Typography,
   CardHeader,
+  Typography,
 } from "@material-ui/core";
-import PropTypes from "prop-types";
-import React from "react";
 
 import ABDonutChart from "src/components/common/ABDonutChart";
 import DictCard from "src/components/common/DictCard";

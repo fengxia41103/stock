@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 
 import PriceReturnStat from "src/components/stock/PriceReturnStat";
 import {
-  overnight_returns,
   overnight_return_stats,
+  overnight_returns,
 } from "src/utils/stock/returns";
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
 

@@ -18,6 +18,23 @@
       "options": {
         "parser": "scss"
       }
+    },
+    {
+      "files": ".prettierrc",
+      "options": { "parser": "json" }
     }
-  ]
+  ],
+  "importOrder": [
+    "^@material-ui/",
+    "^src/(.*)$",
+    "^@/(.*)$",
+    "^[.]{2}/",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderBuiltinModulesToTop": true,
+  "importOrderCaseInsensitive": true,
+  "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"],
+  "importOrderMergeDuplicateImports": true,
+  "importOrderSortSpecifiers": true
 }

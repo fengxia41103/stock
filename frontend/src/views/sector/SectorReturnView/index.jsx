@@ -1,18 +1,19 @@
+import { groupBy, map, reverse } from "lodash";
+import moment from "moment";
+import React, { useContext, useState } from "react";
+
 import {
   Box,
-  Typography,
   Card,
   CardContent,
   CardHeader,
   Grid,
+  Typography,
 } from "@material-ui/core";
-import { map, groupBy, reverse } from "lodash";
-import moment from "moment";
-import React, { useState, useContext } from "react";
 
 import ShowResource from "src/components/common/ShowResource";
 import SectorReturnComparisonChart from "src/components/sector/SectorReturnComparisonChart";
-import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
+import { get_last_month_string, get_today_string } from "src/utils/helper.jsx";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
 export default function SectorReturnView() {

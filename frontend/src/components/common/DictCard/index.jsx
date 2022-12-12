@@ -1,13 +1,14 @@
-import {
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-  CardHeader,
-} from "@material-ui/core";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
+
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Grid,
+  Typography,
+} from "@material-ui/core";
 
 import ColoredNumber from "src/components/common/ColoredNumber";
 

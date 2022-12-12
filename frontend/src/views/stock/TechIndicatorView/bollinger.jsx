@@ -2,7 +2,7 @@ import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
 import PropTypes from "prop-types";
 import React from "react";
-import { ChartCanvas, Chart } from "react-stockcharts";
+import { Chart, ChartCanvas } from "react-stockcharts";
 import { XAxis, YAxis } from "react-stockcharts/lib/axes";
 import {
   CrossHairCursor,
@@ -11,19 +11,19 @@ import {
   MouseCoordinateY,
 } from "react-stockcharts/lib/coordinates";
 import { fitWidth } from "react-stockcharts/lib/helper";
-import { ema, sma, bollingerBand } from "react-stockcharts/lib/indicator";
+import { bollingerBand, ema, sma } from "react-stockcharts/lib/indicator";
 import { discontinuousTimeScaleProvider } from "react-stockcharts/lib/scale";
 import {
+  AreaSeries,
+  BarSeries,
+  BollingerSeries,
   CandlestickSeries,
   LineSeries,
-  BollingerSeries,
-  BarSeries,
-  AreaSeries,
 } from "react-stockcharts/lib/series";
 import {
-  OHLCTooltip,
-  MovingAverageTooltip,
   BollingerBandTooltip,
+  MovingAverageTooltip,
+  OHLCTooltip,
 } from "react-stockcharts/lib/tooltip";
 import { last } from "react-stockcharts/lib/utils";
 
@@ -83,9 +83,8 @@ function BollingerBandOverlay(props) {
   const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
     (d) => d.date,
   );
-  const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(
-    calculatedData,
-  );
+  const { data, xScale, xAccessor, displayXAccessor } =
+    xScaleProvider(calculatedData);
 
   const start = xAccessor(last(data));
   const end = xAccessor(data[Math.max(0, data.length - 150)]);

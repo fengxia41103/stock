@@ -1,13 +1,14 @@
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  Typography,
-  Grid,
-} from "@material-ui/core";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Grid,
+  Typography,
+} from "@material-ui/core";
 
 import ShowResource from "src/components/common/ShowResource";
 import DailyRankingBarRaceChart from "src/components/dashboard/DailyRankingBarRaceChart";

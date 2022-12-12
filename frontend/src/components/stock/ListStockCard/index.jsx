@@ -1,22 +1,23 @@
+import clsx from "clsx";
+import { isUndefined, map } from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
+
 import {
-  makeStyles,
   Avatar,
   Card,
   CardContent,
   CardHeader,
-  Typography,
+  Chip,
+  Grid,
   List,
   ListItem,
-  Grid,
-  Chip,
+  makeStyles,
   Tooltip,
+  Typography,
 } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import ErrorIcon from "@material-ui/icons/Error";
-import clsx from "clsx";
-import { map, isUndefined } from "lodash";
-import PropTypes from "prop-types";
-import React from "react";
 
 import ColoredNumber from "src/components/common/ColoredNumber";
 import DropdownMenu from "src/components/common/DropdownMenu";

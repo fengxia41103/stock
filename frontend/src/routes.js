@@ -1,3 +1,6 @@
+import React from "react";
+import { Navigate } from "react-router-dom";
+
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import BusinessIcon from "@material-ui/icons/Business";
 import CompareIcon from "@material-ui/icons/Compare";
@@ -5,8 +8,6 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import SortIcon from "@material-ui/icons/Sort";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
-import React from "react";
-import { Navigate } from "react-router-dom";
 
 import MainLayout from "src/layouts/MainLayout";
 import LoginView from "src/views/auth/LoginView";

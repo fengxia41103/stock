@@ -2,12 +2,12 @@ import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
 import PropTypes from "prop-types";
 import React from "react";
-import { ChartCanvas, Chart } from "react-stockcharts";
+import { Chart, ChartCanvas } from "react-stockcharts";
 import { XAxis, YAxis } from "react-stockcharts/lib/axes";
 import {
   CrossHairCursor,
-  EdgeIndicator,
   CurrentCoordinate,
+  EdgeIndicator,
   MouseCoordinateX,
   MouseCoordinateY,
 } from "react-stockcharts/lib/coordinates";
@@ -15,16 +15,16 @@ import { fitWidth } from "react-stockcharts/lib/helper";
 import { ema, macd, sma } from "react-stockcharts/lib/indicator";
 import { discontinuousTimeScaleProvider } from "react-stockcharts/lib/scale";
 import {
-  BarSeries,
   AreaSeries,
+  BarSeries,
   CandlestickSeries,
   LineSeries,
   MACDSeries,
 } from "react-stockcharts/lib/series";
 import {
-  OHLCTooltip,
-  MovingAverageTooltip,
   MACDTooltip,
+  MovingAverageTooltip,
+  OHLCTooltip,
 } from "react-stockcharts/lib/tooltip";
 
 const macdAppearance = {
@@ -90,9 +90,8 @@ function MACD(props) {
   const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
     (d) => d.date,
   );
-  const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(
-    calculatedData,
-  );
+  const { data, xScale, xAccessor, displayXAccessor } =
+    xScaleProvider(calculatedData);
 
   return (
     <ChartCanvas

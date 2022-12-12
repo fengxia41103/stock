@@ -1,8 +1,9 @@
-import { makeStyles, Grid, Link, Typography } from "@material-ui/core";
 import clsx from "clsx";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
+
+import { Grid, Link, makeStyles, Typography } from "@material-ui/core";
 
 import HighlightedText from "src/components/common/HighlightedText";
 

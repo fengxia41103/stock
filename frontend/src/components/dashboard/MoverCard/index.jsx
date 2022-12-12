@@ -1,17 +1,18 @@
-import {
-  makeStyles,
-  Grid,
-  Card,
-  CardContent,
-  CardHeader,
-  List,
-  ListItem,
-  Typography,
-} from "@material-ui/core";
 import clsx from "clsx";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
+
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Grid,
+  List,
+  ListItem,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 
 import ColoredNumber from "src/components/common/ColoredNumber";
 import StockSymbol from "src/components/stock/StockSymbol";

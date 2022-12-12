@@ -1,7 +1,8 @@
-import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
 import React from "react";
 import { Poll } from "restful-react";
+
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import NotFoundView from "src/views/errors/NotFoundView";

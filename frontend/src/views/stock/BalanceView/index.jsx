@@ -1,6 +1,7 @@
-import { Typography, Drawer } from "@material-ui/core";
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
+
+import { Drawer, Typography } from "@material-ui/core";
 
 import ShowResource from "src/components/common/ShowResource";
 import FinancialCard from "src/components/stock/FinancialCard";

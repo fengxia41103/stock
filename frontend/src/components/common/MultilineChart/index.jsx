@@ -1,4 +1,4 @@
-import { map, isEmpty } from "lodash";
+import { isEmpty, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 

@@ -1,7 +1,8 @@
-import { Paper, makeStyles, Box, Grid } from "@material-ui/core";
 import clsx from "clsx";
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { Box, Grid, makeStyles, Paper } from "@material-ui/core";
 
 import RegistrationCard from "src/components/auth/RegistrationCard";
 import GlobalContext from "src/context";
