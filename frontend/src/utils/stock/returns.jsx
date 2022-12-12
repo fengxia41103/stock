@@ -1,5 +1,5 @@
 import { jStat } from "jstat";
-import { map, isUndefined, filter } from "lodash";
+import { filter, isUndefined, map } from "lodash";
 
 // daily: today's open-2-today's close
 export function daily_returns(prices) {

@@ -1,7 +1,8 @@
-import { Button, Link } from "@material-ui/core";
-import MultilineChartIcon from "@material-ui/icons/MultilineChart";
 import { map, sortBy } from "lodash";
 import React, { useState } from "react";
+
+import { Button, Link } from "@material-ui/core";
+import MultilineChartIcon from "@material-ui/icons/MultilineChart";
 
 import ShowResource from "src/components/common/ShowResource";
 import DeleteSectorDialog from "src/components/sector/DeleteSectorDialog";

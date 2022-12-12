@@ -1,4 +1,4 @@
-import { map, groupBy, sortBy, reverse, forEach } from "lodash";
+import { forEach, groupBy, map, reverse, sortBy } from "lodash";
 
 export function stocks_daily_ranking(
   historicals,

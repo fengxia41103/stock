@@ -1,6 +1,7 @@
-import { Box, Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+
+import { Box, Typography } from "@material-ui/core";
 
 import ShowResource from "src/components/common/ShowResource";
 

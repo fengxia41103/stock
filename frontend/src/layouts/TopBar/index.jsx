@@ -1,17 +1,18 @@
-import {
-  AppBar,
-  Box,
-  Hidden,
-  IconButton,
-  Toolbar,
-  makeStyles,
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
 import Stack from "@mui/material/Stack";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
+
+import {
+  AppBar,
+  Box,
+  Hidden,
+  IconButton,
+  makeStyles,
+  Toolbar,
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
 
 import LogoutIcon from "src/components/auth/LogoutIcon";
 import DropdownMenu from "src/components/common/DropdownMenu";

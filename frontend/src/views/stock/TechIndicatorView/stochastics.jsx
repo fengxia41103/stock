@@ -2,12 +2,12 @@ import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
 import PropTypes from "prop-types";
 import React from "react";
-import { ChartCanvas, Chart } from "react-stockcharts";
+import { Chart, ChartCanvas } from "react-stockcharts";
 import { XAxis, YAxis } from "react-stockcharts/lib/axes";
 import {
   CrossHairCursor,
-  EdgeIndicator,
   CurrentCoordinate,
+  EdgeIndicator,
   MouseCoordinateX,
   MouseCoordinateY,
 } from "react-stockcharts/lib/coordinates";
@@ -16,14 +16,14 @@ import { ema, stochasticOscillator } from "react-stockcharts/lib/indicator";
 import { discontinuousTimeScaleProvider } from "react-stockcharts/lib/scale";
 import {
   BarSeries,
-  StraightLine,
   CandlestickSeries,
   LineSeries,
   StochasticSeries,
+  StraightLine,
 } from "react-stockcharts/lib/series";
 import {
-  OHLCTooltip,
   MovingAverageTooltip,
+  OHLCTooltip,
   StochasticTooltip,
 } from "react-stockcharts/lib/tooltip";
 import { last } from "react-stockcharts/lib/utils";
@@ -87,9 +87,8 @@ function Stochastics(props) {
   const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
     (d) => d.date,
   );
-  const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(
-    calculatedData,
-  );
+  const { data, xScale, xAccessor, displayXAccessor } =
+    xScaleProvider(calculatedData);
 
   const start = xAccessor(last(data));
   const end = xAccessor(data[Math.max(0, data.length - 150)]);

@@ -1,6 +1,7 @@
-import { Grid, Divider } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+
+import { Divider, Grid } from "@material-ui/core";
 
 import ColoredNumber from "src/components/common/ColoredNumber";
 import ShowResource from "src/components/common/ShowResource";

@@ -1,9 +1,10 @@
 import Highcharts from "highcharts";
-import HC_more from "highcharts/highcharts-more"; //module
+import HC_more from "highcharts/highcharts-more";
+//module
 import addFunnel from "highcharts/modules/funnel";
-import { map, filter, isNull } from "lodash";
+import { filter, isNull, map } from "lodash";
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 //****************************************
 //

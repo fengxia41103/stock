@@ -1,21 +1,22 @@
-import {
-  Box,
-  Grid,
-  TextField,
-  Typography,
-  Tooltip,
-  Link,
-} from "@material-ui/core";
-import { BarChart, Timeline } from "@material-ui/icons";
-import CompareArrowsSharpIcon from "@material-ui/icons/CompareArrowsSharp";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
+import {
+  Box,
+  Grid,
+  Link,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@material-ui/core";
+import { BarChart, Timeline } from "@material-ui/icons";
+import CompareArrowsSharpIcon from "@material-ui/icons/CompareArrowsSharp";
+
 import HighlightedText from "src/components/common/HighlightedText";
 import RankChart from "src/components/common/RankChart";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
-import { get_today_string, get_last_month_string } from "src/utils/helper.jsx";
+import { get_last_month_string, get_today_string } from "src/utils/helper.jsx";
 
 export default function StockRankingRow(props) {
   const [show_rank_graph, setShowRank] = useState(false);

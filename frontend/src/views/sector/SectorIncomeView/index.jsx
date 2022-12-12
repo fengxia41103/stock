@@ -1,6 +1,7 @@
-import { Box, Typography } from "@material-ui/core";
 import { map } from "lodash";
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
+
+import { Box, Typography } from "@material-ui/core";
 
 import SectorStatementComparisonCharts from "src/components/sector/SectorStatementComparisonCharts";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";

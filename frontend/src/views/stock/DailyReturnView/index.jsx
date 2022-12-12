@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import PriceReturnStat from "src/components/stock/PriceReturnStat";
-import { daily_returns, daily_return_stats } from "src/utils/stock/returns";
+import { daily_return_stats, daily_returns } from "src/utils/stock/returns";
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
 
 export default function DailyReturnView() {

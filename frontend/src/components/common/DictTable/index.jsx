@@ -1,3 +1,7 @@
+import { isEmpty, map } from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
+
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import { useTheme } from "@material-ui/core/styles";
@@ -7,9 +11,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { map, isEmpty } from "lodash";
-import PropTypes from "prop-types";
-import React from "react";
 
 import ColoredNumber from "src/components/common/ColoredNumber";
 import HighchartGraphBox from "src/components/common/Highchart";

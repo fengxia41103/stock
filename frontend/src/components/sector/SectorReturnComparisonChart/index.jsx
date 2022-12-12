@@ -1,4 +1,4 @@
-import { map, groupBy, merge, forEach } from "lodash";
+import { forEach, groupBy, map, merge } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
