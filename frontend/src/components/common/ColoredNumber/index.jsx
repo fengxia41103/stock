@@ -1,9 +1,10 @@
-import { Box, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
 import clsx from "clsx";
 import { isNumber } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
+
+import { Box, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 
 // A style sheet
 const useStyles = makeStyles((theme) => ({

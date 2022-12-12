@@ -1,4 +1,4 @@
-import { map, groupBy } from "lodash";
+import { groupBy, map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 

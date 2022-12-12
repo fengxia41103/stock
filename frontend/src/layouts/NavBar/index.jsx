@@ -1,3 +1,8 @@
+import faker from "faker";
+import PropTypes from "prop-types";
+import React, { useContext, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
 import {
   Box,
   Divider,
@@ -6,10 +11,6 @@ import {
   List,
   makeStyles,
 } from "@material-ui/core";
-import faker from "faker";
-import PropTypes from "prop-types";
-import React, { useEffect, useContext } from "react";
-import { useLocation } from "react-router-dom";
 
 import AuthenticatedUser from "src/components/user/AuthenticatedUser";
 import GlobalContext from "src/context";

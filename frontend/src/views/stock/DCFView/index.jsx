@@ -1,15 +1,16 @@
+import { map, merge } from "lodash";
+import React, { useContext, useState } from "react";
+
 import {
   Box,
-  Grid,
-  TextField,
+  Button,
   Card,
   CardContent,
-  Typography,
   Drawer,
-  Button,
+  Grid,
+  TextField,
+  Typography,
 } from "@material-ui/core";
-import { map, merge } from "lodash";
-import React, { useState, useContext } from "react";
 
 import FinancialCard from "src/components/stock/FinancialCard";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";

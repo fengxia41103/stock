@@ -11,15 +11,8 @@ export default function Get(props) {
   const DEFAULT_ERROR = "Call to API failed";
 
   // props
-  const {
-    uri,
-    options,
-    on_success,
-    on_error,
-    success_msg,
-    error_msg,
-    silent,
-  } = props;
+  const { uri, options, on_success, on_error, success_msg, error_msg, silent } =
+    props;
 
   const call_options = { path: encodeURI(uri), debounce: 200, ...options };
 

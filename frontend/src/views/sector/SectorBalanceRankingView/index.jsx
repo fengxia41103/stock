@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import SectorStocksRanking from "src/components/sector/SectorStocksRanking";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";

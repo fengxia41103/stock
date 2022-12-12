@@ -1,7 +1,7 @@
 import { map } from "lodash";
 import moment from "moment";
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Sparklines, SparklinesCurve } from "react-sparklines";
 
 import ShowResource from "src/components/common/ShowResource";
@@ -9,11 +9,7 @@ import ShowResource from "src/components/common/ShowResource";
 export default function RecentPriceSparkline(props) {
   const DATE_FORMAT = "YYYY-MM-DD";
   const [resource, setResource] = useState("");
-  const [start] = useState(
-    moment()
-      .add(-10, "d")
-      .format(DATE_FORMAT),
-  );
+  const [start] = useState(moment().add(-10, "d").format(DATE_FORMAT));
   const [end] = useState(moment().format(DATE_FORMAT));
   const { stock } = props;
 
