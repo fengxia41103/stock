@@ -1,14 +1,7 @@
+import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { isEmpty, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
-
-import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Typography,
-} from "@mui/material";
 
 import DictTable from "src/components/common/DictTable";
 
