@@ -1,11 +1,9 @@
 import React from "react";
-
-import { ThemeProvider } from "@material-ui/core";
-
 import "react-perfect-scrollbar/dist/css/styles.css";
-
 import { useLocation, useRoutes } from "react-router-dom";
 import { RestfulProvider } from "restful-react";
+
+import { ThemeProvider } from "@material-ui/core";
 
 import GlobalStyles from "src/components/common/GlobalStyles";
 import GlobalContext from "src/context";
