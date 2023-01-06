@@ -1,7 +1,6 @@
+import { Box, Link } from "@mui/material";
 import PropTypes from "prop-types";
 import React from "react";
-
-import { Box, Link } from "@material-ui/core";
 
 import StockLinkToSector from "src/components/stock/StockLinkToSector";
 import TaskNotificationIcon from "src/components/task/TaskNotificationIcon";

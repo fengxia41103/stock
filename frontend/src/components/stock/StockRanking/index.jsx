@@ -1,7 +1,3 @@
-import { filter, has, map } from "lodash";
-import PropTypes from "prop-types";
-import React from "react";
-
 import {
   Card,
   CardContent,
@@ -9,7 +5,10 @@ import {
   List,
   ListItem,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
+import { filter, has, map } from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
 
 import ShowResource from "src/components/common/ShowResource";
 import StockRankingRow from "src/components/stock/StockRankingRow";

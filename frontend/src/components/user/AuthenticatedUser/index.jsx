@@ -1,7 +1,6 @@
+import { Avatar, Box, makeStyles, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import React from "react";
-
-import { Avatar, Box, makeStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
   avatar: {

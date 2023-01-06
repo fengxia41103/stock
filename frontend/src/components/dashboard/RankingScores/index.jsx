@@ -1,8 +1,3 @@
-import clsx from "clsx";
-import { filter, forEach, map, reverse, sortBy } from "lodash";
-import PropTypes from "prop-types";
-import React from "react";
-
 import {
   Box,
   Card,
@@ -11,7 +6,11 @@ import {
   Grid,
   makeStyles,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
+import clsx from "clsx";
+import { filter, forEach, map, reverse, sortBy } from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
 
 import RankChart from "src/components/common/RankChart";
 import RankingOccuranceCharts from "src/components/dashboard/RankingOccuranceCharts";

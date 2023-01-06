@@ -1,8 +1,3 @@
-import clsx from "clsx";
-import PropTypes from "prop-types";
-import React, { useContext, useState } from "react";
-import { useMutate } from "restful-react";
-
 import {
   Button,
   Chip,
@@ -12,7 +7,12 @@ import {
   ListItem,
   makeStyles,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import React, { useContext, useState } from "react";
+import { useMutate } from "restful-react";
+
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import ThumbDownOutlinedIcon from "@material-ui/icons/ThumbDownOutlined";

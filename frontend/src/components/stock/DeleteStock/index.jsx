@@ -1,9 +1,9 @@
+import { Button } from "@mui/material";
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutate } from "restful-react";
 
-import { Button } from "@material-ui/core";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 import SimpleSnackbar from "src/components/common/SimpleSnackbar";

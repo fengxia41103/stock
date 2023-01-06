@@ -1,7 +1,3 @@
-import { map } from "lodash";
-import PropTypes from "prop-types";
-import React, { useState } from "react";
-
 import {
   Box,
   Button,
@@ -11,7 +7,11 @@ import {
   List,
   ListItem,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
+import { map } from "lodash";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+
 import AddIcon from "@material-ui/icons/Add";
 
 import DropdownMenu from "src/components/common/DropdownMenu";

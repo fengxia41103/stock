@@ -1,8 +1,8 @@
+import { Box, IconButton, Menu, Typography } from "@mui/material";
 import { isNull, isUndefined } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
-import { Box, IconButton, Menu, Typography } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 export default function DropdownMenu(props) {

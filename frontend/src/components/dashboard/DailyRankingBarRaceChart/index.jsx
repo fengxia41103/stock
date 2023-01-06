@@ -1,10 +1,10 @@
+import { Button, Grid, Typography } from "@mui/material";
+import LinearProgress from "@mui/material/LinearProgress";
 import ReactECharts from "echarts-for-react";
 import { map, maxBy, minBy, reverse } from "lodash";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 
-import { Button, Grid, Typography } from "@material-ui/core";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import PauseCircleFilledIcon from "@material-ui/icons/PauseCircleFilled";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 import RefreshIcon from "@material-ui/icons/Refresh";
