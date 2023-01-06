@@ -1,7 +1,6 @@
+import Snackbar from "@mui/material/Snackbar";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-
-import Snackbar from "@material-ui/core/Snackbar";
 
 export default function SimpleSnackbar(props) {
   const { msg } = props;

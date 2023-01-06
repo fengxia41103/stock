@@ -1,8 +1,3 @@
-import { isUndefined } from "lodash";
-import PropTypes from "prop-types";
-import React from "react";
-import { Doughnut } from "react-chartjs-2";
-
 import {
   Box,
   Card,
@@ -12,7 +7,12 @@ import {
   Grid,
   Typography,
   useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
+import { isUndefined } from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
+import { Doughnut } from "react-chartjs-2";
+
 import TrendingDownIcon from "@material-ui/icons/TrendingDown";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 

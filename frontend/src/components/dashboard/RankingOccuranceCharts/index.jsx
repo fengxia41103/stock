@@ -1,8 +1,7 @@
+import { Grid } from "@mui/material";
 import { isEmpty, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
-
-import { Grid } from "@material-ui/core";
 
 import ABDonutChart from "src/components/common/ABDonutChart";
 

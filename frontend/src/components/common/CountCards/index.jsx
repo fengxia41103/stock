@@ -1,9 +1,3 @@
-import Stack from "@mui/material/Stack";
-import clsx from "clsx";
-import { countBy, map } from "lodash";
-import PropTypes from "prop-types";
-import React from "react";
-
 import {
   Box,
   Card,
@@ -11,7 +5,12 @@ import {
   Grid,
   makeStyles,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
+import Stack from "@mui/material/Stack";
+import clsx from "clsx";
+import { countBy, map } from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   card: {

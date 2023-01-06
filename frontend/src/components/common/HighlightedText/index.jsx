@@ -1,9 +1,8 @@
+import { Typography } from "@mui/material";
+import { makeStyles } from "@mui/material/styles";
 import { isNil } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-
-import { Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 export default function HighlightedText(props) {
   const [hide, setHide] = useState(true);
