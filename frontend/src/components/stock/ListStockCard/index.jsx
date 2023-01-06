@@ -1,3 +1,5 @@
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import ErrorIcon from "@mui/icons-material/Error";
 import {
   Avatar,
   Card,
@@ -15,9 +17,6 @@ import clsx from "clsx";
 import { isUndefined, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
-
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import ErrorIcon from "@material-ui/icons/Error";
 
 import ColoredNumber from "src/components/common/ColoredNumber";
 import DropdownMenu from "src/components/common/DropdownMenu";

@@ -1,3 +1,4 @@
+import EditIcon from "@mui/icons-material/Edit";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
@@ -10,8 +11,6 @@ import { filter, map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 import { useMutate } from "restful-react";
-
-import EditIcon from "@material-ui/icons/Edit";
 
 import GlobalContext from "src/context";
 

@@ -1,3 +1,4 @@
+import AddIcon from "@mui/icons-material/Add";
 import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -10,8 +11,6 @@ import ListItem from "@mui/material/ListItem";
 import { isEmpty, map, remove } from "lodash";
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
-
-import AddIcon from "@material-ui/icons/Add";
 
 import ShowResource from "src/components/common/ShowResource";
 import GlobalContext from "src/context";

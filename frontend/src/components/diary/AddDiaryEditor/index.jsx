@@ -1,3 +1,5 @@
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import {
   FormControl,
   FormControlLabel,
@@ -13,9 +15,6 @@ import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutate } from "restful-react";
-
-import TrendingDownIcon from "@material-ui/icons/TrendingDown";
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 
 import GlobalContext from "src/context";
 

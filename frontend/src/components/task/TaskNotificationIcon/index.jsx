@@ -1,3 +1,4 @@
+import NotificationsIcon from "@mui/icons-material/NotificationsOutlined";
 import {
   Badge,
   Box,
@@ -16,8 +17,6 @@ import Stack from "@mui/material/Stack";
 import { groupBy, map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-
-import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
 
 import PollResource from "src/components/common/PollResource";
 import TaskResult from "src/components/task/TaskResult";

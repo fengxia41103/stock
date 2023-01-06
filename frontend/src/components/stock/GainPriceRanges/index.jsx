@@ -1,10 +1,9 @@
+import FlagIcon from "@mui/icons-material/Flag";
 import { Box, Chip, Grid, List, ListItem, Tooltip } from "@mui/material";
 import { filter, findIndex, last, map, minBy, range, reverse } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 import GaugeChart from "react-gauge-chart";
-
-import FlagIcon from "@material-ui/icons/Flag";
 
 import ColoredNumber from "src/components/common/ColoredNumber";
 
