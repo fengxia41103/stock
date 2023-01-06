@@ -1,3 +1,5 @@
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import {
   FormControl,
   FormControlLabel,
@@ -10,9 +12,6 @@ import Button from "@mui/material/Button";
 import MDEditor from "@uiw/react-md-editor";
 import React, { useContext, useState } from "react";
 import { useMutate } from "restful-react";
-
-import TrendingDownIcon from "@material-ui/icons/TrendingDown";
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 
 import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import GlobalContext from "src/context";

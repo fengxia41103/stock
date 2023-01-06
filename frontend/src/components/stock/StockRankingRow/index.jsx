@@ -1,10 +1,9 @@
+import { BarChart, Timeline } from "@mui/icons-material";
+import CompareArrowsSharpIcon from "@mui/icons-material/CompareArrowsSharp";
 import { Box, Grid, Link, TextField, Tooltip, Typography } from "@mui/material";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-
-import { BarChart, Timeline } from "@material-ui/icons";
-import CompareArrowsSharpIcon from "@material-ui/icons/CompareArrowsSharp";
 
 import HighlightedText from "src/components/common/HighlightedText";
 import RankChart from "src/components/common/RankChart";

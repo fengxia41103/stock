@@ -1,3 +1,4 @@
+import AddIcon from "@mui/icons-material/Add";
 import {
   Box,
   Button,
@@ -11,8 +12,6 @@ import {
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-
-import AddIcon from "@material-ui/icons/Add";
 
 import DropdownMenu from "src/components/common/DropdownMenu";
 import PollResource from "src/components/common/PollResource";

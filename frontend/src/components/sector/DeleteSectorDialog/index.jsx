@@ -1,3 +1,4 @@
+import DeleteIcon from "@mui/icons-material/Delete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -10,8 +11,6 @@ import { map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 import { useMutate } from "restful-react";
-
-import DeleteIcon from "@material-ui/icons/Delete";
 
 import StockSymbol from "src/components/stock/StockSymbol";
 import GlobalContext from "src/context";

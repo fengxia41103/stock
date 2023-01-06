@@ -1,3 +1,5 @@
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import {
   Box,
   Card,
@@ -12,9 +14,6 @@ import { isUndefined } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
-
-import TrendingDownIcon from "@material-ui/icons/TrendingDown";
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 
 export default function ABDonutChart(props) {
   const theme = useTheme();

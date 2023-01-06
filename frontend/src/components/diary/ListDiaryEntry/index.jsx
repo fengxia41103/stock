@@ -1,3 +1,9 @@
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import {
   Button,
   Chip,
@@ -12,13 +18,6 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 import { useMutate } from "restful-react";
-
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import ThumbDownOutlinedIcon from "@material-ui/icons/ThumbDownOutlined";
-import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
-import TrendingDownIcon from "@material-ui/icons/TrendingDown";
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 
 import DropdownMenu from "src/components/common/DropdownMenu";
 import ShowResource from "src/components/common/ShowResource";

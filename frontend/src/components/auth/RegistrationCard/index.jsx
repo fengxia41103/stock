@@ -1,3 +1,4 @@
+import { Face } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -13,8 +14,6 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useMutate } from "restful-react";
-
-import { Face } from "@material-ui/icons";
 
 export default function RegistrationCard(props) {
   // props
