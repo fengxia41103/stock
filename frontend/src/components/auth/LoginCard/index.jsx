@@ -1,3 +1,4 @@
+import { Face, Fingerprint } from "@mui/icons-material";
 import {
   Box,
   Card,
@@ -10,8 +11,6 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-
-import { Face, Fingerprint } from "@material-ui/icons";
 
 import LoginButton from "src/components/auth/LoginButton";
 

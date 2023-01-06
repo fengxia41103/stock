@@ -1,9 +1,8 @@
+import GetAppIcon from "@mui/icons-material/GetApp";
 import { Grid, Link, Typography } from "@mui/material";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
-
-import GetAppIcon from "@material-ui/icons/GetApp";
 
 export default function ExportStocks(props) {
   const { stocks } = props;
