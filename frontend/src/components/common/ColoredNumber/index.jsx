@@ -1,9 +1,9 @@
+import { Box, Typography } from "@mui/material";
 import clsx from "clsx";
 import { isNumber } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
-import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
 // A style sheet

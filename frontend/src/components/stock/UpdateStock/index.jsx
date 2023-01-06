@@ -1,8 +1,8 @@
+import { Button } from "@mui/material";
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 import { useMutate } from "restful-react";
 
-import { Button } from "@material-ui/core";
 import RefreshIcon from "@material-ui/icons/Refresh";
 
 import SimpleSnackbar from "src/components/common/SimpleSnackbar";

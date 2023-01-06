@@ -1,8 +1,3 @@
-import clsx from "clsx";
-import { isUndefined, map } from "lodash";
-import PropTypes from "prop-types";
-import React from "react";
-
 import {
   Avatar,
   Card,
@@ -15,7 +10,12 @@ import {
   makeStyles,
   Tooltip,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
+import clsx from "clsx";
+import { isUndefined, map } from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
+
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import ErrorIcon from "@material-ui/icons/Error";
 

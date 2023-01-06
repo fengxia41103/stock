@@ -1,8 +1,3 @@
-import { map, remove } from "lodash";
-import PropTypes from "prop-types";
-import React, { useContext, useState } from "react";
-import { useMutate } from "restful-react";
-
 import {
   Box,
   Checkbox,
@@ -13,8 +8,12 @@ import {
   Grid,
   Tooltip,
   Typography,
-} from "@material-ui/core";
-import Popover from "@material-ui/core/Popover";
+} from "@mui/material";
+import Popover from "@mui/material/Popover";
+import { map, remove } from "lodash";
+import PropTypes from "prop-types";
+import React, { useContext, useState } from "react";
+import { useMutate } from "restful-react";
 
 import ShowResource from "src/components/common/ShowResource";
 import SimpleSnackbar from "src/components/common/SimpleSnackbar";

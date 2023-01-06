@@ -1,15 +1,8 @@
+import { Box, Grid, Link, TextField, Tooltip, Typography } from "@mui/material";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
-import {
-  Box,
-  Grid,
-  Link,
-  TextField,
-  Tooltip,
-  Typography,
-} from "@material-ui/core";
 import { BarChart, Timeline } from "@material-ui/icons";
 import CompareArrowsSharpIcon from "@material-ui/icons/CompareArrowsSharp";
 

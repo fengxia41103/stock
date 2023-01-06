@@ -1,8 +1,3 @@
-import Stack from "@mui/material/Stack";
-import { groupBy, map } from "lodash";
-import PropTypes from "prop-types";
-import React, { useState } from "react";
-
 import {
   Badge,
   Box,
@@ -12,11 +7,16 @@ import {
   IconButton,
   Tooltip,
   Typography,
-} from "@material-ui/core";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
+} from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Stack from "@mui/material/Stack";
+import { groupBy, map } from "lodash";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+
 import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
 
 import PollResource from "src/components/common/PollResource";

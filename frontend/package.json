@@ -1,36 +1,22 @@
 {
-  "name": "react-material-stock-analysis",
   "author": "Feng Xia",
-  "licence": "MIT",
-  "version": "1.0.0",
-  "private": false,
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not op_mini all"
-    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ],
+    "production": [
+      ">0.2%",
+      "not op_mini all"
     ]
   },
   "dependencies": {
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/data-grid": "^4.0.0-alpha.28",
-    "@material-ui/icons": "^4.11.2",
-    "@material-ui/lab": "^4.0.0-alpha.56",
-    "@material-ui/styles": "^4.10.0",
-    "@mui/icons-material": "^5.2.5",
-    "@mui/material": "^5.1.1",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.3",
+    "@mui/styles": "^5.11.2",
     "@uiw/react-md-editor": "^3.0.8",
     "chart.js": "^2.9.4",
     "classnames": "^2.2.6",
@@ -51,7 +37,6 @@
     "moment-timezone": "^0.5.33",
     "npm": "^7.24.0",
     "nprogress": "^0.2.0",
-    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-chartjs-2": "^2.10.0",
     "react-debounce-input": "^3.2.3",
@@ -71,8 +56,11 @@
     "uuid": "^8.3.0",
     "yup": "^0.29.3"
   },
+  "description": "REACT stock analysis tool based on Yahoo! finance API data",
   "devDependencies": {
+    "@fengxia41103/storybook": "^1.0.0",
     "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
+    "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/experimental-utils": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
@@ -90,19 +78,31 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.8",
+    "husky": "^8.0.0",
     "lint-staged": "^11.2.3",
+    "lint-staged": "^13.1.0",
     "npx": "^10.2.2",
     "prettier": "^2.8.1",
+    "prop-types": "^15.7.2",
     "typescript": "^4.5.4",
     "yarn": "^1.22.17"
   },
+  "licence": "MIT",
+  "license": "MIT",
   "lint-staged": {
     "*.{js,jsx}": [
       "prettier --ignore-unknown --write",
       "eslint --cache --fix"
     ]
   },
-  "description": "REACT stock analysis tool based on Yahoo! finance API data",
-  "main": "index.js",
-  "license": "MIT"
+  "main": "src/index.js",
+  "name": "@fengxia41103/stock",
+  "private": false,
+  "scripts": {
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "start": "react-scripts start",
+    "test": "react-scripts test"
+  },
+  "version": "1.0.0"
 }

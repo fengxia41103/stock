@@ -1,6 +1,6 @@
+import { IconButton, Link, Tooltip } from "@mui/material";
 import React from "react";
 
-import { IconButton, Link, Tooltip } from "@material-ui/core";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 export default function LogoutIcon() {

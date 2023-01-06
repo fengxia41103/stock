@@ -1,6 +1,3 @@
-import PropTypes from "prop-types";
-import React, { useState } from "react";
-
 import {
   Box,
   Card,
@@ -10,7 +7,10 @@ import {
   Link,
   TextField,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+
 import { Face, Fingerprint } from "@material-ui/icons";
 
 import LoginButton from "src/components/auth/LoginButton";

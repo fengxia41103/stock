@@ -1,9 +1,8 @@
+import { Box, Grid } from "@mui/material";
+import blueGrey from "@mui/material/colors/blueGrey";
 import { isInteger, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
-
-import { Box, Grid } from "@material-ui/core";
-import blueGrey from "@material-ui/core/colors/blueGrey";
 
 import StockSymbol from "src/components/stock/StockSymbol";
 

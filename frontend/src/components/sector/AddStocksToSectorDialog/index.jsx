@@ -1,16 +1,16 @@
+import { Checkbox, FormControlLabel, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Grid from "@mui/material/Grid";
+import ListItem from "@mui/material/ListItem";
 import { isEmpty, map, remove } from "lodash";
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 
-import { Checkbox, FormControlLabel, Typography } from "@material-ui/core";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Grid from "@material-ui/core/Grid";
-import ListItem from "@material-ui/core/ListItem";
 import AddIcon from "@material-ui/icons/Add";
 
 import ShowResource from "src/components/common/ShowResource";

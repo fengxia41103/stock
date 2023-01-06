@@ -1,8 +1,3 @@
-import clsx from "clsx";
-import { map } from "lodash";
-import PropTypes from "prop-types";
-import React from "react";
-
 import {
   Card,
   CardContent,
@@ -12,7 +7,11 @@ import {
   ListItem,
   makeStyles,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
+import clsx from "clsx";
+import { map } from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
 
 import ColoredNumber from "src/components/common/ColoredNumber";
 import StockSymbol from "src/components/stock/StockSymbol";

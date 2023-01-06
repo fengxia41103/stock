@@ -1,9 +1,8 @@
+import { Button, Grid, Link } from "@mui/material";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-
-import { Button, Grid, Link } from "@material-ui/core";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 
 export default function MenuBar(props) {
   const { root, title, items } = props;

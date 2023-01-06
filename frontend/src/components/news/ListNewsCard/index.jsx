@@ -1,8 +1,3 @@
-import clsx from "clsx";
-import { isEmpty, isNull, isUndefined, map } from "lodash";
-import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
-
 import {
   Button,
   Card,
@@ -16,7 +11,11 @@ import {
   ListItem,
   makeStyles,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
+import clsx from "clsx";
+import { isEmpty, isNull, isUndefined, map } from "lodash";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 
 import ShowResource from "src/components/common/ShowResource";
 

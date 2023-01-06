@@ -8,7 +8,7 @@ import {
   CardContent,
   CardHeader,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import DictTable from "src/components/common/DictTable";
 
