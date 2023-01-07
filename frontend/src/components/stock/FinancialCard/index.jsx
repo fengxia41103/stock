@@ -3,7 +3,7 @@ import { isEmpty, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
-import DictTable from "src/components/common/DictTable";
+import {DictTable} from "@fengxia41103/storybook";
 
 export default function FinancialCard(props) {
   const {

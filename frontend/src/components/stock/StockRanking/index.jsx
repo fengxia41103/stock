@@ -1,3 +1,4 @@
+import { ShowResource } from "@fengxia41103/storybook";
 import {
   Card,
   CardContent,
@@ -10,7 +11,6 @@ import { filter, has, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
-import ShowResource from "src/components/common/ShowResource";
 import StockRankingRow from "src/components/stock/StockRankingRow";
 
 export default function StockRanking(props) {

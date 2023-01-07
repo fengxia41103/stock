@@ -1,3 +1,4 @@
+import { HighlightedText, RankChart } from "@fengxia41103/storybook";
 import { BarChart, Timeline } from "@mui/icons-material";
 import CompareArrowsSharpIcon from "@mui/icons-material/CompareArrowsSharp";
 import { Box, Grid, Link, TextField, Tooltip, Typography } from "@mui/material";
@@ -5,8 +6,6 @@ import { map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
-import HighlightedText from "src/components/common/HighlightedText";
-import RankChart from "src/components/common/RankChart";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
 import { get_last_month_string, get_today_string } from "src/utils/helper.jsx";
 

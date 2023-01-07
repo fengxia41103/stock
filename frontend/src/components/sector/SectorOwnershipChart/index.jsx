@@ -1,14 +1,12 @@
+import { HighchartGraph } from "@fengxia41103/storybook";
 import { Typography } from "@mui/material";
 import { filter, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
-import HighchartGraphBox from "src/components/common/Highchart";
-import { randomId } from "src/utils/helper.jsx";
-
 export default function SectorOwnershipChart(props) {
   const { sector } = props;
-  const containerId = randomId();
+
   const chart_data = map(
     // if I don't have this count, ignore
     filter(sector.stocks_detail, (d) => d.institution_count > 0),
@@ -34,8 +32,7 @@ export default function SectorOwnershipChart(props) {
 
   return (
     <>
-      <HighchartGraphBox
-        containerId={containerId}
+      <HighchartGraph
         type="bubble"
         categories={[]}
         xLabel="Top 10 Institution Ownership (%)"

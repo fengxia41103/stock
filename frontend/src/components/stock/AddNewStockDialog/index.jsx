@@ -1,3 +1,8 @@
+import {
+  AsDialog,
+  ShowResource,
+  SimpleSnackbar,
+} from "@fengxia41103/storybook";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import {
   Box,
@@ -15,9 +20,6 @@ import { clone, map, remove, truncate } from "lodash";
 import React, { useContext, useState } from "react";
 import { useMutate } from "restful-react";
 
-import AsDialog from "src/components/common/AsDialog";
-import ShowResource from "src/components/common/ShowResource";
-import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import GlobalContext from "src/context";
 
 export default function AddNewStockDialog() {

@@ -1,11 +1,10 @@
+import { ColoredNumber } from "@fengxia41103/storybook";
 import FlagIcon from "@mui/icons-material/Flag";
 import { Box, Chip, Grid, List, ListItem, Tooltip } from "@mui/material";
 import { filter, findIndex, last, map, minBy, range, reverse } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 import GaugeChart from "react-gauge-chart";
-
-import ColoredNumber from "src/components/common/ColoredNumber";
 
 export default function GainPriceRanges(props) {
   const STEP = 10;

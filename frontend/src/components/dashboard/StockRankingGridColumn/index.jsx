@@ -1,10 +1,9 @@
+import { HighlightedText } from "@fengxia41103/storybook";
 import { Grid, Link, makeStyles, Typography } from "@mui/material";
 import clsx from "clsx";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
-
-import HighlightedText from "src/components/common/HighlightedText";
 
 const useStyles = makeStyles((theme) => ({
   category: {
