@@ -1,12 +1,9 @@
+import { HighchartGraph } from "@fengxia41103/storybook";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
-import HighchartGraphBox from "src/components/common/Highchart";
-import { randomId } from "src/utils/helper.jsx";
-
 export default function PriceLastLowerNextBetterChart(props) {
-  const containerId = randomId();
   const { data } = props;
   const categories = map(data, (d) => d.on);
   const chart_data = [
@@ -23,8 +20,7 @@ export default function PriceLastLowerNextBetterChart(props) {
   ];
 
   return (
-    <HighchartGraphBox
-      containerId={containerId}
+    <HighchartGraph
       type="areaspline"
       categories={categories}
       yLabel=""

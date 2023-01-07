@@ -1,3 +1,4 @@
+import { ShowResource, SimpleSnackbar } from "@fengxia41103/storybbook";
 import {
   Box,
   Checkbox,
@@ -15,8 +16,6 @@ import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 import { useMutate } from "restful-react";
 
-import ShowResource from "src/components/common/ShowResource";
-import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import DeleteStock from "src/components/stock/DeleteStock";
 import UpdateStock from "src/components/stock/UpdateStock";
 import GlobalContext from "src/context";

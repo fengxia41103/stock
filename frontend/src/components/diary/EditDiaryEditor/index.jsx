@@ -1,3 +1,4 @@
+import { SimpleSnackbar } from "@fengxia41103/storybook";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import {
@@ -13,7 +14,6 @@ import MDEditor from "@uiw/react-md-editor";
 import React, { useContext, useState } from "react";
 import { useMutate } from "restful-react";
 
-import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import GlobalContext from "src/context";
 
 export default function EditDiaryEditor(props) {

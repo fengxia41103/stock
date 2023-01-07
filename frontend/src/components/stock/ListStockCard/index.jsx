@@ -1,3 +1,4 @@
+import { ColoredNumber, DropdownMenu } from "@fengxia41103/storybook";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ErrorIcon from "@mui/icons-material/Error";
 import {
@@ -18,8 +19,6 @@ import { isUndefined, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
-import ColoredNumber from "src/components/common/ColoredNumber";
-import DropdownMenu from "src/components/common/DropdownMenu";
 import RecentPriceSparkline from "src/components/stock/RecentPriceSparkline";
 import StockSymbol from "src/components/stock/StockSymbol";
 

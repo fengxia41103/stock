@@ -1,10 +1,10 @@
+import { SimpleSnackbar } from "@fengxia41103/storybook";
 import UpdateIcon from "@mui/icons-material/Update";
 import { Button } from "@mui/material";
 import { map, truncate } from "lodash";
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 
-import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import GlobalContext from "src/context";
 
 export default function UpdateAllStock(props) {

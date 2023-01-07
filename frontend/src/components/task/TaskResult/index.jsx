@@ -1,8 +1,7 @@
+import { ShowResource } from "@fengxia41103/storybook";
 import { Box, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-
-import ShowResource from "src/components/common/ShowResource";
 
 export default function TaskResult(props) {
   // props

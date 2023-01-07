@@ -1,12 +1,9 @@
+import { HighchartGraph } from "@fengxia41103/storybook";
 import { last, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
-import HighchartGraphBox from "src/components/common/Highchart";
-import { randomId } from "src/utils/helper.jsx";
-
 export default function GainProbabilityChart(props) {
-  const containerId = randomId();
   const { data } = props;
   const last_close = last(data).close_price;
   const categories = map(data, (d) => d.on);
@@ -26,8 +23,7 @@ export default function GainProbabilityChart(props) {
   ];
 
   return (
-    <HighchartGraphBox
-      containerId={containerId}
+    <HighchartGraph
       type="areaspline"
       categories={categories}
       yLabel=""
