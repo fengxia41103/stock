@@ -1,9 +1,7 @@
+import { MultilineChart, ShowResource } from "@fengxia41103/storybook";
 import { groupBy, map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-
-import MultilineChart from "src/components/common/MultilineChart";
-import ShowResource from "src/components/common/ShowResource";
 
 export default function StocksPriceChart(props) {
   const { stocks: stock_ids, start, end } = props;

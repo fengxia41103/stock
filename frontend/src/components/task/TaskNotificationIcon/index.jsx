@@ -1,3 +1,4 @@
+import { PollResource } from "@fengxia41103/storybook";
 import NotificationsIcon from "@mui/icons-material/NotificationsOutlined";
 import {
   Badge,
@@ -18,7 +19,6 @@ import { groupBy, map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
-import PollResource from "src/components/common/PollResource";
 import TaskResult from "src/components/task/TaskResult";
 
 export default function TaskNotificationIcon(props) {

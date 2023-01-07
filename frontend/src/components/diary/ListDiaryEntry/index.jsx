@@ -1,3 +1,8 @@
+import {
+  DropdownMenu,
+  ShowResource,
+  SimpleSnackbar,
+} from "@fengxia41103/storybook";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
@@ -19,9 +24,6 @@ import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
 import { useMutate } from "restful-react";
 
-import DropdownMenu from "src/components/common/DropdownMenu";
-import ShowResource from "src/components/common/ShowResource";
-import SimpleSnackbar from "src/components/common/SimpleSnackbar";
 import DiaryStockTag from "src/components/diary/DiaryStockTag";
 import EditDiaryEditor from "src/components/diary/EditDiaryEditor";
 import GlobalContext from "src/context";

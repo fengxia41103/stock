@@ -1,3 +1,4 @@
+import { ShowResource } from "@fengxia41103/storybook";
 import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -12,7 +13,6 @@ import { filter, map } from "lodash";
 import React, { useContext, useState } from "react";
 import { useMutate } from "restful-react";
 
-import ShowResource from "src/components/common/ShowResource";
 import GlobalContext from "src/context";
 
 export default function AddNewSectorDialog() {

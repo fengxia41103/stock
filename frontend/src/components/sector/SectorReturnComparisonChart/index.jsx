@@ -1,9 +1,8 @@
+import HighchartGraph from "@fengxia41103/storybook";
 import { forEach, groupBy, map, merge } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
-import HighchartGraphBox from "src/components/common/Highchart";
-import { randomId } from "src/utils/helper.jsx";
 import { daily_returns, overnight_returns } from "src/utils/stock/returns";
 
 export default function SectorReturnComparisonChart(props) {
@@ -51,10 +50,8 @@ export default function SectorReturnComparisonChart(props) {
     };
   });
 
-  const containerId = randomId();
   return (
-    <HighchartGraphBox
-      containerId={containerId}
+    <HighchartGraph
       type="column"
       categories={categories}
       xLabel=""

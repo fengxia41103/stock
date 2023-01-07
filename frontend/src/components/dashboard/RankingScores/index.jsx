@@ -1,3 +1,4 @@
+import { RankChart } from "@fengxia41103/storybook";
 import {
   Box,
   Card,
@@ -12,7 +13,6 @@ import { filter, forEach, map, reverse, sortBy } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
-import RankChart from "src/components/common/RankChart";
 import RankingOccuranceCharts from "src/components/dashboard/RankingOccuranceCharts";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
 

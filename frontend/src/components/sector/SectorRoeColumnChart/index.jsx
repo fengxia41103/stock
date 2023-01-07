@@ -1,15 +1,13 @@
+import { HighchartGraph } from "@fengxia41103/storybook";
 import { map, sortBy } from "lodash";
 import React, { useContext } from "react";
 
-import HighchartGraphBox from "src/components/common/Highchart";
-import { randomId } from "src/utils/helper.jsx";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
 export default function SectorRoeColumnChart() {
   const sector = useContext(SectorDetailContext);
   const sorted_stocks = sortBy(sector.stocks_detail, (d) => d.roe);
 
-  const containerId = randomId();
   const categories = map(sorted_stocks, (d) => d.symbol);
   const chart_data = [
     {
@@ -23,8 +21,7 @@ export default function SectorRoeColumnChart() {
   ];
 
   return (
-    <HighchartGraphBox
-      containerId={containerId}
+    <HighchartGraph
       type="column"
       categories={categories}
       yLabel=""

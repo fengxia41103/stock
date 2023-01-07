@@ -1,9 +1,9 @@
+import { ShowResource } from "@fengxia41103/storybook";
 import { Card, CardContent, CardHeader, Grid, Typography } from "@mui/material";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
-import ShowResource from "src/components/common/ShowResource";
 import DailyRankingBarRaceChart from "src/components/dashboard/DailyRankingBarRaceChart";
 import { get_highlights } from "src/utils/helper.jsx";
 import { stocks_daily_ranking } from "src/utils/stock/ranking";
