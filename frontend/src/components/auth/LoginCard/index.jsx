@@ -1,3 +1,6 @@
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+
 import { Face, Fingerprint } from "@mui/icons-material";
 import {
   Box,
@@ -9,8 +12,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import PropTypes from "prop-types";
-import React, { useState } from "react";
 
 import LoginButton from "src/components/auth/LoginButton";
 

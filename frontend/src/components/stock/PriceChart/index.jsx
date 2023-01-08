@@ -1,6 +1,7 @@
-import { HighchartGraph } from "@fengxia41103/storybook";
 import { map } from "lodash";
 import React from "react";
+
+import { HighchartGraph } from "@fengxia41103/storybook";
 
 export default function PriceChart(props) {
   const { data } = props;

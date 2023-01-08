@@ -1,7 +1,9 @@
-import { ColoredNumber, ShowResource } from "@fengxia41103/storybook";
-import { Divider, Grid } from "@mui/material";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+
+import { Divider, Grid } from "@mui/material";
+
+import { ColoredNumber, ShowResource } from "@fengxia41103/storybook";
 
 export default function StockTagPriceLabel(props) {
   const { diary, stock } = props;

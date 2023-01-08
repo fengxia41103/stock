@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { Box, Card, CardContent, Typography } from "@material-ui/core";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 
 import SectorOwnershipChart from "src/components/sector/SectorOwnershipChart";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";

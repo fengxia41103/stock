@@ -9,9 +9,10 @@ import {
   Grid,
   TextField,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import Page from "src/components/common/Page";
+import { Page } from "@fengxia41103/storybook";
+
 import StockRanking from "src/components/stock/StockRanking";
 import { get_highlights } from "src/utils/helper.jsx";
 

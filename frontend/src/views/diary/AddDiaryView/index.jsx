@@ -1,8 +1,9 @@
 import React from "react";
 
-import { Box, Button, Container, Typography } from "@material-ui/core";
+import { Box, Button, Container, Typography } from "@mui/material";
 
-import Page from "src/components/common/Page";
+import { Page } from "@fengxia41103/storybook";
+
 import AddDiaryEditor from "src/components/diary/AddDiaryEditor";
 
 export default function AddDiaryView() {

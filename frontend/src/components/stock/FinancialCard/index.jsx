@@ -1,9 +1,10 @@
-import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { isEmpty, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
-import {DictTable} from "@fengxia41103/storybook";
+import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
+
+import { DictTable } from "@fengxia41103/storybook";
 
 export default function FinancialCard(props) {
   const {

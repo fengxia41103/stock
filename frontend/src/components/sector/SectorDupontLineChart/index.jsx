@@ -1,7 +1,8 @@
-import { MultilineChart } from "@fengxia41103/storybook";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useContext } from "react";
+
+import { MultilineChart } from "@fengxia41103/storybook";
 
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 

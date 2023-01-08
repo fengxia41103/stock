@@ -8,9 +8,10 @@ import {
   Grid,
   TextField,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import ShowResource from "src/components/common/ShowResource";
+import { ShowResource } from "@fengxia41103/storybook";
+
 import { get_last_month_string, get_today_string } from "src/utils/helper.jsx";
 
 import StockHistoricalContext from "./context.jsx";

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import ShowResource from "src/components/common/ShowResource";
+import { ShowResource } from "@fengxia41103/storybook";
+
 import FinancialCard from "src/components/stock/FinancialCard";
 
 function ValuationRatiosView() {

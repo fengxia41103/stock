@@ -13,9 +13,10 @@ import {
   Grid,
   makeStyles,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import ColoredNumber from "src/components/common/ColoredNumber";
+import { ColoredNumber } from "@fengxia41103/storybook";
+
 import GainPriceRanges from "src/components/stock/GainPriceRanges";
 import PriceChart from "src/components/stock/PriceChart";
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
