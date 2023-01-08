@@ -3,9 +3,10 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import { useLocation, useRoutes } from "react-router-dom";
 import { RestfulProvider } from "restful-react";
 
-import { ThemeProvider } from "@material-ui/core";
+import { ThemeProvider } from "@mui/material";
 
-import GlobalStyles from "src/components/common/GlobalStyles";
+import { GlobalStyles } from "@fengxia41103/storybook";
+
 import GlobalContext from "src/context";
 import routes from "src/routes";
 import theme from "src/theme";

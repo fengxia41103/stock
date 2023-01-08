@@ -3,13 +3,7 @@ import { map } from "lodash";
 import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 
-import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Typography,
-} from "@material-ui/core";
+import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context.jsx";
 

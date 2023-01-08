@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography } from "@mui/material";
 
-import DictCard from "src/components/common/DictCard";
-import ShowResource from "src/components/common/ShowResource";
+import { DictCard, ShowResource } from "@fengxia41103/storybook";
 
 function StockSummaryView() {
   const { id } = useParams();

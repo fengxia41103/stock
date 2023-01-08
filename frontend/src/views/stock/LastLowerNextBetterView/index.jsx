@@ -1,12 +1,6 @@
 import React, { useContext } from "react";
 
-import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Typography,
-} from "@material-ui/core";
+import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 
 import GainProbabilityChart from "src/components/stock/GainProbabilityChart";
 import PriceLastLowerNextBetterChart from "src/components/stock/PriceLastLowerNextBetterChart";

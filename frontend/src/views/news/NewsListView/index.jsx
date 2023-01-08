@@ -8,9 +8,10 @@ import {
   Container,
   Grid,
   TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import Page from "src/components/common/Page";
+import { Page } from "@fengxia41103/storybook";
+
 import ListNewsCard from "src/components/news/ListNewsCard";
 
 export default function NewsListView() {

@@ -1,8 +1,10 @@
-import { HighchartGraph } from "@fengxia41103/storybook";
-import { Typography } from "@mui/material";
 import { filter, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
+
+import { Typography } from "@mui/material";
+
+import { HighchartGraph } from "@fengxia41103/storybook";
 
 export default function SectorOwnershipChart(props) {
   const { sector } = props;

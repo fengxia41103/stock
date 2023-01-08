@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-import { Box, Container } from "@material-ui/core";
+import { Box, Container } from "@mui/material";
 
-import Page from "src/components/common/Page";
-import ShowResource from "src/components/common/ShowResource";
+import { Page, ShowResource } from "@fengxia41103/storybook";
+
 import ListDiary from "src/components/diary/ListDiary";
 
 import DiaryListContext from "./context.jsx";

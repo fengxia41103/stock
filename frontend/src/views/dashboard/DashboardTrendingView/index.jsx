@@ -18,13 +18,13 @@ import {
   RadioGroup,
   Switch,
   TextField,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
-} from "@material-ui/core";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+} from "@mui/material";
 
-import Page from "src/components/common/Page";
-import ShowResource from "src/components/common/ShowResource";
+import { Page, ShowResource } from "@fengxia41103/storybook";
+
 import DailyRankingBarRaceChart from "src/components/dashboard/DailyRankingBarRaceChart";
 import RankingScores from "src/components/dashboard/RankingScores";
 import StockRankingGrid from "src/components/dashboard/StockRankingGrid";

@@ -1,12 +1,13 @@
+import ReactECharts from "echarts-for-react";
+import { map, maxBy, minBy, reverse } from "lodash";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+
 import PauseCircleFilledIcon from "@mui/icons-material/PauseCircleFilled";
 import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { Button, Grid, Typography } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
-import ReactECharts from "echarts-for-react";
-import { map, maxBy, minBy, reverse } from "lodash";
-import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
 
 export default function DailyRankingBarRaceChart(props) {
   const { ranks, order_by, highlights, negative } = props;

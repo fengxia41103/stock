@@ -1,13 +1,15 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 
-import AnnouncementIcon from "@material-ui/icons/Announcement";
-import BusinessIcon from "@material-ui/icons/Business";
-import CompareIcon from "@material-ui/icons/Compare";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import EventNoteIcon from "@material-ui/icons/EventNote";
-import SortIcon from "@material-ui/icons/Sort";
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
+import AnnouncementIcon from "@mui/icons-material/Announcement";
+import BusinessIcon from "@mui/icons-material/Business";
+import CompareIcon from "@mui/icons-material/Compare";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import SortIcon from "@mui/icons-material/Sort";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+
+import { NotFoundView } from "@fengxia41103/storybook";
 
 import MainLayout from "src/layouts/MainLayout";
 import LoginView from "src/views/auth/LoginView";
@@ -17,7 +19,6 @@ import DashboardTrendingView from "src/views/dashboard/DashboardTrendingView";
 import TodayDashboardView from "src/views/dashboard/TodayDashboardView";
 import AddDiaryView from "src/views/diary/AddDiaryView";
 import DiaryListView from "src/views/diary/DiaryListView";
-import NotFoundView from "src/views/errors/NotFoundView";
 import NewsListView from "src/views/news/NewsListView";
 import SectorBalanceRankingView from "src/views/sector/SectorBalanceRankingView";
 import SectorBalancesheetView from "src/views/sector/SectorBalancesheetView";

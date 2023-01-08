@@ -8,7 +8,7 @@ import {
   CardHeader,
   Grid,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import SectorDupontBreakdownChart from "src/components/sector/SectorDupontBreakdownChart";
 import SectorDupontLineChart from "src/components/sector/SectorDupontLineChart";
