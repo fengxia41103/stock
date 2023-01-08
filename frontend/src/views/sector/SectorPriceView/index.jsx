@@ -1,13 +1,7 @@
 import { map } from "lodash";
 import React, { useContext, useState } from "react";
 
-import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Typography,
-} from "@material-ui/core";
+import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 
 import SectorPriceTrending from "src/components/sector/SectorPriceTrending";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";

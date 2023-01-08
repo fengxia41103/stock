@@ -1,4 +1,8 @@
-import { ColoredNumber } from "@fengxia41103/storybook";
+import clsx from "clsx";
+import { map } from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
+
 import {
   Card,
   CardContent,
@@ -9,10 +13,8 @@ import {
   makeStyles,
   Typography,
 } from "@mui/material";
-import clsx from "clsx";
-import { map } from "lodash";
-import PropTypes from "prop-types";
-import React from "react";
+
+import { ColoredNumber } from "@fengxia41103/storybook";
 
 import StockSymbol from "src/components/stock/StockSymbol";
 

@@ -1,6 +1,7 @@
-import { Button } from "@mui/material";
 import PropTypes from "prop-types";
 import React from "react";
+
+import { Button } from "@mui/material";
 
 export default function LoginButton(props) {
   // props

@@ -1,11 +1,13 @@
+import PropTypes from "prop-types";
+import React from "react";
+
+import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
+
 import {
   ABDonutChart,
   DictCard,
   TimeSeriesColumnChart,
 } from "@fengxia41103/storybook";
-import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
-import PropTypes from "prop-types";
-import React from "react";
 
 export default function PriceReturnStat(props) {
   const { data } = props;

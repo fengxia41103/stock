@@ -1,7 +1,8 @@
-import { Box, Typography } from "@mui/material";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
+
+import { Box, Typography } from "@mui/material";
 
 import StockRanking from "src/components/stock/StockRanking";
 import { get_highlights } from "src/utils/helper.jsx";

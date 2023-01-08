@@ -1,9 +1,11 @@
-import { HighlightedText } from "@fengxia41103/storybook";
-import { Grid, Link, makeStyles, Typography } from "@mui/material";
 import clsx from "clsx";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
+
+import { Grid, Link, makeStyles, Typography } from "@mui/material";
+
+import { HighlightedText } from "@fengxia41103/storybook";
 
 const useStyles = makeStyles((theme) => ({
   category: {

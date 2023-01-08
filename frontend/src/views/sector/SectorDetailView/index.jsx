@@ -3,6 +3,8 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import { useMutate } from "restful-react";
 
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import {
   Box,
   Button,
@@ -12,14 +14,15 @@ import {
   List,
   ListItem,
   Typography,
-} from "@material-ui/core";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import RefreshIcon from "@material-ui/icons/Refresh";
+} from "@mui/material";
 
-import DropdownMenu from "src/components/common/DropdownMenu";
-import MenuBar from "src/components/common/MenuBar";
-import Page from "src/components/common/Page";
-import ShowResource from "src/components/common/ShowResource";
+import {
+  DropdownMenu,
+  MenuBar,
+  Page,
+  ShowResource,
+} from "@fengxia41103/storybook";
+
 import GlobalContext from "src/context";
 
 import SectorDetailContext from "./context.jsx";

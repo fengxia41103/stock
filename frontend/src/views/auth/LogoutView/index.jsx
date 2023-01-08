@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-import Get from "src/components/common/Get";
+import { Get } from "@fengxia41103/storybook";
+
 import LoginView from "src/views/auth/LoginView";
 
 export default function LogoutView() {

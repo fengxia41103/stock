@@ -5,15 +5,11 @@
     "jest": true
   },
   "extends": [
-    "plugin:storybook/recommended",
+    "eslint:recommended",
     "plugin:react/recommended",
     "airbnb",
-    "plugin:import/typescript",
-    "eslint:recommended",
-    "prettier",
-    "plugin:json/recommended"
+    "prettier"
   ],
-  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -21,18 +17,12 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["react"],
   "rules": {
-    "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": ["error"],
-    "no-nested-ternary": 0,
-    "@typescript-eslint/no-unused-vars": "error",
-    "@typescript-eslint/no-explicit-any": ["off"],
-    "react/jsx-filename-extension": [
-      "error",
-      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
-    ],
-    "react/require-default-props": "off",
+    "arrow-parens": ["warn", "always"],
+    "camelcase": [0],
+    "import/default": 2,
+    "import/export": 2,
     "import/extensions": [
       "error",
       "always",
@@ -43,7 +33,51 @@
         "tsx": "never"
       }
     ],
-    "react/jsx-props-no-spreading": [0],
+    "import/named": 2,
+    "import/namespace": 2,
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
+    "import/no-extraneous-dependencies": "error",
+    "import/no-unresolved": [
+      2,
+      {
+        "amd": true,
+        "commonjs": true
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "caseInsensitive": true,
+          "order": "asc"
+        },
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          ["index", "sibling"],
+          "object"
+        ],
+        "newlines-between": "always",
+        "pathGroups": [
+          {
+            "group": "external",
+            "pattern": "@mui/**",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": []
+      }
+    ],
+    "import/unambiguous": "off",
+    "no-nested-ternary": 0,
+    "no-use-before-define": "off",
     "react/function-component-definition": [
       2,
       {
@@ -51,12 +85,73 @@
         "unnamedComponents": "arrow-function"
       }
     ],
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-    "camelcase": [0]
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    ],
+    "react/jsx-props-no-spreading": [0],
+    "react/require-default-props": "off"
   },
   "settings": {
+    "componentWrapperFunctions": [
+      "observer",
+      {
+        "property": "styled"
+      },
+      {
+        "object": "Mobx",
+        "property": "observer"
+      },
+      {
+        "object": "<pragma>",
+        "property": "observer"
+      }
+    ],
+    "formComponents": [
+      "CustomForm",
+      {
+        "formAttribute": "endpoint",
+        "name": "Form"
+      }
+    ],
     "import/resolver": {
-      "typescript": {}
+      "alias": {
+        "extensions": [".js", ".jsx"],
+        "map": [["src", "./src"]]
+      },
+      "node": {
+        "paths": ["src"]
+      }
+    },
+    "linkComponents": [
+      "Hyperlink",
+      {
+        "linkAttribute": "to",
+        "name": "Link"
+      }
+    ],
+    "propWrapperFunctions": [
+      "forbidExtraProps",
+      {
+        "object": "Object",
+        "property": "freeze"
+      },
+      {
+        "property": "myFavoriteWrapper"
+      },
+      {
+        "exact": true,
+        "property": "forbidExtraProps"
+      }
+    ],
+    "react": {
+      "createClass": "createReactClass",
+      "flowVersion": "0.53",
+      "fragment": "Fragment",
+      "pragma": "React",
+      "version": "detect"
     }
   }
 }

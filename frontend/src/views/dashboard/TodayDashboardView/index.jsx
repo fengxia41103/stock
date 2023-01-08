@@ -9,11 +9,10 @@ import {
   Container,
   Grid,
   TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import CountCards from "src/components/common/CountCards";
-import Page from "src/components/common/Page";
-import ShowResource from "src/components/common/ShowResource";
+import { CountCards, Page, ShowResource } from "@fengxia41103/storybook";
+
 import MoverCard from "src/components/dashboard/MoverCard";
 
 export default function TodayDashboardView() {

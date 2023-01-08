@@ -1,7 +1,8 @@
-import HighchartGraph from "@fengxia41103/storybook";
 import { forEach, groupBy, map, merge } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
+
+import { HighchartGraph } from "@fengxia41103/storybook";
 
 import { daily_returns, overnight_returns } from "src/utils/stock/returns";
 

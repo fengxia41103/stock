@@ -1,7 +1,8 @@
-import { HighchartGraph } from "@fengxia41103/storybook";
 import { last, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
+
+import { HighchartGraph } from "@fengxia41103/storybook";
 
 export default function GainProbabilityChart(props) {
   const { data } = props;

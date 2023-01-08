@@ -8,10 +8,10 @@ import {
   Container,
   Grid,
   TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import Page from "src/components/common/Page";
-import PollResource from "src/components/common/PollResource";
+import { Page, PollResource } from "@fengxia41103/storybook";
+
 import AddNewSectorDialog from "src/components/sector/AddNewSectorDialog";
 import ListSectorCard from "src/components/sector/ListSectorCard";
 

@@ -1,5 +1,4 @@
-import { colors } from "@material-ui/core";
-import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
+import { colors, createTheme, responsiveFontSizes } from "@mui/material";
 
 import { shadows } from "./shadows";
 import { typography } from "./typography";

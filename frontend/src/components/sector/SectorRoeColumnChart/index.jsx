@@ -1,6 +1,7 @@
-import { HighchartGraph } from "@fengxia41103/storybook";
 import { map, sortBy } from "lodash";
 import React, { useContext } from "react";
+
+import { HighchartGraph } from "@fengxia41103/storybook";
 
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 

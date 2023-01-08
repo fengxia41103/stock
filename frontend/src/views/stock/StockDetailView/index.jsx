@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 
+import EventNoteIcon from "@mui/icons-material/EventNote";
 import {
   Box,
   Button,
@@ -9,14 +10,16 @@ import {
   Grid,
   List,
   ListItem,
-} from "@material-ui/core";
-import EventNoteIcon from "@material-ui/icons/EventNote";
+} from "@mui/material";
 
-import AsDialog from "src/components/common/AsDialog";
-import DropdownMenu from "src/components/common/DropdownMenu";
-import MenuBar from "src/components/common/MenuBar";
-import Page from "src/components/common/Page";
-import ShowResource from "src/components/common/ShowResource";
+import {
+  AsDialog,
+  DropdownMenu,
+  MenuBar,
+  Page,
+  ShowResource,
+} from "@fengxia41103/storybook";
+
 import AddDiaryEditor from "src/components/diary/AddDiaryEditor";
 import ListDiary from "src/components/diary/ListDiary";
 import DeleteStock from "src/components/stock/DeleteStock";
