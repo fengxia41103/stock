@@ -14,11 +14,10 @@ import {
   Grid,
   List,
   ListItem,
-  makeStyles,
   Tooltip,
   Typography,
 } from "@mui/material";
-
+import {makeStyles} from "@mui/styles";
 import { ColoredNumber, DropdownMenu } from "@fengxia41103/storybook";
 
 import RecentPriceSparkline from "src/components/stock/RecentPriceSparkline";

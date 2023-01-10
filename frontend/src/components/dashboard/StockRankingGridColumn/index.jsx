@@ -3,7 +3,8 @@ import { map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
-import { Grid, Link, makeStyles, Typography } from "@mui/material";
+import { Grid, Link, Typography } from "@mui/material";
+import {makeStyles} from "@mui/styles";
 
 import { HighlightedText } from "@fengxia41103/storybook";
 

@@ -2,8 +2,8 @@ import clsx from "clsx";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Box, Grid, makeStyles, Paper } from "@mui/material";
-
+import { Box, Grid, Paper } from "@mui/material";
+import {makeStyles} from "@mui/styles";
 import LoginCard from "src/components/auth/LoginCard";
 import GlobalContext from "src/context";
 

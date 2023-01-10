@@ -9,10 +9,9 @@ import {
   CardContent,
   CardHeader,
   Grid,
-  makeStyles,
   Typography,
 } from "@mui/material";
-
+import {makeStyles} from "@mui/styles";
 import { RankChart } from "@fengxia41103/storybook";
 
 import RankingOccuranceCharts from "src/components/dashboard/RankingOccuranceCharts";

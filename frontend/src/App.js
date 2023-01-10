@@ -2,9 +2,7 @@ import React from "react";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import { useLocation, useRoutes } from "react-router-dom";
 import { RestfulProvider } from "restful-react";
-
 import { ThemeProvider } from "@mui/material";
-
 import { GlobalStyles } from "@fengxia41103/storybook";
 
 import GlobalContext from "src/context";
@@ -20,9 +18,9 @@ const globals = {
   },
 };
 
-export default function App() {
+const App = () => {
   // global config
-  const backend = globals.backend;
+  const { backend } = globals;
 
   // check authentication
   const session = window.sessionStorage;
@@ -49,7 +47,7 @@ export default function App() {
       <GlobalStyles />
       <RestfulProvider
         base={backend.api}
-        requestOptions={(url, method, requestBody) => ({
+        requestOptions={() => ({
           headers: {
             "content-type": "application/json",
             Authorization: auth,
@@ -62,4 +60,6 @@ export default function App() {
       </RestfulProvider>
     </ThemeProvider>
   );
-}
+};
+
+export default App;
