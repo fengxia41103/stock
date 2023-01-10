@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import React, { useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import { Box, Divider, Drawer, Hidden, List, makeStyles } from "@mui/material";
-
+import { Box, Divider, Drawer, Hidden, List} from "@mui/material";
+import {makeStyles} from "@mui/styles";
 import AuthenticatedUser from "src/components/user/AuthenticatedUser";
 import GlobalContext from "src/context";
 import NavItem from "src/layouts/NavBarItem";

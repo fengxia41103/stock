@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 
-import { Box, makeStyles } from "@mui/material";
-
+import { Box } from "@mui/material";
+import {makeStyles} from "@mui/styles";
 import NavBar from "src/layouts/NavBar";
 import TopBar from "src/layouts/TopBar";
 

@@ -16,10 +16,9 @@ import {
   Grid,
   List,
   ListItem,
-  makeStyles,
   Typography,
 } from "@mui/material";
-
+import {makeStyles} from "@mui/styles";
 import {
   DropdownMenu,
   ShowResource,
