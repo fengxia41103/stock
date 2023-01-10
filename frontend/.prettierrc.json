@@ -20,22 +20,22 @@
       }
     },
     {
-      "files": ".prettierrc",
+      "files": ".json",
       "options": { "parser": "json" }
     }
   ],
   "importOrder": [
     "^@mui/",
     "^@fengxia41103",
-    "^src/(.*)$",
     "^@/(.*)$",
+    "^src/(.*)$",
     "^[.]{2}/",
     "^[./]"
   ],
   "importOrderSeparation": true,
   "importOrderBuiltinModulesToTop": true,
   "importOrderCaseInsensitive": true,
-  "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"],
+  "importOrderParserPlugins": ["jsx", "decorators-legacy"],
   "importOrderMergeDuplicateImports": true,
   "importOrderSortSpecifiers": true
 }

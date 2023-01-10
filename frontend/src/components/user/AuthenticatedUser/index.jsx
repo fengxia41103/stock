@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { Avatar, Box, makeStyles, Typography } from "@mui/material";
-
+import { Avatar, Box, Typography } from "@mui/material";
+import {makeStyles} from "@mui/styles";
 const useStyles = makeStyles(() => ({
   avatar: {
     cursor: "pointer",

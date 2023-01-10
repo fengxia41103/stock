@@ -1,6 +1,4 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-
+import { NotFoundView } from "@fengxia41103/storybook";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
 import BusinessIcon from "@mui/icons-material/Business";
 import CompareIcon from "@mui/icons-material/Compare";
@@ -8,8 +6,8 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import SortIcon from "@mui/icons-material/Sort";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-
-import { NotFoundView } from "@fengxia41103/storybook";
+import React from "react";
+import { Navigate } from "react-router-dom";
 
 import MainLayout from "src/layouts/MainLayout";
 import LoginView from "src/views/auth/LoginView";

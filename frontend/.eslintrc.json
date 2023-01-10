@@ -69,7 +69,12 @@
           {
             "group": "external",
             "pattern": "@mui/**",
-            "position": "before"
+            "position": "after"
+          },
+          {
+            "group": "external",
+            "pattern": "@fengxia41103/**",
+            "position": "after"
           }
         ],
         "pathGroupsExcludedImportTypes": []

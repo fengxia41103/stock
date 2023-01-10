@@ -9,9 +9,9 @@ import {
   Box,
   Hidden,
   IconButton,
-  makeStyles,
   Toolbar,
 } from "@mui/material";
+import {makeStyles} from "@mui/styles";
 import Stack from "@mui/material/Stack";
 
 import { DropdownMenu, Logo } from "@fengxia41103/storybook";

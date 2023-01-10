@@ -11,10 +11,9 @@ import {
   Chip,
   Divider,
   Grid,
-  makeStyles,
   Typography,
 } from "@mui/material";
-
+import {makeStyles} from "@mui/styles";
 import { ColoredNumber } from "@fengxia41103/storybook";
 
 import GainPriceRanges from "src/components/stock/GainPriceRanges";
