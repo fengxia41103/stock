@@ -18,7 +18,7 @@ import { RankChart } from "@fengxia41103/storybook";
 import RankingOccuranceCharts from "src/components/dashboard/RankingOccuranceCharts";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexDirection: "column",

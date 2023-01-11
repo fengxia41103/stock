@@ -56,7 +56,7 @@ const LoginView = () => {
   return (
     <Paper className={clsx(classes.paper)}>
       <Grid container justifyContent="center" className={classes.margin}>
-        <Grid item lg={6} sm={6} xs={12}></Grid>
+        <Grid item lg={6} sm={6} xs={12} />
         <Grid item lg={4} sm={5} xs={12}>
           <Box className={clsx(classes.card)}>
             <LoginCard

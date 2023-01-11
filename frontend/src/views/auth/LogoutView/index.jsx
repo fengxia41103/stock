@@ -26,7 +26,9 @@ const LogoutView = () => {
       // go to a landing page
       return <LoginView />;
     }
+    return null;
   };
+
   const on_error = (err) => console.error(err);
 
   return <Get {...{ uri: resource, on_success, on_error, silent: true }} />;

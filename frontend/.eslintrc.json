@@ -97,7 +97,12 @@
       }
     ],
     "react/jsx-props-no-spreading": [0],
-    "react/require-default-props": "off"
+    "react/require-default-props": "off",
+    "react/jsx-wrap-multilines": [
+      "error",
+      { "declaration": false, "assignment": false }
+    ],
+    "no-console": ["error", { "allow": ["warn", "error", "debug"] }]
   },
   "settings": {
     "componentWrapperFunctions": [

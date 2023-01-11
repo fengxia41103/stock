@@ -17,10 +17,10 @@ const DailyRankingBarRaceChart = (props) => {
   const [pause, setPause] = useState(false);
 
   // set pause bool
-  const toggle_pause = (event) => setPause(!pause);
+  const toggle_pause = () => setPause(!pause);
 
   // reset index for rerun
-  const on_rerun = (event) => {
+  const on_rerun = () => {
     setPause(false);
     setOn(0);
   };
@@ -54,8 +54,9 @@ const DailyRankingBarRaceChart = (props) => {
           type: "bar",
           itemStyle: {
             color: (param) => {
-              const symbol = param.value["symbol"];
-              return "#" + highlights[symbol]["background"] || "#5470c6";
+              const {value} = param;
+              const {symbol} = value;
+              return `#${highlights[symbol].background || "#5470c6"}`;
             },
           },
           encode: {
@@ -146,7 +147,7 @@ DailyRankingBarRaceChart.propTypes = {
       ),
     }),
   ).isRequired,
-  highlights: PropTypes.object.isRequired,
+  highlights: PropTypes.node.isRequired,
   negative: PropTypes.bool,
 };
 
