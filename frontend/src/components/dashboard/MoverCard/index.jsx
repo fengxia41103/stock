@@ -12,8 +12,8 @@ import {
   ListItem,
   Typography,
 } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
-import {makeStyles} from "@mui/styles";
 import { ColoredNumber } from "@fengxia41103/storybook";
 
 import StockSymbol from "src/components/stock/StockSymbol";

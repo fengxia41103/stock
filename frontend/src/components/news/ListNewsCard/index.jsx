@@ -16,7 +16,8 @@ import {
   ListItem,
   Typography,
 } from "@mui/material";
-import {makeStyles} from "@mui/styles";
+import { makeStyles } from "@mui/styles";
+
 import { ShowResource } from "@fengxia41103/storybook";
 
 const useStyles = makeStyles((theme) => ({
