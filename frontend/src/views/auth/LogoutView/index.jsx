@@ -4,7 +4,7 @@ import { Get } from "@fengxia41103/storybook";
 
 import LoginView from "src/views/auth/LoginView";
 
-export default function LogoutView() {
+const LogoutView = () => {
   // states
   const [resource] = useState("/auth/logout/");
 
@@ -30,4 +30,6 @@ export default function LogoutView() {
   const on_error = (err) => console.error(err);
 
   return <Get {...{ uri: resource, on_success, on_error, silent: true }} />;
-}
+};
+
+export default LogoutView;

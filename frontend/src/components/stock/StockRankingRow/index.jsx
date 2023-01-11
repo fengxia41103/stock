@@ -11,7 +11,7 @@ import { HighlightedText, RankChart } from "@fengxia41103/storybook";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
 import { get_last_month_string, get_today_string } from "src/utils/helper.jsx";
 
-export default function StockRankingRow(props) {
+const StockRankingRow = (props) => {
   const [show_rank_graph, setShowRank] = useState(false);
   const [show_1m_graph, setShow1m] = useState(false);
   const [show_threshold, setShowThreshold] = useState(false);
@@ -92,7 +92,7 @@ export default function StockRankingRow(props) {
       </Grid>
     </Grid>
   );
-}
+};
 
 //   const { category, ranks, threshold, handle_ratio_change } = props;
 StockRankingRow.propTypes = {
@@ -108,3 +108,5 @@ StockRankingRow.propTypes = {
   threshold: PropTypes.string,
   handle_ratio_change: PropTypes.func,
 };
+
+export default StockRankingRow;

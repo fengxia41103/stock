@@ -17,7 +17,7 @@ import { ShowResource } from "@fengxia41103/storybook";
 
 import GlobalContext from "src/context";
 
-export default function AddStocksToSectorDialog(props) {
+const AddStocksToSectorDialog = (props) => {
   const { host, auth } = useContext(GlobalContext);
   const [resource] = useState("/sectors");
   const { stocks } = props;
@@ -141,7 +141,7 @@ export default function AddStocksToSectorDialog(props) {
   };
 
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
 
 AddStocksToSectorDialog.propTypes = {
   stocks: PropTypes.arrayOf(
@@ -151,3 +151,5 @@ AddStocksToSectorDialog.propTypes = {
     }),
   ).isRequired,
 };
+
+export default AddStocksToSectorDialog;

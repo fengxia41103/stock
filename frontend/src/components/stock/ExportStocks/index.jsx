@@ -5,7 +5,7 @@ import React from "react";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import { Grid, Link, Typography } from "@mui/material";
 
-export default function ExportStocks(props) {
+const ExportStocks = (props) => {
   const { stocks } = props;
   const symbols = map(stocks, (s) => s.symbol);
 
@@ -22,7 +22,7 @@ export default function ExportStocks(props) {
       </Grid>
     </Link>
   );
-}
+};
 
 ExportStocks.propTypes = {
   stocks: PropTypes.arrayOf(
@@ -31,3 +31,5 @@ ExportStocks.propTypes = {
     }),
   ).isRequired,
 };
+
+export default ExportStocks;

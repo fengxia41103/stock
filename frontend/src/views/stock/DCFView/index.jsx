@@ -15,7 +15,7 @@ import {
 import FinancialCard from "src/components/stock/FinancialCard";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 
-function DCFView() {
+const DCFView = () => {
   const stock = useContext(StockDetailContext);
   const [input_open, setInputOpen] = useState(false);
   const open_input_drawer = (event) => setInputOpen(true);
@@ -223,6 +223,6 @@ function DCFView() {
       </Drawer>
     </>
   );
-}
+};
 
 export default DCFView;

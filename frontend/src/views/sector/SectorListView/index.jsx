@@ -15,7 +15,7 @@ import { Page, PollResource } from "@fengxia41103/storybook";
 import AddNewSectorDialog from "src/components/sector/AddNewSectorDialog";
 import ListSectorCard from "src/components/sector/ListSectorCard";
 
-export default function SectorListView(props) {
+const SectorListView = (props) => {
   const [resource] = useState("/sectors");
   const [searching, setSearching] = useState("");
 
@@ -68,4 +68,6 @@ export default function SectorListView(props) {
   };
 
   return <PollResource {...{ resource, on_success: render_data }} />;
-}
+};
+
+export default SectorListView;

@@ -3,7 +3,7 @@ import React from "react";
 
 import { Button } from "@mui/material";
 
-export default function LoginButton(props) {
+const LoginButton = (props) => {
   // props
   const { resource, username, password, on_success, on_error } = props;
 
@@ -36,7 +36,7 @@ export default function LoginButton(props) {
       Login
     </Button>
   );
-}
+};
 
 LoginButton.propTypes = {
   username: PropTypes.string.isRequired,
@@ -45,3 +45,5 @@ LoginButton.propTypes = {
   on_success: PropTypes.func.isRequired,
   on_error: PropTypes.func,
 };
+
+export default LoginButton;

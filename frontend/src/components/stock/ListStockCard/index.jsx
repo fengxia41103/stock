@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ListStockCard(props) {
+const ListStockCard = (props) => {
   // props
   const { stocks, index, group_by, actions } = props;
 
@@ -133,7 +133,7 @@ export default function ListStockCard(props) {
       </CardContent>
     </Card>
   );
-}
+};
 
 ListStockCard.propTypes = {
   index: PropTypes.string.isRequired,
@@ -150,3 +150,5 @@ ListStockCard.propTypes = {
   ).isRequired,
   actions: PropTypes.arrayOf(PropTypes.any),
 };
+
+export default ListStockCard;

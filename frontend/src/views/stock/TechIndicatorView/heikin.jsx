@@ -26,7 +26,7 @@ import {
 } from "react-stockcharts/lib/tooltip";
 import { last } from "react-stockcharts/lib/utils";
 
-function HeiKinAshi(props) {
+const HeiKinAshi = (props) => {
   const ha = heikinAshi();
   const ema20 = ema()
     .id(0)
@@ -237,7 +237,7 @@ function HeiKinAshi(props) {
       <CrossHairCursor />
     </ChartCanvas>
   );
-}
+};
 
 HeiKinAshi.propTypes = {
   data: PropTypes.array.isRequired,

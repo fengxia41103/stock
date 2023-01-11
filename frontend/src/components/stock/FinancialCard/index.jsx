@@ -6,7 +6,7 @@ import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 
 import { DictTable } from "@fengxia41103/storybook";
 
-export default function FinancialCard(props) {
+const FinancialCard = (props) => {
   const {
     data,
     reported,
@@ -71,7 +71,7 @@ export default function FinancialCard(props) {
   });
 
   return <Box mt={1}>{cards}</Box>;
-}
+};
 
 FinancialCard.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -83,3 +83,5 @@ FinancialCard.propTypes = {
   analysis: PropTypes.object,
   normalized: PropTypes.bool,
 };
+
+export default FinancialCard;

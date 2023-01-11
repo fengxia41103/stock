@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MoverCard(props) {
+const MoverCard = (props) => {
   const { title, subtitle, stocks, value, roundTo } = props;
   const classes = useStyles();
 
@@ -66,7 +66,7 @@ export default function MoverCard(props) {
       </CardContent>
     </Card>
   );
-}
+};
 
 MoverCard.propTypes = {
   title: PropTypes.string.isRequired,
@@ -84,3 +84,5 @@ MoverCard.propTypes = {
   date: PropTypes.string.isRequired,
   roundTo: PropTypes.number,
 };
+
+export default MoveCard;

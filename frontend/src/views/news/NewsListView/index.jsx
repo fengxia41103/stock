@@ -14,7 +14,7 @@ import { Page } from "@fengxia41103/storybook";
 
 import ListNewsCard from "src/components/news/ListNewsCard";
 
-export default function NewsListView() {
+const NewsListView = () => {
   const TOPICS = [
     "tech",
     "news",
@@ -64,4 +64,6 @@ export default function NewsListView() {
       </Container>
     </Page>
   );
-}
+};
+
+export default NewsListView;

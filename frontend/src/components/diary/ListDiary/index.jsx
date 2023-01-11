@@ -18,7 +18,7 @@ import { DropdownMenu, PollResource } from "@fengxia41103/storybook";
 
 import ListDiaryEntry from "src/components/diary/ListDiaryEntry";
 
-export default function ListDiary(props) {
+const ListDiary = (props) => {
   // props
   const { stock } = props;
 
@@ -61,7 +61,7 @@ export default function ListDiary(props) {
 
   // render as usual to get data
   return <PollResource {...{ resource, on_success: render_data }} />;
-}
+};
 
 ListDiary.propTypes = {
   stock: PropTypes.shape({
@@ -69,3 +69,5 @@ ListDiary.propTypes = {
     symbol: PropTypes.string,
   }),
 };
+
+export default ListDiary;

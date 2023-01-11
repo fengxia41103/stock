@@ -3,7 +3,7 @@ import React from "react";
 
 import { DataGrid } from "@mui/x-data-grid";
 
-export default function PriceTable(props) {
+const PriceTable = (props) => {
   const { data } = props;
 
   const columns = [
@@ -67,7 +67,7 @@ export default function PriceTable(props) {
       disableColumnMenu={false}
     />
   );
-}
+};
 
 PriceTable.propTypes = {
   data: PropTypes.arrayOf(
@@ -84,3 +84,5 @@ PriceTable.propTypes = {
     }),
   ).isRequired,
 };
+
+export default PriceTable;

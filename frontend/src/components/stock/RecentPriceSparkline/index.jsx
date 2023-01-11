@@ -6,7 +6,7 @@ import { Sparklines, SparklinesCurve } from "react-sparklines";
 
 import { ShowResource } from "@fengxia41103/storybook";
 
-export default function RecentPriceSparkline(props) {
+const RecentPriceSparkline = (props) => {
   const DATE_FORMAT = "YYYY-MM-DD";
   const [resource, setResource] = useState("");
   const [start] = useState(moment().add(-10, "d").format(DATE_FORMAT));
@@ -34,8 +34,10 @@ export default function RecentPriceSparkline(props) {
   return (
     <ShowResource {...{ resource, on_success: render_data, silent: true }} />
   );
-}
+};
 
 RecentPriceSparkline.propTypes = {
   stock: PropTypes.number.isRequired,
 };
+
+export default RecentPriceSparkline;

@@ -35,7 +35,7 @@ const bbStroke = {
 
 const bbFill = "#4682B4";
 
-function BollingerBandOverlay(props) {
+const BollingerBandOverlay = (props) => {
   const ema20 = ema()
     .options({
       windowSize: 20, // optional will default to 10
@@ -225,7 +225,7 @@ function BollingerBandOverlay(props) {
       <CrossHairCursor />
     </ChartCanvas>
   );
-}
+};
 
 BollingerBandOverlay.propTypes = {
   data: PropTypes.array.isRequired,

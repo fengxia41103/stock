@@ -4,7 +4,7 @@ import React from "react";
 
 import { HighchartGraph } from "@fengxia41103/storybook";
 
-export default function PriceLastLowerNextBetterChart(props) {
+const PriceLastLowerNextBetterChart = (props) => {
   const { data } = props;
   const categories = map(data, (d) => d.on);
   const chart_data = [
@@ -30,7 +30,7 @@ export default function PriceLastLowerNextBetterChart(props) {
       data={chart_data}
     />
   );
-}
+};
 
 PriceLastLowerNextBetterChart.propTypes = {
   data: PropTypes.arrayOf(
@@ -43,3 +43,5 @@ PriceLastLowerNextBetterChart.propTypes = {
     }),
   ).isRequired,
 };
+
+export default PriceLastLowerNextBetterChart;

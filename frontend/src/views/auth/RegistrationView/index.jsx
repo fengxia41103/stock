@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RegistrationView() {
+const RegistrationView = () => {
   const { api } = useContext(GlobalContext);
   const classes = useStyles();
   const navigate = useNavigate();
@@ -52,4 +52,6 @@ export default function RegistrationView() {
       </Grid>
     </Paper>
   );
-}
+};
+
+export default LogoutView;

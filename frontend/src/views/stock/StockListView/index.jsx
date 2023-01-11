@@ -22,7 +22,7 @@ import ExportStocks from "src/components/stock/ExportStocks";
 import ListStockCard from "src/components/stock/ListStockCard";
 import UpdateAllStock from "src/components/stock/UpdateAllStock";
 
-export default function StockListView(props) {
+const StockListView = (props) => {
   const [resource] = useState("/stocks");
   const [searching, setSearching] = useState("");
   const [group_by, setGroupBy] = useState("last_reporting_date");
@@ -135,4 +135,6 @@ export default function StockListView(props) {
   return (
     <PollResource {...{ resource, on_success: render_data, interval: 10 }} />
   );
-}
+};
+
+export default StockListView;

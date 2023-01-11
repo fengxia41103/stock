@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function AuthenticatedUser(props) {
+const AuthenticatedUser = (props) => {
   const classes = useStyles();
   const { user } = props;
 
@@ -27,10 +27,12 @@ export default function AuthenticatedUser(props) {
       </Typography>
     </Box>
   );
-}
+};
 
 AuthenticatedUser.propTypes = {
   onMobileClose: PropTypes.func,
   openMobile: PropTypes.bool,
   items: PropTypes.array,
 };
+
+export default AuthenticatedUser;

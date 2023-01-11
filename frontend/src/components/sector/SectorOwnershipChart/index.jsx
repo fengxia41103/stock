@@ -6,7 +6,7 @@ import { Typography } from "@mui/material";
 
 import { HighchartGraph } from "@fengxia41103/storybook";
 
-export default function SectorOwnershipChart(props) {
+const SectorOwnershipChart = (props) => {
   const { sector } = props;
 
   const chart_data = map(
@@ -51,7 +51,7 @@ export default function SectorOwnershipChart(props) {
       </Typography>
     </>
   );
-}
+};
 
 SectorOwnershipChart.propTypes = {
   sector: PropTypes.shape({
@@ -65,3 +65,5 @@ SectorOwnershipChart.propTypes = {
     ),
   }).isRequired,
 };
+
+export default SectorOwnershipChart;

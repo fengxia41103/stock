@@ -46,7 +46,7 @@ const mouseEdgeAppearance = {
   fill: "#BCDEFA",
 };
 
-function MACD(props) {
+const MACD = (props) => {
   const { type, data: initialData, width, ratio } = props;
   const ema26 = ema()
     .id(0)
@@ -232,7 +232,7 @@ function MACD(props) {
       <CrossHairCursor />
     </ChartCanvas>
   );
-}
+};
 
 MACD.propTypes = {
   data: PropTypes.array.isRequired,

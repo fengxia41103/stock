@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PriceView() {
+const PriceView = () => {
   const data = useContext(StockHistoricalContext);
   const classes = useStyles();
 
@@ -121,4 +121,6 @@ export default function PriceView() {
       </Box>
     </>
   );
-}
+};
+
+export default PriceView;

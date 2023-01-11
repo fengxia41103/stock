@@ -32,7 +32,7 @@ const stoAppearance = {
   stroke: Object.assign({}, StochasticSeries.defaultProps.stroke),
 };
 
-function Stochastics(props) {
+const Stochastics = (props) => {
   const height = 750;
   const { type, data: initialData, width, ratio } = props;
   const margin = { left: 70, right: 70, top: 20, bottom: 30 };
@@ -278,7 +278,7 @@ function Stochastics(props) {
       <CrossHairCursor />
     </ChartCanvas>
   );
-}
+};
 
 Stochastics.propTypes = {
   data: PropTypes.array.isRequired,

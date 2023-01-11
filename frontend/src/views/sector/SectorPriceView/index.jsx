@@ -8,7 +8,7 @@ import StocksPriceChart from "src/components/stock/StocksPriceChart";
 import { get_last_month_string, get_today_string } from "src/utils/helper.jsx";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
-export default function SectorPriceView() {
+const SectorPriceView = () => {
   const sector = useContext(SectorDetailContext);
   const stock_ids = map(sector.stocks_detail, (s) => s.id);
   const [start] = useState(get_last_month_string());
@@ -39,4 +39,6 @@ export default function SectorPriceView() {
       </Box>
     </>
   );
-}
+};
+
+export default SectorPriceView;

@@ -5,7 +5,7 @@ import { Box, Card, CardContent, Typography } from "@mui/material";
 import SectorOwnershipChart from "src/components/sector/SectorOwnershipChart";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
-export default function SectorInstitutionOwnershipView() {
+const SectorInstitutionOwnershipView = () => {
   const sector = useContext(SectorDetailContext);
 
   return (
@@ -21,4 +21,6 @@ export default function SectorInstitutionOwnershipView() {
       </Box>
     </>
   );
-}
+};
+
+export default SectorInstitutionOwnershipView;

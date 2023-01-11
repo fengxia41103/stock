@@ -9,7 +9,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import { Button, Grid, Typography } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
 
-export default function DailyRankingBarRaceChart(props) {
+const DailyRankingBarRaceChart = (props) => {
   const { ranks, order_by, highlights, negative } = props;
   const dates = reverse([...new Set(map(ranks, (s) => s.category))]);
   const [on, setOn] = useState(0);
@@ -128,7 +128,7 @@ export default function DailyRankingBarRaceChart(props) {
       />
     </>
   );
-}
+};
 
 DailyRankingBarRaceChart.propTypes = {
   order_by: PropTypes.string.isRequired,
@@ -149,3 +149,5 @@ DailyRankingBarRaceChart.propTypes = {
   highlights: PropTypes.object.isRequired,
   negative: PropTypes.bool,
 };
+
+export default DailyRankingBarRaceChart;

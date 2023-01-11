@@ -19,7 +19,7 @@ import Typography from "@mui/material/Typography";
 
 import GlobalContext from "src/context";
 
-export default function AddDiaryEditor(props) {
+const AddDiaryEditor = (props) => {
   // context
   const { api } = useContext(GlobalContext);
 
@@ -100,9 +100,11 @@ export default function AddDiaryEditor(props) {
       </Box>
     </>
   );
-}
+};
 
 AddDiaryEditor.propTypes = {
   // stock id
   stock: PropTypes.number,
 };
+
+export default AddDiaryEditor;

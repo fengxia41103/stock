@@ -9,7 +9,7 @@ import { SimpleSnackbar } from "@fengxia41103/storybook";
 
 import GlobalContext from "src/context";
 
-export default function UpdateAllStock(props) {
+const UpdateAllStock = (props) => {
   const { api, auth } = useContext(GlobalContext);
   const [resource] = useState("/stocks");
   const { stocks } = props;
@@ -43,7 +43,7 @@ export default function UpdateAllStock(props) {
       <SimpleSnackbar msg={notification} />
     </Button>
   );
-}
+};
 
 UpdateAllStock.propTypes = {
   stocks: PropTypes.arrayOf(
@@ -52,3 +52,5 @@ UpdateAllStock.propTypes = {
     }),
   ),
 };
+
+export default UpdateAllStock;

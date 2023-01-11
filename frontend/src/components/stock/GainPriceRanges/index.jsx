@@ -8,7 +8,7 @@ import { Box, Chip, Grid, List, ListItem, Tooltip } from "@mui/material";
 
 import { ColoredNumber } from "@fengxia41103/storybook";
 
-export default function GainPriceRanges(props) {
+const GainPriceRanges = (props) => {
   const STEP = 10;
   const { data } = props;
   const total_data_count = data.length;
@@ -89,7 +89,7 @@ export default function GainPriceRanges(props) {
     );
   });
   return <List>{content}</List>;
-}
+};
 
 GainPriceRanges.propTypes = {
   data: PropTypes.arrayOf(
@@ -100,3 +100,5 @@ GainPriceRanges.propTypes = {
     }),
   ).isRequired,
 };
+
+export default GainPriceRanges;

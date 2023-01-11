@@ -5,7 +5,7 @@ import { ShowResource } from "@fengxia41103/storybook";
 
 import FinancialCard from "src/components/stock/FinancialCard";
 
-function ValuationRatiosView() {
+const ValuationRatiosView = () => {
   const { id } = useParams();
   const [resource] = useState(`/ratios?stock=${id}`);
 
@@ -26,6 +26,6 @@ function ValuationRatiosView() {
   };
 
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
 
 export default ValuationRatiosView;

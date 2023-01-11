@@ -15,7 +15,7 @@ import CandleStickChartWithRSIIndicator from "./rsi.jsx";
 import CandleStickChartWithSAR from "./sar.jsx";
 import CandleStickChartWithFullStochasticsIndicator from "./stochastics.jsx";
 
-export default function TechIndicatorView() {
+const TechIndicatorView = () => {
   const { type } = useParams();
   const data = useContext(StockHistoricalContext);
 
@@ -87,4 +87,6 @@ export default function TechIndicatorView() {
       </CardContent>
     </Card>
   );
-}
+};
+
+export default TechIndicatorView;

@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MainLayout(props) {
+const MainLayout = (props) => {
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
@@ -59,4 +59,6 @@ export default function MainLayout(props) {
       </Box>
     </Box>
   );
-}
+};
+
+export default MainLayout;

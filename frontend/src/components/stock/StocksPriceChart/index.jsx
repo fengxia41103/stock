@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 import { MultilineChart, ShowResource } from "@fengxia41103/storybook";
 
-export default function StocksPriceChart(props) {
+const StocksPriceChart = (props) => {
   const { stocks: stock_ids, start, end } = props;
   const [resource] = useState(
     `/historicals?stock__in=${stock_ids.join(",")}&on__range=${start},${end}`,
@@ -34,10 +34,12 @@ export default function StocksPriceChart(props) {
     );
   };
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
 
 StocksPriceChart.propTypes = {
   start: PropTypes.string.isRequired,
   end: PropTypes.string.isRequired,
   stocks: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
+
+export default StocksPriceChart;

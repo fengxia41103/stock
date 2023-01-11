@@ -7,7 +7,7 @@ import PriceLastLowerNextBetterChart from "src/components/stock/PriceLastLowerNe
 import PriceTable from "src/components/stock/PriceTable";
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
 
-export default function LastLowerNextBetterView() {
+const LastLowerNextBetterView = () => {
   const data = useContext(StockHistoricalContext);
 
   return (
@@ -80,4 +80,6 @@ export default function LastLowerNextBetterView() {
       </Box>
     </>
   );
-}
+};
+
+export default LastLowerNextBetterView;

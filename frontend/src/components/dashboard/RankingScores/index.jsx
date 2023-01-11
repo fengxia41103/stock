@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RankingScores(props) {
+const RankingScores = (props) => {
   const { stocks, ranks, start, end } = props;
   const classes = useStyles();
 
@@ -210,7 +210,7 @@ export default function RankingScores(props) {
       </Box>
     </Box>
   );
-}
+};
 
 RankingScores.propTypes = {
   stocks: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -231,3 +231,5 @@ RankingScores.propTypes = {
   start: PropTypes.string.isRequired,
   end: PropTypes.string.isRequired,
 };
+
+export default RankingScores;

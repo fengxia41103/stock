@@ -7,7 +7,7 @@ import { DropdownMenu, HighchartGraph } from "@fengxia41103/storybook";
 
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
-export default function SectorDupontBreakdownChart() {
+const SectorDupontBreakdownChart = () => {
   const sector = useContext(SectorDetailContext);
 
   const chart_data = map(sector.stocks_detail, (s) => {
@@ -50,4 +50,6 @@ export default function SectorDupontBreakdownChart() {
       </CardContent>
     </Card>
   );
-}
+};
+
+export default SectorDupontBreakdownChart;

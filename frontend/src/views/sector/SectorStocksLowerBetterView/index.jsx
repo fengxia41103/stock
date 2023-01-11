@@ -16,7 +16,7 @@ import PriceLastLowerNextBetterChart from "src/components/stock/PriceLastLowerNe
 import { get_last_month_string, get_today_string } from "src/utils/helper.jsx";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
-export default function SectorStocksLowerBetterView() {
+const SectorStocksLowerBetterView = () => {
   const sector = useContext(SectorDetailContext);
   const [start] = useState(get_last_month_string());
   const [end] = useState(get_today_string());
@@ -59,4 +59,6 @@ export default function SectorStocksLowerBetterView() {
       </Box>
     </>
   );
-}
+};
+
+export default SectorStocksLowerBetterView;

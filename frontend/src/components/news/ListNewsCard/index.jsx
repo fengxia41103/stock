@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ListNewsCard(props) {
+const ListNewsCard = (props) => {
   const { topic, limit, searching } = props;
   const [resource, setResource] = useState();
   const classes = useStyles();
@@ -107,10 +107,12 @@ export default function ListNewsCard(props) {
   };
 
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
 
 ListNewsCard.propTypes = {
   topic: PropTypes.string.isRequired,
   searching: PropTypes.string,
   limit: PropTypes.number,
 };
+
+export default ListNewsCard;

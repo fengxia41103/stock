@@ -7,7 +7,7 @@ import { Box, Typography } from "@mui/material";
 import StockRanking from "src/components/stock/StockRanking";
 import { get_highlights } from "src/utils/helper.jsx";
 
-export default function SectorStocksRanking(props) {
+const SectorStocksRanking = (props) => {
   const { sector, title, ranking_resource } = props;
   const [stock_ids, setStockIds] = useState();
   const [highlights, setHighlights] = useState({});
@@ -34,7 +34,7 @@ export default function SectorStocksRanking(props) {
       </Box>
     </>
   );
-}
+};
 
 SectorStocksRanking.propTypes = {
   sector: PropTypes.shape({
@@ -48,3 +48,5 @@ SectorStocksRanking.propTypes = {
   title: PropTypes.string.isRequired,
   ranking_resource: PropTypes.string.isRequired,
 };
+
+export default SectorStocksRanking;

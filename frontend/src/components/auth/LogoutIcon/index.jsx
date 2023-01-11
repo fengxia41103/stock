@@ -3,7 +3,7 @@ import React from "react";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { IconButton, Link, Tooltip } from "@mui/material";
 
-export default function LogoutIcon() {
+const LogoutIcon = () => {
   return (
     <Link href="/logout" color="inherit">
       <Tooltip title="Logout">
@@ -13,4 +13,6 @@ export default function LogoutIcon() {
       </Tooltip>
     </Link>
   );
-}
+};
+
+export default LogoutIcon;

@@ -22,7 +22,7 @@ import {
 import { OHLCTooltip, SingleValueTooltip } from "react-stockcharts/lib/tooltip";
 import { last } from "react-stockcharts/lib/utils";
 
-function OHLCChartWithElderRay(props) {
+const OHLCChartWithElderRay = (props) => {
   const elder = elderRay();
   const changeCalculator = change();
 
@@ -238,7 +238,7 @@ function OHLCChartWithElderRay(props) {
       <CrossHairCursor />
     </ChartCanvas>
   );
-}
+};
 
 OHLCChartWithElderRay.propTypes = {
   data: PropTypes.array.isRequired,

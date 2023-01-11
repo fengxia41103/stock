@@ -6,7 +6,7 @@ import { Page } from "@fengxia41103/storybook";
 
 import AddDiaryEditor from "src/components/diary/AddDiaryEditor";
 
-export default function AddDiaryView() {
+const AddDiaryView = () => {
   return (
     <Page title="New Notes">
       <Container maxWidth={false}>
@@ -18,4 +18,6 @@ export default function AddDiaryView() {
       </Container>
     </Page>
   );
-}
+};
+
+export default AddDiaryView;

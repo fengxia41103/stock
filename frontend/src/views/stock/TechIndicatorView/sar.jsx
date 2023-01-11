@@ -17,7 +17,7 @@ import { CandlestickSeries, SARSeries } from "react-stockcharts/lib/series";
 import { OHLCTooltip, SingleValueTooltip } from "react-stockcharts/lib/tooltip";
 import { last } from "react-stockcharts/lib/utils";
 
-function SAR(props) {
+const SAR = (props) => {
   const accelerationFactor = 0.02;
   const maxAccelerationFactor = 0.2;
 
@@ -100,7 +100,7 @@ function SAR(props) {
       <CrossHairCursor />
     </ChartCanvas>
   );
-}
+};
 
 SAR.propTypes = {
   data: PropTypes.array.isRequired,

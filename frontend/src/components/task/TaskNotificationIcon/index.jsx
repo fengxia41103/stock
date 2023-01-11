@@ -23,7 +23,7 @@ import { PollResource } from "@fengxia41103/storybook";
 
 import TaskResult from "src/components/task/TaskResult";
 
-export default function TaskNotificationIcon(props) {
+const TaskNotificationIcon = (props) => {
   // props
   const { id } = props;
   const filter = id ? `?stocks=${id}` : "";
@@ -119,9 +119,11 @@ export default function TaskNotificationIcon(props) {
       }}
     />
   );
-}
+};
 
 TaskNotificationIcon.propTypes = {
   // optional, stock ID
   id: PropTypes.number,
 };
+
+export default TaskNotificationIcon;

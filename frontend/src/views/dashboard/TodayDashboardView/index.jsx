@@ -15,7 +15,7 @@ import { CountCards, Page, ShowResource } from "@fengxia41103/storybook";
 
 import MoverCard from "src/components/dashboard/MoverCard";
 
-export default function TodayDashboardView() {
+const TodayDashboardView = () => {
   // constant
   const TOP = 10;
 
@@ -179,4 +179,6 @@ export default function TodayDashboardView() {
   };
 
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
+
+export default TodayDashboardView;

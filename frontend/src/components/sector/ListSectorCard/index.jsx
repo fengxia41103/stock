@@ -10,7 +10,7 @@ import DeleteSectorDialog from "src/components/sector/DeleteSectorDialog";
 import EditSectorDialog from "src/components/sector/EditSectorDialog";
 import ListStockCard from "src/components/stock/ListStockCard";
 
-export default function ListSectorCard(props) {
+const ListSectorCard = (props) => {
   const { me, all } = props;
   const [resource] = useState(`/sectors/${me.id}`);
 
@@ -42,4 +42,6 @@ export default function ListSectorCard(props) {
   return (
     <ShowResource {...{ resource, on_success: render_data, silent: true }} />
   );
-}
+};
+
+export default ListSectorCard;

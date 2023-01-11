@@ -14,7 +14,7 @@ import SectorDupontBreakdownChart from "src/components/sector/SectorDupontBreakd
 import SectorDupontLineChart from "src/components/sector/SectorDupontLineChart";
 import SectorRoeColumnChart from "src/components/sector/SectorRoeColumnChart";
 
-export default function SectorRoeView() {
+const SectorRoeView = () => {
   const breakdowns = [
     {
       attr: "net_profit_margin",
@@ -73,4 +73,6 @@ export default function SectorRoeView() {
       </Box>
     </>
   );
-}
+};
+
+export default SectorRoeView;
