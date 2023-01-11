@@ -3,7 +3,8 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Box, Grid, Paper } from "@mui/material";
-import {makeStyles} from "@mui/styles";
+import { makeStyles } from "@mui/styles";
+
 import RegistrationCard from "src/components/auth/RegistrationCard";
 import GlobalContext from "src/context";
 

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import React from "react";
 
 import { Grid, Link, Typography } from "@mui/material";
-import {makeStyles} from "@mui/styles";
+import { makeStyles } from "@mui/styles";
 
 import { HighlightedText } from "@fengxia41103/storybook";
 
