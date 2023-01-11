@@ -18,7 +18,7 @@ import { ColoredNumber } from "@fengxia41103/storybook";
 
 import StockSymbol from "src/components/stock/StockSymbol";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -34,7 +34,7 @@ const MoverCard = (props) => {
 
   const entries = map(stocks, (s) => {
     return (
-      <ListItem key={s.symbol} divider={true}>
+      <ListItem key={s.symbol} divider>
         <Grid container spacing={2} alignItems="center">
           <Grid item xs>
             <ColoredNumber {...{ val: s[value], roundTo }} />
@@ -51,15 +51,17 @@ const MoverCard = (props) => {
     );
   });
 
+  const subHeader = (
+    <Typography variant="body2" color="secondary">
+      {subtitle}
+    </Typography>
+  );
+
   return (
     <Card className={clsx(classes.root, classes.card)}>
       <CardHeader
         title={<Typography variant="h3">{title}</Typography>}
-        subheader={
-          <Typography variant="body2" color="secondary">
-            {subtitle}
-          </Typography>
-        }
+        subheader={subHeader}
       />
       <CardContent>
         {stocks.length ? <List>{entries}</List> : "No stock for this list"}
@@ -85,4 +87,4 @@ MoverCard.propTypes = {
   roundTo: PropTypes.number,
 };
 
-export default MoveCard;
+export default MoverCard;
