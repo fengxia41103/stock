@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LoginView() {
+const LoginView = () => {
   const { api } = useContext(GlobalContext);
   const classes = useStyles();
   const navigate = useNavigate();
@@ -67,4 +67,6 @@ export default function LoginView() {
       </Grid>
     </Paper>
   );
-}
+};
+
+export default LoginView;

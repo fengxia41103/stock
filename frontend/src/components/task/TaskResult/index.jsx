@@ -5,7 +5,7 @@ import { Box, Typography } from "@mui/material";
 
 import { ShowResource } from "@fengxia41103/storybook";
 
-export default function TaskResult(props) {
+const TaskResult = (props) => {
   // props
   const { task_id } = props;
 
@@ -37,8 +37,10 @@ export default function TaskResult(props) {
       }}
     />
   );
-}
+};
 
 TaskResult.propTypes = {
   task_id: PropTypes.string.isRequired,
 };
+
+export default TaskResult;

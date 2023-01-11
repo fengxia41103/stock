@@ -31,7 +31,7 @@ import StockRankingGrid from "src/components/dashboard/StockRankingGrid";
 import { get_highlights } from "src/utils/helper.jsx";
 import { stocks_daily_ranking } from "src/utils/stock/ranking";
 
-export default function DashboardTrendingView() {
+const DashboardTrendingView = () => {
   // constants
   const DATE_FORMAT = "YYYY-MM-DD";
   const TOP = 10;
@@ -277,4 +277,6 @@ export default function DashboardTrendingView() {
   };
 
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
+
+export default DashboardTrendingView;

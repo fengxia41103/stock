@@ -10,7 +10,7 @@ import DailyRankingBarRaceChart from "src/components/dashboard/DailyRankingBarRa
 import { get_highlights } from "src/utils/helper.jsx";
 import { stocks_daily_ranking } from "src/utils/stock/ranking";
 
-export default function SectorPriceTrending(props) {
+const SectorPriceTrending = (props) => {
   const INTERESTS = [
     { name: "Gainer/Loser", val: "gain" },
     { name: "Volume", val: "vol_over_share_outstanding" },
@@ -71,10 +71,12 @@ export default function SectorPriceTrending(props) {
   };
 
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
 
 SectorPriceTrending.propTypes = {
   start: PropTypes.string.isRequired,
   end: PropTypes.string.isRequired,
   stocks: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
+
+export default SectorPriceTrending;

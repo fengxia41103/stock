@@ -6,7 +6,7 @@ import { Grid } from "@mui/material";
 
 import StockRankingGridColumn from "src/components/dashboard/StockRankingGridColumn";
 
-export default function StockRankingGrid(props) {
+const StockRankingGrid = (props) => {
   const { ranks } = props;
 
   const ranking_in_columns = map(ranks, (r) => {
@@ -28,7 +28,7 @@ export default function StockRankingGrid(props) {
       {ranking_in_columns}
     </Grid>
   );
-}
+};
 
 StockRankingGrid.propTypes = {
   order_by: PropTypes.string.isRequired,
@@ -48,3 +48,5 @@ StockRankingGrid.propTypes = {
   ).isRequired,
   highlights: PropTypes.object.isRequired,
 };
+
+export default StockRankingGrid;

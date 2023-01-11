@@ -6,7 +6,7 @@ import { Box, Link } from "@mui/material";
 import StockLinkToSector from "src/components/stock/StockLinkToSector";
 import TaskNotificationIcon from "src/components/task/TaskNotificationIcon";
 
-export default function StockSymbol(props) {
+const StockSymbol = (props) => {
   const { symbol, id } = props;
 
   return (
@@ -16,10 +16,12 @@ export default function StockSymbol(props) {
       <TaskNotificationIcon {...props} />
     </Box>
   );
-}
+};
 
 StockSymbol.propTypes = {
   id: PropTypes.number.isRequired,
   symbol: PropTypes.string.isRequired,
   resource_uri: PropTypes.string.isRequired,
 };
+
+export default StockSymbol;

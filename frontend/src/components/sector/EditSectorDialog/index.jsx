@@ -15,7 +15,7 @@ import TextField from "@mui/material/TextField";
 
 import GlobalContext from "src/context";
 
-export default function EditSectorDialog(props) {
+const EditSectorDialog = (props) => {
   const { host } = useContext(GlobalContext);
   const [open, setOpen] = useState(false);
   const { resource_uri, name: old_name, existings } = props;
@@ -97,10 +97,12 @@ export default function EditSectorDialog(props) {
       </Dialog>
     </>
   );
-}
+};
 
 EditSectorDialog.propTypes = {
   resource_uri: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   existings: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
+
+export default EditSectorDialog;

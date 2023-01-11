@@ -5,7 +5,7 @@ import { Box, Typography } from "@mui/material";
 
 import { DictCard, ShowResource } from "@fengxia41103/storybook";
 
-function StockSummaryView() {
+const StockSummaryView = () => {
   const { id } = useParams();
   const [resource] = useState(`/stocks/${id}`);
 
@@ -31,6 +31,6 @@ function StockSummaryView() {
   };
 
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
 
 export default StockSummaryView;

@@ -24,7 +24,7 @@ import {
 
 import GlobalContext from "src/context";
 
-export default function AddNewStockDialog() {
+const AddNewStockDialog = () => {
   // context
   const { api } = useContext(GlobalContext);
 
@@ -163,4 +163,6 @@ export default function AddNewStockDialog() {
       }}
     />
   );
-}
+};
+
+export default AddNewStockDialog;

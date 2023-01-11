@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ListDiaryEntry(props) {
+const ListDiaryEntry = (props) => {
   // context
   const { host } = useContext(GlobalContext);
 
@@ -158,7 +158,7 @@ export default function ListDiaryEntry(props) {
   };
 
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
 
 ListDiaryEntry.propTypes = {
   diary: PropTypes.shape({
@@ -169,3 +169,5 @@ ListDiaryEntry.propTypes = {
     is_correct: PropTypes.bool,
   }).isRequired,
 };
+
+export default ListDiaryEntry;

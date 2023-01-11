@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function TopBar({ className, onMobileNavOpen, ...rest }) {
+const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
   const classes = useStyles();
 
   const actions = (
@@ -51,9 +51,11 @@ export default function TopBar({ className, onMobileNavOpen, ...rest }) {
       </Toolbar>
     </AppBar>
   );
-}
+};
 
 TopBar.propTypes = {
   className: PropTypes.string,
   onMobileNavOpen: PropTypes.func,
 };
+
+export default TopBar;

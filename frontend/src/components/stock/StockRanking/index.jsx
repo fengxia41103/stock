@@ -15,7 +15,7 @@ import { ShowResource } from "@fengxia41103/storybook";
 
 import StockRankingRow from "src/components/stock/StockRankingRow";
 
-export default function StockRanking(props) {
+const StockRanking = (props) => {
   const { title, resource, top, thresholds } = props;
 
   const render_data = (data) => {
@@ -79,7 +79,7 @@ export default function StockRanking(props) {
   };
 
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
 
 StockRanking.propTypes = {
   title: PropTypes.string.isRequired,
@@ -89,3 +89,5 @@ StockRanking.propTypes = {
   thresholds: PropTypes.object,
   handle_ratio_change: PropTypes.func,
 };
+
+export default StockRanking;

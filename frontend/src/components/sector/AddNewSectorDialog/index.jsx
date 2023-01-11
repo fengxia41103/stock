@@ -17,7 +17,7 @@ import { ShowResource } from "@fengxia41103/storybook";
 
 import GlobalContext from "src/context";
 
-export default function AddNewSectorDialog() {
+const AddNewSectorDialog = () => {
   const { api } = useContext(GlobalContext);
   const [open, setOpen] = useState(false);
   const [resource] = useState("/sectors");
@@ -107,4 +107,6 @@ export default function AddNewSectorDialog() {
   };
   // render as usual to get data
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
+
+export default AddNewSectorDialog;

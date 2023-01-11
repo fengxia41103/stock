@@ -6,7 +6,7 @@ import { Box, Typography } from "@mui/material";
 import SectorStatementComparisonCharts from "src/components/sector/SectorStatementComparisonCharts";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
-export default function SectorIncomeView() {
+const SectorIncomeView = () => {
   const sector = useContext(SectorDetailContext);
   const stock_ids = map(sector.stocks_details, (s) => s.id).join(",");
   const [resource] = useState(`/incomes?stock__in=${stock_ids}`);
@@ -18,4 +18,6 @@ export default function SectorIncomeView() {
       </Box>
     </>
   );
-}
+};
+
+export default SectorIncomeView;

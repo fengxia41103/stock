@@ -16,7 +16,7 @@ import { get_last_month_string, get_today_string } from "src/utils/helper.jsx";
 
 import StockHistoricalContext from "./context.jsx";
 
-function StockHistoricalView() {
+const StockHistoricalView = () => {
   const { id } = useParams();
   const [start, setStart] = useState(get_last_month_string());
   const [end, setEnd] = useState(get_today_string());
@@ -81,6 +81,6 @@ function StockHistoricalView() {
   // MUST: forcing re-fetch if the key is changing!
   const key = resource;
   return <ShowResource {...{ key, resource, on_success: render_data }} />;
-}
+};
 
 export default StockHistoricalView;

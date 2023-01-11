@@ -8,7 +8,7 @@ import ListDiary from "src/components/diary/ListDiary";
 
 import DiaryListContext from "./context.jsx";
 
-export default function DiaryListView() {
+const DiaryListView = () => {
   const [resource] = useState("/stocks");
 
   const render_data = (data) => {
@@ -26,4 +26,6 @@ export default function DiaryListView() {
   };
 
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
+
+export default DiaryListView;

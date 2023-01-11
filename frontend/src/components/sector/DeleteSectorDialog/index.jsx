@@ -16,7 +16,7 @@ import ListItem from "@mui/material/ListItem";
 import StockSymbol from "src/components/stock/StockSymbol";
 import GlobalContext from "src/context";
 
-export default function DeleteSectorDialog(props) {
+const DeleteSectorDialog = (props) => {
   const { host } = useContext(GlobalContext);
   const { resource_uri: sector, stocks_detail: stocks } = props;
   const [open, setOpen] = useState(false);
@@ -81,7 +81,7 @@ export default function DeleteSectorDialog(props) {
       </Dialog>
     </Box>
   );
-}
+};
 
 DeleteSectorDialog.propTypes = {
   resource_uri: PropTypes.string.isRequired,
@@ -92,3 +92,5 @@ DeleteSectorDialog.propTypes = {
     }),
   ).isRequired,
 };
+
+export default DeleteSectorDialog;

@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, Grid } from "@mui/material";
 
 import { MultilineChart, ShowResource } from "@fengxia41103/storybook";
 
-export default function SectorStatementComparisonCharts(props) {
+const SectorStatementComparisonCharts = (props) => {
   const { resource } = props;
 
   const to_ignore_list = ["on", "id", "symbol", "resource_uri", "stock"];
@@ -55,8 +55,10 @@ export default function SectorStatementComparisonCharts(props) {
   };
 
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
 
 SectorStatementComparisonCharts.propTypes = {
   resource: PropTypes.string.isRequired,
 };
+
+export default SectorStatementComparisonCharts;

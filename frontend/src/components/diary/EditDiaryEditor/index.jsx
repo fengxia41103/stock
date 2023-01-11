@@ -18,7 +18,7 @@ import { SimpleSnackbar } from "@fengxia41103/storybook";
 
 import GlobalContext from "src/context";
 
-export default function EditDiaryEditor(props) {
+const EditDiaryEditor = (props) => {
   // context
   const { host } = useContext(GlobalContext);
 
@@ -92,4 +92,6 @@ export default function EditDiaryEditor(props) {
   } else {
     return <MDEditor.Markdown source={comment} />;
   }
-}
+};
+
+export default EditDiaryEditor;

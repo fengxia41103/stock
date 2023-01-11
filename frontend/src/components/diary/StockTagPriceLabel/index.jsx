@@ -5,7 +5,7 @@ import { Divider, Grid } from "@mui/material";
 
 import { ColoredNumber, ShowResource } from "@fengxia41103/storybook";
 
-export default function StockTagPriceLabel(props) {
+const StockTagPriceLabel = (props) => {
   const { diary, stock } = props;
 
   const [start] = useState(new Date(diary.created).toLocaleDateString("en-CA"));
@@ -49,7 +49,7 @@ export default function StockTagPriceLabel(props) {
   return (
     <ShowResource {...{ resource, on_success: render_data, silent: true }} />
   );
-}
+};
 
 StockTagPriceLabel.propTypes = {
   diary: PropTypes.shape({
@@ -63,3 +63,5 @@ StockTagPriceLabel.propTypes = {
     id: PropTypes.number,
   }).isRequired,
 };
+
+export default StockTagPriceLabel;

@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function NavBar({ onMobileClose, openMobile, items }) {
+const NavBar = ({ onMobileClose, openMobile, items }) => {
   const { user: username } = useContext(GlobalContext);
   const user = {
     avatar: faker.image.animals(),
@@ -83,7 +83,7 @@ export default function NavBar({ onMobileClose, openMobile, items }) {
       </Hidden>
     </>
   );
-}
+};
 
 NavBar.propTypes = {
   onMobileClose: PropTypes.func,
@@ -98,3 +98,5 @@ NavBar.defaultProps = {
   openMobile: false,
   items: [],
 };
+
+export default NavBar;

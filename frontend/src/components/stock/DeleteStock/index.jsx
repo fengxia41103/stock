@@ -10,7 +10,7 @@ import { SimpleSnackbar } from "@fengxia41103/storybook";
 
 import GlobalContext from "src/context";
 
-export default function DeleteStock(props) {
+const DeleteStock = (props) => {
   // props
   const { symbol, resource_uri } = props;
 
@@ -43,9 +43,11 @@ export default function DeleteStock(props) {
       <SimpleSnackbar msg={notification} />
     </Button>
   );
-}
+};
 
 DeleteStock.propTypes = {
   resource_uri: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
 };
+
+export default DeleteStock;

@@ -9,7 +9,7 @@ import {
   TimeSeriesColumnChart,
 } from "@fengxia41103/storybook";
 
-export default function PriceReturnStat(props) {
+const PriceReturnStat = (props) => {
   const { data } = props;
 
   const interests = {
@@ -65,7 +65,7 @@ export default function PriceReturnStat(props) {
       </Box>
     </>
   );
-}
+};
 
 PriceReturnStat.propTypes = {
   data: PropTypes.shape({
@@ -74,3 +74,5 @@ PriceReturnStat.propTypes = {
     stats: PropTypes.object,
   }).isRequired,
 };
+
+export default PriceReturnStat;

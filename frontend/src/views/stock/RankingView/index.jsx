@@ -16,7 +16,7 @@ import { Page } from "@fengxia41103/storybook";
 import StockRanking from "src/components/stock/StockRanking";
 import { get_highlights } from "src/utils/helper.jsx";
 
-export default function RankingView() {
+const RankingView = () => {
   const [ranking_resources] = useState({
     "By ROE Analysis": "/stock-ranks",
     "By Balance Sheet Analysis": "/balance-ranks",
@@ -118,4 +118,6 @@ export default function RankingView() {
       </Container>
     </Page>
   );
-}
+};
+
+export default RankingView;

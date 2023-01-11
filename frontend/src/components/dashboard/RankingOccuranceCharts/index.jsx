@@ -6,7 +6,7 @@ import { Grid } from "@mui/material";
 
 import { ABDonutChart } from "@fengxia41103/storybook";
 
-export default function RankingOccuranceCharts(props) {
+const RankingOccuranceCharts = (props) => {
   const { scores } = props;
 
   if (isEmpty(scores)) {
@@ -39,7 +39,7 @@ export default function RankingOccuranceCharts(props) {
       {on_vs_miss_donut_charts}
     </Grid>
   );
-}
+};
 
 RankingOccuranceCharts.propTypes = {
   scores: PropTypes.arrayOf(
@@ -50,3 +50,5 @@ RankingOccuranceCharts.propTypes = {
     }),
   ).isRequired,
 };
+
+export default RankingOccuranceCharts;

@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function StockRankingGridColumn(props) {
+const StockRankingGridColumn = (props) => {
   const { category, stocks, order_by, highlights } = props;
   const classes = useStyles();
 
@@ -37,7 +37,7 @@ export default function StockRankingGridColumn(props) {
       {ranks}
     </Grid>
   );
-}
+};
 
 StockRankingGridColumn.propTypes = {
   category: PropTypes.string.isRequired,
@@ -50,3 +50,5 @@ StockRankingGridColumn.propTypes = {
   ).isRequired,
   highlights: PropTypes.object.isRequired,
 };
+
+export default StockRankingGridColumn;

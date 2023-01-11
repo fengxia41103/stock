@@ -5,7 +5,7 @@ import { HighchartGraph } from "@fengxia41103/storybook";
 
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
-export default function SectorRoeColumnChart() {
+const SectorRoeColumnChart = () => {
   const sector = useContext(SectorDetailContext);
   const sorted_stocks = sortBy(sector.stocks_detail, (d) => d.roe);
 
@@ -31,4 +31,6 @@ export default function SectorRoeColumnChart() {
       data={chart_data}
     />
   );
-}
+};
+
+export default SectorRoeColumnChart;

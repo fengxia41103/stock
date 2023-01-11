@@ -4,7 +4,7 @@ import React from "react";
 
 import { HighchartGraph } from "@fengxia41103/storybook";
 
-export default function GainProbabilityChart(props) {
+const GainProbabilityChart = (props) => {
   const { data } = props;
   const last_close = last(data).close_price;
   const categories = map(data, (d) => d.on);
@@ -33,7 +33,7 @@ export default function GainProbabilityChart(props) {
       data={chart_data}
     />
   );
-}
+};
 
 GainProbabilityChart.propTypes = {
   data: PropTypes.arrayOf(
@@ -44,3 +44,5 @@ GainProbabilityChart.propTypes = {
     }),
   ).isRequired,
 };
+
+export default GainProbabilityChart;

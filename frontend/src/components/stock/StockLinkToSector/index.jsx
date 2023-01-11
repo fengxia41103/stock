@@ -22,7 +22,7 @@ import DeleteStock from "src/components/stock/DeleteStock";
 import UpdateStock from "src/components/stock/UpdateStock";
 import GlobalContext from "src/context";
 
-export default function StockLinkToSector(props) {
+const StockLinkToSector = (props) => {
   const { api } = useContext(GlobalContext);
   const { symbol, resource_uri, minimal } = props;
   const [resource] = useState("/sectors");
@@ -176,10 +176,12 @@ export default function StockLinkToSector(props) {
       ) : null}
     </Box>
   );
-}
+};
 
 StockLinkToSector.propTypes = {
   symbol: PropTypes.string.isRequired,
   resource_uri: PropTypes.string,
   minimal: PropTypes.bool,
 };
+
+export default StockLinkToSector;

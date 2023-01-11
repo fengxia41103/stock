@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 
-export default function RegistrationCard(props) {
+const RegistrationCard = (props) => {
   // props
   const { resource, on_success, on_error } = props;
 
@@ -41,24 +41,24 @@ export default function RegistrationCard(props) {
       .then(() => {
         if (on_success) on_success();
       })
-      .catch((error) => {
-        setError(error.data.error);
+      .catch((e) => {
+        setError(e.data.error);
 
-        if (on_error) on_error(error);
+        if (on_error) on_error(e);
       });
   };
+
+  const header = (
+    <Grid container direction="row" alignItems="center">
+      <Face />
+      <Typography variant="h3">Join Us</Typography>
+    </Grid>
+  );
 
   // render
   return (
     <Card>
-      <CardHeader
-        title={
-          <Grid container direction="row" alignItems="center">
-            <Face />
-            <Typography variant="h3">Join Us</Typography>
-          </Grid>
-        }
-      ></CardHeader>
+      <CardHeader title={header} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardContent>
           <Box padding={1}>
@@ -66,10 +66,7 @@ export default function RegistrationCard(props) {
               name="firstName"
               control={control}
               defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
+              render={({ field: { onChange, value }, fieldState: { e } }) => (
                 <TextField
                   required
                   fullWidth
@@ -78,8 +75,8 @@ export default function RegistrationCard(props) {
                   variant="standard"
                   value={value}
                   onChange={onChange}
-                  error={!!error}
-                  helperText={error ? error.message : null}
+                  error={!!e}
+                  helperText={e?.message}
                 />
               )}
               rules={{ required: "First name required" }}
@@ -88,10 +85,7 @@ export default function RegistrationCard(props) {
               name="lastName"
               control={control}
               defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
+              render={({ field: { onChange, value }, fieldState: { e } }) => (
                 <TextField
                   required
                   fullWidth
@@ -99,8 +93,8 @@ export default function RegistrationCard(props) {
                   variant="standard"
                   value={value}
                   onChange={onChange}
-                  error={!!error}
-                  helperText={error ? error.message : null}
+                  error={!!e}
+                  helperText={e?.message}
                 />
               )}
               rules={{ required: "Last name required" }}
@@ -110,10 +104,7 @@ export default function RegistrationCard(props) {
               name="email"
               control={control}
               defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
+              render={({ field: { onChange, value }, fieldState: { e } }) => (
                 <TextField
                   fullWidth
                   required
@@ -121,8 +112,8 @@ export default function RegistrationCard(props) {
                   variant="standard"
                   value={value}
                   onChange={onChange}
-                  error={!!error}
-                  helperText={error ? error.message : null}
+                  error={!!e}
+                  helperText={e?.message}
                   type="email"
                 />
               )}
@@ -132,10 +123,7 @@ export default function RegistrationCard(props) {
               name="password"
               control={control}
               defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
+              render={({ field: { onChange, value }, fieldState: { e } }) => (
                 <TextField
                   required
                   fullWidth
@@ -143,8 +131,8 @@ export default function RegistrationCard(props) {
                   variant="standard"
                   value={value}
                   onChange={onChange}
-                  error={!!error}
-                  helperText={error ? error.message : null}
+                  error={!!e}
+                  helperText={e?.message}
                   type="password"
                 />
               )}
@@ -169,10 +157,12 @@ export default function RegistrationCard(props) {
       </form>
     </Card>
   );
-}
+};
 
 RegistrationCard.propTypes = {
   resource: PropTypes.string.isRequired,
   on_success: PropTypes.func.isRequired,
   on_error: PropTypes.func,
 };
+
+export default RegistrationCard;

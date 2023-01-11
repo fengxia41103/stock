@@ -116,7 +116,7 @@ const valuation_menus = [
   },
 ];
 
-function StockDetailView() {
+const StockDetailView = () => {
   // URL params
   const { id } = useParams();
 
@@ -221,6 +221,6 @@ function StockDetailView() {
 
   // render as usual to get data
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
 
 export default StockDetailView;

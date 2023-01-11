@@ -29,7 +29,7 @@ import {
 } from "react-stockcharts/lib/tooltip";
 import { last } from "react-stockcharts/lib/utils";
 
-function RSI(props) {
+const RSI = (props) => {
   const ema26 = ema()
     .id(0)
     .options({ windowSize: 26 })
@@ -243,7 +243,7 @@ function RSI(props) {
       <CrossHairCursor />
     </ChartCanvas>
   );
-}
+};
 
 RSI.propTypes = {
   data: PropTypes.array.isRequired,

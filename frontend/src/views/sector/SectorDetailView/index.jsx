@@ -93,7 +93,7 @@ const ownership_menus = [
   },
 ];
 
-export default function SectorDetailView() {
+const SectorDetailView = () => {
   const { id } = useParams();
   const { api } = useContext(GlobalContext);
   const [resource] = useState(`/sectors/${id}`);
@@ -213,4 +213,6 @@ export default function SectorDetailView() {
 
   // render as usual to get data
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
+
+export default SectorDetailView;

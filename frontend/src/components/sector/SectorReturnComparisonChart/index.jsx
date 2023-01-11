@@ -6,7 +6,7 @@ import { HighchartGraph } from "@fengxia41103/storybook";
 
 import { daily_returns, overnight_returns } from "src/utils/stock/returns";
 
-export default function SectorReturnComparisonChart(props) {
+const SectorReturnComparisonChart = (props) => {
   const { data: stocks, kind } = props;
 
   let categories = [];
@@ -63,7 +63,7 @@ export default function SectorReturnComparisonChart(props) {
       keepNegative={true}
     />
   );
-}
+};
 
 SectorReturnComparisonChart.propTypes = {
   data: PropTypes.arrayOf(
@@ -81,3 +81,5 @@ SectorReturnComparisonChart.propTypes = {
   ).isRequired,
   kind: PropTypes.string.isRequired,
 };
+
+export default SectorReturnComparisonChart;

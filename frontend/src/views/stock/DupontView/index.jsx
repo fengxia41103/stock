@@ -5,7 +5,7 @@ import { Typography } from "@mui/material";
 import FinancialCard from "src/components/stock/FinancialCard";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 
-export default function DupontView() {
+const DupontView = () => {
   const stock = useContext(StockDetailContext);
 
   const reported = {
@@ -29,4 +29,6 @@ export default function DupontView() {
       <FinancialCard data={dupont_model} {...{ reported, analysis }} />
     </>
   );
-}
+};
+
+export default DupontView;

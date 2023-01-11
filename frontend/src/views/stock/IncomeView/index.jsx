@@ -8,7 +8,7 @@ import { ShowResource } from "@fengxia41103/storybook";
 import FinancialCard from "src/components/stock/FinancialCard";
 import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
 
-export default function IncomeView() {
+const IncomeView = () => {
   const { id } = useParams();
   const stock = useContext(StockDetailContext);
   const [resource] = useState(`/incomes?stock=${id}`);
@@ -56,4 +56,6 @@ export default function IncomeView() {
   };
 
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
+
+export default IncomeView;

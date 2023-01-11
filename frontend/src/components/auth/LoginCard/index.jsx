@@ -15,7 +15,7 @@ import {
 
 import LoginButton from "src/components/auth/LoginButton";
 
-export default function LoginCard(props) {
+const LoginCard = (props) => {
   // props
   const { resource, on_success, on_error, error } = props;
 
@@ -32,7 +32,7 @@ export default function LoginCard(props) {
     <Card>
       <CardHeader
         title={<Typography variant="h3">Welcome to MyStock</Typography>}
-      ></CardHeader>
+      />
 
       <CardContent>
         <Grid container spacing={1} alignItems="flex-end">
@@ -89,7 +89,7 @@ export default function LoginCard(props) {
       </CardContent>
     </Card>
   );
-}
+};
 
 LoginCard.propTypes = {
   resource: PropTypes.string.isRequired,
@@ -97,3 +97,5 @@ LoginCard.propTypes = {
   on_error: PropTypes.func,
   error: PropTypes.string,
 };
+
+export default LoginCard;

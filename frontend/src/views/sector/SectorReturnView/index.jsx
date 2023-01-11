@@ -17,7 +17,7 @@ import SectorReturnComparisonChart from "src/components/sector/SectorReturnCompa
 import { get_last_month_string, get_today_string } from "src/utils/helper.jsx";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
-export default function SectorReturnView() {
+const SectorReturnView = () => {
   const sector = useContext(SectorDetailContext);
   const stock_ids = map(sector.stocks_detail, (s) => s.id).join(",");
 
@@ -81,4 +81,5 @@ export default function SectorReturnView() {
   };
 
   return <ShowResource {...{ resource, on_success: render_data }} />;
-}
+};
+export default SectorReturnView;

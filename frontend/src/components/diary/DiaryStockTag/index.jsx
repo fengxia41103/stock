@@ -8,7 +8,7 @@ import StockTagPriceLabel from "src/components/diary/StockTagPriceLabel";
 import StockSymbol from "src/components/stock/StockSymbol";
 import DiaryListContext from "src/views/diary/DiaryListView/context.jsx";
 
-export default function DiaryStockTag(props) {
+const DiaryStockTag = (props) => {
   const stocks = useContext(DiaryListContext);
   const { diary } = props;
 
@@ -35,7 +35,7 @@ export default function DiaryStockTag(props) {
       {matched_stocks}
     </Grid>
   );
-}
+};
 
 DiaryStockTag.propTypes = {
   diary: PropTypes.shape({
@@ -46,3 +46,5 @@ DiaryStockTag.propTypes = {
     is_correct: PropTypes.bool,
   }).isRequired,
 };
+
+export default DiaryStockTag;

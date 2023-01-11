@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import SectorStocksRanking from "src/components/sector/SectorStocksRanking";
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
-export default function SectorCashRankingView() {
+const SectorCashRankingView = () => {
   const sector = useContext(SectorDetailContext);
   const [title] = useState("Ranking By Cach Flows");
   const [resource] = useState("/cash-ranks");
@@ -17,4 +17,6 @@ export default function SectorCashRankingView() {
       }}
     />
   );
-}
+};
+
+export default SectorCashRankingView;

@@ -6,7 +6,7 @@ import { MultilineChart } from "@fengxia41103/storybook";
 
 import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
 
-export default function SectorDupontLineChart(props) {
+const SectorDupontLineChart = (props) => {
   const { property } = props;
   const sector = useContext(SectorDetailContext);
   const chart_data = map(sector.stocks_detail, (d) => {
@@ -27,8 +27,10 @@ export default function SectorDupontLineChart(props) {
       }}
     />
   );
-}
+};
 
 SectorDupontLineChart.propTypes = {
   property: PropTypes.string.isRequired,
 };
+
+export default SectorDupontLineChart;
