@@ -57,7 +57,7 @@ const SectorRoeView = () => {
   });
   return (
     <>
-      <Typography variant={"h1"}>ROE Comparison</Typography>
+      <Typography variant="h1">ROE Comparison</Typography>
 
       <Box mt={1}>
         <SectorDupontBreakdownChart />

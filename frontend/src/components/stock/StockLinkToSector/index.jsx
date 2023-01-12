@@ -46,7 +46,7 @@ const StockLinkToSector = (props) => {
   });
 
   const handle_update = (sectors, event) => {
-    for (let i = 0; i < sectors.length; i++) {
+    for (let i = 0; i < sectors.length; i+=1) {
       const s = sectors[i];
 
       // make a local copy for manipulation

@@ -15,7 +15,7 @@ import AddNewStockDialog from "src/components/stock/AddNewStockDialog";
 import UpdateAllStock from "src/components/stock/UpdateAllStock";
 import TaskNotificationIcon from "src/components/task/TaskNotificationIcon";
 
-const useStyles = makeStyles(() => ({
+const myStyles = makeStyles(() => ({
   root: {},
   avatar: {
     width: 60,
@@ -24,7 +24,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
-  const classes = useStyles();
+  const classes = myStyles();
 
   const actions = (
     <Stack alignItems="flex-start">

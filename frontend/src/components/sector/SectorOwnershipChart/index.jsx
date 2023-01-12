@@ -8,10 +8,11 @@ import { HighchartGraph } from "@fengxia41103/storybook";
 
 const SectorOwnershipChart = (props) => {
   const { sector } = props;
+  const { stocks_detail } = sector;
 
   const chart_data = map(
     // if I don't have this count, ignore
-    filter(sector.stocks_detail, (d) => d.institution_count > 0),
+    filter(stocks_detail, (d) => d.institution_count > 0),
 
     // compose the chart data
     (s) => {
@@ -40,11 +41,11 @@ const SectorOwnershipChart = (props) => {
         xLabel="Top 10 Institution Ownership (%)"
         yLabel="Total Institution Onwership Count"
         title=""
-        legendEnabled={true}
         data={chart_data}
+        legendEnabled
       />
       <Typography variant="body2">
-        This breakdown chart is to demonstrate how company's institional
+        This breakdown chart is to demonstrate how company&apos;s institional
         owership are compared in three categoreis: top 10 instituion ownership
         percentage (X-axis), total instituion count (Y-axis), and number of
         share outstanding in B (size of the bubble).
@@ -55,7 +56,7 @@ const SectorOwnershipChart = (props) => {
 
 SectorOwnershipChart.propTypes = {
   sector: PropTypes.shape({
-    stock_details: PropTypes.arrayOf(
+    stocks_detail: PropTypes.arrayOf(
       PropTypes.shape({
         symbol: PropTypes.string,
         top_ten_institution_ownership: PropTypes.number,

@@ -4,12 +4,14 @@ import React, { useContext } from "react";
 
 import { MultilineChart } from "@fengxia41103/storybook";
 
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
+import SectorDetailContext from "src/views/sector/SectorDetailView/context";
 
 const SectorDupontLineChart = (props) => {
   const { property } = props;
   const sector = useContext(SectorDetailContext);
-  const chart_data = map(sector.stocks_detail, (d) => {
+  const { stocks_detail } = sector;
+
+  const chart_data = map(stocks_detail, (d) => {
     return {
       symbol: d.symbol,
       data: d.dupont_model,

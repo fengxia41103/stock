@@ -21,7 +21,7 @@ import GainPriceRanges from "src/components/stock/GainPriceRanges";
 import PriceChart from "src/components/stock/PriceChart";
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
 
-const useStyles = makeStyles((theme) => ({
+const myStyles = makeStyles(() => ({
   card: {
     height: "100%",
   },
@@ -29,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
 
 const PriceView = () => {
   const data = useContext(StockHistoricalContext);
-  const classes = useStyles();
+  const [first_data] = data;
+  const {symbol} = first_data;
+
+  const classes = myStyles();
 
   const stocks = map(data, (d) => {
     return { ...d, week: moment(d.on).week() };
@@ -88,7 +91,7 @@ const PriceView = () => {
             <CardHeader
               title={
                 <Typography variant="h3">
-                  {data[0].symbol} Daily Prices
+                  {symbol} Daily Prices
                 </Typography>
               }
             />

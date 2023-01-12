@@ -58,9 +58,9 @@ const SectorReturnComparisonChart = (props) => {
       xLabel=""
       yLabel="Return (%)"
       title=""
-      legendEnabled={true}
       data={chart_data}
-      keepNegative={true}
+      keepNegative
+      legendEnabled
     />
   );
 };

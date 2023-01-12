@@ -5,18 +5,20 @@ import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 
 import SectorPriceTrending from "src/components/sector/SectorPriceTrending";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
-import { get_last_month_string, get_today_string } from "src/utils/helper.jsx";
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
+import { get_last_month_string, get_today_string } from "src/utils/helper";
+import SectorDetailContext from "src/views/sector/SectorDetailView/context";
 
 const SectorPriceView = () => {
   const sector = useContext(SectorDetailContext);
-  const stock_ids = map(sector.stocks_detail, (s) => s.id);
+  const {stocks_detail} = sector;
+
+  const stock_ids = map(stocks_detail, (s) => s.id);
   const [start] = useState(get_last_month_string());
   const [end] = useState(get_today_string());
 
   return (
     <>
-      <Typography variant={"h1"}>Price Comparison</Typography>
+      <Typography variant="h1">Price Comparison</Typography>
 
       <Box mt={1}>
         <Card>

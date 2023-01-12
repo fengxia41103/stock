@@ -1,8 +1,8 @@
 import { colors } from "@mui/material";
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
-import { shadows } from "./shadows";
-import { typography } from "./typography";
+import shadows from "./shadows";
+import typography from "./typography";
 
 const theme = responsiveFontSizes(
   createTheme({

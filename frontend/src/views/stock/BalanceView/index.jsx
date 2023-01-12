@@ -6,11 +6,13 @@ import { Drawer, Typography } from "@mui/material";
 import { ShowResource } from "@fengxia41103/storybook";
 
 import FinancialCard from "src/components/stock/FinancialCard";
-import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
+import StockDetailContext from "src/views/stock/StockDetailView/context";
 
 const BalanceView = () => {
   const { id } = useParams();
   const stock = useContext(StockDetailContext);
+  const {symbol} = stock;
+
   const [resource] = useState(`/balances?stock=${id}`);
 
   const reported = {
@@ -58,7 +60,7 @@ const BalanceView = () => {
 
     return (
       <>
-        <Typography variant="h1">{stock.symbol} Balance Sheet</Typography>
+        <Typography variant="h1">{symbol} Balance Sheet</Typography>
         <Drawer
           me={
             <FinancialCard {...{ data, reported, ratio, pcnt, p2p_growth }} />

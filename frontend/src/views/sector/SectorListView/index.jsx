@@ -15,7 +15,7 @@ import { Page, PollResource } from "@fengxia41103/storybook";
 import AddNewSectorDialog from "src/components/sector/AddNewSectorDialog";
 import ListSectorCard from "src/components/sector/ListSectorCard";
 
-const SectorListView = (props) => {
+const SectorListView = () => {
   const [resource] = useState("/sectors");
   const [searching, setSearching] = useState("");
 
@@ -25,6 +25,8 @@ const SectorListView = (props) => {
   };
 
   const render_data = (data) => {
+    console.error(data);
+
     const sectors = data.objects;
 
     // filter based on search string
@@ -52,7 +54,7 @@ const SectorListView = (props) => {
                   label="Filter by sector name"
                   value={searching}
                   onChange={sector_filter_change}
-                  fullWidth={true}
+                  fullWidth
                 />
               </CardContent>
             </Card>

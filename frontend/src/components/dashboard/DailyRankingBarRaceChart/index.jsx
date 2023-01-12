@@ -54,8 +54,8 @@ const DailyRankingBarRaceChart = (props) => {
           type: "bar",
           itemStyle: {
             color: (param) => {
-              const {value} = param;
-              const {symbol} = value;
+              const { value } = param;
+              const { symbol } = value;
               return `#${highlights[symbol].background || "#5470c6"}`;
             },
           },

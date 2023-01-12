@@ -14,7 +14,7 @@ import {
 import { Page } from "@fengxia41103/storybook";
 
 import StockRanking from "src/components/stock/StockRanking";
-import { get_highlights } from "src/utils/helper.jsx";
+import { get_highlights } from "src/utils/helper";
 
 const RankingView = () => {
   const [ranking_resources] = useState({
@@ -98,7 +98,7 @@ const RankingView = () => {
                     label="Filter by Symbol"
                     value={interests.join(" ")}
                     onChange={handle_interests_change}
-                    fullWidth={true}
+                    fullWidth
                   />
                 </Grid>
                 <Grid item lg={6} sm={6} xs={12}>
@@ -107,7 +107,7 @@ const RankingView = () => {
                     value={top}
                     type="number"
                     onChange={handle_top_change}
-                    fullWidth={true}
+                    fullWidth
                   />
                 </Grid>
               </Grid>

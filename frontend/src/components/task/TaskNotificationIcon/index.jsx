@@ -40,14 +40,15 @@ const TaskNotificationIcon = (props) => {
 
   // render
   const render_data = (data) => {
-    const count = data.meta.total_count;
-    const tasks = data.objects;
+
+    const count = data?.meta?.total_count || 0;
+    const tasks_info = data.objects;
 
     // nothing to show
     if (count === 0) return null;
 
     const tooltip = `There are ${count} tasks in progress`;
-    const tasks_groupby_state = groupBy(tasks, (t) => t.state);
+    const tasks_groupby_state = groupBy(tasks_info, (t) => t.state);
 
     const task_list = map(tasks_groupby_state, (tasks, state) => {
       // map tasks under a state
@@ -93,7 +94,7 @@ const TaskNotificationIcon = (props) => {
           open={open}
           onClose={handleClose}
           aria-labelledby="form-dialog-title"
-          fullWidth={true}
+          fullWidth
         >
           <DialogTitle id="form-dialog-title">Tasks</DialogTitle>
           <DialogContent>
@@ -112,7 +113,7 @@ const TaskNotificationIcon = (props) => {
   return (
     <PollResource
       {...{
-        resource: resource,
+        resource,
         on_success: render_data,
         silent: true,
         interval: 3,

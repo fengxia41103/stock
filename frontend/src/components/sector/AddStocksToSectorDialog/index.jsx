@@ -39,7 +39,7 @@ const AddStocksToSectorDialog = (props) => {
   const selected_sectors = [];
 
   const handleChange = (event) => {
-    for (let i = 0; i < sectors.length; i++) {
+    for (let i = 0; i < sectors.length; i += 1) {
       const s = sectors[i];
 
       // conditions

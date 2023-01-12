@@ -6,7 +6,7 @@ import { Page, ShowResource } from "@fengxia41103/storybook";
 
 import ListDiary from "src/components/diary/ListDiary";
 
-import DiaryListContext from "./context.jsx";
+import DiaryListContext from "./context";
 
 const DiaryListView = () => {
   const [resource] = useState("/stocks");

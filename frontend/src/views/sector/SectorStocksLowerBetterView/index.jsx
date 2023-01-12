@@ -13,15 +13,17 @@ import {
 import { ShowResource } from "@fengxia41103/storybook";
 
 import PriceLastLowerNextBetterChart from "src/components/stock/PriceLastLowerNextBetterChart";
-import { get_last_month_string, get_today_string } from "src/utils/helper.jsx";
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
+import { get_last_month_string, get_today_string } from "src/utils/helper";
+import SectorDetailContext from "src/views/sector/SectorDetailView/context";
 
 const SectorStocksLowerBetterView = () => {
   const sector = useContext(SectorDetailContext);
+  const {stocks_detail} = sector;
+
   const [start] = useState(get_last_month_string());
   const [end] = useState(get_today_string());
 
-  const stock_price_trend_charts = map(sector.stocks_detail, (d) => {
+  const stock_price_trend_charts = map(stocks_detail, (d) => {
     const resource = `/historicals?stock=${d.id}&on__range=${start},${end}&order_by=on`;
 
     const render_data = (data) => {
@@ -50,7 +52,7 @@ const SectorStocksLowerBetterView = () => {
 
   return (
     <>
-      <Typography variant={"h1"}>Scales of Stock Gain & Loss</Typography>
+      <Typography variant="h1">Scales of Stock Gain & Loss</Typography>
 
       <Box mt={1}>
         <Grid container spacing={1}>

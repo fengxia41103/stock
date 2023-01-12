@@ -11,7 +11,7 @@ const StockSymbol = (props) => {
 
   return (
     <Box display="inline">
-      <StockLinkToSector {...props} minimal={true} />
+      <StockLinkToSector {...props} minimal />
       <Link href={`/stocks/${id}/historical/price`}>{symbol}</Link>
       <TaskNotificationIcon {...props} />
     </Box>

@@ -46,7 +46,7 @@ StockRankingGrid.propTypes = {
       ),
     }),
   ).isRequired,
-  highlights: PropTypes.object.isRequired,
+  highlights: PropTypes.node.isRequired,
 };
 
 export default StockRankingGrid;

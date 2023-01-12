@@ -14,12 +14,14 @@ import {
 import { ShowResource } from "@fengxia41103/storybook";
 
 import SectorReturnComparisonChart from "src/components/sector/SectorReturnComparisonChart";
-import { get_last_month_string, get_today_string } from "src/utils/helper.jsx";
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
+import { get_last_month_string, get_today_string } from "src/utils/helper";
+import SectorDetailContext from "src/views/sector/SectorDetailView/context";
 
 const SectorReturnView = () => {
   const sector = useContext(SectorDetailContext);
-  const stock_ids = map(sector.stocks_detail, (s) => s.id).join(",");
+  const {stocks_detail} = sector;
+
+  const stock_ids = map(stocks_detail, (s) => s.id).join(",");
 
   const [start] = useState(get_last_month_string());
   const [end] = useState(get_today_string());
@@ -54,13 +56,13 @@ const SectorReturnView = () => {
                 <Grid container spacing={1}>
                   <Grid item lg={6} xs={12}>
                     <Typography variant="body2">Daytime Returns</Typography>
-                    <SectorReturnComparisonChart data={prices} kind={"daily"} />
+                    <SectorReturnComparisonChart data={prices} kind="daily" />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Typography variant="body2">Overnight Returns</Typography>
                     <SectorReturnComparisonChart
                       data={prices}
-                      kind={"overnight"}
+                      kind="overnight"
                     />
                   </Grid>
                 </Grid>

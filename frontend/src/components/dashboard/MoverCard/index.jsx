@@ -18,7 +18,7 @@ import { ColoredNumber } from "@fengxia41103/storybook";
 
 import StockSymbol from "src/components/stock/StockSymbol";
 
-const useStyles = makeStyles(() => ({
+const myStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
 
 const MoverCard = (props) => {
   const { title, subtitle, stocks, value, roundTo } = props;
-  const classes = useStyles();
+  const classes = myStyles();
 
   const entries = map(stocks, (s) => {
     return (

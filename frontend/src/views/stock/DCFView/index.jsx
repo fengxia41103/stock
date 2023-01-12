@@ -13,13 +13,15 @@ import {
 } from "@mui/material";
 
 import FinancialCard from "src/components/stock/FinancialCard";
-import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
+import StockDetailContext from "src/views/stock/StockDetailView/context";
 
 const DCFView = () => {
   const stock = useContext(StockDetailContext);
+  const {symbol} = stock;
+
   const [input_open, setInputOpen] = useState(false);
-  const open_input_drawer = (event) => setInputOpen(true);
-  const close_input_drawer = (event) => setInputOpen(false);
+  const open_input_drawer = () => setInputOpen(true);
+  const close_input_drawer = () => setInputOpen(false);
 
   const [risk_free, setRiskFree] = useState(1.242);
   const [market_premium, setMarketPremium] = useState(7);
@@ -61,9 +63,9 @@ const DCFView = () => {
       let income = 0;
 
       // year 0-5, growing at growth rate
-      for (let i = 0; i <= Math.floor(project_year / 2); i++) {
-        const tmp = d.fcf * Math.pow(1 + growth_rate / 100, i);
-        const discounted = tmp / Math.pow(1 + wacc, i);
+      for (let i = 0; i <= Math.floor(project_year / 2); i+=1) {
+        const tmp = d.fcf * (1 + growth_rate / 100)**i;
+        const discounted = tmp / (1 + wacc)**i;
         income += discounted;
       }
 
@@ -74,9 +76,9 @@ const DCFView = () => {
       // - the cost of debt, eg. rating of this company, is not changing
       //
       // Well, these are a lot to assume!
-      for (let i = Math.floor(project_year / 2) + 1; i <= project_year; i++) {
-        const tmp = d.fcf * Math.pow(1 + growth_rate / 200, i);
-        const discounted = tmp / Math.pow(1 + wacc, i);
+      for (let i = Math.floor(project_year / 2) + 1; i <= project_year; i+=1) {
+        const tmp = d.fcf * (1 + growth_rate / 200)**i;
+        const discounted = tmp / (1 + wacc)**i;
         income += discounted;
       }
 
@@ -180,12 +182,12 @@ const DCFView = () => {
       <Grid item key={i.title} lg={2} sm={6} xs={12}>
         <TextField
           label={i.title}
-          fullWidth={true}
           value={i.value}
           type="number"
           min={i.min}
           max={i.max}
           onChange={i.on_change}
+          fullWidth
         />
       </Grid>
     );
@@ -194,7 +196,7 @@ const DCFView = () => {
   const dcf_values = compute_dcf(stock);
   return (
     <>
-      <Typography variant="h1">{stock.symbol} DCF Model</Typography>
+      <Typography variant="h1">{symbol} DCF Model</Typography>
       <Box mt={2}>
         <Button
           variant="contained"
@@ -204,7 +206,7 @@ const DCFView = () => {
           Assumptions
         </Button>
       </Box>
-      <FinancialCard data={dcf_values} reported={reported} normalized={true} />
+      <FinancialCard data={dcf_values} reported={reported} normalized />
       <FinancialCard
         data={dcf_values}
         ratio={cost_vs_return}

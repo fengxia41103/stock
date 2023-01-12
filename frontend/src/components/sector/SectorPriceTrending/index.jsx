@@ -7,8 +7,8 @@ import { Card, CardContent, CardHeader, Grid, Typography } from "@mui/material";
 import { ShowResource } from "@fengxia41103/storybook";
 
 import DailyRankingBarRaceChart from "src/components/dashboard/DailyRankingBarRaceChart";
-import { get_highlights } from "src/utils/helper.jsx";
-import { stocks_daily_ranking } from "src/utils/stock/ranking";
+import { get_highlights } from "src/utils/helper";
+import stocks_daily_ranking from "src/utils/stock/ranking";
 
 const SectorPriceTrending = (props) => {
   const INTERESTS = [

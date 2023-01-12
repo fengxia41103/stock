@@ -28,7 +28,7 @@ const DeleteStock = (props) => {
   });
 
   // event handlers
-  const handle_delete = (event) => {
+  const handle_delete = () => {
     del().then(() => {
       setNotification(`Stock ${symbol} has been deleted.`);
       navigate("/stocks");

@@ -17,10 +17,17 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": [
+    "react"
+  ],
   "rules": {
-    "arrow-parens": ["warn", "always"],
-    "camelcase": [0],
+    "arrow-parens": [
+      "warn",
+      "always"
+    ],
+    "camelcase": [
+      0
+    ],
     "import/default": 2,
     "import/export": 2,
     "import/extensions": [
@@ -61,7 +68,10 @@
           "external",
           "internal",
           "parent",
-          ["index", "sibling"],
+          [
+            "index",
+            "sibling"
+          ],
           "object"
         ],
         "newlines-between": "always",
@@ -81,7 +91,18 @@
       }
     ],
     "import/unambiguous": "off",
+    "no-console": [
+      "error",
+      {
+        "allow": [
+          "warn",
+          "error",
+          "debug"
+        ]
+      }
+    ],
     "no-nested-ternary": 0,
+    "no-param-reassign": "off",
     "no-use-before-define": "off",
     "react/function-component-definition": [
       2,
@@ -90,19 +111,30 @@
         "unnamedComponents": "arrow-function"
       }
     ],
+    "react/jsx-curly-newline": "off",
     "react/jsx-filename-extension": [
       "error",
       {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
       }
     ],
-    "react/jsx-props-no-spreading": [0],
-    "react/require-default-props": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-props-no-spreading": [
+      0
+    ],
     "react/jsx-wrap-multilines": [
       "error",
-      { "declaration": false, "assignment": false }
+      {
+        "assignment": false,
+        "declaration": false
+      }
     ],
-    "no-console": ["error", { "allow": ["warn", "error", "debug"] }]
+    "react/require-default-props": "off"
   },
   "settings": {
     "componentWrapperFunctions": [
@@ -128,11 +160,21 @@
     ],
     "import/resolver": {
       "alias": {
-        "extensions": [".js", ".jsx"],
-        "map": [["src", "./src"]]
+        "extensions": [
+          ".js",
+          ".jsx"
+        ],
+        "map": [
+          [
+            "src",
+            "./src"
+          ]
+        ]
       },
       "node": {
-        "paths": ["src"]
+        "paths": [
+          "src"
+        ]
       }
     },
     "linkComponents": [

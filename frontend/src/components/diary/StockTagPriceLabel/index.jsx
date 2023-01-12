@@ -58,6 +58,7 @@ StockTagPriceLabel.propTypes = {
     price: PropTypes.number,
     judgement: PropTypes.number,
     is_correct: PropTypes.bool,
+    created: PropTypes.string,
   }).isRequired,
   stock: PropTypes.shape({
     id: PropTypes.number,

@@ -1,4 +1,5 @@
 import { map, sortBy } from "lodash";
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 
 import MultilineChartIcon from "@mui/icons-material/MultilineChart";
@@ -42,6 +43,13 @@ const ListSectorCard = (props) => {
   return (
     <ShowResource {...{ resource, on_success: render_data, silent: true }} />
   );
+};
+
+ListSectorCard.propTypes = {
+  me: PropTypes.shape({
+    id: PropTypes.number,
+  }).isRequired,
+  all: PropTypes.arrayOf(PropTypes.node).isRequired,
 };
 
 export default ListSectorCard;

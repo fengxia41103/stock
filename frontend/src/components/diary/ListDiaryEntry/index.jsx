@@ -30,7 +30,7 @@ import DiaryStockTag from "src/components/diary/DiaryStockTag";
 import EditDiaryEditor from "src/components/diary/EditDiaryEditor";
 import GlobalContext from "src/context";
 
-const useStyles = makeStyles((theme) => ({
+const myStyles = makeStyles(() => ({
   diary: {
     color: "#42A5F5",
   },
@@ -55,7 +55,7 @@ const ListDiaryEntry = (props) => {
   });
 
   // styles
-  const classes = useStyles();
+  const classes = myStyles();
 
   // private
   const created = new Date(diary.created);
@@ -144,7 +144,7 @@ const ListDiaryEntry = (props) => {
           {inEditing ? (
             <Grid item xs={12}>
               <Button onClick={() => setInEditing(false)}>
-                I'm done editing
+                I&apos;m done editing
               </Button>
             </Grid>
           ) : null}
@@ -162,6 +162,8 @@ const ListDiaryEntry = (props) => {
 
 ListDiaryEntry.propTypes = {
   diary: PropTypes.shape({
+    id: PropTypes.number,
+    created: PropTypes.string,
     resource_uri: PropTypes.string,
     content: PropTypes.string,
     price: PropTypes.number,

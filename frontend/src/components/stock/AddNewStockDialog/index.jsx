@@ -89,7 +89,7 @@ const AddNewStockDialog = () => {
               <Checkbox
                 checked={
                   selectedSectors.length > 0
-                    ? selectedSectors.includes(s.id + "")
+                    ? selectedSectors.includes(`${s.id}`)
                     : s.name === "misc"
                 }
                 onChange={handle_sector_selection}

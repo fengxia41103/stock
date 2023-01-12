@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 
 import SectorStocksRanking from "src/components/sector/SectorStocksRanking";
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
+import SectorDetailContext from "src/views/sector/SectorDetailView/context";
 
 const SectorBalanceRankingView = () => {
   const sector = useContext(SectorDetailContext);

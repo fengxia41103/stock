@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import { Button, ListItem } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-const useStyles = makeStyles((theme) => ({
+const myStyles = makeStyles((theme) => ({
   item: {
     display: "flex",
     paddingTop: 0,
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavItem = ({ className, href, icon: Icon, title, ...rest }) => {
-  const classes = useStyles();
+  const classes = myStyles();
 
   return (
     <ListItem

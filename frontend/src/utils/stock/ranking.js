@@ -1,11 +1,6 @@
 import { forEach, groupBy, map, reverse, sortBy } from "lodash";
 
-export function stocks_daily_ranking(
-  historicals,
-  order_by,
-  high_to_low,
-  truncate,
-) {
+const stocks_daily_ranking = (historicals, order_by, high_to_low, truncate) => {
   // compute values
   const stocks = map(historicals, (s) => {
     return {
@@ -38,4 +33,6 @@ export function stocks_daily_ranking(
   });
 
   return ranks;
-}
+};
+
+export default stocks_daily_ranking;

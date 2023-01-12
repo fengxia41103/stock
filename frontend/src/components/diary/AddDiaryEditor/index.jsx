@@ -49,7 +49,7 @@ const AddDiaryEditor = (props) => {
     }).then(() => navigate("/notes"));
   };
   const prediction_change = (event) => {
-    setPrediction(parseInt(event.target.value));
+    setPrediction(parseInt(event.target.value, 10));
   };
 
   const judgement_selection = (

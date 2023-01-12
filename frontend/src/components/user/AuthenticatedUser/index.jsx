@@ -30,9 +30,10 @@ const AuthenticatedUser = (props) => {
 };
 
 AuthenticatedUser.propTypes = {
-  onMobileClose: PropTypes.func,
-  openMobile: PropTypes.bool,
-  items: PropTypes.array,
+  user: PropTypes.shape({
+    name: PropTypes.string,
+    avatar: PropTypes.node
+  })
 };
 
 export default AuthenticatedUser;

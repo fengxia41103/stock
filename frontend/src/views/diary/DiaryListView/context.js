@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const DiaryListContext = createContext();
+const DiaryListContext = createContext({});
 
 export default DiaryListContext;

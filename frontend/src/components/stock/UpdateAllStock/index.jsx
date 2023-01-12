@@ -17,7 +17,7 @@ const UpdateAllStock = (props) => {
 
   // API will treat `all:True` as a request to update all stocks.
   const symbols = truncate(map(stocks, (s) => s.symbol).join(","), 20);
-  const update_all = (stocks) => {
+  const update_all = (update_these_stocks) => {
     const call_api = (s) => {
       const uri = `${api}${resource}/${s.id}/`;
       return fetch(uri, {
@@ -30,7 +30,7 @@ const UpdateAllStock = (props) => {
       });
     };
 
-    const promises = stocks.map((s) => call_api(s));
+    const promises = update_these_stocks.map((s) => call_api(s));
     Promise.all(promises).then(
       setNotification(`${symbols} updates have been requested.`),
     );

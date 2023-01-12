@@ -8,7 +8,7 @@ import { makeStyles } from "@mui/styles";
 import RegistrationCard from "src/components/auth/RegistrationCard";
 import GlobalContext from "src/context";
 
-const useStyles = makeStyles((theme) => ({
+const myStyles = makeStyles((theme) => ({
   card: {
     marginTop: "30vh",
   },
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const RegistrationView = () => {
   const { api } = useContext(GlobalContext);
-  const classes = useStyles();
+  const classes = myStyles();
   const navigate = useNavigate();
 
   // states

@@ -26,7 +26,7 @@ import DeleteStock from "src/components/stock/DeleteStock";
 import StockLinkToSector from "src/components/stock/StockLinkToSector";
 import UpdateStock from "src/components/stock/UpdateStock";
 
-import StockDetailContext from "./context.jsx";
+import StockDetailContext from "./context";
 
 const price_menus = [
   {

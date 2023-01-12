@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, Grid } from "@mui/material";
 
 import StockTagPriceLabel from "src/components/diary/StockTagPriceLabel";
 import StockSymbol from "src/components/stock/StockSymbol";
-import DiaryListContext from "src/views/diary/DiaryListView/context.jsx";
+import DiaryListContext from "src/views/diary/DiaryListView/context";
 
 const DiaryStockTag = (props) => {
   const stocks = useContext(DiaryListContext);

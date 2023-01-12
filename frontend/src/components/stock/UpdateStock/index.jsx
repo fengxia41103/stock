@@ -19,7 +19,7 @@ const UpdateStock = (props) => {
     path: `${host}${resource_uri}`,
   });
 
-  const handle_update = (event) => {
+  const handle_update = () => {
     update({}).then(setNotification(`Updating ${symbol} has been requested.`));
   };
 

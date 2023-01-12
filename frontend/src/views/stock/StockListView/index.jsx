@@ -22,7 +22,7 @@ import ExportStocks from "src/components/stock/ExportStocks";
 import ListStockCard from "src/components/stock/ListStockCard";
 import UpdateAllStock from "src/components/stock/UpdateAllStock";
 
-const StockListView = (props) => {
+const StockListView = () => {
   const [resource] = useState("/stocks");
   const [searching, setSearching] = useState("");
   const [group_by, setGroupBy] = useState("last_reporting_date");
@@ -37,7 +37,7 @@ const StockListView = (props) => {
   };
 
   const render_data = (data) => {
-    const stocks = data.objects;
+    const {objects:stocks} = data;
 
     // filter based on search string
     const filtered = filter(stocks, (x) => x.symbol.includes(searching));
@@ -117,7 +117,7 @@ const StockListView = (props) => {
                   label="Filter by Symbol"
                   value={searching}
                   onChange={symbol_filter_change}
-                  fullWidth={true}
+                  fullWidth
                 />
               </CardContent>
             </Card>

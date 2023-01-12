@@ -12,9 +12,9 @@ import {
 
 import { ShowResource } from "@fengxia41103/storybook";
 
-import { get_last_month_string, get_today_string } from "src/utils/helper.jsx";
+import { get_last_month_string, get_today_string } from "src/utils/helper";
 
-import StockHistoricalContext from "./context.jsx";
+import StockHistoricalContext from "./context";
 
 const StockHistoricalView = () => {
   const { id } = useParams();
@@ -53,7 +53,7 @@ const StockHistoricalView = () => {
                     type="date"
                     value={start}
                     onChange={start_change}
-                    fullWidth={true}
+                    fullWidth
                   />
                 </Grid>
                 <Grid item xs>
@@ -62,7 +62,7 @@ const StockHistoricalView = () => {
                     type="date"
                     value={end}
                     onChange={end_change}
-                    fullWidth={true}
+                    fullWidth
                   />
                 </Grid>
               </Grid>

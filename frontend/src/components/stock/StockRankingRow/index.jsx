@@ -9,7 +9,7 @@ import { Box, Grid, Link, TextField, Tooltip, Typography } from "@mui/material";
 import { HighlightedText, RankChart } from "@fengxia41103/storybook";
 
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
-import { get_last_month_string, get_today_string } from "src/utils/helper.jsx";
+import { get_last_month_string, get_today_string } from "src/utils/helper";
 
 const StockRankingRow = (props) => {
   const [show_rank_graph, setShowRank] = useState(false);
@@ -18,9 +18,9 @@ const StockRankingRow = (props) => {
   const [start] = useState(get_last_month_string());
   const [end] = useState(get_today_string());
 
-  const handle_show_rank_graph = (event) => setShowRank(!show_rank_graph);
-  const handle_show_1m_graph = (event) => setShow1m(!show_1m_graph);
-  const handle_show_threshold = (event) => setShowThreshold(!show_threshold);
+  const handle_show_rank_graph = () => setShowRank(!show_rank_graph);
+  const handle_show_1m_graph = () => setShow1m(!show_1m_graph);
+  const handle_show_threshold = () => setShowThreshold(!show_threshold);
 
   const { category, ranks, threshold, handle_ratio_change } = props;
   const category_name = category.replace(/_/g, " ");
@@ -43,7 +43,7 @@ const StockRankingRow = (props) => {
         name={category_name}
         value={threshold}
         onChange={handle_ratio_change}
-        fullWidth={true}
+        fullWidth
       />
     );
   }
