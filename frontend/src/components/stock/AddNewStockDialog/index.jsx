@@ -78,7 +78,7 @@ const AddNewStockDialog = () => {
   };
 
   const render_data = (data) => {
-    const sectors = data.objects;
+    const { objects: sectors } = data;
     if (sectors.length === 0) return null;
 
     const selections = map(sectors, (s) => {

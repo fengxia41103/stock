@@ -5,8 +5,6 @@ import { RestfulProvider } from "restful-react";
 
 import { ThemeProvider } from "@mui/material";
 
-import { GlobalStyles } from "@fengxia41103/storybook";
-
 import GlobalContext from "src/context";
 import routes from "src/routes";
 import theme from "src/theme";
@@ -46,7 +44,6 @@ const App = () => {
   const auth = `ApiKey ${user}:${api_key}`;
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyles />
       <RestfulProvider
         base={backend.api}
         requestOptions={() => ({

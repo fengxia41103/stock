@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import * as ReactDOM from "react-dom/clienr";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
