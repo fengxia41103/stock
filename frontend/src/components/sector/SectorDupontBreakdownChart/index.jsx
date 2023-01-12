@@ -5,12 +5,13 @@ import { Card, CardContent, Typography } from "@mui/material";
 
 import { DropdownMenu, HighchartGraph } from "@fengxia41103/storybook";
 
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
+import SectorDetailContext from "src/views/sector/SectorDetailView/context";
 
 const SectorDupontBreakdownChart = () => {
   const sector = useContext(SectorDetailContext);
+  const { stocks_detail } = sector;
 
-  const chart_data = map(sector.stocks_detail, (s) => {
+  const chart_data = map(stocks_detail, (s) => {
     const data = map(s.dupont_model, (d) => {
       return {
         name: d.on,
@@ -26,7 +27,7 @@ const SectorDupontBreakdownChart = () => {
   });
 
   const helper = (
-    <Typography variant={"body2"}>
+    <Typography variant="body2">
       Dupont ROE breakdowns are to demonstrate how a company has performed in
       three categoreis: net profit margin (X-axis), asset turnover rate
       (Y-axis), and debt leverage (size of the bubble).
@@ -44,7 +45,7 @@ const SectorDupontBreakdownChart = () => {
           xLabel="Net Profit Margin (%)"
           yLabel="Asset TurnOver (%)"
           title=""
-          legendEnabled={true}
+          legendEnabled
           data={chart_data}
         />
       </CardContent>

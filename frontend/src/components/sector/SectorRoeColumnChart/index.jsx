@@ -3,11 +3,13 @@ import React, { useContext } from "react";
 
 import { HighchartGraph } from "@fengxia41103/storybook";
 
-import SectorDetailContext from "src/views/sector/SectorDetailView/context.jsx";
+import SectorDetailContext from "src/views/sector/SectorDetailView/context";
 
 const SectorRoeColumnChart = () => {
   const sector = useContext(SectorDetailContext);
-  const sorted_stocks = sortBy(sector.stocks_detail, (d) => d.roe);
+  const {stocks_detail} = sector;
+
+  const sorted_stocks = sortBy(stocks_detail, (d) => d.roe);
 
   const categories = map(sorted_stocks, (d) => d.symbol);
   const chart_data = [
@@ -27,7 +29,7 @@ const SectorRoeColumnChart = () => {
       categories={categories}
       yLabel=""
       title=""
-      legendEnabled={true}
+      legendEnabled
       data={chart_data}
     />
   );

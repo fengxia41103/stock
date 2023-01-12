@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 
 import StockRanking from "src/components/stock/StockRanking";
-import { get_highlights } from "src/utils/helper.jsx";
+import { get_highlights } from "src/utils/helper";
 
 const SectorStocksRanking = (props) => {
   const { sector, title, ranking_resource } = props;
@@ -21,7 +21,7 @@ const SectorStocksRanking = (props) => {
 
   return (
     <>
-      <Typography variant={"h1"}>{title}</Typography>
+      <Typography variant="h1">{title}</Typography>
 
       <Box mt={3}>
         <StockRanking

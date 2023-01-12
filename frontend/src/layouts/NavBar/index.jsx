@@ -10,7 +10,7 @@ import AuthenticatedUser from "src/components/user/AuthenticatedUser";
 import GlobalContext from "src/context";
 import NavItem from "src/layouts/NavBarItem";
 
-const useStyles = makeStyles(() => ({
+const myStyles = makeStyles(() => ({
   mobileDrawer: {
     width: 256,
   },
@@ -28,14 +28,14 @@ const NavBar = ({ onMobileClose, openMobile, items }) => {
     name: username,
   };
 
-  const classes = useStyles();
+  const classes = myStyles();
   const location = useLocation();
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [location.pathname]);
 
   const content = (
@@ -88,13 +88,11 @@ const NavBar = ({ onMobileClose, openMobile, items }) => {
 NavBar.propTypes = {
   onMobileClose: PropTypes.func,
   openMobile: PropTypes.bool,
-  items: PropTypes.array,
+  items: PropTypes.arrayOf(PropTypes.node),
 };
 
 NavBar.defaultProps = {
-  onMobileClose: () => {
-    return;
-  },
+  onMobileClose: () => {},
   openMobile: false,
   items: [],
 };

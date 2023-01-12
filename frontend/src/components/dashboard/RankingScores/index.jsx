@@ -18,7 +18,7 @@ import { RankChart } from "@fengxia41103/storybook";
 import RankingOccuranceCharts from "src/components/dashboard/RankingOccuranceCharts";
 import StocksPriceChart from "src/components/stock/StocksPriceChart";
 
-const useStyles = makeStyles(() => ({
+const myStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
 
 const RankingScores = (props) => {
   const { stocks, ranks, start, end } = props;
-  const classes = useStyles();
+  const classes = myStyles();
 
   // compute a score score is 1-10, each symbol computes a score by
   // adding its score of a day when it's on the ranking chart. So,
@@ -133,9 +133,9 @@ const RankingScores = (props) => {
             <CardContent>
               <Typography variant="body2">
                 Score measures both the occurance of a symbol on the TOP list,
-                and its relative ranking each time. If it's ranked #1, and there
-                are 10 symbols on the list, it gets a (10-0)=10, then the 2nd
-                place would get 9, and so on.
+                and its relative ranking each time. If it&apos;s ranked #1, and
+                there are 10 symbols on the list, it gets a (10-0)=10, then the
+                2nd place would get 9, and so on.
               </Typography>
               <Box mt={3}>
                 <RankChart
@@ -213,7 +213,7 @@ const RankingScores = (props) => {
 };
 
 RankingScores.propTypes = {
-  stocks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  stocks: PropTypes.arrayOf(PropTypes.node).isRequired,
   ranks: PropTypes.arrayOf(
     PropTypes.shape({
       category: PropTypes.string,

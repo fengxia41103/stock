@@ -6,11 +6,13 @@ import { Typography } from "@mui/material";
 import { ShowResource } from "@fengxia41103/storybook";
 
 import FinancialCard from "src/components/stock/FinancialCard";
-import StockDetailContext from "src/views/stock/StockDetailView/context.jsx";
+import StockDetailContext from "src/views/stock/StockDetailView/context";
 
-const CashFlowView = (props) => {
+const CashFlowView = () => {
   const { id } = useParams();
   const stock = useContext(StockDetailContext);
+  const {symbol} = stock;
+
   const [resource] = useState(`/cashes?stock=${id}`);
 
   const reported = {
@@ -42,7 +44,7 @@ const CashFlowView = (props) => {
 
     return (
       <>
-        <Typography variant="h1">{stock.symbol} Cash Flow Statement</Typography>
+        <Typography variant="h1">{symbol} Cash Flow Statement</Typography>
         <FinancialCard
           {...{ data, reported, pcnt, p2p_growth, in_period_change }}
         />

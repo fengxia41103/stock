@@ -20,7 +20,7 @@ const StockRanking = (props) => {
 
   const render_data = (data) => {
     const rows = map(data.objects, (d) => {
-      let stats = d.stats;
+      let { stats } = d;
       let threshold = null;
 
       // if this value has a threshold
@@ -38,21 +38,20 @@ const StockRanking = (props) => {
         stats = filter(stats, (s) => {
           if (sign === ">") {
             return s.val >= threshold_value;
-          } else {
-            return s.val <= threshold_value;
           }
+          return s.val <= threshold_value;
         });
       }
 
       // FILTER: showing the top N items.
       let ranks = stats;
       if (top) {
-        ranks = ranks.slice(0, parseInt(top));
+        ranks = ranks.slice(0, parseInt(top, 10));
       }
 
       // render
       return (
-        <ListItem key={d.name} divider={true}>
+        <ListItem key={d.name} divider>
           <StockRankingRow
             category={d.name}
             {...{ ranks, threshold }}
@@ -84,9 +83,9 @@ const StockRanking = (props) => {
 StockRanking.propTypes = {
   title: PropTypes.string.isRequired,
   resource: PropTypes.string.isRequired,
-  highlights: PropTypes.object.isRequired,
+  highlights: PropTypes.node.isRequired,
   top: PropTypes.number,
-  thresholds: PropTypes.object,
+  thresholds: PropTypes.node,
   handle_ratio_change: PropTypes.func,
 };
 

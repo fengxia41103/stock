@@ -61,8 +61,8 @@ const FinancialCard = (props) => {
             <DictTable
               data={data}
               interests={m.data}
-              chart={true}
               normalized={!normalized ? true : normalized}
+              chart
             />
           </CardContent>
         </Card>
@@ -74,13 +74,13 @@ const FinancialCard = (props) => {
 };
 
 FinancialCard.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  reported: PropTypes.object,
-  ratio: PropTypes.object,
-  in_period_change: PropTypes.object,
-  p2p_growth: PropTypes.object,
-  pcnt: PropTypes.object,
-  analysis: PropTypes.object,
+  data: PropTypes.arrayOf(PropTypes.node).isRequired,
+  reported: PropTypes.node,
+  ratio: PropTypes.node,
+  in_period_change: PropTypes.node,
+  p2p_growth: PropTypes.node,
+  pcnt: PropTypes.node,
+  analysis: PropTypes.node,
   normalized: PropTypes.bool,
 };
 

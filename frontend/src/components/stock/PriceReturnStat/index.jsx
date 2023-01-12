@@ -70,8 +70,8 @@ const PriceReturnStat = (props) => {
 PriceReturnStat.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string,
-    returns: PropTypes.array,
-    stats: PropTypes.object,
+    returns: PropTypes.arrayOf(PropTypes.node),
+    stats: PropTypes.node,
   }).isRequired,
 };
 

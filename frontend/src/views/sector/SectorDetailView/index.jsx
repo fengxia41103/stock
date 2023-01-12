@@ -25,7 +25,7 @@ import {
 
 import GlobalContext from "src/context";
 
-import SectorDetailContext from "./context.jsx";
+import SectorDetailContext from "./context";
 
 const price_menus = [
   {
@@ -194,7 +194,7 @@ const SectorDetailView = () => {
 
           <SectorDetailContext.Provider value={sector}>
             <Box mt={1}>
-              <Typography variant={"body2"}>sector: {sector.name}</Typography>
+              <Typography variant="body2">sector: {sector.name}</Typography>
               <Outlet />
             </Box>
           </SectorDetailContext.Provider>

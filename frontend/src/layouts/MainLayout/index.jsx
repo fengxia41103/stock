@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 
@@ -7,7 +8,7 @@ import { makeStyles } from "@mui/styles";
 import NavBar from "src/layouts/NavBar";
 import TopBar from "src/layouts/TopBar";
 
-const useStyles = makeStyles((theme) => ({
+const myStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
     display: "flex",
@@ -39,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainLayout = (props) => {
-  const classes = useStyles();
+  const {sideNavs} = props;
+  const classes = myStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
@@ -48,7 +50,7 @@ const MainLayout = (props) => {
       <NavBar
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
-        items={props.sideNavs}
+        items={sideNavs}
       />
       <Box className={classes.wrapper}>
         <Box className={classes.contentContainer}>
@@ -60,5 +62,9 @@ const MainLayout = (props) => {
     </Box>
   );
 };
+
+MainLayout.propTypes = {
+  sideNavs: PropTypes.node.isRequired
+}
 
 export default MainLayout;

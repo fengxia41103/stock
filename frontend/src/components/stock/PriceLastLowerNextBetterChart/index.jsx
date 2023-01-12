@@ -26,7 +26,7 @@ const PriceLastLowerNextBetterChart = (props) => {
       categories={categories}
       yLabel=""
       title=""
-      legendEnabled={true}
+      legendEnabled
       data={chart_data}
     />
   );

@@ -144,7 +144,7 @@ const TodayDashboardView = () => {
 
     return (
       <Page title="Today">
-        <Container maxWidth={false}>
+        <Container maxWidth>
           <Box mt={1}>
             <Card>
               <CardContent>
@@ -153,7 +153,7 @@ const TodayDashboardView = () => {
                   type="date"
                   value={today.format("YYYY-MM-DD")}
                   onChange={today_change}
-                  fullWidth={true}
+                  fullWidth
                 />
               </CardContent>
             </Card>

@@ -49,14 +49,14 @@ const GainPriceRanges = (props) => {
   });
 
   const content = map(range_data, (d) => {
-    const range = `${d.upper} -- ${d.lower}%`;
+    const the_range = `${d.upper} -- ${d.lower}%`;
 
     return (
-      <ListItem key={range} divider={true}>
+      <ListItem key={the_range} divider>
         <Grid container spacing={1} alignItems="center">
           <Grid item xs>
             <Tooltip title="Chance to make a gain">
-              <Chip label={range} variant="default" color="primary" />
+              <Chip label={the_range} variant="default" color="primary" />
             </Tooltip>
           </Grid>
           <Grid item xs>
@@ -69,13 +69,13 @@ const GainPriceRanges = (props) => {
               >
                 <Box>
                   <GaugeChart
-                    id={range}
+                    id={the_range}
                     nrOfLevels={total_data_count}
                     style={{ width: "100px" }}
                     arcsLength={[0.33, 0.34, 0.33]}
                     colors={["#5BE12C", "#F5CD19", "#EA4228"]}
                     percent={d.gain_window / 100}
-                    hideText={true}
+                    hideText
                   />
                 </Box>
               </Tooltip>

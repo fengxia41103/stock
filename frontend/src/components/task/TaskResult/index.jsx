@@ -31,7 +31,7 @@ const TaskResult = (props) => {
   return (
     <ShowResource
       {...{
-        resource: resource,
+        resource,
         on_success: render_data,
         silent: true,
       }}

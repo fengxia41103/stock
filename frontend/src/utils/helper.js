@@ -6,7 +6,9 @@ export const randomId = (prefix = "FX") => {
 };
 
 export const randomColorGenerator = () => {
-  return "#" + (Math.random().toString(16) + "0000000").slice(2, 8);
+  const randomColor = `${Math.random().toString(16)}0000000`;
+
+  return `#${randomColor.slice(2, 8)}`;
 };
 
 export const days_in_between = (start, end) => {

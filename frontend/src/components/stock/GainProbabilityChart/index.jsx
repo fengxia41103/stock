@@ -29,8 +29,8 @@ const GainProbabilityChart = (props) => {
       categories={categories}
       yLabel=""
       title=""
-      legendEnabled={true}
       data={chart_data}
+      legendEnabled
     />
   );
 };

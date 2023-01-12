@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const StockDetailContext = createContext();
+const StockDetailContext = createContext({});
 
 export default StockDetailContext;

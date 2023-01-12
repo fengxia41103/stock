@@ -9,6 +9,8 @@ import StockHistoricalContext from "src/views/stock/StockHistoricalView/context"
 
 const LastLowerNextBetterView = () => {
   const data = useContext(StockHistoricalContext);
+  const [first] = data;
+  const {symbol} = first;
 
   return (
     <>
@@ -16,7 +18,7 @@ const LastLowerNextBetterView = () => {
         <CardHeader
           title={
             <Typography variant="h3">
-              {data[0].symbol} Price Time Span
+              {symbol} Price Time Span
             </Typography>
           }
         />
@@ -25,7 +27,7 @@ const LastLowerNextBetterView = () => {
           <Typography variant="body2">
             Translate price movement into a time term. For a price drop, the
             drop scale measures in <code>days</code> when we saw a price lower
-            than this. It's equivalent to say that if you had bought and held
+            than this. It&apos;s equivalent to say that if you had bought and held
             this stock between these dates, this drop would have wiped out all
             the gains in between. If stock has forever risen, this scale will
             always be 0; and if it has forever declining, this will always be 1.
@@ -49,7 +51,7 @@ const LastLowerNextBetterView = () => {
           <CardHeader
             title={
               <Typography variant="h3">
-                {data[0].symbol} Gain Probabilities
+                {symbol} Gain Probabilities
               </Typography>
             }
           />
@@ -58,11 +60,11 @@ const LastLowerNextBetterView = () => {
               Gain probabilities measure how like you could gain by purchasing
               at close price on a particular day. The `Gain bought today & hold`
               is, as name indicates, is an absolute gain/loss in percentage if
-              you buy at today's close price and hold till now. The "Gain
-              probability" measures likelyhood you could make a positive gain
+              you buy at today&apos;s close price and hold till now. The &quot;Gain
+              probability&quot; measures likelyhood you could make a positive gain
               from this date on. For example, if there are 30 days from the date
               to the end of period, and 10 days had prices higher than the
-              date's close price, the probability is 10/30=1/3=33%. In other
+              date&apos;s close price, the probability is 10/30=1/3=33%. In other
               words, you have 33% chance to make a positive gain.
             </Typography>
             <Box mt={3}>

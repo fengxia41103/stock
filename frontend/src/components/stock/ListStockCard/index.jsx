@@ -24,7 +24,7 @@ import { ColoredNumber, DropdownMenu } from "@fengxia41103/storybook";
 import RecentPriceSparkline from "src/components/stock/RecentPriceSparkline";
 import StockSymbol from "src/components/stock/StockSymbol";
 
-const useStyles = makeStyles((theme) => ({
+const myStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -44,7 +44,7 @@ const ListStockCard = (props) => {
   const { stocks, index, group_by, actions } = props;
 
   // hooks
-  const classes = useStyles();
+  const classes = myStyles();
 
   let title;
   switch (group_by) {
@@ -69,7 +69,7 @@ const ListStockCard = (props) => {
 
   const links = map(stocks, (s) => {
     return (
-      <ListItem key={s.id} divider={true}>
+      <ListItem key={s.id} divider>
         <Grid container spacing={1} alignItems="center">
           <Grid item lg={2} md={2} sm={3} xs={3}>
             <StockSymbol {...s} />
@@ -148,7 +148,7 @@ ListStockCard.propTypes = {
       resource_uri: PropTypes.string,
     }),
   ).isRequired,
-  actions: PropTypes.arrayOf(PropTypes.any),
+  actions: PropTypes.arrayOf(PropTypes.node),
 };
 
 export default ListStockCard;

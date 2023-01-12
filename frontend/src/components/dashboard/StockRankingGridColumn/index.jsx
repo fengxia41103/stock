@@ -8,7 +8,7 @@ import { makeStyles } from "@mui/styles";
 
 import { HighlightedText } from "@fengxia41103/storybook";
 
-const useStyles = makeStyles((theme) => ({
+const myStyles = makeStyles(() => ({
   category: {
     color: "#D52349",
   },
@@ -16,7 +16,8 @@ const useStyles = makeStyles((theme) => ({
 
 const StockRankingGridColumn = (props) => {
   const { category, stocks, order_by, highlights } = props;
-  const classes = useStyles();
+
+  const classes = myStyles();
 
   const ranks = map(stocks, (p) => {
     const val = p[order_by];
@@ -48,7 +49,7 @@ StockRankingGridColumn.propTypes = {
       symbol: PropTypes.string,
     }),
   ).isRequired,
-  highlights: PropTypes.object.isRequired,
+  highlights: PropTypes.node.isRequired,
 };
 
 export default StockRankingGridColumn;

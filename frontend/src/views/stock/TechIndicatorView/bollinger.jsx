@@ -77,7 +77,7 @@ const BollingerBandOverlay = (props) => {
     })
     .accessor((d) => d.bb);
 
-  const { type, data: initialData, width, ratio } = props;
+  const { type = "svg", data: initialData, width, ratio } = props;
 
   const calculatedData = ema20(sma20(ema50(smaVolume50(bb(initialData)))));
   const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
@@ -115,7 +115,7 @@ const BollingerBandOverlay = (props) => {
         ]}
         padding={{ top: 10, bottom: 20 }}
         onContextMenu={(...rest) => {
-          console.log("chart - context menu", rest);
+          console.debug("chart - context menu", rest);
         }}
       >
         <XAxis axisAt="bottom" orient="bottom" />
@@ -124,10 +124,10 @@ const BollingerBandOverlay = (props) => {
           orient="right"
           ticks={5}
           onDoubleClick={(...rest) => {
-            console.log("yAxis - double click", rest);
+            console.debug("yAxis - double click", rest);
           }}
           onContextMenu={(...rest) => {
-            console.log("yAxis - context menu", rest);
+            console.debug("yAxis - context menu", rest);
           }}
         />
 
@@ -159,7 +159,7 @@ const BollingerBandOverlay = (props) => {
         <OHLCTooltip origin={[-40, 0]} />
 
         <MovingAverageTooltip
-          onClick={(e) => console.log(e)}
+          onClick={(e) => console.debug(e)}
           origin={[-38, 15]}
           options={[
             {
@@ -228,14 +228,10 @@ const BollingerBandOverlay = (props) => {
 };
 
 BollingerBandOverlay.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(PropTypes.node).isRequired,
   width: PropTypes.number.isRequired,
   ratio: PropTypes.number.isRequired,
   type: PropTypes.oneOf(["svg", "hybrid"]).isRequired,
-};
-
-BollingerBandOverlay.defaultProps = {
-  type: "svg",
 };
 
 const CandleStickChartWithBollingerBandOverlay = fitWidth(BollingerBandOverlay);

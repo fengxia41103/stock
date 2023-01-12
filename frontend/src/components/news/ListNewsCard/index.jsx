@@ -20,7 +20,7 @@ import { makeStyles } from "@mui/styles";
 
 import { ShowResource } from "@fengxia41103/storybook";
 
-const useStyles = makeStyles((theme) => ({
+const myStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 const ListNewsCard = (props) => {
   const { topic, limit, searching } = props;
   const [resource, setResource] = useState();
-  const classes = useStyles();
+  const classes = myStyles();
   const limit_count = isUndefined(limit) ? 10 : limit;
 
   const get_uri = () => {
@@ -53,7 +53,7 @@ const ListNewsCard = (props) => {
   const on_next = (next_page) => {
     if (!isNull(next_page)) {
       const next_offset = next_page.split("=").pop();
-      setResource(get_uri() + `&offset=${next_offset}`);
+      setResource(`${get_uri()}&offset=${next_offset}`);
     }
   };
 
@@ -64,7 +64,7 @@ const ListNewsCard = (props) => {
 
     const news_list = map(news, (n) => {
       return (
-        <ListItem key={n.id} divider={true}>
+        <ListItem key={n.id} divider>
           <Link href={n.link}>
             {n.title}
             <Typography variant="h6" color="secondary">

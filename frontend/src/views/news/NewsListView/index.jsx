@@ -50,7 +50,7 @@ const NewsListView = () => {
                 label="Search text"
                 value={searching}
                 onChange={search_change}
-                fullWidth={true}
+                fullWidth
               />
             </CardContent>
           </Card>

@@ -28,8 +28,8 @@ import { Page, ShowResource } from "@fengxia41103/storybook";
 import DailyRankingBarRaceChart from "src/components/dashboard/DailyRankingBarRaceChart";
 import RankingScores from "src/components/dashboard/RankingScores";
 import StockRankingGrid from "src/components/dashboard/StockRankingGrid";
-import { get_highlights } from "src/utils/helper.jsx";
-import { stocks_daily_ranking } from "src/utils/stock/ranking";
+import { get_highlights } from "src/utils/helper";
+import stocks_daily_ranking from "src/utils/stock/ranking";
 
 const DashboardTrendingView = () => {
   // constants
@@ -61,7 +61,7 @@ const DashboardTrendingView = () => {
     // NOTE: must set `end` first because this modifies the `temp_now`
     // in place!
     setEnd(now.format(DATE_FORMAT));
-    setStart(now.add(-1 * parseInt(backWeek), "w").format(DATE_FORMAT));
+    setStart(now.add(-1 * parseInt(backWeek, 10), "w").format(DATE_FORMAT));
     setResource(`/historicals?on__range=${start},${end}&order_by=-on`);
   };
 
@@ -156,7 +156,7 @@ const DashboardTrendingView = () => {
       highlights = get_highlights(symbols);
     }
 
-    const high_to_low = follow === "loser" ? false : true;
+    const high_to_low = follow !== "loser";
     const ranks = stocks_daily_ranking(stocks, order_by, high_to_low, TOP);
 
     return (
@@ -175,7 +175,7 @@ const DashboardTrendingView = () => {
                           type="date"
                           value={today.format(DATE_FORMAT)}
                           onChange={today_change}
-                          fullWidth={true}
+                          fullWidth
                         />
                       </Grid>
                       <Grid item xs>
@@ -259,7 +259,7 @@ const DashboardTrendingView = () => {
                         ranks,
                         order_by,
                         highlights,
-                        negative: follow === "loser" ? true : false,
+                        negative: follow === "loser"
                       }}
                     />
                   </Box>

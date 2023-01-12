@@ -7,7 +7,7 @@ import { MultilineChart, ShowResource } from "@fengxia41103/storybook";
 const StocksPriceChart = (props) => {
   const { stocks: stock_ids, start, end } = props;
   const [resource] = useState(
-    `/historicals?stock__in=${stock_ids.join(",")}&on__range=${start},${end}`,
+    `/historicals?stock__in=${stock_ids.join(",")}&on__range=${start},${end}`
   );
 
   const render_data = (resp) => {
