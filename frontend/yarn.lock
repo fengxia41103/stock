@@ -1400,10 +1400,10 @@
   resolved "https://registry.yarnpkg.com/@exodus/schemasafe/-/schemasafe-1.0.0-rc.9.tgz#56b9c6df627190f2dcda15f81f25d68826d9be4d"
   integrity sha512-dGGHpb61hLwifAu7sotuHFDBw6GTdpG8aKC0fsK17EuTzMRvUrH7lEAr6LTJ+sx3AZYed9yZ77rltVDHyg2hRg==
 
-"@fengxia41103/storybook@1.0.0-dev.6":
-  version "1.0.0-dev.6"
-  resolved "https://npm.pkg.github.com/download/@fengxia41103/storybook/1.0.0-dev.6/07971e5f9943dd3c8557c2e2bfc07aa13f45928c#07971e5f9943dd3c8557c2e2bfc07aa13f45928c"
-  integrity sha512-2Jl3ofL9BphcLLV9Wl61ysmVqw9ISs8Sh7e0b4L+d9gfh0dfLSfXOgN5b4M+4qsNfJAn6lq3ZGkCbePrqliFsg==
+"@fengxia41103/storybook@^1.1.0-dev.1":
+  version "1.1.0"
+  resolved "https://npm.pkg.github.com/download/@fengxia41103/storybook/1.1.0/6b570c7bdf6bb48a6ad52861104891f672da688b#6b570c7bdf6bb48a6ad52861104891f672da688b"
+  integrity sha512-LTZIMCxLfSC/Pk18PrreBfDCYGHgMbKEXCrXjXkV/uBZdBm7/SIEIXcPff0RQgn/5yXm20VgzUUGi9tR3JqcNw==
   dependencies:
     "@emotion/react" "^11.10.5"
     "@emotion/styled" "^11.10.5"
