@@ -27,6 +27,8 @@ import {
 import { last } from "react-stockcharts/lib/utils";
 
 const HeiKinAshi = (props) => {
+  const { type = "svg", data: initialData, width, ratio } = props;
+
   const ha = heikinAshi();
   const ema20 = ema()
     .id(0)
@@ -51,8 +53,6 @@ const HeiKinAshi = (props) => {
       d.smaVolume50 = c;
     })
     .accessor((d) => d.smaVolume50);
-
-  const { type, data: initialData, width, ratio } = props;
 
   const calculatedData = smaVolume50(ema50(ema20(ha(initialData))));
   const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
@@ -144,7 +144,6 @@ const HeiKinAshi = (props) => {
 
         <OHLCTooltip origin={[-40, 0]} />
         <MovingAverageTooltip
-          onClick={(e) => console.log(e)}
           origin={[-38, 15]}
           options={[
             {
@@ -240,14 +239,10 @@ const HeiKinAshi = (props) => {
 };
 
 HeiKinAshi.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(PropTypes.node).isRequired,
   width: PropTypes.number.isRequired,
   ratio: PropTypes.number.isRequired,
   type: PropTypes.oneOf(["svg", "hybrid"]).isRequired,
-};
-
-HeiKinAshi.defaultProps = {
-  type: "svg",
 };
 
 const HeikinAshi = fitWidth(HeiKinAshi);

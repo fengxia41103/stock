@@ -26,7 +26,7 @@ const OHLCChartWithElderRay = (props) => {
   const elder = elderRay();
   const changeCalculator = change();
 
-  const { type, data: initialData, width, ratio } = props;
+  const { type = "svg", data: initialData, width, ratio } = props;
 
   const calculatedData = changeCalculator(elder(initialData));
   const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
@@ -41,12 +41,12 @@ const OHLCChartWithElderRay = (props) => {
 
   return (
     <ChartCanvas
+      seriesName="MSFT"
       height={650}
+      margin={{ left: 70, right: 70, top: 20, bottom: 30 }}
       width={width}
       ratio={ratio}
-      margin={{ left: 70, right: 70, top: 20, bottom: 30 }}
       type={type}
-      seriesName="MSFT"
       data={data}
       xScale={xScale}
       xAccessor={xAccessor}
@@ -176,7 +176,7 @@ const OHLCChartWithElderRay = (props) => {
           yAccessor={(d) =>
             elder.accessor()(d) && elder.accessor()(d).bullPower
           }
-          baseAt={(xScale, yScale, d) => yScale(0)}
+          baseAt={(x, y, d) => y(0)}
           fill="#6BA583"
         />
         <StraightLine yValue={0} />
@@ -221,7 +221,7 @@ const OHLCChartWithElderRay = (props) => {
           yAccessor={(d) =>
             elder.accessor()(d) && elder.accessor()(d).bearPower
           }
-          baseAt={(xScale, yScale, d) => yScale(0)}
+          baseAt={(x, y, d) => y(0)}
           fill="#FF0000"
         />
         <StraightLine yValue={0} />
@@ -241,15 +241,12 @@ const OHLCChartWithElderRay = (props) => {
 };
 
 OHLCChartWithElderRay.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(PropTypes.node).isRequired,
+  type: PropTypes.oneOf(["svg", "hybrid"]).isRequired,
   width: PropTypes.number.isRequired,
   ratio: PropTypes.number.isRequired,
-  type: PropTypes.oneOf(["svg", "hybrid"]).isRequired,
 };
 
-OHLCChartWithElderRay.defaultProps = {
-  type: "svg",
-};
 const OHLCChartWithElderRayIndicator = fitWidth(OHLCChartWithElderRay);
 
 export default OHLCChartWithElderRayIndicator;

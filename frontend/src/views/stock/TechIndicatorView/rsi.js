@@ -30,6 +30,8 @@ import {
 import { last } from "react-stockcharts/lib/utils";
 
 const RSI = (props) => {
+  const { type = "svg", data: initialData, width, ratio } = props;
+
   const ema26 = ema()
     .id(0)
     .options({ windowSize: 26 })
@@ -67,8 +69,6 @@ const RSI = (props) => {
       d.atr14 = c;
     })
     .accessor((d) => d.atr14);
-
-  const { type, data: initialData, width, ratio } = props;
 
   const calculatedData = ema26(
     ema12(smaVolume50(rsiCalculator(atr14(initialData)))),
@@ -135,7 +135,6 @@ const RSI = (props) => {
         <OHLCTooltip origin={[-40, 0]} />
 
         <MovingAverageTooltip
-          onClick={(e) => console.log(e)}
           origin={[-38, 15]}
           options={[
             {
@@ -246,15 +245,12 @@ const RSI = (props) => {
 };
 
 RSI.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(PropTypes.node).isRequired,
   width: PropTypes.number.isRequired,
   ratio: PropTypes.number.isRequired,
   type: PropTypes.oneOf(["svg", "hybrid"]).isRequired,
 };
 
-RSI.defaultProps = {
-  type: "svg",
-};
 const CandleStickChartWithRSIIndicator = fitWidth(RSI);
 
 export default CandleStickChartWithRSIIndicator;
