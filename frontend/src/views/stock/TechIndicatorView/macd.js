@@ -47,7 +47,8 @@ const mouseEdgeAppearance = {
 };
 
 const MACD = (props) => {
-  const { type, data: initialData, width, ratio } = props;
+  const { type = "svg", data: initialData, width, ratio } = props;
+
   const ema26 = ema()
     .id(0)
     .options({ windowSize: 26 })
@@ -149,7 +150,6 @@ const MACD = (props) => {
 
         <OHLCTooltip origin={[-40, 0]} />
         <MovingAverageTooltip
-          onClick={(e) => console.log(e)}
           origin={[-38, 15]}
           options={[
             {
@@ -235,14 +235,10 @@ const MACD = (props) => {
 };
 
 MACD.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(PropTypes.node).isRequired,
   width: PropTypes.number.isRequired,
   ratio: PropTypes.number.isRequired,
   type: PropTypes.oneOf(["svg", "hybrid"]).isRequired,
-};
-
-MACD.defaultProps = {
-  type: "svg",
 };
 
 const CandleStickChartWithMACDIndicator = fitWidth(MACD);

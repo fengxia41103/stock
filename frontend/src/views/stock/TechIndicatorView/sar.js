@@ -18,6 +18,7 @@ import { OHLCTooltip, SingleValueTooltip } from "react-stockcharts/lib/tooltip";
 import { last } from "react-stockcharts/lib/utils";
 
 const SAR = (props) => {
+  const { type = "svg", data: initialData, width, ratio } = props;
   const accelerationFactor = 0.02;
   const maxAccelerationFactor = 0.2;
 
@@ -30,8 +31,6 @@ const SAR = (props) => {
       d.sar = c;
     })
     .accessor((d) => d.sar);
-
-  const { type, data: initialData, width, ratio } = props;
 
   const calculatedData = defaultSar(initialData);
   const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
@@ -103,14 +102,10 @@ const SAR = (props) => {
 };
 
 SAR.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(PropTypes.node).isRequired,
   width: PropTypes.number.isRequired,
   ratio: PropTypes.number.isRequired,
   type: PropTypes.oneOf(["svg", "hybrid"]).isRequired,
-};
-
-SAR.defaultProps = {
-  type: "svg",
 };
 
 const CandleStickChartWithSAR = fitWidth(SAR);

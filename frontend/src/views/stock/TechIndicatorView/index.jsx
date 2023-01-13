@@ -7,13 +7,13 @@ import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 
 import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
 
-import CandleStickChartWithBollingerBandOverlay from "./bollinger.jsx";
-import OHLCChartWithElderRayIndicator from "./elder.jsx";
-import HeikinAshi from "./heikin.jsx";
-import CandleStickChartWithMACDIndicator from "./macd.jsx";
-import CandleStickChartWithRSIIndicator from "./rsi.jsx";
-import CandleStickChartWithSAR from "./sar.jsx";
-import CandleStickChartWithFullStochasticsIndicator from "./stochastics.jsx";
+import CandleStickChartWithBollingerBandOverlay from "./bollinger";
+import OHLCChartWithElderRayIndicator from "./elder";
+import HeikinAshi from "./heikin";
+import CandleStickChartWithMACDIndicator from "./macd";
+import CandleStickChartWithRSIIndicator from "./rsi";
+import CandleStickChartWithSAR from "./sar";
+import CandleStickChartWithFullStochasticsIndicator from "./stochastics";
 
 const TechIndicatorView = () => {
   const { type } = useParams();
