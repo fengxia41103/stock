@@ -1,0 +1,49 @@
+{
+  "name": "frontend2",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fengxia41103/storybook": "1.1.0-dev.1",
+    "@mui/material": "^5.11.4",
+    "@mui/styles": "^5.11.2",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.42.0",
+    "react-perfect-scrollbar": "^1.5.8",
+    "react-router-dom": "^6.6.2",
+    "react-scripts": "5.0.1",
+    "restful-react": "^15.9.4",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@craco/craco": "^7.0.0",
+    "prop-types": "^15.8.1"
+  }
+}
