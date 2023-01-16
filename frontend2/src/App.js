@@ -4,14 +4,11 @@ import React from "react";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import { useLocation, useRoutes } from "react-router-dom";
 import { RestfulProvider } from "restful-react";
+import routes from "./routes";
 
-import { ThemeProvider } from "@mui/material";
-
-import GlobalContext from "./context";
-// import routes from "src/routes";
-import theme from "./theme";
-import LoginView from "./views/auth/LoginView";
-import RegistrationView from "./views/auth/RegistrationView";
+import GlobalContext from "@/context";
+import LoginView from "@Views/auth/LoginView";
+import RegistrationView from "@Views/auth/RegistrationView";
 
 const globals = {
   backend: {
@@ -30,37 +27,34 @@ const App = () => {
   const api_key = session.getItem("api_key");
 
   // routing table
-  // const routing = useRoutes(routes);
   const location = useLocation();
+  const routing = useRoutes(routes);
 
   // goto where
   let here = "hello world";
   if (location.pathname === "/registration") {
     here = <RegistrationView />;
   } else if (!!user && !!api_key) {
-    // here = routing;
-    here = "lsjkdfldjsfldjs";
+    here = routing;
   } else {
     here = <LoginView />;
   }
 
   const auth = `ApiKey ${user}:${api_key}`;
   return (
-    <ThemeProvider theme={theme}>
-      <RestfulProvider
-        base={backend.api}
-        requestOptions={() => ({
-          headers: {
-            "content-type": "application/json",
-            Authorization: auth,
-          },
-        })}
-      >
-        <GlobalContext.Provider value={{ ...backend, user, auth }}>
-          {here}
-        </GlobalContext.Provider>
-      </RestfulProvider>
-    </ThemeProvider>
+    <RestfulProvider
+      base={backend.api}
+      requestOptions={() => ({
+        headers: {
+          "content-type": "application/json",
+          Authorization: auth,
+        },
+      })}
+    >
+      <GlobalContext.Provider value={{ ...backend, user, auth }}>
+        {here}
+      </GlobalContext.Provider>
+    </RestfulProvider>
   );
 };
 

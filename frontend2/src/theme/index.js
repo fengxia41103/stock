@@ -6,7 +6,7 @@ import typography from "./typography";
 
 const theme = responsiveFontSizes(
   createTheme({
-    spacing: 8,
+    spacing: 3,
     palette: {
       background: {
         dark: "#F4F6F8",
@@ -29,7 +29,7 @@ const theme = responsiveFontSizes(
     table: {
       minWidth: 650,
     },
-  }),
+  })
 );
 
 export default theme;
