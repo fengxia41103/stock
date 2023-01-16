@@ -13,7 +13,7 @@ const myStyles = makeStyles((theme) => ({
     marginTop: "30vh",
   },
   paper: {
-    padding: theme.spacing(3),
+    padding: theme.spacing,
     backgroundImage: `url(${"/static/images/auth.jpeg"})`,
     height: "100vh",
     backgroundRepeat: "no-repeat",
