@@ -24,8 +24,8 @@ const myStyles = makeStyles((theme) => ({
 }));
 
 const LoginView = () => {
-  const { api } = useContext(GlobalContext);
   const classes = myStyles();
+  const { api } = useContext(GlobalContext);
   const navigate = useNavigate();
 
   // states
