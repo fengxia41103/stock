@@ -1,0 +1,135 @@
+{
+  "author": "Feng Xia",
+  "browserslist": {
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/fengxia41103/storybook/issues"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.3",
+    "@mui/styles": "^5.11.2",
+    "@rollup/plugin-url": "^8.0.1",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.10",
+    "@uiw/react-md-editor": "^3.20.2",
+    "add": "^2.0.6",
+    "chart.js": "^4.1.1",
+    "clsx": "^1.2.1",
+    "highcharts": "^10.3.2",
+    "lodash": "^4.17.21",
+    "postcss-import": "^15.1.0",
+    "prop-types": "^15.8.1",
+    "react-chartjs-2": "^5.1.0",
+    "react-debounce-input": "^3.3.0",
+    "react-helmet": "^6.1.0",
+    "react-scripts": "5.0.1",
+    "react-spinners": "^0.13.7",
+    "restful-react": "^15.9.4",
+    "rollup-plugin-import-css": "^3.1.0",
+    "web-vitals": "^2.1.0",
+    "yarn": "^1.22.19"
+  },
+  "description": "My UI comopnent library",
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
+  },
+  "files": [
+    "lib"
+  ],
+  "homepage": "https://github.com/fengxia41103/storybook#readme",
+  "license": "MIT",
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "prettier --ignore-unknown --write",
+      "eslint --cache --fix"
+    ]
+  },
+  "name": "@fengxia41103/storybook",
+  "main": "lib/index.js",
+  "peerDependencies": {
+    "react": "18.x",
+    "react-dom": "18.x"
+  },
+  "publishConfig": {
+    "directory": "lib",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "release": {
+    "branches": [
+      "main",
+      {
+        "name": "dev",
+        "channel": "beta",
+        "prerelease": true
+      }
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "CHANGELOG.md"
+        }
+      ],
+      "@semantic-release/npm",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md"
+          ]
+        }
+      ],
+      "@semantic-release/github"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fengxia41103/storybook.git"
+  },
+  "scripts": {
+    "build": "react-scripts build",
+    "build-storybook": "build-storybook",
+    "eject": "react-scripts eject",
+    "init-msw": "msw init public/",
+    "rollup": "rollup -c",
+    "semantic-release": "semantic-release",
+    "start": "react-scripts start",
+    "storybook": "start-storybook -p 6006",
+    "test": "react-scripts test"
+  },
+  "version": "1.0.0",
+  "module": "lib/index.esm.js",
+  "types": "lib/index.d.js",
+  "yalcSig": "bbb5139c085c7c86246056e9cfe90ded"
+}

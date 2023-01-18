@@ -1,0 +1,216 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "airbnb",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "arrow-parens": [
+      "warn",
+      "always"
+    ],
+    "camelcase": [
+      0
+    ],
+    "consistent-return": "off",
+    "import/default": 2,
+    "import/export": 2,
+    "import/extensions": [
+      "error",
+      "always",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "import/named": 2,
+    "import/namespace": 2,
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
+    "import/no-extraneous-dependencies": "error",
+    "import/no-unresolved": [
+      2,
+      {
+        "amd": true,
+        "commonjs": true
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "caseInsensitive": true,
+          "order": "asc"
+        },
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          [
+            "index",
+            "sibling"
+          ],
+          "object"
+        ],
+        "newlines-between": "always",
+        "pathGroups": [
+          {
+            "group": "external",
+            "pattern": "@mui/**",
+            "position": "after"
+          },
+          {
+            "group": "external",
+            "pattern": "@fengxia41103/**",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": []
+      }
+    ],
+    "import/unambiguous": "off",
+    "no-console": [
+      "error",
+      {
+        "allow": [
+          "warn",
+          "error",
+          "debug"
+        ]
+      }
+    ],
+    "no-nested-ternary": 0,
+    "no-param-reassign": "off",
+    "no-unused-vars": [
+      "error",
+      {
+        "args": "none"
+      }
+    ],
+    "no-use-before-define": "off",
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "react/jsx-curly-newline": "off",
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-props-no-spreading": [
+      0
+    ],
+    "react/jsx-wrap-multilines": [
+      "error",
+      {
+        "assignment": false,
+        "declaration": false
+      }
+    ],
+    "react/require-default-props": "off"
+  },
+  "settings": {
+    "componentWrapperFunctions": [
+      "observer",
+      {
+        "property": "styled"
+      },
+      {
+        "object": "Mobx",
+        "property": "observer"
+      },
+      {
+        "object": "<pragma>",
+        "property": "observer"
+      }
+    ],
+    "formComponents": [
+      "CustomForm",
+      {
+        "formAttribute": "endpoint",
+        "name": "Form"
+      }
+    ],
+    "import/resolver": {
+      "alias": {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ],
+        "map": [
+          [
+            "src",
+            "./src"
+          ]
+        ]
+      },
+      "node": {
+        "paths": [
+          "src"
+        ]
+      }
+    },
+    "linkComponents": [
+      "Hyperlink",
+      {
+        "linkAttribute": "to",
+        "name": "Link"
+      }
+    ],
+    "propWrapperFunctions": [
+      "forbidExtraProps",
+      {
+        "object": "Object",
+        "property": "freeze"
+      },
+      {
+        "property": "myFavoriteWrapper"
+      },
+      {
+        "exact": true,
+        "property": "forbidExtraProps"
+      }
+    ],
+    "react": {
+      "createClass": "createReactClass",
+      "flowVersion": "0.53",
+      "fragment": "Fragment",
+      "pragma": "React",
+      "version": "detect"
+    }
+  }
+}
