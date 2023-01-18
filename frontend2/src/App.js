@@ -41,6 +41,7 @@ const App = () => {
   }
 
   const auth = `ApiKey ${user}:${api_key}`;
+
   return (
     <RestfulProvider
       base={backend.api}
