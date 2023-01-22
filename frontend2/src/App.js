@@ -1,14 +1,14 @@
-import "./App.css";
-
+import LoginView from "@Views/auth/LoginView";
+import RegistrationView from "@Views/auth/RegistrationView";
 import React from "react";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import { useLocation, useRoutes } from "react-router-dom";
 import { RestfulProvider } from "restful-react";
-import routes from "./routes";
 
 import GlobalContext from "@/context";
-import LoginView from "@Views/auth/LoginView";
-import RegistrationView from "@Views/auth/RegistrationView";
+
+import "./App.css";
+import routes from "./routes";
 
 const globals = {
   backend: {

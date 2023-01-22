@@ -1,21 +1,36 @@
 {
-  "name": "frontend2",
-  "version": "0.1.0",
-  "private": true,
+  "browserslist": {
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ]
+  },
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
     "@fengxia41103/storybook": "file:.yalc/@fengxia41103/storybook",
+    "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.4",
     "@mui/styles": "^5.11.2",
     "@mui/x-data-grid": "^5.17.19",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "clsx": "^1.2.1",
+    "d3-format": "^3.1.0",
+    "d3-time-format": "^4.1.0",
     "echarts": "^5.4.1",
     "echarts-for-react": "^3.0.2",
     "jstat": "^1.9.6",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "node-polyfill-webpack-plugin": "^2.0.1",
+    "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-gauge-chart": "^0.4.1",
@@ -28,11 +43,23 @@
     "restful-react": "^15.9.4",
     "web-vitals": "^2.1.4"
   },
-  "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "craco eject"
+  "devDependencies": {
+    "@craco/craco": "^7.0.0",
+    "@trivago/prettier-plugin-sort-imports": "^4.0.0",
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.1"
   },
   "eslintConfig": {
     "extends": [
@@ -40,20 +67,13 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "name": "frontend2",
+  "private": true,
+  "scripts": {
+    "build": "craco build",
+    "eject": "craco eject",
+    "start": "craco start",
+    "test": "craco test"
   },
-  "devDependencies": {
-    "@craco/craco": "^7.0.0",
-    "prop-types": "^15.8.1"
-  }
+  "version": "0.1.0"
 }
