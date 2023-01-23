@@ -1,15 +1,12 @@
+import ShowResource from "@Components/common/ShowResource";
+import DailyRankingBarRaceChart from "@Components/dashboard/DailyRankingBarRaceChart";
+import { get_highlights } from "@Utils/helper";
+import stocks_daily_ranking from "@Utils/stock/ranking";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
 import { Card, CardContent, CardHeader, Grid, Typography } from "@mui/material";
-
-import { ShowResource } from "@fengxia41103/storybook";
-
-import DailyRankingBarRaceChart from "@Components/dashboard/DailyRankingBarRaceChart";
-
-import { get_highlights } from "@Utils/helper";
-import stocks_daily_ranking from "@Utils/stock/ranking";
 
 const SectorPriceTrending = (props) => {
   const INTERESTS = [

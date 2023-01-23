@@ -1,13 +1,10 @@
+import ShowResource from "@Components/common/ShowResource";
+import FinancialCard from "@Components/stock/FinancialCard";
+import StockDetailContext from "@Views/stock/StockDetailView/context";
 import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Typography } from "@mui/material";
-
-import { ShowResource } from "@fengxia41103/storybook";
-
-import FinancialCard from "@Components/stock/FinancialCard";
-
-import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const IncomeView = () => {
   const { id } = useParams();

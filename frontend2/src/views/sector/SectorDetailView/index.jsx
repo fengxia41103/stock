@@ -1,3 +1,4 @@
+import ShowResource from "@Components/common/ShowResource";
 import { map } from "lodash";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
@@ -16,12 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import {
-  DropdownMenu,
-  MenuBar,
-  Page,
-  ShowResource,
-} from "@fengxia41103/storybook";
+import { DropdownMenu, MenuBar, Page } from "@fengxia41103/storybook";
 
 import GlobalContext from "@/context";
 

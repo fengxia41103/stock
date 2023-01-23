@@ -1,3 +1,5 @@
+import ShowResource from "@Components/common/ShowResource";
+import { get_last_month_string, get_today_string } from "@Utils/helper";
 import React, { useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 
@@ -9,10 +11,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
-import { ShowResource } from "@fengxia41103/storybook";
-
-import { get_last_month_string, get_today_string } from "@Utils/helper";
 
 import StockHistoricalContext from "./context";
 
@@ -32,7 +30,7 @@ const StockHistoricalView = () => {
   };
 
   const render_data = (resp) => {
-    const data = resp.objects;
+    const { objects: data } = resp;
 
     // WARNING: for some reason I don't have its price, thus nothing
     // to be shown here.

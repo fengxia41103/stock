@@ -19,8 +19,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Stack from "@mui/material/Stack";
 
-import { PollResource } from "@fengxia41103/storybook";
-
+import PollResource from "@Components/common/PollResource";
 import TaskResult from "@Components/task/TaskResult";
 
 const TaskNotificationIcon = (props) => {
