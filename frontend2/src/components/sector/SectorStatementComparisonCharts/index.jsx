@@ -1,10 +1,11 @@
+import ShowResource from "@Components/common/ShowResource";
 import { groupBy, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
 import { Card, CardContent, CardHeader, Grid } from "@mui/material";
 
-import { MultilineChart, ShowResource } from "@fengxia41103/storybook";
+import { MultilineChart } from "@fengxia41103/storybook";
 
 const SectorStatementComparisonCharts = (props) => {
   const { resource } = props;

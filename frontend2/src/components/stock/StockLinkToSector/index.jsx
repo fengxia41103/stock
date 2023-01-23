@@ -1,3 +1,6 @@
+import ShowResource from "@Components/common/ShowResource";
+import DeleteStock from "@Components/stock/DeleteStock";
+import UpdateStock from "@Components/stock/UpdateStock";
 import { map, remove } from "lodash";
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
@@ -16,12 +19,9 @@ import {
 } from "@mui/material";
 import Popover from "@mui/material/Popover";
 
-import { ShowResource, SimpleSnackbar } from "@fengxia41103/storybook";
+import { SimpleSnackbar } from "@fengxia41103/storybook";
 
 import GlobalContext from "@/context";
-
-import DeleteStock from "@Components/stock/DeleteStock";
-import UpdateStock from "@Components/stock/UpdateStock";
 
 const StockLinkToSector = (props) => {
   const { api } = useContext(GlobalContext);

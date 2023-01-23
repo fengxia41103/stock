@@ -1,3 +1,9 @@
+import ShowResource from "@Components/common/ShowResource";
+import DailyRankingBarRaceChart from "@Components/dashboard/DailyRankingBarRaceChart";
+import RankingScores from "@Components/dashboard/RankingScores";
+import StockRankingGrid from "@Components/dashboard/StockRankingGrid";
+import { get_highlights } from "@Utils/helper";
+import stocks_daily_ranking from "@Utils/stock/ranking";
 import { map } from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -23,14 +29,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { Page, ShowResource } from "@fengxia41103/storybook";
-
-import DailyRankingBarRaceChart from "@Components/dashboard/DailyRankingBarRaceChart";
-import RankingScores from "@Components/dashboard/RankingScores";
-import StockRankingGrid from "@Components/dashboard/StockRankingGrid";
-
-import { get_highlights } from "@Utils/helper";
-import stocks_daily_ranking from "@Utils/stock/ranking";
+import { Page } from "@fengxia41103/storybook";
 
 const DashboardTrendingView = () => {
   // constants

@@ -1,3 +1,4 @@
+import ShowResource from "@Components/common/ShowResource";
 import { filter, map } from "lodash";
 import React, { useContext, useState } from "react";
 import { useMutate } from "restful-react";
@@ -12,8 +13,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
-
-import { ShowResource } from "@fengxia41103/storybook";
 
 import GlobalContext from "@/context";
 

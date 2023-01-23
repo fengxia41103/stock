@@ -15,8 +15,9 @@ import {
   TextField,
 } from "@mui/material";
 
-import { DropdownMenu, Page, PollResource } from "@fengxia41103/storybook";
+import { DropdownMenu, Page } from "@fengxia41103/storybook";
 
+import PollResource from "@Components/common/PollResource";
 import AddStocksToSectorDialog from "@Components/sector/AddStocksToSectorDialog";
 import ExportStocks from "@Components/stock/ExportStocks";
 import ListStockCard from "@Components/stock/ListStockCard";

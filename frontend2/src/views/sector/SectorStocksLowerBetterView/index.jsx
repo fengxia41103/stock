@@ -1,3 +1,7 @@
+import ShowResource from "@Components/common/ShowResource";
+import PriceLastLowerNextBetterChart from "@Components/stock/PriceLastLowerNextBetterChart";
+import { get_last_month_string, get_today_string } from "@Utils/helper";
+import SectorDetailContext from "@Views/sector/SectorDetailView/context";
 import { map } from "lodash";
 import React, { useContext, useState } from "react";
 
@@ -9,14 +13,6 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-
-import { ShowResource } from "@fengxia41103/storybook";
-
-import PriceLastLowerNextBetterChart from "@Components/stock/PriceLastLowerNextBetterChart";
-
-import SectorDetailContext from "@Views/sector/SectorDetailView/context";
-
-import { get_last_month_string, get_today_string } from "@Utils/helper";
 
 const SectorStocksLowerBetterView = () => {
   const sector = useContext(SectorDetailContext);

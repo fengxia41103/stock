@@ -10,8 +10,9 @@ import {
   TextField,
 } from "@mui/material";
 
-import { Page, PollResource } from "@fengxia41103/storybook";
+import { Page } from "@fengxia41103/storybook";
 
+import PollResource from "@Components/common/PollResource";
 import AddNewSectorDialog from "@Components/sector/AddNewSectorDialog";
 import ListSectorCard from "@Components/sector/ListSectorCard";
 

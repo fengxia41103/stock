@@ -1,3 +1,9 @@
+import ShowResource from "@Components/common/ShowResource";
+import AddDiaryEditor from "@Components/diary/AddDiaryEditor";
+import ListDiary from "@Components/diary/ListDiary";
+import DeleteStock from "@Components/stock/DeleteStock";
+import StockLinkToSector from "@Components/stock/StockLinkToSector";
+import UpdateStock from "@Components/stock/UpdateStock";
 import React, { useEffect, useRef, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 
@@ -12,19 +18,7 @@ import {
   ListItem,
 } from "@mui/material";
 
-import {
-  AsDialog,
-  DropdownMenu,
-  MenuBar,
-  Page,
-  ShowResource,
-} from "@fengxia41103/storybook";
-
-import AddDiaryEditor from "@Components/diary/AddDiaryEditor";
-import ListDiary from "@Components/diary/ListDiary";
-import DeleteStock from "@Components/stock/DeleteStock";
-import StockLinkToSector from "@Components/stock/StockLinkToSector";
-import UpdateStock from "@Components/stock/UpdateStock";
+import { AsDialog, DropdownMenu, MenuBar, Page } from "@fengxia41103/storybook";
 
 import StockDetailContext from "./context";
 

@@ -1,15 +1,18 @@
 import React from "react";
 import "react-perfect-scrollbar/dist/css/styles.css";
-import { useLocation, useRoutes } from "react-router-dom";
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 import { RestfulProvider } from "restful-react";
 
+import "@/App.css";
 import GlobalContext from "@/context";
+import routes from "@/routes";
 
 import LoginView from "@Views/auth/LoginView";
 import RegistrationView from "@Views/auth/RegistrationView";
-
-import "./App.css";
-import routes from "./routes";
 
 const globals = {
   backend: {
@@ -27,17 +30,17 @@ const App = () => {
   const user = session.getItem("user");
   const api_key = session.getItem("api_key");
 
-  // routing table
-  const location = useLocation();
-
   // goto where
   let here = "hello world";
-  if (location.pathname === "/registration") {
-    here = <RegistrationView />;
-  } else if (!!user && !!api_key) {
-    here = useRoutes(routes);
+  if (!!user && !!api_key) {
+    const router = createBrowserRouter(routes);
+    here = <RouterProvider router={router} />;
   } else {
-    here = <LoginView />;
+    here = (
+      <BrowserRouter>
+        <LoginView />
+      </BrowserRouter>
+    );
   }
 
   const auth = `ApiKey ${user}:${api_key}`;
@@ -53,7 +56,6 @@ const App = () => {
       })}
     >
       <GlobalContext.Provider value={{ ...backend, user, auth }}>
-        skdjfljsfljsldf
         {here}
       </GlobalContext.Provider>
     </RestfulProvider>
