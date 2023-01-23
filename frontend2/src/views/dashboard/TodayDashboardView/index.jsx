@@ -110,8 +110,8 @@ const TodayDashboardView = () => {
         stocks: reverse(
           sortBy(
             filter(stocks, (s) => s.gain > 0),
-            (s) => s.gain
-          )
+            (s) => s.gain,
+          ),
         ),
         value: "gain",
       },
@@ -120,7 +120,7 @@ const TodayDashboardView = () => {
         subtitle: "as % of (close-open)/open",
         stocks: sortBy(
           filter(stocks, (s) => s.gain < 0),
-          (s) => s.gain
+          (s) => s.gain,
         ),
         value: "gain",
       },

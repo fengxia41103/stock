@@ -70,7 +70,7 @@ MainLayout.propTypes = {
       href: PropTypes.string,
       icon: PropTypes.node,
       title: PropTypes.string,
-    })
+    }),
   ).isRequired,
 };
 

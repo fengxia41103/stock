@@ -77,7 +77,7 @@ const AddStocksToSectorDialog = (props) => {
     const promises = selected_sectors.map((s) => call_api(s));
     Promise.all(promises).then(
       // close the dialog
-      handleClose()
+      handleClose(),
     );
   };
 
@@ -148,7 +148,7 @@ AddStocksToSectorDialog.propTypes = {
     PropTypes.shape({
       id: PropTypes.number,
       symbol: PropTypes.string,
-    })
+    }),
   ).isRequired,
 };
 

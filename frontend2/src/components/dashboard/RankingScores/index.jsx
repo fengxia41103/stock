@@ -85,8 +85,8 @@ const RankingScores = (props) => {
   const rank_by_score_descending = reverse(
     sortBy(
       filter(scores, (s) => s.total > 0),
-      (s) => s.total
-    )
+      (s) => s.total,
+    ),
   );
 
   // get price charts
@@ -94,27 +94,27 @@ const RankingScores = (props) => {
   // greater than the number of days I'm looking at.
   const my_interests = map(
     rank_by_score_descending.slice(0, 5),
-    (s) => s.stock_id
+    (s) => s.stock_id,
   );
 
   // put the most hit ones first
   const rank_by_on_it_count = reverse(
     sortBy(
       filter(scores, (s) => s.on_it_count > 0),
-      (s) => s.on_it_count
-    )
+      (s) => s.on_it_count,
+    ),
   );
 
   // occurance above 50%
   const rank_upper_50 = filter(
     rank_by_on_it_count,
-    (r) => r.on_it_count >= r.missing_it_count
+    (r) => r.on_it_count >= r.missing_it_count,
   );
 
   // occurance below 50%
   const rank_lower_50 = filter(
     rank_by_on_it_count,
-    (r) => r.on_it_count < r.missing_it_count
+    (r) => r.on_it_count < r.missing_it_count,
   );
 
   return (
@@ -224,9 +224,9 @@ RankingScores.propTypes = {
 
           // stock resource uri
           stock: PropTypes.string,
-        })
+        }),
       ),
-    })
+    }),
   ).isRequired,
   start: PropTypes.string.isRequired,
   end: PropTypes.string.isRequired,

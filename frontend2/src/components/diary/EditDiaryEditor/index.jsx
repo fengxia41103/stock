@@ -42,7 +42,7 @@ const EditDiaryEditor = (props) => {
   const handle_update = () => {
     const msg = "Notes have been updated";
     update({ content: comment, judgement: prediction }).then(() =>
-      setNotification(msg)
+      setNotification(msg),
     );
   };
 

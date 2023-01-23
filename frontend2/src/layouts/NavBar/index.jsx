@@ -6,8 +6,10 @@ import { useLocation } from "react-router-dom";
 import { Box, Divider, Drawer, Hidden, List } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-import AuthenticatedUser from "@Components/user/AuthenticatedUser";
 import GlobalContext from "@/context";
+
+import AuthenticatedUser from "@Components/user/AuthenticatedUser";
+
 import NavItem from "@Layouts/NavBarItem";
 
 const myStyles = makeStyles(() => ({
@@ -92,7 +94,7 @@ NavBar.propTypes = {
       href: PropTypes.string,
       icon: PropTypes.node,
       title: PropTypes.string,
-    })
+    }),
   ),
 };
 

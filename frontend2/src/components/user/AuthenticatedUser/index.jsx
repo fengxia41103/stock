@@ -32,8 +32,8 @@ const AuthenticatedUser = (props) => {
 AuthenticatedUser.propTypes = {
   user: PropTypes.shape({
     name: PropTypes.string,
-    avatar: PropTypes.node
-  })
+    avatar: PropTypes.node,
+  }),
 };
 
 export default AuthenticatedUser;

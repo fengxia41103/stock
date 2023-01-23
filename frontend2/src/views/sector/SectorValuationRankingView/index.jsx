@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 
 import SectorStocksRanking from "@Components/sector/SectorStocksRanking";
+
 import SectorDetailContext from "@Views/sector/SectorDetailView/context";
 
 const SectorValuationRankingView = () => {

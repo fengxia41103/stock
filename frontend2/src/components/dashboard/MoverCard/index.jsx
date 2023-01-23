@@ -80,7 +80,7 @@ MoverCard.propTypes = {
 
       // stock's own resource uri
       stock: PropTypes.string,
-    })
+    }),
   ).isRequired,
   value: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,

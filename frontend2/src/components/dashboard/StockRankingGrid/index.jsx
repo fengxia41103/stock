@@ -42,9 +42,9 @@ StockRankingGrid.propTypes = {
 
           // stock resource uri
           stock: PropTypes.string,
-        })
+        }),
       ),
-    })
+    }),
   ).isRequired,
   highlights: PropTypes.node.isRequired,
 };

@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, Grid, Typography } from "@mui/material";
 import { ShowResource } from "@fengxia41103/storybook";
 
 import DailyRankingBarRaceChart from "@Components/dashboard/DailyRankingBarRaceChart";
+
 import { get_highlights } from "@Utils/helper";
 import stocks_daily_ranking from "@Utils/stock/ranking";
 
@@ -21,8 +22,8 @@ const SectorPriceTrending = (props) => {
   const { start, end, stocks: stock_ids } = props;
   const [resource] = useState(
     `/historicals?stock__in=${stock_ids.join(
-      ","
-    )}&on__range=${start},${end}&order_by=-on`
+      ",",
+    )}&on__range=${start},${end}&order_by=-on`,
   );
 
   const render_data = (data) => {

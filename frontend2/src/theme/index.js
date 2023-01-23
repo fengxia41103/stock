@@ -29,7 +29,7 @@ const theme = responsiveFontSizes(
     table: {
       minWidth: 650,
     },
-  })
+  }),
 );
 
 export default theme;

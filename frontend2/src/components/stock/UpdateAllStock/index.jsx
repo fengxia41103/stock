@@ -32,7 +32,7 @@ const UpdateAllStock = (props) => {
 
     const promises = update_these_stocks.map((s) => call_api(s));
     Promise.all(promises).then(
-      setNotification(`${symbols} updates have been requested.`)
+      setNotification(`${symbols} updates have been requested.`),
     );
   };
 
@@ -49,7 +49,7 @@ UpdateAllStock.propTypes = {
   stocks: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
-    })
+    }),
   ),
 };
 

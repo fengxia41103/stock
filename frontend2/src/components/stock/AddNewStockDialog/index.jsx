@@ -53,12 +53,12 @@ const AddNewStockDialog = () => {
   const on_create = () => {
     const success_msg = truncate(symbol.join(","), 20);
     const promises = map(symbol, (s) =>
-      create({ symbol: s, sectors: selectedSectors })
+      create({ symbol: s, sectors: selectedSectors }),
     );
     Promise.all(promises).then(
       setNotification(
-        `Symbols: ${success_msg} have been added to your portfolio.`
-      )
+        `Symbols: ${success_msg} have been added to your portfolio.`,
+      ),
     );
   };
 
@@ -72,7 +72,7 @@ const AddNewStockDialog = () => {
     } else {
       // remove from selected sector list
       setSelectedSectors(
-        remove(selectedSectors, (x) => x.id === event.target.value)
+        remove(selectedSectors, (x) => x.id === event.target.value),
       );
     }
   };

@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import { Button, ListItem, Icon } from "@mui/material";
+import { Button, Icon, ListItem } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 const myStyles = makeStyles((theme) => ({

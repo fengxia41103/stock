@@ -5,8 +5,10 @@ import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 
 import SectorPriceTrending from "@Components/sector/SectorPriceTrending";
 import StocksPriceChart from "@Components/stock/StocksPriceChart";
-import { get_last_month_string, get_today_string } from "@Utils/helper";
+
 import SectorDetailContext from "@Views/sector/SectorDetailView/context";
+
+import { get_last_month_string, get_today_string } from "@Utils/helper";
 
 const SectorPriceView = () => {
   const sector = useContext(SectorDetailContext);

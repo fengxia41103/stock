@@ -14,6 +14,7 @@ import {
 import { Page } from "@fengxia41103/storybook";
 
 import StockRanking from "@Components/stock/StockRanking";
+
 import { get_highlights } from "@Utils/helper";
 
 const RankingView = () => {

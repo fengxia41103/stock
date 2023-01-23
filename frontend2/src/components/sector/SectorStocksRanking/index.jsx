@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 
 import StockRanking from "@Components/stock/StockRanking";
+
 import { get_highlights } from "@Utils/helper";
 
 const SectorStocksRanking = (props) => {
@@ -42,7 +43,7 @@ SectorStocksRanking.propTypes = {
       PropTypes.shape({
         id: PropTypes.number,
         symbol: PropTypes.string,
-      })
+      }),
     ),
   }).isRequired,
   title: PropTypes.string.isRequired,

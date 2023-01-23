@@ -9,6 +9,7 @@ import { Box, Grid, Link, TextField, Tooltip, Typography } from "@mui/material";
 import { HighlightedText, RankChart } from "@fengxia41103/storybook";
 
 import StocksPriceChart from "@Components/stock/StocksPriceChart";
+
 import { get_last_month_string, get_today_string } from "@Utils/helper";
 
 const StockRankingRow = (props) => {
@@ -103,7 +104,7 @@ StockRankingRow.propTypes = {
       on: PropTypes.string,
       symbol: PropTypes.string,
       val: PropTypes.number,
-    })
+    }),
   ).isRequired,
   threshold: PropTypes.string,
   handle_ratio_change: PropTypes.func,
