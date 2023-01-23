@@ -19,6 +19,7 @@ import { ColoredNumber } from "@fengxia41103/storybook";
 
 import GainPriceRanges from "@Components/stock/GainPriceRanges";
 import PriceChart from "@Components/stock/PriceChart";
+
 import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
 
 const myStyles = makeStyles(() => ({
@@ -80,7 +81,7 @@ const PriceView = () => {
           </Card>
         </Grid>
       );
-    })
+    }),
   );
 
   return (

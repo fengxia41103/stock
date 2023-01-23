@@ -67,6 +67,11 @@
             "group": "external",
             "pattern": "@fengxia41103/**",
             "position": "after"
+          },
+          {
+            "group": "internal",
+            "pattern": "@(Views|Components|Layouts|Utils)",
+            "position": "after"
           }
         ],
         "pathGroupsExcludedImportTypes": []
@@ -136,10 +141,6 @@
       }
     ],
     "import/resolver": {
-      "alias": {
-        "extensions": [".js", ".jsx"],
-        "map": [["src", "./src"]]
-      },
       "node": {
         "paths": ["src"],
         "extensions": [".js", ".jsx"]

@@ -1,7 +1,18 @@
+import React from "react";
+import { Navigate } from "react-router-dom";
 
+import AnnouncementIcon from "@mui/icons-material/Announcement";
+import BusinessIcon from "@mui/icons-material/Business";
+import CompareIcon from "@mui/icons-material/Compare";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import SortIcon from "@mui/icons-material/Sort";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
+import { NotFoundView } from "@fengxia41103/storybook";
 
 import MainLayout from "@Layouts/MainLayout";
+
 import LoginView from "@Views/auth/LoginView";
 import LogoutView from "@Views/auth/LogoutView";
 import RegistrationView from "@Views/auth/RegistrationView";
@@ -43,18 +54,6 @@ import StockSummaryView from "@Views/stock/StockSummaryView";
 import TechIndicatorView from "@Views/stock/TechIndicatorView";
 import TwentyFourHourReturnView from "@Views/stock/TwentyFourHourReturnView";
 import ValuationRatiosView from "@Views/stock/ValuationRatiosView";
-import React from "react";
-import { Navigate } from "react-router-dom";
-
-import AnnouncementIcon from "@mui/icons-material/Announcement";
-import BusinessIcon from "@mui/icons-material/Business";
-import CompareIcon from "@mui/icons-material/Compare";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import EventNoteIcon from "@mui/icons-material/EventNote";
-import SortIcon from "@mui/icons-material/Sort";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-
-import { NotFoundView } from "@fengxia41103/storybook";
 
 const navbar_items = [
   {

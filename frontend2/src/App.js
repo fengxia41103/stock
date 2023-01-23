@@ -1,11 +1,12 @@
-import LoginView from "@Views/auth/LoginView";
-import RegistrationView from "@Views/auth/RegistrationView";
 import React from "react";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import { useLocation, useRoutes } from "react-router-dom";
 import { RestfulProvider } from "restful-react";
 
 import GlobalContext from "@/context";
+
+import LoginView from "@Views/auth/LoginView";
+import RegistrationView from "@Views/auth/RegistrationView";
 
 import "./App.css";
 import routes from "./routes";
@@ -28,14 +29,13 @@ const App = () => {
 
   // routing table
   const location = useLocation();
-  const routing = useRoutes(routes);
 
   // goto where
   let here = "hello world";
   if (location.pathname === "/registration") {
     here = <RegistrationView />;
   } else if (!!user && !!api_key) {
-    here = routing;
+    here = useRoutes(routes);
   } else {
     here = <LoginView />;
   }
@@ -53,6 +53,7 @@ const App = () => {
       })}
     >
       <GlobalContext.Provider value={{ ...backend, user, auth }}>
+        skdjfljsfljsldf
         {here}
       </GlobalContext.Provider>
     </RestfulProvider>

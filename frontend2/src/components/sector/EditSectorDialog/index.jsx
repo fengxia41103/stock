@@ -52,7 +52,7 @@ const EditSectorDialog = (props) => {
   // filtered existing list
   const filtered_existings = map(
     filter(existings, (s) => s.includes(new_name)),
-    (s) => <Chip key={s} color="primary" label={s} />
+    (s) => <Chip key={s} color="primary" label={s} />,
   );
 
   return (

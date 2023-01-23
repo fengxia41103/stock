@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { Typography } from "@mui/material";
 
 import FinancialCard from "@Components/stock/FinancialCard";
+
 import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const DupontView = () => {

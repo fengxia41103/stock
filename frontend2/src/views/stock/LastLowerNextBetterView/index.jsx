@@ -5,6 +5,7 @@ import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 import GainProbabilityChart from "@Components/stock/GainProbabilityChart";
 import PriceLastLowerNextBetterChart from "@Components/stock/PriceLastLowerNextBetterChart";
 import PriceTable from "@Components/stock/PriceTable";
+
 import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
 
 const LastLowerNextBetterView = () => {

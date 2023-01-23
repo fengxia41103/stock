@@ -146,7 +146,7 @@ ListStockCard.propTypes = {
       ps: PropTypes.number,
       pb: PropTypes.number,
       resource_uri: PropTypes.string,
-    })
+    }),
   ).isRequired,
   actions: PropTypes.arrayOf(PropTypes.node),
 };

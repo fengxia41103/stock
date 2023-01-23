@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
 
 import PriceReturnStat from "@Components/stock/PriceReturnStat";
+
+import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
+
 import {
   twenty_four_hour_returns,
   twenty_four_hour_stats,
 } from "@Utils/stock/returns";
-import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
 
 const TwentyFourHourReturnView = () => {
   const data = useContext(StockHistoricalContext);

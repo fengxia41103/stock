@@ -14,8 +14,10 @@ import {
 import { ShowResource } from "@fengxia41103/storybook";
 
 import SectorReturnComparisonChart from "@Components/sector/SectorReturnComparisonChart";
-import { get_last_month_string, get_today_string } from "@Utils/helper";
+
 import SectorDetailContext from "@Views/sector/SectorDetailView/context";
+
+import { get_last_month_string, get_today_string } from "@Utils/helper";
 
 const SectorReturnView = () => {
   const sector = useContext(SectorDetailContext);
@@ -26,7 +28,7 @@ const SectorReturnView = () => {
   const [start] = useState(get_last_month_string());
   const [end] = useState(get_today_string());
   const [resource] = useState(
-    `/historicals?stock__in=${stock_ids}&on__range=${start},${end}`
+    `/historicals?stock__in=${stock_ids}&on__range=${start},${end}`,
   );
 
   const render_data = (data) => {
@@ -70,7 +72,7 @@ const SectorReturnView = () => {
             </Card>
           </Box>
         );
-      })
+      }),
     );
 
     return (

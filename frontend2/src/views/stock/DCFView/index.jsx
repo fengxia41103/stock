@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 
 import FinancialCard from "@Components/stock/FinancialCard";
+
 import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const DCFView = () => {
@@ -111,7 +112,7 @@ const DCFView = () => {
           income,
           terminal_value,
         },
-        d
+        d,
       );
     });
     return dcf_values;

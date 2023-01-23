@@ -6,6 +6,7 @@ import { Drawer, Typography } from "@mui/material";
 import { ShowResource } from "@fengxia41103/storybook";
 
 import FinancialCard from "@Components/stock/FinancialCard";
+
 import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const BalanceView = () => {

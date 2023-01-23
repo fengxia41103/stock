@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { Box, Grid, Paper } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-import RegistrationCard from "@Components/auth/RegistrationCard";
 import GlobalContext from "@/context";
+
+import RegistrationCard from "@Components/auth/RegistrationCard";
 
 const myStyles = makeStyles((theme) => ({
   card: {

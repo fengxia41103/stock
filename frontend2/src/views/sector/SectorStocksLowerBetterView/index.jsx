@@ -13,8 +13,10 @@ import {
 import { ShowResource } from "@fengxia41103/storybook";
 
 import PriceLastLowerNextBetterChart from "@Components/stock/PriceLastLowerNextBetterChart";
-import { get_last_month_string, get_today_string } from "@Utils/helper";
+
 import SectorDetailContext from "@Views/sector/SectorDetailView/context";
+
+import { get_last_month_string, get_today_string } from "@Utils/helper";
 
 const SectorStocksLowerBetterView = () => {
   const sector = useContext(SectorDetailContext);

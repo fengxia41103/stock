@@ -25,8 +25,6 @@ const SectorListView = () => {
   };
 
   const render_data = (data) => {
-    console.error(data);
-
     const sectors = data.objects;
 
     // filter based on search string

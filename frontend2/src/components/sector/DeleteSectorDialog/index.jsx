@@ -13,8 +13,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 
-import StockSymbol from "@Components/stock/StockSymbol";
 import GlobalContext from "@/context";
+
+import StockSymbol from "@Components/stock/StockSymbol";
 
 const DeleteSectorDialog = (props) => {
   const { host } = useContext(GlobalContext);
@@ -89,7 +90,7 @@ DeleteSectorDialog.propTypes = {
     PropTypes.shape({
       id: PropTypes.number,
       symbol: PropTypes.string,
-    })
+    }),
   ).isRequired,
 };
 

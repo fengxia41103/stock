@@ -33,7 +33,7 @@ const SectorReturnComparisonChart = (props) => {
     // update categories
     categories = merge(
       categories,
-      map(returns, (d) => d.on)
+      map(returns, (d) => d.on),
     );
 
     const aligned_returns = [];
@@ -77,7 +77,7 @@ SectorReturnComparisonChart.propTypes = {
       low_price: PropTypes.number,
       adj_close: PropTypes.number,
       vol: PropTypes.number,
-    })
+    }),
   ).isRequired,
   kind: PropTypes.string.isRequired,
 };
