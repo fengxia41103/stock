@@ -1,10 +1,12 @@
-import ShowResource from "@Components/common/ShowResource";
-import FinancialCard from "@Components/stock/FinancialCard";
-import StockDetailContext from "@Views/stock/StockDetailView/context";
 import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Drawer, Typography } from "@mui/material";
+
+import ShowResource from "@Components/common/ShowResource";
+import FinancialCard from "@Components/stock/FinancialCard";
+
+import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const BalanceView = () => {
   const { id } = useParams();
@@ -58,7 +60,7 @@ const BalanceView = () => {
 
     return (
       <>
-        <Typography variant="h1">{symbol} Balance Sheet</Typography>
+        <Typography variant="h2">Balance Sheet</Typography>
         <FinancialCard {...{ data, reported, ratio, pcnt, p2p_growth }} />
       </>
     );

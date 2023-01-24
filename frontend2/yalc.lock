@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "@fengxia41103/storybook": {
+      "signature": "ed2dc918014e8e0d51f0225a999657ef",
+      "file": true,
+      "replaced": "1.1.0-dev.1"
+    }
+  }
+}

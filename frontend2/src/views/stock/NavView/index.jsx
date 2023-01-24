@@ -18,7 +18,7 @@ const NavView = () => {
 
   return (
     <>
-      <Typography variant="h1">{symbol} Net Asset Model</Typography>
+      <Typography variant="h2">Net Asset Model</Typography>
       <FinancialCard data={nav_model} reported={reported} />
     </>
   );

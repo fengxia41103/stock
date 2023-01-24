@@ -27,7 +27,7 @@ const DupontView = () => {
 
   return (
     <>
-      <Typography variant="h1">{symbol} Dupont ROE Model</Typography>
+      <Typography variant="h2">Dupont ROE Model</Typography>
       <FinancialCard data={dupont_model} {...{ reported, analysis }} />
     </>
   );
