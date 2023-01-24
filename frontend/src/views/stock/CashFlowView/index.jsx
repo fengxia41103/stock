@@ -3,15 +3,15 @@ import { useParams } from "react-router-dom";
 
 import { Typography } from "@mui/material";
 
-import { ShowResource } from "@fengxia41103/storybook";
+import ShowResource from "@Components/common/ShowResource";
+import FinancialCard from "@Components/stock/FinancialCard";
 
-import FinancialCard from "src/components/stock/FinancialCard";
-import StockDetailContext from "src/views/stock/StockDetailView/context";
+import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const CashFlowView = () => {
   const { id } = useParams();
   const stock = useContext(StockDetailContext);
-  const {symbol} = stock;
+  const { symbol } = stock;
 
   const [resource] = useState(`/cashes?stock=${id}`);
 
@@ -44,7 +44,7 @@ const CashFlowView = () => {
 
     return (
       <>
-        <Typography variant="h1">{symbol} Cash Flow Statement</Typography>
+        <Typography variant="h2">Cash Flow Statement</Typography>
         <FinancialCard
           {...{ data, reported, pcnt, p2p_growth, in_period_change }}
         />

@@ -12,12 +12,13 @@ import {
   Typography,
 } from "@mui/material";
 
-import FinancialCard from "src/components/stock/FinancialCard";
-import StockDetailContext from "src/views/stock/StockDetailView/context";
+import FinancialCard from "@Components/stock/FinancialCard";
+
+import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const DCFView = () => {
   const stock = useContext(StockDetailContext);
-  const {symbol} = stock;
+  const { symbol } = stock;
 
   const [input_open, setInputOpen] = useState(false);
   const open_input_drawer = () => setInputOpen(true);
@@ -63,9 +64,9 @@ const DCFView = () => {
       let income = 0;
 
       // year 0-5, growing at growth rate
-      for (let i = 0; i <= Math.floor(project_year / 2); i+=1) {
-        const tmp = d.fcf * (1 + growth_rate / 100)**i;
-        const discounted = tmp / (1 + wacc)**i;
+      for (let i = 0; i <= Math.floor(project_year / 2); i += 1) {
+        const tmp = d.fcf * (1 + growth_rate / 100) ** i;
+        const discounted = tmp / (1 + wacc) ** i;
         income += discounted;
       }
 
@@ -76,9 +77,13 @@ const DCFView = () => {
       // - the cost of debt, eg. rating of this company, is not changing
       //
       // Well, these are a lot to assume!
-      for (let i = Math.floor(project_year / 2) + 1; i <= project_year; i+=1) {
-        const tmp = d.fcf * (1 + growth_rate / 200)**i;
-        const discounted = tmp / (1 + wacc)**i;
+      for (
+        let i = Math.floor(project_year / 2) + 1;
+        i <= project_year;
+        i += 1
+      ) {
+        const tmp = d.fcf * (1 + growth_rate / 200) ** i;
+        const discounted = tmp / (1 + wacc) ** i;
         income += discounted;
       }
 
@@ -196,7 +201,7 @@ const DCFView = () => {
   const dcf_values = compute_dcf(stock);
   return (
     <>
-      <Typography variant="h1">{symbol} DCF Model</Typography>
+      <Typography variant="h2">DCF Model</Typography>
       <Box mt={2}>
         <Button
           variant="contained"

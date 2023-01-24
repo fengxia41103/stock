@@ -3,14 +3,16 @@ import React, { useContext, useState } from "react";
 
 import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 
-import SectorPriceTrending from "src/components/sector/SectorPriceTrending";
-import StocksPriceChart from "src/components/stock/StocksPriceChart";
-import { get_last_month_string, get_today_string } from "src/utils/helper";
-import SectorDetailContext from "src/views/sector/SectorDetailView/context";
+import SectorPriceTrending from "@Components/sector/SectorPriceTrending";
+import StocksPriceChart from "@Components/stock/StocksPriceChart";
+
+import SectorDetailContext from "@Views/sector/SectorDetailView/context";
+
+import { get_last_month_string, get_today_string } from "@Utils/helper";
 
 const SectorPriceView = () => {
   const sector = useContext(SectorDetailContext);
-  const {stocks_detail} = sector;
+  const { stocks_detail } = sector;
 
   const stock_ids = map(stocks_detail, (s) => s.id);
   const [start] = useState(get_last_month_string());

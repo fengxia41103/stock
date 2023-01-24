@@ -1,10 +1,9 @@
+import ShowResource from "@Components/common/ShowResource";
 import { map } from "lodash";
 import moment from "moment";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { Sparklines, SparklinesCurve } from "react-sparklines";
-
-import { ShowResource } from "@fengxia41103/storybook";
 
 const RecentPriceSparkline = (props) => {
   const DATE_FORMAT = "YYYY-MM-DD";

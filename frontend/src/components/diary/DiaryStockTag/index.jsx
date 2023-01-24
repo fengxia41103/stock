@@ -4,9 +4,10 @@ import React, { useContext } from "react";
 
 import { Card, CardContent, CardHeader, Grid } from "@mui/material";
 
-import StockTagPriceLabel from "src/components/diary/StockTagPriceLabel";
-import StockSymbol from "src/components/stock/StockSymbol";
-import DiaryListContext from "src/views/diary/DiaryListView/context";
+import StockTagPriceLabel from "@Components/diary/StockTagPriceLabel";
+import StockSymbol from "@Components/stock/StockSymbol";
+
+import DiaryListContext from "@Views/diary/DiaryListView/context";
 
 const DiaryStockTag = (props) => {
   const stocks = useContext(DiaryListContext);

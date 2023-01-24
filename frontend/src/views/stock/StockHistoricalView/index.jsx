@@ -10,9 +10,9 @@ import {
   Typography,
 } from "@mui/material";
 
-import { ShowResource } from "@fengxia41103/storybook";
+import ShowResource from "@Components/common/ShowResource";
 
-import { get_last_month_string, get_today_string } from "src/utils/helper";
+import { get_last_month_string, get_today_string } from "@Utils/helper";
 
 import StockHistoricalContext from "./context";
 
@@ -32,7 +32,7 @@ const StockHistoricalView = () => {
   };
 
   const render_data = (resp) => {
-    const data = resp.objects;
+    const { objects: data } = resp;
 
     // WARNING: for some reason I don't have its price, thus nothing
     // to be shown here.
@@ -42,7 +42,7 @@ const StockHistoricalView = () => {
 
     return (
       <>
-        <Typography variant="h1">{data[0].symbol} Historical</Typography>
+        <Typography variant="h2">Historical Price</Typography>
         <Box mt={3}>
           <Card>
             <CardContent>

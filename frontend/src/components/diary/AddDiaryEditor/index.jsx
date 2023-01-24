@@ -17,7 +17,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-import GlobalContext from "src/context";
+import GlobalContext from "@/context";
 
 const AddDiaryEditor = (props) => {
   // context

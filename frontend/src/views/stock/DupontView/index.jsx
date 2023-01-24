@@ -2,12 +2,13 @@ import React, { useContext } from "react";
 
 import { Typography } from "@mui/material";
 
-import FinancialCard from "src/components/stock/FinancialCard";
-import StockDetailContext from "src/views/stock/StockDetailView/context";
+import FinancialCard from "@Components/stock/FinancialCard";
+
+import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const DupontView = () => {
   const stock = useContext(StockDetailContext);
-  const {symbol} = stock;
+  const { symbol } = stock;
 
   const reported = {
     revenue: "Revenue",
@@ -26,7 +27,7 @@ const DupontView = () => {
 
   return (
     <>
-      <Typography variant="h1">{symbol} Dupont ROE Model</Typography>
+      <Typography variant="h2">Dupont ROE Model</Typography>
       <FinancialCard data={dupont_model} {...{ reported, analysis }} />
     </>
   );

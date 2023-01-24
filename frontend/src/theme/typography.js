@@ -2,8 +2,9 @@ const typography = {
   // Tell Material-UI what's the font-size on the html element is.
   fontSize: 14,
   h1: {
-    fontWeight: 500,
-    fontSize: 25,
+    fontFamily: "Raleway",
+    fontWeight: 900,
+    fontSize: 45,
     letterSpacing: "-0.24px",
   },
   h2: {

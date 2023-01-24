@@ -13,7 +13,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 
-import GlobalContext from "src/context";
+import GlobalContext from "@/context";
 
 const EditSectorDialog = (props) => {
   const { host } = useContext(GlobalContext);

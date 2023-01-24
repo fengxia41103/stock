@@ -2,12 +2,13 @@ import React, { useContext } from "react";
 
 import { Typography } from "@mui/material";
 
-import FinancialCard from "src/components/stock/FinancialCard";
-import StockDetailContext from "src/views/stock/StockDetailView/context";
+import FinancialCard from "@Components/stock/FinancialCard";
+
+import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const NavView = () => {
   const stock = useContext(StockDetailContext);
-  const {symbol} = stock;
+  const { symbol } = stock;
 
   const reported = {
     nav: "NAV",
@@ -17,7 +18,7 @@ const NavView = () => {
 
   return (
     <>
-      <Typography variant="h1">{symbol} Net Asset Model</Typography>
+      <Typography variant="h2">Net Asset Model</Typography>
       <FinancialCard data={nav_model} reported={reported} />
     </>
   );

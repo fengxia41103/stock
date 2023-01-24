@@ -1,3 +1,4 @@
+import ShowResource from "@Components/common/ShowResource";
 import { clone, map, remove, truncate } from "lodash";
 import React, { useContext, useState } from "react";
 import { useMutate } from "restful-react";
@@ -16,13 +17,9 @@ import Button from "@mui/material/Button";
 import DialogContentText from "@mui/material/DialogContentText";
 import TextField from "@mui/material/TextField";
 
-import {
-  AsDialog,
-  ShowResource,
-  SimpleSnackbar,
-} from "@fengxia41103/storybook";
+import { AsDialog, SimpleSnackbar } from "@fengxia41103/storybook";
 
-import GlobalContext from "src/context";
+import GlobalContext from "@/context";
 
 const AddNewStockDialog = () => {
   // context

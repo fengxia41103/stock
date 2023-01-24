@@ -11,90 +11,90 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
 import { NotFoundView } from "@fengxia41103/storybook";
 
-import MainLayout from "src/layouts/MainLayout";
-import LoginView from "src/views/auth/LoginView";
-import LogoutView from "src/views/auth/LogoutView";
-import RegistrationView from "src/views/auth/RegistrationView";
-import DashboardTrendingView from "src/views/dashboard/DashboardTrendingView";
-import TodayDashboardView from "src/views/dashboard/TodayDashboardView";
-import AddDiaryView from "src/views/diary/AddDiaryView";
-import DiaryListView from "src/views/diary/DiaryListView";
-import NewsListView from "src/views/news/NewsListView";
-import SectorBalanceRankingView from "src/views/sector/SectorBalanceRankingView";
-import SectorBalancesheetView from "src/views/sector/SectorBalancesheetView";
-import SectorCashFlowView from "src/views/sector/SectorCashFlowView";
-import SectorCashRankingView from "src/views/sector/SectorCashRankingView";
-import SectorDetailView from "src/views/sector/SectorDetailView";
-import SectorIncomeRankingView from "src/views/sector/SectorIncomeRankingView";
-import SectorIncomeView from "src/views/sector/SectorIncomeView";
-import SectorInstitutionOwnershipView from "src/views/sector/SectorInstitutionOwnershipView";
-import SectorListView from "src/views/sector/SectorListView";
-import SectorPriceView from "src/views/sector/SectorPriceView";
-import SectorReturnView from "src/views/sector/SectorReturnView";
-import SectorRoeRankingView from "src/views/sector/SectorRoeRankingView";
-import SectorRoeView from "src/views/sector/SectorRoeView";
-import SectorStocksLowerBetterView from "src/views/sector/SectorStocksLowerBetterView";
-import SectorValuationRankingView from "src/views/sector/SectorValuationRankingView";
-import BalanceView from "src/views/stock/BalanceView";
-import CashFlowView from "src/views/stock/CashFlowView";
-import DailyReturnView from "src/views/stock/DailyReturnView";
-import DCFView from "src/views/stock/DCFView";
-import DupontView from "src/views/stock/DupontView";
-import IncomeView from "src/views/stock/IncomeView";
-import LastLowerNextBetterView from "src/views/stock/LastLowerNextBetterView";
-import NavView from "src/views/stock/NavView";
-import OvernightReturnView from "src/views/stock/OvernightReturnView";
-import PriceView from "src/views/stock/PriceView";
-import RankingView from "src/views/stock/RankingView";
-import StockDetailView from "src/views/stock/StockDetailView";
-import StockHistoricalView from "src/views/stock/StockHistoricalView";
-import StockListView from "src/views/stock/StockListView";
-import StockSummaryView from "src/views/stock/StockSummaryView";
-import TechIndicatorView from "src/views/stock/TechIndicatorView";
-import TwentyFourHourReturnView from "src/views/stock/TwentyFourHourReturnView";
-import ValuationRatiosView from "src/views/stock/ValuationRatiosView";
+import MainLayout from "@Layouts/MainLayout";
+
+import LoginView from "@Views/auth/LoginView";
+import LogoutView from "@Views/auth/LogoutView";
+import RegistrationView from "@Views/auth/RegistrationView";
+import DashboardTrendingView from "@Views/dashboard/DashboardTrendingView";
+import TodayDashboardView from "@Views/dashboard/TodayDashboardView";
+import AddDiaryView from "@Views/diary/AddDiaryView";
+import DiaryListView from "@Views/diary/DiaryListView";
+import NewsListView from "@Views/news/NewsListView";
+import SectorBalanceRankingView from "@Views/sector/SectorBalanceRankingView";
+import SectorBalancesheetView from "@Views/sector/SectorBalancesheetView";
+import SectorCashFlowView from "@Views/sector/SectorCashFlowView";
+import SectorCashRankingView from "@Views/sector/SectorCashRankingView";
+import SectorDetailView from "@Views/sector/SectorDetailView";
+import SectorIncomeRankingView from "@Views/sector/SectorIncomeRankingView";
+import SectorIncomeView from "@Views/sector/SectorIncomeView";
+import SectorInstitutionOwnershipView from "@Views/sector/SectorInstitutionOwnershipView";
+import SectorListView from "@Views/sector/SectorListView";
+import SectorPriceView from "@Views/sector/SectorPriceView";
+import SectorReturnView from "@Views/sector/SectorReturnView";
+import SectorRoeRankingView from "@Views/sector/SectorRoeRankingView";
+import SectorRoeView from "@Views/sector/SectorRoeView";
+import SectorStocksLowerBetterView from "@Views/sector/SectorStocksLowerBetterView";
+import SectorValuationRankingView from "@Views/sector/SectorValuationRankingView";
+import BalanceView from "@Views/stock/BalanceView";
+import CashFlowView from "@Views/stock/CashFlowView";
+import DailyReturnView from "@Views/stock/DailyReturnView";
+import DCFView from "@Views/stock/DCFView";
+import DupontView from "@Views/stock/DupontView";
+import IncomeView from "@Views/stock/IncomeView";
+import LastLowerNextBetterView from "@Views/stock/LastLowerNextBetterView";
+import NavView from "@Views/stock/NavView";
+import OvernightReturnView from "@Views/stock/OvernightReturnView";
+import PriceView from "@Views/stock/PriceView";
+import RankingView from "@Views/stock/RankingView";
+import StockDetailView from "@Views/stock/StockDetailView";
+import StockHistoricalView from "@Views/stock/StockHistoricalView";
+import StockListView from "@Views/stock/StockListView";
+import StockSummaryView from "@Views/stock/StockSummaryView";
+import TechIndicatorView from "@Views/stock/TechIndicatorView";
+import TwentyFourHourReturnView from "@Views/stock/TwentyFourHourReturnView";
+import ValuationRatiosView from "@Views/stock/ValuationRatiosView";
 
 const navbar_items = [
   {
     href: "/dashboard",
-    icon: DashboardIcon,
+    icon: <DashboardIcon />,
     title: "Today",
   },
   {
     href: "/trending",
-    icon: TrendingUpIcon,
+    icon: <TrendingUpIcon />,
     title: "Price Trending",
   },
   {
     href: "/stocks",
-    icon: BusinessIcon,
+    icon: <BusinessIcon />,
     title: "My Stocks",
   },
   {
     href: "/sectors",
-    icon: CompareIcon,
+    icon: <CompareIcon />,
     title: "My Sectors",
   },
   {
     href: "/rankings",
-    icon: SortIcon,
+    icon: <SortIcon />,
     title: "Stock Rankings",
   },
   {
     href: "/notes",
-    icon: EventNoteIcon,
+    icon: <EventNoteIcon />,
     title: "My Notes",
   },
   {
     href: "/news",
-    icon: AnnouncementIcon,
+    icon: <AnnouncementIcon />,
     title: "News",
   },
 ];
 
 const routes = [
   // auth
-  { path: "login", element: <LoginView /> },
   { path: "logout", element: <LogoutView /> },
   { path: "registration", element: <RegistrationView /> },
 
@@ -103,6 +103,7 @@ const routes = [
     path: "/",
     element: <MainLayout sideNavs={navbar_items} />,
     children: [
+      { path: "login", element: <LoginView /> },
       // stocks
       { path: "stocks", element: <StockListView /> },
       {

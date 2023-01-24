@@ -1,3 +1,5 @@
+import ShowResource from "@Components/common/ShowResource";
+import MoverCard from "@Components/dashboard/MoverCard";
 import { filter, map, reverse, sortBy } from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -11,9 +13,7 @@ import {
   TextField,
 } from "@mui/material";
 
-import { CountCards, Page, ShowResource } from "@fengxia41103/storybook";
-
-import MoverCard from "src/components/dashboard/MoverCard";
+import { CountCards, Page } from "@fengxia41103/storybook";
 
 const TodayDashboardView = () => {
   // constant

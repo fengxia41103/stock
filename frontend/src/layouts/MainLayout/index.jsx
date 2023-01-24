@@ -5,8 +5,8 @@ import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-import NavBar from "src/layouts/NavBar";
-import TopBar from "src/layouts/TopBar";
+import NavBar from "@Layouts/NavBar";
+import TopBar from "@Layouts/TopBar";
 
 const myStyles = makeStyles((theme) => ({
   root: {
@@ -40,9 +40,10 @@ const myStyles = makeStyles((theme) => ({
 }));
 
 const MainLayout = (props) => {
-  const {sideNavs} = props;
-  const classes = myStyles();
+  const { sideNavs } = props;
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
+
+  const classes = myStyles();
 
   return (
     <Box className={classes.root}>
@@ -64,7 +65,13 @@ const MainLayout = (props) => {
 };
 
 MainLayout.propTypes = {
-  sideNavs: PropTypes.node.isRequired
-}
+  sideNavs: PropTypes.arrayOf(
+    PropTypes.shape({
+      href: PropTypes.string,
+      icon: PropTypes.node,
+      title: PropTypes.string,
+    }),
+  ).isRequired,
+};
 
 export default MainLayout;

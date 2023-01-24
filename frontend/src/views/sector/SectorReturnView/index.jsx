@@ -1,3 +1,7 @@
+import ShowResource from "@Components/common/ShowResource";
+import SectorReturnComparisonChart from "@Components/sector/SectorReturnComparisonChart";
+import { get_last_month_string, get_today_string } from "@Utils/helper";
+import SectorDetailContext from "@Views/sector/SectorDetailView/context";
 import { groupBy, map, reverse } from "lodash";
 import moment from "moment";
 import React, { useContext, useState } from "react";
@@ -11,15 +15,9 @@ import {
   Typography,
 } from "@mui/material";
 
-import { ShowResource } from "@fengxia41103/storybook";
-
-import SectorReturnComparisonChart from "src/components/sector/SectorReturnComparisonChart";
-import { get_last_month_string, get_today_string } from "src/utils/helper";
-import SectorDetailContext from "src/views/sector/SectorDetailView/context";
-
 const SectorReturnView = () => {
   const sector = useContext(SectorDetailContext);
-  const {stocks_detail} = sector;
+  const { stocks_detail } = sector;
 
   const stock_ids = map(stocks_detail, (s) => s.id).join(",");
 

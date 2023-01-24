@@ -19,9 +19,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Stack from "@mui/material/Stack";
 
-import { PollResource } from "@fengxia41103/storybook";
-
-import TaskResult from "src/components/task/TaskResult";
+import PollResource from "@Components/common/PollResource";
+import TaskResult from "@Components/task/TaskResult";
 
 const TaskNotificationIcon = (props) => {
   // props
@@ -40,7 +39,6 @@ const TaskNotificationIcon = (props) => {
 
   // render
   const render_data = (data) => {
-
     const count = data?.meta?.total_count || 0;
     const tasks_info = data.objects;
 

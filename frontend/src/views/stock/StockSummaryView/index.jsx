@@ -1,9 +1,10 @@
+import ShowResource from "@Components/common/ShowResource";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Box, Typography } from "@mui/material";
 
-import { DictCard, ShowResource } from "@fengxia41103/storybook";
+import { DictCard } from "@fengxia41103/storybook";
 
 const StockSummaryView = () => {
   const { id } = useParams();

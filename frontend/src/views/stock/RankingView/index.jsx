@@ -13,8 +13,9 @@ import {
 
 import { Page } from "@fengxia41103/storybook";
 
-import StockRanking from "src/components/stock/StockRanking";
-import { get_highlights } from "src/utils/helper";
+import StockRanking from "@Components/stock/StockRanking";
+
+import { get_highlights } from "@Utils/helper";
 
 const RankingView = () => {
   const [ranking_resources] = useState({

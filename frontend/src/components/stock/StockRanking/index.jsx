@@ -1,3 +1,5 @@
+import ShowResource from "@Components/common/ShowResource";
+import StockRankingRow from "@Components/stock/StockRankingRow";
 import { filter, has, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
@@ -11,15 +13,10 @@ import {
   Typography,
 } from "@mui/material";
 
-import { ShowResource } from "@fengxia41103/storybook";
-
-import StockRankingRow from "src/components/stock/StockRankingRow";
-
 const StockRanking = (props) => {
   const { title, resource, top, thresholds } = props;
 
   const render_data = (data) => {
-
     const rows = map(data.objects, (d) => {
       let { stats } = d;
       let threshold = null;

@@ -13,8 +13,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 
-import StockSymbol from "src/components/stock/StockSymbol";
-import GlobalContext from "src/context";
+import GlobalContext from "@/context";
+
+import StockSymbol from "@Components/stock/StockSymbol";
 
 const DeleteSectorDialog = (props) => {
   const { host } = useContext(GlobalContext);

@@ -8,8 +8,9 @@ import { Box, Grid, Link, TextField, Tooltip, Typography } from "@mui/material";
 
 import { HighlightedText, RankChart } from "@fengxia41103/storybook";
 
-import StocksPriceChart from "src/components/stock/StocksPriceChart";
-import { get_last_month_string, get_today_string } from "src/utils/helper";
+import StocksPriceChart from "@Components/stock/StocksPriceChart";
+
+import { get_last_month_string, get_today_string } from "@Utils/helper";
 
 const StockRankingRow = (props) => {
   const [show_rank_graph, setShowRank] = useState(false);
