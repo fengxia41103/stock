@@ -3,8 +3,8 @@ import React from "react";
 
 import { Box, Link } from "@mui/material";
 
-import StockLinkToSector from "src/components/stock/StockLinkToSector";
-import TaskNotificationIcon from "src/components/task/TaskNotificationIcon";
+import StockLinkToSector from "@Components/stock/StockLinkToSector";
+import TaskNotificationIcon from "@Components/task/TaskNotificationIcon";
 
 const StockSymbol = (props) => {
   const { symbol, id } = props;

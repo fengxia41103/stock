@@ -28,14 +28,16 @@
     "^@mui/",
     "^@fengxia41103",
     "^@/(.*)$",
+    "^@Components/(.*)$",
+    "^@Layouts/(.*)$",
+    "^@Views/(.*)$",
+    "^@Utils/(.*)$",
     "^src/(.*)$",
     "^[.]{2}/",
     "^[./]"
   ],
   "importOrderSeparation": true,
-  "importOrderBuiltinModulesToTop": true,
   "importOrderCaseInsensitive": true,
   "importOrderParserPlugins": ["jsx", "decorators-legacy"],
-  "importOrderMergeDuplicateImports": true,
   "importOrderSortSpecifiers": true
 }

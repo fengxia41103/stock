@@ -10,10 +10,11 @@ import {
   TextField,
 } from "@mui/material";
 
-import { Page, PollResource } from "@fengxia41103/storybook";
+import { Page } from "@fengxia41103/storybook";
 
-import AddNewSectorDialog from "src/components/sector/AddNewSectorDialog";
-import ListSectorCard from "src/components/sector/ListSectorCard";
+import PollResource from "@Components/common/PollResource";
+import AddNewSectorDialog from "@Components/sector/AddNewSectorDialog";
+import ListSectorCard from "@Components/sector/ListSectorCard";
 
 const SectorListView = () => {
   const [resource] = useState("/sectors");
@@ -25,8 +26,6 @@ const SectorListView = () => {
   };
 
   const render_data = (data) => {
-    console.error(data);
-
     const sectors = data.objects;
 
     // filter based on search string

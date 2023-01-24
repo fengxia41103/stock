@@ -4,7 +4,7 @@ import { Box, Button, Container, Typography } from "@mui/material";
 
 import { Page } from "@fengxia41103/storybook";
 
-import AddDiaryEditor from "src/components/diary/AddDiaryEditor";
+import AddDiaryEditor from "@Components/diary/AddDiaryEditor";
 
 const AddDiaryView = () => {
   return (

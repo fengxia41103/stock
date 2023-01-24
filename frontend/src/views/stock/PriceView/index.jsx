@@ -17,9 +17,10 @@ import { makeStyles } from "@mui/styles";
 
 import { ColoredNumber } from "@fengxia41103/storybook";
 
-import GainPriceRanges from "src/components/stock/GainPriceRanges";
-import PriceChart from "src/components/stock/PriceChart";
-import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
+import GainPriceRanges from "@Components/stock/GainPriceRanges";
+import PriceChart from "@Components/stock/PriceChart";
+
+import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
 
 const myStyles = makeStyles(() => ({
   card: {
@@ -30,7 +31,7 @@ const myStyles = makeStyles(() => ({
 const PriceView = () => {
   const data = useContext(StockHistoricalContext);
   const [first_data] = data;
-  const {symbol} = first_data;
+  const { symbol } = first_data;
 
   const classes = myStyles();
 
@@ -90,9 +91,7 @@ const PriceView = () => {
           <Card className={clsx(classes.card)}>
             <CardHeader
               title={
-                <Typography variant="h3">
-                  {symbol} Daily Prices
-                </Typography>
+                <Typography variant="h3">{symbol} Daily Prices</Typography>
               }
             />
             <CardContent>

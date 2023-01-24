@@ -1,3 +1,4 @@
+import ShowResource from "@Components/common/ShowResource";
 import { isEmpty, map, remove } from "lodash";
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
@@ -13,9 +14,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
 import ListItem from "@mui/material/ListItem";
 
-import { ShowResource } from "@fengxia41103/storybook";
-
-import GlobalContext from "src/context";
+import GlobalContext from "@/context";
 
 const AddStocksToSectorDialog = (props) => {
   const { host, auth } = useContext(GlobalContext);

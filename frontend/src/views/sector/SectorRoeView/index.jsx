@@ -10,9 +10,9 @@ import {
   Typography,
 } from "@mui/material";
 
-import SectorDupontBreakdownChart from "src/components/sector/SectorDupontBreakdownChart";
-import SectorDupontLineChart from "src/components/sector/SectorDupontLineChart";
-import SectorRoeColumnChart from "src/components/sector/SectorRoeColumnChart";
+import SectorDupontBreakdownChart from "@Components/sector/SectorDupontBreakdownChart";
+import SectorDupontLineChart from "@Components/sector/SectorDupontLineChart";
+import SectorRoeColumnChart from "@Components/sector/SectorRoeColumnChart";
 
 const SectorRoeView = () => {
   const breakdowns = [

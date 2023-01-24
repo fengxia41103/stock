@@ -4,8 +4,9 @@ import React, { useEffect, useState } from "react";
 
 import { Box, Typography } from "@mui/material";
 
-import StockRanking from "src/components/stock/StockRanking";
-import { get_highlights } from "src/utils/helper";
+import StockRanking from "@Components/stock/StockRanking";
+
+import { get_highlights } from "@Utils/helper";
 
 const SectorStocksRanking = (props) => {
   const { sector, title, ranking_resource } = props;

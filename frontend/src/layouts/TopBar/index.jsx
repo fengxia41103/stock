@@ -1,3 +1,6 @@
+import LogoutIcon from "@Components/auth/LogoutIcon";
+import AddNewStockDialog from "@Components/stock/AddNewStockDialog";
+import TaskNotificationIcon from "@Components/task/TaskNotificationIcon";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
@@ -5,15 +8,10 @@ import { Link as RouterLink } from "react-router-dom";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Box, Hidden, IconButton, Toolbar } from "@mui/material";
-import Stack from "@mui/material/Stack";
+import { Button, Stack } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 import { DropdownMenu, Logo } from "@fengxia41103/storybook";
-
-import LogoutIcon from "src/components/auth/LogoutIcon";
-import AddNewStockDialog from "src/components/stock/AddNewStockDialog";
-import UpdateAllStock from "src/components/stock/UpdateAllStock";
-import TaskNotificationIcon from "src/components/task/TaskNotificationIcon";
 
 const myStyles = makeStyles(() => ({
   root: {},
@@ -29,16 +27,15 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
   const actions = (
     <Stack alignItems="flex-start">
       <AddNewStockDialog />
-      <UpdateAllStock />
     </Stack>
   );
+
   return (
     <AppBar className={clsx(classes.root, className)} elevation={0} {...rest}>
       <Toolbar>
         <RouterLink to="/">
           <Logo />
         </RouterLink>
-
         <Box flexGrow={1} />
         <DropdownMenu title="Management" content={actions} />
         <TaskNotificationIcon />

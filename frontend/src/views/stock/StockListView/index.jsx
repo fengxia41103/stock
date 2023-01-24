@@ -15,12 +15,13 @@ import {
   TextField,
 } from "@mui/material";
 
-import { DropdownMenu, Page, PollResource } from "@fengxia41103/storybook";
+import { DropdownMenu, Page } from "@fengxia41103/storybook";
 
-import AddStocksToSectorDialog from "src/components/sector/AddStocksToSectorDialog";
-import ExportStocks from "src/components/stock/ExportStocks";
-import ListStockCard from "src/components/stock/ListStockCard";
-import UpdateAllStock from "src/components/stock/UpdateAllStock";
+import PollResource from "@Components/common/PollResource";
+import AddStocksToSectorDialog from "@Components/sector/AddStocksToSectorDialog";
+import ExportStocks from "@Components/stock/ExportStocks";
+import ListStockCard from "@Components/stock/ListStockCard";
+import UpdateAllStock from "@Components/stock/UpdateAllStock";
 
 const StockListView = () => {
   const [resource] = useState("/stocks");
@@ -37,7 +38,7 @@ const StockListView = () => {
   };
 
   const render_data = (data) => {
-    const {objects:stocks} = data;
+    const { objects: stocks } = data;
 
     // filter based on search string
     const filtered = filter(stocks, (x) => x.symbol.includes(searching));

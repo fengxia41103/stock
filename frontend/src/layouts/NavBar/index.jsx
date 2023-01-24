@@ -1,4 +1,4 @@
-import faker from "faker";
+import { faker } from "@faker-js/faker";
 import PropTypes from "prop-types";
 import React, { useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -6,9 +6,11 @@ import { useLocation } from "react-router-dom";
 import { Box, Divider, Drawer, Hidden, List } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-import AuthenticatedUser from "src/components/user/AuthenticatedUser";
-import GlobalContext from "src/context";
-import NavItem from "src/layouts/NavBarItem";
+import GlobalContext from "@/context";
+
+import AuthenticatedUser from "@Components/user/AuthenticatedUser";
+
+import NavItem from "@Layouts/NavBarItem";
 
 const myStyles = makeStyles(() => ({
   mobileDrawer: {
@@ -35,8 +37,7 @@ const NavBar = ({ onMobileClose, openMobile, items }) => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
-
-  }, [location.pathname]);
+  }, [location.pathname, openMobile, onMobileClose]);
 
   const content = (
     <Box height="100%" display="flex" flexDirection="column">
@@ -46,8 +47,8 @@ const NavBar = ({ onMobileClose, openMobile, items }) => {
         <List>
           {items.map((item) => (
             <NavItem
-              href={item.href}
               key={item.title}
+              href={item.href}
               title={item.title}
               icon={item.icon}
             />
@@ -88,7 +89,13 @@ const NavBar = ({ onMobileClose, openMobile, items }) => {
 NavBar.propTypes = {
   onMobileClose: PropTypes.func,
   openMobile: PropTypes.bool,
-  items: PropTypes.arrayOf(PropTypes.node),
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      href: PropTypes.string,
+      icon: PropTypes.node,
+      title: PropTypes.string,
+    }),
+  ),
 };
 
 NavBar.defaultProps = {

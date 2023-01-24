@@ -4,7 +4,7 @@ import React from "react";
 
 import { HighchartGraph } from "@fengxia41103/storybook";
 
-import { daily_returns, overnight_returns } from "src/utils/stock/returns";
+import { daily_returns, overnight_returns } from "@Utils/stock/returns";
 
 const SectorReturnComparisonChart = (props) => {
   const { data: stocks, kind } = props;

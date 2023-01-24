@@ -17,30 +17,14 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": [
-    "react"
-  ],
+  "plugins": ["react"],
   "rules": {
-    "arrow-parens": [
-      "warn",
-      "always"
-    ],
-    "camelcase": [
-      0
-    ],
+    "arrow-parens": ["warn", "always"],
+    "camelcase": [0],
     "consistent-return": "off",
     "import/default": 2,
     "import/export": 2,
-    "import/extensions": [
-      "error",
-      "always",
-      {
-        "js": "never",
-        "jsx": "never",
-        "ts": "never",
-        "tsx": "never"
-      }
-    ],
+    "import/extensions": [0, { "jsx": "always", "js": "always" }],
     "import/named": 2,
     "import/namespace": 2,
     "import/no-extraneous-dependencies": [
@@ -69,10 +53,7 @@
           "external",
           "internal",
           "parent",
-          [
-            "index",
-            "sibling"
-          ],
+          ["index", "sibling"],
           "object"
         ],
         "newlines-between": "always",
@@ -86,6 +67,11 @@
             "group": "external",
             "pattern": "@fengxia41103/**",
             "position": "after"
+          },
+          {
+            "group": "internal",
+            "pattern": "@(Views|Components|Layouts|Utils)",
+            "position": "after"
           }
         ],
         "pathGroupsExcludedImportTypes": []
@@ -95,11 +81,7 @@
     "no-console": [
       "error",
       {
-        "allow": [
-          "warn",
-          "error",
-          "debug"
-        ]
+        "allow": ["warn", "error", "debug"]
       }
     ],
     "no-nested-ternary": 0,
@@ -122,18 +104,11 @@
     "react/jsx-filename-extension": [
       "error",
       {
-        "extensions": [
-          ".js",
-          ".jsx",
-          ".ts",
-          ".tsx"
-        ]
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     ],
     "react/jsx-one-expression-per-line": "off",
-    "react/jsx-props-no-spreading": [
-      0
-    ],
+    "react/jsx-props-no-spreading": [0],
     "react/jsx-wrap-multilines": [
       "error",
       {
@@ -166,22 +141,9 @@
       }
     ],
     "import/resolver": {
-      "alias": {
-        "extensions": [
-          ".js",
-          ".jsx"
-        ],
-        "map": [
-          [
-            "src",
-            "./src"
-          ]
-        ]
-      },
       "node": {
-        "paths": [
-          "src"
-        ]
+        "paths": ["src"],
+        "extensions": [".js", ".jsx"]
       }
     },
     "linkComponents": [

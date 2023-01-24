@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Get } from "@fengxia41103/storybook";
 
-import LoginView from "src/views/auth/LoginView";
+import LoginView from "@Views/auth/LoginView";
 
 const LogoutView = () => {
   // states

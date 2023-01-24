@@ -3,15 +3,15 @@ import { useParams } from "react-router-dom";
 
 import { Drawer, Typography } from "@mui/material";
 
-import { ShowResource } from "@fengxia41103/storybook";
+import ShowResource from "@Components/common/ShowResource";
+import FinancialCard from "@Components/stock/FinancialCard";
 
-import FinancialCard from "src/components/stock/FinancialCard";
-import StockDetailContext from "src/views/stock/StockDetailView/context";
+import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const BalanceView = () => {
   const { id } = useParams();
   const stock = useContext(StockDetailContext);
-  const {symbol} = stock;
+  const { symbol } = stock;
 
   const [resource] = useState(`/balances?stock=${id}`);
 
@@ -56,16 +56,12 @@ const BalanceView = () => {
   };
 
   const render_data = (resp) => {
-    const data = resp.objects;
+    const { objects: data } = resp;
 
     return (
       <>
-        <Typography variant="h1">{symbol} Balance Sheet</Typography>
-        <Drawer
-          me={
-            <FinancialCard {...{ data, reported, ratio, pcnt, p2p_growth }} />
-          }
-        />
+        <Typography variant="h2">Balance Sheet</Typography>
+        <FinancialCard {...{ data, reported, ratio, pcnt, p2p_growth }} />
       </>
     );
   };

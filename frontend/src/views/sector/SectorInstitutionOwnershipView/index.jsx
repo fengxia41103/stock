@@ -2,8 +2,9 @@ import React, { useContext } from "react";
 
 import { Box, Card, CardContent, Typography } from "@mui/material";
 
-import SectorOwnershipChart from "src/components/sector/SectorOwnershipChart";
-import SectorDetailContext from "src/views/sector/SectorDetailView/context";
+import SectorOwnershipChart from "@Components/sector/SectorOwnershipChart";
+
+import SectorDetailContext from "@Views/sector/SectorDetailView/context";
 
 const SectorInstitutionOwnershipView = () => {
   const sector = useContext(SectorDetailContext);

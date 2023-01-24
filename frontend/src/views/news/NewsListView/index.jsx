@@ -12,7 +12,7 @@ import {
 
 import { Page } from "@fengxia41103/storybook";
 
-import ListNewsCard from "src/components/news/ListNewsCard";
+import ListNewsCard from "@Components/news/ListNewsCard";
 
 const NewsListView = () => {
   const TOPICS = [

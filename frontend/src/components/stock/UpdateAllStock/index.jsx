@@ -7,7 +7,7 @@ import { Button } from "@mui/material";
 
 import { SimpleSnackbar } from "@fengxia41103/storybook";
 
-import GlobalContext from "src/context";
+import GlobalContext from "@/context";
 
 const UpdateAllStock = (props) => {
   const { api, auth } = useContext(GlobalContext);
@@ -31,6 +31,7 @@ const UpdateAllStock = (props) => {
     };
 
     const promises = update_these_stocks.map((s) => call_api(s));
+
     Promise.all(promises).then(
       setNotification(`${symbols} updates have been requested.`),
     );

@@ -3,11 +3,11 @@ import React, { useContext } from "react";
 
 import { HighchartGraph } from "@fengxia41103/storybook";
 
-import SectorDetailContext from "src/views/sector/SectorDetailView/context";
+import SectorDetailContext from "@Views/sector/SectorDetailView/context";
 
 const SectorRoeColumnChart = () => {
   const sector = useContext(SectorDetailContext);
-  const {stocks_detail} = sector;
+  const { stocks_detail } = sector;
 
   const sorted_stocks = sortBy(stocks_detail, (d) => d.roe);
 

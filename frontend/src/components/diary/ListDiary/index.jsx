@@ -14,9 +14,10 @@ import {
   Typography,
 } from "@mui/material";
 
-import { DropdownMenu, PollResource } from "@fengxia41103/storybook";
+import { DropdownMenu } from "@fengxia41103/storybook";
 
-import ListDiaryEntry from "src/components/diary/ListDiaryEntry";
+import PollResource from "@Components/common/PollResource";
+import ListDiaryEntry from "@Components/diary/ListDiaryEntry";
 
 const ListDiary = (props) => {
   // props

@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import LoginButton from "src/components/auth/LoginButton";
+import LoginButton from "@Components/auth/LoginButton";
 
 const LoginCard = (props) => {
   // props

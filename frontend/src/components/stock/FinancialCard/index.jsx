@@ -74,13 +74,13 @@ const FinancialCard = (props) => {
 };
 
 FinancialCard.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.node).isRequired,
-  reported: PropTypes.node,
-  ratio: PropTypes.node,
-  in_period_change: PropTypes.node,
-  p2p_growth: PropTypes.node,
-  pcnt: PropTypes.node,
-  analysis: PropTypes.node,
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  reported: PropTypes.objectOf(PropTypes.string),
+  ratio: PropTypes.objectOf(PropTypes.string),
+  in_period_change: PropTypes.objectOf(PropTypes.string),
+  p2p_growth: PropTypes.objectOf(PropTypes.string),
+  pcnt: PropTypes.objectOf(PropTypes.string),
+  analysis: PropTypes.objectOf(PropTypes.string),
   normalized: PropTypes.bool,
 };
 

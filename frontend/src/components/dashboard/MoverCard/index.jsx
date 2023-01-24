@@ -16,7 +16,7 @@ import { makeStyles } from "@mui/styles";
 
 import { ColoredNumber } from "@fengxia41103/storybook";
 
-import StockSymbol from "src/components/stock/StockSymbol";
+import StockSymbol from "@Components/stock/StockSymbol";
 
 const myStyles = makeStyles(() => ({
   root: {

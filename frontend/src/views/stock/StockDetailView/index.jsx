@@ -10,21 +10,18 @@ import {
   Grid,
   List,
   ListItem,
+  Stack,
+  Typography,
 } from "@mui/material";
 
-import {
-  AsDialog,
-  DropdownMenu,
-  MenuBar,
-  Page,
-  ShowResource,
-} from "@fengxia41103/storybook";
+import { AsDialog, DropdownMenu, MenuBar, Page } from "@fengxia41103/storybook";
 
-import AddDiaryEditor from "src/components/diary/AddDiaryEditor";
-import ListDiary from "src/components/diary/ListDiary";
-import DeleteStock from "src/components/stock/DeleteStock";
-import StockLinkToSector from "src/components/stock/StockLinkToSector";
-import UpdateStock from "src/components/stock/UpdateStock";
+import ShowResource from "@Components/common/ShowResource";
+import AddDiaryEditor from "@Components/diary/AddDiaryEditor";
+import ListDiary from "@Components/diary/ListDiary";
+import DeleteStock from "@Components/stock/DeleteStock";
+import StockLinkToSector from "@Components/stock/StockLinkToSector";
+import UpdateStock from "@Components/stock/UpdateStock";
 
 import StockDetailContext from "./context";
 
@@ -131,11 +128,12 @@ const StockDetailView = () => {
       mounted.current = false;
       return null;
     };
-  });
+  }, [mounted]);
 
   // renders
 
   const render_data = (stock) => {
+    const { id: stock_id, symbol } = stock;
     const has_statements = !!stock.last_reporting_date;
 
     const actions = (
@@ -159,17 +157,24 @@ const StockDetailView = () => {
               </Button>
             }
             title="Add a New Note"
-            content={<AddDiaryEditor stock={stock.id} />}
+            content={<AddDiaryEditor stock={stock_id} />}
           />
         </ListItem>
       </List>
     );
 
     return (
-      <Page title={stock.symbol}>
+      <Page title={symbol}>
         <Container maxWidth={false}>
-          <Box display="flex" borderBottom={1}>
-            <Grid container spacing={1} alignItems="center">
+          <Stack direction="row" justifyContent="space-between">
+            <Typography variant="h1" mb={10} mt={10}>
+              {symbol}
+            </Typography>
+            <Stack
+              direction="row"
+              alignItems="center"
+              divider={<Divider orientation="vertical" flexItem />}
+            >
               <MenuBar
                 root={resource}
                 title="Price & Trends"
@@ -195,15 +200,12 @@ const StockDetailView = () => {
                 items={indicator_menus}
               />
               <DropdownMenu content={actions} />
-            </Grid>
-          </Box>
+            </Stack>
+          </Stack>
 
           <StockDetailContext.Provider value={stock}>
             <Box mt={1}>
               <Outlet />
-            </Box>
-            <Box mt={1}>
-              <ListDiary stock={stock} />
             </Box>
           </StockDetailContext.Provider>
         </Container>

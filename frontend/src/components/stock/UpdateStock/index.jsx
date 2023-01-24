@@ -7,7 +7,7 @@ import { Button } from "@mui/material";
 
 import { SimpleSnackbar } from "@fengxia41103/storybook";
 
-import GlobalContext from "src/context";
+import GlobalContext from "@/context";
 
 const UpdateStock = (props) => {
   const { host } = useContext(GlobalContext);

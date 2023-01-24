@@ -5,15 +5,16 @@ import { useNavigate } from "react-router-dom";
 import { Box, Grid, Paper } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-import LoginCard from "src/components/auth/LoginCard";
-import GlobalContext from "src/context";
+import GlobalContext from "@/context";
+
+import LoginCard from "@Components/auth/LoginCard";
 
 const myStyles = makeStyles((theme) => ({
   card: {
     marginTop: "30vh",
   },
   paper: {
-    padding: theme.spacing(3),
+    padding: theme.spacing,
     backgroundImage: `url(${"/static/images/auth.jpeg"})`,
     height: "100vh",
     backgroundRepeat: "no-repeat",
@@ -24,8 +25,8 @@ const myStyles = makeStyles((theme) => ({
 }));
 
 const LoginView = () => {
-  const { api } = useContext(GlobalContext);
   const classes = myStyles();
+  const { api } = useContext(GlobalContext);
   const navigate = useNavigate();
 
   // states

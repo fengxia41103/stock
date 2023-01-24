@@ -1,3 +1,6 @@
+import ShowResource from "@Components/common/ShowResource";
+import DeleteStock from "@Components/stock/DeleteStock";
+import UpdateStock from "@Components/stock/UpdateStock";
 import { map, remove } from "lodash";
 import PropTypes from "prop-types";
 import React, { useContext, useState } from "react";
@@ -16,11 +19,9 @@ import {
 } from "@mui/material";
 import Popover from "@mui/material/Popover";
 
-import { ShowResource, SimpleSnackbar } from "@fengxia41103/storybook";
+import { SimpleSnackbar } from "@fengxia41103/storybook";
 
-import DeleteStock from "src/components/stock/DeleteStock";
-import UpdateStock from "src/components/stock/UpdateStock";
-import GlobalContext from "src/context";
+import GlobalContext from "@/context";
 
 const StockLinkToSector = (props) => {
   const { api } = useContext(GlobalContext);
@@ -46,7 +47,7 @@ const StockLinkToSector = (props) => {
   });
 
   const handle_update = (sectors, event) => {
-    for (let i = 0; i < sectors.length; i+=1) {
+    for (let i = 0; i < sectors.length; i += 1) {
       const s = sectors[i];
 
       // make a local copy for manipulation

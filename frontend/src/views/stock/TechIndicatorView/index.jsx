@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 
 import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 
-import StockHistoricalContext from "src/views/stock/StockHistoricalView/context";
+import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
 
 import CandleStickChartWithBollingerBandOverlay from "./bollinger";
 import OHLCChartWithElderRayIndicator from "./elder";
