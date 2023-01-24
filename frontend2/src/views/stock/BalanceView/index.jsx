@@ -54,16 +54,12 @@ const BalanceView = () => {
   };
 
   const render_data = (resp) => {
-    const data = resp.objects;
+    const { objects: data } = resp;
 
     return (
       <>
         <Typography variant="h1">{symbol} Balance Sheet</Typography>
-        <Drawer
-          me={
-            <FinancialCard {...{ data, reported, ratio, pcnt, p2p_growth }} />
-          }
-        />
+        <FinancialCard {...{ data, reported, ratio, pcnt, p2p_growth }} />
       </>
     );
   };
