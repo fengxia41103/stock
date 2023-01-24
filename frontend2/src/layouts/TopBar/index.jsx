@@ -1,3 +1,6 @@
+import LogoutIcon from "@Components/auth/LogoutIcon";
+import AddNewStockDialog from "@Components/stock/AddNewStockDialog";
+import TaskNotificationIcon from "@Components/task/TaskNotificationIcon";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
@@ -9,12 +12,6 @@ import { Button, Stack } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 import { DropdownMenu, Logo } from "@fengxia41103/storybook";
-
-import LogoutIcon from "@Components/auth/LogoutIcon";
-
-// import AddNewStockDialog from "@Components/stock/AddNewStockDialog";
-// import UpdateAllStock from "@Components/stock/UpdateAllStock";
-// import TaskNotificationIcon from "@Components/task/TaskNotificationIcon";
 
 const myStyles = makeStyles(() => ({
   root: {},
@@ -29,7 +26,7 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
 
   const actions = (
     <Stack alignItems="flex-start">
-      <Button>sldjfldsjf</Button>
+      <AddNewStockDialog />
     </Stack>
   );
 
@@ -41,6 +38,7 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
         </RouterLink>
         <Box flexGrow={1} />
         <DropdownMenu title="Management" content={actions} />
+        <TaskNotificationIcon />
         <LogoutIcon />
         <Hidden lgUp>
           <IconButton color="inherit" onClick={onMobileNavOpen}>
