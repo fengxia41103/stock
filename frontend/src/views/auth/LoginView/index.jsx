@@ -3,17 +3,17 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Box, Grid, Paper } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 
 import GlobalContext from "@/context";
 
 import LoginCard from "@Components/auth/LoginCard";
 
-const myStyles = makeStyles((theme) => ({
-  card: {
+const MyBox = styled(Box)({
     marginTop: "30vh",
-  },
-  paper: {
+});
+
+const MyPaper = styled(Paper)((theme)=>({
     padding: theme.spacing,
     backgroundImage: `url(${"/static/images/auth.jpeg"})`,
     height: "100vh",
@@ -21,11 +21,11 @@ const myStyles = makeStyles((theme) => ({
     backgroundPosition: "center center",
     backgroundSize: "cover",
     backgroundAttachment: "fixed",
-  },
+
 }));
 
+
 const LoginView = () => {
-  const classes = myStyles();
   const { api } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -55,18 +55,18 @@ const LoginView = () => {
 
   // render
   return (
-    <Paper className={clsx(classes.paper)}>
-      <Grid container justifyContent="center" className={classes.margin}>
+    <MyPaper>
+      <Grid container justifyContent="center">
         <Grid item lg={6} sm={6} xs={12} />
         <Grid item lg={4} sm={5} xs={12}>
-          <Box className={clsx(classes.card)}>
+          <MyBox>
             <LoginCard
               {...{ resource: `${api}${resource}`, on_success, error }}
             />
-          </Box>
+          </MyBox>
         </Grid>
       </Grid>
-    </Paper>
+    </MyPaper>
   );
 };
 
