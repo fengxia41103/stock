@@ -23,8 +23,6 @@ const PollResource = (props) => {
     until,
   } = props;
 
-  console.log(props);
-
   // helpers
   const on_error = () => <NotFoundView />;
 
@@ -62,7 +60,7 @@ const PollResource = (props) => {
   return (
     <Poll
       path={resource}
-      interval={interval * 1000}
+      interval={5000}
       resolve={(data) => data}
       until={until}
     >

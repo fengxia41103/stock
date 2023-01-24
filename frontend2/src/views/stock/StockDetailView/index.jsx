@@ -196,9 +196,6 @@ const StockDetailView = () => {
             <Box mt={1}>
               <Outlet />
             </Box>
-            <Box mt={1}>
-              <ListDiary stock={stock} />
-            </Box>
           </StockDetailContext.Provider>
         </Container>
       </Page>
