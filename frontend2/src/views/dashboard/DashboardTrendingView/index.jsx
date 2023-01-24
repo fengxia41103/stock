@@ -1,9 +1,3 @@
-import ShowResource from "@Components/common/ShowResource";
-import DailyRankingBarRaceChart from "@Components/dashboard/DailyRankingBarRaceChart";
-import RankingScores from "@Components/dashboard/RankingScores";
-import StockRankingGrid from "@Components/dashboard/StockRankingGrid";
-import { get_highlights } from "@Utils/helper";
-import stocks_daily_ranking from "@Utils/stock/ranking";
 import { map } from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -30,6 +24,14 @@ import {
 } from "@mui/material";
 
 import { Page } from "@fengxia41103/storybook";
+
+import ShowResource from "@Components/common/ShowResource";
+import DailyRankingBarRaceChart from "@Components/dashboard/DailyRankingBarRaceChart";
+import RankingScores from "@Components/dashboard/RankingScores";
+import StockRankingGrid from "@Components/dashboard/StockRankingGrid";
+
+import { get_highlights } from "@Utils/helper";
+import stocks_daily_ranking from "@Utils/stock/ranking";
 
 const DashboardTrendingView = () => {
   // constants
@@ -116,9 +118,6 @@ const DashboardTrendingView = () => {
     </FormControl>
   );
 
-  let symbols = [];
-  let highlights = [];
-
   // map option to data key
   let order_by = null;
   switch (follow) {
@@ -147,15 +146,11 @@ const DashboardTrendingView = () => {
 
   // renders
   const render_data = (data) => {
-    const stocks = data.objects;
+    const { objects: stocks } = data;
 
     // all symbols are color-coded
-    symbols = [...new Set(map(stocks, (s) => s.symbol))];
-    if (symbols.length !== highlights.length) {
-      // only recompute highlight color if list length is different
-      highlights = get_highlights(symbols);
-    }
-
+    const symbols = [...new Set(map(stocks, (s) => s.symbol))];
+    const highlights = get_highlights(symbols);
     const high_to_low = follow !== "loser";
     const ranks = stocks_daily_ranking(stocks, order_by, high_to_low, TOP);
 

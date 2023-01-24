@@ -1,10 +1,9 @@
+import StockRankingGridColumn from "@Components/dashboard/StockRankingGridColumn";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
 import { Grid } from "@mui/material";
-
-import StockRankingGridColumn from "@Components/dashboard/StockRankingGridColumn";
 
 const StockRankingGrid = (props) => {
   const { ranks } = props;
@@ -46,7 +45,7 @@ StockRankingGrid.propTypes = {
       ),
     }),
   ).isRequired,
-  highlights: PropTypes.node.isRequired,
+  highlights: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default StockRankingGrid;

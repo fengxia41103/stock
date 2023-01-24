@@ -42,7 +42,7 @@ export const get_highlights = (interests) => {
     return [
       i,
       {
-        background: bk_color,
+        background: `#${bk_color}`,
         font: font_color,
       },
     ];
