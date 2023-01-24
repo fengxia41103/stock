@@ -31,6 +31,7 @@ const UpdateAllStock = (props) => {
     };
 
     const promises = update_these_stocks.map((s) => call_api(s));
+
     Promise.all(promises).then(
       setNotification(`${symbols} updates have been requested.`),
     );
