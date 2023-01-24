@@ -26,7 +26,8 @@ const MyPaper = styled(Paper)((theme)=>({
 
 
 const LoginView = () => {
-  const { api } = useContext(GlobalContext);
+  const { backend } = useContext(GlobalContext);
+  const {api} = backend;
   const navigate = useNavigate();
 
   // states
@@ -47,7 +48,7 @@ const LoginView = () => {
       save_auth(resp);
 
       // go to a landing page
-      navigate("/", true);
+      navigate("/", {replace: true});
     } else {
       setError(resp.message);
     }
