@@ -15,6 +15,7 @@ import MainLayout from "@Layouts/MainLayout";
 
 import LoginView from "@Views/auth/LoginView";
 import LogoutView from "@Views/auth/LogoutView";
+import ProtectedRoute from "@Views/auth/ProtectedRoute";
 import RegistrationView from "@Views/auth/RegistrationView";
 import DashboardTrendingView from "@Views/dashboard/DashboardTrendingView";
 import TodayDashboardView from "@Views/dashboard/TodayDashboardView";
@@ -97,13 +98,17 @@ const routes = [
   // auth
   { path: "logout", element: <LogoutView /> },
   { path: "registration", element: <RegistrationView /> },
+  { path: "login", element: <LoginView /> },
 
   // application specific
   {
     path: "/",
-    element: <MainLayout sideNavs={navbar_items} />,
+    element: (
+      <ProtectedRoute>
+        <MainLayout sideNavs={navbar_items} />
+      </ProtectedRoute>
+    ),
     children: [
-      { path: "login", element: <LoginView /> },
       // stocks
       { path: "stocks", element: <StockListView /> },
       {
@@ -169,11 +174,11 @@ const routes = [
 
       // landing page, default to dashboard
       { path: "/", element: <Navigate to="/sectors" /> },
-      { path: "404", element: <NotFoundView /> },
-      // catch all, 404
-      { path: "*", element: <Navigate to="/404" /> },
     ],
   },
+
+  // catch all, 404
+  { path: "*", element: <Navigate to="/404" /> },
 ];
 
 export default routes;
