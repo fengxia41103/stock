@@ -1,5 +1,3 @@
-import ShowResource from "@Components/common/ShowResource";
-import { get_last_month_string, get_today_string } from "@Utils/helper";
 import React, { useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 
@@ -11,6 +9,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+
+import ShowResource from "@Components/common/ShowResource";
+
+import { get_last_month_string, get_today_string } from "@Utils/helper";
 
 import StockHistoricalContext from "./context";
 
@@ -40,7 +42,7 @@ const StockHistoricalView = () => {
 
     return (
       <>
-        <Typography variant="h1">{data[0].symbol} Historical</Typography>
+        <Typography variant="h2">Historical Price</Typography>
         <Box mt={3}>
           <Card>
             <CardContent>

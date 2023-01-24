@@ -201,7 +201,7 @@ const DCFView = () => {
   const dcf_values = compute_dcf(stock);
   return (
     <>
-      <Typography variant="h1">{symbol} DCF Model</Typography>
+      <Typography variant="h2">DCF Model</Typography>
       <Box mt={2}>
         <Button
           variant="contained"

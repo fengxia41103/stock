@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { filter, forEach, map, reverse, sortBy } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
@@ -11,26 +10,21 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 
 import { RankChart } from "@fengxia41103/storybook";
 
 import RankingOccuranceCharts from "@Components/dashboard/RankingOccuranceCharts";
 import StocksPriceChart from "@Components/stock/StocksPriceChart";
 
-const myStyles = makeStyles(() => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  card: {
-    height: "100%",
-  },
-}));
+const MyCard = styled(Card)({
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
+});
 
 const RankingScores = (props) => {
   const { stocks, ranks, start, end } = props;
-  const classes = myStyles();
 
   // compute a score score is 1-10, each symbol computes a score by
   // adding its score of a day when it's on the ranking chart. So,
@@ -121,7 +115,7 @@ const RankingScores = (props) => {
     <Box mt={1}>
       <Grid container spacing={1}>
         <Grid item lg={6} sm={7} xs={12}>
-          <Card className={clsx(classes.root, classes.card)}>
+          <MyCard>
             <CardHeader
               title={<Typography variant="h3">Overall Scores</Typography>}
               subheader={
@@ -144,10 +138,10 @@ const RankingScores = (props) => {
                 />
               </Box>
             </CardContent>
-          </Card>
+          </MyCard>
         </Grid>
         <Grid item lg={6} sm={5} xs={12}>
-          <Card className={clsx(classes.root, classes.card)}>
+          <MyCard>
             <CardHeader
               title={
                 <Typography variant="h3">Top Player Closing Prices</Typography>
@@ -171,7 +165,7 @@ const RankingScores = (props) => {
                 />
               </Box>
             </CardContent>
-          </Card>
+          </MyCard>
         </Grid>
       </Grid>
       <Box mt={1}>

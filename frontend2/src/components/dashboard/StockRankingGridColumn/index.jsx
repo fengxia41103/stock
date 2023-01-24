@@ -7,6 +7,10 @@ import { styled } from "@mui/material/styles";
 
 import { HighlightedText } from "@fengxia41103/storybook";
 
+const MyColumnHeader = styled(Typography)({
+  color: "#d52349",
+});
+
 const StockRankingGridColumn = (props) => {
   const { category, stocks, order_by, highlights } = props;
 
@@ -24,9 +28,6 @@ const StockRankingGridColumn = (props) => {
     );
   });
 
-  const MyColumnHeader = styled(Typography)({
-    color: "#d52349",
-  });
   return (
     <Grid container direction="column" alignContent="center">
       <Grid item xs>
