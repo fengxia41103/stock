@@ -4,7 +4,6 @@ import ReactDOM from "react-dom/client";
 import { ThemeProvider } from "@mui/material";
 
 import App from "@/App";
-import "@/index.css";
 import theme from "@/theme";
 
 import reportWebVitals from "./reportWebVitals";

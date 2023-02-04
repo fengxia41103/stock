@@ -1,0 +1,24 @@
+name: Prettify code
+
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+
+    - uses: actionsx/prettier@v2
+      with:
+        # prettier CLI arguments.
+        args: --write frontend/src
+
+    - name: Commit changes back to repo
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_options: "--no-verify --allow-empty"
+        skip_checkout: true
+        skip_fetch: true
+        skip_dirty_check: true
