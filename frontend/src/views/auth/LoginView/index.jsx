@@ -10,24 +10,22 @@ import GlobalContext from "@/context";
 import LoginCard from "@Components/auth/LoginCard";
 
 const MyBox = styled(Box)({
-    marginTop: "30vh",
+  marginTop: "30vh",
 });
 
-const MyPaper = styled(Paper)((theme)=>({
-    padding: theme.spacing,
-    backgroundImage: `url(${"/static/images/auth.jpeg"})`,
-    height: "100vh",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center center",
-    backgroundSize: "cover",
-    backgroundAttachment: "fixed",
-
+const MyPaper = styled(Paper)((theme) => ({
+  padding: theme.spacing,
+  backgroundImage: `url(${"/static/images/auth.jpeg"})`,
+  height: "100vh",
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center center",
+  backgroundSize: "cover",
+  backgroundAttachment: "fixed",
 }));
-
 
 const LoginView = () => {
   const { backend } = useContext(GlobalContext);
-  const {api} = backend;
+  const { api } = backend;
   const navigate = useNavigate();
 
   // states
@@ -48,7 +46,7 @@ const LoginView = () => {
       save_auth(resp);
 
       // go to a landing page
-      navigate("/", {replace: true});
+      navigate("/", { replace: true });
     } else {
       setError(resp.message);
     }
