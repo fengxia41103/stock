@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
-    "@fengxia41103/storybook": "1.1.0-dev.2",
+    "@fengxia41103/storybook": "1.2.0-dev.4",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.4",
     "@mui/styles": "^5.11.2",
@@ -45,6 +45,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@craco/craco": "^7.0.0",
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "eslint": "^7.5.0",
@@ -52,6 +53,8 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-babel-module": "^5.3.2",
+    "eslint-import-resolver-webpack": "^0.13.6",
     "eslint-plugin-flowtype": "^5.2.0",
     "eslint-plugin-import": "^2.24.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
@@ -71,9 +74,9 @@
   "name": "frontend2",
   "private": true,
   "scripts": {
-    "build": "craco build",
+    "build": "craco --max_old_space_size=4096 build",
     "eject": "craco eject",
-    "start": "craco start",
+    "start": "craco --max_old_space_size=4096 start",
     "test": "craco test"
   },
   "version": "0.1.0"
