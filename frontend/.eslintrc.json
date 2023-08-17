@@ -24,7 +24,13 @@
     "consistent-return": "off",
     "import/default": 2,
     "import/export": 2,
-    "import/extensions": [0, { "jsx": "always", "js": "always" }],
+    "import/extensions": [
+      0,
+      {
+        "js": "always",
+        "jsx": "always"
+      }
+    ],
     "import/named": 2,
     "import/namespace": 2,
     "import/no-extraneous-dependencies": [
@@ -141,9 +147,15 @@
       }
     ],
     "import/resolver": {
-      "node": {
-        "paths": ["src"],
-        "extensions": [".js", ".jsx"]
+      "alias": {
+        "map": [
+          ["@", "./src"],
+          ["@Components", "./src/components"],
+          ["@Views", "./src/views"],
+          ["@Layouts", "./src/layouts"],
+          ["@Utils", "./src/utils"]
+        ],
+        "extensions": [".ts", ".js", ".jsx", ".json"]
       }
     },
     "linkComponents": [

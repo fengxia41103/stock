@@ -1,5 +1,9 @@
 # build environment
-FROM node:14.17-alpine3.11 as builder
+FROM node:16.15.1 as builder
+
+# limit heap memory
+ENV GENERATE_SOURCEMAP=false
+ENV NODE_OPTIONS=--max_old_space_size=2048
 
 # Set up code destination
 RUN mkdir /code
@@ -7,6 +11,7 @@ WORKDIR /code
 
 ENV PATH /code/node_modules/.bin:$PATH
 COPY package.json /code/package.json
+COPY .npmrc /code/.npmrc
 
 # Install app dependencies
 RUN yarn install
