@@ -1,8 +1,9 @@
-import ShowResource from "@Components/common/ShowResource";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
 import { Box, Typography } from "@mui/material";
+
+import ShowResource from "@Components/common/ShowResource";
 
 const TaskResult = (props) => {
   // props

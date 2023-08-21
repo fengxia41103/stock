@@ -1,13 +1,14 @@
-import ShowResource from "@Components/common/ShowResource";
-import DeleteSectorDialog from "@Components/sector/DeleteSectorDialog";
-import EditSectorDialog from "@Components/sector/EditSectorDialog";
-import ListStockCard from "@Components/stock/ListStockCard";
 import { map, sortBy } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
 import MultilineChartIcon from "@mui/icons-material/MultilineChart";
 import { Button, Link } from "@mui/material";
+
+import ShowResource from "@Components/common/ShowResource";
+import DeleteSectorDialog from "@Components/sector/DeleteSectorDialog";
+import EditSectorDialog from "@Components/sector/EditSectorDialog";
+import ListStockCard from "@Components/stock/ListStockCard";
 
 const ListSectorCard = (props) => {
   const { me, all } = props;

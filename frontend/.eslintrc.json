@@ -17,7 +17,7 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": ["react", "simple-import-sort"],
   "rules": {
     "arrow-parens": ["warn", "always"],
     "camelcase": [0],
@@ -47,40 +47,22 @@
         "commonjs": true
       }
     ],
-    "import/order": [
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/imports": [
       "error",
       {
-        "alphabetize": {
-          "caseInsensitive": true,
-          "order": "asc"
-        },
         "groups": [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          ["index", "sibling"],
-          "object"
-        ],
-        "newlines-between": "always",
-        "pathGroups": [
-          {
-            "group": "external",
-            "pattern": "@mui/**",
-            "position": "after"
-          },
-          {
-            "group": "external",
-            "pattern": "@fengxia41103/**",
-            "position": "after"
-          },
-          {
-            "group": "internal",
-            "pattern": "@|@(Views|Components|Layouts|Utils)",
-            "position": "after"
-          }
-        ],
-        "pathGroupsExcludedImportTypes": []
+          "^@mui/",
+          "^@fengxia41103",
+          "^@/(.*)$",
+          "^@Components/(.*)$",
+          "^@Layouts/(.*)$",
+          "^@Views/(.*)$",
+          "^@Utils/(.*)$",
+          "^src/(.*)$",
+          "^[.]{2}/",
+          "^[./]"
+        ]
       }
     ],
     "import/unambiguous": "off",

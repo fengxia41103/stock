@@ -39,8 +39,8 @@ import SectorStocksLowerBetterView from "@Views/sector/SectorStocksLowerBetterVi
 import SectorValuationRankingView from "@Views/sector/SectorValuationRankingView";
 import BalanceView from "@Views/stock/BalanceView";
 import CashFlowView from "@Views/stock/CashFlowView";
-import DailyReturnView from "@Views/stock/DailyReturnView";
 import DCFView from "@Views/stock/DCFView";
+import DailyReturnView from "@Views/stock/DailyReturnView";
 import DupontView from "@Views/stock/DupontView";
 import IncomeView from "@Views/stock/IncomeView";
 import LastLowerNextBetterView from "@Views/stock/LastLowerNextBetterView";

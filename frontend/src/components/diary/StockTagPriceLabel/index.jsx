@@ -1,10 +1,11 @@
-import ShowResource from "@Components/common/ShowResource";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
 import { Divider, Grid } from "@mui/material";
 
 import { ColoredNumber } from "@fengxia41103/storybook";
+
+import ShowResource from "@Components/common/ShowResource";
 
 const StockTagPriceLabel = (props) => {
   const { diary, stock } = props;
