@@ -9,16 +9,14 @@ ENV NODE_OPTIONS=--max_old_space_size=2048
 RUN mkdir /code
 WORKDIR /code
 
+# Copy app code to host
+COPY . /code
+
 ENV PATH /code/node_modules/.bin:$PATH
-COPY package.json /code/package.json
-COPY .npmrc /code/.npmrc
 
 # Install app dependencies
 RUN yarn install
 RUN yarn upgrade
-
-# Copy app code to host
-COPY . /code
 
 # Start the app
 RUN yarn run build

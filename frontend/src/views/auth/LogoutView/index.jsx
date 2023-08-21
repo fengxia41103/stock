@@ -6,8 +6,7 @@ import { Get } from "@fengxia41103/storybook";
 import GlobalContext from "@/context";
 
 const LogoutView = () => {
-  const { backend } = useContext(GlobalContext);
-  const { api } = backend;
+  const { api, host } = useContext(GlobalContext);
 
   // states
   const [resource] = useState("/auth/logout/");

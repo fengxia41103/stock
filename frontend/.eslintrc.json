@@ -76,7 +76,7 @@
           },
           {
             "group": "internal",
-            "pattern": "@(Views|Components|Layouts|Utils)",
+            "pattern": "@|@(Views|Components|Layouts|Utils)",
             "position": "after"
           }
         ],

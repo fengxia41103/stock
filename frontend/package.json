@@ -74,7 +74,7 @@
   "name": "frontend2",
   "private": true,
   "scripts": {
-    "build": "craco --max_old_space_size=4096 build",
+    "build": "DISABLE_ESLINT_PLUGIN=true craco --max_old_space_size=4096 build",
     "eject": "craco eject",
     "start": "craco --max_old_space_size=4096 start",
     "test": "craco test"
