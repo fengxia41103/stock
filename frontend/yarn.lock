@@ -3043,6 +3043,16 @@
     rehype "~12.0.1"
     rehype-prism-plus "~1.6.1"
 
+"@uiw/react-md-editor@^3.23.5":
+  version "3.23.5"
+  resolved "https://registry.npmjs.org/@uiw/react-md-editor/-/react-md-editor-3.23.5.tgz#ee449c278d2e449894c72b45363f3bd6ec97d63f"
+  integrity sha512-plghfA4BRKeJgwEBudLg7alLVXI2pVVMCesPeZDg3BfmaFpCwQZ3wTUh8y6Agjh/judMJPwuZdyBu4FISnSG6Q==
+  dependencies:
+    "@babel/runtime" "^7.14.6"
+    "@uiw/react-markdown-preview" "^4.1.14"
+    rehype "~12.0.1"
+    rehype-prism-plus "~1.6.1"
+
 "@webassemblyjs/ast@1.11.6", "@webassemblyjs/ast@^1.11.5":
   version "1.11.6"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.6.tgz#db046555d3c413f8966ca50a95176a0e2c642e24"

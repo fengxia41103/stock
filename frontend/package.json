@@ -21,6 +21,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@uiw/react-md-editor": "^3.23.5",
     "clsx": "^1.2.1",
     "d3-format": "^3.1.0",
     "d3-time-format": "^4.1.0",
