@@ -1,9 +1,10 @@
-import ShowResource from "@Components/common/ShowResource";
 import { groupBy, map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
 import { MultilineChart } from "@fengxia41103/storybook";
+
+import ShowResource from "@Components/common/ShowResource";
 
 const StocksPriceChart = (props) => {
   const { stocks: stock_ids, start, end } = props;

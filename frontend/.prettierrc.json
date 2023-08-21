@@ -37,7 +37,5 @@
     "^[./]"
   ],
   "importOrderSeparation": true,
-  "importOrderCaseInsensitive": true,
-  "importOrderParserPlugins": ["jsx", "decorators-legacy"],
   "importOrderSortSpecifiers": true
 }

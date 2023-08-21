@@ -1,4 +1,3 @@
-import ShowResource from "@Components/common/ShowResource";
 import { map } from "lodash";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
@@ -20,6 +19,8 @@ import {
 import { DropdownMenu, MenuBar, Page } from "@fengxia41103/storybook";
 
 import GlobalContext from "@/context";
+
+import ShowResource from "@Components/common/ShowResource";
 
 import SectorDetailContext from "./context";
 

@@ -1,7 +1,8 @@
-import ShowResource from "@Components/common/ShowResource";
-import FinancialCard from "@Components/stock/FinancialCard";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+
+import ShowResource from "@Components/common/ShowResource";
+import FinancialCard from "@Components/stock/FinancialCard";
 
 const ValuationRatiosView = () => {
   const { id } = useParams();

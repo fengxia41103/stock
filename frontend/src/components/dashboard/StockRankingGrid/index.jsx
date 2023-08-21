@@ -1,9 +1,10 @@
-import StockRankingGridColumn from "@Components/dashboard/StockRankingGridColumn";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
 import { Grid } from "@mui/material";
+
+import StockRankingGridColumn from "@Components/dashboard/StockRankingGridColumn";
 
 const StockRankingGrid = (props) => {
   const { ranks } = props;
@@ -30,7 +31,6 @@ const StockRankingGrid = (props) => {
 };
 
 StockRankingGrid.propTypes = {
-  order_by: PropTypes.string.isRequired,
   ranks: PropTypes.arrayOf(
     PropTypes.shape({
       category: PropTypes.string,
@@ -45,7 +45,6 @@ StockRankingGrid.propTypes = {
       ),
     }),
   ).isRequired,
-  highlights: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default StockRankingGrid;

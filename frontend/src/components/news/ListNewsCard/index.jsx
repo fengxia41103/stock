@@ -1,4 +1,3 @@
-import ShowResource from "@Components/common/ShowResource";
 import clsx from "clsx";
 import { isEmpty, isNull, isUndefined, map } from "lodash";
 import PropTypes from "prop-types";
@@ -18,6 +17,8 @@ import {
   Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+
+import ShowResource from "@Components/common/ShowResource";
 
 const myStyles = makeStyles(() => ({
   root: {

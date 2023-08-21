@@ -83,7 +83,6 @@ MoverCard.propTypes = {
     }),
   ).isRequired,
   value: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
   roundTo: PropTypes.number,
 };
 

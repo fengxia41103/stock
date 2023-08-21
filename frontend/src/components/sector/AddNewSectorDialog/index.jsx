@@ -1,4 +1,3 @@
-import ShowResource from "@Components/common/ShowResource";
 import { filter, map } from "lodash";
 import React, { useContext, useState } from "react";
 import { useMutate } from "restful-react";
@@ -15,6 +14,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 
 import GlobalContext from "@/context";
+
+import ShowResource from "@Components/common/ShowResource";
 
 const AddNewSectorDialog = () => {
   const { api } = useContext(GlobalContext);
