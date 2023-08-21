@@ -6,7 +6,6 @@ import { Box, Grid, Paper } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 import GlobalContext from "@/context";
-
 import RegistrationCard from "@Components/auth/RegistrationCard";
 
 const myStyles = makeStyles((theme) => ({
@@ -26,6 +25,8 @@ const myStyles = makeStyles((theme) => ({
 
 const RegistrationView = () => {
   const { api } = useContext(GlobalContext);
+
+  // const { api } = useContext(GlobalContext);
   const classes = myStyles();
   const navigate = useNavigate();
 

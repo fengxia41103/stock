@@ -1,10 +1,8 @@
 import { createContext } from "react";
 
 const GlobalContext = createContext({
-  backend: {
-    api: "http://localhost:8003/api/v1",
-    host: "http://localhost:8003",
-  },
+  api: `${process.env.REACT_APP_HOST_URL}/api/v1`,
+  host: `${process.env.REACT_APP_HOST_URL}`,
 });
 
 export default GlobalContext;

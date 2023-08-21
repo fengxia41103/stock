@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { RestfulProvider } from "restful-react";
@@ -5,8 +6,7 @@ import { RestfulProvider } from "restful-react";
 import GlobalContext from "@/context";
 
 const ProtectedRoute = ({ children }) => {
-  const context = useContext(GlobalContext);
-  const { backend } = context;
+  const { api, host } = useContext(GlobalContext);
 
   // check authentication
   const session = window.sessionStorage;
@@ -17,7 +17,7 @@ const ProtectedRoute = ({ children }) => {
     const auth = `ApiKey ${user}:${api_key}`;
     return (
       <RestfulProvider
-        base={backend.api}
+        base={api}
         requestOptions={() => ({
           headers: {
             "content-type": "application/json",
@@ -25,7 +25,14 @@ const ProtectedRoute = ({ children }) => {
           },
         })}
       >
-        <GlobalContext.Provider value={{ ...backend, user, auth }}>
+        <GlobalContext.Provider
+          value={{
+            api,
+            host,
+            user,
+            auth,
+          }}
+        >
           {children}
         </GlobalContext.Provider>
       </RestfulProvider>
@@ -35,4 +42,7 @@ const ProtectedRoute = ({ children }) => {
   return <Navigate to="/login" replace />;
 };
 
+ProtectedRoute.propTypes = {
+  children: PropTypes.element,
+};
 export default ProtectedRoute;

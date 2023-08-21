@@ -24,8 +24,7 @@ const MyPaper = styled(Paper)((theme) => ({
 }));
 
 const LoginView = () => {
-  const { backend } = useContext(GlobalContext);
-  const { api } = backend;
+  const { api } = useContext(GlobalContext);
   const navigate = useNavigate();
 
   // states
