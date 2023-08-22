@@ -28,7 +28,7 @@ const RankingOccuranceCharts = (props) => {
     };
 
     return (
-      <Grid key={s.symbol} item lg={4} sm={4} xs={12}>
+      <Grid key={s.symbol} item lg={6} sm={12} xs={12}>
         <ABDonutChart data={chart_data} subheader="Occurance in the TOP list" />
       </Grid>
     );
