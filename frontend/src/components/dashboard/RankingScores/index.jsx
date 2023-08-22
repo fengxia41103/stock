@@ -114,7 +114,7 @@ const RankingScores = (props) => {
   return (
     <Box mt={1}>
       <Grid container spacing={1}>
-        <Grid item lg={6} sm={7} xs={12}>
+        <Grid item lg={6} sm={6} xs={12}>
           <MyCard>
             <CardHeader
               title={<Typography variant="h3">Overall Scores</Typography>}
@@ -140,7 +140,7 @@ const RankingScores = (props) => {
             </CardContent>
           </MyCard>
         </Grid>
-        <Grid item lg={6} sm={5} xs={12}>
+        <Grid item lg={6} sm={6} xs={12}>
           <MyCard>
             <CardHeader
               title={
