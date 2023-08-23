@@ -1,0 +1,100 @@
+# frontend nginx conf
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: stock-frontend-nginx-conf
+data:
+  nginx.conf: |
+    user nginx;
+    worker_processes  1;
+    events {
+      worker_connections  10240;
+    }
+    http {
+      server {
+        listen 80;
+
+
+        location / {
+          add_header "Access-Control-Allow-Origin" "*";
+          add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+          add_header 'Access-Control-Allow-Headers' 'X-Requested-With,Accept,Content-Type, Origin';
+
+          root /usr/share/nginx/html;
+          index index.html index.htm;
+          try_files $uri  /index.html$is_args$args =404;
+        }
+
+      }
+    }
+
+---
+# frontend react app
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stock-frontend
+spec:
+  selector:
+    matchLabels:
+      app: stock-frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: stock-frontend
+    spec:
+      containers:
+        - name: stock-frontend
+          image: harbor.feng.local:9800/library/frontend_stock:v1.0.0
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: stock-frontend-nginx-conf
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+      imagePullSecrets:
+        - name: harbor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stock-frontend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: stock-frontend
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stock-frontend
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: mystock.feng.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: stock-frontend
+                port:
+                  number: 80
