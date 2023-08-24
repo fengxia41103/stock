@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: stock-backend-secret
+type: Opaque
+stringData:
+  MYSQL_USER: fengxia
+  MYSQL_PASSWORD: natalie
+  MYSQL_ROOT_PASSWORD: natalie
+  DJANGO_DB_USER: fengxia
+  DJANGO_DB_PWD: natalie
+
+---
+# frontend nginx conf
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: stock-backend-env
+data:
+  MYSQL_DATABASE: stock
+  DEPLOY_TYPE: dev
+  DJANGO_DB_HOST: 192.168.68.106
+  DJANGO_REDIS_HOST: 192.168.68.106
+
+---
+# frontend react app
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stock-backend
+spec:
+  selector:
+    matchLabels:
+      app: stock-backend
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 3
+  template:
+    metadata:
+      labels:
+        app: stock-backend
+    spec:
+      containers:
+        - name: stock-backend
+          image: harbor.feng.local:9800/library/backend_stock:v1.1.0.beta
+          ports:
+            - containerPort: 80
+          envFrom:
+          - configMapRef:
+              name: stock-backend-env
+          - secretRef:
+              name: stock-backend-secret
+      imagePullSecrets:
+        - name: harbor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stock-backend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: stock-backend
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stock-backend
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: mystock.backend.feng.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: stock-backend
+                port:
+                  number: 80
