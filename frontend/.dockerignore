@@ -1,0 +1,26 @@
+# Items that don't need to be in a Docker image.
+# Anything not used by the build system should go here.
+Dockerfile
+.dockerignore
+.gitignore
+README.md
+
+# Artifacts that will be built during image creation.
+# This should contain all files created during `npm run build`.
+build
+node_modules
+k8s
+deployment
+.env*
+.husky
+.huskyrc.json
+jsconfig.json
+.npmrc
+.prettierignore
+.prettierrc.json
+.yalc
+yalc.lock
+yarn.lock
+package.lock
+.yarnrc
+.yarnrc.yml
