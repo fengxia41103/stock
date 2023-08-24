@@ -1,0 +1,74 @@
+---
+# frontend react app
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stock-frontend-green
+spec:
+  selector:
+    matchLabels:
+      app: stock-frontend-green
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: stock-frontend-green
+    spec:
+      containers:
+        - name: stock-frontend-green
+          image: harbor.feng.local:9800/library/frontend_stock:v1.1.0.beta
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: stock-frontend-nginx-conf
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+      imagePullSecrets:
+        - name: harbor
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stock-frontend-green
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: stock-frontend-green
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stock-frontend-green
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: mystock.feng.local
+      http:
+        paths:
+          - path: /green/(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: stock-frontend-green
+                port:
+                  number: 80
