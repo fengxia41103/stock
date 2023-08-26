@@ -4,6 +4,18 @@ metadata:
   name: {{ include "helm.fullname" . }}
   labels:
     {{- include "helm.labels" . | nindent 4 }}
+
+x-django-base: &django-base
+  securityContext:
+    {{- toYaml .Values.securityContext | nindent 12 }}
+  image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+  imagePullPolicy: {{ .Values.image.pullPolicy }}
+  envFrom:
+  - configMapRef:
+      name: "{{ .Release.Name }}-env"
+  - secretRef:
+      name: "{{ .Release.Name }}-secret"
+
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -36,21 +48,12 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          <<: *django-base
+          command: ["gunicorn"]
+          args: ["--bind", ":80", "fin.wsgi"]
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
-              protocol: TCP
-
-          envFrom:
-          - configMapRef:
-              name: "{{ .Release.Name }}-env"
-          - secretRef:
-              name: "{{ .Release.Name }}-secret"
-
           livenessProbe:
             httpGet:
               path: /api/v1
@@ -61,6 +64,12 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+
+        - name: "{{ .Chart.Name }}-celery"
+          <<: *django-base
+          command: ["celery"]
+          args: ["-A", "fin.celery", "worker", "-Q", "summary,stock,statement,price,news", "-l", "INFO"]
+
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

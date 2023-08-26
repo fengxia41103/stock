@@ -1,6 +1,6 @@
 apiVersion: v2
-name: stock-backend
-description: Backend for mystock app
+name: stock-backend-api
+description: Backend API service
 
 # A chart can be either an 'application' or a 'library' chart.
 #

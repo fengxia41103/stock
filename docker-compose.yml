@@ -15,7 +15,7 @@ volumes:
 x-django-base: &django-base
   build:
     context: ./backend
-    dockerfile: ./Dockerfile
+    dockerfile: ./Dockerfile-web
   image: backend_stock
   volumes:
     - ./backend:/code
@@ -84,6 +84,10 @@ services:
 
   celery:
     <<: *django-base
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile-web
+    image: backend_stock
     command: celery -A fin.celery worker -Q summary,stock,statement,price,news -l INFO
     networks:
       - data
