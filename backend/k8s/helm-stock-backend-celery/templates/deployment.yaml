@@ -5,17 +5,6 @@ metadata:
   labels:
     {{- include "helm.labels" . | nindent 4 }}
 
-x-django-base: &django-base
-  securityContext:
-    {{- toYaml .Values.securityContext | nindent 12 }}
-  image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-  imagePullPolicy: {{ .Values.image.pullPolicy }}
-  envFrom:
-  - configMapRef:
-      name: "{{ .Release.Name }}-env"
-  - secretRef:
-      name: "{{ .Release.Name }}-secret"
-
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -48,27 +37,24 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          <<: *django-base
-          command: ["gunicorn"]
-          args: ["--bind", ":80", "fin.wsgi"]
-          ports:
-            - name: http
-              containerPort: {{ .Values.service.port }}
-          livenessProbe:
-            httpGet:
-              path: /api/v1
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /api/v1
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-
-        - name: "{{ .Chart.Name }}-celery"
-          <<: *django-base
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+          {{- with .Values.env.configmap }}
+          - configMapRef:
+              name: "{{- toYaml . }}"
+          {{- end }}
+          {{- with .Values.env.secret }}
+          - secretRef:
+              name: "{{- toYaml . }}"
+          {{- end }}
           command: ["celery"]
           args: ["-A", "fin.celery", "worker", "-Q", "summary,stock,statement,price,news", "-l", "INFO"]
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
 
       {{- with .Values.nodeSelector }}
       nodeSelector:
