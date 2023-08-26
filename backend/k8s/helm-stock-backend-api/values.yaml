@@ -84,3 +84,7 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+env:
+  configmap: stock-backend-env
+  secret: stock-backend-secret

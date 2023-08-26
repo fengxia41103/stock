@@ -42,10 +42,14 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
+          {{- with .Values.env.configmap }}
           - configMapRef:
-              name: "stock-backend-env"
+              name: "{{- toYaml . }}"
+          {{- end }}
+          {{- with .Values.env.secret }}
           - secretRef:
-              name: "stock-backend-secret"
+              name: "{{- toYaml . }}"
+          {{- end }}
           command: ["gunicorn"]
           args: ["--bind", ":80", "fin.wsgi"]
           ports:
