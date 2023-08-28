@@ -1,6 +1,9 @@
 # build environment
 FROM node:16.15.1 as builder
 
+ARG NPM_TOKEN
+ARG BUILD_FOR=development
+
 # limit heap memory
 ENV GENERATE_SOURCEMAP=false
 ENV NODE_OPTIONS=--max_old_space_size=2048
@@ -14,12 +17,18 @@ COPY . /code
 
 ENV PATH /code/node_modules/.bin:$PATH
 
+# npmrc
+RUN echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
+RUN echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" >> ~/.yarnrc
+
 # Install app dependencies
+# RUN npm install --location=global npm
+# RUN npm install --force
 RUN yarn install
-RUN yarn upgrade
+RUN rm -f .npmrc
 
 # Start the app
-RUN yarn run build
+RUN ENV=${BUILD_FOR} yarn run build
 
 # production environment
 FROM nginx:latest
