@@ -49,6 +49,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@craco/craco": "^7.0.0",
     "@trivago/prettier-plugin-sort-imports": "^4.2.0",
+    "env-cmd": "^10.1.0",
     "eslint": "^7.5.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -78,7 +79,7 @@
   "scripts": {
     "build": "DISABLE_ESLINT_PLUGIN=true craco --max_old_space_size=2048 build",
     "eject": "craco eject",
-    "start": "craco --max_old_space_size=2048 start",
+    "start": "env-cmd -f .env.development craco --max_old_space_size=2048 start",
     "test": "craco test"
   },
   "version": "0.1.0"
