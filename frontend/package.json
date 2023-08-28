@@ -79,7 +79,7 @@
   "scripts": {
     "build": "DISABLE_ESLINT_PLUGIN=true craco --max_old_space_size=2048 build",
     "eject": "craco eject",
-    "start": "env-cmd -f .env.development craco --max_old_space_size=2048 start",
+    "start": "env-cmd -f envs/$ENV craco --max_old_space_size=2048 start",
     "test": "craco test"
   },
   "version": "0.1.0"
