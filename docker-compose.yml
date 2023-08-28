@@ -108,6 +108,9 @@ services:
     build:
       context: ./frontend
       dockerfile: ./Dockerfile
+      args:
+        BUILD_FOR: ${BUILD_FOR}
+        NPM_TOKEN: ${NPM_TOKEN}
     volumes:
       - ./frontend:/code
       - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
