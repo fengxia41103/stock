@@ -46,6 +46,8 @@ ingress:
   enabled: true
   className: "nginx"
   annotations:
+    # cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    # kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/rewrite-target: /
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
@@ -55,7 +57,10 @@ ingress:
         - path: /
           pathType: Prefix
 
-  tls: []
+  # tls:
+  #   - hosts:
+  #       - mystock.backend.feng.local
+  #     secretName: mystock-tls
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
