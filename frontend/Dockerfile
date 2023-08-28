@@ -2,7 +2,7 @@
 FROM node:16.15.1 as builder
 
 ARG NPM_TOKEN
-ARG BUILD_FOR=development
+ARG BUILD_FOR
 
 # limit heap memory
 ENV GENERATE_SOURCEMAP=false
@@ -27,8 +27,8 @@ RUN echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" >> ~/.yarnrc
 RUN yarn install
 RUN rm -f .npmrc
 
-# Start the app
-RUN ENV=${BUILD_FOR} yarn run build
+# build
+RUN env-cmd -f envs/${BUILD_FOR} yarn run build
 
 # production environment
 FROM nginx:latest
