@@ -1,6 +1,6 @@
 FROM python:3.8
+
 ENV PYTHONUNBUFFERED 1
-ENV DJANGO_REDIS_HOST "redis"
 
 # Install system packages
 RUN apt-get update && apt-get install -y \
