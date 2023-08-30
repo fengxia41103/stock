@@ -8,7 +8,7 @@ image:
   repository: harbor.feng.local:9800/library/frontend_stock
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.1.0.beta"
+  tag: "v1.0.0"
 
 imagePullSecrets:
   - name: harbor
