@@ -38,7 +38,7 @@ spec:
   selector:
     matchLabels:
       app: stock-frontend
-  replicas: 3
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
