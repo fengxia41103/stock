@@ -38,7 +38,6 @@ error messages.
 
 Looking for **volunteers**!!
 
-## For network admins
 
 ### networks
 
@@ -76,6 +75,95 @@ frontend:
     - "8084:80"  # <========= change this line!
   ....
 ```
+
+## Build and deploy for k8s & multi-tenancy
+
+### image & multi-tenancy
+
+**Backend image is universal**. All critical settings are
+parameterized so that it can be point to different DB & redis based on
+launching values. This makes multi-tenancy easy as each client can get
+their own backend stack. API is exposed through ingress, thus client A
+can have `mystock.a.backend.feng.local`, and so on.
+
+**Frontend image is tenant specific**, because its backend location
+value is embedded at image build. Thus, it is **static**. By using
+different _frontend env_ file at build, we create a docker image, then
+**must tag it correctly** to identify it as image for "client A", for
+example, `frontend_stock:v1.1.0.client-a`. Here you may feel a catch
+22, that backend API's url _is not yet known_ at this point! However,
+it can be **pre-defined**, eg. `mystock.a.backend.feng.local`, and
+this same value will be used as backend's ingress (see section
+below). Therefore, this **exact value** is used to build this client's
+**matching frontend**!
+
+### Harbor
+
+Deploying it to k8s requires pushing docker image to a registry. If
+using harbor, tag the image as below then push:
+
+```
+docker image tag aa3c3f2a0e29 \
+  <harbor url>/<project>/frontend_stock:v1.1.0.local
+
+docker image push \
+  <harbor url>/<project>/frontend_stock:v1.1.0.local
+```
+
+### deploy backend to k8s
+
+Let's assume I'm deploying for client A. Thus, creating a namespace
+`client-a`.
+
+Now, go to `/backend/k8s`.
+
+1. Setup configmap & secret. They hold the backend configurations.
+
+      ```
+      # configmap
+
+      kubectl create configmap \
+        stock-backend-env \
+        --from-env-file=config-dotenv
+
+      # secret
+
+      kubectl create secret generic \
+        stock-backend-secret \
+        --from-env-file=secret-dotenv
+      ```
+2. Deploy backend w/ ingress value. **Must** use `-f ..../values.yml`
+   so these values can be parameterized!
+
+      ```
+      helm install stock-backend-api helm-stock-backend-api \
+        -n client-a \
+        -f helm-stock-backend-api/values.yaml \
+        --set "ingress.hosts[0].host=mystock.a.backend.feng.local"
+      ```
+
+### deploy frontend to k8s
+
+As mentioned earlier, if backend's ingress is
+`mystock.a.backend.feng.local`, you should have built the frontend
+image using this as its dotenv. I'm now assuming the image has been:
+built, tagged as `v1.1.0.client-a`, and pushed.
+
+Now, go to `/frontend/k8s`.
+
+```
+helm install stock-frontend helm \
+  -n client-a \
+  -f helm/profiles/client-a.yaml \
+  --set image.tag="v1.1.0.client-a"
+```
+
+whereas:
+
+- `profiles/client-a.yaml`: has the ingress,
+  eg. `mystock.a.feng.local`. this is the frontend's entry URL.
+
+- `image.tag`: self-explanatory.
 
 [1]: https://github.com/fengxia41103/stock
 [2]: https://docs.docker.com/compose/compose-file/compose-file-v3/#ports
