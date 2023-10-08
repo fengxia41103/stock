@@ -74,7 +74,7 @@
       "react-app/jest"
     ]
   },
-  "name": "frontend2",
+  "name": "frontend",
   "private": true,
   "scripts": {
     "build": "DISABLE_ESLINT_PLUGIN=true craco --max_old_space_size=2048 build",
