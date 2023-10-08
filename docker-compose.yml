@@ -67,7 +67,7 @@ services:
   web:
     <<: *django-base
 
-    command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py createsuperuser --noinput && python /code/manage.py runserver 0.0.0.0:8001"
+    # command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py createsuperuser --noinput && python /code/manage.py runserver 0.0.0.0:8001"
     # command:
     #   "python /code/manage.py createsuperuser --noinput && gunicorn -w 1 -t 300 -b 0.0.0.0:8001 --log-level=info fin.wsgi"
 
@@ -79,7 +79,6 @@ services:
 
   celery:
     <<: *django-base
-    image: backend_stock
     command: celery -A fin.celery worker -Q summary,stock,statement,price,news -l INFO
     networks:
       - data
