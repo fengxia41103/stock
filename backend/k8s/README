@@ -1,0 +1,7 @@
+# Prerequisite
+
+```
+kubectl create configmap stock-backend-env --from-env-file=config-dotenv
+kubectl create secret generic stock-backend-secret --from-env-file=secret-dotenv
+
+```

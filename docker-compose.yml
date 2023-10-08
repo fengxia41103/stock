@@ -15,7 +15,7 @@ volumes:
 x-django-base: &django-base
   build:
     context: ./backend
-    dockerfile: ./Dockerfile-web
+    dockerfile: ./Dockerfile
   image: backend_stock
   volumes:
     - ./backend:/code
@@ -23,19 +23,14 @@ x-django-base: &django-base
       source: ./backend/static
       target: /code/static
   environment:
-    PYTHONUNBUFFERED: 1
-    DJANGO_DEBUG: 1 # 0 or 1
-    MYSQL_DATABASE: stock
-    DEPLOY_TYPE: dev # dev or prod
-    DJANGO_DB_USER: fengxia
-    DJANGO_DB_PWD: natalie
-    DJANGO_DB_HOST: 192.168.68.106
-    DJANGO_DB_PORT: 3306
-    DJANGO_REDIS_HOST: redis
-    # DJANGO_SUPERUSER_USERNAME: fengxia
-    # DJANGO_SUPERUSER_PASSWORD: natalie
-    # DJANGO_SUPERUSER_EMAIL: feng_xia41103@hotmail.com
-
+    DJANGO_DEBUG: ${DJANGO_DEBUG}
+    MYSQL_DATABASE: ${MYSQL_DATABASE}
+    DEPLOY_TYPE: ${DEPLOY_TYPE}
+    DJANGO_DB_USER: ${DJANGO_DB_USER}
+    DJANGO_DB_PWD: ${DJANGO_DB_PWD}
+    DJANGO_DB_HOST: ${DJANGO_DB_HOST}
+    DJANGO_DB_PORT: ${DJANGO_DB_PORT}
+    DJANGO_REDIS_HOST: ${DJANGO_REDIS_HOST}
 
 # computes
 services:
@@ -61,18 +56,18 @@ services:
       - stock-data:/var/lib/mysql # persisted volume
       - ./backend/mysql.cnf:/etc/mysql/conf.d/feng.cnf
     environment:
-      MYSQL_DATABASE: stock
-      MYSQL_USER: fengxia
-      MYSQL_PASSWORD: natalie
-      MYSQL_ROOT_HOST: "%" # allow remote conn from these hosts
-      MYSQL_ROOT_PASSWORD: natalie
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
       - data
 
   web:
     <<: *django-base
 
-    #command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py createsuperuser --noinput && python /code/manage.py runserver 0.0.0.0:8001"
+    command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py createsuperuser --noinput && python /code/manage.py runserver 0.0.0.0:8001"
     # command:
     #   "python /code/manage.py createsuperuser --noinput && gunicorn -w 1 -t 300 -b 0.0.0.0:8001 --log-level=info fin.wsgi"
 
@@ -84,9 +79,6 @@ services:
 
   celery:
     <<: *django-base
-    build:
-      context: ./backend
-      dockerfile: ./Dockerfile-web
     image: backend_stock
     command: celery -A fin.celery worker -Q summary,stock,statement,price,news -l INFO
     networks:
