@@ -23,7 +23,8 @@ const myStyles = makeStyles(() => ({
   },
 }));
 
-const NavBar = ({ onMobileClose, openMobile, items }) => {
+const NavBar = (props) => {
+  const { onMobileClose, isMobileMode, items } = props;
   const { user: username } = useContext(GlobalContext);
   const user = {
     avatar: faker.image.animals(),
@@ -32,12 +33,6 @@ const NavBar = ({ onMobileClose, openMobile, items }) => {
 
   const classes = myStyles();
   const location = useLocation();
-
-  useEffect(() => {
-    if (openMobile && onMobileClose) {
-      onMobileClose();
-    }
-  }, [location.pathname, openMobile, onMobileClose]);
 
   const content = (
     <Box height="100%" display="flex" flexDirection="column">
@@ -59,36 +54,43 @@ const NavBar = ({ onMobileClose, openMobile, items }) => {
     </Box>
   );
 
+  const mobileNavDrawer = (
+    <Box sx={{ display: { xs: "block", sm: "block", md: "none", lg: "none" } }}>
+      <Drawer
+        anchor="left"
+        classes={{ paper: classes.mobileDrawer }}
+        onClose={onMobileClose}
+        open={isMobileMode}
+        variant="temporary"
+      >
+        {content}
+      </Drawer>
+    </Box>
+  );
+  const desktopNavDrawer = (
+    <Box sx={{ display: { xs: "none", sm: "none", md: "none", lg: "block" } }}>
+      <Drawer
+        anchor="left"
+        classes={{ paper: classes.desktopDrawer }}
+        open={!isMobileMode}
+        variant="persistent"
+      >
+        {content}
+      </Drawer>
+    </Box>
+  );
+
   return (
     <>
-      <Hidden lgUp>
-        <Drawer
-          anchor="left"
-          classes={{ paper: classes.mobileDrawer }}
-          onClose={onMobileClose}
-          open={openMobile}
-          variant="temporary"
-        >
-          {content}
-        </Drawer>
-      </Hidden>
-      <Hidden mdDown>
-        <Drawer
-          anchor="left"
-          classes={{ paper: classes.desktopDrawer }}
-          open
-          variant="persistent"
-        >
-          {content}
-        </Drawer>
-      </Hidden>
+      {desktopNavDrawer}
+      {mobileNavDrawer}
     </>
   );
 };
 
 NavBar.propTypes = {
   onMobileClose: PropTypes.func,
-  openMobile: PropTypes.bool,
+  isMobileMode: PropTypes.bool,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       href: PropTypes.string,
@@ -100,7 +102,7 @@ NavBar.propTypes = {
 
 NavBar.defaultProps = {
   onMobileClose: () => {},
-  openMobile: false,
+  isMobileMode: false,
   items: [],
 };
 

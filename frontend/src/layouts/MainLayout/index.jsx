@@ -47,10 +47,10 @@ const MainLayout = (props) => {
 
   return (
     <Box className={classes.root}>
-      <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
+      <TopBar onMobileNavOpen={() => setMobileNavOpen(!isMobileNavOpen)} />
       <NavBar
         onMobileClose={() => setMobileNavOpen(false)}
-        openMobile={isMobileNavOpen}
+        isMobileMode={isMobileNavOpen}
         items={sideNavs}
       />
       <Box className={classes.wrapper}>
