@@ -11,7 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 
-import { CountCards, Page } from "@fengxia41103/storybook";
+import { Page } from "@fengxia41103/storybook";
 
 import ShowResource from "@Components/common/ShowResource";
 import MoverCard from "@Components/dashboard/MoverCard";
@@ -141,8 +141,6 @@ const TodayDashboardView = () => {
       );
     });
 
-    const count_by_gainer = (s) => s.gain > 0;
-
     return (
       <Page title="Today">
         <Container maxWidth>
@@ -161,15 +159,6 @@ const TodayDashboardView = () => {
           </Box>
 
           <Box mt={1}>
-            <Grid container spacing={1}>
-              <CountCards
-                {...{
-                  data: stocks,
-                  count_by_lambda: count_by_gainer,
-                  title: "Gainers",
-                }}
-              />
-            </Grid>
             <Grid container spacing={1}>
               {mover_top_cards}
             </Grid>
