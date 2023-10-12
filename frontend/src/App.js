@@ -1,8 +1,3 @@
-
-
-
-
-
 import routes from "@/routes";
 
 import React from "react";
