@@ -360,7 +360,7 @@ class MyStock(models.Model):
         tmp = self.balances.order_by("-on").first()
         if tmp:
             cash_per_share = tmp.cash_and_cash_equivalent_per_share
-            if cash_per_share:
+            if self.latest_close_price and cash_per_share:
                 return self.latest_close_price / cash_per_share
             else:
                 return None
