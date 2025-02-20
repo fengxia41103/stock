@@ -34,16 +34,17 @@ class MyStockHistoricalYahoo:
 
         dat = yf.Ticker(symbol)
         df = dat.history("max")
-
+        records = []
         for index, row in df.iterrows():
             vals = row.values
-            if not self._are_vals_valid(symbol, list(row.values)):
-                logger.debug("invalid vals: {}".format(vals))
-                continue
+            # if not self._are_vals_valid(symbol, list(row.values)[0:4]):
+            #    logger.debug("invalid vals: {}".format(vals))
+            #    continue
 
             # stamp = [int(v) for v in vals[0].split('-')]
             # date_stamp = dt(year=stamp[0], month=stamp[1], day=stamp[2])
-            date_stamp = dt.strptime(index, "%Y-%m-%d %H:%M:%S%z")
+            #date_stamp = dt.strptime(index, "%Y-%m-%d %H:%M:%S%z")
+            date_stamp = index
 
             if date_stamp.date().isoformat() in his:
                 # logger.debug('already have this')
@@ -62,9 +63,9 @@ class MyStockHistoricalYahoo:
                 # crude calculation of adjusted price
                 adj_p = close_p
                 if row["Dividends"]:
-                    adj_p = close_p - row["Dividends"]
+                    adj_p = close_p - Decimal(row["Dividends"])
                 if row["Stock Splits"]:
-                    adj_p = adj_p / row["Stock Splits"]
+                    adj_p = adj_p / Decimal(row["Stock Splits"])
 
                 # Create an obj and wait for bulk creation
                 h = MyStockHistorical(
@@ -211,7 +212,7 @@ class MyStockHistoricalYahoo:
             logger.error("not all columns have value")
             return False
 
-        if len(vals) != 7:
+        if len(vals) != 5:
             logger.error("[%s] error, %d" % (symbol, len(vals)))
             return False
 
