@@ -44,3 +44,4 @@ newscatcher
 gunicorn
 django-tastypie
 django-celery-results
+yfinance

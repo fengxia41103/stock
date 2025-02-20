@@ -4,16 +4,14 @@ from __future__ import absolute_import
 import csv
 import logging
 from datetime import datetime as dt
-from decimal import Decimal
-from decimal import InvalidOperation
+from decimal import Decimal, InvalidOperation
 from functools import reduce
 from io import StringIO
 
+import yfinance as yf
 from dateutil.relativedelta import relativedelta
 
-from stock.models import MySector
-from stock.models import MyStock
-from stock.models import MyStockHistorical
+from stock.models import MySector, MyStock, MyStockHistorical
 
 logger = logging.getLogger("stock")
 
@@ -23,7 +21,78 @@ class MyStockHistoricalYahoo:
         self.http_handler = handler
         self.agent = handler.agent
 
-    def parser(self, symbol):
+    def parser (self, symbol):
+        # Get stock and its existing historicals
+        stock, created = MyStock.objects.get_or_create(symbol=symbol)
+
+        his = [
+            x.isoformat()
+            for x in MyStockHistorical.objects.filter(stock=stock).values_list(
+                "on", flat=True
+            )
+        ]
+
+        dat = yf.Ticker(symbol)
+        df = dat.history("max")
+
+        for index, row in df.iterrows():
+            vals = row.values
+            if not self._are_vals_valid(symbol, list(row.values)):
+                logger.debug("invalid vals: {}".format(vals))
+                continue
+
+            # stamp = [int(v) for v in vals[0].split('-')]
+            # date_stamp = dt(year=stamp[0], month=stamp[1], day=stamp[2])
+            date_stamp = dt.strptime(index, "%Y-%m-%d %H:%M:%S%z")
+
+            if date_stamp.date().isoformat() in his:
+                # logger.debug('already have this')
+                continue  # we already have these
+            else:
+                open_p, high_p, low_p, close_p = map(
+                    self._convert_to_decimal, vals[0:4]
+                )
+
+                vol = row["Volume"]
+                if not vol:
+                    vol = -1
+                else:
+                    vol = vol / 1000.0
+
+                # crude calculation of adjusted price
+                adj_p = close_p
+                if row["Dividends"]:
+                    adj_p = close_p - row["Dividends"]
+                if row["Stock Splits"]:
+                    adj_p = adj_p / row["Stock Splits"]
+
+                # Create an obj and wait for bulk creation
+                h = MyStockHistorical(
+                    stock=stock,
+                    on=date_stamp,
+                    open_price=open_p,
+                    high_price=high_p,
+                    low_price=low_p,
+                    close_price=close_p,
+                    vol=vol,
+                    adj_close=adj_p,
+                )
+                records.append(h)
+
+                # bulk creation
+                if len(records) >= 1000:
+                    MyStockHistorical.objects.bulk_create(records)
+                    records = []
+
+        # whatever left in records are to be saved to DB
+        if records:
+            MyStockHistorical.objects.bulk_create(records)
+
+        # persist
+        logger.debug("[%s] complete" % symbol)
+
+
+    def parser_old(self, symbol):
         """Parse Yahoo api stock historical data.
 
         Polling ichart.yahoo.com with manufactured query string (dark
