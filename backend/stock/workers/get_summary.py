@@ -1,7 +1,8 @@
 import logging
 
-from stock.models import MyStock
 from yahooquery import Ticker
+
+from stock.models import MyStock
 
 logger = logging.getLogger("stock")
 
@@ -20,6 +21,8 @@ class MySummary:
         s = Ticker(self.stock.symbol, timeout=15)
 
         # https://yahooquery.dpguthrie.com/guide/ticker/modules/#financial_data
+        print(s.financial_data)
+        1/0
         df = s.financial_data[self.stock.symbol]
         if NA in df:
             logger.error(df)
