@@ -2,7 +2,17 @@ import { filter, map } from "lodash";
 import React, { useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
-import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+} from "@mui/material";
 
 import { useCreate, useSectors } from "@/api";
 
@@ -31,7 +41,12 @@ const AddNewSectorDialog = () => {
       <Button color="secondary" onClick={() => setOpen(true)}>
         <AddIcon /> Add New Sector
       </Button>
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        maxWidth="sm"
+        fullWidth
+      >
         <DialogTitle>Add New Sector</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -51,7 +66,9 @@ const AddNewSectorDialog = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
-          <Button variant="contained" onClick={on_create} disabled={is_error}>Add</Button>
+          <Button variant="contained" onClick={on_create} disabled={is_error}>
+            Add
+          </Button>
         </DialogActions>
       </Dialog>
     </>

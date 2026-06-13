@@ -12,7 +12,13 @@ const UpdateStock = ({ id, symbol }) => {
   const { mutate: update } = useUpdate(`/stocks/${id}/`, ["stocks", "stock"]);
 
   const handle_update = () => {
-    update({}, { onSuccess: () => setNotification(`Updating ${symbol} has been requested.`) });
+    update(
+      {},
+      {
+        onSuccess: () =>
+          setNotification(`Updating ${symbol} has been requested.`),
+      },
+    );
   };
 
   return (

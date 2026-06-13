@@ -12,10 +12,23 @@ const Get = ({ uri, on_success, on_error, silent }) => {
 
   useEffect(() => {
     let cancelled = false;
-    api.get(encodeURI(uri))
-      .then((r) => { if (!cancelled) { setData(r.data); setLoading(false); } })
-      .catch((e) => { if (!cancelled) { setError(e); setLoading(false); } });
-    return () => { cancelled = true; };
+    api
+      .get(encodeURI(uri))
+      .then((r) => {
+        if (!cancelled) {
+          setData(r.data);
+          setLoading(false);
+        }
+      })
+      .catch((e) => {
+        if (!cancelled) {
+          setError(e);
+          setLoading(false);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [uri]);
 
   if (loading) return silent ? null : <ScaleLoader loading />;

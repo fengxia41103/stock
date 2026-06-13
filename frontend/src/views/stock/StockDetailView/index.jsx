@@ -15,7 +15,13 @@ import {
 } from "@mui/material";
 
 import { useStock } from "@/api";
-import { AsDialog, DropdownMenu, MenuBar, NotFoundView, Page } from "@fengxia41103/storybook";
+import {
+  AsDialog,
+  DropdownMenu,
+  MenuBar,
+  NotFoundView,
+  Page,
+} from "@fengxia41103/storybook";
 import AddDiaryEditor from "@Components/diary/AddDiaryEditor";
 import DeleteStock from "@Components/stock/DeleteStock";
 import StockLinkToSector from "@Components/stock/StockLinkToSector";
@@ -35,7 +41,10 @@ const indicator_menus = [
   { url: "historical/indicator/bollinger", text: "Bollinger Band" },
   { url: "historical/indicator/elder", text: "Elder Ray" },
   { url: "historical/indicator/sar", text: "SAR" },
-  { url: "historical/indicator/stochastics", text: "Full Stochastics Oscillator" },
+  {
+    url: "historical/indicator/stochastics",
+    text: "Full Stochastics Oscillator",
+  },
   { url: "historical/indicator/heikin", text: "Heikin-Ashi" },
   { url: "historical/indicator/macd", text: "MACD" },
   { url: "historical/indicator/rsi", text: "Relative Strength" },
@@ -67,10 +76,16 @@ const StockDetailView = () => {
 
   const actions = (
     <List>
-      <ListItem><StockLinkToSector {...stock} /></ListItem>
+      <ListItem>
+        <StockLinkToSector {...stock} />
+      </ListItem>
       <Divider />
-      <ListItem><UpdateStock {...stock} /></ListItem>
-      <ListItem><DeleteStock {...stock} /></ListItem>
+      <ListItem>
+        <UpdateStock {...stock} />
+      </ListItem>
+      <ListItem>
+        <DeleteStock {...stock} />
+      </ListItem>
       <ListItem>
         <AsDialog open={false} title="Add a New Note">
           <AddDiaryEditor stock={stock.id} />
@@ -83,18 +98,46 @@ const StockDetailView = () => {
     <Page title={symbol}>
       <Container maxWidth={false}>
         <Stack direction="row" justifyContent="space-between">
-          <Typography variant="h1" mb={10} mt={10}>{symbol}</Typography>
-          <Stack direction="row" alignItems="center" divider={<Divider orientation="vertical" flexItem />}>
-            <MenuBar root={resource} title="Price & Trends" items={price_menus} />
-            {has_statements && <MenuBar root={resource} title="Financial Statements" items={financial_statement_menus} />}
-            {has_statements && <MenuBar root={resource} title="Valuation Models" items={valuation_menus} />}
-            <MenuBar root={resource} title="Tech Indicators" items={indicator_menus} />
+          <Typography variant="h1" mb={10} mt={10}>
+            {symbol}
+          </Typography>
+          <Stack
+            direction="row"
+            alignItems="center"
+            divider={<Divider orientation="vertical" flexItem />}
+          >
+            <MenuBar
+              root={resource}
+              title="Price & Trends"
+              items={price_menus}
+            />
+            {has_statements && (
+              <MenuBar
+                root={resource}
+                title="Financial Statements"
+                items={financial_statement_menus}
+              />
+            )}
+            {has_statements && (
+              <MenuBar
+                root={resource}
+                title="Valuation Models"
+                items={valuation_menus}
+              />
+            )}
+            <MenuBar
+              root={resource}
+              title="Tech Indicators"
+              items={indicator_menus}
+            />
             <DropdownMenu content={actions} />
           </Stack>
         </Stack>
 
         <StockDetailContext.Provider value={stock}>
-          <Box mt={1}><Outlet /></Box>
+          <Box mt={1}>
+            <Outlet />
+          </Box>
         </StockDetailContext.Provider>
       </Container>
     </Page>

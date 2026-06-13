@@ -3,7 +3,16 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, List, ListItem } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  List,
+  ListItem,
+} from "@mui/material";
 
 import { useDelete } from "@/api";
 import StockSymbol from "@Components/stock/StockSymbol";
@@ -24,14 +33,23 @@ const DeleteSectorDialog = ({ id, stocks_detail: stocks }) => {
           <Box mt={2}>
             <List>
               {map(stocks, (v) => (
-                <ListItem key={v.id}><StockSymbol {...v} /></ListItem>
+                <ListItem key={v.id}>
+                  <StockSymbol {...v} />
+                </ListItem>
               ))}
             </List>
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)} color="secondary">Cancel</Button>
-          <Button variant="contained" onClick={() => del(null, { onSuccess: () => setOpen(false) })}>Delete</Button>
+          <Button onClick={() => setOpen(false)} color="secondary">
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => del(null, { onSuccess: () => setOpen(false) })}
+          >
+            Delete
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

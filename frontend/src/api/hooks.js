@@ -16,7 +16,8 @@ export function useCreate(path, invalidateKeys = []) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (data) => api.post(path, data).then((r) => r.data),
-    onSuccess: () => invalidateKeys.forEach((k) => qc.invalidateQueries({ queryKey: [k] })),
+    onSuccess: () =>
+      invalidateKeys.forEach((k) => qc.invalidateQueries({ queryKey: [k] })),
   });
 }
 
@@ -24,7 +25,8 @@ export function useUpdate(path, invalidateKeys = []) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (data) => api.patch(path, data).then((r) => r.data),
-    onSuccess: () => invalidateKeys.forEach((k) => qc.invalidateQueries({ queryKey: [k] })),
+    onSuccess: () =>
+      invalidateKeys.forEach((k) => qc.invalidateQueries({ queryKey: [k] })),
   });
 }
 
@@ -32,7 +34,8 @@ export function useDelete(path, invalidateKeys = []) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: () => api.delete(path).then((r) => r.data),
-    onSuccess: () => invalidateKeys.forEach((k) => qc.invalidateQueries({ queryKey: [k] })),
+    onSuccess: () =>
+      invalidateKeys.forEach((k) => qc.invalidateQueries({ queryKey: [k] })),
   });
 }
 
@@ -63,19 +66,27 @@ export function useHistoricals(stockId, options = {}) {
 }
 
 export function useIncomes(stockId) {
-  return useResource(["incomes", stockId], `/incomes/?stock=${stockId}`, { enabled: !!stockId });
+  return useResource(["incomes", stockId], `/incomes/?stock=${stockId}`, {
+    enabled: !!stockId,
+  });
 }
 
 export function useBalances(stockId) {
-  return useResource(["balances", stockId], `/balances/?stock=${stockId}`, { enabled: !!stockId });
+  return useResource(["balances", stockId], `/balances/?stock=${stockId}`, {
+    enabled: !!stockId,
+  });
 }
 
 export function useCashes(stockId) {
-  return useResource(["cashes", stockId], `/cashes/?stock=${stockId}`, { enabled: !!stockId });
+  return useResource(["cashes", stockId], `/cashes/?stock=${stockId}`, {
+    enabled: !!stockId,
+  });
 }
 
 export function useRatios(stockId) {
-  return useResource(["ratios", stockId], `/ratios/?stock=${stockId}`, { enabled: !!stockId });
+  return useResource(["ratios", stockId], `/ratios/?stock=${stockId}`, {
+    enabled: !!stockId,
+  });
 }
 
 export function useRankings(type, params = "") {

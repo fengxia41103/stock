@@ -1,17 +1,13 @@
-import React from 'react';
-import { Menu, MenuItem } from '@mui/material';
+import React from "react";
+import { Menu, MenuItem } from "@mui/material";
 
 // Simple replacement for DropdownMenu
 export const DropdownMenu = ({ children, ...props }) => (
-  <Menu {...props}>
-    {children}
-  </Menu>
+  <Menu {...props}>{children}</Menu>
 );
 
 // Simple replacement for Logo
-export const Logo = ({ ...props }) => (
-  <div {...props}>Stock App</div>
-);
+export const Logo = ({ ...props }) => <div {...props}>Stock App</div>;
 
 // Export other commonly used components as simple replacements
 export const Button = ({ children, ...props }) => (

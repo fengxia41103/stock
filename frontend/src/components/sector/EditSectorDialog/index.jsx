@@ -3,14 +3,26 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 
 import EditIcon from "@mui/icons-material/Edit";
-import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from "@mui/material";
 
 import { useUpdate } from "@/api";
 
 const EditSectorDialog = ({ id, name: old_name, existings }) => {
   const [open, setOpen] = useState(false);
   const [new_name, setNewName] = useState(old_name);
-  const { mutate: update } = useUpdate(`/sectors/${id}/`, ["sectors", "sector"]);
+  const { mutate: update } = useUpdate(`/sectors/${id}/`, [
+    "sectors",
+    "sector",
+  ]);
 
   const is_error = existings.includes(new_name) && new_name !== old_name;
 
@@ -28,7 +40,12 @@ const EditSectorDialog = ({ id, name: old_name, existings }) => {
       <Button color="primary" onClick={() => setOpen(true)}>
         <EditIcon /> Edit sector name
       </Button>
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        maxWidth="sm"
+        fullWidth
+      >
         <DialogTitle>Edit Sector</DialogTitle>
         <DialogContent>
           <TextField
@@ -45,7 +62,9 @@ const EditSectorDialog = ({ id, name: old_name, existings }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
-          <Button variant="contained" onClick={on_update} disabled={is_error}>Update</Button>
+          <Button variant="contained" onClick={on_update} disabled={is_error}>
+            Update
+          </Button>
         </DialogActions>
       </Dialog>
     </>

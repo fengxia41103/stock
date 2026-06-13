@@ -11,8 +11,12 @@ const PollResource = ({ resource, on_success, interval = 10, silent }) => {
   const timerRef = useRef(null);
 
   const fetchData = () => {
-    api.get(encodeURI(resource))
-      .then((r) => { setData(r.data); setLoading(false); })
+    api
+      .get(encodeURI(resource))
+      .then((r) => {
+        setData(r.data);
+        setLoading(false);
+      })
       .catch(() => setLoading(false));
   };
 
