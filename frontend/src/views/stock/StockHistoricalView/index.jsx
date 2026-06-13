@@ -23,64 +23,61 @@ const StockHistoricalView = () => {
   const resource = `/historicals?stock=${id}&on__range=${start},${end}`;
 
   const start_change = (event) => {
-    const new_start = event.target.value;
-    setStart(new_start);
+    setStart(event.target.value);
   };
   const end_change = (event) => {
-    const new_end = event.target.value;
-    setEnd(new_end);
+    setEnd(event.target.value);
   };
 
   const render_data = (resp) => {
-    const { objects: data } = resp;
+    const data = Array.isArray(resp) ? resp : resp.objects || [];
 
-    // WARNING: for some reason I don't have its price, thus nothing
-    // to be shown here.
     if (data.length === 0) {
-      return null;
+      return <Typography>No data in this date range.</Typography>;
     }
 
     return (
-      <>
-        <Typography variant="h2">Historical Price</Typography>
-        <Box mt={3}>
-          <Card>
-            <CardContent>
-              <Grid container spacing={1}>
-                <Grid item xs>
-                  <TextField
-                    label="Start Date"
-                    type="date"
-                    value={start}
-                    onChange={start_change}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs>
-                  <TextField
-                    label="End Date"
-                    type="date"
-                    value={end}
-                    onChange={end_change}
-                    fullWidth
-                  />
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
+      <StockHistoricalContext.Provider value={data}>
+        <Box mt={1}>
+          <Outlet />
         </Box>
-
-        <StockHistoricalContext.Provider value={data}>
-          <Box mt={1}>
-            <Outlet />
-          </Box>
-        </StockHistoricalContext.Provider>
-      </>
+      </StockHistoricalContext.Provider>
     );
   };
-  // MUST: forcing re-fetch if the key is changing!
+
   const key = resource;
-  return <ShowResource {...{ key, resource, on_success: render_data }} />;
+  return (
+    <>
+      <Typography variant="h2">Historical Price</Typography>
+      <Box mt={3}>
+        <Card>
+          <CardContent>
+            <Grid container spacing={1}>
+              <Grid item xs>
+                <TextField
+                  label="Start Date"
+                  type="date"
+                  value={start}
+                  onChange={start_change}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs>
+                <TextField
+                  label="End Date"
+                  type="date"
+                  value={end}
+                  onChange={end_change}
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+      </Box>
+      <ShowResource {...{ key, resource, on_success: render_data }} />
+    </>
+  );
 };
 
 export default StockHistoricalView;
