@@ -35,7 +35,7 @@ class MySector(models.Model):
 
 
 class MyStock(models.Model):
-    symbol = models.CharField(max_length=32, unique=True)
+    symbol = models.CharField(max_length=64, unique=True)
     beta = models.FloatField(null=True, default=5)
     roa = models.FloatField(
         null=True, default=0, verbose_name="Return on Assets"

@@ -1,31 +1,19 @@
-FROM python:3.8
+FROM python:3.11-slim
 
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1
 
-# Install system packages
-RUN apt-get update && apt-get install -y \
-    memcached \
-    libmemcached-dev
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    default-libmysqlclient-dev \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
 
-# Upgrade pip
-RUN pip install --upgrade pip
-
-# For some strange reason, this is required before
-# we hit `pip install -r`
-RUN pip install requests gunicorn
-
-# Set up code destination
-RUN mkdir /code
-COPY . /code
 WORKDIR /code
-
-# Install dependencies
-ADD requirements.txt /code/
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Collect static files
+COPY . .
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 80
-
-CMD ["gunicorn", "--bind", ":80", "fin.wsgi"]
+CMD ["gunicorn", "--bind", ":80", "--workers", "3", "fin.wsgi"]

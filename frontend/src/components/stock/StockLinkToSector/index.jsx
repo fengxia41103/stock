@@ -1,188 +1,95 @@
 import { map, remove } from "lodash";
 import PropTypes from "prop-types";
-import React, { useContext, useState } from "react";
-import { useMutate } from "restful-react";
+import React, { useState } from "react";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
-import {
-  Box,
-  Checkbox,
-  Divider,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  Grid,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import Popover from "@mui/material/Popover";
+import { Box, Checkbox, Divider, FormControl, FormControlLabel, FormGroup, Grid, Popover, Tooltip, Typography } from "@mui/material";
 
+import { useSectors, useUpdate } from "@/api";
 import { SimpleSnackbar } from "@fengxia41103/storybook";
-
-import GlobalContext from "@/context";
-
-import ShowResource from "@Components/common/ShowResource";
 import DeleteStock from "@Components/stock/DeleteStock";
 import UpdateStock from "@Components/stock/UpdateStock";
 
 const StockLinkToSector = (props) => {
-  const { api } = useContext(GlobalContext);
-  const { symbol, resource_uri, minimal } = props;
-  const [resource] = useState("/sectors");
+  const { id, symbol, minimal } = props;
   const [notification, setNotification] = useState("");
-  const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const { data, isLoading } = useSectors();
 
-  const open_sector_list = (event) => {
-    setAnchorEl(event.currentTarget);
-    setOpen(true);
-  };
+  // We need a generic update that can target any sector
+  const { mutate: updateSector } = useUpdate("/sectors/", ["sectors", "stocks"]);
 
-  const close_sector_list = () => {
-    setAnchorEl(null);
-    setOpen(false);
-  };
+  const open = Boolean(anchorEl);
+  const sectors = data?.results || data || [];
 
-  const { mutate: update } = useMutate({
-    verb: "PATCH",
-    path: `${api}${resource}/`,
-  });
-
-  const handle_update = (sectors, event) => {
-    for (let i = 0; i < sectors.length; i += 1) {
-      const s = sectors[i];
-
-      // make a local copy for manipulation
-      const tmp = [...s.stocks];
-
-      let msg = "";
-
-      // conditions
-      if (s.name === event.target.name) {
-        if (event.target.checked) {
-          // add to
-          tmp.push(resource_uri);
-
-          msg = `I am now part of sector "${s.name}"`;
-        } else {
-          // remove
-          remove(tmp, (k) => k.includes(resource_uri));
-          msg = `I have been removed from sector "${s.name}"`;
-        }
-
-        // call backend payload
-        const data = { ...s, stocks: tmp };
-
-        // MUST: make a copy and update `sectors` because it will
-        // force a re-render of this component, thus will fetch data
-        // from backend.
-        sectors[i] = { ...data };
-
-        // make the API call
-        update({ objects: [data] }).then(setNotification(msg));
-
-        // I'm done here
-        break;
-      }
+  const handle_update = (sectorId, stocks, checked, sectorName) => {
+    let newStocks = [...stocks];
+    if (checked) {
+      newStocks.push(id);
+      setNotification(`Added to "${sectorName}"`);
+    } else {
+      remove(newStocks, (s) => s === id);
+      setNotification(`Removed from "${sectorName}"`);
     }
+    // Use the api client directly for per-sector update
+    import("@/api/client").then(({ default: api }) => {
+      api.patch(`/sectors/${sectorId}/`, { stocks: newStocks });
+    });
   };
 
-  const render_data = (data) => {
-    const sectors = data.objects;
-    const mapped_sectors = map(sectors, (s) => {
-      // add checked bool
-      return { ...s, checked: s.stocks.some((i) => i.includes(resource_uri)) };
-    });
-
-    const selections = map(mapped_sectors, (s) => {
-      return (
-        <Grid item key={s.id} lg={3} sm={4} xs={6}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={s.checked}
-                onChange={(e) => handle_update(sectors, e)}
-                name={s.name}
-              />
-            }
-            label={s.name}
-          />
+  const content = isLoading ? <ScaleLoader loading /> : (
+    <Box padding={2}>
+      <Typography variant="h6">Link {symbol} to a Sector</Typography>
+      <Divider />
+      <Box mt={2}>
+        <FormControl component="fieldset">
+          <FormGroup>
+            <Grid container spacing={1}>
+              {map(sectors, (s) => {
+                const checked = s.stocks?.includes(id);
+                return (
+                  <Grid item key={s.id} lg={3} sm={4} xs={6}>
+                    <FormControlLabel
+                      control={<Checkbox checked={checked} onChange={(e) => handle_update(s.id, s.stocks || [], e.target.checked, s.name)} name={s.name} />}
+                      label={s.name}
+                    />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </FormGroup>
+        </FormControl>
+      </Box>
+      {notification && <SimpleSnackbar msg={notification} />}
+      <Divider />
+      <Box mt={2}>
+        <Grid container spacing={1}>
+          <UpdateStock {...props} />
+          <DeleteStock {...props} />
         </Grid>
-      );
-    });
-
-    const form = (
-      <>
-        <Typography variant="h3">Link {symbol} to a Sector</Typography>
-        <Divider />
-        <Box mt={2}>
-          <FormControl component="fieldset">
-            <FormGroup>
-              <Grid container spacing={1}>
-                {selections}
-              </Grid>
-            </FormGroup>
-          </FormControl>
-        </Box>
-        <SimpleSnackbar msg={notification} />
-      </>
-    );
-
-    return (
-      <Popover
-        open={open}
-        anchorEl={anchorEl}
-        onClose={close_sector_list}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-      >
-        <Box padding={2}>
-          {form}
-
-          {resource_uri ? (
-            <>
-              <Divider />
-              <Box mt={2}>
-                <Grid container spacing={1}>
-                  <UpdateStock {...props} />
-                  <DeleteStock {...props} />
-                </Grid>
-              </Box>
-            </>
-          ) : null}
-        </Box>
-      </Popover>
-    );
-  };
+      </Box>
+    </Box>
+  );
 
   return (
     <Box display="inline">
-      <Tooltip
-        title="Assign stock to a sector"
-        onClick={open_sector_list}
-        arrow
-      >
+      <Tooltip title="Assign stock to a sector" onClick={(e) => setAnchorEl(e.currentTarget)} arrow>
         <Typography color="secondary" display="inline">
           &#47;&#47; {minimal ? null : "Link to Sector"}
         </Typography>
       </Tooltip>
-      {open ? (
-        <ShowResource
-          {...{ resource, on_success: render_data, silent: true }}
-        />
-      ) : null}
+      <Popover open={open} anchorEl={anchorEl} onClose={() => setAnchorEl(null)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        transformOrigin={{ vertical: "top", horizontal: "center" }}>
+        {content}
+      </Popover>
     </Box>
   );
 };
 
 StockLinkToSector.propTypes = {
+  id: PropTypes.number.isRequired,
   symbol: PropTypes.string.isRequired,
-  resource_uri: PropTypes.string,
   minimal: PropTypes.bool,
 };
 

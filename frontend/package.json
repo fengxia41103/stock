@@ -1,86 +1,52 @@
 {
-  "browserslist": {
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ],
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ]
+  "name": "stock-frontend",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext .js,.jsx"
   },
   "dependencies": {
-    "@faker-js/faker": "^7.6.0",
     "@fengxia41103/storybook": "1.2.0-dev.4",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.4",
     "@mui/styles": "^5.11.2",
     "@mui/x-data-grid": "^5.17.19",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@faker-js/faker": "^7.6.0",
+    "@mui/x-data-grid": "^5.17.19",
+    "@tanstack/react-query": "^5.62.0",
     "@uiw/react-md-editor": "^3.23.5",
+    "axios": "^1.7.9",
     "clsx": "^1.2.1",
     "d3-format": "^3.1.0",
     "d3-time-format": "^4.1.0",
+    "dayjs": "^1.11.13",
     "echarts": "^5.4.1",
     "echarts-for-react": "^3.0.2",
     "jstat": "^1.9.6",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
-    "node-polyfill-webpack-plugin": "^2.0.1",
     "prop-types": "^15.8.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-gauge-chart": "^0.4.1",
     "react-hook-form": "^7.42.0",
-    "react-perfect-scrollbar": "^1.5.8",
     "react-router-dom": "^6.6.2",
-    "react-scripts": "5.0.1",
     "react-sparklines": "^1.7.0",
     "react-spinners": "^0.13.8",
-    "react-stockcharts": "^0.7.8",
-    "restful-react": "^15.9.4",
-    "web-vitals": "^2.1.4"
+    "react-stockcharts": "^0.7.8"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@craco/craco": "^7.0.0",
-    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
-    "env-cmd": "^10.1.0",
-    "eslint": "^7.5.0",
-    "eslint-config-airbnb": "^18.2.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-config-react-app": "^6.0.0",
-    "eslint-import-resolver-alias": "^1.1.2",
-    "eslint-import-resolver-babel-module": "^5.3.2",
-    "eslint-import-resolver-webpack": "^0.13.6",
-    "eslint-plugin-flowtype": "^5.2.0",
-    "eslint-plugin-import": "^2.24.0",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-prettier": "5.0.0",
-    "eslint-plugin-react": "^7.20.3",
-    "eslint-plugin-react-hooks": "^4.0.8",
-    "eslint-plugin-simple-import-sort": "^10.0.0",
-    "husky": "^8.0.0",
-    "lint-staged": "^13.1.0",
-    "prettier": "2.8.8"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "name": "frontend",
-  "private": true,
-  "scripts": {
-    "build": "DISABLE_ESLINT_PLUGIN=true craco --max_old_space_size=2048 build",
-    "eject": "craco eject",
-    "start": "env-cmd -f envs/$ENV craco --max_old_space_size=2048 start",
-    "test": "craco test"
-  },
-  "version": "0.1.0"
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react": "^7.37.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "prettier": "^3.4.2",
+    "vite": "^6.0.5"
+  }
 }
