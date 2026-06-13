@@ -56,7 +56,7 @@ class MyNews(models.Model):
 
     class Meta:
         unique_together = [["source", "topic", "link"]]
-        index_together = [["source", "topic", "title"]]
+        indexes = [models.Index(fields=["source", "topic", "title"])]
         ordering = ["-pub_time"]
 
     def __str__(self):
