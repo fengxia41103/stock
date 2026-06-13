@@ -3,34 +3,24 @@ import React from "react";
 
 import { Button } from "@mui/material";
 
-const LoginButton = (props) => {
-  // props
-  const { resource, username, password, on_success, on_error } = props;
+import api from "@/api/client";
 
-  // event handlers
+const LoginButton = ({ username, password, on_success, on_error }) => {
   const on_login = (event) => {
     event.preventDefault();
-
-    // Simple POST request with a JSON body using fetch
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      cache: "no-cache",
-      body: JSON.stringify({ ...{ username, password } }),
-    };
-
-    // call API
-    return fetch(resource, options)
-      .then((response) => response.json())
+    api.post("/auth/login/", { username, password })
       .then((resp) => {
-        if (on_success) on_success(resp);
+        const data = resp.data;
+        if (data.success) {
+          localStorage.setItem("apiKey", data.data.key);
+          sessionStorage.setItem("user", data.data.user);
+          sessionStorage.setItem("api_key", data.data.key);
+        }
+        if (on_success) on_success(data);
       })
-      .catch((error) => {
-        if (on_error) on_error(error);
-      });
+      .catch((error) => { if (on_error) on_error(error); });
   };
 
-  // render
   return (
     <Button variant="contained" color="primary" onClick={on_login}>
       Login
@@ -41,7 +31,6 @@ const LoginButton = (props) => {
 LoginButton.propTypes = {
   username: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
-  resource: PropTypes.string.isRequired,
   on_success: PropTypes.func.isRequired,
   on_error: PropTypes.func,
 };

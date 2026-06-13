@@ -1,47 +1,24 @@
-anyjson>=0.3.3
-argcomplete>=0.8.7
-astroid>=1.4.5
-celery>=5.3.4
-celerymon>=1.0.3
-certifi>=14.5.14
-colorama>=0.3.7
-coverage>=4.1
-defusedxml>=0.4.1
-Django>=4.2.6
-django-admin-bootstrapped>=2.3.2
-django-annoying>=0.8.0
-django-appconf>=0.6
-django-autocomplete-light>=3.1.4
-django-bootstrap3>=7.0.1
-django-celery>=3.1.16
-django-compressor>=1.4
-django-cors-headers>=1.1.0
-django-crispy-forms>=1.4.0
-django-debug-toolbar>=1.2.2
-django-devserver>=0.8.0
-django-extensions>=1.6.1
-django-extra-views>=0.6.4
-django-filter>=0.9.2
-django-localflavor>=1.1
-django-model-utils>=2.2
-django-tastypie-swagger>=0.1.4
-djangorestframework>=3.3.3
-Jinja2>=2.8
-psycopg2>=2.8.4
-redis>=2.10.3
-requests>=2.5.1
-requests-oauthlib>=0.4.2
-simplejson>=3.6.5
-six>=1.9.0
-mysqlclient>=1.4.6
-numpy
-selenium
-yahooquery
-django-extensions
-docutils
-pyyaml
-newscatcher
-gunicorn
-django-tastypie
-django-celery-results
-yfinance
+# Core
+Django>=5.1,<5.2
+gunicorn>=22.0.0
+mysqlclient>=2.2.0
+
+# REST API (replacing Tastypie)
+djangorestframework>=3.15.0
+django-filter>=24.0
+
+# Celery
+celery>=5.4.0
+redis>=5.0.0
+django-celery-results>=2.5.0
+
+# Data sources
+yahooquery>=2.3.7
+yfinance>=0.2.40
+
+# CORS
+django-cors-headers>=4.4.0
+
+# Utilities
+numpy>=1.26.0
+pyyaml>=6.0.1

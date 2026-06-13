@@ -1,39 +1,30 @@
 import PropTypes from "prop-types";
-import React, { useContext, useState } from "react";
-import { useMutate } from "restful-react";
+import React, { useState } from "react";
 
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { Button } from "@mui/material";
 
+import { useUpdate } from "@/api";
 import { SimpleSnackbar } from "@fengxia41103/storybook";
 
-import GlobalContext from "@/context";
-
-const UpdateStock = (props) => {
-  const { host } = useContext(GlobalContext);
-  const { symbol, resource_uri } = props;
+const UpdateStock = ({ id, symbol }) => {
   const [notification, setNotification] = useState("");
-
-  const { mutate: update } = useMutate({
-    verb: "PATCH",
-    path: `${host}${resource_uri}`,
-  });
+  const { mutate: update } = useUpdate(`/stocks/${id}/`, ["stocks", "stock"]);
 
   const handle_update = () => {
-    update({}).then(setNotification(`Updating ${symbol} has been requested.`));
+    update({}, { onSuccess: () => setNotification(`Updating ${symbol} has been requested.`) });
   };
 
   return (
     <Button color="secondary" onClick={handle_update}>
-      <RefreshIcon />
-      Update
-      <SimpleSnackbar msg={notification} />
+      <RefreshIcon /> Update
+      {notification && <SimpleSnackbar msg={notification} />}
     </Button>
   );
 };
 
 UpdateStock.propTypes = {
-  resource_uri: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   symbol: PropTypes.string.isRequired,
 };
 

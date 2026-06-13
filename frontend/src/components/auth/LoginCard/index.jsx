@@ -17,7 +17,7 @@ import LoginButton from "@Components/auth/LoginButton";
 
 const LoginCard = (props) => {
   // props
-  const { resource, on_success, on_error, error } = props;
+  const { on_success, on_error, error } = props;
 
   // states
   const [user, setUser] = useState("");
@@ -74,7 +74,6 @@ const LoginCard = (props) => {
               {...{
                 username: user,
                 password: pwd,
-                resource,
                 on_success,
                 on_error,
               }}
@@ -92,7 +91,6 @@ const LoginCard = (props) => {
 };
 
 LoginCard.propTypes = {
-  resource: PropTypes.string.isRequired,
   on_success: PropTypes.func.isRequired,
   on_error: PropTypes.func,
   error: PropTypes.string,

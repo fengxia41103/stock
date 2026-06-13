@@ -1,32 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { Box, Container } from "@mui/material";
 
+import { useStocks } from "@/api";
 import { Page } from "@fengxia41103/storybook";
-
-import ShowResource from "@Components/common/ShowResource";
 import ListDiary from "@Components/diary/ListDiary";
 
 import DiaryListContext from "./context";
 
 const DiaryListView = () => {
-  const [resource] = useState("/stocks");
+  const { data, isLoading } = useStocks();
 
-  const render_data = (data) => {
-    return (
-      <Page title="Notes">
-        <Container maxWidth={false}>
-          <DiaryListContext.Provider value={data.objects}>
-            <Box mt={1}>
-              <ListDiary />
-            </Box>
-          </DiaryListContext.Provider>
-        </Container>
-      </Page>
-    );
-  };
+  if (isLoading) return <ScaleLoader loading />;
 
-  return <ShowResource {...{ resource, on_success: render_data }} />;
+  const stocks = data?.results || data || [];
+
+  return (
+    <Page title="Notes">
+      <Container maxWidth={false}>
+        <DiaryListContext.Provider value={stocks}>
+          <Box mt={1}>
+            <ListDiary />
+          </Box>
+        </DiaryListContext.Provider>
+      </Container>
+    </Page>
+  );
 };
 
 export default DiaryListView;

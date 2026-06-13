@@ -1,112 +1,61 @@
 import { filter, map } from "lodash";
-import React, { useContext, useState } from "react";
-import { useMutate } from "restful-react";
+import React, { useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";
+import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
 
-import GlobalContext from "@/context";
-
-import ShowResource from "@Components/common/ShowResource";
+import { useCreate, useSectors } from "@/api";
 
 const AddNewSectorDialog = () => {
-  const { api } = useContext(GlobalContext);
   const [open, setOpen] = useState(false);
-  const [resource] = useState("/sectors");
   const [sector, setSector] = useState("");
+  const { data } = useSectors();
+  const { mutate: create } = useCreate("/sectors/", ["sectors"]);
 
-  const { mutate: create } = useMutate({
-    verb: "POST",
-    path: `${api}${resource}/`,
-  });
+  const sectors = data?.results || data || [];
+  const names = map(sectors, "name");
+  const is_error = names.includes(sector);
 
-  const reload = () => window.location.reload();
-  const handleClickOpen = () => setOpen(true);
-
-  const handleClose = () => setOpen(false);
-
-  const on_sector_change = (event) => {
-    // symbol is always in upper case
-    let tmp = event.target.value;
-    tmp = map(tmp.split(","), (s) => s.trim());
-    setSector(tmp);
-  };
-
-  // call API and close this dialog
   const on_create = () => {
-    map(sector, (s) => create({ name: s }));
+    map(sector.split(","), (s) => create({ name: s.trim() }));
     setOpen(false);
-    reload();
   };
 
-  const render_data = (data) => {
-    let sectors = data.objects;
-    sectors = map(
-      filter(sectors, (s) => s.name.includes(sector)),
-      (s) => <Chip key={s.id} color="primary" label={s.name} />,
-    );
-    const is_error = sectors.includes(sector);
+  const filtered = map(
+    filter(names, (s) => s.includes(sector)),
+    (s) => <Chip key={s} color="primary" label={s} />,
+  );
 
-    return (
-      <>
-        <Button color="secondary" onClick={handleClickOpen}>
-          <AddIcon />
-          Add New Sector
-        </Button>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Add New Sector</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              A sector is a way for you to organize stocks into a category. How
-              you organize stocks is up to you. You can choose to group stocks
-              by industry, company size, or any other category to help you
-              manage your portfolio.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              value={sector}
-              onChange={on_sector_change}
-              placeholder="sector name"
-              fullWidth
-              error={is_error}
-              label={is_error ? "Error" : ""}
-              helperText={is_error ? "Sector name must be unique." : ""}
-            />
-
-            <Box mt={2}>{sectors}</Box>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={on_create}
-              disabled={is_error}
-            >
-              Add
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </>
-    );
-  };
-  // render as usual to get data
-  return <ShowResource {...{ resource, on_success: render_data }} />;
+  return (
+    <>
+      <Button color="secondary" onClick={() => setOpen(true)}>
+        <AddIcon /> Add New Sector
+      </Button>
+      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Add New Sector</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            A sector groups stocks into a category you define.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            value={sector}
+            onChange={(e) => setSector(e.target.value)}
+            placeholder="sector name"
+            fullWidth
+            error={is_error}
+            helperText={is_error ? "Sector name must be unique." : ""}
+          />
+          <Box mt={2}>{filtered}</Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Cancel</Button>
+          <Button variant="contained" onClick={on_create} disabled={is_error}>Add</Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
 };
 
 export default AddNewSectorDialog;
