@@ -45,7 +45,6 @@ services:
 
   db:
     image: mysql:9.7.0
-    command: ["mysqld", "--mysql-native-password=ON"]
     restart: always
     ports:
       - "3306:3306"

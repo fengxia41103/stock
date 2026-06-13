@@ -3,8 +3,12 @@ from datetime import datetime
 
 from django.utils.timezone import make_aware
 
-from newscatcher import Newscatcher
-from newscatcher import urls
+try:
+    from newscatcher import Newscatcher, urls
+except ImportError:
+    Newscatcher = None
+    urls = None
+
 from stock.models import MyNews
 
 logger = logging.getLogger("stock")

@@ -19,7 +19,7 @@ class MyStockHistorical(models.Model):
 
     class Meta:
         unique_together = ("stock", "on")
-        index_together = ["stock", "on"]
+        indexes = [models.Index(fields=["stock", "on"])]
 
     @property
     def vol_over_share_outstanding(self):

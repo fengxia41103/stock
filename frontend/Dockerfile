@@ -7,20 +7,18 @@ ENV NODE_OPTIONS=--max_old_space_size=2048
 
 WORKDIR /code
 
-COPY package.json yarn.lock* .npmrc .yalc/ ./
+COPY package.json yarn.lock* .npmrc ./
 
-# If NPM_TOKEN is set, install normally (private registry auth works).
-# If not, remove the private package from package.json and install without it,
-# then create a stub so imports don't break.
-RUN if [ -n "$NPM_TOKEN" ]; then \
-      NPM_TOKEN=${NPM_TOKEN} npm install --legacy-peer-deps; \
-    else \
+# Try install with token. If it fails (bad token or no token), fall back to stub.
+RUN NPM_TOKEN=${NPM_TOKEN} npm install --legacy-peer-deps 2>/dev/null \
+    || ( \
       sed -i '/"@fengxia41103\/storybook"/d' package.json && \
+      rm -f .npmrc && \
       npm install --legacy-peer-deps && \
       mkdir -p node_modules/@fengxia41103/storybook && \
-      printf 'const React = require("react");\nconst stub = (props) => React.createElement("div", null, props.children);\nmodule.exports = new Proxy({}, { get: () => stub });\n' > node_modules/@fengxia41103/storybook/index.js && \
-      printf '{"name":"@fengxia41103/storybook","version":"0.0.0","main":"index.js"}' > node_modules/@fengxia41103/storybook/package.json; \
-    fi && rm -f .npmrc
+      printf '{"name":"@fengxia41103/storybook","version":"0.0.0","main":"index.js"}' > node_modules/@fengxia41103/storybook/package.json && \
+      echo 'const R=require("react");const s=p=>R.createElement("div",null,p.children);module.exports=new Proxy({},{get:()=>s});' > node_modules/@fengxia41103/storybook/index.js \
+    ) && rm -f .npmrc
 
 COPY . .
 RUN npm run build

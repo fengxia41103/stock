@@ -8,6 +8,7 @@ import LoginCard from "@Components/auth/LoginCard";
 
 const MyPaper = styled(Paper)({
   height: "100vh",
+  backgroundImage: 'url("/static/images/auth.jpeg")',
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center center",
   backgroundSize: "cover",
