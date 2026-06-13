@@ -19,15 +19,8 @@ x-django-base: &django-base
     - type: bind
       source: ./backend/static
       target: /code/static
-  environment:
-    DJANGO_DEBUG: ${DJANGO_DEBUG}
-    MYSQL_DATABASE: ${MYSQL_DATABASE}
-    DEPLOY_TYPE: ${DEPLOY_TYPE}
-    DJANGO_DB_USER: ${DJANGO_DB_USER}
-    DJANGO_DB_PWD: ${DJANGO_DB_PWD}
-    DJANGO_DB_HOST: ${DJANGO_DB_HOST}
-    DJANGO_DB_PORT: ${DJANGO_DB_PORT}
-    DJANGO_REDIS_HOST: ${DJANGO_REDIS_HOST}
+  env_file:
+    - .env
 
 # computes
 services:
@@ -63,7 +56,7 @@ services:
   web:
     <<: *django-base
 
-    command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py createsuperuser --noinput && python /code/manage.py runserver 0.0.0.0:8001"
+    command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py createsuperuser --noinput || true && python /code/manage.py runserver 0.0.0.0:8001"
     # command:
     #   "gunicorn -w 1 -t 300 -b 0.0.0.0:8001 --log-level=info fin.wsgi"
     networks:
