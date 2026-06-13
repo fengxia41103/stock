@@ -33,7 +33,9 @@ const StockListView = () => {
   const stocks = data?.results || data || [];
 
   // filter based on search string
-  const filtered = filter(stocks, (x) => x.symbol.includes(searching.toUpperCase()));
+  const filtered = filter(stocks, (x) =>
+    x.symbol.includes(searching.toUpperCase()),
+  );
 
   // group
   const grouped = groupBy(filtered, (v) => {
@@ -93,7 +95,9 @@ const StockListView = () => {
             <TextField
               label="Filter by Symbol"
               value={searching}
-              onChange={(e) => setSearching(e.target.value.trim().toUpperCase())}
+              onChange={(e) =>
+                setSearching(e.target.value.trim().toUpperCase())
+              }
               fullWidth
             />
           </CardContent>

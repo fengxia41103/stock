@@ -5,10 +5,24 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { Box, Button, Container, Grid, Link, List, ListItem, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Link,
+  List,
+  ListItem,
+  Typography,
+} from "@mui/material";
 
 import { useDelete, useSector, useUpdate } from "@/api";
-import { DropdownMenu, MenuBar, NotFoundView, Page } from "@fengxia41103/storybook";
+import {
+  DropdownMenu,
+  MenuBar,
+  NotFoundView,
+  Page,
+} from "@fengxia41103/storybook";
 
 import SectorDetailContext from "./context";
 
@@ -36,7 +50,10 @@ const SectorDetailView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: sector, isLoading, error } = useSector(id);
-  const { mutate: update } = useUpdate(`/sectors/${id}/`, ["sector", "sectors"]);
+  const { mutate: update } = useUpdate(`/sectors/${id}/`, [
+    "sector",
+    "sectors",
+  ]);
   const { mutate: del } = useDelete(`/sectors/${id}/`, ["sectors"]);
 
   if (isLoading) return <ScaleLoader loading />;
@@ -56,7 +73,9 @@ const SectorDetailView = () => {
         <Typography variant="h3">Stocks</Typography>
       </ListItem>
       <ListItem>
-        <Grid container spacing={1}>{stock_links}</Grid>
+        <Grid container spacing={1}>
+          {stock_links}
+        </Grid>
       </ListItem>
     </List>
   );
@@ -66,18 +85,39 @@ const SectorDetailView = () => {
       <Container maxWidth={false}>
         <Box display="flex" mb={3} borderBottom={1}>
           <Grid container spacing={1} alignItems="center">
-            <MenuBar root={resource} title="Price & Trends" items={price_menus} />
+            <MenuBar
+              root={resource}
+              title="Price & Trends"
+              items={price_menus}
+            />
             <MenuBar root={resource} title="Rankings" items={ranking_menus} />
-            <MenuBar root={resource} title="Financial Statements" items={financial_statement_menus} />
-            <MenuBar root={resource} title="Valuations" items={valuation_menus} />
-            <MenuBar root={resource} title="Ownership" items={ownership_menus} />
+            <MenuBar
+              root={resource}
+              title="Financial Statements"
+              items={financial_statement_menus}
+            />
+            <MenuBar
+              root={resource}
+              title="Valuations"
+              items={valuation_menus}
+            />
+            <MenuBar
+              root={resource}
+              title="Ownership"
+              items={ownership_menus}
+            />
             <Grid item xs>
               <Button color="primary" onClick={() => update({})}>
                 <RefreshIcon /> Update
               </Button>
             </Grid>
             <Grid item xs>
-              <Button color="secondary" onClick={() => del(null, { onSuccess: () => navigate("/sectors") })}>
+              <Button
+                color="secondary"
+                onClick={() =>
+                  del(null, { onSuccess: () => navigate("/sectors") })
+                }
+              >
                 <DeleteForeverIcon /> Delete
               </Button>
             </Grid>

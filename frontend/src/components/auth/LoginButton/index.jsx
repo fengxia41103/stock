@@ -8,7 +8,8 @@ import api from "@/api/client";
 const LoginButton = ({ username, password, on_success, on_error }) => {
   const on_login = (event) => {
     event.preventDefault();
-    api.post("/auth/login/", { username, password })
+    api
+      .post("/auth/login/", { username, password })
       .then((resp) => {
         const data = resp.data;
         if (data.success) {
@@ -18,7 +19,9 @@ const LoginButton = ({ username, password, on_success, on_error }) => {
         }
         if (on_success) on_success(data);
       })
-      .catch((error) => { if (on_error) on_error(error); });
+      .catch((error) => {
+        if (on_error) on_error(error);
+      });
   };
 
   return (

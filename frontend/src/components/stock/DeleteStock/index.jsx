@@ -12,7 +12,10 @@ const DeleteStock = ({ id, symbol }) => {
   const { mutate: del } = useDelete(`/stocks/${id}/`, ["stocks"]);
 
   return (
-    <Button color="secondary" onClick={() => del(null, { onSuccess: () => navigate("/stocks") })}>
+    <Button
+      color="secondary"
+      onClick={() => del(null, { onSuccess: () => navigate("/stocks") })}
+    >
       <DeleteForeverIcon /> Delete {symbol}
     </Button>
   );

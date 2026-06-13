@@ -3,7 +3,18 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
-import { Box, Checkbox, Divider, FormControl, FormControlLabel, FormGroup, Grid, Popover, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  Popover,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 
 import { useSectors, useUpdate } from "@/api";
 import { SimpleSnackbar } from "@fengxia41103/storybook";
@@ -17,7 +28,10 @@ const StockLinkToSector = (props) => {
   const { data, isLoading } = useSectors();
 
   // We need a generic update that can target any sector
-  const { mutate: updateSector } = useUpdate("/sectors/", ["sectors", "stocks"]);
+  const { mutate: updateSector } = useUpdate("/sectors/", [
+    "sectors",
+    "stocks",
+  ]);
 
   const open = Boolean(anchorEl);
   const sectors = data?.results || data || [];
@@ -37,7 +51,9 @@ const StockLinkToSector = (props) => {
     });
   };
 
-  const content = isLoading ? <ScaleLoader loading /> : (
+  const content = isLoading ? (
+    <ScaleLoader loading />
+  ) : (
     <Box padding={2}>
       <Typography variant="h6">Link {symbol} to a Sector</Typography>
       <Divider />
@@ -50,7 +66,20 @@ const StockLinkToSector = (props) => {
                 return (
                   <Grid item key={s.id} lg={3} sm={4} xs={6}>
                     <FormControlLabel
-                      control={<Checkbox checked={checked} onChange={(e) => handle_update(s.id, s.stocks || [], e.target.checked, s.name)} name={s.name} />}
+                      control={
+                        <Checkbox
+                          checked={checked}
+                          onChange={(e) =>
+                            handle_update(
+                              s.id,
+                              s.stocks || [],
+                              e.target.checked,
+                              s.name,
+                            )
+                          }
+                          name={s.name}
+                        />
+                      }
                       label={s.name}
                     />
                   </Grid>
@@ -73,14 +102,22 @@ const StockLinkToSector = (props) => {
 
   return (
     <Box display="inline">
-      <Tooltip title="Assign stock to a sector" onClick={(e) => setAnchorEl(e.currentTarget)} arrow>
+      <Tooltip
+        title="Assign stock to a sector"
+        onClick={(e) => setAnchorEl(e.currentTarget)}
+        arrow
+      >
         <Typography color="secondary" display="inline">
           &#47;&#47; {minimal ? null : "Link to Sector"}
         </Typography>
       </Tooltip>
-      <Popover open={open} anchorEl={anchorEl} onClose={() => setAnchorEl(null)}
+      <Popover
+        open={open}
+        anchorEl={anchorEl}
+        onClose={() => setAnchorEl(null)}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        transformOrigin={{ vertical: "top", horizontal: "center" }}>
+        transformOrigin={{ vertical: "top", horizontal: "center" }}
+      >
         {content}
       </Popover>
     </Box>

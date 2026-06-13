@@ -39,7 +39,9 @@ const AddNewStockDialog = () => {
   };
 
   const on_create = () => {
-    const promises = map(symbol, (s) => create({ symbol: s, sectors: selectedSectors }));
+    const promises = map(symbol, (s) =>
+      create({ symbol: s, sectors: selectedSectors }),
+    );
     Promise.all(promises).then(() => {
       setNotification(`Symbols: ${truncate(symbol.join(","), 20)} added.`);
       setOpen(false);
@@ -52,7 +54,9 @@ const AddNewStockDialog = () => {
       tmp.push(event.target.value);
       setSelectedSectors(tmp);
     } else {
-      setSelectedSectors(remove(selectedSectors, (x) => x.id === event.target.value));
+      setSelectedSectors(
+        remove(selectedSectors, (x) => x.id === event.target.value),
+      );
     }
   };
 
@@ -64,7 +68,12 @@ const AddNewStockDialog = () => {
         <AddBusinessIcon /> Add new stocks
       </Button>
       {notification && <SimpleSnackbar msg={notification} />}
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        maxWidth="sm"
+        fullWidth
+      >
         <DialogTitle>Add New Stock</DialogTitle>
         <DialogContent>
           <DialogContentText>

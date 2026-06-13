@@ -8,7 +8,15 @@ import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import { Button, Chip, Divider, Grid, List, ListItem, Typography } from "@mui/material";
+import {
+  Button,
+  Chip,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  Typography,
+} from "@mui/material";
 
 import { useDiary, useDelete } from "@/api";
 import { DropdownMenu, SimpleSnackbar } from "@fengxia41103/storybook";
@@ -33,39 +41,65 @@ const ListDiaryEntry = ({ diary }) => {
         </Button>
       </ListItem>
       <ListItem>
-        <Button variant="text" onClick={() => del(null, { onSuccess: () => setNotification("Note deleted") })}>
+        <Button
+          variant="text"
+          onClick={() =>
+            del(null, { onSuccess: () => setNotification("Note deleted") })
+          }
+        >
           <DeleteIcon /> Delete this note
         </Button>
       </ListItem>
     </List>
   );
 
-  const trending = diary.judgement === 1 ? (
-    <Chip icon={<TrendingUpIcon />} label={`Prediction: go higher from ${diary.price?.toFixed(2)}`} variant="outlined" color="primary" />
-  ) : diary.judgement === 2 ? (
-    <Chip icon={<TrendingDownIcon />} label={`Prediction: go down from ${diary.price?.toFixed(0)}`} variant="outlined" color="secondary" />
-  ) : null;
+  const trending =
+    diary.judgement === 1 ? (
+      <Chip
+        icon={<TrendingUpIcon />}
+        label={`Prediction: go higher from ${diary.price?.toFixed(2)}`}
+        variant="outlined"
+        color="primary"
+      />
+    ) : diary.judgement === 2 ? (
+      <Chip
+        icon={<TrendingDownIcon />}
+        label={`Prediction: go down from ${diary.price?.toFixed(0)}`}
+        variant="outlined"
+        color="secondary"
+      />
+    ) : null;
 
   return (
     <>
       <Divider />
       <Grid container spacing={2} alignItems="center">
         <Grid item xs={6}>
-          <Typography sx={{ color: "#42A5F5" }}>{created.toDateString()}</Typography>
+          <Typography sx={{ color: "#42A5F5" }}>
+            {created.toDateString()}
+          </Typography>
         </Grid>
         <Grid item xs={2}>
           <DropdownMenu content={menu_content} />
         </Grid>
         <Grid item xs>
-          {diary.is_correct ? <ThumbUpOutlinedIcon /> : <ThumbDownOutlinedIcon />}
+          {diary.is_correct ? (
+            <ThumbUpOutlinedIcon />
+          ) : (
+            <ThumbDownOutlinedIcon />
+          )}
         </Grid>
-        <Grid item xs={12}>{trending}</Grid>
+        <Grid item xs={12}>
+          {trending}
+        </Grid>
         <Grid item xs={12}>
           <EditDiaryEditor inEditing={inEditing} diary={diaryDetail || diary} />
         </Grid>
         {inEditing && (
           <Grid item xs={12}>
-            <Button onClick={() => setInEditing(false)}>I&apos;m done editing</Button>
+            <Button onClick={() => setInEditing(false)}>
+              I&apos;m done editing
+            </Button>
           </Grid>
         )}
         <Grid item xs={12}>
