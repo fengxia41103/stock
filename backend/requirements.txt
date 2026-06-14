@@ -26,3 +26,11 @@ django-cors-headers>=4.4.0
 numpy>=1.26.0
 pyyaml>=6.0.1
 selenium>=4.0.0
+
+# Testing
+pytest>=8.0.0
+pytest-django>=4.9.0
+factory-boy>=3.3.0
+
+# Linting
+ruff>=0.8.0
