@@ -14,6 +14,14 @@ class MyStock(models.Model):
     top_ten_institution_ownership = models.FloatField(null=True, default=-1)
     institution_count = models.IntegerField(null=True, default=-1)
 
+    # Denormalized (populated by workers after data refresh)
+    d_pe = models.FloatField(null=True, default=None)
+    d_pb = models.FloatField(null=True, default=None)
+    d_ps = models.FloatField(null=True, default=None)
+    d_last_lower = models.IntegerField(null=True, default=None)
+    d_last_better = models.IntegerField(null=True, default=None)
+    d_price_to_cash_premium = models.FloatField(null=True, default=None)
+
     def __str__(self):
         return self.symbol
 
@@ -30,11 +38,15 @@ class MyStock(models.Model):
 
     @property
     def last_lower(self):
+        if self.d_last_lower is not None:
+            return self.d_last_lower
         hist = self.historicals.order_by("-on").first()
         return hist.last_lower if hist else None
 
     @property
     def last_better(self):
+        if self.d_last_better is not None:
+            return self.d_last_better
         hist = self.historicals.order_by("-on").first()
         return hist.last_better if hist else None
 
@@ -168,21 +180,29 @@ class MyStock(models.Model):
 
     @property
     def pe(self):
+        if self.d_pe is not None:
+            return self.d_pe
         tmp = self.ratios.filter(pe__gt=0).order_by("-on").first()
         return tmp.pe if tmp else None
 
     @property
     def pb(self):
+        if self.d_pb is not None:
+            return self.d_pb
         tmp = self.ratios.filter(pb__gt=0).order_by("-on").first()
         return tmp.pb if tmp else None
 
     @property
     def ps(self):
+        if self.d_ps is not None:
+            return self.d_ps
         tmp = self.ratios.filter(ps__gt=0).order_by("-on").first()
         return tmp.ps if tmp else None
 
     @property
     def price_to_cash_premium(self):
+        if self.d_price_to_cash_premium is not None:
+            return self.d_price_to_cash_premium
         tmp = self.balances.order_by("-on").first()
         if tmp:
             cash_per_share = tmp.cash_and_cash_equivalent_per_share
