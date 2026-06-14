@@ -30,10 +30,19 @@ const RecentPriceSparkline = (props) => {
       grid: { top: 0, bottom: 0, left: 0, right: 0 },
       xAxis: { type: "category", show: false },
       yAxis: { type: "value", show: false, min: "dataMin" },
-      series: [{ type: "line", data: chart_data, showSymbol: false, lineStyle: { width: 1 } }],
+      series: [
+        {
+          type: "line",
+          data: chart_data,
+          showSymbol: false,
+          lineStyle: { width: 1 },
+        },
+      ],
     };
 
-    return <ReactEChartsCore option={option} style={{ height: 40, width: "100%" }} />;
+    return (
+      <ReactEChartsCore option={option} style={{ height: 40, width: "100%" }} />
+    );
   };
 
   return (

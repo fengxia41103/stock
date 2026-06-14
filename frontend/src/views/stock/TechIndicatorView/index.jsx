@@ -11,7 +11,10 @@ import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
 const sma = (data, period) => {
   const result = [];
   for (let i = 0; i < data.length; i++) {
-    if (i < period - 1) { result.push(null); continue; }
+    if (i < period - 1) {
+      result.push(null);
+      continue;
+    }
     const slice = data.slice(i - period + 1, i + 1);
     result.push(slice.reduce((a, b) => a + b, 0) / period);
   }
@@ -34,9 +37,15 @@ const bollinger = (closes, period = 20, mult = 2) => {
   const upper = [];
   const lower = [];
   for (let i = 0; i < closes.length; i++) {
-    if (mid[i] === null) { upper.push(null); lower.push(null); continue; }
+    if (mid[i] === null) {
+      upper.push(null);
+      lower.push(null);
+      continue;
+    }
     const slice = closes.slice(Math.max(0, i - period + 1), i + 1);
-    const std = Math.sqrt(slice.reduce((s, v) => s + (v - mid[i]) ** 2, 0) / slice.length);
+    const std = Math.sqrt(
+      slice.reduce((s, v) => s + (v - mid[i]) ** 2, 0) / slice.length,
+    );
     upper.push(mid[i] + mult * std);
     lower.push(mid[i] - mult * std);
   }
@@ -58,10 +67,12 @@ const computeRSI = (closes, period = 14) => {
   const result = [null];
   for (let i = 1; i < closes.length; i++) {
     const slice = closes.slice(Math.max(0, i - period), i + 1);
-    let gains = 0, losses = 0;
+    let gains = 0,
+      losses = 0;
     for (let j = 1; j < slice.length; j++) {
       const diff = slice[j] - slice[j - 1];
-      if (diff > 0) gains += diff; else losses -= diff;
+      if (diff > 0) gains += diff;
+      else losses -= diff;
     }
     const rs = losses === 0 ? 100 : gains / losses;
     result.push(100 - 100 / (1 + rs));
@@ -74,7 +85,12 @@ const TechIndicatorView = () => {
   const data = useContext(StockHistoricalContext);
 
   const dates = map(data, (d) => d.on);
-  const ohlc = map(data, (d) => [d.open_price, d.close_price, d.low_price, d.high_price]);
+  const ohlc = map(data, (d) => [
+    d.open_price,
+    d.close_price,
+    d.low_price,
+    d.high_price,
+  ]);
   const closes = map(data, (d) => d.close_price);
   const volumes = map(data, (d) => d.vol);
 
@@ -109,8 +125,21 @@ const TechIndicatorView = () => {
       { type: "slider", xAxisIndex: [0, 1], start: 60, end: 100, top: "92%" },
     ],
     series: [
-      { name: "Price", type: "candlestick", data: ohlc, xAxisIndex: 0, yAxisIndex: 0 },
-      { name: "Volume", type: "bar", data: volumes, xAxisIndex: 1, yAxisIndex: 1, itemStyle: { color: "#7fbe9e" } },
+      {
+        name: "Price",
+        type: "candlestick",
+        data: ohlc,
+        xAxisIndex: 0,
+        yAxisIndex: 0,
+      },
+      {
+        name: "Volume",
+        type: "bar",
+        data: volumes,
+        xAxisIndex: 1,
+        yAxisIndex: 1,
+        itemStyle: { color: "#7fbe9e" },
+      },
     ],
   };
 
@@ -121,9 +150,33 @@ const TechIndicatorView = () => {
     const bb = bollinger(closes);
     option.series = [
       ...option.series,
-      { name: "Upper", type: "line", data: bb.upper, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { opacity: 0.5 }, showSymbol: false },
-      { name: "Middle", type: "line", data: bb.mid, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { type: "dashed" }, showSymbol: false },
-      { name: "Lower", type: "line", data: bb.lower, xAxisIndex: 0, yAxisIndex: 0, lineStyle: { opacity: 0.5 }, showSymbol: false },
+      {
+        name: "Upper",
+        type: "line",
+        data: bb.upper,
+        xAxisIndex: 0,
+        yAxisIndex: 0,
+        lineStyle: { opacity: 0.5 },
+        showSymbol: false,
+      },
+      {
+        name: "Middle",
+        type: "line",
+        data: bb.mid,
+        xAxisIndex: 0,
+        yAxisIndex: 0,
+        lineStyle: { type: "dashed" },
+        showSymbol: false,
+      },
+      {
+        name: "Lower",
+        type: "line",
+        data: bb.lower,
+        xAxisIndex: 0,
+        yAxisIndex: 0,
+        lineStyle: { opacity: 0.5 },
+        showSymbol: false,
+      },
     ];
   } else if (type === "macd") {
     const m = computeMACD(closes);
@@ -132,15 +185,41 @@ const TechIndicatorView = () => {
       { left: "10%", right: "8%", top: "55%", height: "18%" },
       { left: "10%", right: "8%", top: "78%", height: "12%" },
     ];
-    option.xAxis = [...option.xAxis, { type: "category", data: dates, gridIndex: 2, boundaryGap: true }];
-    option.yAxis = [...option.yAxis, { scale: true, gridIndex: 2, splitNumber: 2 }];
+    option.xAxis = [
+      ...option.xAxis,
+      { type: "category", data: dates, gridIndex: 2, boundaryGap: true },
+    ];
+    option.yAxis = [
+      ...option.yAxis,
+      { scale: true, gridIndex: 2, splitNumber: 2 },
+    ];
     option.dataZoom[0].xAxisIndex = [0, 1, 2];
     option.dataZoom[1].xAxisIndex = [0, 1, 2];
     option.series = [
       ...option.series,
-      { name: "MACD", type: "line", data: m.macdLine, xAxisIndex: 2, yAxisIndex: 2, showSymbol: false },
-      { name: "Signal", type: "line", data: m.signal, xAxisIndex: 2, yAxisIndex: 2, showSymbol: false },
-      { name: "Histogram", type: "bar", data: m.histogram, xAxisIndex: 2, yAxisIndex: 2 },
+      {
+        name: "MACD",
+        type: "line",
+        data: m.macdLine,
+        xAxisIndex: 2,
+        yAxisIndex: 2,
+        showSymbol: false,
+      },
+      {
+        name: "Signal",
+        type: "line",
+        data: m.signal,
+        xAxisIndex: 2,
+        yAxisIndex: 2,
+        showSymbol: false,
+      },
+      {
+        name: "Histogram",
+        type: "bar",
+        data: m.histogram,
+        xAxisIndex: 2,
+        yAxisIndex: 2,
+      },
     ];
   } else if (type === "rsi") {
     const rsi = computeRSI(closes);
@@ -149,15 +228,44 @@ const TechIndicatorView = () => {
       { left: "10%", right: "8%", top: "55%", height: "18%" },
       { left: "10%", right: "8%", top: "78%", height: "12%" },
     ];
-    option.xAxis = [...option.xAxis, { type: "category", data: dates, gridIndex: 2, boundaryGap: true }];
-    option.yAxis = [...option.yAxis, { scale: true, gridIndex: 2, min: 0, max: 100 }];
+    option.xAxis = [
+      ...option.xAxis,
+      { type: "category", data: dates, gridIndex: 2, boundaryGap: true },
+    ];
+    option.yAxis = [
+      ...option.yAxis,
+      { scale: true, gridIndex: 2, min: 0, max: 100 },
+    ];
     option.dataZoom[0].xAxisIndex = [0, 1, 2];
     option.dataZoom[1].xAxisIndex = [0, 1, 2];
     option.series = [
       ...option.series,
-      { name: "RSI", type: "line", data: rsi, xAxisIndex: 2, yAxisIndex: 2, showSymbol: false },
-      { name: "Overbought", type: "line", data: dates.map(() => 70), xAxisIndex: 2, yAxisIndex: 2, lineStyle: { type: "dashed", color: "red" }, showSymbol: false },
-      { name: "Oversold", type: "line", data: dates.map(() => 30), xAxisIndex: 2, yAxisIndex: 2, lineStyle: { type: "dashed", color: "green" }, showSymbol: false },
+      {
+        name: "RSI",
+        type: "line",
+        data: rsi,
+        xAxisIndex: 2,
+        yAxisIndex: 2,
+        showSymbol: false,
+      },
+      {
+        name: "Overbought",
+        type: "line",
+        data: dates.map(() => 70),
+        xAxisIndex: 2,
+        yAxisIndex: 2,
+        lineStyle: { type: "dashed", color: "red" },
+        showSymbol: false,
+      },
+      {
+        name: "Oversold",
+        type: "line",
+        data: dates.map(() => 30),
+        xAxisIndex: 2,
+        yAxisIndex: 2,
+        lineStyle: { type: "dashed", color: "green" },
+        showSymbol: false,
+      },
     ];
   } else {
     // For sar, elder, stochastics, heikin — show candlestick + SMA overlays as default
@@ -165,8 +273,24 @@ const TechIndicatorView = () => {
     const sma50 = sma(closes, 50);
     option.series = [
       ...option.series,
-      { name: "SMA20", type: "line", data: sma20, xAxisIndex: 0, yAxisIndex: 0, showSymbol: false, lineStyle: { width: 1 } },
-      { name: "SMA50", type: "line", data: sma50, xAxisIndex: 0, yAxisIndex: 0, showSymbol: false, lineStyle: { width: 1 } },
+      {
+        name: "SMA20",
+        type: "line",
+        data: sma20,
+        xAxisIndex: 0,
+        yAxisIndex: 0,
+        showSymbol: false,
+        lineStyle: { width: 1 },
+      },
+      {
+        name: "SMA50",
+        type: "line",
+        data: sma50,
+        xAxisIndex: 0,
+        yAxisIndex: 0,
+        showSymbol: false,
+        lineStyle: { width: 1 },
+      },
     ];
   }
 
