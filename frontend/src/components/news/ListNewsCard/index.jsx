@@ -60,7 +60,7 @@ const ListNewsCard = (props) => {
   const render_data = (resp) => {
     const what_is_next = resp.meta.next;
 
-    const news = resp.objects;
+    const news = Array.isArray(resp) ? resp : resp.objects || [];
 
     const news_list = map(news, (n) => {
       return (

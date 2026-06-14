@@ -14,7 +14,7 @@ const SectorStatementComparisonCharts = (props) => {
   const to_ignore_list = ["on", "id", "symbol", "resource_uri", "stock"];
 
   const render_data = (resp) => {
-    const data = resp.objects;
+    const data = Array.isArray(resp) ? resp : resp.objects || [];
     const attrs = Object.keys(data[0]);
     attrs.sort();
 

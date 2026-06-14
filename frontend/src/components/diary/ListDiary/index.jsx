@@ -40,7 +40,7 @@ const ListDiary = (props) => {
   );
 
   const render_data = (resp) => {
-    const diaries = resp.objects;
+    const diaries = Array.isArray(resp) ? resp : resp.objects || [];
 
     const diary_entries = map(diaries, (d) => (
       <Box key={d.id} mb={2}>

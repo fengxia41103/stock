@@ -14,7 +14,7 @@ const TaskResult = (props) => {
 
   // render
   const render_data = (data) => {
-    const { objects: results } = data;
+    const results = Array.isArray(data) ? data : data.objects || [];
 
     const result = results[0];
 

@@ -17,7 +17,7 @@ const ValuationRatiosView = () => {
   };
 
   const render_data = (resp) => {
-    const data = resp.objects;
+    const data = Array.isArray(resp) ? resp : resp.objects || [];
 
     return (
       <FinancialCard title="Valuation Ratios" data={data} reported={reported} />
