@@ -44,7 +44,7 @@ def on_new_user(sender, instance, **kwargs):
                 symbol
             )
             diary.judgement = 1
-            diary.save(0)
+            diary.save()
 
 
 @receiver(post_save, sender=TaskResult)
