@@ -240,7 +240,10 @@ export const DictTable = ({ data, title, interests, chart }) => {
     const formatVal = (val) => {
       if (val == null) return "-";
       if (typeof val !== "number") return String(val);
-      return val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      return val.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
     };
 
     const cellColor = (val) => {
