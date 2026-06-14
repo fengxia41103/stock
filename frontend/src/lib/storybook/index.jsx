@@ -219,32 +219,81 @@ export const DictCard = ({ data, interests, title }) => {
 };
 
 // DictTable
-export const DictTable = ({ data, title }) => (
-  <Box>
-    {title && <Typography variant="h6">{title}</Typography>}
-    <table style={{ width: "100%", borderCollapse: "collapse" }}>
-      <tbody>
-        {data &&
-          Object.entries(data).map(([k, v]) => (
-            <tr key={k}>
-              <td style={{ padding: 4, borderBottom: "1px solid #eee" }}>
-                {k}
-              </td>
-              <td
-                style={{
-                  padding: 4,
-                  borderBottom: "1px solid #eee",
-                  textAlign: "right",
-                }}
-              >
-                {String(v)}
-              </td>
-            </tr>
-          ))}
-      </tbody>
-    </table>
-  </Box>
-);
+export const DictTable = ({ data, title, interests, chart }) => {
+  // If data is an array of objects with 'on' field (financial statements), render time-series table
+  if (Array.isArray(data) && data.length > 0 && data[0].on && interests) {
+    const fields = Object.entries(interests); // [[fieldKey, label], ...]
+    return (
+      <Box>
+        {title && <Typography variant="h6">{title}</Typography>}
+        <Box sx={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
+            <thead>
+              <tr>
+                <th style={{ padding: 4, textAlign: "left" }}>Metric</th>
+                {data.map((d) => (
+                  <th key={d.on} style={{ padding: 4, textAlign: "right" }}>{d.on}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {fields.map(([key, label]) => (
+                <tr key={key}>
+                  <td style={{ padding: 4, borderBottom: "1px solid #eee" }}>{label}</td>
+                  {data.map((d) => (
+                    <td key={d.on} style={{ padding: 4, borderBottom: "1px solid #eee", textAlign: "right" }}>
+                      {d[key] != null ? (typeof d[key] === "number" ? d[key].toFixed(4) : String(d[key])) : "-"}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Box>
+        {chart && data.length > 1 && interests && (
+          <Box mt={2}>
+            <ReactEChartsCore
+              option={{
+                tooltip: { trigger: "axis" },
+                legend: { data: fields.slice(0, 5).map(([, l]) => l) },
+                xAxis: { type: "category", data: data.map((d) => d.on) },
+                yAxis: { type: "value" },
+                series: fields.slice(0, 5).map(([key, label]) => ({
+                  name: label,
+                  type: "line",
+                  data: data.map((d) => d[key]),
+                  showSymbol: false,
+                })),
+                dataZoom: [{ type: "inside" }],
+              }}
+              style={{ height: 300 }}
+            />
+          </Box>
+        )}
+      </Box>
+    );
+  }
+
+  // Fallback: simple key-value table
+  return (
+    <Box>
+      {title && <Typography variant="h6">{title}</Typography>}
+      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <tbody>
+          {data &&
+            Object.entries(data).map(([k, v]) => (
+              <tr key={k}>
+                <td style={{ padding: 4, borderBottom: "1px solid #eee" }}>{k}</td>
+                <td style={{ padding: 4, borderBottom: "1px solid #eee", textAlign: "right" }}>
+                  {v != null ? (typeof v === "number" ? v.toFixed(4) : String(v)) : "-"}
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </Box>
+  );
+};
 
 // DropdownMenu
 export const DropdownMenu = ({ label, children }) => {
