@@ -50,7 +50,9 @@ const DashboardTrendingView = () => {
 
   // Compute start/end from today and backWeek
   const end = today.format(DATE_FORMAT);
-  const start = moment(today).add(-1 * parseInt(backWeek, 10), "w").format(DATE_FORMAT);
+  const start = moment(today)
+    .add(-1 * parseInt(backWeek, 10), "w")
+    .format(DATE_FORMAT);
 
   // hooks
   useEffect(() => {
