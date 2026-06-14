@@ -15,7 +15,10 @@ export const getTheme = (mode = "light") =>
               background: { default: "#F4F6F8", paper: colors.common.white },
               primary: { main: colors.indigo[500] },
               secondary: { main: colors.pink[600] },
-              text: { primary: colors.blueGrey[900], secondary: colors.blueGrey[600] },
+              text: {
+                primary: colors.blueGrey[900],
+                secondary: colors.blueGrey[600],
+              },
               success: { main: "#4caf50" },
               error: { main: "#f44336" },
             }
