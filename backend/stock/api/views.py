@@ -90,6 +90,7 @@ def logout_view(request):
 class SectorViewSet(viewsets.ModelViewSet):
     serializer_class = SectorSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = None
 
     def get_queryset(self):
         return MySector.objects.filter(user=self.request.user)
@@ -110,6 +111,7 @@ class SectorViewSet(viewsets.ModelViewSet):
 
 class StockViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
+    pagination_class = None
 
     def get_serializer_class(self):
         if self.action == "retrieve":
@@ -238,6 +240,7 @@ class NewsViewSet(viewsets.ReadOnlyModelViewSet):
 class TaskViewSet(viewsets.mixins.ListModelMixin, viewsets.mixins.DestroyModelMixin, viewsets.GenericViewSet):
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = None
 
     def get_queryset(self):
         return MyTask.objects.filter(user=self.request.user)
@@ -249,6 +252,7 @@ class TaskViewSet(viewsets.mixins.ListModelMixin, viewsets.mixins.DestroyModelMi
 class RankingViewSet(viewsets.ViewSet):
     """Base ranking viewset with shared logic."""
     permission_classes = [IsAuthenticated]
+    pagination_class = None
 
     def _get_object_list_helper(self, objects, sort_by, high_to_low):
         start = date.today() - timedelta(days=180)
