@@ -18,6 +18,7 @@ import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const DCFView = () => {
   const stock = useContext(StockDetailContext);
+  if (!stock || !stock.symbol) return null;
   const { symbol } = stock;
 
   const [input_open, setInputOpen] = useState(false);

@@ -10,6 +10,7 @@ import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
 
 const LastLowerNextBetterView = () => {
   const data = useContext(StockHistoricalContext);
+  if (!Array.isArray(data) || data.length === 0) return null;
   const [first] = data;
   const { symbol } = first;
 

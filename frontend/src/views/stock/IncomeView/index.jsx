@@ -11,6 +11,7 @@ import StockDetailContext from "@Views/stock/StockDetailView/context";
 const IncomeView = () => {
   const { id } = useParams();
   const stock = useContext(StockDetailContext);
+  if (!stock || !stock.symbol) return null;
   const { symbol } = stock;
 
   const [resource] = useState(`/incomes?stock=${id}`);

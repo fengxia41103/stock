@@ -83,6 +83,7 @@ const computeRSI = (closes, period = 14) => {
 const TechIndicatorView = () => {
   const { type } = useParams();
   const data = useContext(StockHistoricalContext);
+  if (!Array.isArray(data) || data.length === 0) return null;
 
   const dates = map(data, (d) => d.on);
   const ohlc = map(data, (d) => [
