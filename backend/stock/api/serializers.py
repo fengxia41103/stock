@@ -38,16 +38,13 @@ class StockListSerializer(serializers.ModelSerializer):
 class StockDetailSerializer(StockListSerializer):
     tax_rate = serializers.FloatField(read_only=True)
     latest_close_price = serializers.FloatField(read_only=True)
-    dupont_model = serializers.ListField(read_only=True)
-    nav_model = serializers.ListField(read_only=True)
     dupont_roe = serializers.FloatField(read_only=True)
     roe_dupont_reported_gap = serializers.FloatField(read_only=True)
-    cross_statements_model = serializers.ListField(read_only=True)
 
     class Meta(StockListSerializer.Meta):
         fields = StockListSerializer.Meta.fields + [
-            "tax_rate", "latest_close_price", "dupont_model", "nav_model",
-            "dupont_roe", "roe_dupont_reported_gap", "cross_statements_model",
+            "tax_rate", "latest_close_price",
+            "dupont_roe", "roe_dupont_reported_gap",
         ]
 
 

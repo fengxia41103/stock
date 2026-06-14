@@ -145,6 +145,21 @@ class StockViewSet(viewsets.ModelViewSet):
         batch_update_helper(request.user, stock.symbol)
         return Response(StockListSerializer(stock).data)
 
+    @action(detail=True, methods=["get"])
+    def dupont(self, request, pk=None):
+        stock = self.get_object()
+        return Response(stock.dupont_model)
+
+    @action(detail=True, methods=["get"])
+    def nav(self, request, pk=None):
+        stock = self.get_object()
+        return Response(stock.nav_model)
+
+    @action(detail=True, methods=["get"], url_path="cross-statements")
+    def cross_statements(self, request, pk=None):
+        stock = self.get_object()
+        return Response(stock.cross_statements_model)
+
 
 class HistoricalViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = HistoricalSerializer
