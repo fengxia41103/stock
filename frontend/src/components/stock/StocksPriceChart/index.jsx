@@ -13,7 +13,7 @@ const StocksPriceChart = (props) => {
   );
 
   const render_data = (resp) => {
-    const data = resp.objects;
+    const data = Array.isArray(resp) ? resp : resp.objects || [];
     const group_by_symbol = groupBy(data, (d) => d.symbol);
 
     const chart_data = map(group_by_symbol, (prices, symbol) => {

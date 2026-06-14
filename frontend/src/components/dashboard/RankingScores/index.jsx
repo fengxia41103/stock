@@ -124,14 +124,14 @@ const RankingScores = (props) => {
                 </Typography>
               }
             />
-            <CardContent>
+            <CardContent sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
               <Typography variant="body2">
                 Score measures both the occurance of a symbol on the TOP list,
                 and its relative ranking each time. If it&apos;s ranked #1, and
                 there are 10 symbols on the list, it gets a (10-0)=10, then the
                 2nd place would get 9, and so on.
               </Typography>
-              <Box mt={3}>
+              <Box mt={3} sx={{ flex: 1 }}>
                 <RankChart
                   ranks={rank_by_score_descending}
                   rank_val_name="total"

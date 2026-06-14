@@ -147,7 +147,7 @@ class StockViewSet(viewsets.ModelViewSet):
 class HistoricalViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = HistoricalSerializer
     permission_classes = [IsAuthenticated]
-    filterset_fields = {"on": ["exact", "range"], "stock": ["exact"]}
+    filterset_fields = {"on": ["exact", "range"], "stock": ["exact", "in"]}
     ordering_fields = ["on"]
     ordering = ["on"]
 

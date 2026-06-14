@@ -56,7 +56,7 @@ const BalanceView = () => {
   };
 
   const render_data = (resp) => {
-    const { objects: data } = resp;
+    const data = Array.isArray(resp) ? resp : resp.objects || [];
 
     return (
       <>
