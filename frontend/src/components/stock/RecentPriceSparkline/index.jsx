@@ -41,7 +41,13 @@ const RecentPriceSparkline = (props) => {
     };
 
     return (
-      <ReactEChartsCore theme={localStorage.getItem("themeMode") === "dark" ? "dark" : undefined} option={option} style={{ height: 40, width: "100%" }} />
+      <ReactEChartsCore
+        theme={
+          localStorage.getItem("themeMode") === "dark" ? "dark" : undefined
+        }
+        option={option}
+        style={{ height: 40, width: "100%" }}
+      />
     );
   };
 
