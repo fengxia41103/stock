@@ -4,7 +4,6 @@ import React, { useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { Box, Divider, Drawer, Hidden, List } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 
 import GlobalContext from "@/context";
 
@@ -12,16 +11,6 @@ import AuthenticatedUser from "@Components/user/AuthenticatedUser";
 
 import NavItem from "@Layouts/NavBarItem";
 
-const myStyles = makeStyles(() => ({
-  mobileDrawer: {
-    width: 256,
-  },
-  desktopDrawer: {
-    width: 256,
-    top: 64,
-    height: "calc(100% - 64px)",
-  },
-}));
 
 const NavBar = (props) => {
   const { onMobileClose, isMobileMode, items } = props;
@@ -31,7 +20,7 @@ const NavBar = (props) => {
     name: username,
   };
 
-  const classes = myStyles();
+  
   const location = useLocation();
 
   const content = (
@@ -58,7 +47,7 @@ const NavBar = (props) => {
     <Box sx={{ display: { xs: "block", sm: "block", md: "none", lg: "none" } }}>
       <Drawer
         anchor="left"
-        classes={{ paper: classes.mobileDrawer }}
+        PaperProps={{ sx: { width: 256 } }}
         onClose={onMobileClose}
         open={isMobileMode}
         variant="temporary"
@@ -71,7 +60,7 @@ const NavBar = (props) => {
     <Box sx={{ display: { xs: "none", sm: "none", md: "none", lg: "block" } }}>
       <Drawer
         anchor="left"
-        classes={{ paper: classes.desktopDrawer }}
+        PaperProps={{ sx: { width: 256, top: 64, height: "calc(100% - 64px)" } }}
         open={!isMobileMode}
         variant="persistent"
       >

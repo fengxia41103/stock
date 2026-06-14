@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { isEmpty, isNull, isUndefined, map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
@@ -16,24 +15,14 @@ import {
   ListItem,
   Typography,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 
 import ShowResource from "@Components/common/ShowResource";
 
-const myStyles = makeStyles(() => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  card: {
-    height: "100%",
-  },
-}));
 
 const ListNewsCard = (props) => {
   const { topic, limit, searching } = props;
   const [resource, setResource] = useState();
-  const classes = myStyles();
+  
   const limit_count = isUndefined(limit) ? 10 : limit;
 
   const get_uri = () => {
@@ -75,7 +64,7 @@ const ListNewsCard = (props) => {
       );
     });
     return (
-      <Card className={clsx(classes.root, classes.card)}>
+      <Card sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
         <CardHeader
           title={<Typography variant="h3">{topic.toUpperCase()}</Typography>}
         />

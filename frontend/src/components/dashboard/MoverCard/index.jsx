@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
@@ -14,25 +13,15 @@ import {
   ListItem,
   Typography,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 
 import { ColoredNumber } from "@fengxia41103/storybook";
 
 import TaskNotificationIcon from "@Components/task/TaskNotificationIcon";
 
-const myStyles = makeStyles(() => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  card: {
-    height: "100%",
-  },
-}));
 
 const MoverCard = (props) => {
   const { title, subtitle, stocks, value, roundTo } = props;
-  const classes = myStyles();
+  
 
   const entries = map(stocks, (s) => {
     return (
@@ -69,7 +58,7 @@ const MoverCard = (props) => {
   );
 
   return (
-    <Card className={clsx(classes.root, classes.card)}>
+    <Card sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <CardHeader
         title={<Typography variant="h3">{title}</Typography>}
         subheader={subHeader}
