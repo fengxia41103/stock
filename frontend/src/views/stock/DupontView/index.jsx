@@ -8,6 +8,7 @@ import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const DupontView = () => {
   const stock = useContext(StockDetailContext);
+  if (!stock || !stock.symbol) return null;
   const { symbol } = stock;
 
   const reported = {
