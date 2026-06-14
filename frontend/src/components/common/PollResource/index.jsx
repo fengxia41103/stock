@@ -11,7 +11,9 @@ const PollResource = ({ resource, on_success, interval = 10, silent }) => {
     queryFn: () =>
       api.get(encodeURI(resource)).then((r) => {
         const d = r.data;
-        return d && !Array.isArray(d) && Array.isArray(d.results) ? d.results : d;
+        return d && !Array.isArray(d) && Array.isArray(d.results)
+          ? d.results
+          : d;
       }),
     enabled: !!resource,
     refetchInterval: interval * 1000,
