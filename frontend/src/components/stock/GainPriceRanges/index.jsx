@@ -3,7 +3,15 @@ import PropTypes from "prop-types";
 import React from "react";
 
 import FlagIcon from "@mui/icons-material/Flag";
-import { Box, Chip, Grid, LinearProgress, List, ListItem, Tooltip } from "@mui/material";
+import {
+  Box,
+  Chip,
+  Grid,
+  LinearProgress,
+  List,
+  ListItem,
+  Tooltip,
+} from "@mui/material";
 
 import { ColoredNumber } from "@fengxia41103/storybook";
 
@@ -70,7 +78,13 @@ const GainPriceRanges = (props) => {
                   <LinearProgress
                     variant="determinate"
                     value={d.gain_window}
-                    color={d.gain_window > 66 ? "success" : d.gain_window > 33 ? "warning" : "error"}
+                    color={
+                      d.gain_window > 66
+                        ? "success"
+                        : d.gain_window > 33
+                        ? "warning"
+                        : "error"
+                    }
                   />
                 </Box>
               </Tooltip>
