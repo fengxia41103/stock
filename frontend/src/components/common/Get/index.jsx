@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@/api/client";
 
 const Get = ({ uri, on_success, on_error, silent }) => {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, isFetching } = useQuery({
     queryKey: ["get", uri],
     queryFn: () =>
       api.get(encodeURI(uri)).then((r) => {
@@ -18,8 +18,9 @@ const Get = ({ uri, on_success, on_error, silent }) => {
     enabled: !!uri,
   });
 
-  if (isLoading) return silent ? null : <ScaleLoader loading />;
+  if (isLoading || (!data && isFetching)) return silent ? null : <ScaleLoader loading />;
   if (error) return on_error ? on_error(error) : null;
+  if (data === undefined) return silent ? null : <ScaleLoader loading />;
   return on_success ? on_success(data) : null;
 };
 
