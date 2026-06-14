@@ -7,7 +7,7 @@ import SectorDetailContext from "@Views/sector/SectorDetailView/context";
 const SectorRoeRankingView = () => {
   const sector = useContext(SectorDetailContext);
   const [title] = useState("Ranking By ROE");
-  const [resource] = useState("/stock-ranks");
+  const [resource] = useState("/stock-ranks/");
 
   return (
     <SectorStocksRanking

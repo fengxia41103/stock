@@ -18,7 +18,8 @@ const StockRanking = (props) => {
   const { title, resource, top, thresholds } = props;
 
   const render_data = (data) => {
-    const rows = map(data.objects, (d) => {
+    const items = Array.isArray(data) ? data : data.objects || [];
+    const rows = map(items, (d) => {
       let { stats } = d;
       let threshold = null;
 

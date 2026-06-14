@@ -7,7 +7,7 @@ import SectorDetailContext from "@Views/sector/SectorDetailView/context";
 const SectorCashRankingView = () => {
   const sector = useContext(SectorDetailContext);
   const [title] = useState("Ranking By Cach Flows");
-  const [resource] = useState("/cash-ranks");
+  const [resource] = useState("/cash-ranks/");
 
   return (
     <SectorStocksRanking

@@ -19,11 +19,11 @@ import { get_highlights } from "@Utils/helper";
 
 const RankingView = () => {
   const [ranking_resources] = useState({
-    "By ROE Analysis": "/stock-ranks",
-    "By Balance Sheet Analysis": "/balance-ranks",
-    "By Income Statement Analysis": "/income-ranks",
-    "By Cash Flow Statement Analysis": "/cash-ranks",
-    "By Valuation Ratios": "/valuation-ranks",
+    "By ROE Analysis": "/stock-ranks/",
+    "By Balance Sheet Analysis": "/balance-ranks/",
+    "By Income Statement Analysis": "/income-ranks/",
+    "By Cash Flow Statement Analysis": "/cash-ranks/",
+    "By Valuation Ratios": "/valuation-ranks/",
   });
   const [interests, setInterests] = useState([]);
   const [highlights, setHighlights] = useState({});

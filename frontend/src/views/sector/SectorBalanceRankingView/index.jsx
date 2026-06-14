@@ -7,7 +7,7 @@ import SectorDetailContext from "@Views/sector/SectorDetailView/context";
 const SectorBalanceRankingView = () => {
   const sector = useContext(SectorDetailContext);
   const [title] = useState("Ranking by Balances");
-  const [resource] = useState("/balance-ranks");
+  const [resource] = useState("/balance-ranks/");
 
   return (
     <SectorStocksRanking
