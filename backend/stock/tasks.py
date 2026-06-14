@@ -91,25 +91,40 @@ def batch_update_helper(user, symbol):
 
 @app.task(queue="price")
 def price_daily():
-    http_agent = PlainUtility()
+    from celery import group
 
-    for stock in MyStock.objects.all():
-        # daily price
-        MyStockHistoricalYahoo(http_agent).parser(stock.symbol)
+    tasks = group(
+        __price_single.s(stock.symbol) for stock in MyStock.objects.all()
+    )
+    tasks.apply_async()
+
+
+@app.task(queue="price", rate_limit="12/m")
+def __price_single(symbol):
+    http_agent = PlainUtility()
+    MyStockHistoricalYahoo(http_agent).parser(symbol)
 
 
 @app.task(queue="statement")
 def statement_daily():
-    for stock in MyStock.objects.all():
-        symbol = stock.symbol
+    from celery import group
 
-        # summary info
+    tasks = group(
+        __statement_single.s(stock.symbol) for stock in MyStock.objects.all()
+    )
+    tasks.apply_async()
+
+
+@app.task(queue="statement", rate_limit="12/m")
+def __statement_single(symbol):
+    try:
         MySummary(symbol).get()
-
         MyBalanceSheet(symbol).get()
         MyIncomeStatement(symbol).get()
         MyCashFlowStatement(symbol).get()
         MyValuationRatio(symbol).get()
+    except Exception as e:
+        print(f"[statement_daily] {symbol} failed: {e}")
 
 
 @app.task(queue="news")
