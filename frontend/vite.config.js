@@ -11,10 +11,11 @@ export default defineConfig({
       "@Views": resolve(__dirname, "src/views"),
       "@Layouts": resolve(__dirname, "src/layouts"),
       "@Utils": resolve(__dirname, "src/utils"),
+      "@fengxia41103/storybook": resolve(__dirname, "src/lib/storybook/index.jsx"),
     },
   },
   server: {
-    port: 8084,
+    port: 5173,
     proxy: {
       "/api": {
         target: "http://localhost:8083",
