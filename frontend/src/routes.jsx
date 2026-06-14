@@ -6,101 +6,74 @@ import EventNoteIcon from "@mui/icons-material/EventNote";
 import SortIcon from "@mui/icons-material/Sort";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
-import { NotFoundView } from "@fengxia41103/storybook";
+import React, { Suspense, lazy } from "react";
+import { Navigate } from "react-router-dom";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 import MainLayout from "@Layouts/MainLayout";
-
 import LoginView from "@Views/auth/LoginView";
 import LogoutView from "@Views/auth/LogoutView";
 import ProtectedRoute from "@Views/auth/ProtectedRoute";
 import RegistrationView from "@Views/auth/RegistrationView";
-import DashboardTrendingView from "@Views/dashboard/DashboardTrendingView";
-import TodayDashboardView from "@Views/dashboard/TodayDashboardView";
-import AddDiaryView from "@Views/diary/AddDiaryView";
-import DiaryListView from "@Views/diary/DiaryListView";
-import NewsListView from "@Views/news/NewsListView";
-import SectorBalanceRankingView from "@Views/sector/SectorBalanceRankingView";
-import SectorBalancesheetView from "@Views/sector/SectorBalancesheetView";
-import SectorCashFlowView from "@Views/sector/SectorCashFlowView";
-import SectorCashRankingView from "@Views/sector/SectorCashRankingView";
-import SectorDetailView from "@Views/sector/SectorDetailView";
-import SectorIncomeRankingView from "@Views/sector/SectorIncomeRankingView";
-import SectorIncomeView from "@Views/sector/SectorIncomeView";
-import SectorInstitutionOwnershipView from "@Views/sector/SectorInstitutionOwnershipView";
-import SectorListView from "@Views/sector/SectorListView";
-import SectorPriceView from "@Views/sector/SectorPriceView";
-import SectorReturnView from "@Views/sector/SectorReturnView";
-import SectorRoeRankingView from "@Views/sector/SectorRoeRankingView";
-import SectorRoeView from "@Views/sector/SectorRoeView";
-import SectorStocksLowerBetterView from "@Views/sector/SectorStocksLowerBetterView";
-import SectorValuationRankingView from "@Views/sector/SectorValuationRankingView";
-import BalanceView from "@Views/stock/BalanceView";
-import CashFlowView from "@Views/stock/CashFlowView";
-import DailyReturnView from "@Views/stock/DailyReturnView";
-import DCFView from "@Views/stock/DCFView";
-import DupontView from "@Views/stock/DupontView";
-import IncomeView from "@Views/stock/IncomeView";
-import LastLowerNextBetterView from "@Views/stock/LastLowerNextBetterView";
-import NavView from "@Views/stock/NavView";
-import OvernightReturnView from "@Views/stock/OvernightReturnView";
-import PriceView from "@Views/stock/PriceView";
-import RankingView from "@Views/stock/RankingView";
-import StockDetailView from "@Views/stock/StockDetailView";
-import StockHistoricalView from "@Views/stock/StockHistoricalView";
-import StockListView from "@Views/stock/StockListView";
-import StockSummaryView from "@Views/stock/StockSummaryView";
-import TechIndicatorView from "@Views/stock/TechIndicatorView";
-import TwentyFourHourReturnView from "@Views/stock/TwentyFourHourReturnView";
-import ValuationRatiosView from "@Views/stock/ValuationRatiosView";
 
-import React from "react";
-import { Navigate } from "react-router-dom";
+// Lazy-loaded views
+const TodayDashboardView = lazy(() => import("@Views/dashboard/TodayDashboardView"));
+const DashboardTrendingView = lazy(() => import("@Views/dashboard/DashboardTrendingView"));
+const StockListView = lazy(() => import("@Views/stock/StockListView"));
+const StockDetailView = lazy(() => import("@Views/stock/StockDetailView"));
+const StockHistoricalView = lazy(() => import("@Views/stock/StockHistoricalView"));
+const StockSummaryView = lazy(() => import("@Views/stock/StockSummaryView"));
+const PriceView = lazy(() => import("@Views/stock/PriceView"));
+const DailyReturnView = lazy(() => import("@Views/stock/DailyReturnView"));
+const OvernightReturnView = lazy(() => import("@Views/stock/OvernightReturnView"));
+const TwentyFourHourReturnView = lazy(() => import("@Views/stock/TwentyFourHourReturnView"));
+const TechIndicatorView = lazy(() => import("@Views/stock/TechIndicatorView"));
+const LastLowerNextBetterView = lazy(() => import("@Views/stock/LastLowerNextBetterView"));
+const BalanceView = lazy(() => import("@Views/stock/BalanceView"));
+const IncomeView = lazy(() => import("@Views/stock/IncomeView"));
+const CashFlowView = lazy(() => import("@Views/stock/CashFlowView"));
+const DCFView = lazy(() => import("@Views/stock/DCFView"));
+const DupontView = lazy(() => import("@Views/stock/DupontView"));
+const NavView = lazy(() => import("@Views/stock/NavView"));
+const ValuationRatiosView = lazy(() => import("@Views/stock/ValuationRatiosView"));
+const RankingView = lazy(() => import("@Views/stock/RankingView"));
+const SectorListView = lazy(() => import("@Views/sector/SectorListView"));
+const SectorDetailView = lazy(() => import("@Views/sector/SectorDetailView"));
+const SectorPriceView = lazy(() => import("@Views/sector/SectorPriceView"));
+const SectorReturnView = lazy(() => import("@Views/sector/SectorReturnView"));
+const SectorRoeView = lazy(() => import("@Views/sector/SectorRoeView"));
+const SectorBalancesheetView = lazy(() => import("@Views/sector/SectorBalancesheetView"));
+const SectorIncomeView = lazy(() => import("@Views/sector/SectorIncomeView"));
+const SectorCashFlowView = lazy(() => import("@Views/sector/SectorCashFlowView"));
+const SectorInstitutionOwnershipView = lazy(() => import("@Views/sector/SectorInstitutionOwnershipView"));
+const SectorRoeRankingView = lazy(() => import("@Views/sector/SectorRoeRankingView"));
+const SectorBalanceRankingView = lazy(() => import("@Views/sector/SectorBalanceRankingView"));
+const SectorIncomeRankingView = lazy(() => import("@Views/sector/SectorIncomeRankingView"));
+const SectorCashRankingView = lazy(() => import("@Views/sector/SectorCashRankingView"));
+const SectorValuationRankingView = lazy(() => import("@Views/sector/SectorValuationRankingView"));
+const SectorStocksLowerBetterView = lazy(() => import("@Views/sector/SectorStocksLowerBetterView"));
+const DiaryListView = lazy(() => import("@Views/diary/DiaryListView"));
+const AddDiaryView = lazy(() => import("@Views/diary/AddDiaryView"));
+const NewsListView = lazy(() => import("@Views/news/NewsListView"));
+
+const Loader = <ScaleLoader loading />;
+
+const S = ({ children }) => <Suspense fallback={Loader}>{children}</Suspense>;
 
 const navbar_items = [
-  {
-    href: "/dashboard",
-    icon: <DashboardIcon />,
-    title: "Today",
-  },
-  {
-    href: "/trending",
-    icon: <TrendingUpIcon />,
-    title: "Price Trending",
-  },
-  {
-    href: "/stocks",
-    icon: <BusinessIcon />,
-    title: "My Stocks",
-  },
-  {
-    href: "/sectors",
-    icon: <CompareIcon />,
-    title: "My Sectors",
-  },
-  {
-    href: "/rankings",
-    icon: <SortIcon />,
-    title: "Stock Rankings",
-  },
-  {
-    href: "/notes",
-    icon: <EventNoteIcon />,
-    title: "My Notes",
-  },
-  {
-    href: "/news",
-    icon: <AnnouncementIcon />,
-    title: "News",
-  },
+  { href: "/dashboard", icon: <DashboardIcon />, title: "Today" },
+  { href: "/trending", icon: <TrendingUpIcon />, title: "Price Trending" },
+  { href: "/stocks", icon: <BusinessIcon />, title: "My Stocks" },
+  { href: "/sectors", icon: <CompareIcon />, title: "My Sectors" },
+  { href: "/rankings", icon: <SortIcon />, title: "Stock Rankings" },
+  { href: "/notes", icon: <EventNoteIcon />, title: "My Notes" },
+  { href: "/news", icon: <AnnouncementIcon />, title: "News" },
 ];
 
 const routes = [
-  // auth
   { path: "logout", element: <LogoutView /> },
   { path: "registration", element: <RegistrationView /> },
   { path: "login", element: <LoginView /> },
-
-  // application specific
   {
     path: "/",
     element: (
@@ -109,75 +82,62 @@ const routes = [
       </ProtectedRoute>
     ),
     children: [
-      // stocks
-      { path: "stocks", element: <StockListView /> },
+      { path: "stocks", element: <S><StockListView /></S> },
       {
         path: "stocks/:id",
-        element: <StockDetailView />,
+        element: <S><StockDetailView /></S>,
         children: [
-          { path: "summary", element: <StockSummaryView /> },
-          { path: "nav", element: <NavView /> },
-          { path: "balance", element: <BalanceView /> },
-          { path: "income", element: <IncomeView /> },
-          { path: "cash", element: <CashFlowView /> },
-          { path: "dcf", element: <DCFView /> },
-          { path: "ratios", element: <ValuationRatiosView /> },
-          { path: "dupont", element: <DupontView /> },
+          { path: "summary", element: <S><StockSummaryView /></S> },
+          { path: "nav", element: <S><NavView /></S> },
+          { path: "balance", element: <S><BalanceView /></S> },
+          { path: "income", element: <S><IncomeView /></S> },
+          { path: "cash", element: <S><CashFlowView /></S> },
+          { path: "dcf", element: <S><DCFView /></S> },
+          { path: "ratios", element: <S><ValuationRatiosView /></S> },
+          { path: "dupont", element: <S><DupontView /></S> },
           {
             path: "historical",
-            element: <StockHistoricalView />,
+            element: <S><StockHistoricalView /></S>,
             children: [
-              { path: "price", element: <PriceView /> },
-              { path: "return/daily", element: <DailyReturnView /> },
-              { path: "return/overnight", element: <OvernightReturnView /> },
-              { path: "return/24hr", element: <TwentyFourHourReturnView /> },
-              { path: "indicator/:type", element: <TechIndicatorView /> },
-              { path: "last/lower", element: <LastLowerNextBetterView /> },
+              { path: "price", element: <S><PriceView /></S> },
+              { path: "return/daily", element: <S><DailyReturnView /></S> },
+              { path: "return/overnight", element: <S><OvernightReturnView /></S> },
+              { path: "return/24hr", element: <S><TwentyFourHourReturnView /></S> },
+              { path: "indicator/:type", element: <S><TechIndicatorView /></S> },
+              { path: "last/lower", element: <S><LastLowerNextBetterView /></S> },
             ],
           },
         ],
       },
-
-      // sectors
-      { path: "sectors", element: <SectorListView /> },
+      { path: "sectors", element: <S><SectorListView /></S> },
       {
         path: "sectors/:id",
-        element: <SectorDetailView />,
+        element: <S><SectorDetailView /></S>,
         children: [
-          { path: "price", element: <SectorPriceView /> },
-          { path: "return", element: <SectorReturnView /> },
-          { path: "dupont", element: <SectorRoeView /> },
-          { path: "balance", element: <SectorBalancesheetView /> },
-          { path: "income", element: <SectorIncomeView /> },
-          { path: "cash", element: <SectorCashFlowView /> },
-          { path: "institution", element: <SectorInstitutionOwnershipView /> },
-          { path: "ranking/roe", element: <SectorRoeRankingView /> },
-          { path: "ranking/balance", element: <SectorBalanceRankingView /> },
-          { path: "ranking/income", element: <SectorIncomeRankingView /> },
-          { path: "ranking/cash", element: <SectorCashRankingView /> },
-          {
-            path: "ranking/valuation",
-            element: <SectorValuationRankingView />,
-          },
-          { path: "gains", element: <SectorStocksLowerBetterView /> },
+          { path: "price", element: <S><SectorPriceView /></S> },
+          { path: "return", element: <S><SectorReturnView /></S> },
+          { path: "dupont", element: <S><SectorRoeView /></S> },
+          { path: "balance", element: <S><SectorBalancesheetView /></S> },
+          { path: "income", element: <S><SectorIncomeView /></S> },
+          { path: "cash", element: <S><SectorCashFlowView /></S> },
+          { path: "institution", element: <S><SectorInstitutionOwnershipView /></S> },
+          { path: "ranking/roe", element: <S><SectorRoeRankingView /></S> },
+          { path: "ranking/balance", element: <S><SectorBalanceRankingView /></S> },
+          { path: "ranking/income", element: <S><SectorIncomeRankingView /></S> },
+          { path: "ranking/cash", element: <S><SectorCashRankingView /></S> },
+          { path: "ranking/valuation", element: <S><SectorValuationRankingView /></S> },
+          { path: "gains", element: <S><SectorStocksLowerBetterView /></S> },
         ],
       },
-      { path: "rankings", element: <RankingView /> },
-      { path: "notes", element: <DiaryListView /> },
-      { path: "notes/add", element: <AddDiaryView /> },
-      { path: "dashboard", element: <TodayDashboardView /> },
-      { path: "trending", element: <DashboardTrendingView /> },
-      {
-        path: "news",
-        element: <NewsListView />,
-      },
-
-      // landing page, default to dashboard
+      { path: "rankings", element: <S><RankingView /></S> },
+      { path: "notes", element: <S><DiaryListView /></S> },
+      { path: "notes/add", element: <S><AddDiaryView /></S> },
+      { path: "dashboard", element: <S><TodayDashboardView /></S> },
+      { path: "trending", element: <S><DashboardTrendingView /></S> },
+      { path: "news", element: <S><NewsListView /></S> },
       { path: "/", element: <Navigate to="/sectors" /> },
     ],
   },
-
-  // catch all, 404
   { path: "*", element: <Navigate to="/404" /> },
 ];
 
