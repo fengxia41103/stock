@@ -1,10 +1,9 @@
 import { filter, findIndex, last, map, minBy, range, reverse } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
-import GaugeChart from "react-gauge-chart";
 
 import FlagIcon from "@mui/icons-material/Flag";
-import { Box, Chip, Grid, List, ListItem, Tooltip } from "@mui/material";
+import { Box, Chip, Grid, LinearProgress, List, ListItem, Tooltip } from "@mui/material";
 
 import { ColoredNumber } from "@fengxia41103/storybook";
 
@@ -65,17 +64,13 @@ const GainPriceRanges = (props) => {
           <Grid item xs>
             {d.gain_window ? (
               <Tooltip
-                title={`Likelyhood to get out (0-100): ${d.gain_window}`}
+                title={`Likelihood to get out (0-100): ${d.gain_window}`}
               >
-                <Box>
-                  <GaugeChart
-                    id={the_range}
-                    nrOfLevels={total_data_count}
-                    style={{ width: "100px" }}
-                    arcsLength={[0.33, 0.34, 0.33]}
-                    colors={["#5BE12C", "#F5CD19", "#EA4228"]}
-                    percent={d.gain_window / 100}
-                    hideText
+                <Box sx={{ width: 100 }}>
+                  <LinearProgress
+                    variant="determinate"
+                    value={d.gain_window}
+                    color={d.gain_window > 66 ? "success" : d.gain_window > 33 ? "warning" : "error"}
                   />
                 </Box>
               </Tooltip>
