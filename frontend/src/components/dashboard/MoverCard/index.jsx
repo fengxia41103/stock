@@ -4,10 +4,12 @@ import PropTypes from "prop-types";
 import React from "react";
 
 import {
+  Box,
   Card,
   CardContent,
   CardHeader,
   Grid,
+  Link,
   List,
   ListItem,
   Typography,
@@ -16,7 +18,7 @@ import { makeStyles } from "@mui/styles";
 
 import { ColoredNumber } from "@fengxia41103/storybook";
 
-import StockSymbol from "@Components/stock/StockSymbol";
+import TaskNotificationIcon from "@Components/task/TaskNotificationIcon";
 
 const myStyles = makeStyles(() => ({
   root: {
@@ -34,17 +36,16 @@ const MoverCard = (props) => {
 
   const entries = map(stocks, (s) => {
     return (
-      <ListItem key={s.symbol} divider>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs>
+      <ListItem key={s.symbol} divider dense>
+        <Grid container spacing={1} alignItems="center">
+          <Grid item xs="auto">
             <ColoredNumber {...{ val: s[value], roundTo }} />
           </Grid>
-          <Grid item xs>
-            <StockSymbol
-              id={s.stock_id}
-              symbol={s.symbol}
-              resource_uri={s.stock}
-            />
+          <Grid item xs sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <Box display="inline">
+              <Link href={`/stocks/${s.stock_id}/historical/price`}>{s.symbol}</Link>
+            </Box>
+            <TaskNotificationIcon id={s.stock_id} />
           </Grid>
         </Grid>
       </ListItem>
