@@ -1,9 +1,18 @@
-import { useMutation, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  UseQueryOptions,
+} from "@tanstack/react-query";
 import api from "./client";
 
 // --- Generic hooks ---
 
-export function useResource<T = unknown>(key: string | string[], path: string, options: Partial<UseQueryOptions<T>> = {}) {
+export function useResource<T = unknown>(
+  key: string | string[],
+  path: string,
+  options: Partial<UseQueryOptions<T>> = {},
+) {
   return useQuery<T>({
     queryKey: Array.isArray(key) ? key : [key],
     queryFn: () =>
@@ -18,7 +27,10 @@ export function useResource<T = unknown>(key: string | string[], path: string, o
   } as UseQueryOptions<T>);
 }
 
-export function useCreate<T = unknown>(path: string, invalidateKeys: string[] = []) {
+export function useCreate<T = unknown>(
+  path: string,
+  invalidateKeys: string[] = [],
+) {
   const qc = useQueryClient();
   return useMutation<T, Error, Record<string, unknown>>({
     mutationFn: (data) => api.post(path, data).then((r) => r.data),
@@ -27,7 +39,10 @@ export function useCreate<T = unknown>(path: string, invalidateKeys: string[] = 
   });
 }
 
-export function useUpdate<T = unknown>(path: string, invalidateKeys: string[] = []) {
+export function useUpdate<T = unknown>(
+  path: string,
+  invalidateKeys: string[] = [],
+) {
   const qc = useQueryClient();
   return useMutation<T, Error, Record<string, unknown>>({
     mutationFn: (data) => api.patch(path, data).then((r) => r.data),
@@ -72,15 +87,23 @@ export function useHistoricals(stockId: string | number, options = {}) {
 }
 
 export function useIncomes(stockId: string | number) {
-  return useResource(["incomes", String(stockId)], `/incomes/?stock=${stockId}`, {
-    enabled: !!stockId,
-  });
+  return useResource(
+    ["incomes", String(stockId)],
+    `/incomes/?stock=${stockId}`,
+    {
+      enabled: !!stockId,
+    },
+  );
 }
 
 export function useBalances(stockId: string | number) {
-  return useResource(["balances", String(stockId)], `/balances/?stock=${stockId}`, {
-    enabled: !!stockId,
-  });
+  return useResource(
+    ["balances", String(stockId)],
+    `/balances/?stock=${stockId}`,
+    {
+      enabled: !!stockId,
+    },
+  );
 }
 
 export function useCashes(stockId: string | number) {
