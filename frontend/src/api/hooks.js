@@ -7,7 +7,15 @@ import api from "./client";
 export function useResource(key, path, options = {}) {
   return useQuery({
     queryKey: Array.isArray(key) ? key : [key],
-    queryFn: () => api.get(path).then((r) => r.data),
+    queryFn: () =>
+      api.get(path).then((r) => {
+        const d = r.data;
+        // Normalize: DRF paginated {count, results} → unwrap results
+        if (d && !Array.isArray(d) && Array.isArray(d.results)) {
+          return d.results;
+        }
+        return d;
+      }),
     ...options,
   });
 }

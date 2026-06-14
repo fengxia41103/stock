@@ -20,7 +20,7 @@ const RecentPriceSparkline = (props) => {
   }, [stock, start, end]);
 
   const render_data = (data) => {
-    const stocks = data.objects;
+    const stocks = Array.isArray(data) ? data : data.results || data.objects || [];
 
     const chart_data = map(stocks, (s) => s.close_price);
 

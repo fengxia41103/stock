@@ -28,7 +28,7 @@ const SectorStocksLowerBetterView = () => {
     const resource = `/historicals?stock=${d.id}&on__range=${start},${end}&order_by=on`;
 
     const render_data = (data) => {
-      const historicals = data.objects;
+      const historicals = Array.isArray(data) ? data : data.results || data.objects || [];
       return (
         <Grid item lg={6} sm={6} xs={12}>
           <Card>
