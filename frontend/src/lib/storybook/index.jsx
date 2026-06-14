@@ -227,22 +227,43 @@ export const DictTable = ({ data, title, interests, chart }) => {
       <Box>
         {title && <Typography variant="h6">{title}</Typography>}
         <Box sx={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              fontSize: "0.85rem",
+            }}
+          >
             <thead>
               <tr>
                 <th style={{ padding: 4, textAlign: "left" }}>Metric</th>
                 {data.map((d) => (
-                  <th key={d.on} style={{ padding: 4, textAlign: "right" }}>{d.on}</th>
+                  <th key={d.on} style={{ padding: 4, textAlign: "right" }}>
+                    {d.on}
+                  </th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {fields.map(([key, label]) => (
                 <tr key={key}>
-                  <td style={{ padding: 4, borderBottom: "1px solid #eee" }}>{label}</td>
+                  <td style={{ padding: 4, borderBottom: "1px solid #eee" }}>
+                    {label}
+                  </td>
                   {data.map((d) => (
-                    <td key={d.on} style={{ padding: 4, borderBottom: "1px solid #eee", textAlign: "right" }}>
-                      {d[key] != null ? (typeof d[key] === "number" ? d[key].toFixed(4) : String(d[key])) : "-"}
+                    <td
+                      key={d.on}
+                      style={{
+                        padding: 4,
+                        borderBottom: "1px solid #eee",
+                        textAlign: "right",
+                      }}
+                    >
+                      {d[key] != null
+                        ? typeof d[key] === "number"
+                          ? d[key].toFixed(4)
+                          : String(d[key])
+                        : "-"}
                     </td>
                   ))}
                 </tr>
@@ -283,9 +304,21 @@ export const DictTable = ({ data, title, interests, chart }) => {
           {data &&
             Object.entries(data).map(([k, v]) => (
               <tr key={k}>
-                <td style={{ padding: 4, borderBottom: "1px solid #eee" }}>{k}</td>
-                <td style={{ padding: 4, borderBottom: "1px solid #eee", textAlign: "right" }}>
-                  {v != null ? (typeof v === "number" ? v.toFixed(4) : String(v)) : "-"}
+                <td style={{ padding: 4, borderBottom: "1px solid #eee" }}>
+                  {k}
+                </td>
+                <td
+                  style={{
+                    padding: 4,
+                    borderBottom: "1px solid #eee",
+                    textAlign: "right",
+                  }}
+                >
+                  {v != null
+                    ? typeof v === "number"
+                      ? v.toFixed(4)
+                      : String(v)
+                    : "-"}
                 </td>
               </tr>
             ))}

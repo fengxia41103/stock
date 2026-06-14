@@ -11,7 +11,9 @@ const Get = ({ uri, on_success, on_error, silent }) => {
     queryFn: () =>
       api.get(encodeURI(uri)).then((r) => {
         const d = r.data;
-        return d && !Array.isArray(d) && Array.isArray(d.results) ? d.results : d;
+        return d && !Array.isArray(d) && Array.isArray(d.results)
+          ? d.results
+          : d;
       }),
     enabled: !!uri,
   });
