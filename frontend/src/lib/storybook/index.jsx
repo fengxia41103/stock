@@ -209,6 +209,8 @@ export const DictCard = ({ data, interests, title }) => {
             {data && data[k] != null
               ? typeof data[k] === "number"
                 ? data[k].toFixed(4)
+                : Array.isArray(data[k])
+                ? `[${data[k].length} items]`
                 : String(data[k])
               : "-"}
           </Typography>
@@ -329,19 +331,21 @@ export const DictTable = ({ data, title, interests, chart }) => {
 };
 
 // DropdownMenu
-export const DropdownMenu = ({ label, children }) => {
+export const DropdownMenu = ({ label, title, children, content }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const displayLabel = label || title || "Menu";
+  const displayContent = children || content;
   return (
     <>
       <Button onClick={(e) => setAnchorEl(e.currentTarget)}>
-        {label || "Menu"}
+        {displayLabel}
       </Button>
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={() => setAnchorEl(null)}
       >
-        {React.Children.map(children, (child, i) => (
+        {displayContent && React.Children.map(displayContent, (child, i) => (
           <MenuItem key={i} onClick={() => setAnchorEl(null)}>
             {child}
           </MenuItem>
@@ -353,10 +357,11 @@ export const DropdownMenu = ({ label, children }) => {
 
 // HighlightedText
 export const HighlightedText = ({ children, color, highlights, text, val }) => {
-  const bg = highlights || color || "#ffeb3b";
+  const bg = typeof highlights === "object" ? highlights?.background : highlights || color || "#ffeb3b";
+  const fg = typeof highlights === "object" ? highlights?.font : undefined;
   const display = text || children;
   return (
-    <span style={{ backgroundColor: bg, padding: "2px 6px", borderRadius: 4 }}>
+    <span style={{ backgroundColor: bg, color: fg, padding: "2px 6px", borderRadius: 4 }}>
       {display}
       {val != null
         ? ` (${typeof val === "number" ? val.toFixed(2) : val})`
