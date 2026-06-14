@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import { groupBy, map, reverse } from "lodash";
-import moment from "moment";
+import dayjs from "dayjs";
+import weekOfYear from "dayjs/plugin/weekOfYear";
+dayjs.extend(weekOfYear);
 import React, { useContext } from "react";
 
 import {
@@ -36,7 +38,7 @@ const PriceView = () => {
   const classes = myStyles();
 
   const stocks = map(data, (d) => {
-    return { ...d, week: moment(d.on).week() };
+    return { ...d, week: dayjs(d.on).week() };
   });
 
   // group data by week index

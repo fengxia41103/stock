@@ -1,5 +1,7 @@
 import { groupBy, map, reverse } from "lodash";
-import moment from "moment";
+import dayjs from "dayjs";
+import weekOfYear from "dayjs/plugin/weekOfYear";
+dayjs.extend(weekOfYear);
 import React, { useContext, useState } from "react";
 
 import {
@@ -37,7 +39,7 @@ const SectorReturnView = () => {
 
     // compute week index
     stocks = map(stocks, (s) => {
-      return { ...s, week: moment(s.on).week() };
+      return { ...s, week: dayjs(s.on).week() };
     });
 
     // group data by week index
