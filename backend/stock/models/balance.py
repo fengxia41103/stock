@@ -11,6 +11,9 @@ class BalanceSheet(StatementBase):
     )
     on = models.DateField(null=True, blank=True)
 
+    class Meta:
+        indexes = [models.Index(fields=["stock", "on"])]
+
     total_assets = models.FloatField(null=True, blank=True, default=0)
     current_assets = models.FloatField(null=True, blank=True, default=0)
     cash_cash_equivalents_and_short_term_investments = models.FloatField(null=True, blank=True, default=0)
