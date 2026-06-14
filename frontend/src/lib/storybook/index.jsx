@@ -13,6 +13,8 @@ import {
   DialogContent,
 } from "@mui/material";
 
+const getEChartsTheme = () => localStorage.getItem("themeMode") === "dark" ? "dark" : undefined;
+
 // HighchartGraph using ECharts
 export const HighchartGraph = ({
   type,
@@ -76,7 +78,7 @@ export const HighchartGraph = ({
   }
 
   return (
-    <ReactEChartsCore
+    <ReactEChartsCore theme={getEChartsTheme()}
       option={option}
       style={{ height: "100%", minHeight: 500 }}
     />
@@ -153,7 +155,7 @@ export const RankChart = ({
     series: [{ type: "bar", data: chartData || [] }],
   };
   return (
-    <ReactEChartsCore
+    <ReactEChartsCore theme={getEChartsTheme()}
       option={option}
       style={{ flex: 1, height: "100%", minHeight: 300 }}
     />
@@ -189,7 +191,7 @@ export const ABDonutChart = ({ data, title, subheader }) => {
       },
     ],
   };
-  return <ReactEChartsCore option={option} style={{ height: 250 }} />;
+  return <ReactEChartsCore theme={getEChartsTheme()} option={option} style={{ height: 250 }} />;
 };
 
 // DictCard
@@ -275,7 +277,7 @@ export const DictTable = ({ data, title, interests, chart }) => {
         </Box>
         {chart && data.length > 1 && interests && (
           <Box mt={2}>
-            <ReactEChartsCore
+            <ReactEChartsCore theme={getEChartsTheme()}
               option={{
                 tooltip: { trigger: "axis" },
                 legend: { data: fields.slice(0, 5).map(([, l]) => l) },
@@ -434,7 +436,7 @@ export const TimeSeriesColumnChart = ({ data, name }) => {
     series: [{ name: name || "", type: "bar", data: values }],
     dataZoom: [{ type: "inside" }, { type: "slider" }],
   };
-  return <ReactEChartsCore option={option} style={{ height: 300 }} />;
+  return <ReactEChartsCore theme={getEChartsTheme()} option={option} style={{ height: 300 }} />;
 };
 
 // AsDialog
