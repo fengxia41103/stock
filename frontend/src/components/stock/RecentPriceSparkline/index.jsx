@@ -15,7 +15,7 @@ const RecentPriceSparkline = (props) => {
 
   useEffect(() => {
     setResource(
-      `/historicals?stock=${stock}&on__range=${start},${end}&order_by=on`,
+      `/historicals?stock=${stock}&on__range=${start},${end}&ordering=on`,
     );
   }, [stock, start, end]);
 
