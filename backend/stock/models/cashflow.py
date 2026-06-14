@@ -11,6 +11,9 @@ class CashFlow(StatementBase):
     )
     on = models.DateField(null=True, blank=True)
 
+    class Meta:
+        indexes = [models.Index(fields=["stock", "on"])]
+
     beginning_cash = models.FloatField(null=True, blank=True, default=0)
     ending_cash = models.FloatField(null=True, blank=True, default=0)
     free_cash_flow = models.FloatField(null=True, blank=True, default=0)
