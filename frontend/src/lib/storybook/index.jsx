@@ -1,17 +1,40 @@
 import React from "react";
 import ReactEChartsCore from "echarts-for-react";
-import { Typography, Box, Chip, Menu, MenuItem, Button, Snackbar, Dialog, DialogTitle, DialogContent } from "@mui/material";
+import {
+  Typography,
+  Box,
+  Chip,
+  Menu,
+  MenuItem,
+  Button,
+  Snackbar,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+} from "@mui/material";
 
 // HighchartGraph using ECharts
-export const HighchartGraph = ({ type, categories, data, title, xLabel, yLabel, legendEnabled }) => {
+export const HighchartGraph = ({
+  type,
+  categories,
+  data,
+  title,
+  xLabel,
+  yLabel,
+  legendEnabled,
+}) => {
   const isBubble = type === "bubble";
 
   const mapType = (t) => {
     switch (t) {
-      case "column": return "bar";
-      case "areaspline": return "line";
-      case "bubble": return "scatter";
-      default: return t || "line";
+      case "column":
+        return "bar";
+      case "areaspline":
+        return "line";
+      case "bubble":
+        return "scatter";
+      default:
+        return t || "line";
     }
   };
 
@@ -52,16 +75,29 @@ export const HighchartGraph = ({ type, categories, data, title, xLabel, yLabel, 
     };
   }
 
-  return <ReactEChartsCore option={option} style={{ height: "100%", minHeight: 500 }} />;
+  return (
+    <ReactEChartsCore
+      option={option}
+      style={{ height: "100%", minHeight: 500 }}
+    />
+  );
 };
 
 // MultilineChart
-export const MultilineChart = ({ data, category_by, label_by, data_by, normalized, ...rest }) => {
+export const MultilineChart = ({
+  data,
+  category_by,
+  label_by,
+  data_by,
+  normalized,
+  ...rest
+}) => {
   if (data && category_by && data_by) {
     // data is array of {symbol, data: [{on, close_price, ...}]}
-    const categories = data.length > 0
-      ? [...new Set(data[0].data.map((d) => d[category_by]))]
-      : [];
+    const categories =
+      data.length > 0
+        ? [...new Set(data[0].data.map((d) => d[category_by]))]
+        : [];
     const series = data.map((group) => {
       let values = group.data.map((d) => d[data_by]);
       if (normalized && values.length > 0 && values[0] !== 0) {
@@ -70,7 +106,16 @@ export const MultilineChart = ({ data, category_by, label_by, data_by, normalize
       }
       return { name: group[label_by] || group.symbol || "", data: values };
     });
-    return <HighchartGraph type="line" categories={categories} data={series} title="" yLabel="" legendEnabled />;
+    return (
+      <HighchartGraph
+        type="line"
+        categories={categories}
+        data={series}
+        title=""
+        yLabel=""
+        legendEnabled
+      />
+    );
   }
   return <HighchartGraph {...rest} />;
 };
@@ -85,7 +130,13 @@ export const ColoredNumber = ({ val, unit, roundTo }) => {
 };
 
 // RankChart using ECharts bar
-export const RankChart = ({ data, categories, title, ranks, rank_val_name }) => {
+export const RankChart = ({
+  data,
+  categories,
+  title,
+  ranks,
+  rank_val_name,
+}) => {
   let chartCategories = categories;
   let chartData = data;
 
@@ -101,7 +152,12 @@ export const RankChart = ({ data, categories, title, ranks, rank_val_name }) => 
     yAxis: { type: "value" },
     series: [{ type: "bar", data: chartData || [] }],
   };
-  return <ReactEChartsCore option={option} style={{ flex: 1, height: "100%", minHeight: 300 }} />;
+  return (
+    <ReactEChartsCore
+      option={option}
+      style={{ flex: 1, height: "100%", minHeight: 300 }}
+    />
+  );
 };
 
 // ABDonutChart
@@ -117,9 +173,21 @@ export const ABDonutChart = ({ data, title, subheader }) => {
   }
   const chartTitle = data?.name || title || "";
   const option = {
-    title: { text: chartTitle, subtext: subheader || "", left: "center", top: 0 },
+    title: {
+      text: chartTitle,
+      subtext: subheader || "",
+      left: "center",
+      top: 0,
+    },
     tooltip: { trigger: "item" },
-    series: [{ type: "pie", radius: ["40%", "70%"], center: ["50%", "60%"], data: pieData }],
+    series: [
+      {
+        type: "pie",
+        radius: ["40%", "70%"],
+        center: ["50%", "60%"],
+        data: pieData,
+      },
+    ],
   };
   return <ReactEChartsCore option={option} style={{ height: 250 }} />;
 };
@@ -128,7 +196,9 @@ export const ABDonutChart = ({ data, title, subheader }) => {
 export const DictCard = ({ data, interests, title }) => {
   const entries = interests
     ? Object.entries(interests).filter(([k]) => data && data[k] !== undefined)
-    : data ? Object.entries(data) : [];
+    : data
+    ? Object.entries(data)
+    : [];
   return (
     <Box>
       {title && <Typography variant="h6">{title}</Typography>}
@@ -136,7 +206,11 @@ export const DictCard = ({ data, interests, title }) => {
         <Box key={k} display="flex" justifyContent="space-between" py={0.5}>
           <Typography variant="body2">{interests ? label : k}</Typography>
           <Typography variant="body2" fontWeight="bold">
-            {data && data[k] != null ? (typeof data[k] === "number" ? data[k].toFixed(4) : String(data[k])) : "-"}
+            {data && data[k] != null
+              ? typeof data[k] === "number"
+                ? data[k].toFixed(4)
+                : String(data[k])
+              : "-"}
           </Typography>
         </Box>
       ))}
@@ -153,8 +227,18 @@ export const DictTable = ({ data, title }) => (
         {data &&
           Object.entries(data).map(([k, v]) => (
             <tr key={k}>
-              <td style={{ padding: 4, borderBottom: "1px solid #eee" }}>{k}</td>
-              <td style={{ padding: 4, borderBottom: "1px solid #eee", textAlign: "right" }}>{String(v)}</td>
+              <td style={{ padding: 4, borderBottom: "1px solid #eee" }}>
+                {k}
+              </td>
+              <td
+                style={{
+                  padding: 4,
+                  borderBottom: "1px solid #eee",
+                  textAlign: "right",
+                }}
+              >
+                {String(v)}
+              </td>
             </tr>
           ))}
       </tbody>
@@ -167,10 +251,18 @@ export const DropdownMenu = ({ label, children }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   return (
     <>
-      <Button onClick={(e) => setAnchorEl(e.currentTarget)}>{label || "Menu"}</Button>
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+      <Button onClick={(e) => setAnchorEl(e.currentTarget)}>
+        {label || "Menu"}
+      </Button>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+      >
         {React.Children.map(children, (child, i) => (
-          <MenuItem key={i} onClick={() => setAnchorEl(null)}>{child}</MenuItem>
+          <MenuItem key={i} onClick={() => setAnchorEl(null)}>
+            {child}
+          </MenuItem>
         ))}
       </Menu>
     </>
@@ -183,7 +275,10 @@ export const HighlightedText = ({ children, color, highlights, text, val }) => {
   const display = text || children;
   return (
     <span style={{ backgroundColor: bg, padding: "2px 6px", borderRadius: 4 }}>
-      {display}{val != null ? ` (${typeof val === "number" ? val.toFixed(2) : val})` : ""}
+      {display}
+      {val != null
+        ? ` (${typeof val === "number" ? val.toFixed(2) : val})`
+        : ""}
     </span>
   );
 };
@@ -205,7 +300,12 @@ export const NotFoundView = () => (
 
 // SimpleSnackbar
 export const SimpleSnackbar = ({ open, message, onClose }) => (
-  <Snackbar open={open} autoHideDuration={3000} onClose={onClose} message={message} />
+  <Snackbar
+    open={open}
+    autoHideDuration={3000}
+    onClose={onClose}
+    message={message}
+  />
 );
 
 // MenuBar
@@ -213,7 +313,11 @@ export const MenuBar = ({ root, title, items }) => (
   <Box display="inline-flex" alignItems="center" mr={2}>
     <DropdownMenu label={title}>
       {(items || []).map((item) => (
-        <a key={item.url} href={`${root}/${item.url}`} style={{ textDecoration: "none", color: "inherit" }}>
+        <a
+          key={item.url}
+          href={`${root}/${item.url}`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
           {item.text}
         </a>
       ))}
