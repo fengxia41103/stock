@@ -39,7 +39,9 @@ const TaskNotificationIcon = (props) => {
 
   // render
   const render_data = (data) => {
-    const tasks_info = Array.isArray(data) ? data : data.results || data.objects || [];
+    const tasks_info = Array.isArray(data)
+      ? data
+      : data.results || data.objects || [];
     const count = tasks_info.length;
 
     // nothing to show

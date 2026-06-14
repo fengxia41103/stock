@@ -17,7 +17,9 @@ const StockTagPriceLabel = (props) => {
   );
 
   const render_data = (data) => {
-    const prices = Array.isArray(data) ? data : data.results || data.objects || [];
+    const prices = Array.isArray(data)
+      ? data
+      : data.results || data.objects || [];
     let price_then = 0;
     let price_now = 0;
 

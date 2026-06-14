@@ -12,7 +12,11 @@ api.interceptors.request.use((config) => {
   // Ensure trailing slash on URL path to avoid Django 301 redirects
   if (config.url && !config.url.endsWith("/") && !config.url.includes("?")) {
     config.url += "/";
-  } else if (config.url && config.url.includes("?") && !config.url.split("?")[0].endsWith("/")) {
+  } else if (
+    config.url &&
+    config.url.includes("?") &&
+    !config.url.split("?")[0].endsWith("/")
+  ) {
     const [path, query] = config.url.split("?");
     config.url = `${path}/?${query}`;
   }

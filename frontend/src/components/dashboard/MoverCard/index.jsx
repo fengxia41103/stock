@@ -41,9 +41,19 @@ const MoverCard = (props) => {
           <Grid item xs="auto">
             <ColoredNumber {...{ val: s[value], roundTo }} />
           </Grid>
-          <Grid item xs sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <Grid
+            item
+            xs
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <Box display="inline">
-              <Link href={`/stocks/${s.stock_id}/historical/price`}>{s.symbol}</Link>
+              <Link href={`/stocks/${s.stock_id}/historical/price`}>
+                {s.symbol}
+              </Link>
             </Box>
             <TaskNotificationIcon id={s.stock_id} />
           </Grid>

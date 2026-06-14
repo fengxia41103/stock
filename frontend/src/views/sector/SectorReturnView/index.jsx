@@ -31,7 +31,9 @@ const SectorReturnView = () => {
   );
 
   const render_data = (data) => {
-    let stocks = Array.isArray(data) ? data : data.results || data.objects || [];
+    let stocks = Array.isArray(data)
+      ? data
+      : data.results || data.objects || [];
 
     // compute week index
     stocks = map(stocks, (s) => {
