@@ -1,6 +1,6 @@
 import { filter, map, reverse, sortBy } from "lodash";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import {
   Box,
@@ -16,65 +16,41 @@ import { Page } from "@fengxia41103/storybook";
 import ShowResource from "@Components/common/ShowResource";
 import MoverCard from "@Components/dashboard/MoverCard";
 
+const getLastTradingDay = (m) => {
+  const cloned = moment(m);
+  const day = cloned.day();
+  if (day === 0) cloned.subtract(2, "days");
+  else if (day === 6) cloned.subtract(1, "days");
+  return cloned;
+};
+
 const TodayDashboardView = () => {
-  // constant
   const TOP = 10;
+  const [today, setToday] = useState(() => getLastTradingDay(moment()));
 
-  // states
-  const [resource, setResource] = useState("");
-  const [today, setToday] = useState(moment());
+  const resource = useMemo(() => {
+    const end = today.format("YYYY-MM-DD");
+    const start = moment(today).subtract(3, "days").format("YYYY-MM-DD");
+    return `/historicals/?on__range=${start},${end}&ordering=-on`;
+  }, [today]);
 
-  // hooks
-  useEffect(() => {
-    set_today(today);
-  });
-
-  // helpers
-  const set_today = (now) => {
-    let adjust_in_day;
-    switch (now.day()) {
-      case 0:
-        // sunday
-        adjust_in_day = -2;
-        break;
-
-      case 6:
-        // saturday
-        adjust_in_day = -1;
-        break;
-
-      default:
-        adjust_in_day = 0;
-        break;
-    }
-
-    const tmp = now.add(adjust_in_day, "days").format("YYYY-MM-DD");
-    setResource(`/historicals?on__range=${tmp},${tmp}`);
-  };
-
-  // event handlers
   const today_change = (event) => {
     const now = moment(event.target.value, "YYYY-MM-DD");
-
-    // update state
-    setToday(now);
-
-    // update resource
-    set_today(now);
+    setToday(getLastTradingDay(now));
   };
 
-  // renders
   const render_data = (data) => {
-    let stocks = data.objects;
+    const all = Array.isArray(data) ? data : data.objects || [];
 
-    // compute gain & volatility on the fly
-    stocks = map(stocks, (s) => {
-      return {
-        gain: ((s.close_price - s.open_price) / s.open_price) * 100,
-        volatility: ((s.high_price - s.low_price) / s.low_price) * 100,
-        ...s,
-      };
-    });
+    // Use only the most recent date's records
+    const latestDate = all.length ? all[0].on : null;
+    let stocks = latestDate ? filter(all, (s) => s.on === latestDate) : [];
+
+    stocks = map(stocks, (s) => ({
+      gain: ((s.close_price - s.open_price) / s.open_price) * 100,
+      volatility: ((s.high_price - s.low_price) / s.low_price) * 100,
+      ...s,
+    }));
 
     const today_string = today.format("dddd, ll");
 
@@ -127,19 +103,16 @@ const TodayDashboardView = () => {
       },
     ];
 
-    // pick top 10
-    const dashboard_tops = map(dashboards, (d) => {
-      return { ...d, stocks: d.stocks.slice(0, TOP) };
-    });
+    const dashboard_tops = map(dashboards, (d) => ({
+      ...d,
+      stocks: d.stocks.slice(0, TOP),
+    }));
 
-    // render mover top contents
-    const mover_top_cards = map(dashboard_tops, (d) => {
-      return (
-        <Grid key={d.title} item lg={4} sm={6} xs={12}>
-          <MoverCard date={today_string} {...d} />
-        </Grid>
-      );
-    });
+    const mover_top_cards = map(dashboard_tops, (d) => (
+      <Grid key={d.title} item lg={4} sm={6} xs={12}>
+        <MoverCard date={today_string} {...d} />
+      </Grid>
+    ));
 
     return (
       <Page title="Today">
