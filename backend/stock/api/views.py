@@ -4,8 +4,6 @@ from datetime import date, timedelta
 
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.models import User
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from rest_framework import status, viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action, api_view, permission_classes
@@ -252,9 +250,19 @@ class TaskViewSet(viewsets.mixins.ListModelMixin, viewsets.mixins.DestroyModelMi
 
 
 class RankingViewSet(viewsets.ViewSet):
-    """Base ranking viewset with shared logic."""
+    """Base ranking viewset — reads from RankingCache if available."""
     permission_classes = [IsAuthenticated]
     pagination_class = None
+    rank_type = None  # Subclasses set this
+
+    def list(self, request):
+        from stock.models import RankingCache
+        cache = RankingCache.objects.filter(rank_type=self.rank_type).first()
+        if cache:
+            results = cache.data
+        else:
+            results = self._compute(request)
+        return Response(self._filter_results(request, results))
 
     def _get_object_list_helper(self, objects, sort_by, high_to_low):
         start = date.today() - timedelta(days=180)
@@ -297,8 +305,9 @@ class RankingViewSet(viewsets.ViewSet):
 
 
 class StockRankViewSet(RankingViewSet):
-    @method_decorator(cache_page(300))
-    def list(self, request):
+    rank_type = "stock"
+
+    def _compute(self, request):
         attrs = [
             (0, "roe", True),
             (1, "dupont_roe", True),
@@ -311,12 +320,13 @@ class StockRankViewSet(RankingViewSet):
             vals = [v for v in vals if v["val"] and v["val"] != -100]
             vals.sort(key=lambda x: x["val"], reverse=high_to_low)
             results.append({"id": idx, "name": attr, "stats": vals})
-        return Response(self._filter_results(request, results))
+        return results
 
 
 class BalanceRankViewSet(RankingViewSet):
-    @method_decorator(cache_page(300))
-    def list(self, request):
+    rank_type = "balance"
+
+    def _compute(self, request):
         attrs = [
             (0, "current_ratio", True), (1, "quick_ratio", True),
             (2, "debt_to_equity_ratio", False), (3, "equity_multiplier", False),
@@ -330,23 +340,25 @@ class BalanceRankViewSet(RankingViewSet):
             (16, "retained_earnings_to_equity", True), (17, "inventory_to_current_asset", False),
             (18, "working_capital_to_current_liabilities", True),
         ]
-        return Response(self._filter_results(request, self._get_ranks(request, BalanceSheet.objects, attrs)))
+        return self._get_ranks(request, BalanceSheet.objects, attrs)
 
 
 class CashRankViewSet(RankingViewSet):
-    @method_decorator(cache_page(300))
-    def list(self, request):
+    rank_type = "cash"
+
+    def _compute(self, request):
         attrs = [
             (0, "dividend_payout_ratio", True), (1, "operating_cash_flow_growth", True),
             (2, "cash_change_pcnt", True), (3, "fcf_over_ocf", True),
             (4, "fcf_over_net_income", True), (5, "ocf_over_net_income", True),
         ]
-        return Response(self._filter_results(request, self._get_ranks(request, CashFlow.objects, attrs)))
+        return self._get_ranks(request, CashFlow.objects, attrs)
 
 
 class IncomeRankViewSet(RankingViewSet):
-    @method_decorator(cache_page(300))
-    def list(self, request):
+    rank_type = "income"
+
+    def _compute(self, request):
         attrs = [
             (0, "net_income_growth_rate", True), (1, "operating_income_growth_rate", True),
             (2, "gross_profit_to_revenue", True), (3, "net_income_to_revenue", True),
@@ -359,11 +371,12 @@ class IncomeRankViewSet(RankingViewSet):
             (16, "net_income_to_equity", True), (17, "cogs_to_inventory", True),
             (18, "interest_coverage_ratio", True),
         ]
-        return Response(self._filter_results(request, self._get_ranks(request, IncomeStatement.objects, attrs)))
+        return self._get_ranks(request, IncomeStatement.objects, attrs)
 
 
 class ValuationRankViewSet(RankingViewSet):
-    @method_decorator(cache_page(300))
-    def list(self, request):
+    rank_type = "valuation"
+
+    def _compute(self, request):
         attrs = [(0, "pe", False), (1, "pb", False), (2, "ps", False)]
-        return Response(self._filter_results(request, self._get_ranks(request, ValuationRatio.objects, attrs)))
+        return self._get_ranks(request, ValuationRatio.objects, attrs)
