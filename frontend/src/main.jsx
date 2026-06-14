@@ -21,7 +21,9 @@ export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 export const useColorMode = () => useContext(ColorModeContext);
 
 const Root = () => {
-  const [mode, setMode] = useState(() => localStorage.getItem("themeMode") || "light");
+  const [mode, setMode] = useState(
+    () => localStorage.getItem("themeMode") || "light",
+  );
 
   const colorMode = useMemo(
     () => ({
