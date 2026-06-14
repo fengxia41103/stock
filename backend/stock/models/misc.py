@@ -73,3 +73,14 @@ class MyTask(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     state = models.CharField(max_length=128)
     stocks = models.ManyToManyField("stock.MyStock", related_name="tasks")
+
+
+class RankingCache(models.Model):
+    """Pre-computed ranking results, refreshed periodically."""
+
+    rank_type = models.CharField(max_length=32, unique=True)
+    data = models.JSONField(default=list)
+    computed_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.rank_type} ({self.computed_at})"
