@@ -11,6 +11,7 @@ import { Navigate } from "react-router-dom";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import MainLayout from "@Layouts/MainLayout";
+import SectionErrorBoundary from "@Components/common/SectionErrorBoundary";
 import LoginView from "@Views/auth/LoginView";
 import LogoutView from "@Views/auth/LogoutView";
 import ProtectedRoute from "@Views/auth/ProtectedRoute";
@@ -91,6 +92,7 @@ const NewsListView = lazy(() => import("@Views/news/NewsListView"));
 const Loader = <ScaleLoader loading />;
 
 const S = ({ children }) => <Suspense fallback={Loader}>{children}</Suspense>;
+const E = ({ section, children }) => <SectionErrorBoundary section={section}><S>{children}</S></SectionErrorBoundary>;
 
 const navbar_items = [
   { href: "/dashboard", icon: <DashboardIcon />, title: "Today" },
