@@ -28,5 +28,15 @@ export default defineConfig({
   },
   build: {
     outDir: "build",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor_react: ["react", "react-dom", "react-router-dom"],
+          vendor_mui: ["@mui/material", "@mui/icons-material"],
+          vendor_echarts: ["echarts", "echarts-for-react"],
+          vendor_query: ["@tanstack/react-query", "axios"],
+        },
+      },
+    },
   },
 });
