@@ -12,6 +12,9 @@ export default defineConfig({
       "@Layouts": resolve(__dirname, "src/layouts"),
       "@Utils": resolve(__dirname, "src/utils"),
       "@fengxia41103/storybook": resolve(__dirname, "src/lib/storybook/index.jsx"),
+      "@lib/charts": resolve(__dirname, "src/lib/charts/index.js"),
+      "@lib/layout": resolve(__dirname, "src/lib/layout/index.js"),
+      "@lib/display": resolve(__dirname, "src/lib/display/index.js"),
     },
   },
   server: {
