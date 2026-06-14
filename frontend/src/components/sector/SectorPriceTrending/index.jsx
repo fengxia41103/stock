@@ -26,7 +26,9 @@ const SectorPriceTrending = (props) => {
   );
 
   const render_data = (data) => {
-    const stocks = Array.isArray(data) ? data : data.results || data.objects || [];
+    const stocks = Array.isArray(data)
+      ? data
+      : data.results || data.objects || [];
 
     // all symbols are color-coded
     const symbols = [...new Set(map(stocks, (s) => s.symbol))];

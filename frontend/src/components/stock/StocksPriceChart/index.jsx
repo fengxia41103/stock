@@ -9,11 +9,15 @@ import ShowResource from "@Components/common/ShowResource";
 const StocksPriceChart = (props) => {
   const { stocks: stock_ids, start, end } = props;
   const [resource] = useState(
-    `/historicals/?stock__in=${stock_ids.join(",")}&on__range=${start},${end}&ordering=on`,
+    `/historicals/?stock__in=${stock_ids.join(
+      ",",
+    )}&on__range=${start},${end}&ordering=on`,
   );
 
   const render_data = (resp) => {
-    const data = Array.isArray(resp) ? resp : resp.results || resp.objects || [];
+    const data = Array.isArray(resp)
+      ? resp
+      : resp.results || resp.objects || [];
     const group_by_symbol = groupBy(data, (d) => d.symbol);
 
     const chart_data = map(group_by_symbol, (prices, symbol) => {
