@@ -103,6 +103,7 @@ def price_daily():
 def __price_single(symbol):
     http_agent = PlainUtility()
     MyStockHistoricalYahoo(http_agent).parser(symbol)
+    _update_historical_denorm(symbol)
 
 
 @app.task(queue="statement")
@@ -123,8 +124,83 @@ def __statement_single(symbol):
         MyIncomeStatement(symbol).get()
         MyCashFlowStatement(symbol).get()
         MyValuationRatio(symbol).get()
+        _update_stock_denorm(symbol)
     except Exception as e:
         print(f"[statement_daily] {symbol} failed: {e}")
+
+
+@app.task(queue="summary")
+def rebuild_ranking_cache():
+    """Rebuild all ranking caches."""
+    from stock.management.commands._ranking_helpers import compute_all_rankings
+    from stock.models import RankingCache
+
+    results = compute_all_rankings()
+    for rank_type, data in results.items():
+        RankingCache.objects.update_or_create(rank_type=rank_type, defaults={"data": data})
+
+
+def _update_historical_denorm(symbol):
+    """Recompute denormalized fields for recent historicals."""
+    stock = MyStock.objects.get(symbol=symbol)
+    historicals = list(
+        stock.historicals.order_by("on").values_list("id", "on", "open_price", "close_price", "vol")
+    )
+    if not historicals:
+        return
+
+    from stock.models import MyStockHistorical
+
+    closes = [(h[1], h[3]) for h in historicals]
+    # Only update last 10 records
+    for idx in range(max(0, len(historicals) - 10), len(historicals)):
+        pk, on, open_price, close_price, vol = historicals[idx]
+        vos = vol / stock.shares_outstanding * 0.001 if stock.shares_outstanding else 0
+
+        last_lower = 0
+        for j in range(idx - 1, -1, -1):
+            if closes[j][1] < close_price:
+                last_lower = idx - j
+                break
+
+        last_better = 0
+        for j in range(idx - 1, -1, -1):
+            if closes[j][1] > close_price:
+                last_better = idx - j
+                break
+
+        MyStockHistorical.objects.filter(id=pk).update(
+            d_last_lower=last_lower,
+            d_last_better=last_better,
+            d_vol_over_share_outstanding=round(vos, 4),
+        )
+
+    # Update stock-level denorm
+    latest = stock.historicals.order_by("-on").first()
+    if latest:
+        stock.d_last_lower = latest.d_last_lower
+        stock.d_last_better = latest.d_last_better
+        stock.save(update_fields=["d_last_lower", "d_last_better"])
+
+
+def _update_stock_denorm(symbol):
+    """Update MyStock denormalized valuation fields."""
+    stock = MyStock.objects.get(symbol=symbol)
+    ratio = stock.ratios.filter(pe__gt=0).order_by("-on").first()
+    stock.d_pe = ratio.pe if ratio else None
+    ratio = stock.ratios.filter(pb__gt=0).order_by("-on").first()
+    stock.d_pb = ratio.pb if ratio else None
+    ratio = stock.ratios.filter(ps__gt=0).order_by("-on").first()
+    stock.d_ps = ratio.ps if ratio else None
+
+    balance = stock.balances.order_by("-on").first()
+    hist = stock.historicals.order_by("-on").first()
+    if balance and hist:
+        cash_per_share = balance.cash_and_cash_equivalent_per_share
+        if hist.close_price and cash_per_share:
+            stock.d_price_to_cash_premium = hist.close_price / cash_per_share
+
+    stock.save(update_fields=["d_pe", "d_pb", "d_ps", "d_price_to_cash_premium"])
 
 
 @app.task(queue="news")
@@ -156,21 +232,11 @@ def remove_old_news():
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    # Pull daily price at midnight everyday
     sender.add_periodic_task(
         600.0, price_daily.s(), name="Get price every 10 minutes"
     )
-
-    # Pull statement every 24 hours in case there are new ones
-    # available
     sender.add_periodic_task(crontab(hour=0, minute=0), statement_daily.s())
-
-    # Pull news continuously
-    # sender.add_periodic_task(
-    #    300.0, get_news.s(), name="Get news every 5 minute"
-    # )
-
-    # Remove news older tha 24 hours
-    # sender.add_periodic_task(
-    #    3600.0, remove_old_news.s(), name="Remove news older than 24 hours"
+    sender.add_periodic_task(
+        21600.0, rebuild_ranking_cache.s(), name="Rebuild rankings every 6 hours"
+    )
     # )
