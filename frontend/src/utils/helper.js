@@ -1,5 +1,5 @@
 import { map } from "lodash";
-import moment from "moment";
+import dayjs from "dayjs";
 
 export const randomId = (prefix = "FX") => {
   return prefix + (Math.random() * 1e32).toString(12);
@@ -57,13 +57,13 @@ export const get_highlights = (interests) => {
 const DATE_FORMAT = "YYYY-MM-DD";
 
 export const get_today_string = () => {
-  return moment().format(DATE_FORMAT);
+  return dayjs().format(DATE_FORMAT);
 };
 
 export const get_last_week_string = () => {
-  return moment().add(-1, "w").format(DATE_FORMAT);
+  return dayjs().subtract(1, "week").format(DATE_FORMAT);
 };
 
 export const get_last_month_string = () => {
-  return moment().add(-1, "M").format(DATE_FORMAT);
+  return dayjs().subtract(1, "month").format(DATE_FORMAT);
 };

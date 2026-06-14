@@ -1,5 +1,5 @@
 import { map } from "lodash";
-import moment from "moment";
+import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { Sparklines, SparklinesCurve } from "react-sparklines";
@@ -9,8 +9,8 @@ import ShowResource from "@Components/common/ShowResource";
 const RecentPriceSparkline = (props) => {
   const DATE_FORMAT = "YYYY-MM-DD";
   const [resource, setResource] = useState("");
-  const [start] = useState(moment().add(-10, "d").format(DATE_FORMAT));
-  const [end] = useState(moment().format(DATE_FORMAT));
+  const [start] = useState(dayjs().subtract(10, "day").format(DATE_FORMAT));
+  const [end] = useState(dayjs().format(DATE_FORMAT));
   const { stock } = props;
 
   useEffect(() => {

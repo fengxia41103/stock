@@ -1,5 +1,5 @@
 import { map } from "lodash";
-import moment from "moment";
+import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 
 import {
@@ -40,7 +40,7 @@ const DashboardTrendingView = () => {
 
   // states
   const [resource, setResource] = useState("");
-  const [today, setToday] = useState(moment());
+  const [today, setToday] = useState(dayjs());
   const [useTimeLapseRanking, setUseTimeLapseRanking] = useState(false);
 
   // default back track one week from today
@@ -50,7 +50,7 @@ const DashboardTrendingView = () => {
 
   // Compute start/end from today and backWeek
   const end = today.format(DATE_FORMAT);
-  const start = moment(today)
+  const start = dayjs(today)
     .add(-1 * parseInt(backWeek, 10), "w")
     .format(DATE_FORMAT);
 
@@ -61,7 +61,7 @@ const DashboardTrendingView = () => {
 
   // event handlers
   const today_change = (event) => {
-    const now = moment(event.target.value, DATE_FORMAT);
+    const now = dayjs(event.target.value);
     setToday(now);
   };
 

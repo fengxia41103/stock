@@ -1,5 +1,5 @@
 import { filter, map, reverse, sortBy } from "lodash";
-import moment from "moment";
+import dayjs from "dayjs";
 import React, { useMemo, useState } from "react";
 
 import {
@@ -17,25 +17,24 @@ import ShowResource from "@Components/common/ShowResource";
 import MoverCard from "@Components/dashboard/MoverCard";
 
 const getLastTradingDay = (m) => {
-  const cloned = moment(m);
-  const day = cloned.day();
-  if (day === 0) cloned.subtract(2, "days");
-  else if (day === 6) cloned.subtract(1, "days");
-  return cloned;
+  let d = dayjs(m);
+  if (d.day() === 0) d = d.subtract(2, "day");
+  else if (d.day() === 6) d = d.subtract(1, "day");
+  return d;
 };
 
 const TodayDashboardView = () => {
   const TOP = 10;
-  const [today, setToday] = useState(() => getLastTradingDay(moment()));
+  const [today, setToday] = useState(() => getLastTradingDay(dayjs()));
 
   const resource = useMemo(() => {
     const end = today.format("YYYY-MM-DD");
-    const start = moment(today).subtract(3, "days").format("YYYY-MM-DD");
+    const start = dayjs(today).subtract(3, "days").format("YYYY-MM-DD");
     return `/historicals/?on__range=${start},${end}&ordering=-on`;
   }, [today]);
 
   const today_change = (event) => {
-    const now = moment(event.target.value, "YYYY-MM-DD");
+    const now = dayjs(event.target.value);
     setToday(getLastTradingDay(now));
   };
 
@@ -52,7 +51,7 @@ const TodayDashboardView = () => {
       ...s,
     }));
 
-    const today_string = today.format("dddd, ll");
+    const today_string = today.format("dddd, MMM D, YYYY");
 
     const dashboards = [
       {
