@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from django.db import transaction
 
 from fin.celery import app
-from fin.tor_handler import PlainUtility
 from stock.models import MyNews, MyStock, MyTask
 from stock.workers.get_balance_sheet import MyBalanceSheet
 from stock.workers.get_cash_flow_statement import MyCashFlowStatement
@@ -49,9 +48,9 @@ def __valuation_ratio_consumer(whatever, symbol):
 
 @app.task(queue="price")
 def __yahoo_consumer(symbol):
-    http_agent = PlainUtility()
-    crawler = MyStockHistoricalYahoo(http_agent)
-    crawler.parser(symbol)
+    
+    
+    MyStockHistoricalYahoo(symbol).parser()
 
 
 def batch_update_helper(user, symbol):
@@ -101,8 +100,8 @@ def price_daily():
 
 @app.task(queue="price", rate_limit="12/m")
 def __price_single(symbol):
-    http_agent = PlainUtility()
-    MyStockHistoricalYahoo(http_agent).parser(symbol)
+    
+    MyStockHistoricalYahoo(symbol).parser()
     _update_historical_denorm(symbol)
 
 
