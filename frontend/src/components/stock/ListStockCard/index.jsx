@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { isUndefined, map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
@@ -17,34 +16,19 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 
 import { ColoredNumber, DropdownMenu } from "@fengxia41103/storybook";
 
 import RecentPriceSparkline from "@Components/stock/RecentPriceSparkline";
 import StockSymbol from "@Components/stock/StockSymbol";
 
-const myStyles = makeStyles(() => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  avatar: {
-    backgroundColor: "#d52349",
-    height: 56,
-    width: 56,
-  },
-  card: {
-    height: "100%",
-  },
-}));
 
 const ListStockCard = (props) => {
   // props
   const { stocks, index, group_by, actions } = props;
 
   // hooks
-  const classes = myStyles();
+  
 
   let title;
   switch (group_by) {
@@ -116,12 +100,12 @@ const ListStockCard = (props) => {
   });
 
   return (
-    <Card className={clsx(classes.root, classes.card)}>
+    <Card sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <CardHeader
         title={<Typography variant="h3">{title}</Typography>}
         subheader={<Typography variant="body2">{group_by}</Typography>}
         avartar={
-          <Avatar className={classes.avatar}>
+          <Avatar sx={{ width: 60, height: 60 }}>
             <CalendarTodayIcon />
           </Avatar>
         }

@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { groupBy, map, reverse } from "lodash";
 import dayjs from "dayjs";
 import weekOfYear from "dayjs/plugin/weekOfYear";
@@ -15,7 +14,6 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 
 import { ColoredNumber } from "@fengxia41103/storybook";
 
@@ -24,18 +22,13 @@ import PriceChart from "@Components/stock/PriceChart";
 
 import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
 
-const myStyles = makeStyles(() => ({
-  card: {
-    height: "100%",
-  },
-}));
 
 const PriceView = () => {
   const data = useContext(StockHistoricalContext);
   const [first_data] = data;
   const { symbol } = first_data;
 
-  const classes = myStyles();
+  
 
   const stocks = map(data, (d) => {
     return { ...d, week: dayjs(d.on).week() };
@@ -90,7 +83,7 @@ const PriceView = () => {
     <>
       <Grid container spacing={1}>
         <Grid item lg={8} md={8} sm={6} xs={12}>
-          <Card className={clsx(classes.card)}>
+          <Card sx={{ height: "100%" }}>
             <CardHeader
               title={
                 <Typography variant="h3">{symbol} Daily Prices</Typography>
@@ -102,7 +95,7 @@ const PriceView = () => {
           </Card>
         </Grid>
         <Grid item lg={4} md={4} sm={6} xs={12}>
-          <Card className={clsx(classes.card)}>
+          <Card sx={{ height: "100%" }}>
             <CardHeader
               title={<Typography variant="h3">Gain Probability</Typography>}
               subheader={

@@ -3,59 +3,28 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 
 import { Box } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 
 import NavBar from "@Layouts/NavBar";
 import TopBar from "@Layouts/TopBar";
 
-const myStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    display: "flex",
-    height: "100%",
-    overflow: "hidden",
-    width: "100%",
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3),
-  },
-  wrapper: {
-    display: "flex",
-    flex: "1 1 auto",
-    overflow: "hidden",
-    paddingTop: 64,
-    [theme.breakpoints.up("lg")]: {
-      paddingLeft: 256,
-    },
-  },
-  contentContainer: {
-    display: "flex",
-    flex: "1 1 auto",
-    overflow: "hidden",
-  },
-  content: {
-    flex: "1 1 auto",
-    height: "100%",
-    overflow: "auto",
-  },
-}));
 
 const MainLayout = (props) => {
   const { sideNavs } = props;
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
-  const classes = myStyles();
+  
 
   return (
-    <Box className={classes.root}>
+    <Box sx={{ display: "flex", height: "100%", overflow: "hidden", width: "100%" }}>
       <TopBar onMobileNavOpen={() => setMobileNavOpen(!isMobileNavOpen)} />
       <NavBar
         onMobileClose={() => setMobileNavOpen(false)}
         isMobileMode={isMobileNavOpen}
         items={sideNavs}
       />
-      <Box className={classes.wrapper}>
-        <Box className={classes.contentContainer}>
-          <Box className={classes.content}>
+      <Box sx={{ display: "flex", flex: "1 1 auto", overflow: "hidden", pt: "64px" }}>
+        <Box sx={{ display: "flex", flex: "1 1 auto", overflow: "hidden" }}>
+          <Box sx={{ flex: "1 1 auto", height: "100%", overflow: "auto" }}>
             <Outlet />
           </Box>
         </Box>

@@ -6,7 +6,6 @@ import { Link as RouterLink } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Box, Hidden, IconButton, Toolbar } from "@mui/material";
 import { Button, Stack } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 
 import { DropdownMenu, Logo } from "@fengxia41103/storybook";
 
@@ -14,16 +13,9 @@ import LogoutIcon from "@Components/auth/LogoutIcon";
 import AddNewStockDialog from "@Components/stock/AddNewStockDialog";
 import TaskNotificationIcon from "@Components/task/TaskNotificationIcon";
 
-const myStyles = makeStyles(() => ({
-  root: {},
-  avatar: {
-    width: 60,
-    height: 60,
-  },
-}));
 
 const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
-  const classes = myStyles();
+  
 
   const actions = (
     <Stack alignItems="flex-start">
@@ -32,7 +24,7 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
   );
 
   return (
-    <AppBar className={clsx(classes.root, className)} elevation={0} {...rest}>
+    <AppBar className={className} elevation={0} {...rest}>
       <Toolbar>
         <RouterLink to="/">
           <Logo />
