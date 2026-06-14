@@ -236,6 +236,20 @@ export const DictTable = ({ data, title, interests, chart }) => {
   // If data is an array of objects with 'on' field (financial statements), render time-series table
   if (Array.isArray(data) && data.length > 0 && data[0].on && interests) {
     const fields = Object.entries(interests); // [[fieldKey, label], ...]
+
+    const formatVal = (val) => {
+      if (val == null) return "-";
+      if (typeof val !== "number") return String(val);
+      return val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
+
+    const cellColor = (val) => {
+      if (typeof val !== "number") return undefined;
+      if (val > 0) return "#4caf50";
+      if (val < 0) return "#f44336";
+      return undefined;
+    };
+
     return (
       <Box>
         {title && <Typography variant="h6">{title}</Typography>}
@@ -270,13 +284,11 @@ export const DictTable = ({ data, title, interests, chart }) => {
                         padding: 4,
                         borderBottom: "1px solid #eee",
                         textAlign: "right",
+                        color: cellColor(d[key]),
+                        fontWeight: typeof d[key] === "number" ? 500 : "normal",
                       }}
                     >
-                      {d[key] != null
-                        ? typeof d[key] === "number"
-                          ? d[key].toFixed(4)
-                          : String(d[key])
-                        : "-"}
+                      {formatVal(d[key])}
                     </td>
                   ))}
                 </tr>
@@ -292,7 +304,7 @@ export const DictTable = ({ data, title, interests, chart }) => {
                 tooltip: { trigger: "axis" },
                 legend: { data: fields.slice(0, 5).map(([, l]) => l) },
                 xAxis: { type: "category", data: data.map((d) => d.on) },
-                yAxis: { type: "value" },
+                yAxis: { type: "value", scale: true },
                 series: fields.slice(0, 5).map(([key, label]) => ({
                   name: label,
                   type: "line",
