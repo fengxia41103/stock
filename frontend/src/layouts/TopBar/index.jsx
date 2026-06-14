@@ -13,10 +13,7 @@ import LogoutIcon from "@Components/auth/LogoutIcon";
 import AddNewStockDialog from "@Components/stock/AddNewStockDialog";
 import TaskNotificationIcon from "@Components/task/TaskNotificationIcon";
 
-
 const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
-  
-
   const actions = (
     <Stack alignItems="flex-start">
       <AddNewStockDialog />

@@ -11,7 +11,6 @@ import AuthenticatedUser from "@Components/user/AuthenticatedUser";
 
 import NavItem from "@Layouts/NavBarItem";
 
-
 const NavBar = (props) => {
   const { onMobileClose, isMobileMode, items } = props;
   const { user: username } = useContext(GlobalContext);
@@ -20,7 +19,6 @@ const NavBar = (props) => {
     name: username,
   };
 
-  
   const location = useLocation();
 
   const content = (
@@ -60,7 +58,9 @@ const NavBar = (props) => {
     <Box sx={{ display: { xs: "none", sm: "none", md: "none", lg: "block" } }}>
       <Drawer
         anchor="left"
-        PaperProps={{ sx: { width: 256, top: 64, height: "calc(100% - 64px)" } }}
+        PaperProps={{
+          sx: { width: 256, top: 64, height: "calc(100% - 64px)" },
+        }}
         open={!isMobileMode}
         variant="persistent"
       >

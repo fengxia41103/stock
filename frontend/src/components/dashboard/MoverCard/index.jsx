@@ -18,10 +18,8 @@ import { ColoredNumber } from "@fengxia41103/storybook";
 
 import TaskNotificationIcon from "@Components/task/TaskNotificationIcon";
 
-
 const MoverCard = (props) => {
   const { title, subtitle, stocks, value, roundTo } = props;
-  
 
   const entries = map(stocks, (s) => {
     return (

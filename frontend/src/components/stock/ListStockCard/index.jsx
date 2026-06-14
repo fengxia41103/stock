@@ -22,13 +22,11 @@ import { ColoredNumber, DropdownMenu } from "@fengxia41103/storybook";
 import RecentPriceSparkline from "@Components/stock/RecentPriceSparkline";
 import StockSymbol from "@Components/stock/StockSymbol";
 
-
 const ListStockCard = (props) => {
   // props
   const { stocks, index, group_by, actions } = props;
 
   // hooks
-  
 
   let title;
   switch (group_by) {
