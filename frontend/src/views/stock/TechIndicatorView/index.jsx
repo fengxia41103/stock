@@ -302,7 +302,13 @@ const TechIndicatorView = () => {
       <CardHeader title={<Typography variant="h3">{title}</Typography>} />
       <CardContent>
         <Box mt={2}>
-          <ReactEChartsCore theme={localStorage.getItem("themeMode") === "dark" ? "dark" : undefined} option={option} style={{ height: 600 }} />
+          <ReactEChartsCore
+            theme={
+              localStorage.getItem("themeMode") === "dark" ? "dark" : undefined
+            }
+            option={option}
+            style={{ height: 600 }}
+          />
         </Box>
       </CardContent>
     </Card>
