@@ -22,14 +22,11 @@ import PriceChart from "@Components/stock/PriceChart";
 
 import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
 
-
 const PriceView = () => {
   const data = useContext(StockHistoricalContext);
   if (!Array.isArray(data) || data.length === 0) return null;
   const [first_data] = data;
   const { symbol } = first_data;
-
-  
 
   const stocks = map(data, (d) => {
     return { ...d, week: dayjs(d.on).week() };

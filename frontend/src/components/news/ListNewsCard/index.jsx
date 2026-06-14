@@ -18,11 +18,10 @@ import {
 
 import ShowResource from "@Components/common/ShowResource";
 
-
 const ListNewsCard = (props) => {
   const { topic, limit, searching } = props;
   const [resource, setResource] = useState();
-  
+
   const limit_count = isUndefined(limit) ? 10 : limit;
 
   const get_uri = () => {
