@@ -1,223 +1,72 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
 
-import csv
 import logging
-from datetime import datetime as dt
 from decimal import Decimal, InvalidOperation
-from functools import reduce
-from io import StringIO
 
 import yfinance as yf
-from dateutil.relativedelta import relativedelta
 
-from stock.models import MySector, MyStock, MyStockHistorical
+from stock.models import MyStock, MyStockHistorical
 
 logger = logging.getLogger("stock")
 
 
 class MyStockHistoricalYahoo:
-    def __init__(self, handler):
-        self.http_handler = handler
-        self.agent = handler.agent
+    def __init__(self, symbol):
+        self.symbol = symbol
 
-    def parser (self, symbol):
-        # Get stock and its existing historicals
-        stock, created = MyStock.objects.get_or_create(symbol=symbol)
+    def parser(self):
+        stock, created = MyStock.objects.get_or_create(symbol=self.symbol)
 
-        his = [
-            x.isoformat()
-            for x in MyStockHistorical.objects.filter(stock=stock).values_list(
-                "on", flat=True
-            )
-        ]
+        existing_dates = set(
+            MyStockHistorical.objects.filter(stock=stock)
+            .values_list("on", flat=True)
+            .distinct()
+        )
+        existing_isos = {d.isoformat() for d in existing_dates}
 
-        dat = yf.Ticker(symbol)
+        dat = yf.Ticker(self.symbol)
         df = dat.history("max")
         records = []
+
         for index, row in df.iterrows():
-            vals = row.values
-            # if not self._are_vals_valid(symbol, list(row.values)[0:4]):
-            #    logger.debug("invalid vals: {}".format(vals))
-            #    continue
-
-            # stamp = [int(v) for v in vals[0].split('-')]
-            # date_stamp = dt(year=stamp[0], month=stamp[1], day=stamp[2])
-            #date_stamp = dt.strptime(index, "%Y-%m-%d %H:%M:%S%z")
-            date_stamp = index
-
-            if date_stamp.date().isoformat() in his:
-                # logger.debug('already have this')
-                continue  # we already have these
-            else:
-                open_p, high_p, low_p, close_p = map(
-                    self._convert_to_decimal, vals[0:4]
-                )
-
-                vol = row["Volume"]
-                if not vol:
-                    vol = -1
-                else:
-                    vol = vol / 1000.0
-
-                # crude calculation of adjusted price
-                adj_p = close_p
-                if row["Dividends"]:
-                    adj_p = close_p - Decimal(row["Dividends"])
-                if row["Stock Splits"]:
-                    adj_p = adj_p / Decimal(row["Stock Splits"])
-
-                # Create an obj and wait for bulk creation
-                h = MyStockHistorical(
-                    stock=stock,
-                    on=date_stamp,
-                    open_price=open_p,
-                    high_price=high_p,
-                    low_price=low_p,
-                    close_price=close_p,
-                    vol=vol,
-                    adj_close=adj_p,
-                )
-                records.append(h)
-
-                # bulk creation
-                if len(records) >= 1000:
-                    MyStockHistorical.objects.bulk_create(records)
-                    records = []
-
-        # whatever left in records are to be saved to DB
-        if records:
-            MyStockHistorical.objects.bulk_create(records)
-
-        # persist
-        logger.debug("[%s] complete" % symbol)
-
-
-    def parser_old(self, symbol):
-        """Parse Yahoo api stock historical data.
-
-        Polling ichart.yahoo.com with manufactured query string (dark
-        magic) to get historical data of a given stock symbol.
-
-        Arguments
-        ---------
-          :param: sector: str, sector name
-          :param: symbol: str, stock symbol
-
-        Return
-        ------
-          none
-
-        """
-
-        # Get stock and its existing historicals
-        stock, created = MyStock.objects.get_or_create(symbol=symbol)
-
-        his = [
-            x.isoformat()
-            for x in MyStockHistorical.objects.filter(stock=stock).values_list(
-                "on", flat=True
-            )
-        ]
-
-        # Read Yahoo api to get data
-        # https://code.google.com/p/yahoo-finance-managed/wiki/csvHistQuotesDownload
-        unix_origin = dt(1970, 1, 1)
-        now = dt.now()
-        ago = now + relativedelta(years=-50)  # 50 years
-
-        # https://query1.finance.yahoo.com/v7/finance/download/AMZN?period1=863654400&period2=1607990400&interval=1d&events=history&includeAdjustedClose=true
-
-        date_str = "period1={}&period2={}".format(
-            int((ago - unix_origin).total_seconds()),
-            int((now - unix_origin).total_seconds()),
-        )
-        url = "https://query1.finance.yahoo.com/v7/finance/download/{}?{}&interval=1d&events=history&includeAdjustedClose=true".format(
-            symbol, date_str
-        )
-        logger.debug(url)
-        logger.info("reading {} historicals".format(symbol))
-        content = self.http_handler.request(url)
-
-        # Parse data to update stock historicals
-        f = StringIO(content)
-        records = []
-        for cnt, vals in enumerate(csv.reader(f)):
-            if not self._are_vals_valid(symbol, vals):
-                logger.debug("invalid vals: {}".format(vals))
+            if index.date().isoformat() in existing_isos:
                 continue
 
-            # stamp = [int(v) for v in vals[0].split('-')]
-            # date_stamp = dt(year=stamp[0], month=stamp[1], day=stamp[2])
-            date_stamp = dt.strptime(vals[0], "%Y-%m-%d")
-            if date_stamp.date().isoformat() in his:
-                # logger.debug('already have this')
-                continue  # we already have these
-            else:
-                open_p, high_p, low_p, close_p, adj_p = map(
-                    self._convert_to_decimal, vals[1:6]
-                )
+            vals = row.values
+            open_p, high_p, low_p, close_p = map(self._to_decimal, vals[0:4])
 
-                if vals[6] is None or vals[6] == "null":
-                    vol = -1
-                else:
-                    vol = int(vals[6]) / 1000.0
+            vol = row["Volume"]
+            vol = vol / 1000.0 if vol else -1
 
-                # Create an obj and wait for bulk creation
-                h = MyStockHistorical(
-                    stock=stock,
-                    on=date_stamp,
-                    open_price=open_p,
-                    high_price=high_p,
-                    low_price=low_p,
-                    close_price=close_p,
-                    vol=vol,
-                    adj_close=adj_p,
-                )
-                records.append(h)
+            adj_p = close_p
+            if row["Dividends"]:
+                adj_p = close_p - Decimal(str(row["Dividends"]))
+            if row["Stock Splits"] and row["Stock Splits"] != 0:
+                adj_p = adj_p / Decimal(str(row["Stock Splits"]))
 
-                # bulk creation
-                if len(records) >= 1000:
-                    MyStockHistorical.objects.bulk_create(records)
-                    records = []
+            records.append(MyStockHistorical(
+                stock=stock,
+                on=index.date(),
+                open_price=float(open_p),
+                high_price=float(high_p),
+                low_price=float(low_p),
+                close_price=float(close_p),
+                vol=float(vol),
+                adj_close=float(adj_p),
+            ))
 
-        # whatever left in records are to be saved to DB
+            if len(records) >= 1000:
+                MyStockHistorical.objects.bulk_create(records)
+                records = []
+
         if records:
             MyStockHistorical.objects.bulk_create(records)
 
-        # persist
-        logger.debug("[%s] complete" % symbol)
+        logger.debug(f"[{self.symbol}] complete")
 
-    def _convert_to_decimal(self, val):
+    @staticmethod
+    def _to_decimal(val):
         try:
-            me = Decimal(val)
-        except InvalidOperation:
-            me = Decimal(-1)
-        return me
-
-    def _are_vals_valid(self, symbol, vals):
-        """Check vals for some edge conditions.
-
-        Returns:
-          :bool: TRUE when vals are good for parsing.
-        """
-        if not vals:
-            # protect from blank line or invalid symbol, eg. China
-            # stock symbols logger.debug('not vals')
-            logger.error("vals are empty or None")
-            return False
-
-        if not reduce(lambda x, y: x and y, vals):
-            # any empty string, None will be skipped
-            logger.error("not all columns have value")
-            return False
-
-        if len(vals) != 5:
-            logger.error("[%s] error, %d" % (symbol, len(vals)))
-            return False
-
-        elif "Adj" in vals[-2]:
-            # this is to skip the column header line
-            return False
-
-        return True
+            return Decimal(str(val))
+        except (InvalidOperation, ValueError):
+            return Decimal(-1)
