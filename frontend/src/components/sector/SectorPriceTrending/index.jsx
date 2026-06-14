@@ -20,9 +20,9 @@ const SectorPriceTrending = (props) => {
   ];
   const { start, end, stocks: stock_ids } = props;
   const [resource] = useState(
-    `/historicals?stock__in=${stock_ids.join(
+    `/historicals/?stock__in=${stock_ids.join(
       ",",
-    )}&on__range=${start},${end}&order_by=-on`,
+    )}&on__range=${start},${end}&ordering=-on`,
   );
 
   const render_data = (data) => {

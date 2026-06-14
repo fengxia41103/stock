@@ -25,7 +25,7 @@ const SectorStocksLowerBetterView = () => {
   const [end] = useState(get_today_string());
 
   const stock_price_trend_charts = map(stocks_detail, (d) => {
-    const resource = `/historicals?stock=${d.id}&on__range=${start},${end}&order_by=on`;
+    const resource = `/historicals?stock=${d.id}&on__range=${start},${end}&ordering=on`;
 
     const render_data = (data) => {
       const historicals = Array.isArray(data) ? data : data.results || data.objects || [];
