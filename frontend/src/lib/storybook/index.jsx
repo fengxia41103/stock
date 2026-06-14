@@ -62,7 +62,7 @@ export const HighchartGraph = ({
     xAxis: isBubble
       ? { type: "value", name: xLabel || "" }
       : { type: "category", data: categories || [], name: xLabel || "" },
-    yAxis: { type: "value", name: yLabel || "" },
+    yAxis: { type: "value", name: yLabel || "", scale: true },
     series,
     dataZoom: isBubble ? undefined : [{ type: "inside" }, { type: "slider" }],
   };
