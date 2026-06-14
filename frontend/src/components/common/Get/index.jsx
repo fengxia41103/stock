@@ -18,7 +18,8 @@ const Get = ({ uri, on_success, on_error, silent }) => {
         if (!cancelled) {
           // Normalize paginated responses
           const d = r.data;
-          const normalized = d && !Array.isArray(d) && Array.isArray(d.results) ? d.results : d;
+          const normalized =
+            d && !Array.isArray(d) && Array.isArray(d.results) ? d.results : d;
           setData(normalized);
           setLoading(false);
         }
