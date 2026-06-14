@@ -124,7 +124,9 @@ const RankingScores = (props) => {
                 </Typography>
               }
             />
-            <CardContent sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+            <CardContent
+              sx={{ flex: 1, display: "flex", flexDirection: "column" }}
+            >
               <Typography variant="body2">
                 Score measures both the occurance of a symbol on the TOP list,
                 and its relative ranking each time. If it&apos;s ranked #1, and
