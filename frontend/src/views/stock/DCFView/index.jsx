@@ -1,5 +1,7 @@
 import { map, merge } from "lodash";
 import React, { useContext, useState } from "react";
+import { useParams } from "react-router-dom";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 import {
   Box,
@@ -12,14 +14,20 @@ import {
   Typography,
 } from "@mui/material";
 
+import { useResource } from "@/api";
 import FinancialCard from "@Components/stock/FinancialCard";
 
 import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const DCFView = () => {
+  const { id } = useParams();
   const stock = useContext(StockDetailContext);
   if (!stock || !stock.symbol) return null;
-  const { symbol } = stock;
+
+  const { data: cross_statements_model, isLoading } = useResource(
+    ["cross-statements", id],
+    `/stocks/${id}/cross-statements/`,
+  );
 
   const [input_open, setInputOpen] = useState(false);
   const open_input_drawer = () => setInputOpen(true);
@@ -51,8 +59,9 @@ const DCFView = () => {
     setTerminalGrowthRate(event.target.value);
   };
 
-  const compute_dcf = (stock_data) => {
-    const { cross_statements_model, beta } = stock_data;
+  const compute_dcf = () => {
+    if (!cross_statements_model || !Array.isArray(cross_statements_model)) return [];
+    const beta = stock.beta || 1;
 
     const dcf_values = map(cross_statements_model, (d) => {
       const cost_of_equity = risk_free / 100 + (beta * market_premium) / 100;
@@ -199,7 +208,9 @@ const DCFView = () => {
     );
   });
 
-  const dcf_values = compute_dcf(stock);
+  if (isLoading || !cross_statements_model) return <ScaleLoader loading />;
+
+  const dcf_values = compute_dcf();
   return (
     <>
       <Typography variant="h2">DCF Model</Typography>

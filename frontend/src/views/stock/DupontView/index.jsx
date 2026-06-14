@@ -1,15 +1,17 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useParams } from "react-router-dom";
 
 import { Typography } from "@mui/material";
 
+import { useResource } from "@/api";
 import FinancialCard from "@Components/stock/FinancialCard";
-
-import StockDetailContext from "@Views/stock/StockDetailView/context";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 const DupontView = () => {
-  const stock = useContext(StockDetailContext);
-  if (!stock || !stock.symbol) return null;
-  const { symbol } = stock;
+  const { id } = useParams();
+  const { data, isLoading } = useResource(["dupont", id], `/stocks/${id}/dupont/`);
+
+  if (isLoading || !data) return <ScaleLoader loading />;
 
   const reported = {
     revenue: "Revenue",
@@ -24,12 +26,10 @@ const DupontView = () => {
     equity_multiplier: "Equity Multiplier",
   };
 
-  const { dupont_model } = stock;
-
   return (
     <>
       <Typography variant="h2">Dupont ROE Model</Typography>
-      <FinancialCard data={dupont_model} {...{ reported, analysis }} />
+      <FinancialCard data={data} {...{ reported, analysis }} />
     </>
   );
 };

@@ -1,27 +1,28 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useParams } from "react-router-dom";
 
 import { Typography } from "@mui/material";
 
+import { useResource } from "@/api";
 import FinancialCard from "@Components/stock/FinancialCard";
-
-import StockDetailContext from "@Views/stock/StockDetailView/context";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 const NavView = () => {
-  const stock = useContext(StockDetailContext);
-  if (!stock || !stock.symbol) return null;
-  const { symbol } = stock;
+  const { id } = useParams();
+  const { data, isLoading } = useResource(["nav", id], `/stocks/${id}/nav/`);
+
+  if (isLoading || !data) return <ScaleLoader loading />;
 
   const reported = {
-    nav: "NAV",
+    nav: "Net Asset Value Per Share",
   };
-
-  const { nav_model } = stock;
 
   return (
     <>
-      <Typography variant="h2">Net Asset Model</Typography>
-      <FinancialCard data={nav_model} reported={reported} />
+      <Typography variant="h2">Net Asset Value</Typography>
+      <FinancialCard data={data} reported={reported} />
     </>
   );
 };
+
 export default NavView;
