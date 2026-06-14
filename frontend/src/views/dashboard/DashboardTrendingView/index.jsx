@@ -41,8 +41,6 @@ const DashboardTrendingView = () => {
   // states
   const [resource, setResource] = useState("");
   const [today, setToday] = useState(moment());
-  const [start, setStart] = useState();
-  const [end, setEnd] = useState();
   const [useTimeLapseRanking, setUseTimeLapseRanking] = useState(false);
 
   // default back track one week from today
@@ -50,37 +48,23 @@ const DashboardTrendingView = () => {
 
   const [follow, setFollow] = useState("gainer");
 
+  // Compute start/end from today and backWeek
+  const end = today.format(DATE_FORMAT);
+  const start = moment(today).add(-1 * parseInt(backWeek, 10), "w").format(DATE_FORMAT);
+
   // hooks
   useEffect(() => {
-    update_data(today);
-  });
-
-  // helpers
-  // adjusting the starting point, handling weekends
-  const update_data = () => {
-    const now = moment(today);
-
-    // NOTE: must set `end` first because this modifies the `temp_now`
-    // in place!
-    setEnd(now.format(DATE_FORMAT));
-    setStart(now.add(-1 * parseInt(backWeek, 10), "w").format(DATE_FORMAT));
-    setResource(`/historicals?on__range=${start},${end}&order_by=-on`);
-  };
+    setResource(`/historicals/?on__range=${start},${end}&ordering=-on`);
+  }, [start, end]);
 
   // event handlers
   const today_change = (event) => {
     const now = moment(event.target.value, DATE_FORMAT);
-
-    // update state
     setToday(now);
-
-    // update resource
-    update_data();
   };
 
   const backWeek_change = (event, val) => {
     setBackWeek(val);
-    update_data();
   };
 
   const follow_change = (event) => {
@@ -146,7 +130,7 @@ const DashboardTrendingView = () => {
 
   // renders
   const render_data = (data) => {
-    const { objects: stocks } = data;
+    const stocks = Array.isArray(data) ? data : data.objects || [];
 
     // all symbols are color-coded
     const symbols = [...new Set(map(stocks, (s) => s.symbol))];
