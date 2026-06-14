@@ -4,6 +4,8 @@ from datetime import date, timedelta
 
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.models import User
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from rest_framework import status, viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action, api_view, permission_classes
@@ -295,6 +297,7 @@ class RankingViewSet(viewsets.ViewSet):
 
 
 class StockRankViewSet(RankingViewSet):
+    @method_decorator(cache_page(300))
     def list(self, request):
         attrs = [
             (0, "roe", True),
@@ -312,6 +315,7 @@ class StockRankViewSet(RankingViewSet):
 
 
 class BalanceRankViewSet(RankingViewSet):
+    @method_decorator(cache_page(300))
     def list(self, request):
         attrs = [
             (0, "current_ratio", True), (1, "quick_ratio", True),
@@ -330,6 +334,7 @@ class BalanceRankViewSet(RankingViewSet):
 
 
 class CashRankViewSet(RankingViewSet):
+    @method_decorator(cache_page(300))
     def list(self, request):
         attrs = [
             (0, "dividend_payout_ratio", True), (1, "operating_cash_flow_growth", True),
@@ -340,6 +345,7 @@ class CashRankViewSet(RankingViewSet):
 
 
 class IncomeRankViewSet(RankingViewSet):
+    @method_decorator(cache_page(300))
     def list(self, request):
         attrs = [
             (0, "net_income_growth_rate", True), (1, "operating_income_growth_rate", True),
@@ -357,6 +363,7 @@ class IncomeRankViewSet(RankingViewSet):
 
 
 class ValuationRankViewSet(RankingViewSet):
+    @method_decorator(cache_page(300))
     def list(self, request):
         attrs = [(0, "pe", False), (1, "pb", False), (2, "ps", False)]
         return Response(self._filter_results(request, self._get_ranks(request, ValuationRatio.objects, attrs)))

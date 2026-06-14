@@ -12,6 +12,9 @@ celery>=5.4.0
 redis>=5.0.0
 django-celery-results>=2.5.0
 
+# Cache
+django-redis>=5.4.0
+
 # Data sources
 yahooquery>=2.3.7
 yfinance>=0.2.40
