@@ -1,32 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
-
+import React from "react";
 import PropTypes from "prop-types";
 import ScaleLoader from "react-spinners/ScaleLoader";
+import { useQuery } from "@tanstack/react-query";
 
 import api from "@/api/client";
 
 const PollResource = ({ resource, on_success, interval = 10, silent }) => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const timerRef = useRef(null);
+  const { data, isLoading } = useQuery({
+    queryKey: ["poll", resource],
+    queryFn: () =>
+      api.get(encodeURI(resource)).then((r) => {
+        const d = r.data;
+        return d && !Array.isArray(d) && Array.isArray(d.results) ? d.results : d;
+      }),
+    enabled: !!resource,
+    refetchInterval: interval * 1000,
+  });
 
-  const fetchData = () => {
-    api
-      .get(encodeURI(resource))
-      .then((r) => {
-        setData(r.data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  };
-
-  useEffect(() => {
-    fetchData();
-    timerRef.current = setInterval(fetchData, interval * 1000);
-    return () => clearInterval(timerRef.current);
-  }, [resource, interval]);
-
-  if (loading) return silent ? null : <ScaleLoader loading />;
+  if (isLoading) return silent ? null : <ScaleLoader loading />;
   return on_success ? on_success(data) : null;
 };
 

@@ -1,41 +1,22 @@
-import React, { useEffect, useState } from "react";
-
+import React from "react";
 import PropTypes from "prop-types";
 import ScaleLoader from "react-spinners/ScaleLoader";
+import { useQuery } from "@tanstack/react-query";
 
 import api from "@/api/client";
 
 const Get = ({ uri, on_success, on_error, silent }) => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["get", uri],
+    queryFn: () =>
+      api.get(encodeURI(uri)).then((r) => {
+        const d = r.data;
+        return d && !Array.isArray(d) && Array.isArray(d.results) ? d.results : d;
+      }),
+    enabled: !!uri,
+  });
 
-  useEffect(() => {
-    let cancelled = false;
-    api
-      .get(encodeURI(uri))
-      .then((r) => {
-        if (!cancelled) {
-          // Normalize paginated responses
-          const d = r.data;
-          const normalized =
-            d && !Array.isArray(d) && Array.isArray(d.results) ? d.results : d;
-          setData(normalized);
-          setLoading(false);
-        }
-      })
-      .catch((e) => {
-        if (!cancelled) {
-          setError(e);
-          setLoading(false);
-        }
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [uri]);
-
-  if (loading) return silent ? null : <ScaleLoader loading />;
+  if (isLoading) return silent ? null : <ScaleLoader loading />;
   if (error) return on_error ? on_error(error) : null;
   return on_success ? on_success(data) : null;
 };
