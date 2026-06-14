@@ -83,7 +83,7 @@ const AddStocksToSectorDialog = (props) => {
 
   const render_data = (data) => {
     if (isEmpty(sectors)) {
-      sectors = data.objects;
+      sectors = Array.isArray(data) ? data : data.results || data.objects || [];
     }
 
     const selections = map(sectors, (s) => {
