@@ -8,6 +8,7 @@ import { daily_return_stats, daily_returns } from "@Utils/stock/returns";
 
 const DailyReturnView = () => {
   const data = useContext(StockHistoricalContext);
+  if (!Array.isArray(data) || data.length < 2) return null;
   const returns = daily_returns(data);
   const stats = daily_return_stats(data);
   const p = { ...{ name: "Daytime Return", returns, stats } };

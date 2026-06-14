@@ -11,6 +11,8 @@ import {
 
 const TwentyFourHourReturnView = () => {
   const data = useContext(StockHistoricalContext);
+  if (!Array.isArray(data) || data.length < 2) return null;
+
   const returns = twenty_four_hour_returns(data);
   const stats = twenty_four_hour_stats(data);
   const p = { ...{ name: "Return of 24-hour", returns, stats } };

@@ -11,6 +11,7 @@ import {
 
 const OvernightReturnView = () => {
   const data = useContext(StockHistoricalContext);
+  if (!Array.isArray(data) || data.length < 2) return null;
   const returns = overnight_returns(data);
   const stats = overnight_return_stats(data);
   const p = { ...{ name: "Overnight Return", returns, stats } };
