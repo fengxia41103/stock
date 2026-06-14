@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "django_filters",
+    "drf_spectacular",
     "corsheaders",
     "django_celery_results",
     # Local
@@ -106,6 +107,13 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 200,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+# OpenAPI schema
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Stock Analysis API",
+    "VERSION": "1.0.0",
 }
 
 # Celery
