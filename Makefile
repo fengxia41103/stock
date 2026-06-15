@@ -39,3 +39,11 @@ logs:
 # View celery logs
 logs-celery:
 	docker compose logs -f celery --tail 50
+
+# Purge failed tasks
+purge-tasks:
+	docker compose exec web python manage.py purge_tasks
+
+# Purge all tasks
+purge-tasks-all:
+	docker compose exec web python manage.py purge_tasks --all
