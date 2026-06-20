@@ -1,0 +1,29 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:9.7.0
+        env: { MYSQL_DATABASE: test_stock, MYSQL_ROOT_PASSWORD: test }
+        ports: ['3306:3306']
+      redis:
+        image: redis
+        ports: ['6379:6379']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install pip-tools && pip-sync backend/requirements.txt
+      - run: cd backend && pytest --cov=stock --cov-fail-under=40
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: cd frontend && yarn install --frozen-lockfile
+      - run: cd frontend && yarn vitest run --coverage
+      - run: cd frontend && yarn build
