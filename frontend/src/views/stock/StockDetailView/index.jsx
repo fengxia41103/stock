@@ -82,7 +82,9 @@ const StockDetailView = () => {
   const { activeSection, activeItem } = useMemo(() => {
     const rel = location.pathname.replace(basePath + "/", "");
     for (let si = 0; si < sections.length; si++) {
-      const idx = sections[si].items.findIndex((item) => rel.startsWith(item.url));
+      const idx = sections[si].items.findIndex((item) =>
+        rel.startsWith(item.url),
+      );
       if (idx !== -1) return { activeSection: si, activeItem: idx };
     }
     return { activeSection: 0, activeItem: 0 };
@@ -96,7 +98,8 @@ const StockDetailView = () => {
 
   // Filter sections based on data availability
   const visibleSections = sections.filter((s) => {
-    if (s.label === "Financials" || s.label === "Valuation") return has_statements;
+    if (s.label === "Financials" || s.label === "Valuation")
+      return has_statements;
     return true;
   });
 
@@ -106,15 +109,30 @@ const StockDetailView = () => {
     <Page title={symbol}>
       <Container maxWidth={false}>
         {/* Header */}
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={2}
+        >
           <Typography variant="h4">{symbol}</Typography>
           <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
             <SettingsIcon />
           </IconButton>
-          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
-            <MenuItem><StockLinkToSector {...stock} /></MenuItem>
-            <MenuItem><UpdateStock {...stock} /></MenuItem>
-            <MenuItem><DeleteStock {...stock} /></MenuItem>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={() => setAnchorEl(null)}
+          >
+            <MenuItem>
+              <StockLinkToSector {...stock} />
+            </MenuItem>
+            <MenuItem>
+              <UpdateStock {...stock} />
+            </MenuItem>
+            <MenuItem>
+              <DeleteStock {...stock} />
+            </MenuItem>
           </Menu>
         </Stack>
 
@@ -137,7 +155,9 @@ const StockDetailView = () => {
         {/* Sub-navigation tabs */}
         <Tabs
           value={activeItem}
-          onChange={(_, v) => navigate(`${basePath}/${currentSection.items[v].url}`)}
+          onChange={(_, v) =>
+            navigate(`${basePath}/${currentSection.items[v].url}`)
+          }
           variant="scrollable"
           scrollButtons="auto"
           textColor="secondary"
@@ -145,7 +165,11 @@ const StockDetailView = () => {
           sx={{ mb: 2 }}
         >
           {currentSection.items.map((item) => (
-            <Tab key={item.url} label={item.text} sx={{ textTransform: "none", minHeight: 36, py: 0 }} />
+            <Tab
+              key={item.url}
+              label={item.text}
+              sx={{ textTransform: "none", minHeight: 36, py: 0 }}
+            />
           ))}
         </Tabs>
 

@@ -60,7 +60,8 @@ const DCFView = () => {
   };
 
   const compute_dcf = () => {
-    if (!cross_statements_model || !Array.isArray(cross_statements_model)) return [];
+    if (!cross_statements_model || !Array.isArray(cross_statements_model))
+      return [];
     const beta = stock.beta || 1;
 
     const dcf_values = map(cross_statements_model, (d) => {

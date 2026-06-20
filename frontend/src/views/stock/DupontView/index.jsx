@@ -9,7 +9,10 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 
 const DupontView = () => {
   const { id } = useParams();
-  const { data, isLoading } = useResource(["dupont", id], `/stocks/${id}/dupont/`);
+  const { data, isLoading } = useResource(
+    ["dupont", id],
+    `/stocks/${id}/dupont/`,
+  );
 
   if (isLoading || !data) return <ScaleLoader loading />;
 
