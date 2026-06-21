@@ -28,7 +28,7 @@ class StockListSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyStock
         fields = [
-            "id", "symbol", "beta", "roa", "roe", "profit_margin",
+            "id", "symbol", "name", "beta", "roa", "roe", "profit_margin",
             "shares_outstanding", "top_ten_institution_ownership",
             "institution_count", "pe", "pb", "ps", "last_lower",
             "last_better", "last_reporting_date", "price_to_cash_premium",
