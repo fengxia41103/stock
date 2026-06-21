@@ -48,12 +48,8 @@ const CashFlowView = lazy(() => import("@Views/stock/CashFlowView"));
 const DCFView = lazy(() => import("@Views/stock/DCFView"));
 const DupontView = lazy(() => import("@Views/stock/DupontView"));
 const NavView = lazy(() => import("@Views/stock/NavView"));
-const InsiderTradesView = lazy(() =>
-  import("@Views/stock/InsiderTradesView"),
-);
-const InstitutionalView = lazy(() =>
-  import("@Views/stock/InstitutionalView"),
-);
+const InsiderTradesView = lazy(() => import("@Views/stock/InsiderTradesView"));
+const InstitutionalView = lazy(() => import("@Views/stock/InstitutionalView"));
 const EarningsView = lazy(() => import("@Views/stock/EarningsView"));
 const ValuationRatiosView = lazy(() =>
   import("@Views/stock/ValuationRatiosView"),

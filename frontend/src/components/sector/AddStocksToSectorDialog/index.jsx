@@ -30,13 +30,13 @@ const AddStocksToSectorDialog = ({ stocks }) => {
   const add = async () => {
     const stockIds = stocks.map((s) => s.id);
 
-    const promises = (Array.isArray(sectors) ? sectors : []).filter(
-      (s) => selected[s.name],
-    ).map((s) => {
-      const existingIds = (s.stocks_detail || []).map((st) => st.id);
-      const merged = [...new Set([...existingIds, ...stockIds])];
-      return api.patch(`/sectors/${s.id}/`, { stocks: merged });
-    });
+    const promises = (Array.isArray(sectors) ? sectors : [])
+      .filter((s) => selected[s.name])
+      .map((s) => {
+        const existingIds = (s.stocks_detail || []).map((st) => st.id);
+        const merged = [...new Set([...existingIds, ...stockIds])];
+        return api.patch(`/sectors/${s.id}/`, { stocks: merged });
+      });
 
     await Promise.all(promises);
     qc.invalidateQueries({ queryKey: ["sectors"] });

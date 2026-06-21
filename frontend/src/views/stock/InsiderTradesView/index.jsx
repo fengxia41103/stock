@@ -71,7 +71,9 @@ const InsiderTradesView = () => {
         type: "value",
         axisLabel: {
           formatter: (v) =>
-            v >= 1e6 ? `$${(v / 1e6).toFixed(1)}M` : `$${(v / 1e3).toFixed(0)}K`,
+            v >= 1e6
+              ? `$${(v / 1e6).toFixed(1)}M`
+              : `$${(v / 1e3).toFixed(0)}K`,
         },
       },
       series: [
@@ -92,12 +94,19 @@ const InsiderTradesView = () => {
       ],
     };
 
-    return { sentiment: sent, chartOption: option, purchases: buys, sales: sells };
+    return {
+      sentiment: sent,
+      chartOption: option,
+      purchases: buys,
+      sales: sells,
+    };
   }, [trades]);
 
   if (isLoading) return <ScaleLoader loading />;
   if (!trades || trades.length === 0) {
-    return <Typography color="text.secondary">No insider trades found.</Typography>;
+    return (
+      <Typography color="text.secondary">No insider trades found.</Typography>
+    );
   }
 
   // Cluster buy detection: 3+ unique insiders bought within 14 days
@@ -122,8 +131,14 @@ const InsiderTradesView = () => {
       <Box sx={{ display: "flex", gap: 2, mb: 2, alignItems: "center" }}>
         <Typography variant="h6">Insider Sentiment (3M):</Typography>
         <Chip
-          label={sentiment > 0 ? `+${(sentiment * 100).toFixed(0)}%` : `${(sentiment * 100).toFixed(0)}%`}
-          color={sentiment > 0 ? "success" : sentiment < 0 ? "error" : "default"}
+          label={
+            sentiment > 0
+              ? `+${(sentiment * 100).toFixed(0)}%`
+              : `${(sentiment * 100).toFixed(0)}%`
+          }
+          color={
+            sentiment > 0 ? "success" : sentiment < 0 ? "error" : "default"
+          }
         />
         <Typography variant="body2" color="text.secondary">
           {purchases.length} buys, {sales.length} sales
@@ -163,17 +178,33 @@ const InsiderTradesView = () => {
                 <TableCell>{t.insider_title}</TableCell>
                 <TableCell>
                   <Chip
-                    label={t.transaction_type === "P" ? "Buy" : t.transaction_type === "S" ? "Sell" : t.transaction_type}
+                    label={
+                      t.transaction_type === "P"
+                        ? "Buy"
+                        : t.transaction_type === "S"
+                        ? "Sell"
+                        : t.transaction_type
+                    }
                     size="small"
-                    color={t.transaction_type === "P" ? "success" : t.transaction_type === "S" ? "error" : "default"}
+                    color={
+                      t.transaction_type === "P"
+                        ? "success"
+                        : t.transaction_type === "S"
+                        ? "error"
+                        : "default"
+                    }
                   />
                 </TableCell>
-                <TableCell align="right">{t.shares?.toLocaleString()}</TableCell>
+                <TableCell align="right">
+                  {t.shares?.toLocaleString()}
+                </TableCell>
                 <TableCell align="right">
                   {t.price_per_share ? `$${t.price_per_share.toFixed(2)}` : "—"}
                 </TableCell>
                 <TableCell align="right">
-                  {t.total_value ? `$${(t.total_value / 1000).toFixed(1)}K` : "—"}
+                  {t.total_value
+                    ? `$${(t.total_value / 1000).toFixed(1)}K`
+                    : "—"}
                 </TableCell>
               </TableRow>
             ))}

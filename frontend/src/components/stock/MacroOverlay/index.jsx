@@ -11,12 +11,22 @@ import {
 import ReactEChartsCore from "echarts-for-react/lib/core";
 import * as echarts from "echarts/core";
 import { LineChart } from "echarts/charts";
-import { GridComponent, TooltipComponent, LegendComponent } from "echarts/components";
+import {
+  GridComponent,
+  TooltipComponent,
+  LegendComponent,
+} from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
 
 import { useMacroData } from "@/api";
 
-echarts.use([LineChart, GridComponent, TooltipComponent, LegendComponent, CanvasRenderer]);
+echarts.use([
+  LineChart,
+  GridComponent,
+  TooltipComponent,
+  LegendComponent,
+  CanvasRenderer,
+]);
 
 const MACRO_SERIES = [
   { id: "DGS10", label: "10Y Treasury (%)", color: "#ff9800" },
@@ -52,7 +62,13 @@ const MacroOverlay = ({ priceData }) => {
                 }}
               />
             }
-            label={<Chip label={s.label} size="small" sx={{ bgcolor: s.color, color: "#fff" }} />}
+            label={
+              <Chip
+                label={s.label}
+                size="small"
+                sx={{ bgcolor: s.color, color: "#fff" }}
+              />
+            }
           />
         ))}
       </FormGroup>
@@ -77,7 +93,14 @@ const MacroChart = ({ selected, priceData, startDate }) => {
   return (
     <Box mt={1}>
       {queries.map((q) => (
-        <MacroSeriesChart key={q.id} seriesId={q.id} label={q.label} color={q.color} startDate={startDate} priceData={priceData} />
+        <MacroSeriesChart
+          key={q.id}
+          seriesId={q.id}
+          label={q.label}
+          color={q.color}
+          startDate={startDate}
+          priceData={priceData}
+        />
       ))}
     </Box>
   );
@@ -87,7 +110,11 @@ const MacroSeriesChart = ({ seriesId, label, color, startDate, priceData }) => {
   const { data: macroPoints } = useMacroData(seriesId, startDate);
 
   if (!macroPoints || !Array.isArray(macroPoints) || macroPoints.length === 0) {
-    return <Typography variant="caption" color="text.secondary">No data for {label}. Set FRED_API_KEY and run fred_weekly.</Typography>;
+    return (
+      <Typography variant="caption" color="text.secondary">
+        No data for {label}. Set FRED_API_KEY and run fred_weekly.
+      </Typography>
+    );
   }
 
   // Build dual-axis chart: price on left, macro on right
@@ -96,7 +123,9 @@ const MacroSeriesChart = ({ seriesId, label, color, startDate, priceData }) => {
 
   // Align macro data to date strings
   const macroMap = {};
-  macroPoints.forEach((p) => { macroMap[p.date] = p.value; });
+  macroPoints.forEach((p) => {
+    macroMap[p.date] = p.value;
+  });
   const macroDates = [...macroPoints].reverse().map((p) => p.date);
   const macroValues = [...macroPoints].reverse().map((p) => p.value);
 
@@ -136,7 +165,11 @@ const MacroSeriesChart = ({ seriesId, label, color, startDate, priceData }) => {
   };
 
   return (
-    <ReactEChartsCore echarts={echarts} option={option} style={{ height: 250 }} />
+    <ReactEChartsCore
+      echarts={echarts}
+      option={option}
+      style={{ height: 250 }}
+    />
   );
 };
 
