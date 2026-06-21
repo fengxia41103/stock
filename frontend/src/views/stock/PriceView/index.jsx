@@ -103,7 +103,7 @@ const PriceView = () => {
               }
             />
             <CardContent>
-              <PriceChart data={data} />
+              <PriceChart data={data} earnings={earningsInRange} />
               {earningsInRange.length > 0 && (
                 <Stack
                   direction="row"
