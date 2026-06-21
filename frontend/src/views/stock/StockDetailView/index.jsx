@@ -5,6 +5,7 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 import SettingsIcon from "@mui/icons-material/Settings";
 import {
   Box,
+  Chip,
   Container,
   Divider,
   IconButton,
@@ -104,6 +105,15 @@ const StockDetailView = () => {
   const { symbol } = stock;
   const has_statements = !!stock.last_reporting_date;
 
+  // Stale detection: > 2 calendar days since last price
+  const isStale = (() => {
+    if (!stock.last_price_date) return false;
+    const lastDate = new Date(stock.last_price_date);
+    const now = new Date();
+    const diffDays = (now - lastDate) / (1000 * 60 * 60 * 24);
+    return diffDays > 2;
+  })();
+
   // Filter sections based on data availability
   const visibleSections = sections.filter((s) => {
     if (s.label === "Financials" || s.label === "Valuation")
@@ -126,6 +136,19 @@ const StockDetailView = () => {
           <Typography variant="h1">
             {stock.name ? `${stock.name} (${symbol})` : symbol}
           </Typography>
+          <Stack direction="row" spacing={1} alignItems="center">
+            {stock.latest_close_price && (
+              <Chip label={`$${stock.latest_close_price.toFixed(2)}`} size="small" />
+            )}
+            {stock.last_price_date && (
+              <Typography variant="caption" color="text.secondary">
+                {stock.last_price_date}
+              </Typography>
+            )}
+            {isStale && (
+              <Chip label="Stale" size="small" color="warning" />
+            )}
+          </Stack>
           <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
             <SettingsIcon />
           </IconButton>

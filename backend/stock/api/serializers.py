@@ -38,6 +38,7 @@ class StockListSerializer(serializers.ModelSerializer):
 class StockDetailSerializer(StockListSerializer):
     tax_rate = serializers.FloatField(read_only=True)
     latest_close_price = serializers.FloatField(read_only=True)
+    last_price_date = serializers.DateField(read_only=True)
     dupont_roe = serializers.FloatField(read_only=True)
     roe_dupont_reported_gap = serializers.FloatField(read_only=True)
     insider_sentiment_3m = serializers.FloatField(read_only=True)
@@ -45,7 +46,7 @@ class StockDetailSerializer(StockListSerializer):
 
     class Meta(StockListSerializer.Meta):
         fields = StockListSerializer.Meta.fields + [
-            "tax_rate", "latest_close_price",
+            "tax_rate", "latest_close_price", "last_price_date",
             "dupont_roe", "roe_dupont_reported_gap",
             "insider_sentiment_3m", "earnings_beat_rate",
         ]

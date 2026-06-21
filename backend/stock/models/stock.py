@@ -38,6 +38,11 @@ class MyStock(models.Model):
         return hist.close_price if hist else None
 
     @property
+    def last_price_date(self):
+        hist = self.historicals.order_by("-on").first()
+        return hist.on if hist else None
+
+    @property
     def last_lower(self):
         if self.d_last_lower is not None:
             return self.d_last_lower

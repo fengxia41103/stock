@@ -233,6 +233,8 @@ export const DictCard = ({ data, interests, title }) => {
 
 // DictTable
 export const DictTable = ({ data, title, interests, chart }) => {
+  const [showPctChange, setShowPctChange] = React.useState(false);
+
   // If data is an array of objects with 'on' field (financial statements), render time-series table
   if (Array.isArray(data) && data.length > 0 && data[0].on && interests) {
     const fields = Object.entries(interests); // [[fieldKey, label], ...]
@@ -253,9 +255,47 @@ export const DictTable = ({ data, title, interests, chart }) => {
       return undefined;
     };
 
+    // Compute period-over-period % change
+    const getPctChange = (key, idx) => {
+      if (idx === 0) return null;
+      const prev = data[idx - 1][key];
+      const curr = data[idx][key];
+      if (!prev || typeof prev !== "number" || typeof curr !== "number") return null;
+      return ((curr - prev) / Math.abs(prev)) * 100;
+    };
+
+    // Mini sparkline SVG for a row
+    const Sparkline = ({ values }) => {
+      const nums = values.filter((v) => typeof v === "number");
+      if (nums.length < 2) return null;
+      const min = Math.min(...nums);
+      const max = Math.max(...nums);
+      const range = max - min || 1;
+      const w = 60;
+      const h = 18;
+      const points = nums
+        .map((v, i) => `${(i / (nums.length - 1)) * w},${h - ((v - min) / range) * h}`)
+        .join(" ");
+      return (
+        <svg width={w} height={h} style={{ verticalAlign: "middle" }}>
+          <polyline points={points} fill="none" stroke="#1976d2" strokeWidth="1.5" />
+        </svg>
+      );
+    };
+
     return (
       <Box>
         {title && <Typography variant="h6">{title}</Typography>}
+        <Box sx={{ mb: 1 }}>
+          <Button
+            size="small"
+            variant={showPctChange ? "contained" : "outlined"}
+            onClick={() => setShowPctChange(!showPctChange)}
+            sx={{ textTransform: "none", fontSize: "0.75rem" }}
+          >
+            {showPctChange ? "Show Values" : "Show % Change"}
+          </Button>
+        </Box>
         <Box sx={{ overflowX: "auto" }}>
           <table
             style={{
@@ -267,6 +307,7 @@ export const DictTable = ({ data, title, interests, chart }) => {
             <thead>
               <tr>
                 <th style={{ padding: 4, textAlign: "left" }}>Metric</th>
+                <th style={{ padding: 4, textAlign: "center" }}>Trend</th>
                 {data.map((d) => (
                   <th key={d.on} style={{ padding: 4, textAlign: "right" }}>
                     {d.on}
@@ -280,20 +321,27 @@ export const DictTable = ({ data, title, interests, chart }) => {
                   <td style={{ padding: 4, borderBottom: "1px solid #eee" }}>
                     {label}
                   </td>
-                  {data.map((d) => (
-                    <td
-                      key={d.on}
-                      style={{
-                        padding: 4,
-                        borderBottom: "1px solid #eee",
-                        textAlign: "right",
-                        color: cellColor(d[key]),
-                        fontWeight: typeof d[key] === "number" ? 500 : "normal",
-                      }}
-                    >
-                      {formatVal(d[key])}
-                    </td>
-                  ))}
+                  <td style={{ padding: 4, borderBottom: "1px solid #eee", textAlign: "center" }}>
+                    <Sparkline values={data.map((d) => d[key])} />
+                  </td>
+                  {data.map((d, idx) => {
+                    const val = showPctChange ? getPctChange(key, idx) : d[key];
+                    const display = showPctChange && val != null ? `${val > 0 ? "+" : ""}${val.toFixed(1)}%` : formatVal(d[key]);
+                    return (
+                      <td
+                        key={d.on}
+                        style={{
+                          padding: 4,
+                          borderBottom: "1px solid #eee",
+                          textAlign: "right",
+                          color: cellColor(showPctChange ? val : d[key]),
+                          fontWeight: typeof d[key] === "number" ? 500 : "normal",
+                        }}
+                      >
+                        {showPctChange && idx === 0 ? "-" : display}
+                      </td>
+                    );
+                  })}
                 </tr>
               ))}
             </tbody>
