@@ -70,6 +70,9 @@ const SectorCashFlowView = lazy(() =>
 const SectorInstitutionOwnershipView = lazy(() =>
   import("@Views/sector/SectorInstitutionOwnershipView"),
 );
+const SectorMacroCorrelationView = lazy(() =>
+  import("@Views/sector/SectorMacroCorrelationView"),
+);
 const SectorRoeRankingView = lazy(() =>
   import("@Views/sector/SectorRoeRankingView"),
 );
@@ -356,6 +359,14 @@ const routes = [
             element: (
               <S>
                 <SectorInstitutionOwnershipView />
+              </S>
+            ),
+          },
+          {
+            path: "macro-correlation",
+            element: (
+              <S>
+                <SectorMacroCorrelationView />
               </S>
             ),
           },
