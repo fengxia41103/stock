@@ -305,7 +305,10 @@ class InsiderTradeViewSet(viewsets.ReadOnlyModelViewSet):
     ordering = ["-trade_date"]
 
     def get_queryset(self):
-        return InsiderTrade.objects.filter(stock__sectors__user=self.request.user).distinct()
+        return InsiderTrade.objects.filter(
+            stock__sectors__user=self.request.user,
+            transaction_type__in=["P", "S"],
+        ).distinct()
 
 
 class MacroSeriesViewSet(viewsets.ReadOnlyModelViewSet):
