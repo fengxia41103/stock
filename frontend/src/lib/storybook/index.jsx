@@ -260,7 +260,8 @@ export const DictTable = ({ data, title, interests, chart }) => {
       if (idx === 0) return null;
       const prev = data[idx - 1][key];
       const curr = data[idx][key];
-      if (!prev || typeof prev !== "number" || typeof curr !== "number") return null;
+      if (!prev || typeof prev !== "number" || typeof curr !== "number")
+        return null;
       return ((curr - prev) / Math.abs(prev)) * 100;
     };
 
@@ -274,11 +275,19 @@ export const DictTable = ({ data, title, interests, chart }) => {
       const w = 60;
       const h = 18;
       const points = nums
-        .map((v, i) => `${(i / (nums.length - 1)) * w},${h - ((v - min) / range) * h}`)
+        .map(
+          (v, i) =>
+            `${(i / (nums.length - 1)) * w},${h - ((v - min) / range) * h}`,
+        )
         .join(" ");
       return (
         <svg width={w} height={h} style={{ verticalAlign: "middle" }}>
-          <polyline points={points} fill="none" stroke="#1976d2" strokeWidth="1.5" />
+          <polyline
+            points={points}
+            fill="none"
+            stroke="#1976d2"
+            strokeWidth="1.5"
+          />
         </svg>
       );
     };
@@ -321,12 +330,21 @@ export const DictTable = ({ data, title, interests, chart }) => {
                   <td style={{ padding: 4, borderBottom: "1px solid #eee" }}>
                     {label}
                   </td>
-                  <td style={{ padding: 4, borderBottom: "1px solid #eee", textAlign: "center" }}>
+                  <td
+                    style={{
+                      padding: 4,
+                      borderBottom: "1px solid #eee",
+                      textAlign: "center",
+                    }}
+                  >
                     <Sparkline values={data.map((d) => d[key])} />
                   </td>
                   {data.map((d, idx) => {
                     const val = showPctChange ? getPctChange(key, idx) : d[key];
-                    const display = showPctChange && val != null ? `${val > 0 ? "+" : ""}${val.toFixed(1)}%` : formatVal(d[key]);
+                    const display =
+                      showPctChange && val != null
+                        ? `${val > 0 ? "+" : ""}${val.toFixed(1)}%`
+                        : formatVal(d[key]);
                     return (
                       <td
                         key={d.on}
@@ -335,7 +353,8 @@ export const DictTable = ({ data, title, interests, chart }) => {
                           borderBottom: "1px solid #eee",
                           textAlign: "right",
                           color: cellColor(showPctChange ? val : d[key]),
-                          fontWeight: typeof d[key] === "number" ? 500 : "normal",
+                          fontWeight:
+                            typeof d[key] === "number" ? 500 : "normal",
                         }}
                       >
                         {showPctChange && idx === 0 ? "-" : display}
