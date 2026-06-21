@@ -139,8 +139,8 @@ const MacroSeriesChart = ({ seriesId, label, color, startDate, priceData }) => {
     legend: { data: ["Close Price", label] },
     xAxis: { type: "category", data: allDates, axisLabel: { rotate: 45 } },
     yAxis: [
-      { type: "value", name: "Price ($)", position: "left" },
-      { type: "value", name: label, position: "right" },
+      { type: "value", name: "Price ($)", position: "left", scale: true },
+      { type: "value", name: label, position: "right", scale: true },
     ],
     series: [
       {
