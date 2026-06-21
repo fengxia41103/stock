@@ -273,3 +273,14 @@ class InstitutionalHoldingSerializer(serializers.ModelSerializer):
             "institution_name", "institution_cik",
             "shares", "value", "change_shares", "change_type",
         ]
+
+
+class StockMacroCorrelationSerializer(serializers.ModelSerializer):
+    symbol = serializers.CharField(source="stock.symbol", read_only=True)
+    series_id = serializers.CharField(source="series.series_id", read_only=True)
+
+    class Meta:
+        from stock.models.macro import StockMacroCorrelation
+
+        model = StockMacroCorrelation
+        fields = ["id", "stock", "symbol", "series_id", "window_days", "correlation", "computed_at"]

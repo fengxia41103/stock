@@ -43,3 +43,21 @@ class EarningsEvent(models.Model):
         if self.surprise_pct is None:
             return None
         return self.surprise_pct > 0
+
+
+class EarningsPriceImpact(models.Model):
+    """Price reaction to earnings announcement."""
+
+    earnings_event = models.OneToOneField(
+        EarningsEvent, on_delete=models.CASCADE, related_name="price_impact"
+    )
+    price_before = models.FloatField()
+    price_after_1d = models.FloatField()
+    price_after_5d = models.FloatField(null=True)
+    gap_pct = models.FloatField()
+    reaction_1d_pct = models.FloatField()
+    reaction_5d_pct = models.FloatField(null=True)
+    volume_ratio = models.FloatField(null=True)
+
+    class Meta:
+        ordering = ["-earnings_event__report_date"]

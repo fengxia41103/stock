@@ -9,7 +9,7 @@ import numpy as np
 from django.core.management.base import BaseCommand
 
 from stock.models import MyStock
-from stock.models.macro import MacroDataPoint, MacroSeries
+from stock.models.macro import MacroDataPoint, MacroSeries, StockMacroCorrelation
 
 
 class Command(BaseCommand):
@@ -70,6 +70,10 @@ class Command(BaseCommand):
                     try:
                         corr = np.corrcoef(stock_vals, macro_vals)[0, 1]
                         if not np.isnan(corr):
+                            StockMacroCorrelation.objects.update_or_create(
+                                stock=stock, series=series, window_days=window,
+                                defaults={"correlation": corr},
+                            )
                             self.stdout.write(
                                 f"  {stock.symbol} vs {series_id} ({window}d): r={corr:.3f}"
                             )

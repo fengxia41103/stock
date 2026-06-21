@@ -19,6 +19,7 @@ from stock.api.views import (
     MacroSeriesViewSet,
     NewsViewSet,
     SectorViewSet,
+    StockMacroCorrelationViewSet,
     StockRankViewSet,
     StockViewSet,
     TaskViewSet,
@@ -27,6 +28,7 @@ from stock.api.views import (
     login_view,
     logout_view,
     register,
+    health_check,
 )
 
 router = DefaultRouter()
@@ -45,6 +47,7 @@ router.register(r"macro-series", MacroSeriesViewSet, basename="macro-series")
 router.register(r"macro-data", MacroDataPointViewSet, basename="macro-data")
 router.register(r"earnings", EarningsEventViewSet, basename="earnings")
 router.register(r"holdings", InstitutionalHoldingViewSet, basename="holdings")
+router.register(r"macro-correlations", StockMacroCorrelationViewSet, basename="macro-correlations")
 router.register(r"stock-ranks", StockRankViewSet, basename="stock-rank")
 router.register(r"balance-ranks", BalanceRankViewSet, basename="balance-rank")
 router.register(r"cash-ranks", CashRankViewSet, basename="cash-rank")
@@ -56,4 +59,5 @@ urlpatterns = [
     path("users/", register, name="register"),
     path("auth/login/", login_view, name="login"),
     path("auth/logout/", logout_view, name="logout"),
+    path("health/", health_check, name="health"),
 ]
