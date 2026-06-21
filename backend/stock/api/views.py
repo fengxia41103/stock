@@ -16,9 +16,12 @@ from stock.api.serializers import (
     DiaryCreateSerializer,
     DiaryDetailSerializer,
     DiaryListSerializer,
+    EarningsEventSerializer,
     HistoricalSerializer,
     IncomeStatementSerializer,
     InsiderTradeSerializer,
+    MacroDataPointSerializer,
+    MacroSeriesSerializer,
     NewsSerializer,
     SectorCreateSerializer,
     SectorSerializer,
@@ -31,8 +34,11 @@ from stock.api.serializers import (
 from stock.models import (
     BalanceSheet,
     CashFlow,
+    EarningsEvent,
     IncomeStatement,
     InsiderTrade,
+    MacroDataPoint,
+    MacroSeries,
     MyDiary,
     MyNews,
     MySector,
@@ -272,6 +278,51 @@ class InsiderTradeViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return InsiderTrade.objects.filter(stock__sectors__user=self.request.user).distinct()
+
+
+class MacroSeriesViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = MacroSeriesSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = MacroSeries.objects.all()
+    filterset_fields = ["category", "series_id"]
+    pagination_class = None
+
+
+class MacroDataPointViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = MacroDataPointSerializer
+    permission_classes = [IsAuthenticated]
+    filterset_fields = {"series": ["exact"], "date": ["exact", "gte", "lte", "range"]}
+    ordering = ["-date"]
+
+    def get_queryset(self):
+        qs = MacroDataPoint.objects.all()
+        series_id = self.request.query_params.get("series_id")
+        if series_id:
+            qs = qs.filter(series__series_id=series_id)
+        return qs
+
+
+class EarningsEventViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = EarningsEventSerializer
+    permission_classes = [IsAuthenticated]
+    filterset_fields = ["stock", "report_date"]
+    ordering = ["-report_date"]
+
+    def get_queryset(self):
+        return EarningsEvent.objects.filter(
+            stock__sectors__user=self.request.user
+        ).distinct()
+
+    @action(detail=False, methods=["get"])
+    def upcoming(self, request):
+        """Next 30 days of earnings for user's stocks."""
+        events = EarningsEvent.objects.filter(
+            stock__sectors__user=request.user,
+            report_date__gte=date.today(),
+            report_date__lte=date.today() + timedelta(days=30),
+        ).select_related("stock").distinct()
+        serializer = self.get_serializer(events, many=True)
+        return Response(serializer.data)
 
 
 # --- Rankings ---

@@ -9,6 +9,8 @@ from fin.celery import app
 from stock.models import MyNews, MyStock, MyTask
 from stock.workers.get_balance_sheet import MyBalanceSheet
 from stock.workers.get_cash_flow_statement import MyCashFlowStatement
+from stock.workers.get_earnings import EarningsCalendarWorker, EarningsSurpriseWorker
+from stock.workers.get_fred import FredWorker
 from stock.workers.get_historical import MyStockHistoricalYahoo
 from stock.workers.get_income_statement import MyIncomeStatement
 from stock.workers.get_insider_trades import InsiderTradeWorker
@@ -219,6 +221,35 @@ def insider_daily():
     tasks.apply_async()
 
 
+@app.task(queue="macro")
+def fred_weekly():
+    """Refresh all FRED macro series."""
+    FredWorker().get_all()
+
+
+@app.task(queue="alpha")
+def earnings_calendar_daily():
+    """Fetch 3-month earnings calendar (1 API call)."""
+    EarningsCalendarWorker().get()
+
+
+@app.task(queue="alpha", rate_limit="5/m")
+def __earnings_surprise_consumer(symbol):
+    EarningsSurpriseWorker(symbol).get()
+
+
+@app.task(queue="alpha")
+def earnings_surprise_batch():
+    """Fetch surprise data for all stocks (spread over days due to rate limit)."""
+    from celery import group
+
+    tasks = group(
+        __earnings_surprise_consumer.s(stock.symbol)
+        for stock in MyStock.objects.all()
+    )
+    tasks.apply_async()
+
+
 @app.task(queue="news")
 def get_news():
     for t in [
@@ -257,5 +288,15 @@ def setup_periodic_tasks(sender, **kwargs):
     )
     sender.add_periodic_task(
         crontab(hour=6, minute=0), insider_daily.s(), name="Fetch insider trades daily at 6AM"
+    )
+    sender.add_periodic_task(
+        crontab(hour=6, minute=0, day_of_week=0),
+        fred_weekly.s(),
+        name="Fetch FRED macro data weekly on Sunday",
+    )
+    sender.add_periodic_task(
+        crontab(hour=7, minute=0),
+        earnings_calendar_daily.s(),
+        name="Fetch earnings calendar daily at 7AM",
     )
     # )
