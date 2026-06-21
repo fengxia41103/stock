@@ -67,6 +67,12 @@ const sections = [
       { url: "nav", text: "NAV" },
     ],
   },
+  {
+    label: "Ownership",
+    items: [
+      { url: "insider-trades", text: "Insider Trades" },
+    ],
+  },
 ];
 
 const StockDetailView = () => {

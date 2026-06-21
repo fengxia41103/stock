@@ -137,3 +137,11 @@ export function useNews() {
 export function useTasks() {
   return useResource("tasks", "/tasks/", { refetchInterval: 5000 });
 }
+
+export function useInsiderTrades(stockId: string | number) {
+  return useResource(
+    ["insider-trades", String(stockId)],
+    `/insider-trades/?stock=${stockId}`,
+    { enabled: !!stockId },
+  );
+}

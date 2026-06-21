@@ -11,6 +11,7 @@ from stock.workers.get_balance_sheet import MyBalanceSheet
 from stock.workers.get_cash_flow_statement import MyCashFlowStatement
 from stock.workers.get_historical import MyStockHistoricalYahoo
 from stock.workers.get_income_statement import MyIncomeStatement
+from stock.workers.get_insider_trades import InsiderTradeWorker
 from stock.workers.get_news import MyNewsWorker
 from stock.workers.get_summary import MySummary
 from stock.workers.get_valuation_ratio import MyValuationRatio
@@ -202,6 +203,22 @@ def _update_stock_denorm(symbol):
     stock.save(update_fields=["d_pe", "d_pb", "d_ps", "d_price_to_cash_premium"])
 
 
+@app.task(queue="edgar", rate_limit="8/m")
+def __insider_trade_consumer(symbol):
+    InsiderTradeWorker(symbol).get()
+
+
+@app.task(queue="edgar")
+def insider_daily():
+    """Fetch insider trades for all stocks."""
+    from celery import group
+
+    tasks = group(
+        __insider_trade_consumer.s(stock.symbol) for stock in MyStock.objects.all()
+    )
+    tasks.apply_async()
+
+
 @app.task(queue="news")
 def get_news():
     for t in [
@@ -237,5 +254,8 @@ def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(crontab(hour=0, minute=0), statement_daily.s())
     sender.add_periodic_task(
         21600.0, rebuild_ranking_cache.s(), name="Rebuild rankings every 6 hours"
+    )
+    sender.add_periodic_task(
+        crontab(hour=6, minute=0), insider_daily.s(), name="Fetch insider trades daily at 6AM"
     )
     # )

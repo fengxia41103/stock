@@ -19,6 +19,7 @@ django-redis>=5.4.0
 # Data sources
 yahooquery>=2.3.7
 yfinance>=0.2.40
+requests>=2.31.0
 
 # CORS
 django-cors-headers>=4.4.0

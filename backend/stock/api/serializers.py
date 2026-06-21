@@ -206,3 +206,18 @@ class TaskSerializer(serializers.ModelSerializer):
 
     def get_stocks(self, obj):
         return [{"id": s.id, "symbol": s.symbol} for s in obj.stocks.all()]
+
+
+class InsiderTradeSerializer(serializers.ModelSerializer):
+    symbol = serializers.CharField(source="stock.symbol", read_only=True)
+
+    class Meta:
+        from stock.models.insider_trade import InsiderTrade
+
+        model = InsiderTrade
+        fields = [
+            "id", "stock", "symbol", "filed_on", "trade_date",
+            "insider_name", "insider_title", "insider_cik",
+            "transaction_type", "shares", "price_per_share",
+            "total_value", "shares_owned_after", "is_direct",
+        ]
