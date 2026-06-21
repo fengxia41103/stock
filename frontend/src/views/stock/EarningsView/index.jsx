@@ -24,6 +24,7 @@ import { CanvasRenderer } from "echarts/renderers";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useEarnings } from "@/api";
+import { useChartTheme } from "@/hooks/useChartTheme";
 import StockDetailContext from "../StockDetailView/context";
 
 echarts.use([
@@ -37,6 +38,7 @@ echarts.use([
 const EarningsView = () => {
   const stock = useContext(StockDetailContext);
   const { data: earnings, isLoading } = useEarnings(stock?.id);
+  const theme = useChartTheme();
 
   const { chartOption, beatRate, upcoming } = useMemo(() => {
     if (!earnings || !Array.isArray(earnings) || earnings.length === 0) {
@@ -123,6 +125,7 @@ const EarningsView = () => {
           <ReactEChartsCore
             echarts={echarts}
             option={chartOption}
+            theme={theme}
             style={{ height: 280 }}
           />
         </Paper>
