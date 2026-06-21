@@ -18,6 +18,7 @@ from stock.api.serializers import (
     DiaryListSerializer,
     HistoricalSerializer,
     IncomeStatementSerializer,
+    InsiderTradeSerializer,
     NewsSerializer,
     SectorCreateSerializer,
     SectorSerializer,
@@ -31,6 +32,7 @@ from stock.models import (
     BalanceSheet,
     CashFlow,
     IncomeStatement,
+    InsiderTrade,
     MyDiary,
     MyNews,
     MySector,
@@ -259,6 +261,17 @@ class TaskViewSet(viewsets.mixins.ListModelMixin, viewsets.mixins.DestroyModelMi
 
     def get_queryset(self):
         return MyTask.objects.filter(user=self.request.user)
+
+
+class InsiderTradeViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = InsiderTradeSerializer
+    permission_classes = [IsAuthenticated]
+    filterset_fields = ["stock", "transaction_type"]
+    ordering_fields = ["trade_date", "total_value"]
+    ordering = ["-trade_date"]
+
+    def get_queryset(self):
+        return InsiderTrade.objects.filter(stock__sectors__user=self.request.user).distinct()
 
 
 # --- Rankings ---

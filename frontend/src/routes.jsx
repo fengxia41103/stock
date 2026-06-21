@@ -48,6 +48,9 @@ const CashFlowView = lazy(() => import("@Views/stock/CashFlowView"));
 const DCFView = lazy(() => import("@Views/stock/DCFView"));
 const DupontView = lazy(() => import("@Views/stock/DupontView"));
 const NavView = lazy(() => import("@Views/stock/NavView"));
+const InsiderTradesView = lazy(() =>
+  import("@Views/stock/InsiderTradesView"),
+);
 const ValuationRatiosView = lazy(() =>
   import("@Views/stock/ValuationRatiosView"),
 );
@@ -197,6 +200,14 @@ const routes = [
             element: (
               <S>
                 <DupontView />
+              </S>
+            ),
+          },
+          {
+            path: "insider-trades",
+            element: (
+              <S>
+                <InsiderTradesView />
               </S>
             ),
           },
