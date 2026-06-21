@@ -41,7 +41,10 @@ const PriceView = () => {
   const { data: earnings } = useEarnings(stockId);
   const earningsInRange = (earnings || []).filter((e) => {
     const d = e.report_date;
-    return data.some((p) => p.on === d) || (d >= data[0]?.on && d <= data[data.length - 1]?.on);
+    return (
+      data.some((p) => p.on === d) ||
+      (d >= data[0]?.on && d <= data[data.length - 1]?.on)
+    );
   });
 
   // group data by week index
@@ -102,13 +105,31 @@ const PriceView = () => {
             <CardContent>
               <PriceChart data={data} />
               {earningsInRange.length > 0 && (
-                <Stack direction="row" spacing={1} mt={1} flexWrap="wrap" useFlexGap>
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  mt={1}
+                  flexWrap="wrap"
+                  useFlexGap
+                >
                   {earningsInRange.map((e) => (
                     <Chip
                       key={e.id}
                       size="small"
-                      label={`${e.report_date} ${e.surprise_pct != null ? (e.surprise_pct > 0 ? "+" : "") + e.surprise_pct.toFixed(1) + "%" : "📅"}`}
-                      color={e.surprise_pct > 0 ? "success" : e.surprise_pct < 0 ? "error" : "default"}
+                      label={`${e.report_date} ${
+                        e.surprise_pct != null
+                          ? (e.surprise_pct > 0 ? "+" : "") +
+                            e.surprise_pct.toFixed(1) +
+                            "%"
+                          : "📅"
+                      }`}
+                      color={
+                        e.surprise_pct > 0
+                          ? "success"
+                          : e.surprise_pct < 0
+                          ? "error"
+                          : "default"
+                      }
                       variant="outlined"
                     />
                   ))}
