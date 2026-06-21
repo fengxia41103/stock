@@ -54,6 +54,7 @@ const InsiderTradesView = lazy(() =>
 const InstitutionalView = lazy(() =>
   import("@Views/stock/InstitutionalView"),
 );
+const EarningsView = lazy(() => import("@Views/stock/EarningsView"));
 const ValuationRatiosView = lazy(() =>
   import("@Views/stock/ValuationRatiosView"),
 );
@@ -219,6 +220,14 @@ const routes = [
             element: (
               <S>
                 <InstitutionalView />
+              </S>
+            ),
+          },
+          {
+            path: "earnings",
+            element: (
+              <S>
+                <EarningsView />
               </S>
             ),
           },
