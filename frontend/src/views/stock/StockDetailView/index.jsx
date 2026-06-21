@@ -138,16 +138,17 @@ const StockDetailView = () => {
           </Typography>
           <Stack direction="row" spacing={1} alignItems="center">
             {stock.latest_close_price && (
-              <Chip label={`$${stock.latest_close_price.toFixed(2)}`} size="small" />
+              <Chip
+                label={`$${stock.latest_close_price.toFixed(2)}`}
+                size="small"
+              />
             )}
             {stock.last_price_date && (
               <Typography variant="caption" color="text.secondary">
                 {stock.last_price_date}
               </Typography>
             )}
-            {isStale && (
-              <Chip label="Stale" size="small" color="warning" />
-            )}
+            {isStale && <Chip label="Stale" size="small" color="warning" />}
           </Stack>
           <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
             <SettingsIcon />
