@@ -36,14 +36,20 @@ const PriceChart = ({ data, earnings }) => {
     .map((e) => ({
       xAxis: e.report_date,
       lineStyle: {
-        color: e.surprise_pct > 0 ? "#2e7d32" : e.surprise_pct < 0 ? "#c62828" : "#757575",
+        color:
+          e.surprise_pct > 0
+            ? "#2e7d32"
+            : e.surprise_pct < 0
+            ? "#c62828"
+            : "#757575",
         type: "dashed",
         width: 2,
       },
       label: {
-        formatter: e.surprise_pct != null
-          ? `${e.surprise_pct > 0 ? "+" : ""}${e.surprise_pct.toFixed(1)}%`
-          : "📅",
+        formatter:
+          e.surprise_pct != null
+            ? `${e.surprise_pct > 0 ? "+" : ""}${e.surprise_pct.toFixed(1)}%`
+            : "📅",
         fontSize: 11,
         fontWeight: "bold",
         position: "start",
@@ -77,10 +83,13 @@ const PriceChart = ({ data, earnings }) => {
         lineStyle: { width: 3 },
         itemStyle: { color: "#1976d2" },
         showSymbol: false,
-        markLine: markLineData.length > 0 ? {
-          symbol: "none",
-          data: markLineData,
-        } : undefined,
+        markLine:
+          markLineData.length > 0
+            ? {
+                symbol: "none",
+                data: markLineData,
+              }
+            : undefined,
       },
       {
         name: "Open",
