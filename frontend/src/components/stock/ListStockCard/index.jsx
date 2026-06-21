@@ -4,6 +4,7 @@ import React from "react";
 
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ErrorIcon from "@mui/icons-material/Error";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import {
   Avatar,
   Box,
@@ -12,6 +13,7 @@ import {
   CardHeader,
   Chip,
   Grid,
+  IconButton,
   List,
   ListItem,
   Tooltip,
@@ -19,9 +21,21 @@ import {
 } from "@mui/material";
 
 import { ColoredNumber } from "@fengxia41103/storybook";
+import { useUpdate } from "@/api";
 
 import RecentPriceSparkline from "@Components/stock/RecentPriceSparkline";
 import StockSymbol from "@Components/stock/StockSymbol";
+
+const RefreshButton = ({ id, symbol }) => {
+  const { mutate } = useUpdate(`/stocks/${id}/`, ["stocks"]);
+  return (
+    <Tooltip title={`Refresh ${symbol}`}>
+      <IconButton size="small" onClick={() => mutate({})}>
+        <RefreshIcon fontSize="small" />
+      </IconButton>
+    </Tooltip>
+  );
+};
 
 const ListStockCard = (props) => {
   // props
@@ -95,6 +109,9 @@ const ListStockCard = (props) => {
                 <ColoredNumber val={s.pe} />
               </>
             ) : null}
+          </Grid>
+          <Grid item lg={1} sm={1} xs={1}>
+            <RefreshButton id={s.id} symbol={s.symbol} />
           </Grid>
         </Grid>
       </ListItem>

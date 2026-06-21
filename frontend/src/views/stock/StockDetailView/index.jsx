@@ -128,28 +128,34 @@ const StockDetailView = () => {
       <Container maxWidth={false}>
         {/* Header */}
         <Stack
-          direction="row"
-          alignItems="center"
+          direction={{ xs: "column", sm: "row" }}
+          alignItems={{ xs: "flex-start", sm: "center" }}
           justifyContent="space-between"
+          spacing={1}
           mb={2}
         >
-          <Typography variant="h1">
-            {stock.name ? `${stock.name} (${symbol})` : symbol}
-          </Typography>
-          <Stack direction="row" spacing={1} alignItems="center">
-            {stock.latest_close_price && (
-              <Chip
-                label={`$${stock.latest_close_price.toFixed(2)}`}
-                size="small"
-              />
-            )}
-            {stock.last_price_date && (
-              <Typography variant="caption" color="text.secondary">
-                {stock.last_price_date}
-              </Typography>
-            )}
-            {isStale && <Chip label="Stale" size="small" color="warning" />}
-          </Stack>
+          <Box>
+            <Typography
+              variant="h4"
+              sx={{ fontSize: { xs: "1.3rem", md: "2rem" } }}
+            >
+              {stock.name ? `${stock.name} (${symbol})` : symbol}
+            </Typography>
+            <Stack direction="row" spacing={1} alignItems="center" mt={0.5}>
+              {stock.latest_close_price && (
+                <Chip
+                  label={`$${stock.latest_close_price.toFixed(2)}`}
+                  size="small"
+                />
+              )}
+              {stock.last_price_date && (
+                <Typography variant="caption" color="text.secondary">
+                  {stock.last_price_date}
+                </Typography>
+              )}
+              {isStale && <Chip label="Stale" size="small" color="warning" />}
+            </Stack>
+          </Box>
           <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
             <SettingsIcon />
           </IconButton>
