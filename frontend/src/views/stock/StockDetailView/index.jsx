@@ -65,6 +65,7 @@ const sections = [
       { url: "dcf", text: "DCF" },
       { url: "ratios", text: "Ratios" },
       { url: "nav", text: "NAV" },
+      { url: "earnings", text: "Earnings" },
     ],
   },
   {
