@@ -12,6 +12,7 @@ from stock.workers.get_cash_flow_statement import MyCashFlowStatement
 from stock.workers.get_earnings import EarningsCalendarWorker, EarningsSurpriseWorker
 from stock.workers.get_fred import FredWorker
 from stock.workers.get_historical import MyStockHistoricalYahoo
+from stock.workers.get_holdings import InstitutionalHoldingsWorker
 from stock.workers.get_income_statement import MyIncomeStatement
 from stock.workers.get_insider_trades import InsiderTradeWorker
 from stock.workers.get_news import MyNewsWorker
@@ -217,6 +218,22 @@ def insider_daily():
 
     tasks = group(
         __insider_trade_consumer.s(stock.symbol) for stock in MyStock.objects.all()
+    )
+    tasks.apply_async()
+
+
+@app.task(queue="edgar", rate_limit="4/m")
+def __holdings_consumer(symbol):
+    InstitutionalHoldingsWorker(symbol).get()
+
+
+@app.task(queue="edgar")
+def holdings_quarterly():
+    """Fetch institutional holdings for all stocks (run quarterly)."""
+    from celery import group
+
+    tasks = group(
+        __holdings_consumer.s(stock.symbol) for stock in MyStock.objects.all()
     )
     tasks.apply_async()
 

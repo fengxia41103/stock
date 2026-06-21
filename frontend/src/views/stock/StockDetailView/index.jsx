@@ -71,6 +71,7 @@ const sections = [
     label: "Ownership",
     items: [
       { url: "insider-trades", text: "Insider Trades" },
+      { url: "institutional", text: "Institutional" },
     ],
   },
 ];

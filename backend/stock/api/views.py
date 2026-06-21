@@ -20,6 +20,7 @@ from stock.api.serializers import (
     HistoricalSerializer,
     IncomeStatementSerializer,
     InsiderTradeSerializer,
+    InstitutionalHoldingSerializer,
     MacroDataPointSerializer,
     MacroSeriesSerializer,
     NewsSerializer,
@@ -37,6 +38,7 @@ from stock.models import (
     EarningsEvent,
     IncomeStatement,
     InsiderTrade,
+    InstitutionalHolding,
     MacroDataPoint,
     MacroSeries,
     MyDiary,
@@ -323,6 +325,18 @@ class EarningsEventViewSet(viewsets.ReadOnlyModelViewSet):
         ).select_related("stock").distinct()
         serializer = self.get_serializer(events, many=True)
         return Response(serializer.data)
+
+
+class InstitutionalHoldingViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = InstitutionalHoldingSerializer
+    permission_classes = [IsAuthenticated]
+    filterset_fields = ["stock", "report_date"]
+    ordering = ["-report_date", "-value"]
+
+    def get_queryset(self):
+        return InstitutionalHolding.objects.filter(
+            stock__sectors__user=self.request.user
+        ).distinct()
 
 
 # --- Rankings ---
