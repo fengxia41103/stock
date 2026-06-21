@@ -31,7 +31,11 @@ const SectorMacroCorrelationView = () => {
   );
 
   const option = useMemo(() => {
-    if (!correlations || !Array.isArray(correlations) || correlations.length === 0)
+    if (
+      !correlations ||
+      !Array.isArray(correlations) ||
+      correlations.length === 0
+    )
       return null;
 
     // Filter to 365-day window only for clarity
@@ -63,7 +67,9 @@ const SectorMacroCorrelationView = () => {
     return {
       tooltip: {
         formatter: (p) =>
-          `${visibleSymbols[p.value[1]]} vs ${seriesIds[p.value[0]]}<br/>r = ${p.value[2]}`,
+          `${visibleSymbols[p.value[1]]} vs ${seriesIds[p.value[0]]}<br/>r = ${
+            p.value[2]
+          }`,
       },
       xAxis: {
         type: "category",
@@ -99,7 +105,8 @@ const SectorMacroCorrelationView = () => {
   if (!option) {
     return (
       <Typography color="text.secondary">
-        No macro correlation data. Run: python manage.py compute_macro_correlations
+        No macro correlation data. Run: python manage.py
+        compute_macro_correlations
       </Typography>
     );
   }
