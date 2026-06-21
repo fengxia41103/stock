@@ -1,5 +1,13 @@
 import React from "react";
-import { Box, Card, CardContent, CardHeader, Chip, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Chip,
+  Grid,
+  Typography,
+} from "@mui/material";
 import { useResource } from "@/api";
 
 const SERIES_DISPLAY = [
@@ -18,7 +26,9 @@ const MacroWidget = () => {
 
   return (
     <Card>
-      <CardHeader title={<Typography variant="h6">Macro Environment</Typography>} />
+      <CardHeader
+        title={<Typography variant="h6">Macro Environment</Typography>}
+      />
       <CardContent>
         <Grid container spacing={1}>
           {SERIES_DISPLAY.map((s) => (
@@ -45,9 +55,12 @@ const MacroIndicator = ({ id, label, unit, warn }) => {
   return (
     <Grid item xs={6} sm={4} md={2}>
       <Box textAlign="center">
-        <Typography variant="caption" color="text.secondary">{label}</Typography>
+        <Typography variant="caption" color="text.secondary">
+          {label}
+        </Typography>
         <Typography variant="body1" fontWeight={600}>
-          {latest.value?.toFixed(2)}{unit}
+          {latest.value?.toFixed(2)}
+          {unit}
         </Typography>
         {isWarning && <Chip label="⚠️" size="small" color="warning" />}
       </Box>
