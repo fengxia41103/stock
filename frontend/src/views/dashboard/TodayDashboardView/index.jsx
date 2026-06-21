@@ -14,7 +14,9 @@ import {
 import { Page } from "@fengxia41103/storybook";
 
 import ShowResource from "@Components/common/ShowResource";
+import MacroWidget from "@Components/dashboard/MacroWidget";
 import MoverCard from "@Components/dashboard/MoverCard";
+import UpcomingEarningsWidget from "@Components/dashboard/UpcomingEarningsWidget";
 
 const getLastTradingDay = (m) => {
   let d = dayjs(m);
@@ -128,6 +130,17 @@ const TodayDashboardView = () => {
                 />
               </CardContent>
             </Card>
+          </Box>
+
+          <Box mt={1}>
+            <Grid container spacing={1}>
+              <Grid item lg={8} sm={12} xs={12}>
+                <MacroWidget />
+              </Grid>
+              <Grid item lg={4} sm={12} xs={12}>
+                <UpcomingEarningsWidget />
+              </Grid>
+            </Grid>
           </Box>
 
           <Box mt={1}>
