@@ -18,6 +18,7 @@ import {
 import { ColoredNumber } from "@fengxia41103/storybook";
 
 import GainPriceRanges from "@Components/stock/GainPriceRanges";
+import MacroOverlay from "@Components/stock/MacroOverlay";
 import PriceChart from "@Components/stock/PriceChart";
 
 import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
@@ -108,6 +109,10 @@ const PriceView = () => {
           </Card>
         </Grid>
       </Grid>
+
+      <Box mt={1}>
+        <MacroOverlay priceData={data} />
+      </Box>
 
       <Box mt={1}>
         <Grid container spacing={1}>

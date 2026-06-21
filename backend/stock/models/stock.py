@@ -209,3 +209,28 @@ class MyStock(models.Model):
             if self.latest_close_price and cash_per_share:
                 return self.latest_close_price / cash_per_share
         return None
+
+    @property
+    def insider_sentiment_3m(self):
+        """Net insider buy/sell sentiment over last 3 months. Range: -1 to +1."""
+        from datetime import date, timedelta
+
+        cutoff = date.today() - timedelta(days=90)
+        trades = self.insider_trades.filter(trade_date__gte=cutoff)
+        buy_value = sum(t.total_value or 0 for t in trades if t.transaction_type == "P")
+        sell_value = sum(t.total_value or 0 for t in trades if t.transaction_type == "S")
+        total = buy_value + sell_value
+        if total == 0:
+            return 0
+        return (buy_value - sell_value) / total
+
+    @property
+    def earnings_beat_rate(self):
+        """% of last 16 quarters that beat EPS estimate."""
+        events = self.earnings_events.filter(surprise_pct__isnull=False).order_by(
+            "-report_date"
+        )[:16]
+        if not events:
+            return None
+        beats = sum(1 for e in events if e.surprise_pct > 0)
+        return beats / len(events) * 100
