@@ -6,6 +6,7 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ErrorIcon from "@mui/icons-material/Error";
 import {
   Avatar,
+  Box,
   Card,
   CardContent,
   CardHeader,
