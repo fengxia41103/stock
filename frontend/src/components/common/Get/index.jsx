@@ -18,10 +18,11 @@ const Get = ({ uri, on_success, on_error, silent }) => {
     enabled: !!uri,
   });
 
+  if (!uri) return null;
   if (isLoading || (!data && isFetching))
     return silent ? null : <ScaleLoader loading />;
   if (error) return on_error ? on_error(error) : null;
-  if (data === undefined) return silent ? null : <ScaleLoader loading />;
+  if (data === undefined || data === null) return null;
   return on_success ? on_success(data) : null;
 };
 

@@ -17,7 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { ColoredNumber, DropdownMenu } from "@fengxia41103/storybook";
+import { ColoredNumber } from "@fengxia41103/storybook";
 
 import RecentPriceSparkline from "@Components/stock/RecentPriceSparkline";
 import StockSymbol from "@Components/stock/StockSymbol";
@@ -40,13 +40,16 @@ const ListStockCard = (props) => {
   }
 
   // if any menu contents
-  let menu_content = null;
+  let action_content = null;
 
   if (!isUndefined(actions)) {
-    const action_menu_content_list = map(actions, (action, i) => (
-      <ListItem key={i}>{action}</ListItem>
-    ));
-    menu_content = <List>{action_menu_content_list}</List>;
+    action_content = (
+      <Box display="flex" gap={1}>
+        {map(actions, (action, i) => (
+          <React.Fragment key={i}>{action}</React.Fragment>
+        ))}
+      </Box>
+    );
   }
 
   const links = map(stocks, (s) => {
@@ -107,7 +110,7 @@ const ListStockCard = (props) => {
             <CalendarTodayIcon />
           </Avatar>
         }
-        action={<DropdownMenu content={menu_content} />}
+        action={action_content}
       />
 
       <CardContent>

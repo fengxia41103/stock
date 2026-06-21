@@ -371,6 +371,7 @@ export const DropdownMenu = ({ label, title, children, content }) => {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={() => setAnchorEl(null)}
+        keepMounted
       >
         {displayContent &&
           React.Children.map(displayContent, (child, i) => (
@@ -424,14 +425,18 @@ export const NotFoundView = () => (
 );
 
 // SimpleSnackbar
-export const SimpleSnackbar = ({ open, message, onClose }) => (
-  <Snackbar
-    open={open}
-    autoHideDuration={3000}
-    onClose={onClose}
-    message={message}
-  />
-);
+export const SimpleSnackbar = ({ msg, open, message, onClose }) => {
+  const displayMsg = msg || message || "";
+  const isOpen = open !== undefined ? open : !!displayMsg;
+  return (
+    <Snackbar
+      open={isOpen}
+      autoHideDuration={3000}
+      onClose={onClose}
+      message={displayMsg}
+    />
+  );
+};
 
 // MenuBar
 export const MenuBar = ({ root, title, items }) => (
