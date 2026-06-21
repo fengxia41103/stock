@@ -36,15 +36,16 @@ const PriceChart = ({ data, earnings }) => {
     .map((e) => ({
       xAxis: e.report_date,
       lineStyle: {
-        color: e.surprise_pct > 0 ? "#4caf50" : e.surprise_pct < 0 ? "#f44336" : "#9e9e9e",
+        color: e.surprise_pct > 0 ? "#2e7d32" : e.surprise_pct < 0 ? "#c62828" : "#757575",
         type: "dashed",
-        width: 1.5,
+        width: 2,
       },
       label: {
         formatter: e.surprise_pct != null
           ? `${e.surprise_pct > 0 ? "+" : ""}${e.surprise_pct.toFixed(1)}%`
           : "📅",
-        fontSize: 10,
+        fontSize: 11,
+        fontWeight: "bold",
         position: "start",
       },
     }));
@@ -60,7 +61,7 @@ const PriceChart = ({ data, earnings }) => {
         return `${date}<br/>${lines.join("<br/>")}`;
       },
     },
-    legend: { data: ["Close", "Open"] },
+    legend: { data: ["Close", "Open", "High", "Low"] },
     xAxis: {
       type: "category",
       data: dates,
@@ -73,7 +74,8 @@ const PriceChart = ({ data, earnings }) => {
         name: "Close",
         type: "line",
         data: closePrices,
-        lineStyle: { width: 2 },
+        lineStyle: { width: 3 },
+        itemStyle: { color: "#1976d2" },
         showSymbol: false,
         markLine: markLineData.length > 0 ? {
           symbol: "none",
@@ -84,7 +86,24 @@ const PriceChart = ({ data, earnings }) => {
         name: "Open",
         type: "line",
         data: openPrices,
-        lineStyle: { width: 1, type: "dotted" },
+        lineStyle: { width: 3 },
+        itemStyle: { color: "#ff9800" },
+        showSymbol: false,
+      },
+      {
+        name: "High",
+        type: "line",
+        data: data.map((d) => d.high_price),
+        lineStyle: { width: 1, type: "dashed" },
+        itemStyle: { color: "#9e9e9e" },
+        showSymbol: false,
+      },
+      {
+        name: "Low",
+        type: "line",
+        data: data.map((d) => d.low_price),
+        lineStyle: { width: 1, type: "dashed" },
+        itemStyle: { color: "#9e9e9e" },
         showSymbol: false,
       },
     ],
