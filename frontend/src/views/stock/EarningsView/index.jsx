@@ -15,14 +15,24 @@ import {
 import ReactEChartsCore from "echarts-for-react/lib/core";
 import * as echarts from "echarts/core";
 import { BarChart } from "echarts/charts";
-import { GridComponent, TooltipComponent, LegendComponent } from "echarts/components";
+import {
+  GridComponent,
+  TooltipComponent,
+  LegendComponent,
+} from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useEarnings } from "@/api";
 import StockDetailContext from "../StockDetailView/context";
 
-echarts.use([BarChart, GridComponent, TooltipComponent, LegendComponent, CanvasRenderer]);
+echarts.use([
+  BarChart,
+  GridComponent,
+  TooltipComponent,
+  LegendComponent,
+  CanvasRenderer,
+]);
 
 const EarningsView = () => {
   const stock = useContext(StockDetailContext);
@@ -40,29 +50,41 @@ const EarningsView = () => {
 
     // Chart: surprise % per quarter
     const sorted = [...reported].reverse().slice(-16);
-    const option = sorted.length > 0 ? {
-      tooltip: { trigger: "axis" },
-      xAxis: {
-        type: "category",
-        data: sorted.map((e) => e.report_date),
-        axisLabel: { rotate: 45 },
-      },
-      yAxis: { type: "value", name: "Surprise %" },
-      series: [{
-        type: "bar",
-        data: sorted.map((e) => ({
-          value: e.surprise_pct || 0,
-          itemStyle: { color: (e.surprise_pct || 0) > 0 ? "#4caf50" : "#f44336" },
-        })),
-      }],
-    } : null;
+    const option =
+      sorted.length > 0
+        ? {
+            tooltip: { trigger: "axis" },
+            xAxis: {
+              type: "category",
+              data: sorted.map((e) => e.report_date),
+              axisLabel: { rotate: 45 },
+            },
+            yAxis: { type: "value", name: "Surprise %" },
+            series: [
+              {
+                type: "bar",
+                data: sorted.map((e) => ({
+                  value: e.surprise_pct || 0,
+                  itemStyle: {
+                    color: (e.surprise_pct || 0) > 0 ? "#4caf50" : "#f44336",
+                  },
+                })),
+              },
+            ],
+          }
+        : null;
 
     return { chartOption: option, beatRate: rate, upcoming: upcomingEvents };
   }, [earnings]);
 
   if (isLoading) return <ScaleLoader loading />;
   if (!earnings || earnings.length === 0) {
-    return <Typography color="text.secondary">No earnings data. Set ALPHA_VANTAGE_API_KEY and run earnings_calendar_daily.</Typography>;
+    return (
+      <Typography color="text.secondary">
+        No earnings data. Set ALPHA_VANTAGE_API_KEY and run
+        earnings_calendar_daily.
+      </Typography>
+    );
   }
 
   return (
@@ -71,7 +93,8 @@ const EarningsView = () => {
       {upcoming.length > 0 && (
         <Alert severity="warning" sx={{ mb: 2 }}>
           ⏰ Next earnings: {upcoming[0].report_date}
-          {upcoming[0].estimated_eps && ` (est EPS: $${upcoming[0].estimated_eps.toFixed(2)})`}
+          {upcoming[0].estimated_eps &&
+            ` (est EPS: $${upcoming[0].estimated_eps.toFixed(2)})`}
         </Alert>
       )}
 
@@ -81,7 +104,9 @@ const EarningsView = () => {
           <Typography variant="h6">Beat Rate:</Typography>
           <Chip
             label={`${beatRate.toFixed(0)}%`}
-            color={beatRate >= 75 ? "success" : beatRate >= 50 ? "warning" : "error"}
+            color={
+              beatRate >= 75 ? "success" : beatRate >= 50 ? "warning" : "error"
+            }
           />
           <Typography variant="body2" color="text.secondary">
             ({earnings.filter((e) => e.reported_eps != null).length} quarters)
@@ -92,8 +117,14 @@ const EarningsView = () => {
       {/* Surprise chart */}
       {chartOption && (
         <Paper sx={{ p: 2, mb: 2 }}>
-          <Typography variant="subtitle2" gutterBottom>EPS Surprise % by Quarter</Typography>
-          <ReactEChartsCore echarts={echarts} option={chartOption} style={{ height: 280 }} />
+          <Typography variant="subtitle2" gutterBottom>
+            EPS Surprise % by Quarter
+          </Typography>
+          <ReactEChartsCore
+            echarts={echarts}
+            option={chartOption}
+            style={{ height: 280 }}
+          />
         </Paper>
       )}
 
@@ -113,9 +144,23 @@ const EarningsView = () => {
             {earnings.slice(0, 20).map((e) => (
               <TableRow key={e.id}>
                 <TableCell>{e.report_date}</TableCell>
-                <TableCell align="right">{e.estimated_eps != null ? `$${e.estimated_eps.toFixed(2)}` : "—"}</TableCell>
-                <TableCell align="right">{e.reported_eps != null ? `$${e.reported_eps.toFixed(2)}` : "—"}</TableCell>
-                <TableCell align="right">{e.surprise_pct != null ? `${e.surprise_pct > 0 ? "+" : ""}${e.surprise_pct.toFixed(1)}%` : "—"}</TableCell>
+                <TableCell align="right">
+                  {e.estimated_eps != null
+                    ? `$${e.estimated_eps.toFixed(2)}`
+                    : "—"}
+                </TableCell>
+                <TableCell align="right">
+                  {e.reported_eps != null
+                    ? `$${e.reported_eps.toFixed(2)}`
+                    : "—"}
+                </TableCell>
+                <TableCell align="right">
+                  {e.surprise_pct != null
+                    ? `${e.surprise_pct > 0 ? "+" : ""}${e.surprise_pct.toFixed(
+                        1,
+                      )}%`
+                    : "—"}
+                </TableCell>
                 <TableCell>
                   {e.is_upcoming ? (
                     <Chip label="Upcoming" size="small" color="info" />
@@ -123,7 +168,9 @@ const EarningsView = () => {
                     <Chip label="Beat" size="small" color="success" />
                   ) : e.is_beat === false ? (
                     <Chip label="Miss" size="small" color="error" />
-                  ) : "—"}
+                  ) : (
+                    "—"
+                  )}
                 </TableCell>
               </TableRow>
             ))}
