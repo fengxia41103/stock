@@ -29,6 +29,7 @@ from stock.api.serializers import (
     StockCreateSerializer,
     StockDetailSerializer,
     StockListSerializer,
+    StockMacroCorrelationSerializer,
     TaskSerializer,
     ValuationRatioSerializer,
 )
@@ -47,6 +48,7 @@ from stock.models import (
     MyStock,
     MyStockHistorical,
     MyTask,
+    StockMacroCorrelation,
     ValuationRatio,
 )
 from stock.tasks import batch_update_helper
@@ -92,6 +94,30 @@ def logout_view(request):
     if request.user.is_authenticated:
         logout(request)
     return Response({"success": True})
+
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def health_check(request):
+    """Health check: DB + Redis connectivity."""
+    from django.db import connection
+    from django.core.cache import cache
+
+    checks = {}
+    try:
+        connection.ensure_connection()
+        checks["db"] = "ok"
+    except Exception as e:
+        checks["db"] = str(e)
+
+    try:
+        cache.set("health", "1", 5)
+        checks["redis"] = "ok" if cache.get("health") == "1" else "fail"
+    except Exception as e:
+        checks["redis"] = str(e)
+
+    ok = all(v == "ok" for v in checks.values())
+    return Response(checks, status=status.HTTP_200_OK if ok else status.HTTP_503_SERVICE_UNAVAILABLE)
 
 
 # --- ViewSets ---
@@ -335,6 +361,19 @@ class InstitutionalHoldingViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return InstitutionalHolding.objects.filter(
+            stock__sectors__user=self.request.user
+        ).distinct()
+
+
+class StockMacroCorrelationViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = StockMacroCorrelationSerializer
+    permission_classes = [IsAuthenticated]
+    filterset_fields = ["stock", "series", "window_days"]
+    ordering = ["-correlation"]
+    pagination_class = None
+
+    def get_queryset(self):
+        return StockMacroCorrelation.objects.filter(
             stock__sectors__user=self.request.user
         ).distinct()
 

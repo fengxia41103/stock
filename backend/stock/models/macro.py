@@ -38,3 +38,18 @@ class MacroDataPoint(models.Model):
 
     def __str__(self):
         return f"{self.series.series_id} {self.date}: {self.value}"
+
+
+class StockMacroCorrelation(models.Model):
+    """Rolling correlation between stock returns and a FRED macro series."""
+
+    stock = models.ForeignKey(
+        "stock.MyStock", on_delete=models.CASCADE, related_name="macro_correlations"
+    )
+    series = models.ForeignKey(MacroSeries, on_delete=models.CASCADE)
+    window_days = models.IntegerField()
+    correlation = models.FloatField()
+    computed_at = models.DateField(auto_now=True)
+
+    class Meta:
+        unique_together = ("stock", "series", "window_days")
