@@ -9,10 +9,13 @@ from stock.api.views import (
     CashFlowViewSet,
     CashRankViewSet,
     DiaryViewSet,
+    EarningsEventViewSet,
     HistoricalViewSet,
     IncomeRankViewSet,
     IncomeStatementViewSet,
     InsiderTradeViewSet,
+    MacroDataPointViewSet,
+    MacroSeriesViewSet,
     NewsViewSet,
     SectorViewSet,
     StockRankViewSet,
@@ -37,6 +40,9 @@ router.register(r"diaries", DiaryViewSet, basename="diary")
 router.register(r"news", NewsViewSet, basename="news")
 router.register(r"tasks", TaskViewSet, basename="task")
 router.register(r"insider-trades", InsiderTradeViewSet, basename="insider-trade")
+router.register(r"macro-series", MacroSeriesViewSet, basename="macro-series")
+router.register(r"macro-data", MacroDataPointViewSet, basename="macro-data")
+router.register(r"earnings", EarningsEventViewSet, basename="earnings")
 router.register(r"stock-ranks", StockRankViewSet, basename="stock-rank")
 router.register(r"balance-ranks", BalanceRankViewSet, basename="balance-rank")
 router.register(r"cash-ranks", CashRankViewSet, basename="cash-rank")

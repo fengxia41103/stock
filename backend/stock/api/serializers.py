@@ -221,3 +221,37 @@ class InsiderTradeSerializer(serializers.ModelSerializer):
             "transaction_type", "shares", "price_per_share",
             "total_value", "shares_owned_after", "is_direct",
         ]
+
+
+class MacroSeriesSerializer(serializers.ModelSerializer):
+    class Meta:
+        from stock.models.macro import MacroSeries
+
+        model = MacroSeries
+        fields = ["id", "series_id", "title", "frequency", "units", "category", "last_updated"]
+
+
+class MacroDataPointSerializer(serializers.ModelSerializer):
+    series_id = serializers.CharField(source="series.series_id", read_only=True)
+
+    class Meta:
+        from stock.models.macro import MacroDataPoint
+
+        model = MacroDataPoint
+        fields = ["id", "series", "series_id", "date", "value"]
+
+
+class EarningsEventSerializer(serializers.ModelSerializer):
+    symbol = serializers.CharField(source="stock.symbol", read_only=True)
+    is_upcoming = serializers.BooleanField(read_only=True)
+    is_beat = serializers.BooleanField(read_only=True)
+
+    class Meta:
+        from stock.models.earnings import EarningsEvent
+
+        model = EarningsEvent
+        fields = [
+            "id", "stock", "symbol", "report_date", "fiscal_date_ending",
+            "report_time", "estimated_eps", "reported_eps",
+            "surprise", "surprise_pct", "is_upcoming", "is_beat",
+        ]
