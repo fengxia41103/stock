@@ -255,3 +255,17 @@ class EarningsEventSerializer(serializers.ModelSerializer):
             "report_time", "estimated_eps", "reported_eps",
             "surprise", "surprise_pct", "is_upcoming", "is_beat",
         ]
+
+
+class InstitutionalHoldingSerializer(serializers.ModelSerializer):
+    symbol = serializers.CharField(source="stock.symbol", read_only=True)
+
+    class Meta:
+        from stock.models.institutional_holding import InstitutionalHolding
+
+        model = InstitutionalHolding
+        fields = [
+            "id", "stock", "symbol", "report_date",
+            "institution_name", "institution_cik",
+            "shares", "value", "change_shares", "change_type",
+        ]

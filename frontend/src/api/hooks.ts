@@ -145,3 +145,28 @@ export function useInsiderTrades(stockId: string | number) {
     { enabled: !!stockId },
   );
 }
+
+export function useHoldings(stockId: string | number) {
+  return useResource(
+    ["holdings", String(stockId)],
+    `/holdings/?stock=${stockId}`,
+    { enabled: !!stockId },
+  );
+}
+
+export function useEarnings(stockId: string | number) {
+  return useResource(
+    ["earnings", String(stockId)],
+    `/earnings/?stock=${stockId}`,
+    { enabled: !!stockId },
+  );
+}
+
+export function useMacroData(seriesId: string, dateGte?: string) {
+  const params = dateGte ? `&date__gte=${dateGte}` : "";
+  return useResource(
+    ["macro-data", seriesId, dateGte || ""],
+    `/macro-data/?series_id=${seriesId}${params}`,
+    { enabled: !!seriesId },
+  );
+}
