@@ -22,6 +22,7 @@ import { CanvasRenderer } from "echarts/renderers";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useHoldings } from "@/api";
+import { useChartTheme } from "@/hooks/useChartTheme";
 import StockDetailContext from "../StockDetailView/context";
 
 echarts.use([
@@ -35,6 +36,7 @@ echarts.use([
 const InstitutionalView = () => {
   const stock = useContext(StockDetailContext);
   const { data: holdings, isLoading } = useHoldings(stock?.id);
+  const theme = useChartTheme();
 
   const pieOption = useMemo(() => {
     if (!holdings || !Array.isArray(holdings) || holdings.length === 0)
@@ -89,6 +91,7 @@ const InstitutionalView = () => {
           <ReactEChartsCore
             echarts={echarts}
             option={pieOption}
+            theme={theme}
             style={{ height: 350 }}
           />
         </Paper>

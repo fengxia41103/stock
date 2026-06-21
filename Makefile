@@ -1,49 +1,48 @@
-.PHONY: dev test build up down logs backfill rebuild-rankings migrate
+.PHONY: dev test build backfill rebuild-rankings lint
 
 # Start all services
-up:
-	docker compose up -d
-
-# Stop all services
-down:
-	docker compose down
-
-# Start vite dev server (hot reload at localhost:5173)
 dev:
-	cd frontend && npx vite --host 0.0.0.0
+	docker compose up -d
 
 # Run backend tests
 test:
-	docker compose exec web pytest -v --tb=short
+	docker compose exec -T web pytest --tb=short -q
 
-# Build all containers
+# Build frontend
 build:
-	docker compose build
+	cd frontend && npx vite build
 
-# Run database migrations
-migrate:
-	docker compose exec web python manage.py migrate
-
-# Backfill denormalized computed fields
+# Backfill computed fields
 backfill:
-	docker compose exec web python manage.py backfill_computed_fields
+	docker compose exec -T web python manage.py backfill_computed_fields
 
 # Rebuild ranking cache
 rebuild-rankings:
-	docker compose exec web python manage.py rebuild_rankings
+	docker compose exec -T web python manage.py rebuild_rankings
 
-# View logs
+# Fetch FRED macro data
+fetch-fred:
+	docker compose exec -T web python manage.py shell -c "from stock.tasks import fred_weekly; fred_weekly()"
+
+# Fetch earnings calendar
+fetch-earnings:
+	docker compose exec -T web python manage.py shell -c "from stock.tasks import earnings_calendar_daily; earnings_calendar_daily()"
+
+# Fetch insider trades for all stocks
+fetch-insider:
+	docker compose exec -T web python manage.py shell -c "from stock.tasks import insider_daily; insider_daily()"
+
+# Run all data fetches
+fetch-all: fetch-fred fetch-earnings fetch-insider
+
+# Lint backend
+lint:
+	cd backend && ruff check .
+
+# Logs
 logs:
-	docker compose logs -f --tail 50
+	docker compose logs -f web celery
 
-# View celery logs
-logs-celery:
-	docker compose logs -f celery --tail 50
-
-# Purge failed tasks
-purge-tasks:
-	docker compose exec web python manage.py purge_tasks
-
-# Purge all tasks
-purge-tasks-all:
-	docker compose exec web python manage.py purge_tasks --all
+# Shell
+shell:
+	docker compose exec web python manage.py shell

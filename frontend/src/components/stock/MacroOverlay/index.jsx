@@ -19,6 +19,7 @@ import {
 import { CanvasRenderer } from "echarts/renderers";
 
 import { useMacroData } from "@/api";
+import { useChartTheme } from "@/hooks/useChartTheme";
 
 echarts.use([
   LineChart,
@@ -108,6 +109,7 @@ const MacroChart = ({ selected, priceData, startDate }) => {
 
 const MacroSeriesChart = ({ seriesId, label, color, startDate, priceData }) => {
   const { data: macroPoints } = useMacroData(seriesId, startDate);
+  const theme = useChartTheme();
 
   if (!macroPoints || !Array.isArray(macroPoints) || macroPoints.length === 0) {
     return (
@@ -168,6 +170,7 @@ const MacroSeriesChart = ({ seriesId, label, color, startDate, priceData }) => {
     <ReactEChartsCore
       echarts={echarts}
       option={option}
+      theme={theme}
       style={{ height: 250 }}
     />
   );

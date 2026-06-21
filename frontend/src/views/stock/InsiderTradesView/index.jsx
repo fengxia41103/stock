@@ -24,6 +24,7 @@ import { CanvasRenderer } from "echarts/renderers";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useInsiderTrades } from "@/api";
+import { useChartTheme } from "@/hooks/useChartTheme";
 import StockDetailContext from "../StockDetailView/context";
 
 echarts.use([
@@ -37,6 +38,7 @@ echarts.use([
 const InsiderTradesView = () => {
   const stock = useContext(StockDetailContext);
   const { data: trades, isLoading } = useInsiderTrades(stock?.id);
+  const theme = useChartTheme();
 
   const { sentiment, chartOption, purchases, sales } = useMemo(() => {
     if (!trades || !Array.isArray(trades) || trades.length === 0) {
@@ -151,6 +153,7 @@ const InsiderTradesView = () => {
           <ReactEChartsCore
             echarts={echarts}
             option={chartOption}
+            theme={theme}
             style={{ height: 300 }}
           />
         </Paper>
