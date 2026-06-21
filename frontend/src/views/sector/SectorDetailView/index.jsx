@@ -44,7 +44,10 @@ const financial_statement_menus = [
   { url: "cash", text: "Cash Flow Statement" },
 ];
 const valuation_menus = [{ url: "dupont", text: "Dupont ROE" }];
-const ownership_menus = [{ url: "institution", text: "Institutions" }];
+const ownership_menus = [
+  { url: "institution", text: "Institutions" },
+  { url: "macro-correlation", text: "Macro Correlation" },
+];
 
 const SectorDetailView = () => {
   const { id } = useParams();
