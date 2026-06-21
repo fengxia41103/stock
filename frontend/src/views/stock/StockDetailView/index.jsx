@@ -123,7 +123,9 @@ const StockDetailView = () => {
           justifyContent="space-between"
           mb={2}
         >
-          <Typography variant="h4">{symbol}</Typography>
+          <Typography variant="h1">
+            {stock.name ? `${stock.name} (${symbol})` : symbol}
+          </Typography>
           <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
             <SettingsIcon />
           </IconButton>

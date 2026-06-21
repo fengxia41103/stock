@@ -6,6 +6,7 @@ from django.db.models import Avg
 
 class MyStock(models.Model):
     symbol = models.CharField(max_length=64, unique=True)
+    name = models.CharField(max_length=256, default="", blank=True)
     beta = models.FloatField(null=True, default=5)
     roa = models.FloatField(null=True, default=0, verbose_name="Return on Assets")
     roe = models.FloatField(null=True, default=0, verbose_name="Return on Equity")

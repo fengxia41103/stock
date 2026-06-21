@@ -20,6 +20,13 @@ class MySummary:
     def get(self):
         s = Ticker(self.stock.symbol, timeout=15)
 
+        # Get company name from quote type
+        qt = s.quote_type.get(self.stock.symbol, {})
+        if isinstance(qt, dict):
+            name = qt.get("longName") or qt.get("shortName") or ""
+            if name and not self.stock.name:
+                self.stock.name = name
+
         # https://yahooquery.dpguthrie.com/guide/ticker/modules/#financial_data
         df = s.financial_data[self.stock.symbol]
         if NA in df:
