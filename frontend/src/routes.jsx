@@ -3,6 +3,10 @@ import BusinessIcon from "@mui/icons-material/Business";
 import CompareIcon from "@mui/icons-material/Compare";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventNoteIcon from "@mui/icons-material/EventNote";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import GridViewIcon from "@mui/icons-material/GridView";
+import MapIcon from "@mui/icons-material/Map";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
 import SortIcon from "@mui/icons-material/Sort";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
@@ -24,6 +28,10 @@ const TodayDashboardView = lazy(() =>
 const DashboardTrendingView = lazy(() =>
   import("@Views/dashboard/DashboardTrendingView"),
 );
+const MapView = lazy(() => import("@Views/dashboard/MapView"));
+const ScreenerView = lazy(() => import("@Views/dashboard/ScreenerView"));
+const ChartsGridView = lazy(() => import("@Views/dashboard/ChartsGridView"));
+const MacroOverviewView = lazy(() => import("@Views/dashboard/MacroOverviewView"));
 const StockListView = lazy(() => import("@Views/stock/StockListView"));
 const StockDetailView = lazy(() => import("@Views/stock/StockDetailView"));
 const StockHistoricalView = lazy(() =>
@@ -106,12 +114,15 @@ const E = ({ section, children }) => (
 
 const navbar_items = [
   { href: "/dashboard", icon: <DashboardIcon />, title: "Today" },
-  { href: "/trending", icon: <TrendingUpIcon />, title: "Price Trending" },
-  { href: "/stocks", icon: <BusinessIcon />, title: "My Stocks" },
-  { href: "/sectors", icon: <CompareIcon />, title: "My Sectors" },
-  { href: "/rankings", icon: <SortIcon />, title: "Stock Rankings" },
-  { href: "/notes", icon: <EventNoteIcon />, title: "My Notes" },
-  { href: "/news", icon: <AnnouncementIcon />, title: "News" },
+  { href: "/map", icon: <MapIcon />, title: "Map" },
+  { href: "/screener", icon: <FilterListIcon />, title: "Screener" },
+  { href: "/charts", icon: <GridViewIcon />, title: "Charts" },
+  { href: "/macro", icon: <ShowChartIcon />, title: "Macro" },
+  { href: "/trending", icon: <TrendingUpIcon />, title: "Trending" },
+  { href: "/stocks", icon: <BusinessIcon />, title: "Stocks" },
+  { href: "/sectors", icon: <CompareIcon />, title: "Sectors" },
+  { href: "/rankings", icon: <SortIcon />, title: "Rankings" },
+  { href: "/notes", icon: <EventNoteIcon />, title: "Notes" },
 ];
 
 const routes = [
@@ -457,6 +468,38 @@ const routes = [
         element: (
           <S>
             <DashboardTrendingView />
+          </S>
+        ),
+      },
+      {
+        path: "map",
+        element: (
+          <S>
+            <MapView />
+          </S>
+        ),
+      },
+      {
+        path: "screener",
+        element: (
+          <S>
+            <ScreenerView />
+          </S>
+        ),
+      },
+      {
+        path: "charts",
+        element: (
+          <S>
+            <ChartsGridView />
+          </S>
+        ),
+      },
+      {
+        path: "macro",
+        element: (
+          <S>
+            <MacroOverviewView />
           </S>
         ),
       },

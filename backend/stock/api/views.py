@@ -196,6 +196,35 @@ class StockViewSet(viewsets.ModelViewSet):
         stock = self.get_object()
         return Response(stock.cross_statements_model)
 
+    @action(detail=False, methods=["get"])
+    def overview(self, request):
+        """Lightweight overview for treemap/screener."""
+        stocks = MyStock.objects.filter(sectors__user=request.user).distinct()
+        result = []
+        for s in stocks:
+            hist = list(s.historicals.order_by("-on")[:2])
+            price = hist[0].close_price if hist else None
+            daily_return = None
+            if len(hist) >= 2 and hist[1].close_price:
+                daily_return = (hist[0].close_price - hist[1].close_price) / hist[1].close_price * 100
+            sectors = list(s.sectors.filter(user=request.user).values_list("name", flat=True))
+            result.append({
+                "id": s.id,
+                "symbol": s.symbol,
+                "name": s.name,
+                "price": price,
+                "daily_return_pct": round(daily_return, 2) if daily_return else None,
+                "market_cap": (s.shares_outstanding or 0) * (price or 0),
+                "sector": sectors[0] if sectors else None,
+                "pe": s.d_pe,
+                "pb": s.d_pb,
+                "roe": s.roe,
+                "beta": s.beta,
+                "last_lower": s.d_last_lower,
+                "insider_sentiment": s.insider_sentiment_3m,
+            })
+        return Response(result)
+
 
 class HistoricalViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = HistoricalSerializer

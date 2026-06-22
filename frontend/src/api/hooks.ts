@@ -170,3 +170,7 @@ export function useMacroData(seriesId: string, dateGte?: string) {
     { enabled: !!seriesId },
   );
 }
+
+export function useStocksOverview() {
+  return useResource("stocks-overview", "/stocks/overview/");
+}
