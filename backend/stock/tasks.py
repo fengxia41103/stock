@@ -16,6 +16,7 @@ from stock.workers.get_holdings import InstitutionalHoldingsWorker
 from stock.workers.get_income_statement import MyIncomeStatement
 from stock.workers.get_insider_trades import InsiderTradeWorker
 from stock.workers.get_news import MyNewsWorker
+from stock.workers.get_stock_news import StockNewsWorker
 from stock.workers.get_summary import MySummary
 from stock.workers.get_valuation_ratio import MyValuationRatio
 
@@ -107,6 +108,11 @@ def __price_single(symbol):
     
     MyStockHistoricalYahoo(symbol).parser()
     _update_historical_denorm(symbol)
+    # Also fetch news
+    try:
+        StockNewsWorker(symbol).get()
+    except Exception:
+        pass
 
 
 @app.task(queue="statement")
