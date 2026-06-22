@@ -31,7 +31,9 @@ const DashboardTrendingView = lazy(() =>
 const MapView = lazy(() => import("@Views/dashboard/MapView"));
 const ScreenerView = lazy(() => import("@Views/dashboard/ScreenerView"));
 const ChartsGridView = lazy(() => import("@Views/dashboard/ChartsGridView"));
-const MacroOverviewView = lazy(() => import("@Views/dashboard/MacroOverviewView"));
+const MacroOverviewView = lazy(() =>
+  import("@Views/dashboard/MacroOverviewView"),
+);
 const StockListView = lazy(() => import("@Views/stock/StockListView"));
 const StockDetailView = lazy(() => import("@Views/stock/StockDetailView"));
 const StockHistoricalView = lazy(() =>
