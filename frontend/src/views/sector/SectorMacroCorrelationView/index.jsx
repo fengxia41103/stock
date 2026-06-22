@@ -35,12 +35,18 @@ const SectorMacroCorrelationView = () => {
   // Map symbol → stock id for navigation
   const stockMap = useMemo(() => {
     const map = {};
-    (sector?.stocks_detail || []).forEach((s) => { map[s.symbol] = s.id; });
+    (sector?.stocks_detail || []).forEach((s) => {
+      map[s.symbol] = s.id;
+    });
     return map;
   }, [sector]);
 
   const { option, visibleSymbols } = useMemo(() => {
-    if (!correlations || !Array.isArray(correlations) || correlations.length === 0)
+    if (
+      !correlations ||
+      !Array.isArray(correlations) ||
+      correlations.length === 0
+    )
       return { option: null, visibleSymbols: [] };
 
     const filtered = correlations.filter((c) => c.window_days === 365);
@@ -71,7 +77,9 @@ const SectorMacroCorrelationView = () => {
       option: {
         tooltip: {
           formatter: (p) =>
-            `<b>${symbols[p.value[1]]}</b> vs ${seriesIds[p.value[0]]}<br/>r = ${p.value[2]}`,
+            `<b>${symbols[p.value[1]]}</b> vs ${
+              seriesIds[p.value[0]]
+            }<br/>r = ${p.value[2]}`,
         },
         grid: { left: 80, right: 40, top: 10, bottom: 60 },
         xAxis: {
@@ -96,13 +104,19 @@ const SectorMacroCorrelationView = () => {
             color: ["#c62828", "#ef9a9a", "#f5f5f5", "#a5d6a7", "#2e7d32"],
           },
         },
-        series: [{
-          type: "heatmap",
-          data,
-          label: { show: true, fontSize: 11, formatter: (p) => p.value[2].toFixed(2) },
-          itemStyle: { borderWidth: 2, borderColor: "#fff" },
-          emphasis: { itemStyle: { borderColor: "#333", borderWidth: 3 } },
-        }],
+        series: [
+          {
+            type: "heatmap",
+            data,
+            label: {
+              show: true,
+              fontSize: 11,
+              formatter: (p) => p.value[2].toFixed(2),
+            },
+            itemStyle: { borderWidth: 2, borderColor: "#fff" },
+            emphasis: { itemStyle: { borderColor: "#333", borderWidth: 3 } },
+          },
+        ],
       },
     };
   }, [correlations, sector]);
@@ -110,7 +124,8 @@ const SectorMacroCorrelationView = () => {
   if (!option) {
     return (
       <Typography color="text.secondary">
-        No macro correlation data for this sector. Run: python manage.py compute_macro_correlations
+        No macro correlation data for this sector. Run: python manage.py
+        compute_macro_correlations
       </Typography>
     );
   }
@@ -133,7 +148,8 @@ const SectorMacroCorrelationView = () => {
         Stock–Macro Correlation (365-day window)
       </Typography>
       <Typography variant="body2" color="text.secondary" mb={1}>
-        Pearson r: green = moves with macro, red = moves against. Click a stock to view details.
+        Pearson r: green = moves with macro, red = moves against. Click a stock
+        to view details.
       </Typography>
       <ReactEChartsCore
         echarts={echarts}
