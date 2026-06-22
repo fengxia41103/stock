@@ -30,6 +30,7 @@ const price_menus = [
   { url: "price", text: "Daily Prices" },
   { url: "gains", text: "Scale of Gain & Loss" },
   { url: "return", text: "Daily & Nightly Returns" },
+  { url: "macro-correlation", text: "Macro Correlation" },
 ];
 const ranking_menus = [
   { url: "ranking/roe", text: "By ROE" },
@@ -44,10 +45,7 @@ const financial_statement_menus = [
   { url: "cash", text: "Cash Flow Statement" },
 ];
 const valuation_menus = [{ url: "dupont", text: "Dupont ROE" }];
-const ownership_menus = [
-  { url: "institution", text: "Institutions" },
-  { url: "macro-correlation", text: "Macro Correlation" },
-];
+const ownership_menus = [{ url: "institution", text: "Institutions" }];
 
 const SectorDetailView = () => {
   const { id } = useParams();
