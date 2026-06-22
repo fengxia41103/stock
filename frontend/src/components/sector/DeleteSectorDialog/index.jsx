@@ -27,7 +27,7 @@ const DeleteSectorDialog = ({ id, stocks_detail: stocks }) => {
         <DeleteIcon /> Delete sector
       </Button>
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Delete Sector</DialogTitle>
+        <DialogTitle>Delete Portfolio</DialogTitle>
         <DialogContent>
           Deleting this sector will NOT delete stocks associated with it.
           <Box mt={2}>

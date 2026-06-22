@@ -71,7 +71,7 @@ const columns = [
     fmt: (v) => (v != null ? (v * 100).toFixed(0) + "%" : "—"),
     color: true,
   },
-  { id: "sector", label: "Sector", numeric: false },
+  { id: "sector", label: "Portfolio", numeric: false },
 ];
 
 const ScreenerView = () => {
@@ -111,7 +111,7 @@ const ScreenerView = () => {
         <Box mb={2}>
           <TextField
             size="small"
-            label="Filter (symbol or sector)"
+            label="Filter (symbol or portfolio)"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
           />

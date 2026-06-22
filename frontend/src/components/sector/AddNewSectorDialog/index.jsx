@@ -39,7 +39,7 @@ const AddNewSectorDialog = () => {
   return (
     <>
       <Button color="secondary" onClick={() => setOpen(true)}>
-        <AddIcon /> Add New Sector
+        <AddIcon /> Add New Portfolio
       </Button>
       <Dialog
         open={open}
@@ -47,7 +47,7 @@ const AddNewSectorDialog = () => {
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle>Add New Sector</DialogTitle>
+        <DialogTitle>Add New Portfolio</DialogTitle>
         <DialogContent>
           <DialogContentText>
             A sector groups stocks into a category you define.
@@ -57,7 +57,7 @@ const AddNewSectorDialog = () => {
             margin="dense"
             value={sector}
             onChange={(e) => setSector(e.target.value)}
-            placeholder="sector name"
+            placeholder="portfolio name"
             fullWidth
             error={is_error}
             helperText={is_error ? "Sector name must be unique." : ""}

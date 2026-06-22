@@ -50,10 +50,10 @@ const AddStocksToSectorDialog = ({ stocks }) => {
     <>
       <Button color="secondary" onClick={() => setOpen(true)}>
         <AddIcon />
-        Add stocks to sector
+        Add stocks to portfolio
       </Button>
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Add stocks to sector</DialogTitle>
+        <DialogTitle>Add stocks to portfolio</DialogTitle>
         <DialogContent>
           <Box mt={2}>
             <Typography variant="body2">

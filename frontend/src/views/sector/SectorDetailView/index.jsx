@@ -130,7 +130,7 @@ const SectorDetailView = () => {
 
         <SectorDetailContext.Provider value={sector}>
           <Box mt={1}>
-            <Typography variant="body2">sector: {sector.name}</Typography>
+            <Typography variant="body2">portfolio: {sector.name}</Typography>
             <Outlet />
           </Box>
         </SectorDetailContext.Provider>

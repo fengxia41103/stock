@@ -35,7 +35,7 @@ const SectorListView = () => {
           <Card>
             <CardContent>
               <TextField
-                label="Filter by sector name"
+                label="Filter by portfolio name"
                 value={searching}
                 onChange={(e) => setSearching(e.target.value.trim())}
                 fullWidth

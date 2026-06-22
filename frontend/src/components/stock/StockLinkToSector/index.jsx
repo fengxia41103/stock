@@ -103,7 +103,7 @@ const StockLinkToSector = (props) => {
   return (
     <Box display="inline">
       <Tooltip
-        title="Assign stock to a sector"
+        title="Assign stock to a portfolio"
         onClick={(e) => setAnchorEl(e.currentTarget)}
         arrow
       >

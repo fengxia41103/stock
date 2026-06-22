@@ -46,7 +46,7 @@ const EditSectorDialog = ({ id, name: old_name, existings }) => {
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle>Edit Sector</DialogTitle>
+        <DialogTitle>Edit Portfolio</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
