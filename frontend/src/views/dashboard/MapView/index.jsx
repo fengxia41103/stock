@@ -67,22 +67,25 @@ const MapView = () => {
         roam: false,
         nodeClick: false,
         breadcrumb: { show: true },
+        leafDepth: 2,
         levels: [
-          { itemStyle: { borderColor: "#555", borderWidth: 2, gapWidth: 2 } },
           {
+            itemStyle: { borderColor: "#333", borderWidth: 3, gapWidth: 3 },
+            upperLabel: { show: true, height: 24, fontSize: 13, fontWeight: "bold" },
+          },
+          {
+            itemStyle: { borderColor: "#999", borderWidth: 1, gapWidth: 1 },
             colorMappingBy: "value",
-            itemStyle: { borderColor: "#aaa", borderWidth: 1, gapWidth: 1 },
           },
         ],
         label: {
           show: true,
           formatter: (p) => {
             const d = p.data;
+            if (d.children) return d.name;
             const ret =
               d.daily_return_pct != null
-                ? `${
-                    d.daily_return_pct > 0 ? "+" : ""
-                  }${d.daily_return_pct.toFixed(1)}%`
+                ? `${d.daily_return_pct > 0 ? "+" : ""}${d.daily_return_pct.toFixed(1)}%`
                 : "";
             return `${d.name}\n${ret}`;
           },
