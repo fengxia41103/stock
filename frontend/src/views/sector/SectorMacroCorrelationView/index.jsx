@@ -1,4 +1,5 @@
 import React, { useContext, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 import ReactEChartsCore from "echarts-for-react/lib/core";
 import * as echarts from "echarts/core";
@@ -25,107 +26,121 @@ echarts.use([
 const SectorMacroCorrelationView = () => {
   const sector = useContext(SectorDetailContext);
   const theme = useChartTheme();
+  const navigate = useNavigate();
   const { data: correlations } = useResource(
     "macro-correlations",
     "/macro-correlations/",
   );
 
-  const option = useMemo(() => {
-    if (
-      !correlations ||
-      !Array.isArray(correlations) ||
-      correlations.length === 0
-    )
-      return null;
+  // Map symbol → stock id for navigation
+  const stockMap = useMemo(() => {
+    const map = {};
+    (sector?.stocks_detail || []).forEach((s) => { map[s.symbol] = s.id; });
+    return map;
+  }, [sector]);
 
-    // Filter to 365-day window only for clarity
+  const { option, visibleSymbols } = useMemo(() => {
+    if (!correlations || !Array.isArray(correlations) || correlations.length === 0)
+      return { option: null, visibleSymbols: [] };
+
     const filtered = correlations.filter((c) => c.window_days === 365);
-    if (filtered.length === 0) return null;
+    if (filtered.length === 0) return { option: null, visibleSymbols: [] };
 
-    // Build axes
-    const symbols = [...new Set(filtered.map((c) => c.symbol))].sort();
     const seriesIds = [...new Set(filtered.map((c) => c.series_id))];
 
-    // Filter to sector stocks
-    const sectorSymbols = sector?.stocks_detail?.map((s) => s.symbol) || [];
-    const visibleSymbols = symbols.filter(
-      (s) => sectorSymbols.length === 0 || sectorSymbols.includes(s),
+    // Only show stocks in this sector
+    const sectorSymbols = (sector?.stocks_detail || []).map((s) => s.symbol);
+    const symbols = sectorSymbols.filter((sym) =>
+      filtered.some((c) => c.symbol === sym),
     );
 
-    if (visibleSymbols.length === 0) return null;
+    if (symbols.length === 0) return { option: null, visibleSymbols: [] };
 
     // Build heatmap data: [seriesIdx, symbolIdx, correlation]
     const data = [];
     filtered.forEach((c) => {
       const xi = seriesIds.indexOf(c.series_id);
-      const yi = visibleSymbols.indexOf(c.symbol);
+      const yi = symbols.indexOf(c.symbol);
       if (xi >= 0 && yi >= 0) {
         data.push([xi, yi, parseFloat(c.correlation.toFixed(3))]);
       }
     });
 
     return {
-      tooltip: {
-        formatter: (p) =>
-          `${visibleSymbols[p.value[1]]} vs ${seriesIds[p.value[0]]}<br/>r = ${
-            p.value[2]
-          }`,
-      },
-      xAxis: {
-        type: "category",
-        data: seriesIds,
-        axisLabel: { rotate: 45 },
-      },
-      yAxis: {
-        type: "category",
-        data: visibleSymbols,
-      },
-      visualMap: {
-        min: -1,
-        max: 1,
-        calculable: true,
-        orient: "horizontal",
-        left: "center",
-        bottom: 0,
-        inRange: {
-          color: ["#c62828", "#ffcdd2", "#ffffff", "#c8e6c9", "#2e7d32"],
+      visibleSymbols: symbols,
+      option: {
+        tooltip: {
+          formatter: (p) =>
+            `<b>${symbols[p.value[1]]}</b> vs ${seriesIds[p.value[0]]}<br/>r = ${p.value[2]}`,
         },
-      },
-      series: [
-        {
+        grid: { left: 80, right: 40, top: 10, bottom: 60 },
+        xAxis: {
+          type: "category",
+          data: seriesIds,
+          axisLabel: { rotate: 30, fontSize: 11 },
+          position: "top",
+        },
+        yAxis: {
+          type: "category",
+          data: symbols,
+          axisLabel: { fontSize: 12, fontWeight: "bold" },
+        },
+        visualMap: {
+          min: -0.3,
+          max: 0.3,
+          calculable: true,
+          orient: "horizontal",
+          left: "center",
+          bottom: 0,
+          inRange: {
+            color: ["#c62828", "#ef9a9a", "#f5f5f5", "#a5d6a7", "#2e7d32"],
+          },
+        },
+        series: [{
           type: "heatmap",
           data,
-          label: { show: true, fontSize: 10 },
-          itemStyle: { borderWidth: 1, borderColor: "#fff" },
-        },
-      ],
+          label: { show: true, fontSize: 11, formatter: (p) => p.value[2].toFixed(2) },
+          itemStyle: { borderWidth: 2, borderColor: "#fff" },
+          emphasis: { itemStyle: { borderColor: "#333", borderWidth: 3 } },
+        }],
+      },
     };
   }, [correlations, sector]);
 
   if (!option) {
     return (
       <Typography color="text.secondary">
-        No macro correlation data. Run: python manage.py
-        compute_macro_correlations
+        No macro correlation data for this sector. Run: python manage.py compute_macro_correlations
       </Typography>
     );
   }
 
-  const height = Math.max(300, (option.yAxis.data.length || 5) * 35 + 80);
+  const height = Math.max(350, visibleSymbols.length * 40 + 100);
+
+  const onEvents = {
+    click: (params) => {
+      if (params.value && params.value[1] != null) {
+        const symbol = visibleSymbols[params.value[1]];
+        const id = stockMap[symbol];
+        if (id) navigate(`/stocks/${id}/historical/price`);
+      }
+    },
+  };
 
   return (
     <Box>
       <Typography variant="h6" gutterBottom>
         Stock–Macro Correlation (365-day window)
       </Typography>
-      <Typography variant="body2" color="text.secondary" mb={2}>
-        Pearson r: green = moves with macro, red = moves against
+      <Typography variant="body2" color="text.secondary" mb={1}>
+        Pearson r: green = moves with macro, red = moves against. Click a stock to view details.
       </Typography>
       <ReactEChartsCore
         echarts={echarts}
         option={option}
         theme={theme}
         style={{ height }}
+        onEvents={onEvents}
       />
     </Box>
   );
