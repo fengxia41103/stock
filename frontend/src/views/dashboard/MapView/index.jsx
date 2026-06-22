@@ -12,7 +12,12 @@ import { useStocksOverview } from "@/api";
 import { useChartTheme } from "@/hooks/useChartTheme";
 import { Page } from "@fengxia41103/storybook";
 
-echarts.use([TreemapChart, TooltipComponent, VisualMapComponent, CanvasRenderer]);
+echarts.use([
+  TreemapChart,
+  TooltipComponent,
+  VisualMapComponent,
+  CanvasRenderer,
+]);
 
 const MapView = () => {
   const { data, isLoading } = useStocksOverview();
@@ -46,44 +51,58 @@ const MapView = () => {
       formatter: (p) => {
         const d = p.data;
         if (!d.price) return p.name;
-        const ret = d.daily_return_pct != null ? `${d.daily_return_pct > 0 ? "+" : ""}${d.daily_return_pct.toFixed(2)}%` : "N/A";
+        const ret =
+          d.daily_return_pct != null
+            ? `${d.daily_return_pct > 0 ? "+" : ""}${d.daily_return_pct.toFixed(
+                2,
+              )}%`
+            : "N/A";
         return `<b>${d.name}</b><br/>$${d.price.toFixed(2)}<br/>Return: ${ret}`;
       },
     },
-    series: [{
-      type: "treemap",
-      data: treeData,
-      roam: false,
-      nodeClick: false,
-      breadcrumb: { show: true },
-      levels: [
-        { itemStyle: { borderColor: "#555", borderWidth: 2, gapWidth: 2 } },
-        {
-          colorMappingBy: "value",
-          itemStyle: { borderColor: "#aaa", borderWidth: 1, gapWidth: 1 },
+    series: [
+      {
+        type: "treemap",
+        data: treeData,
+        roam: false,
+        nodeClick: false,
+        breadcrumb: { show: true },
+        levels: [
+          { itemStyle: { borderColor: "#555", borderWidth: 2, gapWidth: 2 } },
+          {
+            colorMappingBy: "value",
+            itemStyle: { borderColor: "#aaa", borderWidth: 1, gapWidth: 1 },
+          },
+        ],
+        label: {
+          show: true,
+          formatter: (p) => {
+            const d = p.data;
+            const ret =
+              d.daily_return_pct != null
+                ? `${
+                    d.daily_return_pct > 0 ? "+" : ""
+                  }${d.daily_return_pct.toFixed(1)}%`
+                : "";
+            return `${d.name}\n${ret}`;
+          },
+          fontSize: 12,
+          fontWeight: "bold",
         },
-      ],
-      label: {
-        show: true,
-        formatter: (p) => {
-          const d = p.data;
-          const ret = d.daily_return_pct != null ? `${d.daily_return_pct > 0 ? "+" : ""}${d.daily_return_pct.toFixed(1)}%` : "";
-          return `${d.name}\n${ret}`;
-        },
-        fontSize: 12,
-        fontWeight: "bold",
+        visualMin: -3,
+        visualMax: 3,
+        visualDimension: "daily_return_pct",
+        colorMappingBy: "value",
+        leafDepth: 1,
       },
-      visualMin: -3,
-      visualMax: 3,
-      visualDimension: "daily_return_pct",
-      colorMappingBy: "value",
-      leafDepth: 1,
-    }],
+    ],
     visualMap: {
       type: "continuous",
       min: -3,
       max: 3,
-      inRange: { color: ["#c62828", "#ef9a9a", "#e0e0e0", "#a5d6a7", "#2e7d32"] },
+      inRange: {
+        color: ["#c62828", "#ef9a9a", "#e0e0e0", "#a5d6a7", "#2e7d32"],
+      },
       text: ["+3%", "-3%"],
       orient: "horizontal",
       left: "center",
@@ -93,7 +112,8 @@ const MapView = () => {
 
   const onEvents = {
     click: (params) => {
-      if (params.data?.id) navigate(`/stocks/${params.data.id}/historical/price`);
+      if (params.data?.id)
+        navigate(`/stocks/${params.data.id}/historical/price`);
     },
   };
 
