@@ -26,7 +26,7 @@ const SectorListView = () => {
   const filtered = filter(sectors, (x) => x.name.includes(searching));
 
   return (
-    <Page title="Sectors">
+    <Page title="My Portfolios">
       <Container maxWidth={false}>
         <Box display="flex" flexDirection="row-reverse" mt={1}>
           <AddNewSectorDialog />

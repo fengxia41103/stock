@@ -122,7 +122,7 @@ const navbar_items = [
   { href: "/macro", icon: <ShowChartIcon />, title: "Macro" },
   { href: "/trending", icon: <TrendingUpIcon />, title: "Trending" },
   { href: "/stocks", icon: <BusinessIcon />, title: "Stocks" },
-  { href: "/sectors", icon: <CompareIcon />, title: "Sectors" },
+  { href: "/sectors", icon: <CompareIcon />, title: "Portfolios" },
   { href: "/rankings", icon: <SortIcon />, title: "Rankings" },
   { href: "/notes", icon: <EventNoteIcon />, title: "Notes" },
 ];
