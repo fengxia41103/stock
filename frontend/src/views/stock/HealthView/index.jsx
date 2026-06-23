@@ -40,7 +40,9 @@ const RatioCard = ({ label, value, suffix, good, bad }) => {
   return (
     <Card variant="outlined">
       <CardContent sx={{ py: 1, "&:last-child": { pb: 1 } }}>
-        <Typography variant="caption" color="text.secondary">{label}</Typography>
+        <Typography variant="caption" color="text.secondary">
+          {label}
+        </Typography>
         <Typography variant="h6" color={`${color}.main`}>
           {fmt(value, suffix)}
         </Typography>
@@ -55,7 +57,11 @@ const HealthView = () => {
 
   if (isLoading) return <ScaleLoader loading />;
   if (!data || data.error) {
-    return <Typography color="text.secondary">{data?.error || "No health data available."}</Typography>;
+    return (
+      <Typography color="text.secondary">
+        {data?.error || "No health data available."}
+      </Typography>
+    );
   }
 
   const { ratios, health } = data;
@@ -66,11 +72,11 @@ const HealthView = () => {
       {/* Health Status */}
       <Box mb={2}>
         {health.healthy ? (
-          <Alert severity="success">✅ No red flags detected — passes SEC health screen</Alert>
-        ) : (
-          <Alert severity="warning">
-            ⚠️ Flags: {flags.join(", ")}
+          <Alert severity="success">
+            ✅ No red flags detected — passes SEC health screen
           </Alert>
+        ) : (
+          <Alert severity="warning">⚠️ Flags: {flags.join(", ")}</Alert>
         )}
       </Box>
 
@@ -81,7 +87,13 @@ const HealthView = () => {
             <Typography variant="subtitle1">Altman Z-Score:</Typography>
             <Chip
               label={`${health.altman_z} (${health.altman_zone})`}
-              color={health.altman_zone === "SAFE" ? "success" : health.altman_zone === "GRAY" ? "warning" : "error"}
+              color={
+                health.altman_zone === "SAFE"
+                  ? "success"
+                  : health.altman_zone === "GRAY"
+                  ? "warning"
+                  : "error"
+              }
             />
           </Stack>
           <Typography variant="caption" color="text.secondary">
@@ -93,28 +105,68 @@ const HealthView = () => {
       {/* Ratio Cards */}
       <Grid container spacing={1} mb={2}>
         <Grid item xs={6} sm={4} md={3}>
-          <RatioCard label="Current Ratio" value={ratios.current_ratio} good={1.5} bad={1.0} />
+          <RatioCard
+            label="Current Ratio"
+            value={ratios.current_ratio}
+            good={1.5}
+            bad={1.0}
+          />
         </Grid>
         <Grid item xs={6} sm={4} md={3}>
-          <RatioCard label="Debt / Equity" value={ratios.debt_to_equity} good={0} bad={2.0} />
+          <RatioCard
+            label="Debt / Equity"
+            value={ratios.debt_to_equity}
+            good={0}
+            bad={2.0}
+          />
         </Grid>
         <Grid item xs={6} sm={4} md={3}>
-          <RatioCard label="Interest Coverage" value={ratios.interest_coverage} suffix="x" good={5} bad={3} />
+          <RatioCard
+            label="Interest Coverage"
+            value={ratios.interest_coverage}
+            suffix="x"
+            good={5}
+            bad={3}
+          />
         </Grid>
         <Grid item xs={6} sm={4} md={3}>
-          <RatioCard label="ROCE" value={ratios.roce_pct} suffix="%" good={15} bad={5} />
+          <RatioCard
+            label="ROCE"
+            value={ratios.roce_pct}
+            suffix="%"
+            good={15}
+            bad={5}
+          />
         </Grid>
         <Grid item xs={6} sm={4} md={3}>
-          <RatioCard label="Net Margin" value={ratios.net_margin_pct} suffix="%" good={15} bad={5} />
+          <RatioCard
+            label="Net Margin"
+            value={ratios.net_margin_pct}
+            suffix="%"
+            good={15}
+            bad={5}
+          />
         </Grid>
         <Grid item xs={6} sm={4} md={3}>
-          <RatioCard label="OCF / Net Income" value={ratios.ocf_to_net_income} suffix="x" good={1.0} bad={0.8} />
+          <RatioCard
+            label="OCF / Net Income"
+            value={ratios.ocf_to_net_income}
+            suffix="x"
+            good={1.0}
+            bad={0.8}
+          />
         </Grid>
         <Grid item xs={6} sm={4} md={3}>
           <RatioCard label="Free Cash Flow" value={ratios.fcf} />
         </Grid>
         <Grid item xs={6} sm={4} md={3}>
-          <RatioCard label="Accrual Ratio" value={health.accrual_ratio_pct} suffix="%" good={-5} bad={5} />
+          <RatioCard
+            label="Accrual Ratio"
+            value={health.accrual_ratio_pct}
+            suffix="%"
+            good={-5}
+            bad={5}
+          />
         </Grid>
       </Grid>
 
@@ -129,12 +181,40 @@ const HealthView = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow><TableCell>HIGH_LEVERAGE</TableCell><TableCell>Debt/Equity {">"} 2.0</TableCell><TableCell>#2</TableCell></TableRow>
-            <TableRow><TableCell>LOW_LIQUIDITY</TableCell><TableCell>Current ratio {"<"} 1.0</TableCell><TableCell>#2</TableCell></TableRow>
-            <TableRow><TableCell>WEAK_COVERAGE</TableCell><TableCell>Interest coverage {"<"} 3x</TableCell><TableCell>#2</TableCell></TableRow>
-            <TableRow><TableCell>POOR_CASH_CONVERSION</TableCell><TableCell>OCF/NI {"<"} 0.8 (earnings not backed by cash)</TableCell><TableCell>#1/#10</TableCell></TableRow>
-            <TableRow><TableCell>HIGH_ACCRUALS</TableCell><TableCell>|Accruals/Assets| {">"} 5% (possible manipulation)</TableCell><TableCell>#1/#10</TableCell></TableRow>
-            <TableRow><TableCell>DISTRESS_RISK</TableCell><TableCell>Altman Z {"<"} 1.8</TableCell><TableCell>#2/#5</TableCell></TableRow>
+            <TableRow>
+              <TableCell>HIGH_LEVERAGE</TableCell>
+              <TableCell>Debt/Equity {">"} 2.0</TableCell>
+              <TableCell>#2</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>LOW_LIQUIDITY</TableCell>
+              <TableCell>Current ratio {"<"} 1.0</TableCell>
+              <TableCell>#2</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>WEAK_COVERAGE</TableCell>
+              <TableCell>Interest coverage {"<"} 3x</TableCell>
+              <TableCell>#2</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>POOR_CASH_CONVERSION</TableCell>
+              <TableCell>
+                OCF/NI {"<"} 0.8 (earnings not backed by cash)
+              </TableCell>
+              <TableCell>#1/#10</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>HIGH_ACCRUALS</TableCell>
+              <TableCell>
+                |Accruals/Assets| {">"} 5% (possible manipulation)
+              </TableCell>
+              <TableCell>#1/#10</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>DISTRESS_RISK</TableCell>
+              <TableCell>Altman Z {"<"} 1.8</TableCell>
+              <TableCell>#2/#5</TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
