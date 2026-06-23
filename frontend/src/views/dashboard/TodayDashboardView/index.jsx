@@ -7,10 +7,10 @@ import { useResource, useStocksOverview } from "@/api";
 import { Page } from "@fengxia41103/storybook";
 import ShowResource from "@Components/common/ShowResource";
 
-const BG = "#0f172a";
-const TILE = "#1e293b";
-const TEXT = "#f8fafc";
-const TEXT2 = "#94a3b8";
+const BG = "background.default";
+const TILE = "background.paper";
+const TEXT = "text.primary";
+const TEXT2 = "text.secondary";
 const GREEN = "#10b981";
 const RED = "#ef4444";
 const AMBER = "#f59e0b";
@@ -68,7 +68,7 @@ const Tile = ({
     <Typography
       variant="caption"
       sx={{
-        color: TEXT2,
+        color: "text.secondary",
         textTransform: "uppercase",
         letterSpacing: 1,
         fontSize: "0.65rem",
@@ -76,7 +76,7 @@ const Tile = ({
     >
       {label}
     </Typography>
-    <Typography variant="h4" sx={{ color: TEXT, fontWeight: 700, my: 0.5 }}>
+    <Typography variant="h4" sx={{ color: "text.primary", fontWeight: 700, my: 0.5 }}>
       {value}
     </Typography>
     <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -195,7 +195,7 @@ const TodayDashboardView = () => {
               sparkData={treasurySparkline}
               sparkColor={BLUE}
               delta={latestTreasury ? latestTreasury.date : ""}
-              deltaColor="#475569"
+              deltaColor="grey"
             />
           </Grid>
           <Grid item xs={6} sm={3}>
@@ -274,7 +274,7 @@ const TodayDashboardView = () => {
               label="Next Earnings"
               value={nextEarning ? nextEarning.symbol : "None"}
               delta={daysToEarn != null ? `in ${daysToEarn} days` : ""}
-              deltaColor={daysToEarn && daysToEarn <= 7 ? AMBER : "#475569"}
+              deltaColor={daysToEarn && daysToEarn <= 7 ? AMBER : "grey"}
               onClick={
                 nextEarning
                   ? () => navigate(`/stocks/${nextEarning.stock}/earnings`)
@@ -308,7 +308,7 @@ const TodayDashboardView = () => {
               label="Upcoming Earnings"
               value={earningsList.length}
               delta="next 30 days"
-              deltaColor="#475569"
+              deltaColor="grey"
             />
           </Grid>
 
@@ -318,7 +318,7 @@ const TodayDashboardView = () => {
               <Typography
                 variant="caption"
                 sx={{
-                  color: TEXT2,
+                  color: "text.secondary",
                   textTransform: "uppercase",
                   letterSpacing: 1,
                 }}
@@ -335,12 +335,12 @@ const TodayDashboardView = () => {
                       cursor: "pointer",
                       p: 0.5,
                       borderRadius: 1,
-                      "&:hover": { bgcolor: "#334155" },
+                      "&:hover": { bgcolor: "action.hover" },
                     }}
                     onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
                   >
                     <Typography
-                      sx={{ color: TEXT, fontWeight: 600, fontSize: "0.85rem" }}
+                      sx={{ color: "text.primary", fontWeight: 600, fontSize: "0.85rem" }}
                     >
                       {s.symbol}
                     </Typography>
@@ -363,7 +363,7 @@ const TodayDashboardView = () => {
               <Typography
                 variant="caption"
                 sx={{
-                  color: TEXT2,
+                  color: "text.secondary",
                   textTransform: "uppercase",
                   letterSpacing: 1,
                 }}
@@ -383,7 +383,7 @@ const TodayDashboardView = () => {
                         cursor: "pointer",
                         p: 0.5,
                         borderRadius: 1,
-                        "&:hover": { bgcolor: "#334155" },
+                        "&:hover": { bgcolor: "action.hover" },
                       }}
                       onClick={() =>
                         navigate(`/stocks/${s.id}/historical/price`)
@@ -391,7 +391,7 @@ const TodayDashboardView = () => {
                     >
                       <Typography
                         sx={{
-                          color: TEXT,
+                          color: "text.primary",
                           fontWeight: 600,
                           fontSize: "0.85rem",
                         }}
@@ -419,7 +419,7 @@ const TodayDashboardView = () => {
               <Typography
                 variant="caption"
                 sx={{
-                  color: TEXT2,
+                  color: "text.secondary",
                   textTransform: "uppercase",
                   letterSpacing: 1,
                 }}
@@ -429,7 +429,7 @@ const TodayDashboardView = () => {
               <Typography
                 variant="caption"
                 display="block"
-                sx={{ color: TEXT2, mb: 1 }}
+                sx={{ color: "text.secondary", mb: 1 }}
               >
                 days since a lower price
               </Typography>
@@ -443,12 +443,12 @@ const TodayDashboardView = () => {
                       cursor: "pointer",
                       p: 0.5,
                       borderRadius: 1,
-                      "&:hover": { bgcolor: "#334155" },
+                      "&:hover": { bgcolor: "action.hover" },
                     }}
                     onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
                   >
                     <Typography
-                      sx={{ color: TEXT, fontWeight: 600, fontSize: "0.85rem" }}
+                      sx={{ color: "text.primary", fontWeight: 600, fontSize: "0.85rem" }}
                     >
                       {s.symbol}
                     </Typography>
@@ -471,7 +471,7 @@ const TodayDashboardView = () => {
               <Typography
                 variant="caption"
                 sx={{
-                  color: TEXT2,
+                  color: "text.secondary",
                   textTransform: "uppercase",
                   letterSpacing: 1,
                 }}
@@ -481,7 +481,7 @@ const TodayDashboardView = () => {
               <Typography
                 variant="caption"
                 display="block"
-                sx={{ color: TEXT2, mb: 1 }}
+                sx={{ color: "text.secondary", mb: 1 }}
               >
                 days since a higher price (0 = at peak)
               </Typography>
@@ -498,7 +498,7 @@ const TodayDashboardView = () => {
                         cursor: "pointer",
                         p: 0.5,
                         borderRadius: 1,
-                        "&:hover": { bgcolor: "#334155" },
+                        "&:hover": { bgcolor: "action.hover" },
                       }}
                       onClick={() =>
                         navigate(`/stocks/${s.id}/historical/price`)
@@ -506,7 +506,7 @@ const TodayDashboardView = () => {
                     >
                       <Typography
                         sx={{
-                          color: TEXT,
+                          color: "text.primary",
                           fontWeight: 600,
                           fontSize: "0.85rem",
                         }}
@@ -532,7 +532,7 @@ const TodayDashboardView = () => {
               <Typography
                 variant="caption"
                 sx={{
-                  color: TEXT2,
+                  color: "text.secondary",
                   textTransform: "uppercase",
                   letterSpacing: 1,
                 }}
@@ -542,7 +542,7 @@ const TodayDashboardView = () => {
               <Typography
                 variant="caption"
                 display="block"
-                sx={{ color: TEXT2, mb: 1 }}
+                sx={{ color: "text.secondary", mb: 1 }}
               >
                 highest relative trading activity
               </Typography>
@@ -560,7 +560,7 @@ const TodayDashboardView = () => {
                         cursor: "pointer",
                         p: 0.5,
                         borderRadius: 1,
-                        "&:hover": { bgcolor: "#334155" },
+                        "&:hover": { bgcolor: "action.hover" },
                       }}
                       onClick={() =>
                         navigate(`/stocks/${s.id}/historical/price`)
@@ -568,7 +568,7 @@ const TodayDashboardView = () => {
                     >
                       <Typography
                         sx={{
-                          color: TEXT,
+                          color: "text.primary",
                           fontWeight: 600,
                           fontSize: "0.85rem",
                         }}
@@ -594,7 +594,7 @@ const TodayDashboardView = () => {
               <Typography
                 variant="caption"
                 sx={{
-                  color: TEXT2,
+                  color: "text.secondary",
                   textTransform: "uppercase",
                   letterSpacing: 1,
                 }}
@@ -604,7 +604,7 @@ const TodayDashboardView = () => {
               <Typography
                 variant="caption"
                 display="block"
-                sx={{ color: TEXT2, mb: 1 }}
+                sx={{ color: "text.secondary", mb: 1 }}
               >
                 net buy/sell sentiment (90 days)
               </Typography>
@@ -622,13 +622,13 @@ const TodayDashboardView = () => {
                         cursor: "pointer",
                         p: 0.5,
                         borderRadius: 1,
-                        "&:hover": { bgcolor: "#334155" },
+                        "&:hover": { bgcolor: "action.hover" },
                       }}
                       onClick={() => navigate(`/stocks/${s.id}/insider-trades`)}
                     >
                       <Typography
                         sx={{
-                          color: TEXT,
+                          color: "text.primary",
                           fontWeight: 600,
                           fontSize: "0.85rem",
                         }}
