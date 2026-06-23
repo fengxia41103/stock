@@ -68,17 +68,25 @@ const LastLowerNextBetterView = () => {
             }
           />
           <CardContent>
-            <Typography variant="body2">
-              Gain probabilities measure how like you could gain by purchasing
-              at close price on a particular day. The `Gain bought today & hold`
-              is, as name indicates, is an absolute gain/loss in percentage if
-              you buy at today&apos;s close price and hold till now. The
-              &quot;Gain probability&quot; measures likelyhood you could make a
-              positive gain from this date on. For example, if there are 30 days
-              from the date to the end of period, and 10 days had prices higher
-              than the date&apos;s close price, the probability is
-              10/30=1/3=33%. In other words, you have 33% chance to make a
-              positive gain.
+            <Typography variant="body2" paragraph>
+              <strong>Gain Bought Today &amp; Hold</strong> — If you bought at
+              this day&apos;s close price and held until the end of the period,
+              what would your total return be? Positive = profitable hold,
+              negative = you would have lost money.
+            </Typography>
+
+            <Typography variant="body2" paragraph>
+              <strong>Gain Probability</strong> — Of all remaining trading days
+              after a given date, what percentage had a price higher than that
+              day&apos;s close? This is your chance of being able to sell at a
+              profit.
+            </Typography>
+
+            <Typography variant="body2" component="ul" sx={{ pl: 2 }}>
+              <li>Example: 30 days remain, 10 had prices above today&apos;s close → probability = 10/30 = 33%</li>
+              <li><code>90-100%</code> = bought near the bottom (almost every future day was higher)</li>
+              <li><code>0-10%</code> = bought near the top (almost no future day was higher)</li>
+              <li>Use this to see which price levels historically gave the best odds</li>
             </Typography>
             <Box mt={3}>
               <GainProbabilityChart data={data} />
