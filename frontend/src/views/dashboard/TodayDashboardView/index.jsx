@@ -416,87 +416,236 @@ const TodayDashboardView = () => {
           {/* Row 5: Drop/Rebound/Volume/Volatility */}
           <Grid item xs={12} sm={6} md={3}>
             <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
-              <Typography variant="caption" sx={{ color: TEXT2, textTransform: "uppercase", letterSpacing: 1 }}>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: TEXT2,
+                  textTransform: "uppercase",
+                  letterSpacing: 1,
+                }}
+              >
                 Biggest Drops (days)
               </Typography>
-              <Typography variant="caption" display="block" sx={{ color: TEXT2, mb: 1 }}>
+              <Typography
+                variant="caption"
+                display="block"
+                sx={{ color: TEXT2, mb: 1 }}
+              >
                 days since a lower price
               </Typography>
               <Stack spacing={0.5}>
                 {oversold.slice(0, 5).map((s) => (
-                  <Stack key={s.id} direction="row" justifyContent="space-between"
-                    sx={{ cursor: "pointer", p: 0.5, borderRadius: 1, "&:hover": { bgcolor: "#334155" } }}
+                  <Stack
+                    key={s.id}
+                    direction="row"
+                    justifyContent="space-between"
+                    sx={{
+                      cursor: "pointer",
+                      p: 0.5,
+                      borderRadius: 1,
+                      "&:hover": { bgcolor: "#334155" },
+                    }}
                     onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
                   >
-                    <Typography sx={{ color: TEXT, fontWeight: 600, fontSize: "0.85rem" }}>{s.symbol}</Typography>
-                    <Typography sx={{ color: AMBER, fontWeight: 700, fontSize: "0.85rem" }}>{s.last_lower}d</Typography>
-                  </Stack>
-                ))}
-              </Stack>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
-              <Typography variant="caption" sx={{ color: TEXT2, textTransform: "uppercase", letterSpacing: 1 }}>
-                Rebound Scale (days)
-              </Typography>
-              <Typography variant="caption" display="block" sx={{ color: TEXT2, mb: 1 }}>
-                days since a higher price (0 = at peak)
-              </Typography>
-              <Stack spacing={0.5}>
-                {[...stocks].filter((s) => s.last_lower != null && s.last_lower === 0).slice(0, 5).map((s) => (
-                  <Stack key={s.id} direction="row" justifyContent="space-between"
-                    sx={{ cursor: "pointer", p: 0.5, borderRadius: 1, "&:hover": { bgcolor: "#334155" } }}
-                    onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
-                  >
-                    <Typography sx={{ color: TEXT, fontWeight: 600, fontSize: "0.85rem" }}>{s.symbol}</Typography>
-                    <Typography sx={{ color: GREEN, fontWeight: 700, fontSize: "0.85rem" }}>at peak</Typography>
-                  </Stack>
-                ))}
-              </Stack>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
-              <Typography variant="caption" sx={{ color: TEXT2, textTransform: "uppercase", letterSpacing: 1 }}>
-                Top Volume (% of outstanding)
-              </Typography>
-              <Typography variant="caption" display="block" sx={{ color: TEXT2, mb: 1 }}>
-                highest relative trading activity
-              </Typography>
-              <Stack spacing={0.5}>
-                {[...stocks].filter((s) => s.market_cap > 0).sort((a, b) => b.market_cap - a.market_cap).slice(0, 5).map((s) => (
-                  <Stack key={s.id} direction="row" justifyContent="space-between"
-                    sx={{ cursor: "pointer", p: 0.5, borderRadius: 1, "&:hover": { bgcolor: "#334155" } }}
-                    onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
-                  >
-                    <Typography sx={{ color: TEXT, fontWeight: 600, fontSize: "0.85rem" }}>{s.symbol}</Typography>
-                    <Typography sx={{ color: BLUE, fontWeight: 700, fontSize: "0.85rem" }}>${(s.market_cap).toFixed(0)}B</Typography>
-                  </Stack>
-                ))}
-              </Stack>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
-              <Typography variant="caption" sx={{ color: TEXT2, textTransform: "uppercase", letterSpacing: 1 }}>
-                Insider Signals
-              </Typography>
-              <Typography variant="caption" display="block" sx={{ color: TEXT2, mb: 1 }}>
-                net buy/sell sentiment (90 days)
-              </Typography>
-              <Stack spacing={0.5}>
-                {[...stocks].filter((s) => s.insider_sentiment != null).sort((a, b) => b.insider_sentiment - a.insider_sentiment).slice(0, 5).map((s) => (
-                  <Stack key={s.id} direction="row" justifyContent="space-between"
-                    sx={{ cursor: "pointer", p: 0.5, borderRadius: 1, "&:hover": { bgcolor: "#334155" } }}
-                    onClick={() => navigate(`/stocks/${s.id}/insider-trades`)}
-                  >
-                    <Typography sx={{ color: TEXT, fontWeight: 600, fontSize: "0.85rem" }}>{s.symbol}</Typography>
-                    <Typography sx={{ color: s.insider_sentiment > 0 ? GREEN : RED, fontWeight: 700, fontSize: "0.85rem" }}>
-                      {(s.insider_sentiment * 100).toFixed(0)}%
+                    <Typography
+                      sx={{ color: TEXT, fontWeight: 600, fontSize: "0.85rem" }}
+                    >
+                      {s.symbol}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        color: AMBER,
+                        fontWeight: 700,
+                        fontSize: "0.85rem",
+                      }}
+                    >
+                      {s.last_lower}d
                     </Typography>
                   </Stack>
                 ))}
+              </Stack>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: TEXT2,
+                  textTransform: "uppercase",
+                  letterSpacing: 1,
+                }}
+              >
+                Rebound Scale (days)
+              </Typography>
+              <Typography
+                variant="caption"
+                display="block"
+                sx={{ color: TEXT2, mb: 1 }}
+              >
+                days since a higher price (0 = at peak)
+              </Typography>
+              <Stack spacing={0.5}>
+                {[...stocks]
+                  .filter((s) => s.last_lower != null && s.last_lower === 0)
+                  .slice(0, 5)
+                  .map((s) => (
+                    <Stack
+                      key={s.id}
+                      direction="row"
+                      justifyContent="space-between"
+                      sx={{
+                        cursor: "pointer",
+                        p: 0.5,
+                        borderRadius: 1,
+                        "&:hover": { bgcolor: "#334155" },
+                      }}
+                      onClick={() =>
+                        navigate(`/stocks/${s.id}/historical/price`)
+                      }
+                    >
+                      <Typography
+                        sx={{
+                          color: TEXT,
+                          fontWeight: 600,
+                          fontSize: "0.85rem",
+                        }}
+                      >
+                        {s.symbol}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          color: GREEN,
+                          fontWeight: 700,
+                          fontSize: "0.85rem",
+                        }}
+                      >
+                        at peak
+                      </Typography>
+                    </Stack>
+                  ))}
+              </Stack>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: TEXT2,
+                  textTransform: "uppercase",
+                  letterSpacing: 1,
+                }}
+              >
+                Top Volume (% of outstanding)
+              </Typography>
+              <Typography
+                variant="caption"
+                display="block"
+                sx={{ color: TEXT2, mb: 1 }}
+              >
+                highest relative trading activity
+              </Typography>
+              <Stack spacing={0.5}>
+                {[...stocks]
+                  .filter((s) => s.market_cap > 0)
+                  .sort((a, b) => b.market_cap - a.market_cap)
+                  .slice(0, 5)
+                  .map((s) => (
+                    <Stack
+                      key={s.id}
+                      direction="row"
+                      justifyContent="space-between"
+                      sx={{
+                        cursor: "pointer",
+                        p: 0.5,
+                        borderRadius: 1,
+                        "&:hover": { bgcolor: "#334155" },
+                      }}
+                      onClick={() =>
+                        navigate(`/stocks/${s.id}/historical/price`)
+                      }
+                    >
+                      <Typography
+                        sx={{
+                          color: TEXT,
+                          fontWeight: 600,
+                          fontSize: "0.85rem",
+                        }}
+                      >
+                        {s.symbol}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          color: BLUE,
+                          fontWeight: 700,
+                          fontSize: "0.85rem",
+                        }}
+                      >
+                        ${s.market_cap.toFixed(0)}B
+                      </Typography>
+                    </Stack>
+                  ))}
+              </Stack>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: TEXT2,
+                  textTransform: "uppercase",
+                  letterSpacing: 1,
+                }}
+              >
+                Insider Signals
+              </Typography>
+              <Typography
+                variant="caption"
+                display="block"
+                sx={{ color: TEXT2, mb: 1 }}
+              >
+                net buy/sell sentiment (90 days)
+              </Typography>
+              <Stack spacing={0.5}>
+                {[...stocks]
+                  .filter((s) => s.insider_sentiment != null)
+                  .sort((a, b) => b.insider_sentiment - a.insider_sentiment)
+                  .slice(0, 5)
+                  .map((s) => (
+                    <Stack
+                      key={s.id}
+                      direction="row"
+                      justifyContent="space-between"
+                      sx={{
+                        cursor: "pointer",
+                        p: 0.5,
+                        borderRadius: 1,
+                        "&:hover": { bgcolor: "#334155" },
+                      }}
+                      onClick={() => navigate(`/stocks/${s.id}/insider-trades`)}
+                    >
+                      <Typography
+                        sx={{
+                          color: TEXT,
+                          fontWeight: 600,
+                          fontSize: "0.85rem",
+                        }}
+                      >
+                        {s.symbol}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          color: s.insider_sentiment > 0 ? GREEN : RED,
+                          fontWeight: 700,
+                          fontSize: "0.85rem",
+                        }}
+                      >
+                        {(s.insider_sentiment * 100).toFixed(0)}%
+                      </Typography>
+                    </Stack>
+                  ))}
               </Stack>
             </Paper>
           </Grid>
