@@ -240,3 +240,150 @@ class MyStock(models.Model):
             return None
         beats = sum(1 for e in events if e.surprise_pct > 0)
         return beats / len(events) * 100
+
+    # --- Graham Valuation ---
+
+    @property
+    def graham_score(self):
+        """Count of Benjamin Graham's screening criteria passed (0-7).
+
+        Criteria:
+        1. Adequate size (revenue > $100M = 0.1B in our units)
+        2. Current ratio > 2
+        3. Earnings stability (positive net income every quarter available, min 8)
+        4. Earnings growth (>33% from oldest to newest available)
+        5. Moderate PE (< 15)
+        6. Moderate PE×PB (< 22.5)
+        7. Low debt (total_debt < working_capital)
+        """
+        score = 0
+        income = self.incomes.order_by("-on").first()
+        balance = self.balances.order_by("-on").first()
+
+        # 1. Size
+        if income and income.total_revenue and income.total_revenue > 0.1:
+            score += 1
+
+        # 2. Current ratio > 2
+        if balance and balance.current_ratio and balance.current_ratio > 2:
+            score += 1
+
+        # 3. Earnings stability (all available quarters positive, min 8)
+        net_incomes = list(
+            self.incomes.order_by("on").values_list("net_income", flat=True)
+        )
+        if len(net_incomes) >= 8 and all(ni and ni > 0 for ni in net_incomes):
+            score += 1
+
+        # 4. Earnings growth > 33%
+        if len(net_incomes) >= 8 and net_incomes[0] and net_incomes[0] > 0:
+            growth = (net_incomes[-1] - net_incomes[0]) / abs(net_incomes[0])
+            if growth > 0.33:
+                score += 1
+
+        # 5. PE < 15
+        if self.pe and 0 < self.pe < 15:
+            score += 1
+
+        # 6. PE × PB < 22.5
+        if self.pe and self.pb and self.pe > 0 and self.pb > 0:
+            if self.pe * self.pb < 22.5:
+                score += 1
+
+        # 7. Debt < working capital
+        if balance and balance.working_capital and balance.total_debt is not None:
+            if balance.total_debt < balance.working_capital:
+                score += 1
+
+        return score
+
+    @property
+    def graham_number(self):
+        """Graham Number = sqrt(22.5 × EPS × BVPS).
+
+        Stock is undervalued if price < Graham Number.
+        """
+        import math
+
+        income = self.incomes.order_by("-on").first()
+        balance = self.balances.order_by("-on").first()
+        if not income or not balance:
+            return None
+
+        eps = income.basic_eps if income.basic_eps else None
+        bvps = balance.tangible_book_value_per_share
+        if not eps or eps <= 0 or not bvps or bvps <= 0:
+            return None
+
+        return math.sqrt(22.5 * eps * bvps)
+
+    @property
+    def graham_intrinsic_value(self):
+        """Graham formula: V = EPS × (8.5 + 2g).
+
+        g = earnings growth rate (annualized from available quarters).
+        Returns intrinsic value per share.
+        """
+        incomes = list(
+            self.incomes.filter(basic_eps__gt=0)
+            .order_by("on")
+            .values_list("basic_eps", flat=True)
+        )
+        if len(incomes) < 4:
+            return None
+
+        eps = incomes[-1]  # latest EPS (quarterly)
+        # Annualize: sum last 4 quarters
+        ttm_eps = sum(incomes[-4:]) if len(incomes) >= 4 else eps * 4
+
+        # Compute annualized growth from earliest to latest
+        years = len(incomes) / 4.0
+        if years < 1 or incomes[0] <= 0:
+            return None
+
+        growth_total = (incomes[-1] / incomes[0])
+        if growth_total <= 0:
+            return None
+
+        import math
+        g = (math.pow(growth_total, 1.0 / years) - 1) * 100  # annualized %
+        g = min(g, 20)  # cap at 20% to avoid absurd values
+
+        return ttm_eps * (8.5 + 2 * g)
+
+    @property
+    def graham_margin_of_safety(self):
+        """(Graham Intrinsic Value - Price) / Intrinsic Value as %.
+
+        Positive = undervalued. Negative = overvalued.
+        """
+        iv = self.graham_intrinsic_value
+        price = self.latest_close_price
+        if not iv or not price or iv <= 0:
+            return None
+        return (iv - price) / iv * 100
+
+    @property
+    def pe_pb_product(self):
+        """PE × P/B. Graham says should be < 22.5."""
+        if self.pe and self.pb and self.pe > 0 and self.pb > 0:
+            return self.pe * self.pb
+        return None
+
+    @property
+    def net_net_ratio(self):
+        """Market Cap / (Current Assets - Total Liabilities).
+
+        < 0.67 = Graham net-net buy signal (price < 2/3 liquidation value).
+        """
+        balance = self.balances.order_by("-on").first()
+        price = self.latest_close_price
+        if not balance or not price or not self.shares_outstanding:
+            return None
+
+        ncav = balance.current_assets - balance.total_liability
+        if ncav <= 0:
+            return None
+
+        market_cap = price * self.shares_outstanding
+        return market_cap / ncav

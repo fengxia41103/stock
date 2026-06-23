@@ -24,6 +24,8 @@ class StockListSerializer(serializers.ModelSerializer):
     last_better = serializers.IntegerField(read_only=True)
     last_reporting_date = serializers.DateField(read_only=True)
     price_to_cash_premium = serializers.FloatField(read_only=True)
+    graham_score = serializers.IntegerField(read_only=True)
+    pe_pb_product = serializers.FloatField(read_only=True)
 
     class Meta:
         model = MyStock
@@ -32,6 +34,7 @@ class StockListSerializer(serializers.ModelSerializer):
             "shares_outstanding", "top_ten_institution_ownership",
             "institution_count", "pe", "pb", "ps", "last_lower",
             "last_better", "last_reporting_date", "price_to_cash_premium",
+            "graham_score", "pe_pb_product",
         ]
 
 
@@ -43,12 +46,18 @@ class StockDetailSerializer(StockListSerializer):
     roe_dupont_reported_gap = serializers.FloatField(read_only=True)
     insider_sentiment_3m = serializers.FloatField(read_only=True)
     earnings_beat_rate = serializers.FloatField(read_only=True)
+    graham_number = serializers.FloatField(read_only=True)
+    graham_intrinsic_value = serializers.FloatField(read_only=True)
+    graham_margin_of_safety = serializers.FloatField(read_only=True)
+    net_net_ratio = serializers.FloatField(read_only=True)
 
     class Meta(StockListSerializer.Meta):
         fields = StockListSerializer.Meta.fields + [
             "tax_rate", "latest_close_price", "last_price_date",
             "dupont_roe", "roe_dupont_reported_gap",
             "insider_sentiment_3m", "earnings_beat_rate",
+            "graham_number", "graham_intrinsic_value",
+            "graham_margin_of_safety", "net_net_ratio",
         ]
 
 

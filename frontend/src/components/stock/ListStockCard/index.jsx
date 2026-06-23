@@ -109,6 +109,14 @@ const ListStockCard = (props) => {
                 <ColoredNumber val={s.pe} />
               </>
             ) : null}
+            {s.graham_score != null ? (
+              <Chip
+                size="small"
+                label={`G:${s.graham_score}/7`}
+                color={s.graham_score >= 5 ? "success" : s.graham_score >= 3 ? "warning" : "default"}
+                sx={{ ml: 0.5, fontSize: "0.7rem", height: 20 }}
+              />
+            ) : null}
           </Grid>
           <Grid item lg={1} sm={1} xs={1}>
             <RefreshButton id={s.id} symbol={s.symbol} />

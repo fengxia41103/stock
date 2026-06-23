@@ -197,6 +197,30 @@ class StockViewSet(viewsets.ModelViewSet):
         return Response(stock.cross_statements_model)
 
     @action(detail=True, methods=["get"])
+    def graham(self, request, pk=None):
+        """Benjamin Graham valuation analysis."""
+        stock = self.get_object()
+        return Response({
+            "symbol": stock.symbol,
+            "price": stock.latest_close_price,
+            "graham_score": stock.graham_score,
+            "graham_number": stock.graham_number,
+            "graham_intrinsic_value": stock.graham_intrinsic_value,
+            "graham_margin_of_safety": stock.graham_margin_of_safety,
+            "pe": stock.pe,
+            "pb": stock.pb,
+            "pe_pb_product": stock.pe_pb_product,
+            "net_net_ratio": stock.net_net_ratio,
+            "criteria": {
+                "size": bool(stock.incomes.order_by("-on").first() and stock.incomes.order_by("-on").first().total_revenue and stock.incomes.order_by("-on").first().total_revenue > 0.1),
+                "current_ratio_gt_2": bool(stock.balances.order_by("-on").first() and stock.balances.order_by("-on").first().current_ratio and stock.balances.order_by("-on").first().current_ratio > 2),
+                "pe_lt_15": bool(stock.pe and 0 < stock.pe < 15),
+                "pe_pb_lt_22_5": bool(stock.pe_pb_product and stock.pe_pb_product < 22.5),
+                "low_debt": bool(stock.balances.order_by("-on").first() and stock.balances.order_by("-on").first().working_capital and stock.balances.order_by("-on").first().total_debt < stock.balances.order_by("-on").first().working_capital),
+            },
+        })
+
+    @action(detail=True, methods=["get"])
     def health(self, request, pk=None):
         """SEC XBRL health assessment for a stock."""
         from stock.workers.compute_health import compute_health

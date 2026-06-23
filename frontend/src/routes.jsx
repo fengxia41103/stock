@@ -58,6 +58,7 @@ const CashFlowView = lazy(() => import("@Views/stock/CashFlowView"));
 const DCFView = lazy(() => import("@Views/stock/DCFView"));
 const DupontView = lazy(() => import("@Views/stock/DupontView"));
 const NavView = lazy(() => import("@Views/stock/NavView"));
+const GrahamView = lazy(() => import("@Views/stock/GrahamView"));
 const InsiderTradesView = lazy(() => import("@Views/stock/InsiderTradesView"));
 const InstitutionalView = lazy(() => import("@Views/stock/InstitutionalView"));
 const EarningsView = lazy(() => import("@Views/stock/EarningsView"));
@@ -241,6 +242,14 @@ const routes = [
             element: (
               <S>
                 <EarningsView />
+              </S>
+            ),
+          },
+          {
+            path: "graham",
+            element: (
+              <S>
+                <GrahamView />
               </S>
             ),
           },
