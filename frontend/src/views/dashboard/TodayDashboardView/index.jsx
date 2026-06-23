@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Chip, Grid, Paper, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  Grid,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useResource, useStocksOverview } from "@/api";
@@ -103,7 +111,9 @@ const Tile = ({
 
 const TodayDashboardView = () => {
   const [selectedDate, setSelectedDate] = useState("");
-  const { data: stocks, isLoading } = useStocksOverview(selectedDate || undefined);
+  const { data: stocks, isLoading } = useStocksOverview(
+    selectedDate || undefined,
+  );
   const { data: macroSeries } = useResource("macro-series", "/macro-series/");
   const { data: earnings } = useResource(
     "earnings-upcoming",
