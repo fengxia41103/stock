@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Chip, Grid, Paper, Stack, Typography } from "@mui/material";
+import { Box, Chip, Grid, Paper, Stack, TextField, Typography } from "@mui/material";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useResource, useStocksOverview } from "@/api";
@@ -102,7 +102,8 @@ const Tile = ({
 );
 
 const TodayDashboardView = () => {
-  const { data: stocks, isLoading } = useStocksOverview();
+  const [selectedDate, setSelectedDate] = useState("");
+  const { data: stocks, isLoading } = useStocksOverview(selectedDate || undefined);
   const { data: macroSeries } = useResource("macro-series", "/macro-series/");
   const { data: earnings } = useResource(
     "earnings-upcoming",
@@ -169,6 +170,17 @@ const TodayDashboardView = () => {
           minHeight: "calc(100vh - 64px)",
         }}
       >
+        <Box mb={2}>
+          <TextField
+            type="date"
+            size="small"
+            label="Date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            InputLabelProps={{ shrink: true }}
+            sx={{ bgcolor: TILE, borderRadius: 1, width: 200 }}
+          />
+        </Box>
         <Grid container spacing={2}>
           {/* Row 1 */}
           <Grid item xs={6} sm={3}>

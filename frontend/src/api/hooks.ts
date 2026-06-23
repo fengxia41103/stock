@@ -171,8 +171,12 @@ export function useMacroData(seriesId: string, dateGte?: string) {
   );
 }
 
-export function useStocksOverview() {
-  return useResource("stocks-overview", "/stocks/overview/");
+export function useStocksOverview(date?: string) {
+  const params = date ? `?date=${date}` : "";
+  return useResource(
+    ["stocks-overview", date || "latest"],
+    `/stocks/overview/${params}`,
+  );
 }
 
 export function useStockHealth(stockId: string | number) {

@@ -228,13 +228,25 @@ class StockViewSet(viewsets.ModelViewSet):
         result = compute_health(stock.symbol)
         return Response(result)
 
+    @action(detail=True, methods=["get"])
+    def report(self, request, pk=None):
+        """Live analysis report — Darwin + Graham + Box Trading."""
+        from stock.report_service import generate_report
+        stock = self.get_object()
+        return Response(generate_report(stock))
+
     @action(detail=False, methods=["get"])
     def overview(self, request):
-        """Lightweight overview for treemap/screener."""
+        """Lightweight overview for treemap/screener. Accepts ?date=YYYY-MM-DD."""
+        from datetime import datetime
+        target_date = request.query_params.get("date")
         stocks = MyStock.objects.filter(sectors__user=request.user).distinct()
         result = []
         for s in stocks:
-            hist = list(s.historicals.order_by("-on")[:2])
+            if target_date:
+                hist = list(s.historicals.filter(on__lte=target_date).order_by("-on")[:2])
+            else:
+                hist = list(s.historicals.order_by("-on")[:2])
             price = hist[0].close_price if hist else None
             daily_return = None
             if len(hist) >= 2 and hist[1].close_price:
