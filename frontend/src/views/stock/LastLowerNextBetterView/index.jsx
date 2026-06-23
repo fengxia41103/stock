@@ -22,21 +22,24 @@ const LastLowerNextBetterView = () => {
         />
 
         <CardContent>
-          <Typography variant="body2">
-            Translate price movement into a time term. For a price drop, the
-            drop scale measures in <code>days</code> when we saw a price lower
-            than this. It&apos;s equivalent to say that if you had bought and
-            held this stock between these dates, this drop would have wiped out
-            all the gains in between. If stock has forever risen, this scale
-            will always be 0; and if it has forever declining, this will always
-            be 1. Thus, any value other than 0 or 1 indicates a drop.
+          <Typography variant="body2" paragraph>
+            <strong>Drop Scale (last_lower)</strong> — &quot;How many days ago
+            did I last see a price LOWER than today&apos;s close?&quot;
+          </Typography>
+          <Typography variant="body2" component="ul" sx={{ pl: 2 }}>
+            <li><code>0</code> = at the bottom (no prior price was lower → continuously falling or at all-time low)</li>
+            <li><code>30</code> = today&apos;s drop just erased 30 days of gains</li>
+            <li>Higher value = more significant the drop</li>
           </Typography>
 
-          <Typography variant="body2">
-            Conversely, the rebound scale shows a price climbing back to a
-            historical point. If it has forever risen, this scale will always be
-            0; and if it has forever declining, it would have been always 1.
-            Thus, any value other than 0 or 1 indicates a rebound.
+          <Typography variant="body2" paragraph sx={{ mt: 2 }}>
+            <strong>Rebound Scale (last_better)</strong> — &quot;How many days
+            ago did I last see a price HIGHER than today&apos;s close?&quot;
+          </Typography>
+          <Typography variant="body2" component="ul" sx={{ pl: 2 }}>
+            <li><code>0</code> = at or near a peak (no prior close was higher → making new highs)</li>
+            <li><code>15</code> = 15 days ago was the last time price was higher than today</li>
+            <li>Higher value = deeper below a previous high (still recovering)</li>
           </Typography>
 
           <Box mt={3}>

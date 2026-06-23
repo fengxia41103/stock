@@ -58,14 +58,14 @@ const TodayDashboardView = () => {
     const dashboards = [
       {
         title: "Drop Scale (days)",
-        subtitle: "days ago when saw this low",
+        subtitle: "days since a lower price — higher = bigger drop",
         stocks: reverse(sortBy(stocks, (s) => s.last_lower)),
         value: "last_lower",
         roundTo: 0,
       },
       {
         title: "Rebound Scale (days)",
-        subtitle: "days ago when saw this high",
+        subtitle: "days since a higher price — 0 = at peak, higher = still recovering",
         stocks: reverse(sortBy(stocks, (s) => s.last_better)),
         value: "last_better",
         roundTo: 0,
