@@ -83,10 +83,22 @@ const LastLowerNextBetterView = () => {
             </Typography>
 
             <Typography variant="body2" component="ul" sx={{ pl: 2 }}>
-              <li>Example: 30 days remain, 10 had prices above today&apos;s close → probability = 10/30 = 33%</li>
-              <li><code>90-100%</code> = bought near the bottom (almost every future day was higher)</li>
-              <li><code>0-10%</code> = bought near the top (almost no future day was higher)</li>
-              <li>Use this to see which price levels historically gave the best odds</li>
+              <li>
+                Example: 30 days remain, 10 had prices above today&apos;s close
+                → probability = 10/30 = 33%
+              </li>
+              <li>
+                <code>90-100%</code> = bought near the bottom (almost every
+                future day was higher)
+              </li>
+              <li>
+                <code>0-10%</code> = bought near the top (almost no future day
+                was higher)
+              </li>
+              <li>
+                Use this to see which price levels historically gave the best
+                odds
+              </li>
             </Typography>
             <Box mt={3}>
               <GainProbabilityChart data={data} />
