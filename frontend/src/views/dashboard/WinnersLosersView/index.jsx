@@ -1,17 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
+  Avatar,
   Box,
-  Card,
-  CardContent,
-  CardHeader,
   Chip,
   Grid,
-  List,
-  ListItem,
-  ListItemText,
+  LinearProgress,
+  Paper,
+  Stack,
   Typography,
 } from "@mui/material";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useStocksOverview } from "@/api";
@@ -23,196 +23,177 @@ const WinnersLosersView = () => {
   if (isLoading) return <ScaleLoader loading />;
   if (!data || !Array.isArray(data)) return null;
 
-  // Sort by different criteria
-  const byReturn = [...data]
-    .filter((s) => s.daily_return_pct != null)
-    .sort((a, b) => b.daily_return_pct - a.daily_return_pct);
-  const byInsider = [...data]
-    .filter((s) => s.insider_sentiment != null)
-    .sort((a, b) => b.insider_sentiment - a.insider_sentiment);
-  const byRoe = [...data]
-    .filter((s) => s.roe != null && s.roe > 0)
-    .sort((a, b) => b.roe - a.roe);
-  const byDropScale = [...data]
-    .filter((s) => s.last_lower != null && s.last_lower > 0)
-    .sort((a, b) => b.last_lower - a.last_lower);
+  const withReturn = data.filter((s) => s.daily_return_pct != null);
+  const up = withReturn.filter((s) => s.daily_return_pct > 0);
+  const down = withReturn.filter((s) => s.daily_return_pct < 0);
+  const sorted = [...withReturn].sort((a, b) => b.daily_return_pct - a.daily_return_pct);
+  const winners = sorted.slice(0, 5);
+  const losers = sorted.slice(-5).reverse();
+  const byDrop = [...data].filter((s) => s.last_lower > 3).sort((a, b) => b.last_lower - a.last_lower).slice(0, 5);
+  const insiderBullish = [...data].filter((s) => s.insider_sentiment > 0).sort((a, b) => b.insider_sentiment - a.insider_sentiment).slice(0, 5);
 
-  const winners = byReturn.slice(0, 5);
-  const losers = byReturn.slice(-5).reverse();
-  const topInsider = byInsider.slice(0, 5);
-  const worstInsider = byInsider.slice(-5).reverse();
-  const topRoe = byRoe.slice(0, 10);
-  const biggestDrops = byDropScale.slice(0, 5);
-
-  const RankList = ({ items, valueKey, suffix = "", colorize = true }) => (
-    <List dense>
-      {items.map((s) => {
-        const val = typeof valueKey === "function" ? valueKey(s) : s[valueKey];
-        const color = !colorize
-          ? undefined
-          : val > 0
-          ? "success.main"
-          : val < 0
-          ? "error.main"
-          : undefined;
-        return (
-          <ListItem
-            key={s.id}
-            button
-            onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
-            divider
-          >
-            <ListItemText
-              primary={<Typography fontWeight="bold">{s.symbol}</Typography>}
-            />
-            <Typography color={color} fontWeight={600}>
-              {val != null
-                ? `${val > 0 ? "+" : ""}${
-                    typeof val === "number" ? val.toFixed(1) : val
-                  }${suffix}`
-                : "—"}
-            </Typography>
-          </ListItem>
-        );
-      })}
-    </List>
+  const StockChip = ({ s, showReturn = true }) => (
+    <Chip
+      label={`${s.symbol} ${showReturn && s.daily_return_pct != null ? (s.daily_return_pct > 0 ? "+" : "") + s.daily_return_pct.toFixed(1) + "%" : ""}`}
+      size="small"
+      color={s.daily_return_pct > 0 ? "success" : s.daily_return_pct < 0 ? "error" : "default"}
+      onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
+      sx={{ cursor: "pointer", fontWeight: 600 }}
+    />
   );
 
   return (
-    <Grid container spacing={2}>
-      {/* Today's Winners */}
-      <Grid item lg={3} md={4} sm={6} xs={12}>
-        <Card>
-          <CardHeader
-            title={<Typography variant="h6">🟢 Today's Winners</Typography>}
-            subheader="Highest daily return"
-          />
-          <CardContent sx={{ pt: 0 }}>
-            <RankList items={winners} valueKey="daily_return_pct" suffix="%" />
-          </CardContent>
-        </Card>
+    <Box>
+      {/* Hero Stats */}
+      <Grid container spacing={2} mb={2}>
+        <Grid item xs={6} sm={3}>
+          <Paper sx={{ p: 2, textAlign: "center", background: "linear-gradient(135deg, #1b5e20 0%, #388e3c 100%)", color: "#fff" }}>
+            <Typography variant="h3" fontWeight={700}>{up.length}</Typography>
+            <Typography variant="caption">Stocks Up</Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Paper sx={{ p: 2, textAlign: "center", background: "linear-gradient(135deg, #b71c1c 0%, #e53935 100%)", color: "#fff" }}>
+            <Typography variant="h3" fontWeight={700}>{down.length}</Typography>
+            <Typography variant="caption">Stocks Down</Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Paper sx={{ p: 2, textAlign: "center", background: "linear-gradient(135deg, #0d47a1 0%, #1976d2 100%)", color: "#fff" }}>
+            <Typography variant="h3" fontWeight={700}>{insiderBullish.length}</Typography>
+            <Typography variant="caption">Insider Buying</Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Paper sx={{ p: 2, textAlign: "center", background: "linear-gradient(135deg, #e65100 0%, #ff9800 100%)", color: "#fff" }}>
+            <Typography variant="h3" fontWeight={700}>{byDrop.length}</Typography>
+            <Typography variant="caption">Oversold</Typography>
+          </Paper>
+        </Grid>
       </Grid>
 
-      {/* Today's Losers */}
-      <Grid item lg={3} md={4} sm={6} xs={12}>
-        <Card>
-          <CardHeader
-            title={<Typography variant="h6">🔴 Today's Losers</Typography>}
-            subheader="Worst daily return"
-          />
-          <CardContent sx={{ pt: 0 }}>
-            <RankList items={losers} valueKey="daily_return_pct" suffix="%" />
-          </CardContent>
-        </Card>
-      </Grid>
+      {/* Market Breadth Bar */}
+      <Paper sx={{ p: 2, mb: 2 }}>
+        <Stack direction="row" justifyContent="space-between" mb={0.5}>
+          <Typography variant="caption" color="success.main" fontWeight={600}>
+            {up.length} Up ({(up.length / withReturn.length * 100).toFixed(0)}%)
+          </Typography>
+          <Typography variant="caption" color="error.main" fontWeight={600}>
+            {down.length} Down ({(down.length / withReturn.length * 100).toFixed(0)}%)
+          </Typography>
+        </Stack>
+        <LinearProgress
+          variant="determinate"
+          value={up.length / withReturn.length * 100}
+          sx={{
+            height: 12,
+            borderRadius: 6,
+            bgcolor: "#ffcdd2",
+            "& .MuiLinearProgress-bar": { bgcolor: "#4caf50", borderRadius: 6 },
+          }}
+        />
+      </Paper>
 
-      {/* Insider Buying */}
-      <Grid item lg={3} md={4} sm={6} xs={12}>
-        <Card>
-          <CardHeader
-            title={<Typography variant="h6">👔 Insider Bullish</Typography>}
-            subheader="Highest insider buy sentiment"
-          />
-          <CardContent sx={{ pt: 0 }}>
-            <RankList
-              items={topInsider}
-              valueKey={(s) => s.insider_sentiment * 100}
-              suffix="%"
-            />
-          </CardContent>
-        </Card>
-      </Grid>
-
-      {/* Insider Selling */}
-      <Grid item lg={3} md={4} sm={6} xs={12}>
-        <Card>
-          <CardHeader
-            title={<Typography variant="h6">🚪 Insider Bearish</Typography>}
-            subheader="Heaviest insider selling"
-          />
-          <CardContent sx={{ pt: 0 }}>
-            <RankList
-              items={worstInsider}
-              valueKey={(s) => s.insider_sentiment * 100}
-              suffix="%"
-            />
-          </CardContent>
-        </Card>
-      </Grid>
-
-      {/* Biggest Drops (buying opportunities) */}
-      <Grid item lg={3} md={4} sm={6} xs={12}>
-        <Card>
-          <CardHeader
-            title={<Typography variant="h6">📉 Biggest Drops</Typography>}
-            subheader="Days since a lower price (oversold = opportunity)"
-          />
-          <CardContent sx={{ pt: 0 }}>
-            <RankList
-              items={biggestDrops}
-              valueKey="last_lower"
-              suffix=" days"
-              colorize={false}
-            />
-          </CardContent>
-        </Card>
-      </Grid>
-
-      {/* Top ROE */}
-      <Grid item lg={3} md={4} sm={6} xs={12}>
-        <Card>
-          <CardHeader
-            title={<Typography variant="h6">💎 Top Quality (ROE)</Typography>}
-            subheader="Highest return on equity"
-          />
-          <CardContent sx={{ pt: 0 }}>
-            <RankList
-              items={topRoe}
-              valueKey="roe"
-              suffix="%"
-              colorize={false}
-            />
-          </CardContent>
-        </Card>
-      </Grid>
-
-      {/* Summary */}
-      <Grid item lg={6} md={8} sm={12} xs={12}>
-        <Card>
-          <CardHeader
-            title={<Typography variant="h6">📊 Quick Summary</Typography>}
-          />
-          <CardContent>
-            <Grid container spacing={1}>
-              <Grid item xs={4}>
-                <Box textAlign="center">
-                  <Typography variant="h4" color="success.main">
-                    {data.filter((s) => s.daily_return_pct > 0).length}
+      <Grid container spacing={2}>
+        {/* Winners */}
+        <Grid item xs={12} sm={6} md={3}>
+          <Paper sx={{ p: 2 }}>
+            <Stack direction="row" spacing={1} alignItems="center" mb={1}>
+              <Avatar sx={{ bgcolor: "#4caf50", width: 28, height: 28 }}>
+                <TrendingUpIcon fontSize="small" />
+              </Avatar>
+              <Typography variant="subtitle2" fontWeight={700}>Top Gainers</Typography>
+            </Stack>
+            <Stack spacing={0.5}>
+              {winners.map((s) => (
+                <Stack key={s.id} direction="row" justifyContent="space-between" alignItems="center"
+                  sx={{ cursor: "pointer", p: 0.5, borderRadius: 1, "&:hover": { bgcolor: "action.hover" } }}
+                  onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
+                >
+                  <Typography variant="body2" fontWeight={600}>{s.symbol}</Typography>
+                  <Typography variant="body2" color="success.main" fontWeight={700}>
+                    +{s.daily_return_pct.toFixed(2)}%
                   </Typography>
-                  <Typography variant="caption">Stocks Up</Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={4}>
-                <Box textAlign="center">
-                  <Typography variant="h4" color="error.main">
-                    {data.filter((s) => s.daily_return_pct < 0).length}
+                </Stack>
+              ))}
+            </Stack>
+          </Paper>
+        </Grid>
+
+        {/* Losers */}
+        <Grid item xs={12} sm={6} md={3}>
+          <Paper sx={{ p: 2 }}>
+            <Stack direction="row" spacing={1} alignItems="center" mb={1}>
+              <Avatar sx={{ bgcolor: "#f44336", width: 28, height: 28 }}>
+                <TrendingDownIcon fontSize="small" />
+              </Avatar>
+              <Typography variant="subtitle2" fontWeight={700}>Top Losers</Typography>
+            </Stack>
+            <Stack spacing={0.5}>
+              {losers.map((s) => (
+                <Stack key={s.id} direction="row" justifyContent="space-between" alignItems="center"
+                  sx={{ cursor: "pointer", p: 0.5, borderRadius: 1, "&:hover": { bgcolor: "action.hover" } }}
+                  onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
+                >
+                  <Typography variant="body2" fontWeight={600}>{s.symbol}</Typography>
+                  <Typography variant="body2" color="error.main" fontWeight={700}>
+                    {s.daily_return_pct.toFixed(2)}%
                   </Typography>
-                  <Typography variant="caption">Stocks Down</Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={4}>
-                <Box textAlign="center">
-                  <Typography variant="h4">
-                    {data.filter((s) => s.insider_sentiment > 0).length}
+                </Stack>
+              ))}
+            </Stack>
+          </Paper>
+        </Grid>
+
+        {/* Oversold / Biggest Drops */}
+        <Grid item xs={12} sm={6} md={3}>
+          <Paper sx={{ p: 2 }}>
+            <Stack direction="row" spacing={1} alignItems="center" mb={1}>
+              <Avatar sx={{ bgcolor: "#ff9800", width: 28, height: 28 }}>📉</Avatar>
+              <Typography variant="subtitle2" fontWeight={700}>Oversold</Typography>
+            </Stack>
+            <Stack spacing={0.5}>
+              {byDrop.map((s) => (
+                <Stack key={s.id} direction="row" justifyContent="space-between" alignItems="center"
+                  sx={{ cursor: "pointer", p: 0.5, borderRadius: 1, "&:hover": { bgcolor: "action.hover" } }}
+                  onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
+                >
+                  <Typography variant="body2" fontWeight={600}>{s.symbol}</Typography>
+                  <Typography variant="body2" color="warning.main" fontWeight={700}>
+                    {s.last_lower}d
                   </Typography>
-                  <Typography variant="caption">Insider Buying</Typography>
-                </Box>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
+                </Stack>
+              ))}
+            </Stack>
+          </Paper>
+        </Grid>
+
+        {/* Insider Buying */}
+        <Grid item xs={12} sm={6} md={3}>
+          <Paper sx={{ p: 2 }}>
+            <Stack direction="row" spacing={1} alignItems="center" mb={1}>
+              <Avatar sx={{ bgcolor: "#1976d2", width: 28, height: 28 }}>👔</Avatar>
+              <Typography variant="subtitle2" fontWeight={700}>Insider Buying</Typography>
+            </Stack>
+            <Stack spacing={0.5}>
+              {insiderBullish.length > 0 ? insiderBullish.map((s) => (
+                <Stack key={s.id} direction="row" justifyContent="space-between" alignItems="center"
+                  sx={{ cursor: "pointer", p: 0.5, borderRadius: 1, "&:hover": { bgcolor: "action.hover" } }}
+                  onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
+                >
+                  <Typography variant="body2" fontWeight={600}>{s.symbol}</Typography>
+                  <Typography variant="body2" color="primary" fontWeight={700}>
+                    +{(s.insider_sentiment * 100).toFixed(0)}%
+                  </Typography>
+                </Stack>
+              )) : (
+                <Typography variant="caption" color="text.secondary">No insider buying detected</Typography>
+              )}
+            </Stack>
+          </Paper>
+        </Grid>
       </Grid>
-    </Grid>
+    </Box>
   );
 };
 
