@@ -295,6 +295,11 @@ export const DictTable = ({ data, title, interests, chart }) => {
       );
     };
 
+    // Filter out date columns where all field values are 0 or null
+    const visibleData = data.filter((d) =>
+      fields.some(([key]) => d[key] != null && d[key] !== 0),
+    );
+
     return (
       <Box>
         {title && <Typography variant="h6">{title}</Typography>}
@@ -320,7 +325,7 @@ export const DictTable = ({ data, title, interests, chart }) => {
               <tr>
                 <th style={{ padding: 4, textAlign: "left" }}>Metric</th>
                 <th style={{ padding: 4, textAlign: "center" }}>Trend</th>
-                {data.map((d) => (
+                {visibleData.map((d) => (
                   <th key={d.on} style={{ padding: 4, textAlign: "right" }}>
                     {d.on}
                   </th>
@@ -340,9 +345,9 @@ export const DictTable = ({ data, title, interests, chart }) => {
                       textAlign: "center",
                     }}
                   >
-                    <Sparkline values={data.map((d) => d[key])} />
+                    <Sparkline values={visibleData.map((d) => d[key])} />
                   </td>
-                  {data.map((d, idx) => {
+                  {visibleData.map((d, idx) => {
                     const val = showPctChange ? getPctChange(key, idx) : d[key];
                     const display =
                       showPctChange && val != null
@@ -369,19 +374,19 @@ export const DictTable = ({ data, title, interests, chart }) => {
             </tbody>
           </table>
         </Box>
-        {chart && data.length > 1 && interests && (
+        {chart && visibleData.length > 1 && interests && (
           <Box mt={2}>
             <ReactEChartsCore
               theme={getEChartsTheme()}
               option={{
                 tooltip: { trigger: "axis" },
                 legend: { data: fields.slice(0, 5).map(([, l]) => l) },
-                xAxis: { type: "category", data: data.map((d) => d.on) },
+                xAxis: { type: "category", data: visibleData.map((d) => d.on) },
                 yAxis: { type: "value", scale: true },
                 series: fields.slice(0, 5).map(([key, label]) => ({
                   name: label,
                   type: "line",
-                  data: data.map((d) => d[key]),
+                  data: visibleData.map((d) => d[key]),
                   showSymbol: false,
                 })),
                 dataZoom: [{ type: "inside" }],
