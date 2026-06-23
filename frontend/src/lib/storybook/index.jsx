@@ -147,6 +147,9 @@ export const RankChart = ({
   if (ranks && rank_val_name) {
     chartCategories = ranks.map((r) => r.symbol || r.name || "");
     chartData = ranks.map((r) => r[rank_val_name] || 0);
+  } else if (ranks) {
+    chartCategories = ranks.map((r) => r.symbol || r.name || "");
+    chartData = ranks.map((r) => r.val || 0);
   }
 
   const option = {
