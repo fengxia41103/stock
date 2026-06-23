@@ -76,7 +76,10 @@ const Tile = ({
     >
       {label}
     </Typography>
-    <Typography variant="h4" sx={{ color: "text.primary", fontWeight: 700, my: 0.5 }}>
+    <Typography
+      variant="h4"
+      sx={{ color: "text.primary", fontWeight: 700, my: 0.5 }}
+    >
       {value}
     </Typography>
     <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -340,7 +343,11 @@ const TodayDashboardView = () => {
                     onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
                   >
                     <Typography
-                      sx={{ color: "text.primary", fontWeight: 600, fontSize: "0.85rem" }}
+                      sx={{
+                        color: "text.primary",
+                        fontWeight: 600,
+                        fontSize: "0.85rem",
+                      }}
                     >
                       {s.symbol}
                     </Typography>
@@ -448,7 +455,11 @@ const TodayDashboardView = () => {
                     onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
                   >
                     <Typography
-                      sx={{ color: "text.primary", fontWeight: 600, fontSize: "0.85rem" }}
+                      sx={{
+                        color: "text.primary",
+                        fontWeight: 600,
+                        fontSize: "0.85rem",
+                      }}
                     >
                       {s.symbol}
                     </Typography>
