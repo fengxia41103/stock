@@ -27,8 +27,13 @@ const LastLowerNextBetterView = () => {
             did I last see a price LOWER than today&apos;s close?&quot;
           </Typography>
           <Typography variant="body2" component="ul" sx={{ pl: 2 }}>
-            <li><code>0</code> = at the bottom (no prior price was lower → continuously falling or at all-time low)</li>
-            <li><code>30</code> = today&apos;s drop just erased 30 days of gains</li>
+            <li>
+              <code>0</code> = at the bottom (no prior price was lower →
+              continuously falling or at all-time low)
+            </li>
+            <li>
+              <code>30</code> = today&apos;s drop just erased 30 days of gains
+            </li>
             <li>Higher value = more significant the drop</li>
           </Typography>
 
@@ -37,9 +42,17 @@ const LastLowerNextBetterView = () => {
             ago did I last see a price HIGHER than today&apos;s close?&quot;
           </Typography>
           <Typography variant="body2" component="ul" sx={{ pl: 2 }}>
-            <li><code>0</code> = at or near a peak (no prior close was higher → making new highs)</li>
-            <li><code>15</code> = 15 days ago was the last time price was higher than today</li>
-            <li>Higher value = deeper below a previous high (still recovering)</li>
+            <li>
+              <code>0</code> = at or near a peak (no prior close was higher →
+              making new highs)
+            </li>
+            <li>
+              <code>15</code> = 15 days ago was the last time price was higher
+              than today
+            </li>
+            <li>
+              Higher value = deeper below a previous high (still recovering)
+            </li>
           </Typography>
 
           <Box mt={3}>

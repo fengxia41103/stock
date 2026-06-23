@@ -65,7 +65,8 @@ const TodayDashboardView = () => {
       },
       {
         title: "Rebound Scale (days)",
-        subtitle: "days since a higher price — 0 = at peak, higher = still recovering",
+        subtitle:
+          "days since a higher price — 0 = at peak, higher = still recovering",
         stocks: reverse(sortBy(stocks, (s) => s.last_better)),
         value: "last_better",
         roundTo: 0,
