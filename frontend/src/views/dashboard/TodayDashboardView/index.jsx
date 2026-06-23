@@ -17,6 +17,7 @@ import ShowResource from "@Components/common/ShowResource";
 import MacroWidget from "@Components/dashboard/MacroWidget";
 import MoverCard from "@Components/dashboard/MoverCard";
 import UpcomingEarningsWidget from "@Components/dashboard/UpcomingEarningsWidget";
+import WinnersLosersCards from "@Views/dashboard/WinnersLosersView";
 
 const getLastTradingDay = (m) => {
   let d = dayjs(m);
@@ -142,6 +143,10 @@ const TodayDashboardView = () => {
                 <UpcomingEarningsWidget />
               </Grid>
             </Grid>
+          </Box>
+
+          <Box mt={1}>
+            <WinnersLosersCards />
           </Box>
 
           <Box mt={1}>

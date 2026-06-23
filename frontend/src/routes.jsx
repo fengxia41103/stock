@@ -122,7 +122,6 @@ const E = ({ section, children }) => (
 const navbar_items = [
   { href: "/dashboard", icon: <DashboardIcon />, title: "Today" },
   { href: "/map", icon: <MapIcon />, title: "Map" },
-  { href: "/winners", icon: <TrendingUpIcon />, title: "Winners" },
   { href: "/screener", icon: <FilterListIcon />, title: "Screener" },
   { href: "/charts", icon: <GridViewIcon />, title: "Charts" },
   { href: "/macro", icon: <ShowChartIcon />, title: "Macro" },

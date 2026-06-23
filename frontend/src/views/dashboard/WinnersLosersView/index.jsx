@@ -6,7 +6,6 @@ import {
   CardContent,
   CardHeader,
   Chip,
-  Container,
   Grid,
   List,
   ListItem,
@@ -16,7 +15,6 @@ import {
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useStocksOverview } from "@/api";
-import { Page } from "@fengxia41103/storybook";
 
 const WinnersLosersView = () => {
   const { data, isLoading } = useStocksOverview();
@@ -81,9 +79,7 @@ const WinnersLosersView = () => {
   );
 
   return (
-    <Page title="Winners & Losers">
-      <Container maxWidth={false}>
-        <Grid container spacing={2}>
+    <Grid container spacing={2}>
           {/* Today's Winners */}
           <Grid item lg={3} md={4} sm={6} xs={12}>
             <Card>
@@ -227,8 +223,6 @@ const WinnersLosersView = () => {
             </Card>
           </Grid>
         </Grid>
-      </Container>
-    </Page>
   );
 };
 
