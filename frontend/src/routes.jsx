@@ -34,6 +34,9 @@ const ChartsGridView = lazy(() => import("@Views/dashboard/ChartsGridView"));
 const MacroOverviewView = lazy(() =>
   import("@Views/dashboard/MacroOverviewView"),
 );
+const WinnersLosersView = lazy(() =>
+  import("@Views/dashboard/WinnersLosersView"),
+);
 const StockListView = lazy(() => import("@Views/stock/StockListView"));
 const StockDetailView = lazy(() => import("@Views/stock/StockDetailView"));
 const StockHistoricalView = lazy(() =>
@@ -119,6 +122,7 @@ const E = ({ section, children }) => (
 const navbar_items = [
   { href: "/dashboard", icon: <DashboardIcon />, title: "Today" },
   { href: "/map", icon: <MapIcon />, title: "Map" },
+  { href: "/winners", icon: <TrendingUpIcon />, title: "Winners" },
   { href: "/screener", icon: <FilterListIcon />, title: "Screener" },
   { href: "/charts", icon: <GridViewIcon />, title: "Charts" },
   { href: "/macro", icon: <ShowChartIcon />, title: "Macro" },
@@ -520,6 +524,14 @@ const routes = [
         element: (
           <S>
             <MacroOverviewView />
+          </S>
+        ),
+      },
+      {
+        path: "winners",
+        element: (
+          <S>
+            <WinnersLosersView />
           </S>
         ),
       },

@@ -19,6 +19,7 @@ from stock.api.views import (
     MacroSeriesViewSet,
     NewsViewSet,
     SectorViewSet,
+    SignalRankViewSet,
     StockMacroCorrelationViewSet,
     StockRankViewSet,
     StockViewSet,
@@ -49,6 +50,7 @@ router.register(r"earnings", EarningsEventViewSet, basename="earnings")
 router.register(r"holdings", InstitutionalHoldingViewSet, basename="holdings")
 router.register(r"macro-correlations", StockMacroCorrelationViewSet, basename="macro-correlations")
 router.register(r"stock-ranks", StockRankViewSet, basename="stock-rank")
+router.register(r"signal-ranks", SignalRankViewSet, basename="signal-rank")
 router.register(r"balance-ranks", BalanceRankViewSet, basename="balance-rank")
 router.register(r"cash-ranks", CashRankViewSet, basename="cash-rank")
 router.register(r"income-ranks", IncomeRankViewSet, basename="income-rank")

@@ -519,6 +519,54 @@ class StockRankViewSet(RankingViewSet):
         return results
 
 
+class SignalRankViewSet(RankingViewSet):
+    """Rankings by insider sentiment, earnings beat rate, momentum, RSI."""
+    rank_type = "signal"
+
+    def _compute(self, request):
+        stocks = list(MyStock.objects.filter(sectors__user=request.user).distinct())
+        results = []
+
+        # 1. Insider Sentiment (3M) — high is better
+        vals = []
+        for s in stocks:
+            sent = s.insider_sentiment_3m
+            if sent is not None:
+                vals.append({"id": s.id, "symbol": s.symbol, "val": round(sent * 100, 1)})
+        vals.sort(key=lambda x: x["val"], reverse=True)
+        results.append({"id": 0, "name": "insider_sentiment_3m", "stats": vals})
+
+        # 2. Earnings Beat Rate — high is better
+        vals = []
+        for s in stocks:
+            rate = s.earnings_beat_rate
+            if rate is not None:
+                vals.append({"id": s.id, "symbol": s.symbol, "val": round(rate, 0)})
+        vals.sort(key=lambda x: x["val"], reverse=True)
+        results.append({"id": 1, "name": "earnings_beat_rate", "stats": vals})
+
+        # 3. Weekly Return % — high is better
+        vals = []
+        for s in stocks:
+            hist = list(s.historicals.order_by("-on")[:5])
+            if len(hist) >= 5 and hist[-1].close_price:
+                ret = (hist[0].close_price - hist[-1].close_price) / hist[-1].close_price * 100
+                vals.append({"id": s.id, "symbol": s.symbol, "val": round(ret, 2)})
+        vals.sort(key=lambda x: x["val"], reverse=True)
+        results.append({"id": 2, "name": "weekly_return_pct", "stats": vals})
+
+        # 4. RSI proxy (last_lower) — LOW is oversold = buying opportunity
+        vals = []
+        for s in stocks:
+            ll = s.d_last_lower
+            if ll is not None and ll > 0:
+                vals.append({"id": s.id, "symbol": s.symbol, "val": ll})
+        vals.sort(key=lambda x: x["val"], reverse=True)  # Biggest drop first
+        results.append({"id": 3, "name": "drop_scale_days", "stats": vals})
+
+        return results
+
+
 class BalanceRankViewSet(RankingViewSet):
     rank_type = "balance"
 

@@ -19,6 +19,7 @@ import { get_highlights } from "@Utils/helper";
 
 const RankingView = () => {
   const [ranking_resources] = useState({
+    "By Signals (Insider + Earnings + Momentum)": "/signal-ranks",
     "By ROE Analysis": "/stock-ranks",
     "By Balance Sheet Analysis": "/balance-ranks",
     "By Income Statement Analysis": "/income-ranks",
