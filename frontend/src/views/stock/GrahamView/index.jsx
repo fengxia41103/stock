@@ -103,9 +103,7 @@ const GrahamView = () => {
               Margin of Safety
             </Typography>
             <Typography variant="caption">
-              {data.graham_margin_of_safety > 0
-                ? "Undervalued"
-                : "Overvalued"}
+              {data.graham_margin_of_safety > 0 ? "Undervalued" : "Overvalued"}
             </Typography>
           </Paper>
         </Grid>
