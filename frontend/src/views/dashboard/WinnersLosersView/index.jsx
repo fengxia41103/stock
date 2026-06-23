@@ -26,10 +26,18 @@ const WinnersLosersView = () => {
   if (!data || !Array.isArray(data)) return null;
 
   // Sort by different criteria
-  const byReturn = [...data].filter((s) => s.daily_return_pct != null).sort((a, b) => b.daily_return_pct - a.daily_return_pct);
-  const byInsider = [...data].filter((s) => s.insider_sentiment != null).sort((a, b) => b.insider_sentiment - a.insider_sentiment);
-  const byRoe = [...data].filter((s) => s.roe != null && s.roe > 0).sort((a, b) => b.roe - a.roe);
-  const byDropScale = [...data].filter((s) => s.last_lower != null && s.last_lower > 0).sort((a, b) => b.last_lower - a.last_lower);
+  const byReturn = [...data]
+    .filter((s) => s.daily_return_pct != null)
+    .sort((a, b) => b.daily_return_pct - a.daily_return_pct);
+  const byInsider = [...data]
+    .filter((s) => s.insider_sentiment != null)
+    .sort((a, b) => b.insider_sentiment - a.insider_sentiment);
+  const byRoe = [...data]
+    .filter((s) => s.roe != null && s.roe > 0)
+    .sort((a, b) => b.roe - a.roe);
+  const byDropScale = [...data]
+    .filter((s) => s.last_lower != null && s.last_lower > 0)
+    .sort((a, b) => b.last_lower - a.last_lower);
 
   const winners = byReturn.slice(0, 5);
   const losers = byReturn.slice(-5).reverse();
@@ -42,7 +50,13 @@ const WinnersLosersView = () => {
     <List dense>
       {items.map((s) => {
         const val = typeof valueKey === "function" ? valueKey(s) : s[valueKey];
-        const color = !colorize ? undefined : val > 0 ? "success.main" : val < 0 ? "error.main" : undefined;
+        const color = !colorize
+          ? undefined
+          : val > 0
+          ? "success.main"
+          : val < 0
+          ? "error.main"
+          : undefined;
         return (
           <ListItem
             key={s.id}
@@ -50,9 +64,15 @@ const WinnersLosersView = () => {
             onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
             divider
           >
-            <ListItemText primary={<Typography fontWeight="bold">{s.symbol}</Typography>} />
+            <ListItemText
+              primary={<Typography fontWeight="bold">{s.symbol}</Typography>}
+            />
             <Typography color={color} fontWeight={600}>
-              {val != null ? `${val > 0 ? "+" : ""}${typeof val === "number" ? val.toFixed(1) : val}${suffix}` : "—"}
+              {val != null
+                ? `${val > 0 ? "+" : ""}${
+                    typeof val === "number" ? val.toFixed(1) : val
+                  }${suffix}`
+                : "—"}
             </Typography>
           </ListItem>
         );
@@ -72,7 +92,11 @@ const WinnersLosersView = () => {
                 subheader="Highest daily return"
               />
               <CardContent sx={{ pt: 0 }}>
-                <RankList items={winners} valueKey="daily_return_pct" suffix="%" />
+                <RankList
+                  items={winners}
+                  valueKey="daily_return_pct"
+                  suffix="%"
+                />
               </CardContent>
             </Card>
           </Grid>
@@ -85,7 +109,11 @@ const WinnersLosersView = () => {
                 subheader="Worst daily return"
               />
               <CardContent sx={{ pt: 0 }}>
-                <RankList items={losers} valueKey="daily_return_pct" suffix="%" />
+                <RankList
+                  items={losers}
+                  valueKey="daily_return_pct"
+                  suffix="%"
+                />
               </CardContent>
             </Card>
           </Grid>
@@ -98,7 +126,11 @@ const WinnersLosersView = () => {
                 subheader="Highest insider buy sentiment"
               />
               <CardContent sx={{ pt: 0 }}>
-                <RankList items={topInsider} valueKey={(s) => (s.insider_sentiment * 100)} suffix="%" />
+                <RankList
+                  items={topInsider}
+                  valueKey={(s) => s.insider_sentiment * 100}
+                  suffix="%"
+                />
               </CardContent>
             </Card>
           </Grid>
@@ -111,7 +143,11 @@ const WinnersLosersView = () => {
                 subheader="Heaviest insider selling"
               />
               <CardContent sx={{ pt: 0 }}>
-                <RankList items={worstInsider} valueKey={(s) => (s.insider_sentiment * 100)} suffix="%" />
+                <RankList
+                  items={worstInsider}
+                  valueKey={(s) => s.insider_sentiment * 100}
+                  suffix="%"
+                />
               </CardContent>
             </Card>
           </Grid>
@@ -124,7 +160,12 @@ const WinnersLosersView = () => {
                 subheader="Days since a lower price (oversold = opportunity)"
               />
               <CardContent sx={{ pt: 0 }}>
-                <RankList items={biggestDrops} valueKey="last_lower" suffix=" days" colorize={false} />
+                <RankList
+                  items={biggestDrops}
+                  valueKey="last_lower"
+                  suffix=" days"
+                  colorize={false}
+                />
               </CardContent>
             </Card>
           </Grid>
@@ -133,11 +174,18 @@ const WinnersLosersView = () => {
           <Grid item lg={3} md={4} sm={6} xs={12}>
             <Card>
               <CardHeader
-                title={<Typography variant="h6">💎 Top Quality (ROE)</Typography>}
+                title={
+                  <Typography variant="h6">💎 Top Quality (ROE)</Typography>
+                }
                 subheader="Highest return on equity"
               />
               <CardContent sx={{ pt: 0 }}>
-                <RankList items={topRoe} valueKey="roe" suffix="%" colorize={false} />
+                <RankList
+                  items={topRoe}
+                  valueKey="roe"
+                  suffix="%"
+                  colorize={false}
+                />
               </CardContent>
             </Card>
           </Grid>
@@ -145,7 +193,9 @@ const WinnersLosersView = () => {
           {/* Summary */}
           <Grid item lg={6} md={8} sm={12} xs={12}>
             <Card>
-              <CardHeader title={<Typography variant="h6">📊 Quick Summary</Typography>} />
+              <CardHeader
+                title={<Typography variant="h6">📊 Quick Summary</Typography>}
+              />
               <CardContent>
                 <Grid container spacing={1}>
                   <Grid item xs={4}>
