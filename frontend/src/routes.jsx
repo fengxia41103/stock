@@ -61,6 +61,7 @@ const NavView = lazy(() => import("@Views/stock/NavView"));
 const InsiderTradesView = lazy(() => import("@Views/stock/InsiderTradesView"));
 const InstitutionalView = lazy(() => import("@Views/stock/InstitutionalView"));
 const EarningsView = lazy(() => import("@Views/stock/EarningsView"));
+const HealthView = lazy(() => import("@Views/stock/HealthView"));
 const ValuationRatiosView = lazy(() =>
   import("@Views/stock/ValuationRatiosView"),
 );
@@ -240,6 +241,14 @@ const routes = [
             element: (
               <S>
                 <EarningsView />
+              </S>
+            ),
+          },
+          {
+            path: "health",
+            element: (
+              <S>
+                <HealthView />
               </S>
             ),
           },

@@ -174,3 +174,11 @@ export function useMacroData(seriesId: string, dateGte?: string) {
 export function useStocksOverview() {
   return useResource("stocks-overview", "/stocks/overview/");
 }
+
+export function useStockHealth(stockId: string | number) {
+  return useResource(
+    ["stock-health", String(stockId)],
+    `/stocks/${stockId}/health/`,
+    { enabled: !!stockId },
+  );
+}

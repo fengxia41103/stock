@@ -196,6 +196,14 @@ class StockViewSet(viewsets.ModelViewSet):
         stock = self.get_object()
         return Response(stock.cross_statements_model)
 
+    @action(detail=True, methods=["get"])
+    def health(self, request, pk=None):
+        """SEC XBRL health assessment for a stock."""
+        from stock.workers.compute_health import compute_health
+        stock = self.get_object()
+        result = compute_health(stock.symbol)
+        return Response(result)
+
     @action(detail=False, methods=["get"])
     def overview(self, request):
         """Lightweight overview for treemap/screener."""
