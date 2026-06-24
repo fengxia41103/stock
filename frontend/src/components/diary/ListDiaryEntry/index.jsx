@@ -71,12 +71,19 @@ const ListDiaryEntry = ({ diary }) => {
     ) : null;
 
   return (
-    <>
+    <div id={`note-${diary.id}`}>
       <Divider />
       <Grid container spacing={2} alignItems="center">
         <Grid item xs={6}>
           <Typography sx={{ color: "#42A5F5" }}>
             {created.toDateString()}
+            <a
+              href={`/notes#note-${diary.id}`}
+              style={{ marginLeft: 8, fontSize: "0.75rem", color: "#90a4ae" }}
+              title="Copy link to this note"
+            >
+              #
+            </a>
           </Typography>
         </Grid>
         <Grid item xs={2}>
@@ -107,7 +114,7 @@ const ListDiaryEntry = ({ diary }) => {
         </Grid>
       </Grid>
       {notification && <SimpleSnackbar msg={notification} />}
-    </>
+    </div>
   );
 };
 
