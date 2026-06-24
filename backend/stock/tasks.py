@@ -27,25 +27,25 @@ def __summary_consumer(whatever, symbol):
     crawler.get()
 
 
-@app.task(queue="statement", rate_limit="12/m")
+@app.task(queue="statement")
 def __balance_sheet_consumer(whatever, symbol):
     crawler = MyBalanceSheet(symbol)
     crawler.get()
 
 
-@app.task(queue="statement", rate_limit="12/m")
+@app.task(queue="statement")
 def __income_statement_consumer(whatever, symbol):
     crawler = MyIncomeStatement(symbol)
     crawler.get()
 
 
-@app.task(queue="statement", rate_limit="12/m")
+@app.task(queue="statement")
 def __cash_flow_statement_consumer(whatever, symbol):
     crawler = MyCashFlowStatement(symbol)
     crawler.get()
 
 
-@app.task(queue="summary", rate_limit="12/m")
+@app.task(queue="summary")
 def __valuation_ratio_consumer(whatever, symbol):
     crawler = MyValuationRatio(symbol)
     crawler.get()
@@ -103,7 +103,7 @@ def price_daily():
     tasks.apply_async()
 
 
-@app.task(queue="price", rate_limit="12/m")
+@app.task(queue="price")
 def __price_single(symbol):
     
     MyStockHistoricalYahoo(symbol).parser()
@@ -125,7 +125,7 @@ def statement_daily():
     tasks.apply_async()
 
 
-@app.task(queue="statement", rate_limit="12/m")
+@app.task(queue="statement")
 def __statement_single(symbol):
     try:
         MySummary(symbol).get()
@@ -212,7 +212,7 @@ def _update_stock_denorm(symbol):
     stock.save(update_fields=["d_pe", "d_pb", "d_ps", "d_price_to_cash_premium"])
 
 
-@app.task(queue="edgar", rate_limit="8/m")
+@app.task(queue="edgar")
 def __insider_trade_consumer(symbol):
     InsiderTradeWorker(symbol).get()
 
@@ -228,7 +228,7 @@ def insider_daily():
     tasks.apply_async()
 
 
-@app.task(queue="edgar", rate_limit="4/m")
+@app.task(queue="edgar")
 def __holdings_consumer(symbol):
     InstitutionalHoldingsWorker(symbol).get()
 
@@ -256,7 +256,7 @@ def earnings_calendar_daily():
     EarningsCalendarWorker().get()
 
 
-@app.task(queue="alpha", rate_limit="5/m")
+@app.task(queue="alpha")
 def __earnings_surprise_consumer(symbol):
     EarningsSurpriseWorker(symbol).get()
 
