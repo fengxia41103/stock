@@ -1,119 +1,143 @@
 # Session Context — Resume File
 
-## Current State (2026-06-21 16:16 ET)
+## Current State (2026-06-26 14:04 ET)
 
 ### Branch
-- **Active branch**: `feat-step-5.1-sec-insider-trades`
-- **Base branch**: `feat-stock-skills`
-- **8 commits** on this branch, all pushed to origin
+- **Active branch**: `dev`
+- **All work merged to dev**
+- Local branches: `dev` only (all others pruned)
 
-### Commits on this branch
+### Repository Structure
 ```
-7a1cb6d feat: show full company name in stock detail header
-a70ca27 feat: add earnings impact computation and macro correlation (Steps 5.6, 5.7)
-7a7e0c2 feat: add insider sentiment, earnings beat rate, macro overlay (Steps 5.5, 5.9)
-c3efb2b feat: add Earnings view under Valuation tab (Step 5.10 partial)
-24af638 feat: add SEC EDGAR institutional holdings (Step 5.2)
-8e13034 docs: add data sources expansion plan (SEC EDGAR, FRED, Alpha Vantage)
-c5a24d8 feat: add FRED macro data and Alpha Vantage earnings (Steps 5.3, 5.4)
-14f8875 feat: add SEC EDGAR insider trades (Step 5.1)
+/home/fengxia/workspace/me/stock/
+├── skills/                    ← Reusable frameworks & methodology
+│   ├── skills.md              ← Master index
+│   ├── pulak-prasad-investing-from-darwin-en.md
+│   ├── benjamin-graham-value-investing.md
+│   ├── sec-filing-health-analysis.md
+│   ├── stock-deep-dive-framework.md
+│   ├── mark-douglas-trading-in-the-zone.md
+│   ├── mike-bellafiore-one-good-trade.md
+│   ├── andrew-aziz-how-to-day-trade-for-a-living.md
+│   ├── 被动基金投资策略.md / 涨停板分类识别与决策方法.md / etc.
+│   └── scripts/
+│       ├── analyze_sec_health.py    ← SEC XBRL health analysis
+│       ├── integrate_sec_health.py  ← Django integration
+│       ├── download_sec_filings.py  ← 10-K/10-Q downloader
+│       └── download_reports.py      ← China annual reports
+├── docs/
+│   ├── analysis/              ← Per-stock deep-dive reports
+│   │   └── MSFT/
+│   │       ├── msft-deep-analysis-2026-06-25.md
+│   │       ├── msft-deep-analysis-critical-review.md
+│   │       └── msft-market-update-2026-06-26.md
+│   ├── upgrade-plan.md        ← App upgrade status (all phases done)
+│   ├── session-context.md     ← THIS FILE
+│   ├── finviz-dashboard-plan.md
+│   ├── dashboard-redesign-geckoboard.md
+│   ├── data-sources-plan*.md  ← SEC/FRED/Alpha Vantage plans
+│   └── (architecture, api-reference, data-model, etc.)
+├── backend/                   ← Django + DRF + Celery
+│   └── stock/
+│       ├── models/            ← MyStock, InsiderTrade, Macro, Earnings, etc.
+│       ├── workers/           ← Yahoo, SEC, FRED, Alpha Vantage, compute_health
+│       ├── api/               ← views, serializers, urls
+│       ├── tasks.py           ← Celery tasks (no rate limits)
+│       └── tests/
+├── frontend/                  ← React 18 + MUI 5 + ECharts + Vite
+│   └── src/
+│       ├── views/dashboard/   ← Geckoboard-style dark dashboard
+│       ├── views/stock/       ← Detail views (Price, Health, Earnings, Ownership)
+│       ├── views/sector/      ← Portfolio views (macro correlation heatmap)
+│       ├── components/        ← PriceChart (ECharts), MacroOverlay, etc.
+│       ├── api/               ← hooks.ts (react-query)
+│       └── lib/storybook/     ← Shared chart/table components
+└── docker-compose.yml
 ```
 
-### What was done this session
-
-1. **Added 24 "Darwin完全过关" stocks** to the app (from `纳指Top20标普Top30基本面及箱体操作分析.md`)
-   - Created sector "Darwin完全过关" with 24 stocks
-   - 16 new stocks created, 8 existing linked
-
-2. **Implemented all 10 data source steps (5.1–5.10)**:
-   - 5.1: SEC EDGAR Insider Trades (model + worker + API + frontend)
-   - 5.2: SEC EDGAR Institutional Holdings (model + worker + API + frontend)
-   - 5.3: FRED Macro Indicators (model + worker + API) — **LIVE with data**
-   - 5.4: Alpha Vantage Earnings (model + worker + API) — **LIVE with data**
-   - 5.5: Insider sentiment property on MyStock
-   - 5.6: Macro correlation management command
-   - 5.7: Earnings price impact computation
-   - 5.8: Ownership tab (insider + institutional sub-views)
-   - 5.9: Macro Overlay on price charts (dual Y-axis, checkbox controls)
-   - 5.10: Earnings View (beat rate, surprise chart, upcoming alert)
-
-3. **Stock detail header** changed to H1 with full company name: "KLA Corporation (KLAC)"
-
-4. **Created plan docs** in `/docs/`:
-   - `data-sources-plan.md` (master overview)
-   - `data-sources-plan-sec-edgar.md`
-   - `data-sources-plan-fred.md`
-   - `data-sources-plan-alpha-vantage.md`
-   - `data-sources-plan-analysis.md`
+### Portfolios (4)
+| Portfolio | Stocks | Purpose |
+|-----------|--------|---------|
+| Consideration | 19 | General watchlist (legacy) |
+| Darwin完全过关 | 24 | Darwin Kill List approved stocks |
+| Fidelity | 10 | Actual IRA holdings (MSFT, VOO, V, MA, RCL, PDD, SBUX, PLTR, CAT, VSXY) |
+| SP500 Top | 10 | S&P 500 quality picks |
 
 ### Data Status
-- **FRED**: 17 series, 2,942 data points (10Y Treasury latest: 4.49% on 2026-06-17)
-- **Alpha Vantage**: 31 upcoming earnings events fetched
-- **SEC EDGAR Insider Trades**: 256 trades for MSFT/AAPL/V/GOOGL
-- **SEC EDGAR Holdings**: Worker ready but not yet run (quarterly)
+- **Stocks**: 47 total
+- **Historicals**: 287K+ records, refreshed every 10 min
+- **FRED**: 17 series, 2,942 data points (10Y Treasury, CPI, unemployment, etc.)
+- **Alpha Vantage**: 2,342 earnings events, 2,286 price impacts computed
+- **SEC Insider Trades**: 2,723 trades (P and S only shown)
+- **SEC Institutional Holdings**: 12 records
+- **News**: 160+ articles (Yahoo Finance per-stock)
+- **Rankings**: 5 caches + signal ranks (insider, beat rate, weekly return, drop scale)
 
-### Environment (dotenv-local)
+### API Endpoints (22)
+| Endpoint | Description |
+|----------|-------------|
+| `/stocks/` | List/CRUD stocks |
+| `/stocks/{id}/overview/` | Treemap/screener data (?date= supported) |
+| `/stocks/{id}/health/` | SEC XBRL health analysis |
+| `/stocks/{id}/dupont/` | DuPont ROE model |
+| `/stocks/{id}/nav/` | Net asset value |
+| `/stocks/{id}/cross-statements/` | ROCE, ROIC, FCF |
+| `/historicals/` | Price data (stock__in filter works) |
+| `/insider-trades/` | SEC Form 4 (P/S only) |
+| `/holdings/` | 13F institutional |
+| `/macro-series/` | FRED series metadata |
+| `/macro-data/` | FRED observations |
+| `/macro-correlations/` | Stock vs macro Pearson r |
+| `/earnings/` | Earnings history |
+| `/earnings/upcoming/` | Next 30 days |
+| `/signal-ranks/` | Insider/beat rate/momentum/drop |
+| `/health/` | DB + Redis connectivity |
+| `/sectors/`, `/diaries/`, `/news/`, `/tasks/` | Standard CRUD |
+| `/{type}-ranks/` | stock/balance/cash/income/valuation rankings |
+
+### Frontend Pages
+| Route | Page |
+|-------|------|
+| `/dashboard` | Geckoboard-style dark KPI tiles + movers |
+| `/map` | Treemap by portfolio, colored by return |
+| `/screener` | Sortable/filterable stock table |
+| `/charts` | Sparkline grid of all stocks |
+| `/macro` | FRED indicators with mini sparklines |
+| `/stocks/:id/health` | SEC health assessment (Altman Z, ratios) |
+| `/stocks/:id/earnings` | Beat rate, surprise chart |
+| `/stocks/:id/insider-trades` | Buy/sell timeline |
+| `/stocks/:id/institutional` | 13F holdings pie chart |
+| `/stocks/:id/historical/price` | ECharts price + earnings markLines + macro overlay |
+| `/sectors/:id/macro-correlation` | Heatmap (under Price & Trends) |
+| `/rankings` | Signal ranks first, then ROE/balance/income/cash/valuation |
+| `/notes` | Searchable diary with anchor links |
+
+### Environment
 ```
-FRED_API_KEY=40cf1911a0a8ec03410ba374f481b207
-ALPHA_VANTAGE_API_KEY=<set, working>
-SEC_EDGAR_USER_AGENT=StockApp/1.0 (dev@example.com)  # implicit default in code
+Python 3.12 + Django 5.2 + DRF
+React 18 + Vite + MUI 5 + ECharts
+Docker Compose (web, celery, db, redis, frontend)
+FRED_API_KEY=set
+ALPHA_VANTAGE_API_KEY=set
 ```
 
-### New API Endpoints
-| Endpoint | Status |
-|----------|--------|
-| `/api/v1/insider-trades/?stock={id}` | ✅ Live |
-| `/api/v1/holdings/?stock={id}` | ✅ Live (empty until quarterly fetch) |
-| `/api/v1/macro-series/` | ✅ Live with 17 series |
-| `/api/v1/macro-data/?series_id=DGS10` | ✅ Live with 2942 points |
-| `/api/v1/earnings/?stock={id}` | ✅ Live with 31 events |
-| `/api/v1/earnings/upcoming/` | ✅ Live |
-
-### New Frontend Views
-- **Valuation → Earnings**: Beat rate, EPS surprise bar chart, upcoming alert
-- **Ownership → Insider Trades**: Sentiment gauge, buy/sell timeline, cluster buy alert
-- **Ownership → Institutional**: Top holders pie chart, holdings table
-- **Price & Trends → Daily Prices**: Macro Overlay section at bottom (checkbox to overlay FRED series)
-
-### New Celery Schedules
-| Task | Schedule |
-|------|----------|
-| `insider_daily` | Daily 6AM |
-| `fred_weekly` | Sunday 6AM |
-| `earnings_calendar_daily` | Daily 7AM |
-| `rebuild_ranking_cache` | Every 6 hours |
-
-### New Models (4 migrations: 0047–0051)
-- `InsiderTrade` — SEC Form 4 data
-- `MacroSeries` + `MacroDataPoint` — FRED economic series
-- `EarningsEvent` — Alpha Vantage earnings calendar/surprise
-- `InstitutionalHolding` — SEC 13F holdings
-- `MyStock.name` field added (populated from Yahoo)
-
-### Tests
-- 19 backend tests passing
-- Frontend builds clean (vite)
-- All endpoints return 200
-
-### What's NOT done yet (from upgrade-plan.md)
-- Step 4.x items (Phase 4 from upgrade plan) — dead code removal, test expansion, etc.
-- Earnings price impact stored in DB (currently just computed/logged)
-- Macro correlation stored in DB (currently management command only)
-- Dashboard widgets (MacroWidget, UpcomingEarningsWidget on TodayDashboardView)
-- Earnings markers on price chart (vertical lines at earnings dates)
-
-### Auth Token for Testing
+### Auth
 ```
 Token: 72b2fc70c676c67ba611f863c3b1dffcf8cab5ec
 User: fengxia
+GitHub: fengxia41103
 ```
 
-### Key File Locations
-- Backend models: `backend/stock/models/`
-- Workers: `backend/stock/workers/`
-- Tasks: `backend/stock/tasks.py`
-- API: `backend/stock/api/{views,serializers,urls}.py`
-- Frontend routes: `frontend/src/routes.jsx`
-- Stock detail view: `frontend/src/views/stock/StockDetailView/index.jsx`
-- API hooks: `frontend/src/api/hooks.ts`
-- Plan docs: `docs/data-sources-plan*.md`
+### Recent Analysis Work
+- MSFT deep analysis report (10 dimensions, STRONG BUY at $353)
+- Portfolio cleanup: sold JD, BFAM, CCL, BBWI, GTLB, TGT
+- Added V, MA positions in Fidelity IRA
+- Darwin framework applied to Nasdaq Top 10
+- Created 30+ diary entries for all portfolio stocks
+
+### What's Left (from upgrade-plan.md)
+- Backfill remaining 10 stocks' earnings surprise (Alpha Vantage daily limit)
+- Mobile responsiveness audit
+- Weekly email digest (needs SMTP)
+- Prometheus metrics
+- MySQL backup to S3
