@@ -1,31 +1,17 @@
 import React, { useContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
-import ReactEChartsCore from "echarts-for-react/lib/core";
-import * as echarts from "echarts/core";
-import { HeatmapChart } from "echarts/charts";
-import {
-  GridComponent,
-  TooltipComponent,
-  VisualMapComponent,
-} from "echarts/components";
-import { CanvasRenderer } from "echarts/renderers";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
+import heatmapModule from "highcharts/modules/heatmap";
 
 import { useResource } from "@/api";
-import { useChartTheme } from "@/hooks/useChartTheme";
 import SectorDetailContext from "../SectorDetailView/context";
 
-echarts.use([
-  HeatmapChart,
-  GridComponent,
-  TooltipComponent,
-  VisualMapComponent,
-  CanvasRenderer,
-]);
+heatmapModule(Highcharts);
 
 const SectorMacroCorrelationView = () => {
   const sector = useContext(SectorDetailContext);
-  const theme = useChartTheme();
   const navigate = useNavigate();
   const { data: correlations } = useResource(
     "macro-correlations",
@@ -62,7 +48,7 @@ const SectorMacroCorrelationView = () => {
 
     if (symbols.length === 0) return { option: null, visibleSymbols: [] };
 
-    // Build heatmap data: [seriesIdx, symbolIdx, correlation]
+    // Build heatmap data: [x, y, value]
     const data = [];
     filtered.forEach((c) => {
       const xi = seriesIds.indexOf(c.series_id);
@@ -72,54 +58,97 @@ const SectorMacroCorrelationView = () => {
       }
     });
 
+    const height = Math.max(350, symbols.length * 40 + 100);
+
     return {
       visibleSymbols: symbols,
       option: {
-        tooltip: {
-          formatter: (p) =>
-            `<b>${symbols[p.value[1]]}</b> vs ${
-              seriesIds[p.value[0]]
-            }<br/>r = ${p.value[2]}`,
+        chart: {
+          type: "heatmap",
+          backgroundColor: "transparent",
+          height,
         },
-        grid: { left: 80, right: 40, top: 10, bottom: 60 },
+        title: { text: undefined },
         xAxis: {
-          type: "category",
-          data: seriesIds,
-          axisLabel: { rotate: 30, fontSize: 11 },
-          position: "top",
+          categories: seriesIds,
+          labels: {
+            rotation: -30,
+            style: { color: "#94a3b8", fontSize: "11px" },
+          },
+          opposite: true,
+          lineColor: "#334155",
         },
         yAxis: {
-          type: "category",
-          data: symbols,
-          axisLabel: { fontSize: 12, fontWeight: "bold" },
+          categories: symbols,
+          title: { text: null },
+          labels: {
+            style: {
+              color: "#94a3b8",
+              fontSize: "12px",
+              fontWeight: "bold",
+            },
+          },
+          gridLineColor: "#334155",
         },
-        visualMap: {
+        colorAxis: {
           min: -0.3,
           max: 0.3,
-          calculable: true,
-          orient: "horizontal",
-          left: "center",
-          bottom: 0,
-          inRange: {
-            color: ["#c62828", "#ef9a9a", "#f5f5f5", "#a5d6a7", "#2e7d32"],
+          stops: [
+            [0, "#c62828"],
+            [0.25, "#ef9a9a"],
+            [0.5, "#f5f5f5"],
+            [0.75, "#a5d6a7"],
+            [1, "#2e7d32"],
+          ],
+        },
+        tooltip: {
+          formatter: function () {
+            return (
+              `<b>${symbols[this.point.y]}</b> vs ${seriesIds[this.point.x]}` +
+              `<br/>r = ${this.point.value}`
+            );
+          },
+          style: { color: "#94a3b8" },
+          backgroundColor: "#1e293b",
+          borderColor: "#334155",
+        },
+        legend: {
+          align: "center",
+          verticalAlign: "bottom",
+          layout: "horizontal",
+          itemStyle: { color: "#94a3b8" },
+        },
+        plotOptions: {
+          heatmap: {
+            borderWidth: 2,
+            borderColor: "#334155",
+            dataLabels: {
+              enabled: true,
+              format: "{point.value:.2f}",
+              style: { color: "#1e293b", textOutline: "none", fontSize: "11px" },
+            },
+            cursor: "pointer",
+            point: {
+              events: {
+                click: function () {
+                  const symbol = symbols[this.y];
+                  const id = stockMap[symbol];
+                  if (id) navigate(`/stocks/${id}/historical/price`);
+                },
+              },
+            },
           },
         },
         series: [
           {
-            type: "heatmap",
+            name: "Correlation",
             data,
-            label: {
-              show: true,
-              fontSize: 11,
-              formatter: (p) => p.value[2].toFixed(2),
-            },
-            itemStyle: { borderWidth: 2, borderColor: "#fff" },
-            emphasis: { itemStyle: { borderColor: "#333", borderWidth: 3 } },
           },
         ],
+        credits: { enabled: false },
       },
     };
-  }, [correlations, sector]);
+  }, [correlations, sector, stockMap, navigate]);
 
   if (!option) {
     return (
@@ -130,18 +159,6 @@ const SectorMacroCorrelationView = () => {
     );
   }
 
-  const height = Math.max(350, visibleSymbols.length * 40 + 100);
-
-  const onEvents = {
-    click: (params) => {
-      if (params.value && params.value[1] != null) {
-        const symbol = visibleSymbols[params.value[1]];
-        const id = stockMap[symbol];
-        if (id) navigate(`/stocks/${id}/historical/price`);
-      }
-    },
-  };
-
   return (
     <Box>
       <Typography variant="h6" gutterBottom>
@@ -151,13 +168,7 @@ const SectorMacroCorrelationView = () => {
         Pearson r: green = moves with macro, red = moves against. Click a stock
         to view details.
       </Typography>
-      <ReactEChartsCore
-        echarts={echarts}
-        option={option}
-        theme={theme}
-        style={{ height }}
-        onEvents={onEvents}
-      />
+      <HighchartsReact highcharts={Highcharts} options={option} />
     </Box>
   );
 };

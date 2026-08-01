@@ -1,8 +1,8 @@
-import { map } from "lodash";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import ReactEChartsCore from "echarts-for-react";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 
 import ShowResource from "@Components/common/ShowResource";
 
@@ -24,29 +24,25 @@ const RecentPriceSparkline = (props) => {
       ? data
       : data.results || data.objects || [];
 
-    const chart_data = map(stocks, (s) => s.close_price);
+    const chartData = stocks.map((s) => s.close_price);
 
-    const option = {
-      grid: { top: 0, bottom: 0, left: 0, right: 0 },
-      xAxis: { type: "category", show: false },
-      yAxis: { type: "value", show: false, min: "dataMin" },
-      series: [
-        {
-          type: "line",
-          data: chart_data,
-          showSymbol: false,
-          lineStyle: { width: 1 },
-        },
-      ],
+    const options = {
+      chart: { type: "line", backgroundColor: "transparent", height: 40, margin: [0, 0, 0, 0], spacing: [0, 0, 0, 0] },
+      title: { text: null },
+      xAxis: { visible: false },
+      yAxis: { visible: false, min: Math.min(...chartData) * 0.99 },
+      legend: { enabled: false },
+      credits: { enabled: false },
+      tooltip: { enabled: false },
+      plotOptions: { line: { marker: { enabled: false }, lineWidth: 1, color: "#3b82f6" } },
+      series: [{ data: chartData }],
     };
 
     return (
-      <ReactEChartsCore
-        theme={
-          localStorage.getItem("themeMode") === "dark" ? "dark" : undefined
-        }
-        option={option}
-        style={{ height: 40, width: "100%" }}
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={options}
+        containerProps={{ style: { height: "40px", width: "100%" } }}
       />
     );
   };

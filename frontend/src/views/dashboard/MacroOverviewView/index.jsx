@@ -7,18 +7,12 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import ReactEChartsCore from "echarts-for-react/lib/core";
-import * as echarts from "echarts/core";
-import { LineChart } from "echarts/charts";
-import { GridComponent, TooltipComponent } from "echarts/components";
-import { CanvasRenderer } from "echarts/renderers";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useResource } from "@/api";
-import { useChartTheme } from "@/hooks/useChartTheme";
 import { Page } from "@/components/shared";
-
-echarts.use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 
 const CATEGORIES = {
   rates: "Interest Rates",
@@ -34,7 +28,6 @@ const MacroOverviewView = () => {
     "macro-series",
     "/macro-series/",
   );
-  const theme = useChartTheme();
 
   if (isLoading) return <ScaleLoader loading />;
   if (!series || !Array.isArray(series) || series.length === 0) {
@@ -67,7 +60,7 @@ const MacroOverviewView = () => {
               <Grid container spacing={1}>
                 {items.map((s) => (
                   <Grid key={s.id} item lg={4} md={6} sm={12} xs={12}>
-                    <MacroCard series={s} theme={theme} />
+                    <MacroCard series={s} />
                   </Grid>
                 ))}
               </Grid>
@@ -79,7 +72,7 @@ const MacroOverviewView = () => {
   );
 };
 
-const MacroCard = ({ series, theme }) => {
+const MacroCard = ({ series }) => {
   const { data } = useResource(
     ["macro-card", series.series_id],
     `/macro-data/?series_id=${series.series_id}&ordering=date`,
@@ -94,23 +87,47 @@ const MacroCard = ({ series, theme }) => {
   const option =
     recent.length > 1
       ? {
-          grid: { top: 5, bottom: 20, left: 40, right: 10 },
-          xAxis: {
-            type: "category",
-            data: recent.map((p) => p.date),
-            show: false,
+          chart: {
+            type: "area",
+            backgroundColor: "transparent",
+            height: 80,
+            margin: [5, 10, 20, 40],
+            spacing: [0, 0, 0, 0],
           },
-          yAxis: { type: "value", scale: true, axisLabel: { fontSize: 10 } },
+          title: { text: undefined },
+          xAxis: {
+            categories: recent.map((p) => p.date),
+            visible: false,
+          },
+          yAxis: {
+            title: { text: null },
+            labels: {
+              style: { color: "#94a3b8", fontSize: "10px" },
+            },
+            gridLineColor: "#334155",
+          },
+          tooltip: {
+            style: { color: "#94a3b8" },
+            backgroundColor: "#1e293b",
+            borderColor: "#334155",
+            headerFormat: "{point.x}<br/>",
+            pointFormat: "<b>{point.y:.2f}</b>",
+          },
+          legend: { enabled: false },
+          plotOptions: {
+            area: {
+              marker: { enabled: false },
+              lineWidth: 2,
+              fillOpacity: 0.1,
+            },
+          },
           series: [
             {
-              type: "line",
+              name: series.title,
               data: recent.map((p) => p.value),
-              showSymbol: false,
-              lineStyle: { width: 2 },
-              areaStyle: { opacity: 0.1 },
             },
           ],
-          tooltip: { trigger: "axis" },
+          credits: { enabled: false },
         }
       : null;
 
@@ -146,12 +163,7 @@ const MacroCard = ({ series, theme }) => {
           )}
         </Box>
         {option && (
-          <ReactEChartsCore
-            echarts={echarts}
-            option={option}
-            theme={theme}
-            style={{ height: 80 }}
-          />
+          <HighchartsReact highcharts={Highcharts} options={option} />
         )}
       </CardContent>
     </Card>

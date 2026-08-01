@@ -12,33 +12,16 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import ReactEChartsCore from "echarts-for-react/lib/core";
-import * as echarts from "echarts/core";
-import { BarChart } from "echarts/charts";
-import {
-  GridComponent,
-  TooltipComponent,
-  LegendComponent,
-} from "echarts/components";
-import { CanvasRenderer } from "echarts/renderers";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useEarnings } from "@/api";
-import { useChartTheme } from "@/hooks/useChartTheme";
 import StockDetailContext from "../StockDetailView/context";
-
-echarts.use([
-  BarChart,
-  GridComponent,
-  TooltipComponent,
-  LegendComponent,
-  CanvasRenderer,
-]);
 
 const EarningsView = () => {
   const stock = useContext(StockDetailContext);
   const { data: earnings, isLoading } = useEarnings(stock?.id);
-  const theme = useChartTheme();
 
   const { chartOption, beatRate, upcoming } = useMemo(() => {
     if (!earnings || !Array.isArray(earnings) || earnings.length === 0) {
@@ -55,24 +38,47 @@ const EarningsView = () => {
     const option =
       sorted.length > 0
         ? {
-            tooltip: { trigger: "axis" },
-            xAxis: {
-              type: "category",
-              data: sorted.map((e) => e.report_date),
-              axisLabel: { rotate: 45 },
+            chart: {
+              type: "column",
+              backgroundColor: "transparent",
+              height: 280,
             },
-            yAxis: { type: "value", name: "Surprise %" },
+            title: { text: undefined },
+            xAxis: {
+              categories: sorted.map((e) => e.report_date),
+              labels: {
+                rotation: -45,
+                style: { color: "#94a3b8" },
+              },
+              lineColor: "#334155",
+            },
+            yAxis: {
+              title: { text: "Surprise %", style: { color: "#94a3b8" } },
+              labels: { style: { color: "#94a3b8" } },
+              gridLineColor: "#334155",
+            },
+            tooltip: {
+              style: { color: "#94a3b8" },
+              backgroundColor: "#1e293b",
+              borderColor: "#334155",
+              pointFormat: "Surprise: <b>{point.y:.1f}%</b>",
+            },
+            legend: { enabled: false },
+            plotOptions: {
+              column: {
+                colorByPoint: true,
+              },
+            },
+            colors: sorted.map((e) =>
+              (e.surprise_pct || 0) > 0 ? "#4caf50" : "#f44336",
+            ),
             series: [
               {
-                type: "bar",
-                data: sorted.map((e) => ({
-                  value: e.surprise_pct || 0,
-                  itemStyle: {
-                    color: (e.surprise_pct || 0) > 0 ? "#4caf50" : "#f44336",
-                  },
-                })),
+                name: "Surprise %",
+                data: sorted.map((e) => e.surprise_pct || 0),
               },
             ],
+            credits: { enabled: false },
           }
         : null;
 
@@ -122,12 +128,7 @@ const EarningsView = () => {
           <Typography variant="subtitle2" gutterBottom>
             EPS Surprise % by Quarter
           </Typography>
-          <ReactEChartsCore
-            echarts={echarts}
-            option={chartOption}
-            theme={theme}
-            style={{ height: 280 }}
-          />
+          <HighchartsReact highcharts={Highcharts} options={chartOption} />
         </Paper>
       )}
 

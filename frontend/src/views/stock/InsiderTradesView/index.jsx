@@ -12,33 +12,16 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import ReactEChartsCore from "echarts-for-react/lib/core";
-import * as echarts from "echarts/core";
-import { BarChart } from "echarts/charts";
-import {
-  GridComponent,
-  TooltipComponent,
-  LegendComponent,
-} from "echarts/components";
-import { CanvasRenderer } from "echarts/renderers";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useInsiderTrades } from "@/api";
-import { useChartTheme } from "@/hooks/useChartTheme";
 import StockDetailContext from "../StockDetailView/context";
-
-echarts.use([
-  BarChart,
-  GridComponent,
-  TooltipComponent,
-  LegendComponent,
-  CanvasRenderer,
-]);
 
 const InsiderTradesView = () => {
   const stock = useContext(StockDetailContext);
   const { data: trades, isLoading } = useInsiderTrades(stock?.id);
-  const theme = useChartTheme();
 
   const { sentiment, chartOption, purchases, sales } = useMemo(() => {
     if (!trades || !Array.isArray(trades) || trades.length === 0) {
@@ -66,34 +49,57 @@ const InsiderTradesView = () => {
 
     const months = Object.keys(monthly).sort();
     const option = {
-      tooltip: { trigger: "axis" },
-      legend: { data: ["Purchases", "Sales"] },
-      xAxis: { type: "category", data: months },
+      chart: {
+        type: "bar",
+        backgroundColor: "transparent",
+        height: 300,
+      },
+      title: { text: undefined },
+      xAxis: {
+        categories: months,
+        labels: { style: { color: "#94a3b8" } },
+        lineColor: "#334155",
+      },
       yAxis: {
-        type: "value",
-        axisLabel: {
-          formatter: (v) =>
-            v >= 1e6
+        title: { text: null },
+        labels: {
+          style: { color: "#94a3b8" },
+          formatter: function () {
+            const v = Math.abs(this.value);
+            return v >= 1e6
               ? `$${(v / 1e6).toFixed(1)}M`
-              : `$${(v / 1e3).toFixed(0)}K`,
+              : `$${(v / 1e3).toFixed(0)}K`;
+          },
+        },
+        gridLineColor: "#334155",
+      },
+      tooltip: {
+        shared: true,
+        style: { color: "#94a3b8" },
+        backgroundColor: "#1e293b",
+        borderColor: "#334155",
+      },
+      legend: {
+        itemStyle: { color: "#94a3b8" },
+      },
+      plotOptions: {
+        bar: {
+          stacking: "normal",
         },
       },
       series: [
         {
           name: "Purchases",
-          type: "bar",
-          stack: "total",
           data: months.map((m) => monthly[m].buy),
-          itemStyle: { color: "#4caf50" },
+          color: "#4caf50",
         },
         {
           name: "Sales",
-          type: "bar",
-          stack: "total",
           data: months.map((m) => -monthly[m].sell),
-          itemStyle: { color: "#f44336" },
+          color: "#f44336",
         },
       ],
+      credits: { enabled: false },
     };
 
     return {
@@ -150,12 +156,7 @@ const InsiderTradesView = () => {
       {/* Chart */}
       {chartOption && (
         <Paper sx={{ p: 2, mb: 2 }}>
-          <ReactEChartsCore
-            echarts={echarts}
-            option={chartOption}
-            theme={theme}
-            style={{ height: 300 }}
-          />
+          <HighchartsReact highcharts={Highcharts} options={chartOption} />
         </Paper>
       )}
 

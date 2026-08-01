@@ -10,33 +10,16 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import ReactEChartsCore from "echarts-for-react/lib/core";
-import * as echarts from "echarts/core";
-import { PieChart } from "echarts/charts";
-import {
-  GridComponent,
-  TooltipComponent,
-  LegendComponent,
-} from "echarts/components";
-import { CanvasRenderer } from "echarts/renderers";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useHoldings } from "@/api";
-import { useChartTheme } from "@/hooks/useChartTheme";
 import StockDetailContext from "../StockDetailView/context";
-
-echarts.use([
-  PieChart,
-  GridComponent,
-  TooltipComponent,
-  LegendComponent,
-  CanvasRenderer,
-]);
 
 const InstitutionalView = () => {
   const stock = useContext(StockDetailContext);
   const { data: holdings, isLoading } = useHoldings(stock?.id);
-  const theme = useChartTheme();
 
   const pieOption = useMemo(() => {
     if (!holdings || !Array.isArray(holdings) || holdings.length === 0)
@@ -44,19 +27,39 @@ const InstitutionalView = () => {
 
     const data = holdings.slice(0, 10).map((h) => ({
       name: h.institution_name,
-      value: h.shares,
+      y: h.shares,
     }));
 
     return {
-      tooltip: { trigger: "item", formatter: "{b}: {c} shares ({d}%)" },
+      chart: {
+        type: "pie",
+        backgroundColor: "transparent",
+        height: 350,
+      },
+      title: { text: undefined },
+      tooltip: {
+        pointFormat: "{point.y:,.0f} shares ({point.percentage:.1f}%)",
+        style: { color: "#94a3b8" },
+        backgroundColor: "#1e293b",
+        borderColor: "#334155",
+      },
+      plotOptions: {
+        pie: {
+          innerSize: "40%",
+          dataLabels: {
+            enabled: true,
+            format: "{point.name}<br/>{point.percentage:.1f}%",
+            style: { color: "#94a3b8", textOutline: "none" },
+          },
+        },
+      },
       series: [
         {
-          type: "pie",
-          radius: ["30%", "70%"],
+          name: "Shares",
           data,
-          label: { formatter: "{b}\n{d}%" },
         },
       ],
+      credits: { enabled: false },
     };
   }, [holdings]);
 
@@ -88,12 +91,7 @@ const InstitutionalView = () => {
           <Typography variant="h6" gutterBottom>
             Top Holders
           </Typography>
-          <ReactEChartsCore
-            echarts={echarts}
-            option={pieOption}
-            theme={theme}
-            style={{ height: 350 }}
-          />
+          <HighchartsReact highcharts={Highcharts} options={pieOption} />
         </Paper>
       )}
 

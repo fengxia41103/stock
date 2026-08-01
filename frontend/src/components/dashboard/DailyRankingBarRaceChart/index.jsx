@@ -1,7 +1,8 @@
-import ReactECharts from "echarts-for-react";
-import { map, maxBy, minBy, reverse } from "lodash";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
+import { maxBy, minBy, reverse } from "lodash";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import PauseCircleFilledIcon from "@mui/icons-material/PauseCircleFilled";
 import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
@@ -11,10 +12,11 @@ import LinearProgress from "@mui/material/LinearProgress";
 
 const DailyRankingBarRaceChart = (props) => {
   const { ranks, order_by, highlights, negative } = props;
-  const dates = reverse([...new Set(map(ranks, (s) => s.category))]);
+  const dates = reverse([...new Set(ranks.map((s) => s.category))]);
   const [on, setOn] = useState(0);
   const [progress, setProgress] = useState(0);
   const [pause, setPause] = useState(false);
+  const chartRef = useRef(null);
 
   // set pause bool
   const toggle_pause = () => setPause(!pause);
@@ -25,58 +27,82 @@ const DailyRankingBarRaceChart = (props) => {
     setOn(0);
   };
 
-  const update_option = () => {
+  const getOptions = () => {
     const data = ranks[on].stocks;
 
-    // echart options
+    const categories = data.map((d) => d.symbol);
+    const values = data.map((d) => ({
+      y: d[order_by],
+      color: `#${highlights[d.symbol]?.background || "5470c6"}`,
+    }));
+
     return {
-      dataset: {
-        dimensions: [order_by, "symbol"],
-        source: data,
-      },
-      xAxis: {
-        max: Math.ceil(maxBy(data, (d) => d[order_by])),
-        min: Math.floor(minBy(data, (d) => d[order_by])),
-        label: {
-          formatter: (n) => Math.round(n),
+      chart: {
+        type: "bar",
+        backgroundColor: "transparent",
+        height: "67%",
+        animation: {
+          duration: 1000,
+          easing: "linear",
         },
       },
+      title: { text: undefined },
+      xAxis: {
+        categories,
+        labels: {
+          style: { color: "#94a3b8" },
+          enabled: !negative,
+        },
+        lineColor: "#334155",
+        reversed: true,
+      },
       yAxis: {
-        type: "category",
-        inverse: true,
-        axisLabel: {
-          show: false,
+        title: { text: null },
+        min: Math.floor(minBy(data, (d) => d[order_by])?.[order_by] || 0),
+        max: Math.ceil(maxBy(data, (d) => d[order_by])?.[order_by] || 0),
+        labels: {
+          style: { color: "#94a3b8" },
+          formatter: function () {
+            return Math.round(this.value);
+          },
+        },
+        gridLineColor: "#334155",
+      },
+      tooltip: {
+        style: { color: "#94a3b8" },
+        backgroundColor: "#1e293b",
+        borderColor: "#334155",
+      },
+      legend: { enabled: false },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true,
+            format: "{point.category}",
+            align: negative ? "right" : "left",
+            style: {
+              color: "#94a3b8",
+              textOutline: "none",
+              fontFamily: "monospace",
+            },
+          },
+          animation: {
+            duration: 1000,
+          },
+        },
+        series: {
+          animation: {
+            duration: 1000,
+          },
         },
       },
       series: [
         {
-          seriesLayoutBy: "column",
-          type: "bar",
-          itemStyle: {
-            color: (param) => {
-              const { value } = param;
-              const { symbol } = value;
-              return `#${highlights[symbol].background || "#5470c6"}`;
-            },
-          },
-          encode: {
-            x: order_by,
-            y: "symbol",
-          },
-          label: {
-            show: true,
-            valueAnimation: true,
-            fontFamily: "monospace",
-            formatter: "{b}",
-            position: negative ? "left" : "right",
-          },
+          name: order_by,
+          data: values,
         },
       ],
-      // Disable init animation.
-      animationDuration: 0,
-      animationDurationUpdate: 1000,
-      animationEasing: "linear",
-      animationEasingUpdate: "linear",
+      credits: { enabled: false },
     };
   };
 
@@ -91,7 +117,7 @@ const DailyRankingBarRaceChart = (props) => {
 
       setProgress(Math.round(((on + 1) / dates.length) * 100));
 
-      // this will trigger rendering?
+      // this will trigger rendering
       if (on < dates.length - 1) {
         setOn(on + 1);
       }
@@ -120,12 +146,11 @@ const DailyRankingBarRaceChart = (props) => {
           </Button>
         </Grid>
       </Grid>
-      <ReactECharts
-        option={update_option()}
-        style={{
-          height: "67vh",
-          width: "100%",
-        }}
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={getOptions()}
+        ref={chartRef}
+        containerProps={{ style: { height: "67vh", width: "100%" } }}
       />
     </>
   );

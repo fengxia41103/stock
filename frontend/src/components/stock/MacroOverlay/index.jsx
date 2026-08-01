@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Box,
   Checkbox,
@@ -8,26 +8,10 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import ReactEChartsCore from "echarts-for-react/lib/core";
-import * as echarts from "echarts/core";
-import { LineChart } from "echarts/charts";
-import {
-  GridComponent,
-  TooltipComponent,
-  LegendComponent,
-} from "echarts/components";
-import { CanvasRenderer } from "echarts/renderers";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 
 import { useMacroData } from "@/api";
-import { useChartTheme } from "@/hooks/useChartTheme";
-
-echarts.use([
-  LineChart,
-  GridComponent,
-  TooltipComponent,
-  LegendComponent,
-  CanvasRenderer,
-]);
 
 const MACRO_SERIES = [
   { id: "DGS10", label: "10Y Treasury (%)", color: "#ff9800" },
@@ -74,18 +58,13 @@ const MacroOverlay = ({ priceData }) => {
         ))}
       </FormGroup>
       {selected.length > 0 && (
-        <MacroChart
-          selected={selected}
-          priceData={priceData}
-          startDate={startDate}
-        />
+        <MacroChart selected={selected} priceData={priceData} startDate={startDate} />
       )}
     </Paper>
   );
 };
 
 const MacroChart = ({ selected, priceData, startDate }) => {
-  // Fetch all selected series
   const queries = selected.map((id) => ({
     id,
     ...MACRO_SERIES.find((s) => s.id === id),
@@ -109,9 +88,55 @@ const MacroChart = ({ selected, priceData, startDate }) => {
 
 const MacroSeriesChart = ({ seriesId, label, color, startDate, priceData }) => {
   const { data: macroPoints } = useMacroData(seriesId, startDate);
-  const theme = useChartTheme();
 
-  if (!macroPoints || !Array.isArray(macroPoints) || macroPoints.length === 0) {
+  const options = useMemo(() => {
+    if (!macroPoints || !Array.isArray(macroPoints) || macroPoints.length === 0) return null;
+
+    const priceDates = priceData.map((d) => d.on);
+    const macroMap = {};
+    macroPoints.forEach((p) => { macroMap[p.date] = p.value; });
+    const macroDates = [...macroPoints].reverse().map((p) => p.date);
+    const allDates = [...new Set([...priceDates, ...macroDates])].sort();
+
+    return {
+      chart: { backgroundColor: "transparent", height: 250 },
+      title: { text: null },
+      xAxis: {
+        categories: allDates,
+        labels: { style: { color: "#94a3b8" }, rotation: -45, step: Math.ceil(allDates.length / 15) },
+      },
+      yAxis: [
+        { title: { text: "Price ($)", style: { color: "#94a3b8" } }, labels: { style: { color: "#94a3b8" } }, gridLineColor: "#334155" },
+        { title: { text: label, style: { color } }, labels: { style: { color } }, opposite: true, gridLineWidth: 0 },
+      ],
+      legend: { itemStyle: { color: "#e2e8f0" } },
+      credits: { enabled: false },
+      tooltip: { shared: true, backgroundColor: "#1e293b", borderColor: "#475569", style: { color: "#f8fafc" } },
+      series: [
+        {
+          name: "Close Price",
+          yAxis: 0,
+          data: allDates.map((d) => { const p = priceData.find((x) => x.on === d); return p ? p.close_price : null; }),
+          color: "#3b82f6",
+          lineWidth: 2,
+          connectNulls: true,
+          marker: { enabled: false },
+        },
+        {
+          name: label,
+          yAxis: 1,
+          data: allDates.map((d) => macroMap[d] ?? null),
+          color,
+          lineWidth: 2,
+          dashStyle: "Dash",
+          connectNulls: true,
+          marker: { enabled: false },
+        },
+      ],
+    };
+  }, [macroPoints, priceData, label, color]);
+
+  if (!options) {
     return (
       <Typography variant="caption" color="text.secondary">
         No data for {label}. Set FRED_API_KEY and run fred_weekly.
@@ -119,61 +144,7 @@ const MacroSeriesChart = ({ seriesId, label, color, startDate, priceData }) => {
     );
   }
 
-  // Build dual-axis chart: price on left, macro on right
-  const priceDates = priceData.map((d) => d.on);
-  const priceValues = priceData.map((d) => d.close_price);
-
-  // Align macro data to date strings
-  const macroMap = {};
-  macroPoints.forEach((p) => {
-    macroMap[p.date] = p.value;
-  });
-  const macroDates = [...macroPoints].reverse().map((p) => p.date);
-  const macroValues = [...macroPoints].reverse().map((p) => p.value);
-
-  // Merge into unified dates
-  const allDates = [...new Set([...priceDates, ...macroDates])].sort();
-
-  const option = {
-    tooltip: { trigger: "axis" },
-    legend: { data: ["Close Price", label] },
-    xAxis: { type: "category", data: allDates, axisLabel: { rotate: 45 } },
-    yAxis: [
-      { type: "value", name: "Price ($)", position: "left", scale: true },
-      { type: "value", name: label, position: "right", scale: true },
-    ],
-    series: [
-      {
-        name: "Close Price",
-        type: "line",
-        yAxisIndex: 0,
-        data: allDates.map((d) => {
-          const p = priceData.find((x) => x.on === d);
-          return p ? p.close_price : null;
-        }),
-        connectNulls: true,
-        lineStyle: { width: 2 },
-      },
-      {
-        name: label,
-        type: "line",
-        yAxisIndex: 1,
-        data: allDates.map((d) => macroMap[d] ?? null),
-        connectNulls: true,
-        lineStyle: { type: "dashed", width: 2, color },
-        itemStyle: { color },
-      },
-    ],
-  };
-
-  return (
-    <ReactEChartsCore
-      echarts={echarts}
-      option={option}
-      theme={theme}
-      style={{ height: 250 }}
-    />
-  );
+  return <HighchartsReact highcharts={Highcharts} options={options} />;
 };
 
 export default MacroOverlay;
