@@ -4,6 +4,7 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from stock.api.views import (
+    BacktestViewSet,
     BalanceRankViewSet,
     BalanceSheetViewSet,
     CashFlowViewSet,
@@ -55,6 +56,7 @@ router.register(r"balance-ranks", BalanceRankViewSet, basename="balance-rank")
 router.register(r"cash-ranks", CashRankViewSet, basename="cash-rank")
 router.register(r"income-ranks", IncomeRankViewSet, basename="income-rank")
 router.register(r"valuation-ranks", ValuationRankViewSet, basename="valuation-rank")
+router.register(r"backtest", BacktestViewSet, basename="backtest")
 
 urlpatterns = [
     path("", include(router.urls)),

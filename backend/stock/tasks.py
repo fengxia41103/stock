@@ -323,3 +323,140 @@ def setup_periodic_tasks(sender, **kwargs):
         name="Fetch earnings calendar daily at 7AM",
     )
     # )
+
+
+# --- Backtesting tasks ---
+
+
+@app.task(queue="backtest", bind=True)
+def run_backtest_task(self, result_id, strategy_name, symbols, start_date, end_date, initial_cash, strategy_params):
+    """Run a single backtest asynchronously."""
+    from django.utils import timezone
+    from stock.backtesting.engine import BacktestEngine
+    from stock.backtesting.strategies import STRATEGY_REGISTRY
+    from stock.models.backtest import BacktestResult
+
+    result_obj = BacktestResult.objects.get(id=result_id)
+    result_obj.state = "RUNNING"
+    result_obj.progress = 10
+    result_obj.save(update_fields=["state", "progress"])
+
+    try:
+        strategy_class = STRATEGY_REGISTRY[strategy_name]
+
+        # Convert pct params
+        for key in ["profit_target", "stop_loss"]:
+            if key in strategy_params and strategy_params[key] > 1:
+                strategy_params[key] = strategy_params[key] / 100.0
+
+        strategy = strategy_class(**strategy_params)
+        engine = BacktestEngine(strategy, symbols, start_date, end_date, initial_cash)
+        result = engine.run()
+
+        result_obj.state = "SUCCESS"
+        result_obj.progress = 100
+        result_obj.result = result
+        result_obj.completed = timezone.now()
+        result_obj.save()
+    except Exception as e:
+        result_obj.state = "FAILURE"
+        result_obj.error = str(e)
+        result_obj.save(update_fields=["state", "error"])
+
+
+@app.task(queue="backtest", bind=True)
+def run_optimize_task(self, result_id, strategy_name, symbols, start_date, end_date, initial_cash):
+    """Run parameter optimization asynchronously with progress updates."""
+    from itertools import product
+    from django.utils import timezone
+    from stock.backtesting.engine import BacktestEngine
+    from stock.backtesting.strategies import STRATEGY_REGISTRY
+    from stock.models.backtest import BacktestResult
+
+    result_obj = BacktestResult.objects.get(id=result_id)
+    result_obj.state = "RUNNING"
+    result_obj.save(update_fields=["state"])
+
+    try:
+        strategy_class = STRATEGY_REGISTRY[strategy_name]
+        schema = strategy_class.params_schema()
+
+        if not schema:
+            # No params to optimize
+            strategy = strategy_class()
+            engine = BacktestEngine(strategy, symbols, start_date, end_date, initial_cash)
+            r = engine.run()
+            result_obj.state = "SUCCESS"
+            result_obj.progress = 100
+            result_obj.result = {"best_params": {}, "best_return": r["total_return_pct"], "top_10": [r], "combinations_tested": 1}
+            result_obj.completed = timezone.now()
+            result_obj.save()
+            return
+
+        # Build grid: 3 steps per parameter
+        param_ranges = {}
+        for p in schema:
+            lo, hi = p["min"], p["max"]
+            if p["type"] == "float":
+                steps = [round(lo + i * (hi - lo) / 2, 1) for i in range(3)]
+            elif p["type"] == "pct":
+                steps = [round(lo + i * (hi - lo) / 2) for i in range(3)]
+            else:
+                steps = [int(lo + i * (hi - lo) / 2) for i in range(3)]
+            param_ranges[p["key"]] = steps
+
+        keys = list(param_ranges.keys())
+        all_combos = list(product(*[param_ranges[k] for k in keys]))
+        max_combos = 30
+        if len(all_combos) > max_combos:
+            step = len(all_combos) // max_combos
+            all_combos = all_combos[::step][:max_combos]
+
+        results_list = []
+        for i, combo in enumerate(all_combos):
+            # Update progress
+            result_obj.progress = int((i + 1) / len(all_combos) * 100)
+            result_obj.save(update_fields=["progress"])
+
+            strategy_params = dict(zip(keys, combo))
+            run_params = dict(strategy_params)
+            for p in schema:
+                if p["type"] == "pct" and p["key"] in run_params:
+                    run_params[p["key"]] = run_params[p["key"]] / 100.0
+
+            try:
+                strategy = strategy_class(**run_params)
+                engine = BacktestEngine(strategy, symbols, start_date, end_date, initial_cash)
+                r = engine.run()
+                results_list.append({
+                    "params": strategy_params,
+                    "total_return_pct": r["total_return_pct"],
+                    "sharpe_ratio": r["sharpe_ratio"],
+                    "win_rate_pct": r["win_rate_pct"],
+                    "max_drawdown_pct": r["max_drawdown_pct"],
+                    "total_trades": r["total_trades"],
+                    "profit_factor": r["profit_factor"],
+                })
+            except Exception:
+                continue
+
+        results_list.sort(key=lambda x: x["total_return_pct"], reverse=True)
+        best = results_list[0] if results_list else {"params": {}, "total_return_pct": 0}
+
+        result_obj.state = "SUCCESS"
+        result_obj.progress = 100
+        result_obj.result = {
+            "strategy": strategy_name,
+            "best_params": best.get("params", {}),
+            "best_return": best.get("total_return_pct", 0),
+            "best_sharpe": best.get("sharpe_ratio", 0),
+            "combinations_tested": len(results_list),
+            "top_10": results_list[:10],
+            "worst_5": results_list[-5:] if len(results_list) >= 5 else [],
+        }
+        result_obj.completed = timezone.now()
+        result_obj.save()
+    except Exception as e:
+        result_obj.state = "FAILURE"
+        result_obj.error = str(e)
+        result_obj.save(update_fields=["state", "error"])

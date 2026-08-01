@@ -252,6 +252,12 @@ class StockViewSet(viewsets.ModelViewSet):
             if len(hist) >= 2 and hist[1].close_price:
                 daily_return = (hist[0].close_price - hist[1].close_price) / hist[1].close_price * 100
             sectors = list(s.sectors.filter(user=request.user).values_list("name", flat=True))
+
+            # Volume as % of outstanding
+            vol_pct = None
+            if hist and hist[0].vol and s.shares_outstanding:
+                vol_pct = round(hist[0].vol / (s.shares_outstanding * 1000) * 100, 2)
+
             result.append({
                 "id": s.id,
                 "symbol": s.symbol,
@@ -266,6 +272,7 @@ class StockViewSet(viewsets.ModelViewSet):
                 "beta": s.beta,
                 "last_lower": s.d_last_lower,
                 "insider_sentiment": s.insider_sentiment_3m,
+                "vol_pct_outstanding": vol_pct,
             })
         return Response(result)
 
@@ -337,7 +344,7 @@ class DiaryViewSet(viewsets.ModelViewSet):
         return DiaryListSerializer
 
     def get_queryset(self):
-        return MyDiary.objects.filter(user=self.request.user).order_by("-last_updated")
+        return MyDiary.objects.filter(user=self.request.user).select_related("stock").order_by("-last_updated")
 
     def create(self, request):
         ser = DiaryCreateSerializer(data=request.data)
@@ -351,6 +358,55 @@ class DiaryViewSet(viewsets.ModelViewSet):
             user=request.user, stock=stock, content=content, judgement=d["judgement"]
         )
         return Response(DiaryDetailSerializer(diary).data, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=["get"])
+    def stats(self, request):
+        """Aggregated prediction accuracy stats."""
+        from collections import defaultdict
+
+        entries = list(
+            MyDiary.objects.filter(user=request.user).select_related("stock")
+        )
+        total = len(entries)
+        if total == 0:
+            return Response({"total": 0})
+
+        correct = sum(1 for d in entries if d.is_correct)
+        wrong = total - correct
+
+        bulls = [d for d in entries if d.judgement == 1]
+        bears = [d for d in entries if d.judgement == 2]
+        bull_correct = sum(1 for d in bulls if d.is_correct)
+        bear_correct = sum(1 for d in bears if d.is_correct)
+
+        by_stock = defaultdict(lambda: {"total": 0, "correct": 0})
+        for d in entries:
+            sym = d.stock.symbol if d.stock else "GENERAL"
+            by_stock[sym]["total"] += 1
+            if d.is_correct:
+                by_stock[sym]["correct"] += 1
+
+        return Response({
+            "total": total,
+            "correct": correct,
+            "wrong": wrong,
+            "accuracy_pct": round(correct / total * 100, 1) if total else 0,
+            "bull_total": len(bulls),
+            "bull_correct": bull_correct,
+            "bull_accuracy_pct": round(bull_correct / len(bulls) * 100, 1) if bulls else 0,
+            "bear_total": len(bears),
+            "bear_correct": bear_correct,
+            "bear_accuracy_pct": round(bear_correct / len(bears) * 100, 1) if bears else 0,
+            "by_stock": [
+                {
+                    "symbol": k,
+                    "total": v["total"],
+                    "correct": v["correct"],
+                    "accuracy_pct": round(v["correct"] / v["total"] * 100, 1) if v["total"] else 0,
+                }
+                for k, v in sorted(by_stock.items(), key=lambda x: x[1]["total"], reverse=True)
+            ],
+        })
 
 
 class NewsViewSet(viewsets.ReadOnlyModelViewSet):
@@ -636,3 +692,170 @@ class ValuationRankViewSet(RankingViewSet):
     def _compute(self, request):
         attrs = [(0, "pe", False), (1, "pb", False), (2, "ps", False)]
         return self._get_ranks(request, ValuationRatio.objects, attrs)
+
+
+# --- Backtesting ---
+
+
+class BacktestViewSet(viewsets.ViewSet):
+    """Run strategy backtests against historical data (async via Celery)."""
+
+    permission_classes = [IsAuthenticated]
+
+    def _resolve_symbols(self, request, params):
+        """Resolve symbols from sector, explicit list, or all."""
+        symbols_input = params.get("symbols", [])
+        sector_id = params.get("sector")
+
+        if symbols_input and symbols_input != "all":
+            return list(symbols_input)
+        elif sector_id:
+            sector = MySector.objects.filter(id=sector_id, user=request.user).first()
+            return list(sector.stocks.values_list("symbol", flat=True)) if sector else []
+        else:
+            return list(
+                MyStock.objects.filter(sectors__user=request.user)
+                .distinct()
+                .values_list("symbol", flat=True)
+            )
+
+    @action(detail=False, methods=["post"])
+    def run(self, request):
+        """Submit a backtest — returns task_id immediately (async)."""
+        import uuid
+        from stock.backtesting.strategies import STRATEGY_REGISTRY
+        from stock.models.backtest import BacktestResult
+        from stock.tasks import run_backtest_task
+
+        params = request.data
+        strategy_name = params.get("strategy", "darwin_rsi")
+        start_date = params.get("start_date", "2020-01-01")
+        end_date = params.get("end_date", "2026-07-30")
+        initial_cash = params.get("initial_cash", 100000)
+        strategy_params = params.get("strategy_params", {})
+
+        if strategy_name not in STRATEGY_REGISTRY:
+            return Response({"error": f"Unknown strategy: {strategy_name}"}, status=status.HTTP_400_BAD_REQUEST)
+
+        symbols = self._resolve_symbols(request, params)
+
+        # Create result record
+        result_id = uuid.uuid4()
+        BacktestResult.objects.create(
+            id=result_id,
+            user=request.user,
+            strategy=strategy_name,
+            params=strategy_params,
+            symbols=symbols,
+            start_date=start_date,
+            end_date=end_date,
+            initial_cash=initial_cash,
+            mode="run",
+        )
+
+        # Submit to Celery
+        run_backtest_task.apply_async(
+            args=[str(result_id), strategy_name, symbols, start_date, end_date, initial_cash, strategy_params],
+            task_id=str(result_id),
+        )
+
+        return Response({"task_id": str(result_id)}, status=status.HTTP_202_ACCEPTED)
+
+    @action(detail=False, methods=["post"])
+    def optimize(self, request):
+        """Submit optimization — returns task_id immediately (async)."""
+        import uuid
+        from stock.backtesting.strategies import STRATEGY_REGISTRY
+        from stock.models.backtest import BacktestResult
+        from stock.tasks import run_optimize_task
+
+        params = request.data
+        strategy_name = params.get("strategy", "darwin_rsi")
+        start_date = params.get("start_date", "2020-01-01")
+        end_date = params.get("end_date", "2026-07-30")
+        initial_cash = params.get("initial_cash", 100000)
+
+        if strategy_name not in STRATEGY_REGISTRY:
+            return Response({"error": f"Unknown strategy: {strategy_name}"}, status=status.HTTP_400_BAD_REQUEST)
+
+        symbols = self._resolve_symbols(request, params)
+
+        # Create result record
+        result_id = uuid.uuid4()
+        BacktestResult.objects.create(
+            id=result_id,
+            user=request.user,
+            strategy=strategy_name,
+            params={},
+            symbols=symbols,
+            start_date=start_date,
+            end_date=end_date,
+            initial_cash=initial_cash,
+            mode="optimize",
+        )
+
+        # Submit to Celery
+        run_optimize_task.apply_async(
+            args=[str(result_id), strategy_name, symbols, start_date, end_date, initial_cash],
+            task_id=str(result_id),
+        )
+
+        return Response({"task_id": str(result_id)}, status=status.HTTP_202_ACCEPTED)
+
+    @action(detail=False, methods=["get"], url_path="status/(?P<task_id>[^/.]+)")
+    def task_status(self, request, task_id=None):
+        """Poll for backtest status + results."""
+        from stock.models.backtest import BacktestResult
+
+        result = BacktestResult.objects.filter(id=task_id, user=request.user).first()
+        if not result:
+            return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        data = {
+            "state": result.state,
+            "progress": result.progress,
+            "mode": result.mode,
+            "strategy": result.strategy,
+        }
+        if result.state == "SUCCESS":
+            data["result"] = result.result
+        elif result.state == "FAILURE":
+            data["error"] = result.error
+
+        return Response(data)
+
+    @action(detail=False, methods=["get"])
+    def history(self, request):
+        """List past backtest results."""
+        from stock.models.backtest import BacktestResult
+
+        results = BacktestResult.objects.filter(user=request.user)[:20]
+        return Response([
+            {
+                "id": str(r.id),
+                "strategy": r.strategy,
+                "mode": r.mode,
+                "state": r.state,
+                "symbols_count": len(r.symbols),
+                "start_date": str(r.start_date),
+                "end_date": str(r.end_date),
+                "created": r.created.isoformat(),
+                "total_return": r.result.get("total_return_pct") if r.result else None,
+            }
+            for r in results
+        ])
+
+    @action(detail=False, methods=["get"])
+    def strategies(self, request):
+        """List available strategies with their parameters."""
+        from stock.backtesting.strategies import STRATEGY_REGISTRY
+
+        result = []
+        for key, cls in STRATEGY_REGISTRY.items():
+            result.append({
+                "id": key,
+                "name": cls.name,
+                "description": cls.description,
+                "params": cls.params_schema(),
+            })
+        return Response(result)

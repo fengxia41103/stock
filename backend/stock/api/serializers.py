@@ -187,10 +187,14 @@ class ValuationRatioSerializer(serializers.ModelSerializer):
 class DiaryListSerializer(serializers.ModelSerializer):
     price = serializers.FloatField(read_only=True)
     is_correct = serializers.BooleanField(read_only=True)
+    stock_symbol = serializers.SerializerMethodField()
+
+    def get_stock_symbol(self, obj):
+        return obj.stock.symbol if obj.stock else None
 
     class Meta:
         model = MyDiary
-        fields = ["id", "stock", "created", "last_updated", "judgement", "price", "is_correct"]
+        fields = ["id", "stock", "stock_symbol", "created", "last_updated", "judgement", "price", "is_correct"]
 
 
 class DiaryDetailSerializer(DiaryListSerializer):

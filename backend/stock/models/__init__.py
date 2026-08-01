@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from stock.models.balance import BalanceSheet
+from stock.models.backtest import BacktestResult
 from stock.models.cashflow import CashFlow
 from stock.models.earnings import EarningsEvent, EarningsPriceImpact
 from stock.models.historical import MyStockHistorical
@@ -14,6 +15,7 @@ from stock.models.stock import MyStock
 from stock.models.valuation import ValuationRatio
 
 __all__ = [
+    "BacktestResult",
     "BalanceSheet",
     "CashFlow",
     "EarningsEvent",

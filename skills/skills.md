@@ -4,6 +4,12 @@ A collection of analysis frameworks, trading methodologies, and utility scripts.
 
 ---
 
+## Operational Frameworks
+
+| Skill | Description |
+|-------|-------------|
+| [Stock Deep-Dive Framework](stock-deep-dive-framework.md) | 10-dimension analysis process using Kiro (DB + Web + subagents). Produces `docs/analysis/<TICKER>/` reports. |
+
 ## Frameworks — Long-Term Investing
 
 | Skill | Description | Key Concept |
