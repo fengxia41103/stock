@@ -204,20 +204,7 @@ const TreemapChart = ({ stocks, navigate }) => {
         },
       ],
       tooltip: {
-        useHTML: true,
-        outside: false,
-        backgroundColor: "#1e293b",
-        borderColor: "#475569",
-        style: { color: "#f8fafc" },
-        positioner: function(labelWidth, labelHeight, point) {
-          return { x: Math.min(point.plotX + 10, this.chart.plotWidth - labelWidth - 10), y: Math.max(point.plotY - labelHeight - 10, 5) };
-        },
-        formatter: function () {
-          const p = this.point;
-          if (!p.price) return `<b>${p.name}</b>`;
-          const ret = p.daily_return_pct != null ? `${p.daily_return_pct > 0 ? "+" : ""}${p.daily_return_pct.toFixed(2)}%` : "N/A";
-          return `<b>${p.name}</b><br/>$${p.price.toFixed(2)}<br/>Return: ${ret}`;
-        },
+        enabled: false,
       },
       credits: { enabled: false },
     };
