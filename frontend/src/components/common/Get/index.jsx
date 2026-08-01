@@ -4,14 +4,26 @@ import { useResource } from "@/api";
 
 /**
  * Legacy data-fetching wrapper. Uses react-query under the hood.
- * Props: uri, children (render prop), on_error
+ * Props: uri, children (render prop or elements), on_error, on_success
  */
-const Get = ({ uri, children, on_error, ...rest }) => {
-  const { data, isLoading, error } = useResource(uri, uri);
+const Get = ({ uri, children, on_error, on_success, silent, ...rest }) => {
+  const enabled = !!uri && uri.length > 0;
+  const { data, isLoading, error } = useResource(
+    enabled ? uri : "__disabled__",
+    enabled ? uri : "/__disabled__",
+    { enabled }
+  );
 
-  if (isLoading) return <ScaleLoader loading />;
+  if (!enabled) return null;
+  if (isLoading && !silent) return <ScaleLoader loading />;
+  if (isLoading && silent) return null;
   if (error && on_error) return on_error();
   if (!data) return null;
+
+  // Support on_success callback pattern (used by ShowResource)
+  if (on_success) {
+    return on_success(data);
+  }
 
   if (typeof children === "function") {
     return children(data);
