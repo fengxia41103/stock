@@ -157,7 +157,7 @@ const TreemapChart = ({ stocks, navigate }) => {
     });
 
     return {
-      chart: { backgroundColor: "transparent", height: 320 },
+      chart: { backgroundColor: "transparent", height: 320, reflow: false },
       title: { text: null },
       series: [
         {
@@ -205,6 +205,7 @@ const TreemapChart = ({ stocks, navigate }) => {
       ],
       tooltip: {
         useHTML: true,
+        outside: false,
         backgroundColor: "#1e293b",
         borderColor: "#475569",
         style: { color: "#f8fafc" },
@@ -224,7 +225,7 @@ const TreemapChart = ({ stocks, navigate }) => {
     <HighchartsReact
       highcharts={Highcharts}
       options={chartOptions}
-      containerProps={{ style: { height: "320px" } }}
+      containerProps={{ style: { height: "320px", overflow: "hidden" } }}
     />
   );
 };
