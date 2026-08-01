@@ -5,7 +5,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import { Button } from "@mui/material";
 
 import { useUpdate } from "@/api";
-import { SimpleSnackbar } from "@fengxia41103/storybook";
+import { SimpleSnackbar } from "@/components/shared";
 
 const UpdateStock = ({ id, symbol }) => {
   const [notification, setNotification] = useState("");

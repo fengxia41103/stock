@@ -4,7 +4,7 @@ import React from "react";
 
 import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 
-import { DictTable } from "@fengxia41103/storybook";
+import { DictTable } from "@/components/shared";
 
 const FinancialCard = (props) => {
   const {

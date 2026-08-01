@@ -12,7 +12,7 @@ import {
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useStocksOverview } from "@/api";
-import { Page } from "@fengxia41103/storybook";
+import { Page } from "@/components/shared";
 import RecentPriceSparkline from "@Components/stock/RecentPriceSparkline";
 
 const ChartsGridView = () => {

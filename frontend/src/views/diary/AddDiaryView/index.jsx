@@ -2,7 +2,7 @@ import React from "react";
 
 import { Box, Button, Container, Typography } from "@mui/material";
 
-import { Page } from "@fengxia41103/storybook";
+import { Page } from "@/components/shared";
 
 import AddDiaryEditor from "@Components/diary/AddDiaryEditor";
 

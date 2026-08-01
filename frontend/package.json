@@ -10,7 +10,6 @@
     "lint": "eslint src --ext .js,.jsx"
   },
   "dependencies": {
-    "@fengxia41103/storybook": "1.2.0-dev.4",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.4",
     "@mui/x-data-grid": "^5.17.19",
@@ -31,7 +30,9 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.42.0",
     "react-router-dom": "^6.6.2",
-    "react-spinners": "^0.13.8"
+    "react-spinners": "^0.13.8",
+    "highcharts": "^11.4.0",
+    "highcharts-react-official": "^3.2.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",

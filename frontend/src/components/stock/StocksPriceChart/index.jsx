@@ -2,7 +2,7 @@ import { groupBy, map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
-import { MultilineChart } from "@fengxia41103/storybook";
+import { MultilineChart } from "@/components/shared";
 
 import ShowResource from "@Components/common/ShowResource";
 

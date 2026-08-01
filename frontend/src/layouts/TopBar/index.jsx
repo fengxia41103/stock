@@ -8,7 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Box, Hidden, IconButton, Toolbar } from "@mui/material";
 import { Button, Stack } from "@mui/material";
 
-import { DropdownMenu, Logo } from "@fengxia41103/storybook";
+import { DropdownMenu, Logo } from "@/components/shared";
 
 import LogoutIcon from "@Components/auth/LogoutIcon";
 import AddNewStockDialog from "@Components/stock/AddNewStockDialog";

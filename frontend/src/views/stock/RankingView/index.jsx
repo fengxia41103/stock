@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { Page } from "@fengxia41103/storybook";
+import { Page } from "@/components/shared";
 
 import StockRanking from "@Components/stock/StockRanking";
 

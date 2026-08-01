@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 
 import { useCreate, useSectors } from "@/api";
-import { SimpleSnackbar } from "@fengxia41103/storybook";
+import { SimpleSnackbar } from "@/components/shared";
 
 const AddNewStockDialog = () => {
   const [open, setOpen] = useState(false);

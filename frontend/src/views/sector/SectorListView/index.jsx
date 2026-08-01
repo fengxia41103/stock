@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 
 import { useSectors } from "@/api";
-import { Page } from "@fengxia41103/storybook";
+import { Page } from "@/components/shared";
 import AddNewSectorDialog from "@Components/sector/AddNewSectorDialog";
 import ListSectorCard from "@Components/sector/ListSectorCard";
 

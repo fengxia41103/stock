@@ -22,7 +22,7 @@ import {
   MenuBar,
   NotFoundView,
   Page,
-} from "@fengxia41103/storybook";
+} from "@/components/shared";
 
 import SectorDetailContext from "./context";
 

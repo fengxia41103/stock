@@ -1,3 +1,4 @@
+import AnalyticsIcon from "@mui/icons-material/Analytics";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
 import BusinessIcon from "@mui/icons-material/Business";
 import CompareIcon from "@mui/icons-material/Compare";
@@ -5,7 +6,6 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import GridViewIcon from "@mui/icons-material/GridView";
-import MapIcon from "@mui/icons-material/Map";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import SortIcon from "@mui/icons-material/Sort";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
@@ -28,7 +28,6 @@ const TodayDashboardView = lazy(() =>
 const DashboardTrendingView = lazy(() =>
   import("@Views/dashboard/DashboardTrendingView"),
 );
-const MapView = lazy(() => import("@Views/dashboard/MapView"));
 const ScreenerView = lazy(() => import("@Views/dashboard/ScreenerView"));
 const ChartsGridView = lazy(() => import("@Views/dashboard/ChartsGridView"));
 const MacroOverviewView = lazy(() =>
@@ -109,6 +108,7 @@ const SectorStocksLowerBetterView = lazy(() =>
 const DiaryListView = lazy(() => import("@Views/diary/DiaryListView"));
 const AddDiaryView = lazy(() => import("@Views/diary/AddDiaryView"));
 const NewsListView = lazy(() => import("@Views/news/NewsListView"));
+const BacktestView = lazy(() => import("@Views/backtest/BacktestView"));
 
 const Loader = <ScaleLoader loading />;
 
@@ -121,7 +121,6 @@ const E = ({ section, children }) => (
 
 const navbar_items = [
   { href: "/dashboard", icon: <DashboardIcon />, title: "Today" },
-  { href: "/map", icon: <MapIcon />, title: "Map" },
   { href: "/screener", icon: <FilterListIcon />, title: "Screener" },
   { href: "/charts", icon: <GridViewIcon />, title: "Charts" },
   { href: "/macro", icon: <ShowChartIcon />, title: "Macro" },
@@ -129,6 +128,7 @@ const navbar_items = [
   { href: "/stocks", icon: <BusinessIcon />, title: "Stocks" },
   { href: "/sectors", icon: <CompareIcon />, title: "Portfolios" },
   { href: "/rankings", icon: <SortIcon />, title: "Rankings" },
+  { href: "/backtest", icon: <AnalyticsIcon />, title: "Backtest" },
   { href: "/notes", icon: <EventNoteIcon />, title: "Notes" },
 ];
 
@@ -495,14 +495,6 @@ const routes = [
         ),
       },
       {
-        path: "map",
-        element: (
-          <S>
-            <MapView />
-          </S>
-        ),
-      },
-      {
         path: "screener",
         element: (
           <S>
@@ -539,6 +531,14 @@ const routes = [
         element: (
           <S>
             <NewsListView />
+          </S>
+        ),
+      },
+      {
+        path: "backtest",
+        element: (
+          <S>
+            <BacktestView />
           </S>
         ),
       },

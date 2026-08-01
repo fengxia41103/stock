@@ -4,7 +4,7 @@ import React from "react";
 
 import { Card, CardContent, CardHeader, Grid } from "@mui/material";
 
-import { MultilineChart } from "@fengxia41103/storybook";
+import { MultilineChart } from "@/components/shared";
 
 import ShowResource from "@Components/common/ShowResource";
 

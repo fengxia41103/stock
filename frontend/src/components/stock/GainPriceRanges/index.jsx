@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from "@mui/material";
 
-import { ColoredNumber } from "@fengxia41103/storybook";
+import { ColoredNumber } from "@/components/shared";
 
 const GainPriceRanges = (props) => {
   const STEP = 10;

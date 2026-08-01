@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { NotFoundView } from "@fengxia41103/storybook";
+import { NotFoundView } from "@/components/shared";
 
 import Get from "@Components/common/Get";
 

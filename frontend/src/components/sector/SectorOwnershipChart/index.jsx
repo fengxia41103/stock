@@ -4,7 +4,7 @@ import React from "react";
 
 import { Typography } from "@mui/material";
 
-import { HighchartGraph } from "@fengxia41103/storybook";
+import { HighchartGraph } from "@/components/shared";
 
 const SectorOwnershipChart = (props) => {
   const { sector } = props;

@@ -2,7 +2,7 @@ import { map } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
-import { HighchartGraph } from "@fengxia41103/storybook";
+import { HighchartGraph } from "@/components/shared";
 
 const PriceLastLowerNextBetterChart = (props) => {
   const { data } = props;

@@ -20,7 +20,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { ColoredNumber } from "@fengxia41103/storybook";
+import { ColoredNumber } from "@/components/shared";
 import { useUpdate } from "@/api";
 
 import RecentPriceSparkline from "@Components/stock/RecentPriceSparkline";

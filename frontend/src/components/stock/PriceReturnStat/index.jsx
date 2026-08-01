@@ -7,7 +7,7 @@ import {
   ABDonutChart,
   DictCard,
   TimeSeriesColumnChart,
-} from "@fengxia41103/storybook";
+} from "@/components/shared";
 
 const PriceReturnStat = (props) => {
   const { data } = props;

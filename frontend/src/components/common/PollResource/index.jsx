@@ -1,33 +1,48 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import ScaleLoader from "react-spinners/ScaleLoader";
-import { useQuery } from "@tanstack/react-query";
 
-import api from "@/api/client";
+/**
+ * Legacy polling wrapper. Polls a URI every `interval` ms.
+ */
+const PollResource = ({ uri, interval = 5000, children, ...rest }) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-const PollResource = ({ resource, on_success, interval = 10, silent }) => {
-  const { data, isLoading } = useQuery({
-    queryKey: ["poll", resource],
-    queryFn: () =>
-      api.get(encodeURI(resource)).then((r) => {
-        const d = r.data;
-        return d && !Array.isArray(d) && Array.isArray(d.results)
-          ? d.results
-          : d;
-      }),
-    enabled: !!resource,
-    refetchInterval: interval * 1000,
-  });
+  useEffect(() => {
+    let active = true;
+    const fetchData = async () => {
+      try {
+        const key = localStorage.getItem("apiKey");
+        const resp = await fetch(uri, {
+          headers: key ? { Authorization: `ApiKey ${key}` } : {},
+        });
+        if (resp.ok && active) {
+          const json = await resp.json();
+          setData(json);
+          setLoading(false);
+        }
+      } catch (e) {
+        // silently retry
+      }
+    };
 
-  if (isLoading) return silent ? null : <ScaleLoader loading />;
-  return on_success ? on_success(data) : null;
-};
+    fetchData();
+    const id = setInterval(fetchData, interval);
+    return () => { active = false; clearInterval(id); };
+  }, [uri, interval]);
 
-PollResource.propTypes = {
-  resource: PropTypes.string.isRequired,
-  on_success: PropTypes.func,
-  interval: PropTypes.number,
-  silent: PropTypes.bool,
+  if (loading) return <ScaleLoader loading />;
+  if (!data) return null;
+
+  if (typeof children === "function") {
+    return children(data);
+  }
+
+  return React.Children.map(children, (child) =>
+    React.isValidElement(child)
+      ? React.cloneElement(child, { data, ...rest })
+      : child
+  );
 };
 
 export default PollResource;

@@ -17,7 +17,7 @@ import {
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useStocksOverview } from "@/api";
-import { Page } from "@fengxia41103/storybook";
+import { Page } from "@/components/shared";
 
 const columns = [
   { id: "symbol", label: "Symbol", numeric: false },

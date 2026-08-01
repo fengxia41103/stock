@@ -2,7 +2,7 @@ import { map } from "lodash";
 import PropTypes from "prop-types";
 import React, { useContext } from "react";
 
-import { MultilineChart } from "@fengxia41103/storybook";
+import { MultilineChart } from "@/components/shared";
 
 import SectorDetailContext from "@Views/sector/SectorDetailView/context";
 

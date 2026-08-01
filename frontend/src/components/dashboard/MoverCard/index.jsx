@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { ColoredNumber } from "@fengxia41103/storybook";
+import { ColoredNumber } from "@/components/shared";
 
 import TaskNotificationIcon from "@Components/task/TaskNotificationIcon";
 

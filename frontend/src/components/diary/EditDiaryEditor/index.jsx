@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 
 import { useUpdate } from "@/api";
-import { SimpleSnackbar } from "@fengxia41103/storybook";
+import { SimpleSnackbar } from "@/components/shared";
 
 const EditDiaryEditor = ({ diary, inEditing }) => {
   const [comment, setComment] = useState(diary.content);

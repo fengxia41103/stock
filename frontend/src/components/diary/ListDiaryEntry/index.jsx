@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 
 import { useDiary, useDelete } from "@/api";
-import { DropdownMenu, SimpleSnackbar } from "@fengxia41103/storybook";
+import { DropdownMenu, SimpleSnackbar } from "@/components/shared";
 import DiaryStockTag from "@Components/diary/DiaryStockTag";
 import EditDiaryEditor from "@Components/diary/EditDiaryEditor";
 

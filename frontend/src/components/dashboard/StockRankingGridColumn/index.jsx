@@ -5,7 +5,7 @@ import React from "react";
 import { Grid, Link, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-import { HighlightedText } from "@fengxia41103/storybook";
+import { HighlightedText } from "@/components/shared";
 
 const MyColumnHeader = styled(Typography)({
   color: "#d52349",

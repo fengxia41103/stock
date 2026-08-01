@@ -16,7 +16,7 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useResource } from "@/api";
 import { useChartTheme } from "@/hooks/useChartTheme";
-import { Page } from "@fengxia41103/storybook";
+import { Page } from "@/components/shared";
 
 echarts.use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 

@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 
 import { useSectors, useUpdate } from "@/api";
-import { SimpleSnackbar } from "@fengxia41103/storybook";
+import { SimpleSnackbar } from "@/components/shared";
 import DeleteStock from "@Components/stock/DeleteStock";
 import UpdateStock from "@Components/stock/UpdateStock";
 

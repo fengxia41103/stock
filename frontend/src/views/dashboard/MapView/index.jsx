@@ -1,142 +1,160 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Container } from "@mui/material";
-import ReactEChartsCore from "echarts-for-react/lib/core";
-import * as echarts from "echarts/core";
-import { TreemapChart } from "echarts/charts";
-import { TooltipComponent, VisualMapComponent } from "echarts/components";
-import { CanvasRenderer } from "echarts/renderers";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
+import treemapModule from "highcharts/modules/treemap";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useStocksOverview } from "@/api";
-import { useChartTheme } from "@/hooks/useChartTheme";
-import { Page } from "@fengxia41103/storybook";
+import { Page } from "@/components/shared";
 
-echarts.use([
-  TreemapChart,
-  TooltipComponent,
-  VisualMapComponent,
-  CanvasRenderer,
-]);
+// Initialize treemap module
+treemapModule(Highcharts);
 
 const MapView = () => {
   const { data, isLoading } = useStocksOverview();
-  const theme = useChartTheme();
   const navigate = useNavigate();
 
-  if (isLoading) return <ScaleLoader loading />;
-  if (!data || !Array.isArray(data)) return null;
+  const chartOptions = useMemo(() => {
+    if (!data || !Array.isArray(data)) return null;
 
-  // Group by sector
-  const sectors = {};
-  data.forEach((s) => {
-    const sec = s.sector || "Other";
-    if (!sectors[sec]) sectors[sec] = [];
-    sectors[sec].push(s);
-  });
+    // Group by sector
+    const sectors = {};
+    data.forEach((s) => {
+      const sec = s.sector || "Other";
+      if (!sectors[sec]) sectors[sec] = [];
+      sectors[sec].push(s);
+    });
 
-  const treeData = Object.entries(sectors).map(([name, stocks]) => ({
-    name,
-    children: stocks.map((s) => ({
-      name: s.symbol,
-      value: s.market_cap || 1,
-      daily_return_pct: s.daily_return_pct,
-      price: s.price,
-      id: s.id,
-    })),
-  }));
+    // Build treemap data: parent nodes (sectors) + leaf nodes (stocks)
+    const treeData = [];
+    Object.entries(sectors).forEach(([sectorName, stocks]) => {
+      // Parent node
+      treeData.push({
+        id: sectorName,
+        name: sectorName,
+        color: "#2d3748",
+      });
+      // Leaf nodes
+      stocks.forEach((s) => {
+        const ret = s.daily_return_pct || 0;
+        const clamped = Math.max(-5, Math.min(5, ret));
+        // Color: red (-5%) → gray (0) → green (+5%)
+        let color;
+        if (clamped < -2) color = "#c62828";
+        else if (clamped < -0.5) color = "#ef5350";
+        else if (clamped < 0.5) color = "#616161";
+        else if (clamped < 2) color = "#66bb6a";
+        else color = "#2e7d32";
 
-  const option = {
-    tooltip: {
-      formatter: (p) => {
-        const d = p.data;
-        if (!d.price) return p.name;
-        const ret =
-          d.daily_return_pct != null
-            ? `${d.daily_return_pct > 0 ? "+" : ""}${d.daily_return_pct.toFixed(
-                2,
-              )}%`
-            : "N/A";
-        return `<b>${d.name}</b><br/>$${d.price.toFixed(2)}<br/>Return: ${ret}`;
+        treeData.push({
+          name: s.symbol,
+          parent: sectorName,
+          value: s.market_cap || 1,
+          color,
+          // Custom data for tooltip and click
+          stockId: s.id,
+          price: s.price,
+          daily_return_pct: s.daily_return_pct,
+        });
+      });
+    });
+
+    return {
+      chart: {
+        backgroundColor: "#0f172a",
+        height: null, // will use container height
       },
-    },
-    series: [
-      {
-        type: "treemap",
-        data: treeData,
-        roam: false,
-        nodeClick: false,
-        breadcrumb: { show: true },
-        leafDepth: 2,
-        levels: [
-          {
-            itemStyle: { borderColor: "#333", borderWidth: 3, gapWidth: 3 },
-            upperLabel: {
-              show: true,
-              height: 24,
-              fontSize: 13,
-              fontWeight: "bold",
+      title: { text: null },
+      series: [
+        {
+          type: "treemap",
+          layoutAlgorithm: "squarified",
+          allowDrillToNode: false,
+          animationLimit: 1000,
+          data: treeData,
+          levels: [
+            {
+              level: 1,
+              borderWidth: 3,
+              borderColor: "#1e293b",
+              dataLabels: {
+                enabled: true,
+                align: "left",
+                verticalAlign: "top",
+                style: {
+                  fontSize: "13px",
+                  fontWeight: "bold",
+                  color: "#94a3b8",
+                  textOutline: "none",
+                },
+              },
+            },
+            {
+              level: 2,
+              borderWidth: 1,
+              borderColor: "#334155",
+              dataLabels: {
+                enabled: true,
+                formatter: function () {
+                  const ret = this.point.daily_return_pct;
+                  const retStr =
+                    ret != null
+                      ? `${ret > 0 ? "+" : ""}${ret.toFixed(1)}%`
+                      : "";
+                  return `<span style="font-size:12px;font-weight:bold">${this.point.name}</span><br/><span style="font-size:10px">${retStr}</span>`;
+                },
+                useHTML: true,
+                style: {
+                  color: "#f8fafc",
+                  textOutline: "none",
+                },
+              },
+            },
+          ],
+          cursor: "pointer",
+          point: {
+            events: {
+              click: function () {
+                if (this.stockId) {
+                  navigate(`/stocks/${this.stockId}/historical/price`);
+                }
+              },
             },
           },
-          {
-            itemStyle: { borderColor: "#999", borderWidth: 1, gapWidth: 1 },
-            colorMappingBy: "value",
-          },
-        ],
-        label: {
-          show: true,
-          formatter: (p) => {
-            const d = p.data;
-            if (d.children) return d.name;
-            const ret =
-              d.daily_return_pct != null
-                ? `${
-                    d.daily_return_pct > 0 ? "+" : ""
-                  }${d.daily_return_pct.toFixed(1)}%`
-                : "";
-            return `${d.name}\n${ret}`;
-          },
-          fontSize: 12,
-          fontWeight: "bold",
         },
-        visualMin: -3,
-        visualMax: 3,
-        visualDimension: "daily_return_pct",
-        colorMappingBy: "value",
-        leafDepth: 1,
+      ],
+      tooltip: {
+        useHTML: true,
+        backgroundColor: "#1e293b",
+        borderColor: "#475569",
+        style: { color: "#f8fafc" },
+        formatter: function () {
+          const p = this.point;
+          if (!p.price) return `<b>${p.name}</b>`;
+          const ret =
+            p.daily_return_pct != null
+              ? `${p.daily_return_pct > 0 ? "+" : ""}${p.daily_return_pct.toFixed(2)}%`
+              : "N/A";
+          return `<b>${p.name}</b><br/>$${p.price.toFixed(2)}<br/>Return: ${ret}`;
+        },
       },
-    ],
-    visualMap: {
-      type: "continuous",
-      min: -3,
-      max: 3,
-      inRange: {
-        color: ["#c62828", "#ef9a9a", "#e0e0e0", "#a5d6a7", "#2e7d32"],
-      },
-      text: ["+3%", "-3%"],
-      orient: "horizontal",
-      left: "center",
-      bottom: 10,
-    },
-  };
+      credits: { enabled: false },
+    };
+  }, [data, navigate]);
 
-  const onEvents = {
-    click: (params) => {
-      if (params.data?.id)
-        navigate(`/stocks/${params.data.id}/historical/price`);
-    },
-  };
+  if (isLoading) return <ScaleLoader loading />;
+  if (!chartOptions) return null;
 
   return (
     <Page title="Market Map">
       <Container maxWidth={false}>
         <Box sx={{ height: "calc(100vh - 150px)", minHeight: 500 }}>
-          <ReactEChartsCore
-            echarts={echarts}
-            option={option}
-            theme={theme}
-            style={{ height: "100%" }}
-            onEvents={onEvents}
+          <HighchartsReact
+            highcharts={Highcharts}
+            options={chartOptions}
+            containerProps={{ style: { height: "100%" } }}
           />
         </Box>
       </Container>

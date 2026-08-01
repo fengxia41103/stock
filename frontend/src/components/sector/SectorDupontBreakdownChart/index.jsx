@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 
 import { Card, CardContent, Typography } from "@mui/material";
 
-import { DropdownMenu, HighchartGraph } from "@fengxia41103/storybook";
+import { DropdownMenu, HighchartGraph } from "@/components/shared";
 
 import SectorDetailContext from "@Views/sector/SectorDetailView/context";
 

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-import { RankChart } from "@fengxia41103/storybook";
+import { RankChart } from "@/components/shared";
 
 import RankingOccuranceCharts from "@Components/dashboard/RankingOccuranceCharts";
 import StocksPriceChart from "@Components/stock/StocksPriceChart";

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { Box, Typography } from "@mui/material";
 
-import { DictCard } from "@fengxia41103/storybook";
+import { DictCard } from "@/components/shared";
 
 import ShowResource from "@Components/common/ShowResource";
 

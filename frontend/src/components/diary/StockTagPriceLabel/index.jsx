@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import { Divider, Grid } from "@mui/material";
 
-import { ColoredNumber } from "@fengxia41103/storybook";
+import { ColoredNumber } from "@/components/shared";
 
 import ShowResource from "@Components/common/ShowResource";
 

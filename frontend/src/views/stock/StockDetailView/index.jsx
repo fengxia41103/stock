@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 
 import { useStock } from "@/api";
-import { NotFoundView, Page } from "@fengxia41103/storybook";
+import { NotFoundView, Page } from "@/components/shared";
 import AddDiaryEditor from "@Components/diary/AddDiaryEditor";
 import DeleteStock from "@Components/stock/DeleteStock";
 import StockLinkToSector from "@Components/stock/StockLinkToSector";

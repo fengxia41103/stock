@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { DropdownMenu } from "@fengxia41103/storybook";
+import { DropdownMenu } from "@/components/shared";
 
 import PollResource from "@Components/common/PollResource";
 import ListDiaryEntry from "@Components/diary/ListDiaryEntry";

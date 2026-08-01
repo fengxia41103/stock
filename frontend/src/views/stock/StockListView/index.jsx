@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 
 import { useStocks } from "@/api";
-import { DropdownMenu, Page } from "@fengxia41103/storybook";
+import { DropdownMenu, Page } from "@/components/shared";
 import AddStocksToSectorDialog from "@Components/sector/AddStocksToSectorDialog";
 import ExportStocks from "@Components/stock/ExportStocks";
 import ListStockCard from "@Components/stock/ListStockCard";

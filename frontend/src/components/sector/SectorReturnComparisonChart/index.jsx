@@ -2,7 +2,7 @@ import { forEach, groupBy, map, merge } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 
-import { HighchartGraph } from "@fengxia41103/storybook";
+import { HighchartGraph } from "@/components/shared";
 
 import { daily_returns, overnight_returns } from "@Utils/stock/returns";
 

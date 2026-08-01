@@ -6,7 +6,7 @@ import { BarChart, Timeline } from "@mui/icons-material";
 import CompareArrowsSharpIcon from "@mui/icons-material/CompareArrowsSharp";
 import { Box, Grid, Link, TextField, Tooltip, Typography } from "@mui/material";
 
-import { HighlightedText, RankChart } from "@fengxia41103/storybook";
+import { HighlightedText, RankChart } from "@/components/shared";
 
 import StocksPriceChart from "@Components/stock/StocksPriceChart";
 

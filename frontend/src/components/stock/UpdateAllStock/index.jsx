@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import UpdateIcon from "@mui/icons-material/Update";
 import { Button } from "@mui/material";
 
-import { SimpleSnackbar } from "@fengxia41103/storybook";
+import { SimpleSnackbar } from "@/components/shared";
 
 import api from "@/api/client";
 

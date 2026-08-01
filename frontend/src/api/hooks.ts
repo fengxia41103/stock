@@ -127,7 +127,13 @@ export function useDiaries() {
 }
 
 export function useDiary(id: string | number) {
-  return useResource(["diary", String(id)], `/diaries/${id}/`);
+  return useResource(["diary", String(id)], `/diaries/${id}/`, {
+    enabled: !!id,
+  });
+}
+
+export function useDiaryStats() {
+  return useResource("diary-stats", "/diaries/stats/");
 }
 
 export function useNews() {

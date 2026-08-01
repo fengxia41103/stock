@@ -4,7 +4,7 @@ import React from "react";
 
 import { Grid } from "@mui/material";
 
-import { ABDonutChart } from "@fengxia41103/storybook";
+import { ABDonutChart } from "@/components/shared";
 
 const RankingOccuranceCharts = (props) => {
   const { scores } = props;

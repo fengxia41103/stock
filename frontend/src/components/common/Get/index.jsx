@@ -1,36 +1,28 @@
 import React from "react";
-import PropTypes from "prop-types";
 import ScaleLoader from "react-spinners/ScaleLoader";
-import { useQuery } from "@tanstack/react-query";
+import { useResource } from "@/api";
 
-import api from "@/api/client";
+/**
+ * Legacy data-fetching wrapper. Uses react-query under the hood.
+ * Props: uri, children (render prop), on_error
+ */
+const Get = ({ uri, children, on_error, ...rest }) => {
+  const { data, isLoading, error } = useResource(uri, uri);
 
-const Get = ({ uri, on_success, on_error, silent }) => {
-  const { data, isLoading, error, isFetching } = useQuery({
-    queryKey: ["get", uri],
-    queryFn: () =>
-      api.get(encodeURI(uri)).then((r) => {
-        const d = r.data;
-        return d && !Array.isArray(d) && Array.isArray(d.results)
-          ? d.results
-          : d;
-      }),
-    enabled: !!uri,
-  });
+  if (isLoading) return <ScaleLoader loading />;
+  if (error && on_error) return on_error();
+  if (!data) return null;
 
-  if (!uri) return null;
-  if (isLoading || (!data && isFetching))
-    return silent ? null : <ScaleLoader loading />;
-  if (error) return on_error ? on_error(error) : null;
-  if (data === undefined || data === null) return null;
-  return on_success ? on_success(data) : null;
-};
+  if (typeof children === "function") {
+    return children(data);
+  }
 
-Get.propTypes = {
-  uri: PropTypes.string.isRequired,
-  on_success: PropTypes.func,
-  on_error: PropTypes.func,
-  silent: PropTypes.bool,
+  // Clone children with data prop
+  return React.Children.map(children, (child) =>
+    React.isValidElement(child)
+      ? React.cloneElement(child, { data, ...rest })
+      : child
+  );
 };
 
 export default Get;
