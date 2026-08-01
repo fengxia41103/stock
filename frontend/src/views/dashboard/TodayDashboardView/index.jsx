@@ -157,7 +157,7 @@ const TreemapChart = ({ stocks, navigate }) => {
     });
 
     return {
-      chart: { backgroundColor: "transparent", height: 320, reflow: false },
+      chart: { backgroundColor: "transparent", height: 280, reflow: false },
       title: { text: null },
       series: [
         {
@@ -228,7 +228,7 @@ const TreemapChart = ({ stocks, navigate }) => {
     <HighchartsReact
       highcharts={Highcharts}
       options={chartOptions}
-      containerProps={{ style: { height: "320px", overflow: "hidden" } }}
+      containerProps={{ style: { height: "320px", overflow: "hidden", position: "relative" } }}
     />
   );
 };
@@ -359,7 +359,7 @@ const TodayDashboardView = () => {
 
           {/* Row 2: Treemap heatmap */}
           <Grid item xs={12}>
-            <Paper sx={{ bgcolor: TILE, p: 1, borderRadius: 2, overflow: "hidden", position: "relative" }}>
+            <Paper sx={{ bgcolor: TILE, p: 2, pb: 4, borderRadius: 2, overflow: "hidden", position: "relative" }}>
               <TreemapChart stocks={stocks} navigate={navigate} />
             </Paper>
           </Grid>
