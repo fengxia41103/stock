@@ -7,21 +7,21 @@ const theme = responsiveFontSizes(
   createTheme({
     spacing: 3,
     palette: {
-      mode: "dark",
-      primary: { main: "#3b82f6" },       // blue-500
-      secondary: { main: "#10b981" },     // emerald-500 (gains)
+      mode: "light",
+      primary: { main: "#1565c0" },        // blue-800
+      secondary: { main: "#10b981" },      // emerald-500 (gains)
       background: {
-        default: "#0f172a",               // slate-900
-        paper: "#1e293b",                 // slate-800
+        default: "#f8fafc",                // slate-50
+        paper: "#ffffff",                  // white
       },
       text: {
-        primary: "#f8fafc",               // slate-50
-        secondary: "#94a3b8",             // slate-400
+        primary: "#1e293b",                // slate-800
+        secondary: "#64748b",              // slate-500
       },
-      success: { main: "#10b981" },       // emerald
-      error: { main: "#ef4444" },         // red-500
-      warning: { main: "#f59e0b" },       // amber-500
-      divider: "#334155",                 // slate-700
+      success: { main: "#10b981" },        // emerald
+      error: { main: "#ef4444" },          // red-500
+      warning: { main: "#f59e0b" },        // amber-500
+      divider: "#e2e8f0",                  // slate-200
     },
     shadows,
     typography,
@@ -29,23 +29,24 @@ const theme = responsiveFontSizes(
       MuiPaper: {
         styleOverrides: {
           root: {
-            backgroundImage: "none",      // Remove default MUI elevation gradient
+            backgroundImage: "none",
           },
         },
       },
       MuiDrawer: {
         styleOverrides: {
           paper: {
-            backgroundColor: "#1e293b",
-            borderRight: "1px solid #334155",
+            backgroundColor: "#ffffff",
+            borderRight: "1px solid #e2e8f0",
           },
         },
       },
       MuiAppBar: {
         styleOverrides: {
           root: {
-            backgroundColor: "#1e293b",
-            borderBottom: "1px solid #334155",
+            backgroundColor: "#ffffff",
+            borderBottom: "1px solid #e2e8f0",
+            color: "#1e293b",
           },
         },
       },
