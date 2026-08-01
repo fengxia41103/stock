@@ -1,81 +1,30 @@
 import { map } from "lodash";
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import ReactEChartsCore from "echarts-for-react";
+import Highcharts from "highcharts/highstock";
+import HighchartsReact from "highcharts-react-official";
+import indicatorsModule from "highcharts/indicators/indicators";
+import bollingerModule from "highcharts/indicators/bollinger-bands";
+import macdModule from "highcharts/indicators/macd";
+import rsiModule from "highcharts/indicators/rsi";
 
 import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 
 import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
 
-// Simple moving average
+// Initialize Highcharts modules
+indicatorsModule(Highcharts);
+bollingerModule(Highcharts);
+macdModule(Highcharts);
+rsiModule(Highcharts);
+
+// Simple moving average (for fallback indicators)
 const sma = (data, period) => {
   const result = [];
   for (let i = 0; i < data.length; i++) {
-    if (i < period - 1) {
-      result.push(null);
-      continue;
-    }
+    if (i < period - 1) { result.push(null); continue; }
     const slice = data.slice(i - period + 1, i + 1);
     result.push(slice.reduce((a, b) => a + b, 0) / period);
-  }
-  return result;
-};
-
-// Exponential moving average
-const ema = (data, period) => {
-  const k = 2 / (period + 1);
-  const result = [data[0]];
-  for (let i = 1; i < data.length; i++) {
-    result.push(data[i] * k + result[i - 1] * (1 - k));
-  }
-  return result;
-};
-
-// Bollinger Bands
-const bollinger = (closes, period = 20, mult = 2) => {
-  const mid = sma(closes, period);
-  const upper = [];
-  const lower = [];
-  for (let i = 0; i < closes.length; i++) {
-    if (mid[i] === null) {
-      upper.push(null);
-      lower.push(null);
-      continue;
-    }
-    const slice = closes.slice(Math.max(0, i - period + 1), i + 1);
-    const std = Math.sqrt(
-      slice.reduce((s, v) => s + (v - mid[i]) ** 2, 0) / slice.length,
-    );
-    upper.push(mid[i] + mult * std);
-    lower.push(mid[i] - mult * std);
-  }
-  return { upper, mid, lower };
-};
-
-// MACD
-const computeMACD = (closes) => {
-  const ema12 = ema(closes, 12);
-  const ema26 = ema(closes, 26);
-  const macdLine = ema12.map((v, i) => v - ema26[i]);
-  const signal = ema(macdLine, 9);
-  const histogram = macdLine.map((v, i) => v - signal[i]);
-  return { macdLine, signal, histogram };
-};
-
-// RSI
-const computeRSI = (closes, period = 14) => {
-  const result = [null];
-  for (let i = 1; i < closes.length; i++) {
-    const slice = closes.slice(Math.max(0, i - period), i + 1);
-    let gains = 0,
-      losses = 0;
-    for (let j = 1; j < slice.length; j++) {
-      const diff = slice[j] - slice[j - 1];
-      if (diff > 0) gains += diff;
-      else losses -= diff;
-    }
-    const rs = losses === 0 ? 100 : gains / losses;
-    result.push(100 - 100 / (1 + rs));
   }
   return result;
 };
@@ -83,231 +32,130 @@ const computeRSI = (closes, period = 14) => {
 const TechIndicatorView = () => {
   const { type } = useParams();
   const data = useContext(StockHistoricalContext);
-  if (!Array.isArray(data) || data.length === 0) return null;
 
-  const dates = map(data, (d) => d.on);
-  const ohlc = map(data, (d) => [
-    d.open_price,
-    d.close_price,
-    d.low_price,
-    d.high_price,
-  ]);
-  const closes = map(data, (d) => d.close_price);
-  const volumes = map(data, (d) => d.vol);
+  const options = useMemo(() => {
+    if (!Array.isArray(data) || data.length === 0) return null;
 
-  const titles = {
-    bollinger: "Bollinger Bands",
-    stochastics: "Stochastics",
-    macd: "MACD",
-    sar: "Parabolic SAR",
-    rsi: "RSI",
-    elder: "Elder Ray",
-    heikin: "Heikin-Ashi",
-  };
+    const dates = data.map((d) => new Date(d.on).getTime());
+    const ohlc = data.map((d) => [new Date(d.on).getTime(), d.open_price, d.high_price, d.low_price, d.close_price]);
+    const volumes = data.map((d) => [new Date(d.on).getTime(), d.vol]);
+    const closes = data.map((d) => d.close_price);
 
-  // Base candlestick + volume option
-  const baseOption = {
-    tooltip: { trigger: "axis", axisPointer: { type: "cross" } },
-    legend: { top: 0 },
-    grid: [
-      { left: "10%", right: "8%", top: "8%", height: "50%" },
-      { left: "10%", right: "8%", top: "68%", height: "18%" },
-    ],
-    xAxis: [
-      { type: "category", data: dates, gridIndex: 0, boundaryGap: true },
-      { type: "category", data: dates, gridIndex: 1, boundaryGap: true },
-    ],
-    yAxis: [
-      { scale: true, gridIndex: 0 },
-      { scale: true, gridIndex: 1, splitNumber: 2 },
-    ],
-    dataZoom: [
-      { type: "inside", xAxisIndex: [0, 1], start: 60, end: 100 },
-      { type: "slider", xAxisIndex: [0, 1], start: 60, end: 100, top: "92%" },
-    ],
-    series: [
-      {
-        name: "Price",
-        type: "candlestick",
-        data: ohlc,
-        xAxisIndex: 0,
-        yAxisIndex: 0,
-      },
-      {
-        name: "Volume",
-        type: "bar",
-        data: volumes,
-        xAxisIndex: 1,
-        yAxisIndex: 1,
-        itemStyle: { color: "#7fbe9e" },
-      },
-    ],
-  };
+    const titles = {
+      bollinger: "Bollinger Bands",
+      stochastics: "Stochastics",
+      macd: "MACD",
+      sar: "Parabolic SAR",
+      rsi: "RSI",
+      elder: "Elder Ray",
+      heikin: "Heikin-Ashi",
+    };
 
-  // Add indicator-specific overlays
-  let option = { ...baseOption };
+    const baseOptions = {
+      chart: { backgroundColor: "transparent", height: 600 },
+      title: { text: titles[type] || "Technical Indicator", style: { color: "#e2e8f0" } },
+      credits: { enabled: false },
+      rangeSelector: {
+        selected: 2,
+        buttons: [
+          { type: "month", count: 1, text: "1M" },
+          { type: "month", count: 3, text: "3M" },
+          { type: "month", count: 6, text: "6M" },
+          { type: "year", count: 1, text: "1Y" },
+          { type: "all", text: "All" },
+        ],
+        buttonTheme: { fill: "#334155", stroke: "#475569", style: { color: "#e2e8f0" } },
+        inputStyle: { color: "#e2e8f0" },
+        labelStyle: { color: "#94a3b8" },
+      },
+      navigator: { enabled: true },
+      scrollbar: { enabled: false },
+      tooltip: { backgroundColor: "#1e293b", borderColor: "#475569", style: { color: "#f8fafc" } },
+      xAxis: { gridLineColor: "#334155" },
+      yAxis: [
+        { labels: { style: { color: "#94a3b8" } }, gridLineColor: "#334155", height: "60%", resize: { enabled: true } },
+        { labels: { style: { color: "#94a3b8" } }, gridLineColor: "#334155", top: "65%", height: "15%", offset: 0 },
+      ],
+      legend: { enabled: true, itemStyle: { color: "#e2e8f0" } },
+      series: [
+        { type: "candlestick", id: "price", name: "Price", data: ohlc, color: "#ef4444", upColor: "#10b981", lineColor: "#ef4444", upLineColor: "#10b981" },
+        { type: "column", name: "Volume", data: volumes, yAxis: 1, color: "#3b82f680" },
+      ],
+    };
 
-  if (type === "bollinger") {
-    const bb = bollinger(closes);
-    option.series = [
-      ...option.series,
-      {
-        name: "Upper",
-        type: "line",
-        data: bb.upper,
-        xAxisIndex: 0,
-        yAxisIndex: 0,
-        lineStyle: { opacity: 0.5 },
-        showSymbol: false,
-      },
-      {
-        name: "Middle",
-        type: "line",
-        data: bb.mid,
-        xAxisIndex: 0,
-        yAxisIndex: 0,
-        lineStyle: { type: "dashed" },
-        showSymbol: false,
-      },
-      {
-        name: "Lower",
-        type: "line",
-        data: bb.lower,
-        xAxisIndex: 0,
-        yAxisIndex: 0,
-        lineStyle: { opacity: 0.5 },
-        showSymbol: false,
-      },
-    ];
-  } else if (type === "macd") {
-    const m = computeMACD(closes);
-    option.grid = [
-      { left: "10%", right: "8%", top: "8%", height: "40%" },
-      { left: "10%", right: "8%", top: "55%", height: "18%" },
-      { left: "10%", right: "8%", top: "78%", height: "12%" },
-    ];
-    option.xAxis = [
-      ...option.xAxis,
-      { type: "category", data: dates, gridIndex: 2, boundaryGap: true },
-    ];
-    option.yAxis = [
-      ...option.yAxis,
-      { scale: true, gridIndex: 2, splitNumber: 2 },
-    ];
-    option.dataZoom[0].xAxisIndex = [0, 1, 2];
-    option.dataZoom[1].xAxisIndex = [0, 1, 2];
-    option.series = [
-      ...option.series,
-      {
-        name: "MACD",
-        type: "line",
-        data: m.macdLine,
-        xAxisIndex: 2,
-        yAxisIndex: 2,
-        showSymbol: false,
-      },
-      {
-        name: "Signal",
-        type: "line",
-        data: m.signal,
-        xAxisIndex: 2,
-        yAxisIndex: 2,
-        showSymbol: false,
-      },
-      {
-        name: "Histogram",
-        type: "bar",
-        data: m.histogram,
-        xAxisIndex: 2,
-        yAxisIndex: 2,
-      },
-    ];
-  } else if (type === "rsi") {
-    const rsi = computeRSI(closes);
-    option.grid = [
-      { left: "10%", right: "8%", top: "8%", height: "40%" },
-      { left: "10%", right: "8%", top: "55%", height: "18%" },
-      { left: "10%", right: "8%", top: "78%", height: "12%" },
-    ];
-    option.xAxis = [
-      ...option.xAxis,
-      { type: "category", data: dates, gridIndex: 2, boundaryGap: true },
-    ];
-    option.yAxis = [
-      ...option.yAxis,
-      { scale: true, gridIndex: 2, min: 0, max: 100 },
-    ];
-    option.dataZoom[0].xAxisIndex = [0, 1, 2];
-    option.dataZoom[1].xAxisIndex = [0, 1, 2];
-    option.series = [
-      ...option.series,
-      {
-        name: "RSI",
-        type: "line",
-        data: rsi,
-        xAxisIndex: 2,
-        yAxisIndex: 2,
-        showSymbol: false,
-      },
-      {
-        name: "Overbought",
-        type: "line",
-        data: dates.map(() => 70),
-        xAxisIndex: 2,
-        yAxisIndex: 2,
-        lineStyle: { type: "dashed", color: "red" },
-        showSymbol: false,
-      },
-      {
-        name: "Oversold",
-        type: "line",
-        data: dates.map(() => 30),
-        xAxisIndex: 2,
-        yAxisIndex: 2,
-        lineStyle: { type: "dashed", color: "green" },
-        showSymbol: false,
-      },
-    ];
-  } else {
-    // For sar, elder, stochastics, heikin — show candlestick + SMA overlays as default
-    const sma20 = sma(closes, 20);
-    const sma50 = sma(closes, 50);
-    option.series = [
-      ...option.series,
-      {
-        name: "SMA20",
-        type: "line",
-        data: sma20,
-        xAxisIndex: 0,
-        yAxisIndex: 0,
-        showSymbol: false,
-        lineStyle: { width: 1 },
-      },
-      {
-        name: "SMA50",
-        type: "line",
-        data: sma50,
-        xAxisIndex: 0,
-        yAxisIndex: 0,
-        showSymbol: false,
-        lineStyle: { width: 1 },
-      },
-    ];
-  }
+    // Add indicator-specific series
+    if (type === "bollinger") {
+      baseOptions.series.push({
+        type: "bb",
+        linkedTo: "price",
+        params: { period: 20, standardDeviation: 2 },
+        color: "#f59e0b",
+        lineWidth: 1,
+      });
+    } else if (type === "macd") {
+      baseOptions.yAxis.push({
+        labels: { style: { color: "#94a3b8" } },
+        gridLineColor: "#334155",
+        top: "82%",
+        height: "18%",
+        offset: 0,
+      });
+      baseOptions.yAxis[0].height = "50%";
+      baseOptions.yAxis[1].top = "55%";
+      baseOptions.yAxis[1].height = "12%";
+      baseOptions.series.push({
+        type: "macd",
+        linkedTo: "price",
+        yAxis: 2,
+        params: { shortPeriod: 12, longPeriod: 26, signalPeriod: 9 },
+      });
+    } else if (type === "rsi") {
+      baseOptions.yAxis.push({
+        labels: { style: { color: "#94a3b8" } },
+        gridLineColor: "#334155",
+        top: "82%",
+        height: "18%",
+        offset: 0,
+        min: 0,
+        max: 100,
+        plotLines: [
+          { value: 70, color: "#ef4444", dashStyle: "Dash", width: 1, label: { text: "70", style: { color: "#ef4444" } } },
+          { value: 30, color: "#10b981", dashStyle: "Dash", width: 1, label: { text: "30", style: { color: "#10b981" } } },
+        ],
+      });
+      baseOptions.yAxis[0].height = "50%";
+      baseOptions.yAxis[1].top = "55%";
+      baseOptions.yAxis[1].height = "12%";
+      baseOptions.series.push({
+        type: "rsi",
+        linkedTo: "price",
+        yAxis: 2,
+        params: { period: 14 },
+        color: "#8b5cf6",
+      });
+    } else {
+      // Default: SMA overlays
+      const sma20 = sma(closes, 20);
+      const sma50 = sma(closes, 50);
+      baseOptions.series.push(
+        { type: "line", name: "SMA20", data: dates.map((d, i) => [d, sma20[i]]), color: "#f59e0b", lineWidth: 1, marker: { enabled: false } },
+        { type: "line", name: "SMA50", data: dates.map((d, i) => [d, sma50[i]]), color: "#ec4899", lineWidth: 1, marker: { enabled: false } },
+      );
+    }
 
-  const title = titles[type] || "Technical Indicator";
+    return baseOptions;
+  }, [data, type]);
+
+  if (!options) return null;
 
   return (
     <Card>
-      <CardHeader title={<Typography variant="h3">{title}</Typography>} />
       <CardContent>
-        <Box mt={2}>
-          <ReactEChartsCore
-            theme={
-              localStorage.getItem("themeMode") === "dark" ? "dark" : undefined
-            }
-            option={option}
-            style={{ height: 600 }}
+        <Box>
+          <HighchartsReact
+            highcharts={Highcharts}
+            constructorType="stockChart"
+            options={options}
           />
         </Box>
       </CardContent>

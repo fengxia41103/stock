@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
-import ReactECharts from "echarts-for-react";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -123,36 +124,23 @@ const BacktestView = () => {
   const chartOption = useMemo(() => {
     if (!results?.equity_curve?.length) return null;
     return {
-      backgroundColor: "transparent",
-      tooltip: { trigger: "axis" },
-      legend: { data: ["Strategy", "Benchmark"], textStyle: { color: "#94a3b8" } },
+      chart: { backgroundColor: "transparent", height: 350 },
+      title: { text: null },
+      credits: { enabled: false },
       xAxis: {
-        type: "category",
-        data: results.equity_curve.map((d) => d.date),
-        axisLabel: { color: "#94a3b8", fontSize: 10 },
+        categories: results.equity_curve.map((d) => d.date),
+        labels: { style: { color: "#94a3b8" }, step: Math.ceil(results.equity_curve.length / 15), rotation: -45 },
       },
       yAxis: {
-        type: "value",
-        axisLabel: { color: "#94a3b8", formatter: "${value}" },
-        splitLine: { lineStyle: { color: "#334155" } },
+        title: { text: null },
+        labels: { style: { color: "#94a3b8" }, formatter: function() { return "$" + Highcharts.numberFormat(this.value, 0); } },
+        gridLineColor: "#334155",
       },
+      legend: { itemStyle: { color: "#e2e8f0" } },
+      tooltip: { shared: true, backgroundColor: "#1e293b", borderColor: "#475569", style: { color: "#f8fafc" }, valuePrefix: "$" },
       series: [
-        {
-          name: "Strategy",
-          type: "line",
-          data: results.equity_curve.map((d) => d.value),
-          lineStyle: { color: "#10b981", width: 2 },
-          itemStyle: { color: "#10b981" },
-          showSymbol: false,
-        },
-        {
-          name: "Benchmark",
-          type: "line",
-          data: results.benchmark_curve.map((d) => d.value),
-          lineStyle: { color: "#6b7280", width: 1, type: "dashed" },
-          itemStyle: { color: "#6b7280" },
-          showSymbol: false,
-        },
+        { name: "Strategy", data: results.equity_curve.map((d) => d.value), color: "#10b981", lineWidth: 2, marker: { enabled: false } },
+        { name: "Benchmark", data: results.benchmark_curve.map((d) => d.value), color: "#6b7280", lineWidth: 1, dashStyle: "Dash", marker: { enabled: false } },
       ],
     };
   }, [results]);
@@ -399,7 +387,7 @@ const BacktestView = () => {
                     <Typography variant="subtitle2" color="text.secondary" mb={1}>
                       Equity Curve vs Benchmark
                     </Typography>
-                    <ReactECharts option={chartOption} style={{ height: 350 }} />
+                    <HighchartsReact highcharts={Highcharts} options={chartOption} />
                   </Paper>
                 )}
 

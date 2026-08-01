@@ -20,8 +20,6 @@
     "@uiw/react-md-editor": "^3.23.5",
     "axios": "^1.7.9",
     "dayjs": "^1.11.13",
-    "echarts": "^5.4.1",
-    "echarts-for-react": "^3.0.2",
     "jstat": "^1.9.6",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
