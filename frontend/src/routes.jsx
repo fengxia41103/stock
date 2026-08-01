@@ -1,15 +1,3 @@
-import AnalyticsIcon from "@mui/icons-material/Analytics";
-import AnnouncementIcon from "@mui/icons-material/Announcement";
-import BusinessIcon from "@mui/icons-material/Business";
-import CompareIcon from "@mui/icons-material/Compare";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import EventNoteIcon from "@mui/icons-material/EventNote";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import GridViewIcon from "@mui/icons-material/GridView";
-import ShowChartIcon from "@mui/icons-material/ShowChart";
-import SortIcon from "@mui/icons-material/Sort";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-
 import React, { Suspense, lazy } from "react";
 import { Navigate } from "react-router-dom";
 import ScaleLoader from "react-spinners/ScaleLoader";
@@ -20,6 +8,8 @@ import LoginView from "@Views/auth/LoginView";
 import LogoutView from "@Views/auth/LogoutView";
 import ProtectedRoute from "@Views/auth/ProtectedRoute";
 import RegistrationView from "@Views/auth/RegistrationView";
+
+import { navItems } from "@/app/navigation";
 
 // Lazy-loaded views
 const TodayDashboardView = lazy(() =>
@@ -119,18 +109,7 @@ const E = ({ section, children }) => (
   </SectionErrorBoundary>
 );
 
-const navbar_items = [
-  { href: "/dashboard", icon: <DashboardIcon />, title: "Today" },
-  { href: "/screener", icon: <FilterListIcon />, title: "Screener" },
-  { href: "/charts", icon: <GridViewIcon />, title: "Charts" },
-  { href: "/macro", icon: <ShowChartIcon />, title: "Macro" },
-  { href: "/trending", icon: <TrendingUpIcon />, title: "Trending" },
-  { href: "/stocks", icon: <BusinessIcon />, title: "Stocks" },
-  { href: "/sectors", icon: <CompareIcon />, title: "Portfolios" },
-  { href: "/rankings", icon: <SortIcon />, title: "Rankings" },
-  { href: "/backtest", icon: <AnalyticsIcon />, title: "Backtest" },
-  { href: "/notes", icon: <EventNoteIcon />, title: "Notes" },
-];
+const navbar_items = navItems;
 
 const routes = [
   { path: "logout", element: <LogoutView /> },
