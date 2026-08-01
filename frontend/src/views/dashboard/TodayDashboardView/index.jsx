@@ -209,6 +209,9 @@ const TreemapChart = ({ stocks, navigate }) => {
         backgroundColor: "#1e293b",
         borderColor: "#475569",
         style: { color: "#f8fafc" },
+        positioner: function(labelWidth, labelHeight, point) {
+          return { x: Math.min(point.plotX + 10, this.chart.plotWidth - labelWidth - 10), y: Math.max(point.plotY - labelHeight - 10, 5) };
+        },
         formatter: function () {
           const p = this.point;
           if (!p.price) return `<b>${p.name}</b>`;
@@ -356,7 +359,7 @@ const TodayDashboardView = () => {
 
           {/* Row 2: Treemap heatmap */}
           <Grid item xs={12}>
-            <Paper sx={{ bgcolor: TILE, p: 1, borderRadius: 2 }}>
+            <Paper sx={{ bgcolor: TILE, p: 1, borderRadius: 2, overflow: "hidden", position: "relative" }}>
               <TreemapChart stocks={stocks} navigate={navigate} />
             </Paper>
           </Grid>
