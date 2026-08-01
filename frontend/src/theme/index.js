@@ -1,38 +1,70 @@
-import { colors } from "@mui/material";
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
 import shadows from "./shadows";
 import typography from "./typography";
 
-export const getTheme = (mode = "light") =>
-  responsiveFontSizes(
-    createTheme({
-      spacing: 3,
-      palette: {
-        mode,
-        ...(mode === "light"
-          ? {
-              background: { default: "#F4F6F8", paper: colors.common.white },
-              primary: { main: colors.indigo[500] },
-              secondary: { main: colors.pink[600] },
-              text: {
-                primary: colors.blueGrey[900],
-                secondary: colors.blueGrey[600],
-              },
-              success: { main: "#4caf50" },
-              error: { main: "#f44336" },
-            }
-          : {
-              background: { default: "#121212", paper: "#1e1e1e" },
-              primary: { main: colors.indigo[300] },
-              secondary: { main: colors.pink[300] },
-              success: { main: "#66bb6a" },
-              error: { main: "#ef5350" },
-            }),
+const theme = responsiveFontSizes(
+  createTheme({
+    spacing: 3,
+    palette: {
+      mode: "dark",
+      primary: { main: "#3b82f6" },       // blue-500
+      secondary: { main: "#10b981" },     // emerald-500 (gains)
+      background: {
+        default: "#0f172a",               // slate-900
+        paper: "#1e293b",                 // slate-800
       },
-      shadows,
-      typography,
-    }),
-  );
+      text: {
+        primary: "#f8fafc",               // slate-50
+        secondary: "#94a3b8",             // slate-400
+      },
+      success: { main: "#10b981" },       // emerald
+      error: { main: "#ef4444" },         // red-500
+      warning: { main: "#f59e0b" },       // amber-500
+      divider: "#334155",                 // slate-700
+    },
+    shadows,
+    typography,
+    components: {
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            backgroundImage: "none",      // Remove default MUI elevation gradient
+          },
+        },
+      },
+      MuiDrawer: {
+        styleOverrides: {
+          paper: {
+            backgroundColor: "#1e293b",
+            borderRight: "1px solid #334155",
+          },
+        },
+      },
+      MuiAppBar: {
+        styleOverrides: {
+          root: {
+            backgroundColor: "#1e293b",
+            borderBottom: "1px solid #334155",
+          },
+        },
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            textTransform: "none",
+          },
+        },
+      },
+      MuiChip: {
+        styleOverrides: {
+          root: {
+            fontWeight: 600,
+          },
+        },
+      },
+    },
+  }),
+);
 
-export default getTheme("light");
+export default theme;
