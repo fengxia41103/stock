@@ -106,3 +106,4 @@ ENV/
 
 output/
 bower_components/
+.gh.token

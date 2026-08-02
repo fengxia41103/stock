@@ -24,26 +24,42 @@ const RecentPriceSparkline = (props) => {
       ? data
       : data.results || data.objects || [];
 
-    const chartData = stocks.map((s) => s.close_price);
+    if (stocks.length < 2) return null;
+
+    // Compute daily returns for column coloring
+    const returns = stocks.slice(1).map((d, i) => {
+      const prev = stocks[i].close_price;
+      const curr = d.close_price;
+      return prev ? ((curr - prev) / prev) * 100 : 0;
+    });
 
     const options = {
       chart: {
-        type: "line",
+        type: "column",
         backgroundColor: "transparent",
         height: 40,
-        margin: [0, 0, 0, 0],
+        margin: [2, 0, 2, 0],
         spacing: [0, 0, 0, 0],
       },
       title: { text: null },
       xAxis: { visible: false },
-      yAxis: { visible: false, min: Math.min(...chartData) * 0.99 },
+      yAxis: { visible: false },
       legend: { enabled: false },
       credits: { enabled: false },
       tooltip: { enabled: false },
       plotOptions: {
-        line: { marker: { enabled: false }, lineWidth: 1, color: "#3b82f6" },
+        column: {
+          pointPadding: 0.1,
+          groupPadding: 0,
+          borderWidth: 0,
+          borderRadius: 1,
+          colorByPoint: true,
+          colors: returns.map((r) =>
+            r >= 0 ? "#10b981" : "#ef4444"
+          ),
+        },
       },
-      series: [{ data: chartData }],
+      series: [{ data: returns }],
     };
 
     return (

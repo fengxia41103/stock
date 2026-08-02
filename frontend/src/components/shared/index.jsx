@@ -170,19 +170,24 @@ export const HighchartGraph = ({
 
   const options = {
     chart: { type: mapType(type), backgroundColor: "transparent" },
-    title: { text: title || null, style: { color: "#e2e8f0" } },
+    title: { text: title || null, style: { color: "#1e293b" } },
     xAxis: {
       categories: categories || [],
       title: { text: xLabel || "" },
-      labels: { style: { color: "#94a3b8" } },
+      labels: { style: { color: "#64748b" } },
     },
     yAxis: {
       title: { text: yLabel || "" },
-      labels: { style: { color: "#94a3b8" } },
+      labels: {
+        style: { color: "#64748b" },
+        formatter: function () {
+          return typeof this.value === "number" ? this.value.toFixed(2) : this.value;
+        },
+      },
     },
     legend: {
       enabled: legendEnabled !== false,
-      itemStyle: { color: "#e2e8f0" },
+      itemStyle: { color: "#1e293b" },
     },
     credits: { enabled: false },
     series: (data || []).map((s) => ({
@@ -191,7 +196,10 @@ export const HighchartGraph = ({
       lineWidth: s.lineWidth || 2,
       visible: s.visible !== false,
     })),
-    tooltip: { shared: true },
+    tooltip: {
+      shared: true,
+      valueDecimals: 2,
+    },
   };
 
   return <HighchartsReact highcharts={Highcharts} options={options} />;
@@ -252,12 +260,20 @@ export const RankChart = ({
 
   const options = {
     chart: { type: "bar", backgroundColor: "transparent", height: 300 },
-    title: { text: title || null, style: { color: "#e2e8f0" } },
+    title: { text: title || null, style: { color: "#1e293b" } },
     xAxis: {
       categories: chartCategories || [],
-      labels: { style: { color: "#94a3b8" } },
+      labels: { style: { color: "#1e293b" } },
     },
-    yAxis: { title: { text: null }, labels: { style: { color: "#94a3b8" } } },
+    yAxis: {
+      title: { text: null },
+      labels: {
+        style: { color: "#64748b" },
+        formatter: function () {
+          return typeof this.value === "number" ? this.value.toFixed(2) : this.value;
+        },
+      },
+    },
     legend: { enabled: false },
     credits: { enabled: false },
     series: [{ data: chartData || [], color: "#3b82f6" }],
@@ -283,13 +299,13 @@ export const ABDonutChart = ({ data, title, subheader }) => {
 
   const options = {
     chart: { type: "pie", backgroundColor: "transparent", height: 250 },
-    title: { text: data?.name || title || null, style: { color: "#e2e8f0" } },
-    subtitle: { text: subheader || null },
+    title: { text: data?.name || title || null, style: { color: "#1e293b" } },
+    subtitle: { text: subheader || null, style: { color: "#64748b" } },
     credits: { enabled: false },
     plotOptions: {
       pie: {
         innerSize: "50%",
-        dataLabels: { enabled: true, style: { color: "#e2e8f0" } },
+        dataLabels: { enabled: true, style: { color: "#1e293b" } },
       },
     },
     series: [{ data: pieData }],
@@ -387,18 +403,18 @@ export const DictTable = ({ data, title, interests, chart }) => {
           >
             <thead>
               <tr>
-                <th style={{ padding: 4, textAlign: "left", color: "#94a3b8" }}>
+                <th style={{ padding: 4, textAlign: "left", color: "#64748b" }}>
                   Metric
                 </th>
                 <th
-                  style={{ padding: 4, textAlign: "center", color: "#94a3b8" }}
+                  style={{ padding: 4, textAlign: "center", color: "#64748b" }}
                 >
                   Trend
                 </th>
                 {visibleData.map((d) => (
                   <th
                     key={d.on}
-                    style={{ padding: 4, textAlign: "right", color: "#94a3b8" }}
+                    style={{ padding: 4, textAlign: "right", color: "#64748b" }}
                   >
                     {d.on}
                   </th>
@@ -411,8 +427,8 @@ export const DictTable = ({ data, title, interests, chart }) => {
                   <td
                     style={{
                       padding: 4,
-                      borderBottom: "1px solid #334155",
-                      color: "#e2e8f0",
+                      borderBottom: "1px solid #e2e8f0",
+                      color: "#1e293b",
                     }}
                   >
                     {label}
@@ -420,7 +436,7 @@ export const DictTable = ({ data, title, interests, chart }) => {
                   <td
                     style={{
                       padding: 4,
-                      borderBottom: "1px solid #334155",
+                      borderBottom: "1px solid #e2e8f0",
                       textAlign: "center",
                     }}
                   >
@@ -437,7 +453,7 @@ export const DictTable = ({ data, title, interests, chart }) => {
                         key={d.on}
                         style={{
                           padding: 4,
-                          borderBottom: "1px solid #334155",
+                          borderBottom: "1px solid #e2e8f0",
                           textAlign: "right",
                           color: cellColor(showPctChange ? val : d[key]),
                           fontWeight:
@@ -473,8 +489,8 @@ export const DictTable = ({ data, title, interests, chart }) => {
                 <td
                   style={{
                     padding: 4,
-                    borderBottom: "1px solid #334155",
-                    color: "#e2e8f0",
+                    borderBottom: "1px solid #e2e8f0",
+                    color: "#1e293b",
                   }}
                 >
                   {k}
@@ -482,9 +498,9 @@ export const DictTable = ({ data, title, interests, chart }) => {
                 <td
                   style={{
                     padding: 4,
-                    borderBottom: "1px solid #334155",
+                    borderBottom: "1px solid #e2e8f0",
                     textAlign: "right",
-                    color: "#e2e8f0",
+                    color: "#1e293b",
                   }}
                 >
                   {v != null
@@ -511,9 +527,9 @@ export const TimeSeriesColumnChart = ({ data, name }) => {
     title: { text: null },
     xAxis: {
       categories,
-      labels: { style: { color: "#94a3b8" }, rotation: -45 },
+      labels: { style: { color: "#64748b" }, rotation: -45 },
     },
-    yAxis: { title: { text: null }, labels: { style: { color: "#94a3b8" } } },
+    yAxis: { title: { text: null }, labels: { style: { color: "#64748b" } } },
     legend: { enabled: false },
     credits: { enabled: false },
     series: [{ name: name || "", data: values, color: "#3b82f6" }],

@@ -57,7 +57,7 @@ const MacroOverviewView = () => {
               <Typography variant="h6" gutterBottom>
                 {title}
               </Typography>
-              <Grid container spacing={1}>
+              <Grid container spacing={1} alignItems="stretch">
                 {items.map((s) => (
                   <Grid key={s.id} item lg={4} md={6} sm={12} xs={12}>
                     <MacroCard series={s} />
@@ -132,8 +132,10 @@ const MacroCard = ({ series }) => {
       : null;
 
   return (
-    <Card>
-      <CardContent sx={{ py: 1, "&:last-child": { pb: 1 } }}>
+    <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+      <CardContent
+        sx={{ py: 1, "&:last-child": { pb: 1 }, flex: 1, display: "flex", flexDirection: "column" }}
+      >
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="body2" fontWeight="bold">
             {series.title}
@@ -162,7 +164,9 @@ const MacroCard = ({ series }) => {
             </Box>
           )}
         </Box>
-        {option && <HighchartsReact highcharts={Highcharts} options={option} />}
+        <Box sx={{ flex: 1, minHeight: 80 }}>
+          {option && <HighchartsReact highcharts={Highcharts} options={option} />}
+        </Box>
       </CardContent>
     </Card>
   );
