@@ -99,6 +99,7 @@ const DiaryListView = lazy(() => import("@Views/diary/DiaryListView"));
 const AddDiaryView = lazy(() => import("@Views/diary/AddDiaryView"));
 const NewsListView = lazy(() => import("@Views/news/NewsListView"));
 const BacktestView = lazy(() => import("@Views/backtest/BacktestView"));
+const PortfolioView = lazy(() => import("@Views/portfolio/PortfolioView"));
 
 const Loader = <ScaleLoader loading />;
 
@@ -518,6 +519,14 @@ const routes = [
         element: (
           <S>
             <BacktestView />
+          </S>
+        ),
+      },
+      {
+        path: "portfolio",
+        element: (
+          <S>
+            <PortfolioView />
           </S>
         ),
       },

@@ -316,3 +316,37 @@ class AlertEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = AlertEvent
         fields = ["id", "alert", "symbol", "alert_type", "triggered_at", "value", "message", "is_read"]
+
+
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        from stock.models.portfolio import Transaction
+        model = Transaction
+        fields = ["id", "position", "action", "shares", "price", "date", "notes"]
+
+
+class PositionSerializer(serializers.ModelSerializer):
+    symbol = serializers.CharField(source="stock.symbol", read_only=True)
+    current_price = serializers.FloatField(read_only=True)
+    market_value = serializers.FloatField(read_only=True)
+    pnl = serializers.FloatField(read_only=True)
+    pnl_pct = serializers.FloatField(read_only=True)
+    total_cost = serializers.FloatField(read_only=True)
+
+    class Meta:
+        from stock.models.portfolio import Position
+        model = Position
+        fields = [
+            "id", "stock", "symbol", "shares", "avg_cost", "total_cost",
+            "current_price", "market_value", "pnl", "pnl_pct",
+            "opened_at", "closed_at",
+        ]
+
+
+class AddTransactionSerializer(serializers.Serializer):
+    stock = serializers.IntegerField(help_text="Stock ID")
+    action = serializers.ChoiceField(choices=["BUY", "SELL"])
+    shares = serializers.FloatField()
+    price = serializers.FloatField()
+    date = serializers.DateField()
+    notes = serializers.CharField(required=False, default="", allow_blank=True)

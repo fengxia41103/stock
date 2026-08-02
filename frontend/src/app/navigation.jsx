@@ -4,6 +4,7 @@
  */
 import React from "react";
 
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import BusinessIcon from "@mui/icons-material/Business";
 import CompareIcon from "@mui/icons-material/Compare";
@@ -24,6 +25,7 @@ export const navItems = [
   { href: "/stocks", icon: <BusinessIcon />, title: "Stocks" },
   { href: "/sectors", icon: <CompareIcon />, title: "Portfolios" },
   { href: "/rankings", icon: <SortIcon />, title: "Rankings" },
+  { href: "/portfolio", icon: <AccountBalanceWalletIcon />, title: "Portfolio" },
   { href: "/backtest", icon: <AnalyticsIcon />, title: "Backtest" },
   { href: "/notes", icon: <EventNoteIcon />, title: "Notes" },
 ];

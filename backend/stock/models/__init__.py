@@ -11,6 +11,7 @@ from stock.models.insider_trade import InsiderTrade
 from stock.models.institutional_holding import InstitutionalHolding
 from stock.models.macro import MacroDataPoint, MacroSeries, StockMacroCorrelation
 from stock.models.misc import MyDiary, MyNews, MyTask, RankingCache
+from stock.models.portfolio import Position, Transaction
 from stock.models.sector import MySector
 from stock.models.stock import MyStock
 from stock.models.valuation import ValuationRatio
@@ -34,7 +35,9 @@ __all__ = [
     "MyStock",
     "MyStockHistorical",
     "MyTask",
+    "Position",
     "RankingCache",
     "StockMacroCorrelation",
+    "Transaction",
     "ValuationRatio",
 ]

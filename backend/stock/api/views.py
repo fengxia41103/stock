@@ -702,6 +702,102 @@ class ValuationRankViewSet(RankingViewSet):
         return self._get_ranks(request, ValuationRatio.objects, attrs)
 
 
+
+# --- Portfolio ---
+
+
+class PortfolioViewSet(viewsets.ViewSet):
+    """Portfolio positions and transactions."""
+
+    permission_classes = [IsAuthenticated]
+
+    @action(detail=False, methods=["get"])
+    def holdings(self, request):
+        """List all open positions with current value."""
+        from stock.models.portfolio import Position
+        from stock.api.serializers import PositionSerializer
+
+        positions = Position.objects.filter(
+            user=request.user, closed_at__isnull=True, shares__gt=0
+        ).select_related("stock")
+        serializer = PositionSerializer(positions, many=True)
+
+        # Compute totals
+        data = serializer.data
+        total_cost = sum(p.get("total_cost") or 0 for p in data)
+        total_value = sum(p.get("market_value") or 0 for p in data)
+        total_pnl = total_value - total_cost if total_cost else 0
+        total_pnl_pct = (total_pnl / total_cost * 100) if total_cost > 0 else 0
+
+        return Response({
+            "positions": data,
+            "summary": {
+                "total_cost": round(total_cost, 2),
+                "total_value": round(total_value, 2),
+                "total_pnl": round(total_pnl, 2),
+                "total_pnl_pct": round(total_pnl_pct, 2),
+                "position_count": len(data),
+            },
+        })
+
+    @action(detail=False, methods=["post"], url_path="add-transaction")
+    def add_transaction(self, request):
+        """Add a BUY or SELL transaction. Creates/updates position automatically."""
+        from stock.api.serializers import AddTransactionSerializer
+        from stock.models.portfolio import Position, Transaction
+
+        s = AddTransactionSerializer(data=request.data)
+        s.is_valid(raise_exception=True)
+        d = s.validated_data
+
+        stock = MyStock.objects.get(id=d["stock"])
+
+        # Find or create open position for this stock
+        position, created = Position.objects.get_or_create(
+            user=request.user,
+            stock=stock,
+            closed_at__isnull=True,
+            defaults={"shares": 0, "avg_cost": 0, "opened_at": d["date"]},
+        )
+
+        # Create transaction record
+        Transaction.objects.create(
+            position=position,
+            action=d["action"],
+            shares=d["shares"],
+            price=d["price"],
+            date=d["date"],
+            notes=d.get("notes", ""),
+        )
+
+        # Update position
+        if d["action"] == "BUY":
+            total_cost = position.shares * position.avg_cost + d["shares"] * d["price"]
+            position.shares += d["shares"]
+            position.avg_cost = total_cost / position.shares if position.shares > 0 else 0
+        elif d["action"] == "SELL":
+            position.shares -= d["shares"]
+            if position.shares <= 0:
+                position.shares = 0
+                position.closed_at = d["date"]
+
+        position.save()
+
+        from stock.api.serializers import PositionSerializer
+        return Response(PositionSerializer(position).data, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=["get"])
+    def transactions(self, request):
+        """List all transactions for the user."""
+        from stock.models.portfolio import Transaction
+        from stock.api.serializers import TransactionSerializer
+
+        stock_id = request.query_params.get("stock")
+        qs = Transaction.objects.filter(position__user=request.user).select_related("position__stock")
+        if stock_id:
+            qs = qs.filter(position__stock_id=stock_id)
+        return Response(TransactionSerializer(qs[:100], many=True).data)
+
 # --- Alerts ---
 
 

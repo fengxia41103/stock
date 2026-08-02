@@ -20,6 +20,7 @@ from stock.api.views import (
     MacroDataPointViewSet,
     MacroSeriesViewSet,
     NewsViewSet,
+    PortfolioViewSet,
     SectorViewSet,
     SignalRankViewSet,
     StockMacroCorrelationViewSet,
@@ -59,6 +60,7 @@ router.register(r"income-ranks", IncomeRankViewSet, basename="income-rank")
 router.register(r"valuation-ranks", ValuationRankViewSet, basename="valuation-rank")
 router.register(r"backtest", BacktestViewSet, basename="backtest")
 router.register(r"alerts", AlertViewSet, basename="alert")
+router.register(r"portfolio", PortfolioViewSet, basename="portfolio")
 
 urlpatterns = [
     path("", include(router.urls)),
