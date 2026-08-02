@@ -171,8 +171,8 @@ const PortfolioView = () => {
       <Grid container spacing={2}>
         {/* Holdings table */}
         <Grid item xs={12} md={8}>
-          <TableContainer component={Paper}>
-            <Table size="small">
+          <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
+            <Table size="small" sx={{ minWidth: 700 }}>
               <TableHead>
                 <TableRow>
                   <TableCell>Symbol</TableCell>

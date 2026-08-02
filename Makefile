@@ -50,3 +50,11 @@ shell:
 # Fetch earnings surprise (daily rotation, 12 stocks)
 fetch-earnings-surprise:
 	docker compose exec -T web python manage.py shell -c "from stock.tasks import earnings_surprise_daily_rotation; earnings_surprise_daily_rotation()"
+
+# Database backup (manual trigger)
+backup:
+	docker compose exec -T celery python manage.py shell -c "from stock.tasks import db_backup; print(db_backup())"
+
+# Production mode
+prod:
+	docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build

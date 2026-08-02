@@ -1,0 +1,14 @@
+# Production overrides — use with: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+services:
+  web:
+    command: gunicorn -w 4 -t 120 -b 0.0.0.0:8001 --access-logfile - fin.wsgi
+    environment:
+      - DJANGO_DEBUG=0
+
+  celery:
+    command: celery -A fin.celery worker -Q summary,stock,statement,price,news,backtest -l WARNING -c 2
+
+  frontend:
+    build:
+      args:
+        VITE_API_URL: /api/v1

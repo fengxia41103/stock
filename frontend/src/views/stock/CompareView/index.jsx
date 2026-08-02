@@ -84,7 +84,7 @@ const CompareView = () => {
     });
 
     return {
-      chart: { backgroundColor: "transparent", height: 350 },
+      chart: { backgroundColor: "transparent", height: 350, reflow: true },
       title: { text: null },
       xAxis: { type: "datetime" },
       yAxis: { title: { text: "Normalized (100 = start)" }, labels: { format: "{value}" } },
@@ -148,7 +148,7 @@ const CompareView = () => {
 
           {/* Metrics table */}
           <Grid item xs={12}>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
               <Table size="small">
                 <TableHead>
                   <TableRow>

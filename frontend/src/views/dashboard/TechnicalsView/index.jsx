@@ -56,8 +56,8 @@ const TechnicalsView = () => {
         RSI, Bollinger Band position, SMA crossovers, and trading verdicts for all stocks. Sorted by RSI (most oversold first).
       </Typography>
 
-      <TableContainer component={Paper}>
-        <Table size="small">
+      <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
+        <Table size="small" sx={{ minWidth: 800 }}>
           <TableHead>
             <TableRow>
               <TableCell>Symbol</TableCell>
