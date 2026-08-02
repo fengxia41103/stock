@@ -84,14 +84,23 @@ const MacroCard = ({ series }) => {
   const prev = recent.length > 7 ? recent[recent.length - 8] : null;
   const delta = latest && prev ? latest.value - prev.value : null;
 
-  const option =
+    // Compute Y-axis range from actual data with padding
+    const chartValues = recent.map((p) => p.value);
+    const dataMin = chartValues.length > 0 ? Math.min(...chartValues) : 0;
+    const dataMax = chartValues.length > 0 ? Math.max(...chartValues) : 1;
+    const dataRange = dataMax - dataMin || 1;
+    const step = Math.pow(10, Math.floor(Math.log10(dataRange)));
+    const yMin = Math.floor((dataMin - dataRange * 0.05) / step) * step;
+    const yMax = Math.ceil((dataMax + dataRange * 0.05) / step) * step;
+
+    let option =
     recent.length > 1
       ? {
           chart: {
             type: "area",
             backgroundColor: "transparent",
             height: 80,
-            margin: [5, 10, 20, 40],
+            margin: [5, 10, 20, 50],
             spacing: [0, 0, 0, 0],
           },
           title: { text: undefined },
@@ -101,8 +110,17 @@ const MacroCard = ({ series }) => {
           },
           yAxis: {
             title: { text: null },
+            min: yMin,
+            max: yMax,
             labels: {
-              style: { color: "#94a3b8", fontSize: "10px" },
+              style: { color: "#94a3b8", fontSize: "9px" },
+              formatter: function () {
+                const v = this.value;
+                if (Math.abs(v) >= 1000000) return (v / 1000000).toFixed(1) + "M";
+                if (Math.abs(v) >= 1000) return (v / 1000).toFixed(0) + "k";
+                if (Math.abs(v) < 10) return v.toFixed(1);
+                return v.toFixed(0);
+              },
             },
             gridLineColor: "#334155",
           },
@@ -111,7 +129,7 @@ const MacroCard = ({ series }) => {
             backgroundColor: "#1e293b",
             borderColor: "#334155",
             headerFormat: "{point.x}<br/>",
-            pointFormat: "<b>{point.y:.2f}</b>",
+            pointFormat: "<b>{point.y:,.2f}</b>",
           },
           legend: { enabled: false },
           plotOptions: {
