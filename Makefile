@@ -46,3 +46,7 @@ logs:
 # Shell
 shell:
 	docker compose exec web python manage.py shell
+
+# Fetch earnings surprise (daily rotation, 12 stocks)
+fetch-earnings-surprise:
+	docker compose exec -T web python manage.py shell -c "from stock.tasks import earnings_surprise_daily_rotation; earnings_surprise_daily_rotation()"

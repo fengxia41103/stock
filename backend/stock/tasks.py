@@ -273,6 +273,41 @@ def earnings_surprise_batch():
     tasks.apply_async()
 
 
+@app.task(queue="alpha")
+def earnings_surprise_daily_rotation():
+    """Rotate through 12 stocks/day for earnings surprise backfill.
+    
+    Alpha Vantage free tier: 25 calls/day. Calendar uses 1, so 24 left.
+    12 stocks/day means all 47 stocks covered in 4 days.
+    Uses Redis counter to track rotation position.
+    """
+    from django.core.cache import cache
+
+    stocks = list(MyStock.objects.order_by("symbol").values_list("symbol", flat=True))
+    total = len(stocks)
+    if total == 0:
+        return
+
+    batch_size = 12
+    offset = cache.get("earnings_surprise_offset", 0)
+
+    # Get this day's batch
+    batch = []
+    for i in range(batch_size):
+        idx = (offset + i) % total
+        batch.append(stocks[idx])
+
+    # Advance offset for next run
+    cache.set("earnings_surprise_offset", (offset + batch_size) % total, 86400 * 7)
+
+    # Execute sequentially (respect rate limit)
+    for symbol in batch:
+        try:
+            EarningsSurpriseWorker(symbol).get()
+        except Exception:
+            continue
+
+
 @app.task(queue="news")
 def get_news():
     for t in [
@@ -470,6 +505,12 @@ def setup_periodic_tasks(sender, **kwargs):
         crontab(hour=7, minute=0, day_of_week="1-5"),
         earnings_calendar_daily.s(),
         name="Fetch earnings calendar daily at 7AM (weekdays)",
+    )
+    # Earnings surprise backfill: daily at 8AM ET (weekdays), 12 stocks/day rotation
+    sender.add_periodic_task(
+        crontab(hour=8, minute=0, day_of_week="1-5"),
+        earnings_surprise_daily_rotation.s(),
+        name="Backfill earnings surprises (12 stocks/day rotation)",
     )
 
 
