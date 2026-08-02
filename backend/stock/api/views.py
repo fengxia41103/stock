@@ -238,10 +238,139 @@ class StockViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"])
     def report(self, request, pk=None):
-        """Live analysis report — Darwin + Graham + Box Trading."""
+        """Live analysis report — Darwin + Graham + Box Trading.
+        
+        Accepts ?format=pdf to return a PDF file instead of JSON.
+        """
         from stock.report_service import generate_report
         stock = self.get_object()
-        return Response(generate_report(stock))
+        report_data = generate_report(stock)
+
+        fmt = request.query_params.get("format", "json")
+        if fmt == "pdf":
+            return self._render_pdf(report_data, stock)
+        return Response(report_data)
+
+    def _render_pdf(self, report_data, stock):
+        """Render report as PDF using weasyprint."""
+        from django.http import HttpResponse
+        try:
+            import weasyprint
+        except ImportError:
+            return Response({"error": "weasyprint not installed"}, status=501)
+
+        basic = report_data.get("basic", {})
+        technicals = report_data.get("technicals", {})
+        darwin = report_data.get("darwin", {})
+        earnings = report_data.get("earnings", {})
+        insiders = report_data.get("insiders", {})
+        verdict = report_data.get("verdict", {})
+
+        html = f"""
+        <html>
+        <head>
+            <style>
+                body {{ font-family: Arial, sans-serif; padding: 40px; color: #1e293b; }}
+                h1 {{ color: #0f172a; border-bottom: 2px solid #3b82f6; padding-bottom: 8px; }}
+                h2 {{ color: #334155; margin-top: 24px; }}
+                table {{ border-collapse: collapse; width: 100%; margin: 12px 0; }}
+                th, td {{ border: 1px solid #e2e8f0; padding: 8px 12px; text-align: left; }}
+                th {{ background: #f8fafc; font-weight: 600; }}
+                .green {{ color: #10b981; font-weight: bold; }}
+                .red {{ color: #ef4444; font-weight: bold; }}
+                .verdict {{ font-size: 1.2em; padding: 12px; margin: 16px 0; border-radius: 8px; }}
+                .verdict.buy {{ background: #d1fae5; color: #065f46; }}
+                .verdict.hold {{ background: #fef3c7; color: #92400e; }}
+                .verdict.sell {{ background: #fee2e2; color: #991b1b; }}
+                .footer {{ margin-top: 40px; font-size: 0.8em; color: #94a3b8; }}
+            </style>
+        </head>
+        <body>
+            <h1>{stock.symbol} — Stock Analysis Report</h1>
+            <p>Generated: {report_data.get('generated_at', '')}</p>
+
+            <h2>Key Metrics</h2>
+            <table>
+                <tr><th>Price</th><td>${basic.get('price', 'N/A')}</td>
+                    <th>P/E</th><td>{basic.get('pe', 'N/A')}</td></tr>
+                <tr><th>ROE</th><td>{basic.get('roe', 'N/A')}%</td>
+                    <th>P/B</th><td>{basic.get('pb', 'N/A')}</td></tr>
+                <tr><th>Beta</th><td>{basic.get('beta', 'N/A')}</td>
+                    <th>Profit Margin</th><td>{basic.get('profit_margin', 'N/A')}%</td></tr>
+            </table>
+
+            <h2>Technical Position</h2>
+            <table>
+                <tr><th>RSI(14)</th><td>{technicals.get('rsi', 'N/A')}</td>
+                    <th>Verdict</th><td>{technicals.get('verdict', 'N/A')}</td></tr>
+                <tr><th>Last Lower</th><td>{technicals.get('last_lower', 'N/A')} days</td>
+                    <th>SMA Signal</th><td>{technicals.get('sma_signal', 'N/A')}</td></tr>
+            </table>
+
+            <h2>Darwin Kill List</h2>
+            <table>
+                <tr><th>Kill List Flags</th><td>{darwin.get('kill_list_flags', 0)}</td>
+                    <th>ROCE</th><td>{darwin.get('roce', 'N/A')}%</td></tr>
+                <tr><th>Debt/Equity</th><td>{darwin.get('debt_to_equity', 'N/A')}</td>
+                    <th>FCF Yield</th><td>{darwin.get('fcf_yield', 'N/A')}%</td></tr>
+            </table>
+
+            <h2>Earnings</h2>
+            <table>
+                <tr><th>Beat Rate</th><td>{earnings.get('beat_rate_pct', 'N/A')}%</td>
+                    <th>Avg Surprise</th><td>{earnings.get('avg_surprise_pct', 'N/A')}%</td></tr>
+                <tr><th>Next Earnings</th><td>{earnings.get('next_date', 'N/A')}</td>
+                    <th>Consecutive Beats</th><td>{earnings.get('consecutive_beats', 'N/A')}</td></tr>
+            </table>
+
+            <h2>Insider Activity (90 days)</h2>
+            <table>
+                <tr><th>Sentiment</th><td>{insiders.get('sentiment_label', 'N/A')}</td>
+                    <th>Net Score</th><td>{insiders.get('sentiment_score', 'N/A')}</td></tr>
+                <tr><th>Purchases</th><td>{insiders.get('purchases_90d', 0)}</td>
+                    <th>Sales</th><td>{insiders.get('sales_90d', 0)}</td></tr>
+            </table>
+
+            <div class="verdict {verdict.get('action', 'hold').lower()}">
+                <strong>Verdict: {verdict.get('action', 'HOLD')}</strong> — {verdict.get('summary', '')}
+            </div>
+
+            <div class="footer">
+                <p>Generated by Stock App. Not financial advice.</p>
+            </div>
+        </body>
+        </html>
+        """
+
+        pdf = weasyprint.HTML(string=html).write_pdf()
+        response = HttpResponse(pdf, content_type="application/pdf")
+        response["Content-Disposition"] = f'attachment; filename="{stock.symbol}_report.pdf"'
+        return response
+
+    @action(detail=True, methods=["post"], url_path="ai-analysis")
+    def ai_analysis(self, request, pk=None):
+        """Generate AI-assisted Darwin Kill List analysis. Saves as diary note."""
+        from stock.ai_analysis import generate_ai_analysis
+
+        stock = self.get_object()
+        analysis_md = generate_ai_analysis(stock, user=request.user)
+
+        # Optionally save as diary note
+        save = request.data.get("save", True)
+        diary_id = None
+        if save:
+            diary = MyDiary.objects.create(
+                user=request.user,
+                stock=stock,
+                content=analysis_md,
+                judgement=1,  # default bull, user can edit
+            )
+            diary_id = diary.id
+
+        return Response({
+            "analysis": analysis_md,
+            "diary_id": diary_id,
+        })
 
     @action(detail=False, methods=["get"])
     def overview(self, request):

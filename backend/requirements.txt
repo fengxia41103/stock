@@ -35,3 +35,6 @@ factory-boy>=3.3.0
 
 # Linting
 ruff>=0.8.0
+
+# PDF generation
+weasyprint>=62.0

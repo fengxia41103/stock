@@ -11,10 +11,6 @@ export default defineConfig({
       "@Views": resolve(__dirname, "src/views"),
       "@Layouts": resolve(__dirname, "src/layouts"),
       "@Utils": resolve(__dirname, "src/utils"),
-      "@fengxia41103/storybook": resolve(__dirname, "src/lib/storybook/index.jsx"),
-      "@lib/charts": resolve(__dirname, "src/lib/charts/index.js"),
-      "@lib/layout": resolve(__dirname, "src/lib/layout/index.js"),
-      "@lib/display": resolve(__dirname, "src/lib/display/index.js"),
     },
   },
   server: {
@@ -33,10 +29,15 @@ export default defineConfig({
         manualChunks: {
           vendor_react: ["react", "react-dom", "react-router-dom"],
           vendor_mui: ["@mui/material", "@mui/icons-material"],
-          vendor_echarts: ["echarts", "echarts-for-react"],
           vendor_query: ["@tanstack/react-query", "axios"],
         },
       },
     },
+  },
+  test: {
+    globals: true,
+    environment: "happy-dom",
+    setupFiles: "./src/test-setup.js",
+    exclude: ["tests/**", "node_modules/**"],
   },
 });
