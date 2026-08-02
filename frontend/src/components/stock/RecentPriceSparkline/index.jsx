@@ -54,9 +54,7 @@ const RecentPriceSparkline = (props) => {
           borderWidth: 0,
           borderRadius: 1,
           colorByPoint: true,
-          colors: returns.map((r) =>
-            r >= 0 ? "#10b981" : "#ef4444"
-          ),
+          colors: returns.map((r) => (r >= 0 ? "#10b981" : "#ef4444")),
         },
       },
       series: [{ data: returns }],

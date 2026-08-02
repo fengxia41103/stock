@@ -181,7 +181,9 @@ export const HighchartGraph = ({
       labels: {
         style: { color: "#64748b" },
         formatter: function () {
-          return typeof this.value === "number" ? this.value.toFixed(2) : this.value;
+          return typeof this.value === "number"
+            ? this.value.toFixed(2)
+            : this.value;
         },
       },
     },
@@ -270,7 +272,9 @@ export const RankChart = ({
       labels: {
         style: { color: "#64748b" },
         formatter: function () {
-          return typeof this.value === "number" ? this.value.toFixed(2) : this.value;
+          return typeof this.value === "number"
+            ? this.value.toFixed(2)
+            : this.value;
         },
       },
     },

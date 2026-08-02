@@ -36,7 +36,9 @@ const NavItem = (props) => {
         to={href}
       >
         {icon && (
-          <span style={{ marginRight: 10, display: "flex", alignItems: "center" }}>
+          <span
+            style={{ marginRight: 10, display: "flex", alignItems: "center" }}
+          >
             {icon}
           </span>
         )}

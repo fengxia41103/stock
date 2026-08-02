@@ -134,7 +134,13 @@ const MacroCard = ({ series }) => {
   return (
     <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <CardContent
-        sx={{ py: 1, "&:last-child": { pb: 1 }, flex: 1, display: "flex", flexDirection: "column" }}
+        sx={{
+          py: 1,
+          "&:last-child": { pb: 1 },
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="body2" fontWeight="bold">
@@ -165,7 +171,9 @@ const MacroCard = ({ series }) => {
           )}
         </Box>
         <Box sx={{ flex: 1, minHeight: 80 }}>
-          {option && <HighchartsReact highcharts={Highcharts} options={option} />}
+          {option && (
+            <HighchartsReact highcharts={Highcharts} options={option} />
+          )}
         </Box>
       </CardContent>
     </Card>
