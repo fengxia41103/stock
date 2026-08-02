@@ -284,6 +284,79 @@ class StockViewSet(viewsets.ModelViewSet):
             })
         return Response(result)
 
+    @action(detail=False, methods=["get"])
+    def technicals(self, request):
+        """Compute RSI(14), SMA50, SMA200, BB position for all user stocks."""
+        import numpy as np
+        from stock.backtesting.indicators import rsi, sma
+
+        stocks = MyStock.objects.filter(sectors__user=request.user).distinct()
+        result = []
+
+        for s in stocks:
+            closes = list(
+                s.historicals.order_by("-on")[:200].values_list("close_price", flat=True)
+            )
+            if len(closes) < 20:
+                continue
+
+            closes = list(reversed(closes))  # oldest first
+            price = closes[-1]
+
+            # RSI(14)
+            current_rsi = rsi(closes) if len(closes) >= 15 else None
+
+            # SMA50, SMA200
+            sma50 = np.mean(closes[-50:]) if len(closes) >= 50 else None
+            sma200 = np.mean(closes[-200:]) if len(closes) >= 200 else None
+
+            # Bollinger Band position: (price - lower) / (upper - lower)
+            bb_position = None
+            if len(closes) >= 20:
+                mid = np.mean(closes[-20:])
+                std = np.std(closes[-20:])
+                upper = mid + 2 * std
+                lower = mid - 2 * std
+                if upper != lower:
+                    bb_position = round((price - lower) / (upper - lower) * 100, 1)
+
+            # SMA cross signal
+            sma_signal = None
+            if sma50 is not None and sma200 is not None:
+                if sma50 > sma200:
+                    sma_signal = "golden_cross"
+                else:
+                    sma_signal = "death_cross"
+
+            # Verdict
+            verdict = "NEUTRAL"
+            if current_rsi is not None:
+                if current_rsi < 30:
+                    verdict = "OVERSOLD"
+                elif current_rsi > 70:
+                    verdict = "OVERBOUGHT"
+                elif sma_signal == "golden_cross" and current_rsi > 50:
+                    verdict = "BULLISH"
+                elif sma_signal == "death_cross" and current_rsi < 50:
+                    verdict = "BEARISH"
+
+            result.append({
+                "id": s.id,
+                "symbol": s.symbol,
+                "price": round(price, 2),
+                "rsi": round(current_rsi, 1) if current_rsi else None,
+                "sma50": round(sma50, 2) if sma50 else None,
+                "sma200": round(sma200, 2) if sma200 else None,
+                "sma_signal": sma_signal,
+                "bb_position": bb_position,
+                "last_lower": s.d_last_lower,
+                "verdict": verdict,
+            })
+
+        # Sort: oversold first, then by RSI ascending
+        result.sort(key=lambda x: (x["rsi"] or 50))
+        return Response(result)
+
 
 class HistoricalViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = HistoricalSerializer

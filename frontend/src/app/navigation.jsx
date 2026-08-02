@@ -6,8 +6,10 @@ import React from "react";
 
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import BusinessIcon from "@mui/icons-material/Business";
 import CompareIcon from "@mui/icons-material/Compare";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -19,6 +21,8 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 export const navItems = [
   { href: "/dashboard", icon: <DashboardIcon />, title: "Today" },
   { href: "/screener", icon: <FilterListIcon />, title: "Screener" },
+  { href: "/technicals", icon: <BarChartIcon />, title: "Technicals" },
+  { href: "/compare", icon: <CompareArrowsIcon />, title: "Compare" },
   { href: "/charts", icon: <GridViewIcon />, title: "Charts" },
   { href: "/macro", icon: <ShowChartIcon />, title: "Macro" },
   { href: "/trending", icon: <TrendingUpIcon />, title: "Trending" },

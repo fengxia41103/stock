@@ -100,6 +100,8 @@ const AddDiaryView = lazy(() => import("@Views/diary/AddDiaryView"));
 const NewsListView = lazy(() => import("@Views/news/NewsListView"));
 const BacktestView = lazy(() => import("@Views/backtest/BacktestView"));
 const PortfolioView = lazy(() => import("@Views/portfolio/PortfolioView"));
+const CompareView = lazy(() => import("@Views/stock/CompareView"));
+const TechnicalsView = lazy(() => import("@Views/dashboard/TechnicalsView"));
 
 const Loader = <ScaleLoader loading />;
 
@@ -527,6 +529,22 @@ const routes = [
         element: (
           <S>
             <PortfolioView />
+          </S>
+        ),
+      },
+      {
+        path: "compare",
+        element: (
+          <S>
+            <CompareView />
+          </S>
+        ),
+      },
+      {
+        path: "technicals",
+        element: (
+          <S>
+            <TechnicalsView />
           </S>
         ),
       },
