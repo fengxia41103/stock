@@ -13,6 +13,7 @@ from stock.models.macro import MacroDataPoint, MacroSeries, StockMacroCorrelatio
 from stock.models.misc import MyDiary, MyNews, MyTask, RankingCache
 from stock.models.portfolio import Position, Transaction
 from stock.models.sector import MySector
+from stock.models.snapshot import StockSnapshot
 from stock.models.stock import MyStock
 from stock.models.valuation import ValuationRatio
 
@@ -38,6 +39,7 @@ __all__ = [
     "Position",
     "RankingCache",
     "StockMacroCorrelation",
+    "StockSnapshot",
     "Transaction",
     "ValuationRatio",
 ]

@@ -15,6 +15,7 @@ import { navItems } from "@/app/navigation";
 const TodayDashboardView = lazy(() =>
   import("@Views/dashboard/TodayDashboardView"),
 );
+const BriefView = lazy(() => import("@Views/dashboard/BriefView"));
 const DashboardTrendingView = lazy(() =>
   import("@Views/dashboard/DashboardTrendingView"),
 );
@@ -469,6 +470,14 @@ const routes = [
         ),
       },
       {
+        path: "brief",
+        element: (
+          <S>
+            <BriefView />
+          </S>
+        ),
+      },
+      {
         path: "trending",
         element: (
           <S>
@@ -548,7 +557,7 @@ const routes = [
           </S>
         ),
       },
-      { path: "/", element: <Navigate to="/sectors" /> },
+      { path: "/", element: <Navigate to="/brief" /> },
     ],
   },
   { path: "*", element: <Navigate to="/404" /> },

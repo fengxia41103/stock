@@ -18,8 +18,11 @@ import ShowChartIcon from "@mui/icons-material/ShowChart";
 import SortIcon from "@mui/icons-material/Sort";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
+import SummarizeIcon from "@mui/icons-material/Summarize";
+
 export const navItems = [
-  { href: "/dashboard", icon: <DashboardIcon />, title: "Today" },
+  { href: "/brief", icon: <SummarizeIcon />, title: "Brief" },
+  { href: "/dashboard", icon: <DashboardIcon />, title: "Dashboard" },
   { href: "/screener", icon: <FilterListIcon />, title: "Screener" },
   { href: "/technicals", icon: <BarChartIcon />, title: "Technicals" },
   { href: "/compare", icon: <CompareArrowsIcon />, title: "Compare" },

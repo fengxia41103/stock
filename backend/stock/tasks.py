@@ -358,10 +358,10 @@ def _is_market_hours():
 def price_smart():
     """Smart price fetch — frequency adapts to market hours.
     
-    Called every 5 min by beat. Skips based on time:
-    - Market hours: always run
-    - Pre/post market: run every 3rd call (~15 min)
-    - Off hours: run every 24th call (~2 hours)
+    Called every 2 min by beat. Skips based on time:
+    - Market hours: always run (every 2 min)
+    - Pre/post market: run every 5th call (~10 min)
+    - Off hours: run every 30th call (~1 hour)
     """
     from django.core.cache import cache
 
@@ -373,110 +373,246 @@ def price_smart():
     if session == "market":
         should_run = True
     elif session == "extended":
-        should_run = (counter % 3 == 0)
+        should_run = (counter % 5 == 0)
     else:  # off hours
-        should_run = (counter % 24 == 0)
+        should_run = (counter % 30 == 0)
 
     if should_run:
         price_daily()
         check_alerts.delay()
+        refresh_snapshots.delay()
+
+
+@app.task(queue="summary")
+def refresh_snapshots():
+    """Refresh StockSnapshot for all stocks (fast overview queries)."""
+    import numpy as np
+    from stock.models.snapshot import StockSnapshot
+    from stock.backtesting.indicators import rsi
+
+    for stock in MyStock.objects.all():
+        closes = list(
+            stock.historicals.order_by("-on")[:200].values_list("close_price", flat=True)
+        )
+        if len(closes) < 2:
+            continue
+
+        price = closes[0]
+        daily_ret = (closes[0] - closes[1]) / closes[1] * 100 if closes[1] else None
+        weekly_ret = None
+        if len(closes) >= 5:
+            weekly_ret = (closes[0] - closes[4]) / closes[4] * 100
+
+        closes_asc = list(reversed(closes))
+        current_rsi = rsi(closes_asc) if len(closes_asc) >= 15 else None
+
+        sma50_val = float(np.mean(closes_asc[-50:])) if len(closes_asc) >= 50 else None
+        sma200_val = float(np.mean(closes_asc[-200:])) if len(closes_asc) >= 200 else None
+
+        bb_pos = None
+        if len(closes_asc) >= 20:
+            mid = np.mean(closes_asc[-20:])
+            std = np.std(closes_asc[-20:])
+            upper = mid + 2 * std
+            lower = mid - 2 * std
+            if upper != lower:
+                bb_pos = round((price - lower) / (upper - lower) * 100, 1)
+
+        sma_sig = None
+        if sma50_val and sma200_val:
+            sma_sig = "golden_cross" if sma50_val > sma200_val else "death_cross"
+
+        verdict = "NEUTRAL"
+        if current_rsi is not None:
+            if current_rsi < 30:
+                verdict = "OVERSOLD"
+            elif current_rsi > 70:
+                verdict = "OVERBOUGHT"
+            elif sma_sig == "golden_cross" and current_rsi > 50:
+                verdict = "BULLISH"
+            elif sma_sig == "death_cross" and current_rsi < 50:
+                verdict = "BEARISH"
+
+        vol_pct = None
+        latest_hist = stock.historicals.order_by("-on").first()
+        if latest_hist and latest_hist.vol and stock.shares_outstanding:
+            vol_pct = round(latest_hist.vol / (stock.shares_outstanding * 1000) * 100, 2)
+
+        StockSnapshot.objects.update_or_create(
+            stock=stock,
+            defaults={
+                "price": round(price, 2),
+                "daily_return_pct": round(daily_ret, 2) if daily_ret else None,
+                "weekly_return_pct": round(weekly_ret, 2) if weekly_ret else None,
+                "rsi": round(current_rsi, 1) if current_rsi else None,
+                "bb_position": bb_pos,
+                "sma50": round(sma50_val, 2) if sma50_val else None,
+                "sma200": round(sma200_val, 2) if sma200_val else None,
+                "sma_signal": sma_sig,
+                "verdict": verdict,
+                "last_lower": stock.d_last_lower,
+                "pe": stock.d_pe,
+                "pb": stock.d_pb,
+                "roe": stock.roe,
+                "insider_sentiment": stock.insider_sentiment_3m,
+                "vol_pct_outstanding": vol_pct,
+            },
+        )
 
 
 @app.task(queue="price")
 def check_alerts():
-    """Evaluate all active alerts against latest data."""
+    """Evaluate all active alerts against latest data (stock-specific + universal)."""
     from datetime import date, timedelta
     from stock.models.alert import Alert, AlertEvent
     from stock.models import MyStock, MyStockHistorical
+    from stock.backtesting.indicators import rsi
 
-    active_alerts = Alert.objects.filter(is_active=True).select_related("stock")
+    active_alerts = Alert.objects.filter(is_active=True).select_related("stock", "sector")
 
     for alert in active_alerts:
-        stock = alert.stock
+        try:
+            if alert.is_universal:
+                _check_universal_alert(alert)
+            else:
+                _check_stock_alert(alert)
+        except Exception:
+            continue
+
+
+def _check_stock_alert(alert):
+    """Evaluate a stock-specific alert."""
+    from datetime import date, timedelta
+    from stock.models.alert import AlertEvent
+    from stock.models import MyStockHistorical, InsiderTrade, EarningsEvent
+    from stock.backtesting.indicators import rsi
+
+    stock = alert.stock
+    if not stock:
+        return
+
+    triggered = False
+    value = None
+    message = ""
+
+    if alert.alert_type == "rsi_below":
+        closes = list(
+            MyStockHistorical.objects.filter(stock=stock)
+            .order_by("-on")[:15]
+            .values_list("close_price", flat=True)
+        )
+        if len(closes) >= 15:
+            closes = list(reversed(closes))
+            current_rsi = rsi(closes)
+            if current_rsi < alert.threshold:
+                triggered = True
+                value = current_rsi
+                message = f"{stock.symbol} RSI is {current_rsi:.1f} (below {alert.threshold})"
+
+    elif alert.alert_type == "price_below":
+        latest = MyStockHistorical.objects.filter(stock=stock).order_by("-on").first()
+        if latest and latest.close_price < alert.threshold:
+            triggered = True
+            value = latest.close_price
+            message = f"{stock.symbol} price ${latest.close_price:.2f} below ${alert.threshold:.2f}"
+
+    elif alert.alert_type == "price_above":
+        latest = MyStockHistorical.objects.filter(stock=stock).order_by("-on").first()
+        if latest and latest.close_price > alert.threshold:
+            triggered = True
+            value = latest.close_price
+            message = f"{stock.symbol} price ${latest.close_price:.2f} above ${alert.threshold:.2f}"
+
+    elif alert.alert_type == "insider_buy":
+        cutoff = date.today() - timedelta(days=14)
+        buyers = InsiderTrade.objects.filter(
+            stock=stock, trade_date__gte=cutoff, transaction_type="P"
+        ).values_list("insider_cik", flat=True).distinct().count()
+        if buyers >= alert.threshold:
+            triggered = True
+            value = buyers
+            message = f"{stock.symbol} has {buyers} insider buyers in last 14 days"
+
+    elif alert.alert_type == "earnings_soon":
+        upcoming = EarningsEvent.objects.filter(
+            stock=stock,
+            report_date__gte=date.today(),
+            report_date__lte=date.today() + timedelta(days=int(alert.threshold)),
+        ).first()
+        if upcoming:
+            days_away = (upcoming.report_date - date.today()).days
+            triggered = True
+            value = days_away
+            message = f"{stock.symbol} earnings in {days_away} days ({upcoming.report_date})"
+
+    elif alert.alert_type == "drop_days":
+        if stock.d_last_lower and stock.d_last_lower >= alert.threshold:
+            triggered = True
+            value = stock.d_last_lower
+            message = f"{stock.symbol} has dropped {stock.d_last_lower} days of ground (threshold: {int(alert.threshold)})"
+
+    if triggered:
+        recent = AlertEvent.objects.filter(
+            alert=alert, triggered_at__date__gte=date.today()
+        ).exists()
+        if not recent:
+            AlertEvent.objects.create(alert=alert, value=value or 0, message=message)
+
+
+def _check_universal_alert(alert):
+    """Evaluate a universal alert across all stocks (or stocks in a sector)."""
+    from datetime import date
+    from stock.models.alert import AlertEvent
+    from stock.models import MyStock, MyStockHistorical
+    from stock.backtesting.indicators import rsi
+
+    # Determine scope
+    if alert.sector:
+        stocks = alert.sector.stocks.all()
+    else:
+        stocks = MyStock.objects.filter(sectors__user=alert.user).distinct()
+
+    for stock in stocks:
         triggered = False
         value = None
         message = ""
 
-        try:
-            if alert.alert_type == "rsi_below":
-                # Check RSI from last 15 closes
-                closes = list(
-                    MyStockHistorical.objects.filter(stock=stock)
-                    .order_by("-on")[:15]
-                    .values_list("close_price", flat=True)
-                )
-                if len(closes) >= 15:
-                    closes = list(reversed(closes))
-                    from stock.backtesting.indicators import rsi
-                    current_rsi = rsi(closes)
-                    if current_rsi < alert.threshold:
-                        triggered = True
-                        value = current_rsi
-                        message = f"{stock.symbol} RSI is {current_rsi:.1f} (below {alert.threshold})"
-
-            elif alert.alert_type == "price_below":
-                latest = MyStockHistorical.objects.filter(stock=stock).order_by("-on").first()
-                if latest and latest.close_price < alert.threshold:
+        if alert.alert_type == "universal_rsi":
+            closes = list(
+                MyStockHistorical.objects.filter(stock=stock)
+                .order_by("-on")[:15]
+                .values_list("close_price", flat=True)
+            )
+            if len(closes) >= 15:
+                closes = list(reversed(closes))
+                current_rsi = rsi(closes)
+                if current_rsi < alert.threshold:
                     triggered = True
-                    value = latest.close_price
-                    message = f"{stock.symbol} price ${latest.close_price:.2f} below ${alert.threshold:.2f}"
+                    value = current_rsi
+                    message = f"🔔 {stock.symbol} RSI is {current_rsi:.1f} (below {alert.threshold})"
 
-            elif alert.alert_type == "price_above":
-                latest = MyStockHistorical.objects.filter(stock=stock).order_by("-on").first()
-                if latest and latest.close_price > alert.threshold:
-                    triggered = True
-                    value = latest.close_price
-                    message = f"{stock.symbol} price ${latest.close_price:.2f} above ${alert.threshold:.2f}"
-
-            elif alert.alert_type == "insider_buy":
-                # Check if 3+ insiders bought in last 14 days
-                from stock.models import InsiderTrade
-                cutoff = date.today() - timedelta(days=14)
-                buyers = InsiderTrade.objects.filter(
-                    stock=stock, trade_date__gte=cutoff, transaction_type="P"
-                ).values_list("insider_cik", flat=True).distinct().count()
-                if buyers >= alert.threshold:
-                    triggered = True
-                    value = buyers
-                    message = f"{stock.symbol} has {buyers} insider buyers in last 14 days"
-
-            elif alert.alert_type == "earnings_soon":
-                from stock.models import EarningsEvent
-                upcoming = EarningsEvent.objects.filter(
-                    stock=stock,
-                    report_date__gte=date.today(),
-                    report_date__lte=date.today() + timedelta(days=int(alert.threshold)),
-                ).first()
-                if upcoming:
-                    days_away = (upcoming.report_date - date.today()).days
-                    triggered = True
-                    value = days_away
-                    message = f"{stock.symbol} earnings in {days_away} days ({upcoming.report_date})"
-
-            elif alert.alert_type == "drop_days":
-                # Use d_last_lower denormalized field
-                if stock.d_last_lower and stock.d_last_lower >= alert.threshold:
-                    triggered = True
-                    value = stock.d_last_lower
-                    message = f"{stock.symbol} has dropped {stock.d_last_lower} days of ground (threshold: {int(alert.threshold)})"
-
-        except Exception:
-            continue
+        elif alert.alert_type == "universal_drop":
+            if stock.d_last_lower and stock.d_last_lower >= alert.threshold:
+                triggered = True
+                value = stock.d_last_lower
+                message = f"🔔 {stock.symbol} dropped {stock.d_last_lower} days of ground (threshold: {int(alert.threshold)})"
 
         if triggered:
-            # Avoid duplicate triggers within 24h
+            # Dedupe: same alert + same stock + same day
             recent = AlertEvent.objects.filter(
-                alert=alert, triggered_at__gte=date.today()
+                alert=alert, stock=stock, triggered_at__date__gte=date.today()
             ).exists()
             if not recent:
-                AlertEvent.objects.create(alert=alert, value=value or 0, message=message)
+                AlertEvent.objects.create(
+                    alert=alert, stock=stock, value=value or 0, message=message
+                )
 
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    # Price: every 5 min (smart task skips when outside market hours)
+    # Price: every 2 min (smart task skips when outside market hours)
     sender.add_periodic_task(
-        300.0, price_smart.s(), name="Smart price fetch (every 5 min, skips off-hours)"
+        120.0, price_smart.s(), name="Smart price fetch (every 2 min, skips off-hours)"
     )
     # Statements: weekly on Sunday at midnight (financial statements rarely change intra-week)
     sender.add_periodic_task(

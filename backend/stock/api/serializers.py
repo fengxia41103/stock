@@ -301,17 +301,29 @@ class StockMacroCorrelationSerializer(serializers.ModelSerializer):
 
 
 class AlertSerializer(serializers.ModelSerializer):
-    symbol = serializers.CharField(source="stock.symbol", read_only=True)
+    symbol = serializers.SerializerMethodField()
+
+    def get_symbol(self, obj):
+        if obj.stock:
+            return obj.stock.symbol
+        return "ALL" if not obj.sector else f"[{obj.sector.name}]"
 
     class Meta:
         model = Alert
-        fields = ["id", "stock", "symbol", "alert_type", "threshold", "is_active", "created"]
+        fields = ["id", "stock", "sector", "symbol", "alert_type", "threshold", "is_active", "created"]
         read_only_fields = ["created"]
 
 
 class AlertEventSerializer(serializers.ModelSerializer):
-    symbol = serializers.CharField(source="alert.stock.symbol", read_only=True)
+    symbol = serializers.SerializerMethodField()
     alert_type = serializers.CharField(source="alert.alert_type", read_only=True)
+
+    def get_symbol(self, obj):
+        if obj.stock:
+            return obj.stock.symbol
+        if obj.alert and obj.alert.stock:
+            return obj.alert.stock.symbol
+        return "ALL"
 
     class Meta:
         model = AlertEvent

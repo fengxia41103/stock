@@ -357,6 +357,98 @@ class StockViewSet(viewsets.ModelViewSet):
         result.sort(key=lambda x: (x["rsi"] or 50))
         return Response(result)
 
+    @action(detail=False, methods=["get"])
+    def brief(self, request):
+        """Morning brief: one-page summary of what needs attention today."""
+        from datetime import date, timedelta
+        from stock.models.alert import AlertEvent
+        from stock.models import EarningsEvent, InsiderTrade
+        from stock.models.snapshot import StockSnapshot
+        from stock.models.portfolio import Position
+
+        user = request.user
+        today = date.today()
+        stocks = MyStock.objects.filter(sectors__user=user).distinct()
+
+        # 1. Oversold stocks (RSI < 30)
+        oversold = list(
+            StockSnapshot.objects.filter(stock__in=stocks, rsi__lt=30)
+            .select_related("stock")
+            .values("stock__id", "stock__symbol", "price", "rsi", "last_lower", "verdict")[:10]
+        )
+
+        # 2. Overbought stocks (RSI > 70)
+        overbought = list(
+            StockSnapshot.objects.filter(stock__in=stocks, rsi__gt=70)
+            .select_related("stock")
+            .values("stock__id", "stock__symbol", "price", "rsi", "verdict")[:10]
+        )
+
+        # 3. Triggered alerts (unread)
+        from stock.api.serializers import AlertEventSerializer
+        alerts = AlertEvent.objects.filter(
+            alert__user=user, is_read=False
+        ).select_related("alert__stock", "stock")[:10]
+        alert_data = AlertEventSerializer(alerts, many=True).data
+
+        # 4. Upcoming earnings (next 7 days)
+        earnings = list(
+            EarningsEvent.objects.filter(
+                stock__in=stocks,
+                report_date__gte=today,
+                report_date__lte=today + timedelta(days=7),
+            ).select_related("stock")
+            .values("stock__symbol", "report_date", "estimated_eps")[:10]
+        )
+
+        # 5. Top movers (from snapshots)
+        movers = list(
+            StockSnapshot.objects.filter(stock__in=stocks, daily_return_pct__isnull=False)
+            .select_related("stock")
+            .order_by("-daily_return_pct")
+            .values("stock__symbol", "price", "daily_return_pct")[:5]
+        )
+        losers = list(
+            StockSnapshot.objects.filter(stock__in=stocks, daily_return_pct__isnull=False)
+            .select_related("stock")
+            .order_by("daily_return_pct")
+            .values("stock__symbol", "price", "daily_return_pct")[:5]
+        )
+
+        # 6. Portfolio P&L (if positions exist)
+        positions = Position.objects.filter(user=user, closed_at__isnull=True, shares__gt=0).select_related("stock")
+        portfolio_summary = None
+        if positions.exists():
+            total_cost = sum(p.shares * p.avg_cost for p in positions)
+            total_value = sum((p.market_value or 0) for p in positions)
+            portfolio_summary = {
+                "total_value": round(total_value, 0),
+                "total_pnl": round(total_value - total_cost, 0),
+                "total_pnl_pct": round((total_value - total_cost) / total_cost * 100, 1) if total_cost else 0,
+                "positions": positions.count(),
+            }
+
+        # 7. Recent insider trades (last 3 days)
+        insider_cutoff = today - timedelta(days=3)
+        insider_trades = list(
+            InsiderTrade.objects.filter(stock__in=stocks, trade_date__gte=insider_cutoff)
+            .select_related("stock")
+            .order_by("-trade_date")
+            .values("stock__symbol", "insider_name", "transaction_type", "shares", "price_per_share", "trade_date")[:10]
+        )
+
+        return Response({
+            "date": str(today),
+            "oversold": oversold,
+            "overbought": overbought,
+            "alerts": alert_data,
+            "earnings_this_week": earnings,
+            "top_gainers": movers,
+            "top_losers": losers,
+            "portfolio": portfolio_summary,
+            "recent_insider_trades": insider_trades,
+        })
+
 
 class HistoricalViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = HistoricalSerializer
