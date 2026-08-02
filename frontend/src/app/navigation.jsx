@@ -29,7 +29,11 @@ export const navItems = [
   { href: "/stocks", icon: <BusinessIcon />, title: "Stocks" },
   { href: "/sectors", icon: <CompareIcon />, title: "Portfolios" },
   { href: "/rankings", icon: <SortIcon />, title: "Rankings" },
-  { href: "/portfolio", icon: <AccountBalanceWalletIcon />, title: "Portfolio" },
+  {
+    href: "/portfolio",
+    icon: <AccountBalanceWalletIcon />,
+    title: "Portfolio",
+  },
   { href: "/backtest", icon: <AnalyticsIcon />, title: "Backtest" },
   { href: "/notes", icon: <EventNoteIcon />, title: "Notes" },
 ];

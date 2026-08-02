@@ -37,17 +37,32 @@ const RED = "#ef4444";
 
 const SummaryCard = ({ label, value, color }) => (
   <Paper sx={{ p: 2, textAlign: "center", borderRadius: 2 }}>
-    <Typography variant="caption" color="text.secondary" textTransform="uppercase">
+    <Typography
+      variant="caption"
+      color="text.secondary"
+      textTransform="uppercase"
+    >
       {label}
     </Typography>
-    <Typography variant="h5" fontWeight={700} sx={{ color: color || "text.primary" }}>
+    <Typography
+      variant="h5"
+      fontWeight={700}
+      sx={{ color: color || "text.primary" }}
+    >
       {value}
     </Typography>
   </Paper>
 );
 
 const AddTransactionDialog = ({ open, onClose, stocks, onSuccess }) => {
-  const [form, setForm] = useState({ stock: "", action: "BUY", shares: "", price: "", date: "", notes: "" });
+  const [form, setForm] = useState({
+    stock: "",
+    action: "BUY",
+    shares: "",
+    price: "",
+    date: "",
+    notes: "",
+  });
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async () => {
@@ -63,7 +78,14 @@ const AddTransactionDialog = ({ open, onClose, stocks, onSuccess }) => {
       });
       onSuccess();
       onClose();
-      setForm({ stock: "", action: "BUY", shares: "", price: "", date: "", notes: "" });
+      setForm({
+        stock: "",
+        action: "BUY",
+        shares: "",
+        price: "",
+        date: "",
+        notes: "",
+      });
     } catch (e) {
       alert("Error: " + (e.response?.data?.detail || e.message));
     }
@@ -77,28 +99,74 @@ const AddTransactionDialog = ({ open, onClose, stocks, onSuccess }) => {
         <Stack spacing={2} mt={1}>
           <FormControl fullWidth size="small">
             <InputLabel>Stock</InputLabel>
-            <Select value={form.stock} label="Stock" onChange={(e) => setForm({ ...form, stock: e.target.value })}>
+            <Select
+              value={form.stock}
+              label="Stock"
+              onChange={(e) => setForm({ ...form, stock: e.target.value })}
+            >
               {(stocks || []).map((s) => (
-                <MenuItem key={s.id} value={s.id}>{s.symbol}</MenuItem>
+                <MenuItem key={s.id} value={s.id}>
+                  {s.symbol}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
           <FormControl fullWidth size="small">
             <InputLabel>Action</InputLabel>
-            <Select value={form.action} label="Action" onChange={(e) => setForm({ ...form, action: e.target.value })}>
+            <Select
+              value={form.action}
+              label="Action"
+              onChange={(e) => setForm({ ...form, action: e.target.value })}
+            >
               <MenuItem value="BUY">BUY</MenuItem>
               <MenuItem value="SELL">SELL</MenuItem>
             </Select>
           </FormControl>
-          <TextField label="Shares" type="number" size="small" value={form.shares} onChange={(e) => setForm({ ...form, shares: e.target.value })} />
-          <TextField label="Price per share" type="number" size="small" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} />
-          <TextField label="Date" type="date" size="small" InputLabelProps={{ shrink: true }} value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} />
-          <TextField label="Notes" size="small" multiline rows={2} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
+          <TextField
+            label="Shares"
+            type="number"
+            size="small"
+            value={form.shares}
+            onChange={(e) => setForm({ ...form, shares: e.target.value })}
+          />
+          <TextField
+            label="Price per share"
+            type="number"
+            size="small"
+            value={form.price}
+            onChange={(e) => setForm({ ...form, price: e.target.value })}
+          />
+          <TextField
+            label="Date"
+            type="date"
+            size="small"
+            InputLabelProps={{ shrink: true }}
+            value={form.date}
+            onChange={(e) => setForm({ ...form, date: e.target.value })}
+          />
+          <TextField
+            label="Notes"
+            size="small"
+            multiline
+            rows={2}
+            value={form.notes}
+            onChange={(e) => setForm({ ...form, notes: e.target.value })}
+          />
         </Stack>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
-        <Button variant="contained" onClick={handleSubmit} disabled={submitting || !form.stock || !form.shares || !form.price || !form.date}>
+        <Button
+          variant="contained"
+          onClick={handleSubmit}
+          disabled={
+            submitting ||
+            !form.stock ||
+            !form.shares ||
+            !form.price ||
+            !form.date
+          }
+        >
           {submitting ? "Saving..." : "Add"}
         </Button>
       </DialogActions>
@@ -107,7 +175,10 @@ const AddTransactionDialog = ({ open, onClose, stocks, onSuccess }) => {
 };
 
 const PortfolioView = () => {
-  const { data, isLoading, refetch } = useResource("portfolio-holdings", "/portfolio/holdings/");
+  const { data, isLoading, refetch } = useResource(
+    "portfolio-holdings",
+    "/portfolio/holdings/",
+  );
   const { data: stocks } = useStocks();
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -127,19 +198,37 @@ const PortfolioView = () => {
     series: [{ name: "Value", data: pieData, colorByPoint: true }],
     plotOptions: {
       pie: {
-        dataLabels: { enabled: true, format: "<b>{point.name}</b>: ${point.y:,.0f}", style: { color: "#f8fafc", textOutline: "none", fontSize: "11px" } },
+        dataLabels: {
+          enabled: true,
+          format: "<b>{point.name}</b>: ${point.y:,.0f}",
+          style: { color: "#f8fafc", textOutline: "none", fontSize: "11px" },
+        },
         borderWidth: 0,
       },
     },
     credits: { enabled: false },
-    tooltip: { pointFormat: "<b>${point.y:,.2f}</b> ({point.percentage:.1f}%)" },
+    tooltip: {
+      pointFormat: "<b>${point.y:,.2f}</b> ({point.percentage:.1f}%)",
+    },
   };
 
   return (
     <Box p={3}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography variant="h5" fontWeight={700}>Portfolio</Typography>
-        <Button startIcon={<AddIcon />} variant="contained" size="small" onClick={() => setDialogOpen(true)}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={2}
+      >
+        <Typography variant="h5" fontWeight={700}>
+          Portfolio
+        </Typography>
+        <Button
+          startIcon={<AddIcon />}
+          variant="contained"
+          size="small"
+          onClick={() => setDialogOpen(true)}
+        >
           Add Transaction
         </Button>
       </Stack>
@@ -147,22 +236,36 @@ const PortfolioView = () => {
       {/* Summary cards */}
       <Grid container spacing={2} mb={3}>
         <Grid item xs={6} sm={3}>
-          <SummaryCard label="Total Value" value={`$${(summary.total_value || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`} />
+          <SummaryCard
+            label="Total Value"
+            value={`$${(summary.total_value || 0).toLocaleString(undefined, {
+              maximumFractionDigits: 0,
+            })}`}
+          />
         </Grid>
         <Grid item xs={6} sm={3}>
-          <SummaryCard label="Total Cost" value={`$${(summary.total_cost || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`} />
+          <SummaryCard
+            label="Total Cost"
+            value={`$${(summary.total_cost || 0).toLocaleString(undefined, {
+              maximumFractionDigits: 0,
+            })}`}
+          />
         </Grid>
         <Grid item xs={6} sm={3}>
           <SummaryCard
             label="Total P&L"
-            value={`${summary.total_pnl >= 0 ? "+" : ""}$${(summary.total_pnl || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
+            value={`${summary.total_pnl >= 0 ? "+" : ""}$${(
+              summary.total_pnl || 0
+            ).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
             color={summary.total_pnl >= 0 ? GREEN : RED}
           />
         </Grid>
         <Grid item xs={6} sm={3}>
           <SummaryCard
             label="Return %"
-            value={`${summary.total_pnl_pct >= 0 ? "+" : ""}${(summary.total_pnl_pct || 0).toFixed(1)}%`}
+            value={`${summary.total_pnl_pct >= 0 ? "+" : ""}${(
+              summary.total_pnl_pct || 0
+            ).toFixed(1)}%`}
             color={summary.total_pnl_pct >= 0 ? GREEN : RED}
           />
         </Grid>
@@ -187,22 +290,55 @@ const PortfolioView = () => {
               </TableHead>
               <TableBody>
                 {holdings.map((p) => {
-                  const weight = summary.total_value > 0 ? (p.market_value / summary.total_value * 100) : 0;
+                  const weight =
+                    summary.total_value > 0
+                      ? (p.market_value / summary.total_value) * 100
+                      : 0;
                   return (
                     <TableRow key={p.id} hover>
-                      <TableCell><strong>{p.symbol}</strong></TableCell>
-                      <TableCell align="right">{p.shares.toFixed(1)}</TableCell>
-                      <TableCell align="right">${p.avg_cost?.toFixed(2)}</TableCell>
-                      <TableCell align="right">${p.current_price?.toFixed(2) || "—"}</TableCell>
-                      <TableCell align="right">${p.market_value?.toLocaleString(undefined, { maximumFractionDigits: 0 }) || "—"}</TableCell>
-                      <TableCell align="right" sx={{ color: p.pnl >= 0 ? GREEN : RED, fontWeight: 600 }}>
-                        {p.pnl != null ? `${p.pnl >= 0 ? "+" : ""}$${p.pnl.toFixed(0)}` : "—"}
+                      <TableCell>
+                        <strong>{p.symbol}</strong>
                       </TableCell>
-                      <TableCell align="right" sx={{ color: p.pnl_pct >= 0 ? GREEN : RED }}>
-                        {p.pnl_pct != null ? `${p.pnl_pct >= 0 ? "+" : ""}${p.pnl_pct.toFixed(1)}%` : "—"}
+                      <TableCell align="right">{p.shares.toFixed(1)}</TableCell>
+                      <TableCell align="right">
+                        ${p.avg_cost?.toFixed(2)}
                       </TableCell>
                       <TableCell align="right">
-                        <Chip label={`${weight.toFixed(1)}%`} size="small" variant="outlined" />
+                        ${p.current_price?.toFixed(2) || "—"}
+                      </TableCell>
+                      <TableCell align="right">
+                        $
+                        {p.market_value?.toLocaleString(undefined, {
+                          maximumFractionDigits: 0,
+                        }) || "—"}
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        sx={{
+                          color: p.pnl >= 0 ? GREEN : RED,
+                          fontWeight: 600,
+                        }}
+                      >
+                        {p.pnl != null
+                          ? `${p.pnl >= 0 ? "+" : ""}$${p.pnl.toFixed(0)}`
+                          : "—"}
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        sx={{ color: p.pnl_pct >= 0 ? GREEN : RED }}
+                      >
+                        {p.pnl_pct != null
+                          ? `${p.pnl_pct >= 0 ? "+" : ""}${p.pnl_pct.toFixed(
+                              1,
+                            )}%`
+                          : "—"}
+                      </TableCell>
+                      <TableCell align="right">
+                        <Chip
+                          label={`${weight.toFixed(1)}%`}
+                          size="small"
+                          variant="outlined"
+                        />
                       </TableCell>
                     </TableRow>
                   );
@@ -210,7 +346,9 @@ const PortfolioView = () => {
                 {holdings.length === 0 && (
                   <TableRow>
                     <TableCell colSpan={8} align="center">
-                      <Typography color="text.secondary" py={3}>No positions yet. Add a transaction to start tracking.</Typography>
+                      <Typography color="text.secondary" py={3}>
+                        No positions yet. Add a transaction to start tracking.
+                      </Typography>
                     </TableCell>
                   </TableRow>
                 )}
@@ -223,7 +361,12 @@ const PortfolioView = () => {
         <Grid item xs={12} md={4}>
           {pieData.length > 0 && (
             <Paper sx={{ p: 2, borderRadius: 2 }}>
-              <Typography variant="caption" color="text.secondary" textTransform="uppercase" letterSpacing={1}>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                textTransform="uppercase"
+                letterSpacing={1}
+              >
                 Allocation
               </Typography>
               <HighchartsReact highcharts={Highcharts} options={pieOptions} />

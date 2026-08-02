@@ -2,7 +2,15 @@ import PropTypes from "prop-types";
 import React from "react";
 import { useLocation } from "react-router-dom";
 
-import { Box, Divider, Drawer, List, Typography, Avatar, Stack } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Drawer,
+  List,
+  Typography,
+  Avatar,
+  Stack,
+} from "@mui/material";
 
 import NavItem from "@Layouts/NavBarItem";
 
@@ -12,8 +20,12 @@ const NavBar = (props) => {
   const content = (
     <Box height="100%" display="flex" flexDirection="column">
       <Box sx={{ p: 2, display: "flex", alignItems: "center", gap: 1 }}>
-        <Avatar sx={{ width: 32, height: 32, bgcolor: "primary.main" }}>S</Avatar>
-        <Typography variant="subtitle2" fontWeight={700}>Stock App</Typography>
+        <Avatar sx={{ width: 32, height: 32, bgcolor: "primary.main" }}>
+          S
+        </Avatar>
+        <Typography variant="subtitle2" fontWeight={700}>
+          Stock App
+        </Typography>
       </Box>
       <Divider />
       <Box p={2}>

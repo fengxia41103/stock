@@ -30,7 +30,13 @@ const RED = "#ef4444";
 const ColorVal = ({ val, suffix = "", decimals = 1 }) => {
   if (val == null) return <span>—</span>;
   const color = val >= 0 ? GREEN : RED;
-  return <span style={{ color, fontWeight: 600 }}>{val >= 0 ? "+" : ""}{val.toFixed(decimals)}{suffix}</span>;
+  return (
+    <span style={{ color, fontWeight: 600 }}>
+      {val >= 0 ? "+" : ""}
+      {val.toFixed(decimals)}
+      {suffix}
+    </span>
+  );
 };
 
 const CompareView = () => {
@@ -40,16 +46,27 @@ const CompareView = () => {
     symbolsParam ? symbolsParam.split(",").filter(Boolean) : [],
   );
 
-  const { data: overviewData, isLoading: overviewLoading } = useStocksOverview();
-  const stocks = useMemo(() => (Array.isArray(overviewData) ? overviewData : []), [overviewData]);
-  const allSymbols = useMemo(() => stocks.map((s) => s.symbol).sort(), [stocks]);
+  const { data: overviewData, isLoading: overviewLoading } =
+    useStocksOverview();
+  const stocks = useMemo(
+    () => (Array.isArray(overviewData) ? overviewData : []),
+    [overviewData],
+  );
+  const allSymbols = useMemo(
+    () => stocks.map((s) => s.symbol).sort(),
+    [stocks],
+  );
 
   // Fetch historicals for selected stocks (last 6 months)
   const stockIds = useMemo(
-    () => stocks.filter((s) => selectedSymbols.includes(s.symbol)).map((s) => s.id),
+    () =>
+      stocks.filter((s) => selectedSymbols.includes(s.symbol)).map((s) => s.id),
     [stocks, selectedSymbols],
   );
-  const histQuery = stockIds.length > 0 ? `/historicals/?stock__in=${stockIds.join(",")}&ordering=on` : null;
+  const histQuery =
+    stockIds.length > 0
+      ? `/historicals/?stock__in=${stockIds.join(",")}&ordering=on`
+      : null;
   const { data: historicals, isLoading: histLoading } = useResource(
     ["compare-hist", ...selectedSymbols],
     histQuery || "/__disabled__",
@@ -64,7 +81,8 @@ const CompareView = () => {
 
   // Build normalized price series
   const chartOptions = useMemo(() => {
-    if (!historicals || !Array.isArray(historicals) || historicals.length === 0) return null;
+    if (!historicals || !Array.isArray(historicals) || historicals.length === 0)
+      return null;
 
     // Group by stock
     const byStock = {};
@@ -79,7 +97,10 @@ const CompareView = () => {
       const basePrice = data[0]?.price || 1;
       return {
         name: sym,
-        data: data.map((d) => [new Date(d.date).getTime(), (d.price / basePrice) * 100]),
+        data: data.map((d) => [
+          new Date(d.date).getTime(),
+          (d.price / basePrice) * 100,
+        ]),
       };
     });
 
@@ -87,7 +108,10 @@ const CompareView = () => {
       chart: { backgroundColor: "transparent", height: 350, reflow: true },
       title: { text: null },
       xAxis: { type: "datetime" },
-      yAxis: { title: { text: "Normalized (100 = start)" }, labels: { format: "{value}" } },
+      yAxis: {
+        title: { text: "Normalized (100 = start)" },
+        labels: { format: "{value}" },
+      },
       series,
       legend: { enabled: true, itemStyle: { color: "#94a3b8" } },
       credits: { enabled: false },
@@ -116,16 +140,29 @@ const CompareView = () => {
         value={selectedSymbols}
         onChange={handleSymbolChange}
         renderInput={(params) => (
-          <TextField {...params} label="Select stocks to compare (max 5)" size="small" />
+          <TextField
+            {...params}
+            label="Select stocks to compare (max 5)"
+            size="small"
+          />
         )}
         renderTags={(value, getTagProps) =>
-          value.map((sym, index) => <Chip label={sym} size="small" {...getTagProps({ index })} key={sym} />)
+          value.map((sym, index) => (
+            <Chip
+              label={sym}
+              size="small"
+              {...getTagProps({ index })}
+              key={sym}
+            />
+          ))
         }
         sx={{ mb: 3, maxWidth: 600 }}
       />
 
       {selectedSymbols.length === 0 && (
-        <Typography color="text.secondary">Select 2+ stocks above to compare them side-by-side.</Typography>
+        <Typography color="text.secondary">
+          Select 2+ stocks above to compare them side-by-side.
+        </Typography>
       )}
 
       {selectedSymbols.length >= 2 && (
@@ -133,15 +170,25 @@ const CompareView = () => {
           {/* Performance chart */}
           <Grid item xs={12}>
             <Paper sx={{ p: 2, borderRadius: 2 }}>
-              <Typography variant="caption" color="text.secondary" textTransform="uppercase" letterSpacing={1}>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                textTransform="uppercase"
+                letterSpacing={1}
+              >
                 Normalized Price Performance
               </Typography>
               {histLoading ? (
                 <ScaleLoader loading />
               ) : chartOptions ? (
-                <HighchartsReact highcharts={Highcharts} options={chartOptions} />
+                <HighchartsReact
+                  highcharts={Highcharts}
+                  options={chartOptions}
+                />
               ) : (
-                <Typography color="text.secondary" mt={2}>No data available</Typography>
+                <Typography color="text.secondary" mt={2}>
+                  No data available
+                </Typography>
               )}
             </Paper>
           </Grid>
@@ -154,7 +201,9 @@ const CompareView = () => {
                   <TableRow>
                     <TableCell>Metric</TableCell>
                     {metricsData.map((s) => (
-                      <TableCell key={s.symbol} align="center"><strong>{s.symbol}</strong></TableCell>
+                      <TableCell key={s.symbol} align="center">
+                        <strong>{s.symbol}</strong>
+                      </TableCell>
                     ))}
                   </TableRow>
                 </TableHead>
@@ -162,50 +211,72 @@ const CompareView = () => {
                   <TableRow>
                     <TableCell>Price</TableCell>
                     {metricsData.map((s) => (
-                      <TableCell key={s.symbol} align="center">${s.price?.toFixed(2) || "—"}</TableCell>
+                      <TableCell key={s.symbol} align="center">
+                        ${s.price?.toFixed(2) || "—"}
+                      </TableCell>
                     ))}
                   </TableRow>
                   <TableRow>
                     <TableCell>Daily Return</TableCell>
                     {metricsData.map((s) => (
-                      <TableCell key={s.symbol} align="center"><ColorVal val={s.daily_return_pct} suffix="%" /></TableCell>
+                      <TableCell key={s.symbol} align="center">
+                        <ColorVal val={s.daily_return_pct} suffix="%" />
+                      </TableCell>
                     ))}
                   </TableRow>
                   <TableRow>
                     <TableCell>P/E</TableCell>
                     {metricsData.map((s) => (
-                      <TableCell key={s.symbol} align="center">{s.pe?.toFixed(1) || "—"}</TableCell>
+                      <TableCell key={s.symbol} align="center">
+                        {s.pe?.toFixed(1) || "—"}
+                      </TableCell>
                     ))}
                   </TableRow>
                   <TableRow>
                     <TableCell>P/B</TableCell>
                     {metricsData.map((s) => (
-                      <TableCell key={s.symbol} align="center">{s.pb?.toFixed(1) || "—"}</TableCell>
+                      <TableCell key={s.symbol} align="center">
+                        {s.pb?.toFixed(1) || "—"}
+                      </TableCell>
                     ))}
                   </TableRow>
                   <TableRow>
                     <TableCell>ROE %</TableCell>
                     {metricsData.map((s) => (
-                      <TableCell key={s.symbol} align="center">{s.roe?.toFixed(1) || "—"}%</TableCell>
+                      <TableCell key={s.symbol} align="center">
+                        {s.roe?.toFixed(1) || "—"}%
+                      </TableCell>
                     ))}
                   </TableRow>
                   <TableRow>
                     <TableCell>Beta</TableCell>
                     {metricsData.map((s) => (
-                      <TableCell key={s.symbol} align="center">{s.beta?.toFixed(2) || "—"}</TableCell>
+                      <TableCell key={s.symbol} align="center">
+                        {s.beta?.toFixed(2) || "—"}
+                      </TableCell>
                     ))}
                   </TableRow>
                   <TableRow>
                     <TableCell>Last Lower (days)</TableCell>
                     {metricsData.map((s) => (
-                      <TableCell key={s.symbol} align="center">{s.last_lower || "—"}</TableCell>
+                      <TableCell key={s.symbol} align="center">
+                        {s.last_lower || "—"}
+                      </TableCell>
                     ))}
                   </TableRow>
                   <TableRow>
                     <TableCell>Insider Sentiment</TableCell>
                     {metricsData.map((s) => (
                       <TableCell key={s.symbol} align="center">
-                        <ColorVal val={s.insider_sentiment ? s.insider_sentiment * 100 : null} suffix="%" decimals={0} />
+                        <ColorVal
+                          val={
+                            s.insider_sentiment
+                              ? s.insider_sentiment * 100
+                              : null
+                          }
+                          suffix="%"
+                          decimals={0}
+                        />
                       </TableCell>
                     ))}
                   </TableRow>

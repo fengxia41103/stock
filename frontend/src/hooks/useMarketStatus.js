@@ -19,7 +19,8 @@ export function useMarketStatus() {
     const isWeekday = day >= 1 && day <= 5;
     const isMarketHours = isWeekday && timeVal >= 570 && timeVal <= 960; // 9:30-16:00
     const isExtended =
-      isWeekday && ((timeVal >= 420 && timeVal < 570) || (timeVal > 960 && timeVal <= 1080)); // 7-9:30, 16-18
+      isWeekday &&
+      ((timeVal >= 420 && timeVal < 570) || (timeVal > 960 && timeVal <= 1080)); // 7-9:30, 16-18
 
     return {
       isOpen: isMarketHours,
@@ -27,7 +28,11 @@ export function useMarketStatus() {
       isClosed: !isMarketHours && !isExtended,
       /** refetchInterval in ms — 60s during market, 5min extended, false when closed */
       refetchInterval: isMarketHours ? 60000 : isExtended ? 300000 : false,
-      label: isMarketHours ? "Market Open" : isExtended ? "Extended Hours" : "Market Closed",
+      label: isMarketHours
+        ? "Market Open"
+        : isExtended
+        ? "Extended Hours"
+        : "Market Closed",
     };
   }, []);
 }

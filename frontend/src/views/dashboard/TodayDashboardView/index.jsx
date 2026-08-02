@@ -308,182 +308,232 @@ const TodayDashboardView = () => {
         />
       </Box>
       <Grid container spacing={2}>
-          {/* Row 1 */}
-          <Grid item xs={6} sm={3}>
-            <Tile
-              label="Stocks Up"
-              value={up.length}
-              delta={`${((up.length / withReturn.length) * 100).toFixed(0)}%`}
-              deltaColor={GREEN}
-              sx={{ borderLeft: `4px solid ${GREEN}` }}
-            />
-          </Grid>
-          <Grid item xs={6} sm={3}>
-            <Tile
-              label="Stocks Down"
-              value={down.length}
-              delta={`${((down.length / withReturn.length) * 100).toFixed(0)}%`}
-              deltaColor={RED}
-              sx={{ borderLeft: `4px solid ${RED}` }}
-            />
-          </Grid>
-          <Grid item xs={6} sm={3}>
-            <Tile
-              label="10Y Treasury"
-              value={
-                latestTreasury ? `${latestTreasury.value.toFixed(2)}%` : "—"
-              }
-              sparkData={treasurySparkline}
-              sparkColor={BLUE}
-              delta={latestTreasury ? latestTreasury.date : ""}
-              deltaColor="grey"
-            />
-          </Grid>
-          <Grid item xs={6} sm={3}>
-            <Tile
-              label="Avg Daily Return"
-              value={`${avgReturn > 0 ? "+" : ""}${avgReturn.toFixed(2)}%`}
-              deltaColor={avgReturn > 0 ? GREEN : RED}
-              delta={`${withReturn.length} stocks`}
-              sx={{ borderLeft: `4px solid ${avgReturn > 0 ? GREEN : RED}` }}
-            />
-          </Grid>
+        {/* Row 1 */}
+        <Grid item xs={6} sm={3}>
+          <Tile
+            label="Stocks Up"
+            value={up.length}
+            delta={`${((up.length / withReturn.length) * 100).toFixed(0)}%`}
+            deltaColor={GREEN}
+            sx={{ borderLeft: `4px solid ${GREEN}` }}
+          />
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Tile
+            label="Stocks Down"
+            value={down.length}
+            delta={`${((down.length / withReturn.length) * 100).toFixed(0)}%`}
+            deltaColor={RED}
+            sx={{ borderLeft: `4px solid ${RED}` }}
+          />
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Tile
+            label="10Y Treasury"
+            value={latestTreasury ? `${latestTreasury.value.toFixed(2)}%` : "—"}
+            sparkData={treasurySparkline}
+            sparkColor={BLUE}
+            delta={latestTreasury ? latestTreasury.date : ""}
+            deltaColor="grey"
+          />
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Tile
+            label="Avg Daily Return"
+            value={`${avgReturn > 0 ? "+" : ""}${avgReturn.toFixed(2)}%`}
+            deltaColor={avgReturn > 0 ? GREEN : RED}
+            delta={`${withReturn.length} stocks`}
+            sx={{ borderLeft: `4px solid ${avgReturn > 0 ? GREEN : RED}` }}
+          />
+        </Grid>
 
-          {/* Row 2: Treemap heatmap */}
-          <Grid item xs={12}>
-            <Paper
+        {/* Row 2: Treemap heatmap */}
+        <Grid item xs={12}>
+          <Paper
+            sx={{
+              bgcolor: TILE,
+              p: 2,
+              pb: 4,
+              borderRadius: 2,
+              overflow: "hidden",
+              position: "relative",
+            }}
+          >
+            <TreemapChart stocks={stocks} navigate={navigate} />
+          </Paper>
+        </Grid>
+
+        {/* Row 3 */}
+        <Grid item xs={6} sm={3}>
+          <Tile
+            label="Best Today"
+            value={best ? `${best.symbol}` : "—"}
+            delta={best ? `+${best.daily_return_pct.toFixed(1)}%` : ""}
+            deltaColor={GREEN}
+            onClick={
+              best
+                ? () => navigate(`/stocks/${best.id}/historical/price`)
+                : undefined
+            }
+          />
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Tile
+            label="Worst Today"
+            value={worst ? `${worst.symbol}` : "—"}
+            delta={worst ? `${worst.daily_return_pct.toFixed(1)}%` : ""}
+            deltaColor={RED}
+            onClick={
+              worst
+                ? () => navigate(`/stocks/${worst.id}/historical/price`)
+                : undefined
+            }
+          />
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Tile
+            label="Most Oversold"
+            value={oversold[0] ? `${oversold[0].symbol}` : "None"}
+            delta={oversold[0] ? `${oversold[0].last_lower}d drop` : ""}
+            deltaColor={AMBER}
+            onClick={
+              oversold[0]
+                ? () => navigate(`/stocks/${oversold[0].id}/historical/price`)
+                : undefined
+            }
+          />
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Tile
+            label="Insider Buying"
+            value={insiderBuy.length > 0 ? insiderBuy[0].symbol : "None"}
+            delta={
+              insiderBuy.length > 0
+                ? `${(insiderBuy[0].insider_sentiment * 100).toFixed(
+                    0,
+                  )}% bullish`
+                : ""
+            }
+            deltaColor={BLUE}
+            onClick={
+              insiderBuy[0]
+                ? () => navigate(`/stocks/${insiderBuy[0].id}/insider-trades`)
+                : undefined
+            }
+          />
+        </Grid>
+
+        {/* Row 3 */}
+        <Grid item xs={6} sm={3}>
+          <Tile
+            label="Next Earnings"
+            value={nextEarning ? nextEarning.symbol : "None"}
+            delta={daysToEarn != null ? `in ${daysToEarn} days` : ""}
+            deltaColor={daysToEarn && daysToEarn <= 7 ? AMBER : "grey"}
+            onClick={
+              nextEarning
+                ? () => navigate(`/stocks/${nextEarning.stock}/earnings`)
+                : undefined
+            }
+          />
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Tile
+            label="Market Breadth"
+            value={`${((up.length / withReturn.length) * 100).toFixed(0)}%`}
+            delta={up.length > down.length ? "Bullish" : "Bearish"}
+            deltaColor={up.length > down.length ? GREEN : RED}
+          />
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Tile
+            label="Top ROE"
+            value={topRoe[0] ? `${topRoe[0].symbol}` : "—"}
+            delta={topRoe[0] ? `${topRoe[0].roe.toFixed(0)}%` : ""}
+            deltaColor="#8b5cf6"
+            onClick={
+              topRoe[0]
+                ? () => navigate(`/stocks/${topRoe[0].id}/dupont`)
+                : undefined
+            }
+          />
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Tile
+            label="Upcoming Earnings"
+            value={earningsList.length}
+            delta="next 30 days"
+            deltaColor="grey"
+          />
+        </Grid>
+
+        {/* Row 4: Movers list */}
+        <Grid item xs={12} sm={6}>
+          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
+            <Typography
+              variant="caption"
               sx={{
-                bgcolor: TILE,
-                p: 2,
-                pb: 4,
-                borderRadius: 2,
-                overflow: "hidden",
-                position: "relative",
+                color: "text.secondary",
+                textTransform: "uppercase",
+                letterSpacing: 1,
               }}
             >
-              <TreemapChart stocks={stocks} navigate={navigate} />
-            </Paper>
-          </Grid>
-
-          {/* Row 3 */}
-          <Grid item xs={6} sm={3}>
-            <Tile
-              label="Best Today"
-              value={best ? `${best.symbol}` : "—"}
-              delta={best ? `+${best.daily_return_pct.toFixed(1)}%` : ""}
-              deltaColor={GREEN}
-              onClick={
-                best
-                  ? () => navigate(`/stocks/${best.id}/historical/price`)
-                  : undefined
-              }
-            />
-          </Grid>
-          <Grid item xs={6} sm={3}>
-            <Tile
-              label="Worst Today"
-              value={worst ? `${worst.symbol}` : "—"}
-              delta={worst ? `${worst.daily_return_pct.toFixed(1)}%` : ""}
-              deltaColor={RED}
-              onClick={
-                worst
-                  ? () => navigate(`/stocks/${worst.id}/historical/price`)
-                  : undefined
-              }
-            />
-          </Grid>
-          <Grid item xs={6} sm={3}>
-            <Tile
-              label="Most Oversold"
-              value={oversold[0] ? `${oversold[0].symbol}` : "None"}
-              delta={oversold[0] ? `${oversold[0].last_lower}d drop` : ""}
-              deltaColor={AMBER}
-              onClick={
-                oversold[0]
-                  ? () => navigate(`/stocks/${oversold[0].id}/historical/price`)
-                  : undefined
-              }
-            />
-          </Grid>
-          <Grid item xs={6} sm={3}>
-            <Tile
-              label="Insider Buying"
-              value={insiderBuy.length > 0 ? insiderBuy[0].symbol : "None"}
-              delta={
-                insiderBuy.length > 0
-                  ? `${(insiderBuy[0].insider_sentiment * 100).toFixed(
-                      0,
-                    )}% bullish`
-                  : ""
-              }
-              deltaColor={BLUE}
-              onClick={
-                insiderBuy[0]
-                  ? () => navigate(`/stocks/${insiderBuy[0].id}/insider-trades`)
-                  : undefined
-              }
-            />
-          </Grid>
-
-          {/* Row 3 */}
-          <Grid item xs={6} sm={3}>
-            <Tile
-              label="Next Earnings"
-              value={nextEarning ? nextEarning.symbol : "None"}
-              delta={daysToEarn != null ? `in ${daysToEarn} days` : ""}
-              deltaColor={daysToEarn && daysToEarn <= 7 ? AMBER : "grey"}
-              onClick={
-                nextEarning
-                  ? () => navigate(`/stocks/${nextEarning.stock}/earnings`)
-                  : undefined
-              }
-            />
-          </Grid>
-          <Grid item xs={6} sm={3}>
-            <Tile
-              label="Market Breadth"
-              value={`${((up.length / withReturn.length) * 100).toFixed(0)}%`}
-              delta={up.length > down.length ? "Bullish" : "Bearish"}
-              deltaColor={up.length > down.length ? GREEN : RED}
-            />
-          </Grid>
-          <Grid item xs={6} sm={3}>
-            <Tile
-              label="Top ROE"
-              value={topRoe[0] ? `${topRoe[0].symbol}` : "—"}
-              delta={topRoe[0] ? `${topRoe[0].roe.toFixed(0)}%` : ""}
-              deltaColor="#8b5cf6"
-              onClick={
-                topRoe[0]
-                  ? () => navigate(`/stocks/${topRoe[0].id}/dupont`)
-                  : undefined
-              }
-            />
-          </Grid>
-          <Grid item xs={6} sm={3}>
-            <Tile
-              label="Upcoming Earnings"
-              value={earningsList.length}
-              delta="next 30 days"
-              deltaColor="grey"
-            />
-          </Grid>
-
-          {/* Row 4: Movers list */}
-          <Grid item xs={12} sm={6}>
-            <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
-              <Typography
-                variant="caption"
-                sx={{
-                  color: "text.secondary",
-                  textTransform: "uppercase",
-                  letterSpacing: 1,
-                }}
-              >
-                Top 5 Gainers
-              </Typography>
-              <Stack spacing={0.5} mt={1}>
-                {sorted.slice(0, 5).map((s) => (
+              Top 5 Gainers
+            </Typography>
+            <Stack spacing={0.5} mt={1}>
+              {sorted.slice(0, 5).map((s) => (
+                <Stack
+                  key={s.id}
+                  direction="row"
+                  justifyContent="space-between"
+                  sx={{
+                    cursor: "pointer",
+                    p: 0.5,
+                    borderRadius: 1,
+                    "&:hover": { bgcolor: "action.hover" },
+                  }}
+                  onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
+                >
+                  <Typography
+                    sx={{
+                      color: "text.primary",
+                      fontWeight: 600,
+                      fontSize: "0.85rem",
+                    }}
+                  >
+                    {s.symbol}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: GREEN,
+                      fontWeight: 700,
+                      fontSize: "0.85rem",
+                    }}
+                  >
+                    +{s.daily_return_pct.toFixed(2)}%
+                  </Typography>
+                </Stack>
+              ))}
+            </Stack>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
+            <Typography
+              variant="caption"
+              sx={{
+                color: "text.secondary",
+                textTransform: "uppercase",
+                letterSpacing: 1,
+              }}
+            >
+              Top 5 Losers
+            </Typography>
+            <Stack spacing={0.5} mt={1}>
+              {sorted
+                .slice(-5)
+                .reverse()
+                .map((s) => (
                   <Stack
                     key={s.id}
                     direction="row"
@@ -507,95 +557,101 @@ const TodayDashboardView = () => {
                     </Typography>
                     <Typography
                       sx={{
-                        color: GREEN,
+                        color: RED,
                         fontWeight: 700,
                         fontSize: "0.85rem",
                       }}
                     >
-                      +{s.daily_return_pct.toFixed(2)}%
+                      {s.daily_return_pct.toFixed(2)}%
                     </Typography>
                   </Stack>
                 ))}
-              </Stack>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
-              <Typography
-                variant="caption"
-                sx={{
-                  color: "text.secondary",
-                  textTransform: "uppercase",
-                  letterSpacing: 1,
-                }}
-              >
-                Top 5 Losers
-              </Typography>
-              <Stack spacing={0.5} mt={1}>
-                {sorted
-                  .slice(-5)
-                  .reverse()
-                  .map((s) => (
-                    <Stack
-                      key={s.id}
-                      direction="row"
-                      justifyContent="space-between"
-                      sx={{
-                        cursor: "pointer",
-                        p: 0.5,
-                        borderRadius: 1,
-                        "&:hover": { bgcolor: "action.hover" },
-                      }}
-                      onClick={() =>
-                        navigate(`/stocks/${s.id}/historical/price`)
-                      }
-                    >
-                      <Typography
-                        sx={{
-                          color: "text.primary",
-                          fontWeight: 600,
-                          fontSize: "0.85rem",
-                        }}
-                      >
-                        {s.symbol}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          color: RED,
-                          fontWeight: 700,
-                          fontSize: "0.85rem",
-                        }}
-                      >
-                        {s.daily_return_pct.toFixed(2)}%
-                      </Typography>
-                    </Stack>
-                  ))}
-              </Stack>
-            </Paper>
-          </Grid>
+            </Stack>
+          </Paper>
+        </Grid>
 
-          {/* Row 5: Drop/Rebound/Volume/Volatility */}
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
-              <Typography
-                variant="caption"
-                sx={{
-                  color: "text.secondary",
-                  textTransform: "uppercase",
-                  letterSpacing: 1,
-                }}
-              >
-                Biggest Drops (days)
-              </Typography>
-              <Typography
-                variant="caption"
-                display="block"
-                sx={{ color: "text.secondary", mb: 1 }}
-              >
-                days since a lower price
-              </Typography>
-              <Stack spacing={0.5}>
-                {oversold.slice(0, 5).map((s) => (
+        {/* Row 5: Drop/Rebound/Volume/Volatility */}
+        <Grid item xs={12} sm={6} md={3}>
+          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
+            <Typography
+              variant="caption"
+              sx={{
+                color: "text.secondary",
+                textTransform: "uppercase",
+                letterSpacing: 1,
+              }}
+            >
+              Biggest Drops (days)
+            </Typography>
+            <Typography
+              variant="caption"
+              display="block"
+              sx={{ color: "text.secondary", mb: 1 }}
+            >
+              days since a lower price
+            </Typography>
+            <Stack spacing={0.5}>
+              {oversold.slice(0, 5).map((s) => (
+                <Stack
+                  key={s.id}
+                  direction="row"
+                  justifyContent="space-between"
+                  sx={{
+                    cursor: "pointer",
+                    p: 0.5,
+                    borderRadius: 1,
+                    "&:hover": { bgcolor: "action.hover" },
+                  }}
+                  onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
+                >
+                  <Typography
+                    sx={{
+                      color: "text.primary",
+                      fontWeight: 600,
+                      fontSize: "0.85rem",
+                    }}
+                  >
+                    {s.symbol}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: AMBER,
+                      fontWeight: 700,
+                      fontSize: "0.85rem",
+                    }}
+                  >
+                    {s.last_lower}d
+                  </Typography>
+                </Stack>
+              ))}
+            </Stack>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
+            <Typography
+              variant="caption"
+              sx={{
+                color: "text.secondary",
+                textTransform: "uppercase",
+                letterSpacing: 1,
+              }}
+            >
+              Drop Scale (days)
+            </Typography>
+            <Typography
+              variant="caption"
+              display="block"
+              sx={{ color: "text.secondary", mb: 1 }}
+            >
+              days of ground lost (higher = bigger drop)
+            </Typography>
+            <Stack spacing={0.5}>
+              {[...stocks]
+                .filter((s) => s.last_lower != null && s.last_lower > 1)
+                .sort((a, b) => b.last_lower - a.last_lower)
+                .slice(0, 5)
+                .map((s) => (
                   <Stack
                     key={s.id}
                     direction="row"
@@ -619,7 +675,7 @@ const TodayDashboardView = () => {
                     </Typography>
                     <Typography
                       sx={{
-                        color: AMBER,
+                        color: RED,
                         fontWeight: 700,
                         fontSize: "0.85rem",
                       }}
@@ -628,193 +684,129 @@ const TodayDashboardView = () => {
                     </Typography>
                   </Stack>
                 ))}
-              </Stack>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
-              <Typography
-                variant="caption"
-                sx={{
-                  color: "text.secondary",
-                  textTransform: "uppercase",
-                  letterSpacing: 1,
-                }}
-              >
-                Drop Scale (days)
-              </Typography>
-              <Typography
-                variant="caption"
-                display="block"
-                sx={{ color: "text.secondary", mb: 1 }}
-              >
-                days of ground lost (higher = bigger drop)
-              </Typography>
-              <Stack spacing={0.5}>
-                {[...stocks]
-                  .filter((s) => s.last_lower != null && s.last_lower > 1)
-                  .sort((a, b) => b.last_lower - a.last_lower)
-                  .slice(0, 5)
-                  .map((s) => (
-                    <Stack
-                      key={s.id}
-                      direction="row"
-                      justifyContent="space-between"
+            </Stack>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
+            <Typography
+              variant="caption"
+              sx={{
+                color: "text.secondary",
+                textTransform: "uppercase",
+                letterSpacing: 1,
+              }}
+            >
+              Top Volume (% of outstanding)
+            </Typography>
+            <Typography
+              variant="caption"
+              display="block"
+              sx={{ color: "text.secondary", mb: 1 }}
+            >
+              highest relative trading activity
+            </Typography>
+            <Stack spacing={0.5}>
+              {[...stocks]
+                .filter((s) => s.vol_pct_outstanding > 0)
+                .sort((a, b) => b.vol_pct_outstanding - a.vol_pct_outstanding)
+                .slice(0, 5)
+                .map((s) => (
+                  <Stack
+                    key={s.id}
+                    direction="row"
+                    justifyContent="space-between"
+                    sx={{
+                      cursor: "pointer",
+                      p: 0.5,
+                      borderRadius: 1,
+                      "&:hover": { bgcolor: "action.hover" },
+                    }}
+                    onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
+                  >
+                    <Typography
                       sx={{
-                        cursor: "pointer",
-                        p: 0.5,
-                        borderRadius: 1,
-                        "&:hover": { bgcolor: "action.hover" },
+                        color: "text.primary",
+                        fontWeight: 600,
+                        fontSize: "0.85rem",
                       }}
-                      onClick={() =>
-                        navigate(`/stocks/${s.id}/historical/price`)
-                      }
                     >
-                      <Typography
-                        sx={{
-                          color: "text.primary",
-                          fontWeight: 600,
-                          fontSize: "0.85rem",
-                        }}
-                      >
-                        {s.symbol}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          color: RED,
-                          fontWeight: 700,
-                          fontSize: "0.85rem",
-                        }}
-                      >
-                        {s.last_lower}d
-                      </Typography>
-                    </Stack>
-                  ))}
-              </Stack>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
-              <Typography
-                variant="caption"
-                sx={{
-                  color: "text.secondary",
-                  textTransform: "uppercase",
-                  letterSpacing: 1,
-                }}
-              >
-                Top Volume (% of outstanding)
-              </Typography>
-              <Typography
-                variant="caption"
-                display="block"
-                sx={{ color: "text.secondary", mb: 1 }}
-              >
-                highest relative trading activity
-              </Typography>
-              <Stack spacing={0.5}>
-                {[...stocks]
-                  .filter((s) => s.vol_pct_outstanding > 0)
-                  .sort((a, b) => b.vol_pct_outstanding - a.vol_pct_outstanding)
-                  .slice(0, 5)
-                  .map((s) => (
-                    <Stack
-                      key={s.id}
-                      direction="row"
-                      justifyContent="space-between"
+                      {s.symbol}
+                    </Typography>
+                    <Typography
                       sx={{
-                        cursor: "pointer",
-                        p: 0.5,
-                        borderRadius: 1,
-                        "&:hover": { bgcolor: "action.hover" },
+                        color: BLUE,
+                        fontWeight: 700,
+                        fontSize: "0.85rem",
                       }}
-                      onClick={() =>
-                        navigate(`/stocks/${s.id}/historical/price`)
-                      }
                     >
-                      <Typography
-                        sx={{
-                          color: "text.primary",
-                          fontWeight: 600,
-                          fontSize: "0.85rem",
-                        }}
-                      >
-                        {s.symbol}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          color: BLUE,
-                          fontWeight: 700,
-                          fontSize: "0.85rem",
-                        }}
-                      >
-                        {s.vol_pct_outstanding.toFixed(1)}%
-                      </Typography>
-                    </Stack>
-                  ))}
-              </Stack>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
-              <Typography
-                variant="caption"
-                sx={{
-                  color: "text.secondary",
-                  textTransform: "uppercase",
-                  letterSpacing: 1,
-                }}
-              >
-                Insider Signals
-              </Typography>
-              <Typography
-                variant="caption"
-                display="block"
-                sx={{ color: "text.secondary", mb: 1 }}
-              >
-                net buy/sell sentiment (90 days)
-              </Typography>
-              <Stack spacing={0.5}>
-                {[...stocks]
-                  .filter((s) => s.insider_sentiment != null)
-                  .sort((a, b) => b.insider_sentiment - a.insider_sentiment)
-                  .slice(0, 5)
-                  .map((s) => (
-                    <Stack
-                      key={s.id}
-                      direction="row"
-                      justifyContent="space-between"
+                      {s.vol_pct_outstanding.toFixed(1)}%
+                    </Typography>
+                  </Stack>
+                ))}
+            </Stack>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
+            <Typography
+              variant="caption"
+              sx={{
+                color: "text.secondary",
+                textTransform: "uppercase",
+                letterSpacing: 1,
+              }}
+            >
+              Insider Signals
+            </Typography>
+            <Typography
+              variant="caption"
+              display="block"
+              sx={{ color: "text.secondary", mb: 1 }}
+            >
+              net buy/sell sentiment (90 days)
+            </Typography>
+            <Stack spacing={0.5}>
+              {[...stocks]
+                .filter((s) => s.insider_sentiment != null)
+                .sort((a, b) => b.insider_sentiment - a.insider_sentiment)
+                .slice(0, 5)
+                .map((s) => (
+                  <Stack
+                    key={s.id}
+                    direction="row"
+                    justifyContent="space-between"
+                    sx={{
+                      cursor: "pointer",
+                      p: 0.5,
+                      borderRadius: 1,
+                      "&:hover": { bgcolor: "action.hover" },
+                    }}
+                    onClick={() => navigate(`/stocks/${s.id}/insider-trades`)}
+                  >
+                    <Typography
                       sx={{
-                        cursor: "pointer",
-                        p: 0.5,
-                        borderRadius: 1,
-                        "&:hover": { bgcolor: "action.hover" },
+                        color: "text.primary",
+                        fontWeight: 600,
+                        fontSize: "0.85rem",
                       }}
-                      onClick={() => navigate(`/stocks/${s.id}/insider-trades`)}
                     >
-                      <Typography
-                        sx={{
-                          color: "text.primary",
-                          fontWeight: 600,
-                          fontSize: "0.85rem",
-                        }}
-                      >
-                        {s.symbol}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          color: s.insider_sentiment > 0 ? GREEN : RED,
-                          fontWeight: 700,
-                          fontSize: "0.85rem",
-                        }}
-                      >
-                        {(s.insider_sentiment * 100).toFixed(0)}%
-                      </Typography>
-                    </Stack>
-                  ))}
-              </Stack>
-            </Paper>
-          </Grid>
+                      {s.symbol}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        color: s.insider_sentiment > 0 ? GREEN : RED,
+                        fontWeight: 700,
+                        fontSize: "0.85rem",
+                      }}
+                    >
+                      {(s.insider_sentiment * 100).toFixed(0)}%
+                    </Typography>
+                  </Stack>
+                ))}
+            </Stack>
+          </Paper>
+        </Grid>
       </Grid>
     </Box>
   );

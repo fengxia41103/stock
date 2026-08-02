@@ -24,11 +24,16 @@ const BLUE = "#3b82f6";
 
 const verdictColor = (v) => {
   switch (v) {
-    case "OVERSOLD": return RED;
-    case "OVERBOUGHT": return AMBER;
-    case "BULLISH": return GREEN;
-    case "BEARISH": return RED;
-    default: return "text.secondary";
+    case "OVERSOLD":
+      return RED;
+    case "OVERBOUGHT":
+      return AMBER;
+    case "BULLISH":
+      return GREEN;
+    case "BEARISH":
+      return RED;
+    default:
+      return "text.secondary";
   }
 };
 
@@ -40,7 +45,10 @@ const rsiColor = (rsi) => {
 };
 
 const TechnicalsView = () => {
-  const { data, isLoading } = useResource("stock-technicals", "/stocks/technicals/");
+  const { data, isLoading } = useResource(
+    "stock-technicals",
+    "/stocks/technicals/",
+  );
   const navigate = useNavigate();
 
   if (isLoading) return <ScaleLoader loading />;
@@ -53,7 +61,8 @@ const TechnicalsView = () => {
         Technical Dashboard
       </Typography>
       <Typography variant="body2" color="text.secondary" mb={2}>
-        RSI, Bollinger Band position, SMA crossovers, and trading verdicts for all stocks. Sorted by RSI (most oversold first).
+        RSI, Bollinger Band position, SMA crossovers, and trading verdicts for
+        all stocks. Sorted by RSI (most oversold first).
       </Typography>
 
       <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
@@ -79,23 +88,50 @@ const TechnicalsView = () => {
                 sx={{ cursor: "pointer" }}
                 onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
               >
-                <TableCell><strong>{s.symbol}</strong></TableCell>
+                <TableCell>
+                  <strong>{s.symbol}</strong>
+                </TableCell>
                 <TableCell align="right">${s.price}</TableCell>
-                <TableCell align="right" sx={{ color: rsiColor(s.rsi), fontWeight: 700 }}>
+                <TableCell
+                  align="right"
+                  sx={{ color: rsiColor(s.rsi), fontWeight: 700 }}
+                >
                   {s.rsi != null ? s.rsi : "—"}
                   {s.rsi != null && s.rsi < 30 && " 🔥"}
                 </TableCell>
                 <TableCell align="right">
                   {s.bb_position != null ? `${s.bb_position}%` : "—"}
                 </TableCell>
-                <TableCell align="right">{s.sma50 ? `$${s.sma50}` : "—"}</TableCell>
-                <TableCell align="right">{s.sma200 ? `$${s.sma200}` : "—"}</TableCell>
+                <TableCell align="right">
+                  {s.sma50 ? `$${s.sma50}` : "—"}
+                </TableCell>
+                <TableCell align="right">
+                  {s.sma200 ? `$${s.sma200}` : "—"}
+                </TableCell>
                 <TableCell align="center">
                   {s.sma_signal === "golden_cross" && (
-                    <Chip label="Golden" size="small" sx={{ bgcolor: GREEN, color: "#fff", fontWeight: 600, fontSize: "0.7rem" }} />
+                    <Chip
+                      label="Golden"
+                      size="small"
+                      sx={{
+                        bgcolor: GREEN,
+                        color: "#fff",
+                        fontWeight: 600,
+                        fontSize: "0.7rem",
+                      }}
+                    />
                   )}
                   {s.sma_signal === "death_cross" && (
-                    <Chip label="Death" size="small" sx={{ bgcolor: RED, color: "#fff", fontWeight: 600, fontSize: "0.7rem" }} />
+                    <Chip
+                      label="Death"
+                      size="small"
+                      sx={{
+                        bgcolor: RED,
+                        color: "#fff",
+                        fontWeight: 600,
+                        fontSize: "0.7rem",
+                      }}
+                    />
                   )}
                   {!s.sma_signal && "—"}
                 </TableCell>

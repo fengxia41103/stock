@@ -29,17 +29,25 @@ import TaskNotificationIcon from "@Components/task/TaskNotificationIcon";
 import api from "@/api/client";
 
 const AlertsDrawer = ({ open, onClose, alerts }) => (
-  <Drawer anchor="right" open={open} onClose={onClose} PaperProps={{ sx: { width: 360 } }}>
+  <Drawer
+    anchor="right"
+    open={open}
+    onClose={onClose}
+    PaperProps={{ sx: { width: 360 } }}
+  >
     <Box p={2}>
       <Typography variant="h6" fontWeight={700} mb={2}>
         Alerts
       </Typography>
-      {(!alerts || alerts.length === 0) ? (
+      {!alerts || alerts.length === 0 ? (
         <Typography color="text.secondary">No triggered alerts</Typography>
       ) : (
         <List dense>
           {alerts.map((evt) => (
-            <ListItem key={evt.id} sx={{ borderBottom: "1px solid", borderColor: "divider" }}>
+            <ListItem
+              key={evt.id}
+              sx={{ borderBottom: "1px solid", borderColor: "divider" }}
+            >
               <ListItemText
                 primary={evt.message}
                 secondary={new Date(evt.triggered_at).toLocaleString()}
@@ -57,7 +65,9 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { data: triggeredAlerts } = useTriggeredAlerts();
   const { isOpen: marketOpen, label: marketLabel } = useMarketStatus();
-  const alertCount = Array.isArray(triggeredAlerts) ? triggeredAlerts.length : 0;
+  const alertCount = Array.isArray(triggeredAlerts)
+    ? triggeredAlerts.length
+    : 0;
 
   const handleOpenAlerts = () => {
     setDrawerOpen(true);
@@ -107,7 +117,11 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
           </IconButton>
         </Hidden>
       </Toolbar>
-      <AlertsDrawer open={drawerOpen} onClose={handleCloseAlerts} alerts={triggeredAlerts || []} />
+      <AlertsDrawer
+        open={drawerOpen}
+        onClose={handleCloseAlerts}
+        alerts={triggeredAlerts || []}
+      />
     </AppBar>
   );
 };
