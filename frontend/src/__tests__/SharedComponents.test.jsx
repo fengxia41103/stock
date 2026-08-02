@@ -4,17 +4,29 @@ import { Page, NotFoundView } from "@/components/shared";
 
 describe("Page component", () => {
   it("renders title when provided", () => {
-    const { getByText } = render(<Page title="Test Page"><p>content</p></Page>);
+    const { getByText } = render(
+      <Page title="Test Page">
+        <p>content</p>
+      </Page>,
+    );
     expect(getByText("Test Page")).toBeInTheDocument();
   });
 
   it("renders children", () => {
-    const { getByText } = render(<Page title="X"><p>Hello World</p></Page>);
+    const { getByText } = render(
+      <Page title="X">
+        <p>Hello World</p>
+      </Page>,
+    );
     expect(getByText("Hello World")).toBeInTheDocument();
   });
 
   it("renders without title", () => {
-    const { getByText } = render(<Page><p>No title</p></Page>);
+    const { getByText } = render(
+      <Page>
+        <p>No title</p>
+      </Page>,
+    );
     expect(getByText("No title")).toBeInTheDocument();
   });
 });

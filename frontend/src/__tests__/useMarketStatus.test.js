@@ -26,7 +26,9 @@ describe("useMarketStatus", () => {
   it("refetchInterval is a number or false", () => {
     const { result } = renderHook(() => useMarketStatus());
     const { refetchInterval } = result.current;
-    expect(refetchInterval === false || typeof refetchInterval === "number").toBe(true);
+    expect(
+      refetchInterval === false || typeof refetchInterval === "number",
+    ).toBe(true);
   });
 
   it("label is a non-empty string", () => {

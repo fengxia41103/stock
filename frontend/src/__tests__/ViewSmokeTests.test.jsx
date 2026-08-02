@@ -11,7 +11,13 @@ vi.mock("@/api", () => ({
 }));
 
 vi.mock("@/hooks/useMarketStatus", () => ({
-  useMarketStatus: () => ({ isOpen: false, isExtended: false, isClosed: true, refetchInterval: false, label: "Market Closed" }),
+  useMarketStatus: () => ({
+    isOpen: false,
+    isExtended: false,
+    isClosed: true,
+    refetchInterval: false,
+    label: "Market Closed",
+  }),
 }));
 
 // Wrap component in required providers
@@ -27,31 +33,55 @@ const Providers = ({ children }) => {
 describe("View Smoke Tests", () => {
   it("BriefView renders without crashing", async () => {
     const { default: BriefView } = await import("@Views/dashboard/BriefView");
-    const { container } = render(<Providers><BriefView /></Providers>);
+    const { container } = render(
+      <Providers>
+        <BriefView />
+      </Providers>,
+    );
     expect(container).toBeTruthy();
   });
 
   it("TechnicalsView renders without crashing", async () => {
-    const { default: TechnicalsView } = await import("@Views/dashboard/TechnicalsView");
-    const { container } = render(<Providers><TechnicalsView /></Providers>);
+    const { default: TechnicalsView } = await import(
+      "@Views/dashboard/TechnicalsView"
+    );
+    const { container } = render(
+      <Providers>
+        <TechnicalsView />
+      </Providers>,
+    );
     expect(container).toBeTruthy();
   });
 
   it("CompareView renders without crashing", async () => {
     const { default: CompareView } = await import("@Views/stock/CompareView");
-    const { container } = render(<Providers><CompareView /></Providers>);
+    const { container } = render(
+      <Providers>
+        <CompareView />
+      </Providers>,
+    );
     expect(container).toBeTruthy();
   });
 
   it("PortfolioView renders without crashing", async () => {
     vi.doMock("@/api", () => ({
-      useResource: () => ({ data: { positions: [], summary: {} }, isLoading: false, refetch: () => {} }),
+      useResource: () => ({
+        data: { positions: [], summary: {} },
+        isLoading: false,
+        refetch: () => {},
+      }),
       useStocks: () => ({ data: [] }),
       useStocksOverview: () => ({ data: [] }),
       useTriggeredAlerts: () => ({ data: [] }),
     }));
-    const { default: PortfolioView } = await import("@Views/portfolio/PortfolioView");
-    const { container } = render(<Providers><PortfolioView /></Providers>);
+    const { default: PortfolioView } = await import(
+      "@Views/portfolio/PortfolioView"
+    );
+    const { container } = render(
+      <Providers>
+        <PortfolioView />
+      </Providers>,
+    );
     expect(container).toBeTruthy();
   });
 });
