@@ -1,29 +1,20 @@
-import { faker } from "@faker-js/faker";
 import PropTypes from "prop-types";
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { useLocation } from "react-router-dom";
 
-import { Box, Divider, Drawer, Hidden, List } from "@mui/material";
-
-import GlobalContext from "@/context";
-
-import AuthenticatedUser from "@Components/user/AuthenticatedUser";
+import { Box, Divider, Drawer, List, Typography, Avatar, Stack } from "@mui/material";
 
 import NavItem from "@Layouts/NavBarItem";
 
 const NavBar = (props) => {
   const { onMobileClose, isMobileMode, items } = props;
-  const { user: username } = useContext(GlobalContext);
-  const user = {
-    avatar: faker.image.animals(),
-    name: username,
-  };
-
-  const location = useLocation();
 
   const content = (
     <Box height="100%" display="flex" flexDirection="column">
-      <AuthenticatedUser {...{ user }} />
+      <Box sx={{ p: 2, display: "flex", alignItems: "center", gap: 1 }}>
+        <Avatar sx={{ width: 32, height: 32, bgcolor: "primary.main" }}>S</Avatar>
+        <Typography variant="subtitle2" fontWeight={700}>Stock App</Typography>
+      </Box>
       <Divider />
       <Box p={2}>
         <List>

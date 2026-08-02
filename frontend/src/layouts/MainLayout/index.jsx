@@ -25,7 +25,7 @@ const MainLayout = (props) => {
         component="main"
         sx={{
           flexGrow: 1,
-          overflow: "auto",
+          overflowX: "hidden",
           minHeight: "100vh",
           ml: { lg: `${DRAWER_WIDTH}px` },
         }}

@@ -59,6 +59,12 @@ services:
     command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py createsuperuser --noinput || true && python /code/manage.py runserver 0.0.0.0:8001"
     # command:
     #   "gunicorn -w 1 -t 300 -b 0.0.0.0:8001 --log-level=info fin.wsgi"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/api/v1/health/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     networks:
       - data
       - management

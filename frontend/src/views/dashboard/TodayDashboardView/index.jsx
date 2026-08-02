@@ -15,8 +15,6 @@ import treemapModule from "highcharts/modules/treemap";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useResource, useStocksOverview } from "@/api";
-import { Page } from "@/components/shared";
-import ShowResource from "@Components/common/ShowResource";
 
 // Initialize Highcharts treemap module
 treemapModule(Highcharts);
@@ -291,29 +289,22 @@ const TodayDashboardView = () => {
     : null;
 
   return (
-    <Page title="Dashboard">
-      <Box
-        sx={{
-          bgcolor: BG,
-          mx: -3,
-          mt: -2,
-          mb: -3,
-          p: 3,
-          minHeight: "calc(100vh - 64px)",
-        }}
-      >
-        <Box mb={2}>
-          <TextField
-            type="date"
-            size="small"
-            label="Date"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-            InputLabelProps={{ shrink: true }}
-            sx={{ bgcolor: TILE, borderRadius: 1, width: 200 }}
-          />
-        </Box>
-        <Grid container spacing={2}>
+    <Box sx={{ bgcolor: BG, p: 3 }}>
+      <Typography variant="h5" fontWeight={700} mb={2}>
+        Dashboard
+      </Typography>
+      <Box mb={2}>
+        <TextField
+          type="date"
+          size="small"
+          label="Date"
+          value={selectedDate}
+          onChange={(e) => setSelectedDate(e.target.value)}
+          InputLabelProps={{ shrink: true }}
+          sx={{ bgcolor: TILE, borderRadius: 1, width: 200 }}
+        />
+      </Box>
+      <Grid container spacing={2}>
           {/* Row 1 */}
           <Grid item xs={6} sm={3}>
             <Tile
@@ -821,9 +812,8 @@ const TodayDashboardView = () => {
               </Stack>
             </Paper>
           </Grid>
-        </Grid>
-      </Box>
-    </Page>
+      </Grid>
+    </Box>
   );
 };
 

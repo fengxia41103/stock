@@ -99,7 +99,7 @@ def logout_view(request):
 @api_view(["GET"])
 @permission_classes([AllowAny])
 def health_check(request):
-    """Health check: DB + Redis connectivity."""
+    """Health check: DB + Redis + Celery connectivity."""
     from django.db import connection
     from django.core.cache import cache
 
@@ -115,6 +115,14 @@ def health_check(request):
         checks["redis"] = "ok" if cache.get("health") == "1" else "fail"
     except Exception as e:
         checks["redis"] = str(e)
+
+    try:
+        from fin.celery import app as celery_app
+        inspector = celery_app.control.inspect(timeout=2)
+        active = inspector.active_queues()
+        checks["celery"] = "ok" if active else "no workers"
+    except Exception as e:
+        checks["celery"] = str(e)
 
     ok = all(v == "ok" for v in checks.values())
     return Response(checks, status=status.HTTP_200_OK if ok else status.HTTP_503_SERVICE_UNAVAILABLE)

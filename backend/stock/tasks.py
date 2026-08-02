@@ -300,29 +300,86 @@ def remove_old_news():
     MyNews.objects.filter(pub_time__lte=end).delete()
 
 
+def _is_market_hours():
+    """Check if US market is currently open or in pre/post market."""
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    et = datetime.now(ZoneInfo("America/New_York"))
+    weekday = et.weekday()  # 0=Mon, 6=Sun
+    hour = et.hour
+    minute = et.minute
+    time_val = hour * 60 + minute
+
+    if weekday >= 5:  # Weekend
+        return "off"
+    if 570 <= time_val <= 960:  # 9:30-16:00 ET
+        return "market"
+    if 420 <= time_val < 570 or 960 < time_val <= 1080:  # 7:00-9:30, 16:00-18:00
+        return "extended"
+    return "off"
+
+
+@app.task(queue="price")
+def price_smart():
+    """Smart price fetch — frequency adapts to market hours.
+    
+    Called every 5 min by beat. Skips based on time:
+    - Market hours: always run
+    - Pre/post market: run every 3rd call (~15 min)
+    - Off hours: run every 24th call (~2 hours)
+    """
+    from django.core.cache import cache
+
+    session = _is_market_hours()
+    counter = cache.get("price_smart_counter", 0) + 1
+    cache.set("price_smart_counter", counter, 86400)
+
+    should_run = False
+    if session == "market":
+        should_run = True
+    elif session == "extended":
+        should_run = (counter % 3 == 0)
+    else:  # off hours
+        should_run = (counter % 24 == 0)
+
+    if should_run:
+        price_daily()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
+    # Price: every 5 min (smart task skips when outside market hours)
     sender.add_periodic_task(
-        600.0, price_daily.s(), name="Get price every 10 minutes"
+        300.0, price_smart.s(), name="Smart price fetch (every 5 min, skips off-hours)"
     )
-    sender.add_periodic_task(crontab(hour=0, minute=0), statement_daily.s())
+    # Statements: weekly on Sunday at midnight (financial statements rarely change intra-week)
+    sender.add_periodic_task(
+        crontab(hour=0, minute=0, day_of_week=0),
+        statement_daily.s(),
+        name="Fetch statements weekly on Sunday",
+    )
+    # Rankings: every 6 hours
     sender.add_periodic_task(
         21600.0, rebuild_ranking_cache.s(), name="Rebuild rankings every 6 hours"
     )
+    # Insider trades: daily at 6AM ET (Mon-Fri only)
     sender.add_periodic_task(
-        crontab(hour=6, minute=0), insider_daily.s(), name="Fetch insider trades daily at 6AM"
+        crontab(hour=6, minute=0, day_of_week="1-5"),
+        insider_daily.s(),
+        name="Fetch insider trades daily at 6AM (weekdays)",
     )
+    # FRED macro: weekly on Sunday at 6AM
     sender.add_periodic_task(
         crontab(hour=6, minute=0, day_of_week=0),
         fred_weekly.s(),
         name="Fetch FRED macro data weekly on Sunday",
     )
+    # Earnings calendar: daily at 7AM ET (weekdays only)
     sender.add_periodic_task(
-        crontab(hour=7, minute=0),
+        crontab(hour=7, minute=0, day_of_week="1-5"),
         earnings_calendar_daily.s(),
-        name="Fetch earnings calendar daily at 7AM",
+        name="Fetch earnings calendar daily at 7AM (weekdays)",
     )
-    # )
 
 
 # --- Backtesting tasks ---
