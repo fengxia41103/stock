@@ -15,6 +15,7 @@ import treemapModule from "highcharts/modules/treemap";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useResource, useStocksOverview } from "@/api";
+import { useMarketStatus } from "@/hooks/useMarketStatus";
 
 // Initialize Highcharts treemap module
 treemapModule(Highcharts);
@@ -231,8 +232,10 @@ const TreemapChart = ({ stocks, navigate }) => {
 
 const TodayDashboardView = () => {
   const [selectedDate, setSelectedDate] = useState("");
+  const { refetchInterval } = useMarketStatus();
   const { data: stocks, isLoading } = useStocksOverview(
     selectedDate || undefined,
+    { refetchInterval: selectedDate ? false : refetchInterval },
   );
   const { data: macroSeries } = useResource("macro-series", "/macro-series/");
   const { data: earnings } = useResource(

@@ -344,6 +344,97 @@ def price_smart():
 
     if should_run:
         price_daily()
+        check_alerts.delay()
+
+
+@app.task(queue="price")
+def check_alerts():
+    """Evaluate all active alerts against latest data."""
+    from datetime import date, timedelta
+    from stock.models.alert import Alert, AlertEvent
+    from stock.models import MyStock, MyStockHistorical
+
+    active_alerts = Alert.objects.filter(is_active=True).select_related("stock")
+
+    for alert in active_alerts:
+        stock = alert.stock
+        triggered = False
+        value = None
+        message = ""
+
+        try:
+            if alert.alert_type == "rsi_below":
+                # Check RSI from last 15 closes
+                closes = list(
+                    MyStockHistorical.objects.filter(stock=stock)
+                    .order_by("-on")[:15]
+                    .values_list("close_price", flat=True)
+                )
+                if len(closes) >= 15:
+                    closes = list(reversed(closes))
+                    from stock.backtesting.indicators import rsi
+                    current_rsi = rsi(closes)
+                    if current_rsi < alert.threshold:
+                        triggered = True
+                        value = current_rsi
+                        message = f"{stock.symbol} RSI is {current_rsi:.1f} (below {alert.threshold})"
+
+            elif alert.alert_type == "price_below":
+                latest = MyStockHistorical.objects.filter(stock=stock).order_by("-on").first()
+                if latest and latest.close_price < alert.threshold:
+                    triggered = True
+                    value = latest.close_price
+                    message = f"{stock.symbol} price ${latest.close_price:.2f} below ${alert.threshold:.2f}"
+
+            elif alert.alert_type == "price_above":
+                latest = MyStockHistorical.objects.filter(stock=stock).order_by("-on").first()
+                if latest and latest.close_price > alert.threshold:
+                    triggered = True
+                    value = latest.close_price
+                    message = f"{stock.symbol} price ${latest.close_price:.2f} above ${alert.threshold:.2f}"
+
+            elif alert.alert_type == "insider_buy":
+                # Check if 3+ insiders bought in last 14 days
+                from stock.models import InsiderTrade
+                cutoff = date.today() - timedelta(days=14)
+                buyers = InsiderTrade.objects.filter(
+                    stock=stock, trade_date__gte=cutoff, transaction_type="P"
+                ).values_list("insider_cik", flat=True).distinct().count()
+                if buyers >= alert.threshold:
+                    triggered = True
+                    value = buyers
+                    message = f"{stock.symbol} has {buyers} insider buyers in last 14 days"
+
+            elif alert.alert_type == "earnings_soon":
+                from stock.models import EarningsEvent
+                upcoming = EarningsEvent.objects.filter(
+                    stock=stock,
+                    report_date__gte=date.today(),
+                    report_date__lte=date.today() + timedelta(days=int(alert.threshold)),
+                ).first()
+                if upcoming:
+                    days_away = (upcoming.report_date - date.today()).days
+                    triggered = True
+                    value = days_away
+                    message = f"{stock.symbol} earnings in {days_away} days ({upcoming.report_date})"
+
+            elif alert.alert_type == "drop_days":
+                # Use d_last_lower denormalized field
+                if stock.d_last_lower and stock.d_last_lower >= alert.threshold:
+                    triggered = True
+                    value = stock.d_last_lower
+                    message = f"{stock.symbol} has dropped {stock.d_last_lower} days of ground (threshold: {int(alert.threshold)})"
+
+        except Exception:
+            continue
+
+        if triggered:
+            # Avoid duplicate triggers within 24h
+            recent = AlertEvent.objects.filter(
+                alert=alert, triggered_at__gte=date.today()
+            ).exists()
+            if not recent:
+                AlertEvent.objects.create(alert=alert, value=value or 0, message=message)
 
 
 @app.on_after_finalize.connect

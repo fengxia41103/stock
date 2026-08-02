@@ -702,6 +702,44 @@ class ValuationRankViewSet(RankingViewSet):
         return self._get_ranks(request, ValuationRatio.objects, attrs)
 
 
+# --- Alerts ---
+
+
+class AlertViewSet(viewsets.ModelViewSet):
+    """CRUD for user alerts + triggered events."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        from stock.api.serializers import AlertSerializer
+        return AlertSerializer
+
+    def get_queryset(self):
+        from stock.models.alert import Alert
+        return Alert.objects.filter(user=self.request.user).select_related("stock")
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    @action(detail=False, methods=["get"])
+    def triggered(self, request):
+        """Get unread triggered alert events."""
+        from stock.models.alert import AlertEvent
+        from stock.api.serializers import AlertEventSerializer
+        events = AlertEvent.objects.filter(
+            alert__user=request.user, is_read=False
+        ).select_related("alert__stock")[:50]
+        serializer = AlertEventSerializer(events, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=["post"], url_path="mark-read")
+    def mark_read(self, request):
+        """Mark all triggered events as read."""
+        from stock.models.alert import AlertEvent
+        AlertEvent.objects.filter(alert__user=request.user, is_read=False).update(is_read=True)
+        return Response({"status": "ok"})
+
+
 # --- Backtesting ---
 
 

@@ -14,6 +14,7 @@ from stock.models import (
     MyTask,
     ValuationRatio,
 )
+from stock.models.alert import Alert, AlertEvent
 
 
 class StockListSerializer(serializers.ModelSerializer):
@@ -297,3 +298,21 @@ class StockMacroCorrelationSerializer(serializers.ModelSerializer):
 
         model = StockMacroCorrelation
         fields = ["id", "stock", "symbol", "series_id", "window_days", "correlation", "computed_at"]
+
+
+class AlertSerializer(serializers.ModelSerializer):
+    symbol = serializers.CharField(source="stock.symbol", read_only=True)
+
+    class Meta:
+        model = Alert
+        fields = ["id", "stock", "symbol", "alert_type", "threshold", "is_active", "created"]
+        read_only_fields = ["created"]
+
+
+class AlertEventSerializer(serializers.ModelSerializer):
+    symbol = serializers.CharField(source="alert.stock.symbol", read_only=True)
+    alert_type = serializers.CharField(source="alert.alert_type", read_only=True)
+
+    class Meta:
+        model = AlertEvent
+        fields = ["id", "alert", "symbol", "alert_type", "triggered_at", "value", "message", "is_read"]

@@ -177,11 +177,12 @@ export function useMacroData(seriesId: string, dateGte?: string) {
   );
 }
 
-export function useStocksOverview(date?: string) {
+export function useStocksOverview(date?: string, options = {}) {
   const params = date ? `?date=${date}` : "";
   return useResource(
     ["stocks-overview", date || "latest"],
     `/stocks/overview/${params}`,
+    options,
   );
 }
 
@@ -191,4 +192,14 @@ export function useStockHealth(stockId: string | number) {
     `/stocks/${stockId}/health/`,
     { enabled: !!stockId },
   );
+}
+
+export function useAlerts() {
+  return useResource("alerts", "/alerts/");
+}
+
+export function useTriggeredAlerts() {
+  return useResource("alerts-triggered", "/alerts/triggered/", {
+    refetchInterval: 30000,
+  });
 }
