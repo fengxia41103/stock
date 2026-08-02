@@ -195,7 +195,7 @@ class DiaryListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MyDiary
-        fields = ["id", "stock", "stock_symbol", "created", "last_updated", "judgement", "price", "is_correct"]
+        fields = ["id", "stock", "stock_symbol", "position", "created", "last_updated", "judgement", "price", "is_correct"]
 
 
 class DiaryDetailSerializer(DiaryListSerializer):
@@ -205,6 +205,7 @@ class DiaryDetailSerializer(DiaryListSerializer):
 
 class DiaryCreateSerializer(serializers.Serializer):
     stock = serializers.IntegerField(required=False, allow_null=True)
+    position = serializers.IntegerField(required=False, allow_null=True)
     content = serializers.CharField()
     judgement = serializers.IntegerField()
 
@@ -362,3 +363,12 @@ class AddTransactionSerializer(serializers.Serializer):
     price = serializers.FloatField()
     date = serializers.DateField()
     notes = serializers.CharField(required=False, default="", allow_blank=True)
+
+
+class DividendSerializer(serializers.ModelSerializer):
+    symbol = serializers.CharField(source="stock.symbol", read_only=True)
+
+    class Meta:
+        from stock.models.dividend import DividendEvent
+        model = DividendEvent
+        fields = ["id", "stock", "symbol", "ex_date", "pay_date", "amount"]

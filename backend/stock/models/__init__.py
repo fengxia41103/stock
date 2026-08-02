@@ -4,6 +4,7 @@ from stock.models.alert import Alert, AlertEvent
 from stock.models.balance import BalanceSheet
 from stock.models.backtest import BacktestResult
 from stock.models.cashflow import CashFlow
+from stock.models.dividend import DividendEvent
 from stock.models.earnings import EarningsEvent, EarningsPriceImpact
 from stock.models.historical import MyStockHistorical
 from stock.models.income import IncomeStatement
@@ -23,6 +24,7 @@ __all__ = [
     "BacktestResult",
     "BalanceSheet",
     "CashFlow",
+    "DividendEvent",
     "EarningsEvent",
     "EarningsPriceImpact",
     "IncomeStatement",

@@ -19,6 +19,10 @@ class MyDiary(models.Model):
     stock = models.ForeignKey(
         "stock.MyStock", blank=True, null=True, on_delete=models.CASCADE, related_name="diaries"
     )
+    position = models.ForeignKey(
+        "stock.Position", blank=True, null=True, on_delete=models.SET_NULL, related_name="diary_entries",
+        help_text="Optional link to a portfolio position (trade journal)"
+    )
     created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     content = models.TextField(default="")

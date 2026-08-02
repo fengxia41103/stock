@@ -524,11 +524,16 @@ class DiaryViewSet(viewsets.ModelViewSet):
         ser.is_valid(raise_exception=True)
         d = ser.validated_data
         stock = MyStock.objects.filter(id=d.get("stock")).first()
+        position = None
+        if d.get("position"):
+            from stock.models.portfolio import Position
+            position = Position.objects.filter(id=d["position"], user=request.user).first()
         content = d["content"]
         if stock and stock.symbol not in content:
             content += f"\n- {stock.symbol}\n"
         diary = MyDiary.objects.create(
-            user=request.user, stock=stock, content=content, judgement=d["judgement"]
+            user=request.user, stock=stock, position=position,
+            content=content, judgement=d["judgement"]
         )
         return Response(DiaryDetailSerializer(diary).data, status=status.HTTP_201_CREATED)
 
@@ -962,6 +967,76 @@ class PortfolioViewSet(viewsets.ViewSet):
         if stock_id:
             qs = qs.filter(position__stock_id=stock_id)
         return Response(TransactionSerializer(qs[:100], many=True).data)
+
+    @action(detail=False, methods=["get"], url_path="position-notes/(?P<position_id>[^/.]+)")
+    def position_notes(self, request, position_id=None):
+        """Get diary entries linked to a specific position."""
+        diaries = MyDiary.objects.filter(
+            user=request.user, position_id=position_id
+        ).order_by("-created")
+        return Response(DiaryDetailSerializer(diaries, many=True).data)
+
+
+# --- Dividends ---
+
+
+class DividendViewSet(viewsets.ReadOnlyModelViewSet):
+    """Dividend history and projected income."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        from stock.api.serializers import DividendSerializer
+        return DividendSerializer
+
+    def get_queryset(self):
+        from stock.models.dividend import DividendEvent
+        stocks = MyStock.objects.filter(sectors__user=self.request.user)
+        qs = DividendEvent.objects.filter(stock__in=stocks)
+        stock_id = self.request.query_params.get("stock")
+        if stock_id:
+            qs = qs.filter(stock_id=stock_id)
+        return qs
+
+    @action(detail=False, methods=["get"], url_path="projected-income")
+    def projected_income(self, request):
+        """Project annual dividend income based on current holdings."""
+        from stock.models.portfolio import Position
+        from stock.models.dividend import DividendEvent
+        from django.db.models import Max
+
+        positions = Position.objects.filter(
+            user=request.user, closed_at__isnull=True, shares__gt=0
+        ).select_related("stock")
+
+        income_items = []
+        total_annual = 0
+
+        for pos in positions:
+            # Get most recent dividend for this stock
+            latest_div = DividendEvent.objects.filter(stock=pos.stock).order_by("-ex_date").first()
+            if not latest_div:
+                continue
+
+            # Estimate annual (assume quarterly)
+            annual_per_share = latest_div.amount * 4
+            annual_income = annual_per_share * pos.shares
+            total_annual += annual_income
+
+            income_items.append({
+                "symbol": pos.stock.symbol,
+                "shares": pos.shares,
+                "last_dividend": latest_div.amount,
+                "last_ex_date": str(latest_div.ex_date),
+                "annual_per_share": round(annual_per_share, 4),
+                "annual_income": round(annual_income, 2),
+            })
+
+        return Response({
+            "items": income_items,
+            "total_annual_income": round(total_annual, 2),
+            "monthly_income": round(total_annual / 12, 2),
+        })
 
 # --- Alerts ---
 

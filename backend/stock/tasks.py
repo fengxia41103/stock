@@ -9,6 +9,7 @@ from fin.celery import app
 from stock.models import MyNews, MyStock, MyTask
 from stock.workers.get_balance_sheet import MyBalanceSheet
 from stock.workers.get_cash_flow_statement import MyCashFlowStatement
+from stock.workers.get_dividends import DividendWorker
 from stock.workers.get_earnings import EarningsCalendarWorker, EarningsSurpriseWorker
 from stock.workers.get_fred import FredWorker
 from stock.workers.get_historical import MyStockHistoricalYahoo
@@ -660,7 +661,27 @@ def setup_periodic_tasks(sender, **kwargs):
         weekly_email_digest.s(),
         name="Weekly email digest (Friday 4:30PM)",
     )
+    # Dividends: weekly Sunday 7AM
+    sender.add_periodic_task(
+        crontab(hour=7, minute=0, day_of_week=0),
+        fetch_dividends.s(),
+        name="Fetch dividend history weekly",
+    )
 
+
+
+
+# --- Dividends ---
+
+
+@app.task(queue="summary")
+def fetch_dividends():
+    """Fetch dividend history for all stocks."""
+    for stock in MyStock.objects.all():
+        try:
+            DividendWorker(stock.symbol).get()
+        except Exception:
+            continue
 
 
 # --- Weekly Email Digest ---

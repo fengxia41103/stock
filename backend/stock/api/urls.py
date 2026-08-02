@@ -11,6 +11,7 @@ from stock.api.views import (
     CashFlowViewSet,
     CashRankViewSet,
     DiaryViewSet,
+    DividendViewSet,
     EarningsEventViewSet,
     HistoricalViewSet,
     IncomeRankViewSet,
@@ -61,6 +62,7 @@ router.register(r"valuation-ranks", ValuationRankViewSet, basename="valuation-ra
 router.register(r"backtest", BacktestViewSet, basename="backtest")
 router.register(r"alerts", AlertViewSet, basename="alert")
 router.register(r"portfolio", PortfolioViewSet, basename="portfolio")
+router.register(r"dividends", DividendViewSet, basename="dividend")
 
 urlpatterns = [
     path("", include(router.urls)),
