@@ -25,11 +25,20 @@ const DiaryDetail = ({ diaryId, stocks }) => {
   const { data: diary, isLoading } = useDiary(diaryId);
   const [inEditing, setInEditing] = useState(false);
   const [notification, setNotification] = useState("");
-  const { mutate: del } = useDelete(`/diaries/${diaryId}/`, ["diaries", "diary-stats"]);
+  const { mutate: del } = useDelete(`/diaries/${diaryId}/`, [
+    "diaries",
+    "diary-stats",
+  ]);
 
   if (!diaryId) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" height="100%" p={4}>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100%"
+        p={4}
+      >
         <Typography color="text.secondary" variant="h6">
           Select a note to view
         </Typography>
@@ -95,7 +104,11 @@ const DiaryDetail = ({ diaryId, stocks }) => {
 
       {inEditing && (
         <Box mt={1}>
-          <Button size="small" variant="outlined" onClick={() => setInEditing(false)}>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => setInEditing(false)}
+          >
             Done editing
           </Button>
         </Box>

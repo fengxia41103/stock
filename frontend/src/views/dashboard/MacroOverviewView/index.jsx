@@ -162,9 +162,7 @@ const MacroCard = ({ series }) => {
             </Box>
           )}
         </Box>
-        {option && (
-          <HighchartsReact highcharts={Highcharts} options={option} />
-        )}
+        {option && <HighchartsReact highcharts={Highcharts} options={option} />}
       </CardContent>
     </Card>
   );

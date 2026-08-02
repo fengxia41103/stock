@@ -27,14 +27,22 @@ const RecentPriceSparkline = (props) => {
     const chartData = stocks.map((s) => s.close_price);
 
     const options = {
-      chart: { type: "line", backgroundColor: "transparent", height: 40, margin: [0, 0, 0, 0], spacing: [0, 0, 0, 0] },
+      chart: {
+        type: "line",
+        backgroundColor: "transparent",
+        height: 40,
+        margin: [0, 0, 0, 0],
+        spacing: [0, 0, 0, 0],
+      },
       title: { text: null },
       xAxis: { visible: false },
       yAxis: { visible: false, min: Math.min(...chartData) * 0.99 },
       legend: { enabled: false },
       credits: { enabled: false },
       tooltip: { enabled: false },
-      plotOptions: { line: { marker: { enabled: false }, lineWidth: 1, color: "#3b82f6" } },
+      plotOptions: {
+        line: { marker: { enabled: false }, lineWidth: 1, color: "#3b82f6" },
+      },
       series: [{ data: chartData }],
     };
 

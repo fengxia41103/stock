@@ -58,7 +58,11 @@ const MacroOverlay = ({ priceData }) => {
         ))}
       </FormGroup>
       {selected.length > 0 && (
-        <MacroChart selected={selected} priceData={priceData} startDate={startDate} />
+        <MacroChart
+          selected={selected}
+          priceData={priceData}
+          startDate={startDate}
+        />
       )}
     </Paper>
   );
@@ -90,11 +94,14 @@ const MacroSeriesChart = ({ seriesId, label, color, startDate, priceData }) => {
   const { data: macroPoints } = useMacroData(seriesId, startDate);
 
   const options = useMemo(() => {
-    if (!macroPoints || !Array.isArray(macroPoints) || macroPoints.length === 0) return null;
+    if (!macroPoints || !Array.isArray(macroPoints) || macroPoints.length === 0)
+      return null;
 
     const priceDates = priceData.map((d) => d.on);
     const macroMap = {};
-    macroPoints.forEach((p) => { macroMap[p.date] = p.value; });
+    macroPoints.forEach((p) => {
+      macroMap[p.date] = p.value;
+    });
     const macroDates = [...macroPoints].reverse().map((p) => p.date);
     const allDates = [...new Set([...priceDates, ...macroDates])].sort();
 
@@ -103,20 +110,41 @@ const MacroSeriesChart = ({ seriesId, label, color, startDate, priceData }) => {
       title: { text: null },
       xAxis: {
         categories: allDates,
-        labels: { style: { color: "#94a3b8" }, rotation: -45, step: Math.ceil(allDates.length / 15) },
+        labels: {
+          style: { color: "#94a3b8" },
+          rotation: -45,
+          step: Math.ceil(allDates.length / 15),
+        },
       },
       yAxis: [
-        { title: { text: "Price ($)", style: { color: "#94a3b8" } }, labels: { style: { color: "#94a3b8" } }, gridLineColor: "#334155" },
-        { title: { text: label, style: { color } }, labels: { style: { color } }, opposite: true, gridLineWidth: 0 },
+        {
+          title: { text: "Price ($)", style: { color: "#94a3b8" } },
+          labels: { style: { color: "#94a3b8" } },
+          gridLineColor: "#334155",
+        },
+        {
+          title: { text: label, style: { color } },
+          labels: { style: { color } },
+          opposite: true,
+          gridLineWidth: 0,
+        },
       ],
       legend: { itemStyle: { color: "#e2e8f0" } },
       credits: { enabled: false },
-      tooltip: { shared: true, backgroundColor: "#1e293b", borderColor: "#475569", style: { color: "#f8fafc" } },
+      tooltip: {
+        shared: true,
+        backgroundColor: "#1e293b",
+        borderColor: "#475569",
+        style: { color: "#f8fafc" },
+      },
       series: [
         {
           name: "Close Price",
           yAxis: 0,
-          data: allDates.map((d) => { const p = priceData.find((x) => x.on === d); return p ? p.close_price : null; }),
+          data: allDates.map((d) => {
+            const p = priceData.find((x) => x.on === d);
+            return p ? p.close_price : null;
+          }),
           color: "#3b82f6",
           lineWidth: 2,
           connectNulls: true,

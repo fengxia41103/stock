@@ -22,7 +22,10 @@ rsiModule(Highcharts);
 const sma = (data, period) => {
   const result = [];
   for (let i = 0; i < data.length; i++) {
-    if (i < period - 1) { result.push(null); continue; }
+    if (i < period - 1) {
+      result.push(null);
+      continue;
+    }
     const slice = data.slice(i - period + 1, i + 1);
     result.push(slice.reduce((a, b) => a + b, 0) / period);
   }
@@ -37,7 +40,13 @@ const TechIndicatorView = () => {
     if (!Array.isArray(data) || data.length === 0) return null;
 
     const dates = data.map((d) => new Date(d.on).getTime());
-    const ohlc = data.map((d) => [new Date(d.on).getTime(), d.open_price, d.high_price, d.low_price, d.close_price]);
+    const ohlc = data.map((d) => [
+      new Date(d.on).getTime(),
+      d.open_price,
+      d.high_price,
+      d.low_price,
+      d.close_price,
+    ]);
     const volumes = data.map((d) => [new Date(d.on).getTime(), d.vol]);
     const closes = data.map((d) => d.close_price);
 
@@ -53,7 +62,10 @@ const TechIndicatorView = () => {
 
     const baseOptions = {
       chart: { backgroundColor: "transparent", height: 600 },
-      title: { text: titles[type] || "Technical Indicator", style: { color: "#e2e8f0" } },
+      title: {
+        text: titles[type] || "Technical Indicator",
+        style: { color: "#e2e8f0" },
+      },
       credits: { enabled: false },
       rangeSelector: {
         selected: 2,
@@ -64,22 +76,56 @@ const TechIndicatorView = () => {
           { type: "year", count: 1, text: "1Y" },
           { type: "all", text: "All" },
         ],
-        buttonTheme: { fill: "#334155", stroke: "#475569", style: { color: "#e2e8f0" } },
+        buttonTheme: {
+          fill: "#334155",
+          stroke: "#475569",
+          style: { color: "#e2e8f0" },
+        },
         inputStyle: { color: "#e2e8f0" },
         labelStyle: { color: "#94a3b8" },
       },
       navigator: { enabled: true },
       scrollbar: { enabled: false },
-      tooltip: { backgroundColor: "#1e293b", borderColor: "#475569", style: { color: "#f8fafc" } },
+      tooltip: {
+        backgroundColor: "#1e293b",
+        borderColor: "#475569",
+        style: { color: "#f8fafc" },
+      },
       xAxis: { gridLineColor: "#334155" },
       yAxis: [
-        { labels: { style: { color: "#94a3b8" } }, gridLineColor: "#334155", height: "60%", resize: { enabled: true } },
-        { labels: { style: { color: "#94a3b8" } }, gridLineColor: "#334155", top: "65%", height: "15%", offset: 0 },
+        {
+          labels: { style: { color: "#94a3b8" } },
+          gridLineColor: "#334155",
+          height: "60%",
+          resize: { enabled: true },
+        },
+        {
+          labels: { style: { color: "#94a3b8" } },
+          gridLineColor: "#334155",
+          top: "65%",
+          height: "15%",
+          offset: 0,
+        },
       ],
       legend: { enabled: true, itemStyle: { color: "#e2e8f0" } },
       series: [
-        { type: "candlestick", id: "price", name: "Price", data: ohlc, color: "#ef4444", upColor: "#10b981", lineColor: "#ef4444", upLineColor: "#10b981" },
-        { type: "column", name: "Volume", data: volumes, yAxis: 1, color: "#3b82f680" },
+        {
+          type: "candlestick",
+          id: "price",
+          name: "Price",
+          data: ohlc,
+          color: "#ef4444",
+          upColor: "#10b981",
+          lineColor: "#ef4444",
+          upLineColor: "#10b981",
+        },
+        {
+          type: "column",
+          name: "Volume",
+          data: volumes,
+          yAxis: 1,
+          color: "#3b82f680",
+        },
       ],
     };
 
@@ -119,8 +165,20 @@ const TechIndicatorView = () => {
         min: 0,
         max: 100,
         plotLines: [
-          { value: 70, color: "#ef4444", dashStyle: "Dash", width: 1, label: { text: "70", style: { color: "#ef4444" } } },
-          { value: 30, color: "#10b981", dashStyle: "Dash", width: 1, label: { text: "30", style: { color: "#10b981" } } },
+          {
+            value: 70,
+            color: "#ef4444",
+            dashStyle: "Dash",
+            width: 1,
+            label: { text: "70", style: { color: "#ef4444" } },
+          },
+          {
+            value: 30,
+            color: "#10b981",
+            dashStyle: "Dash",
+            width: 1,
+            label: { text: "30", style: { color: "#10b981" } },
+          },
         ],
       });
       baseOptions.yAxis[0].height = "50%";
@@ -138,8 +196,22 @@ const TechIndicatorView = () => {
       const sma20 = sma(closes, 20);
       const sma50 = sma(closes, 50);
       baseOptions.series.push(
-        { type: "line", name: "SMA20", data: dates.map((d, i) => [d, sma20[i]]), color: "#f59e0b", lineWidth: 1, marker: { enabled: false } },
-        { type: "line", name: "SMA50", data: dates.map((d, i) => [d, sma50[i]]), color: "#ec4899", lineWidth: 1, marker: { enabled: false } },
+        {
+          type: "line",
+          name: "SMA20",
+          data: dates.map((d, i) => [d, sma20[i]]),
+          color: "#f59e0b",
+          lineWidth: 1,
+          marker: { enabled: false },
+        },
+        {
+          type: "line",
+          name: "SMA50",
+          data: dates.map((d, i) => [d, sma50[i]]),
+          color: "#ec4899",
+          lineWidth: 1,
+          marker: { enabled: false },
+        },
       );
     }
 

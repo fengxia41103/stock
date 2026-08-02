@@ -49,7 +49,12 @@ const VerdictChip = ({ label, value }) => (
       color={verdictColor[value] || "default"}
       sx={{ fontWeight: "bold", fontSize: "0.85rem", minWidth: 100 }}
     />
-    <Typography variant="caption" display="block" color="text.secondary" mt={0.5}>
+    <Typography
+      variant="caption"
+      display="block"
+      color="text.secondary"
+      mt={0.5}
+    >
       {label}
     </Typography>
   </Box>
@@ -60,14 +65,20 @@ const ScoreCard = ({ title, value, subtitle, color }) => (
     <Typography variant="h4" color={color || "primary"} fontWeight="bold">
       {value}
     </Typography>
-    <Typography variant="body2" color="text.secondary">{title}</Typography>
+    <Typography variant="body2" color="text.secondary">
+      {title}
+    </Typography>
     {subtitle && <Typography variant="caption">{subtitle}</Typography>}
   </Paper>
 );
 
 const Section = ({ title, children }) => (
   <Box mt={3}>
-    <Typography variant="h6" gutterBottom sx={{ borderBottom: 1, borderColor: "divider", pb: 0.5 }}>
+    <Typography
+      variant="h6"
+      gutterBottom
+      sx={{ borderBottom: 1, borderColor: "divider", pb: 0.5 }}
+    >
       {title}
     </Typography>
     {children}
@@ -84,7 +95,17 @@ const ReportView = () => {
   if (isLoading) return <ScaleLoader loading />;
   if (!r) return <Typography>No data available</Typography>;
 
-  const { basic, graham, darwin, dupont, financials, earnings, insiders, technicals, verdict } = r;
+  const {
+    basic,
+    graham,
+    darwin,
+    dupont,
+    financials,
+    earnings,
+    insiders,
+    technicals,
+    verdict,
+  } = r;
 
   return (
     <Box>
@@ -97,7 +118,18 @@ const ReportView = () => {
       </Typography>
 
       {/* Verdict Banner */}
-      <Paper sx={{ p: 2, mt: 2, bgcolor: verdict?.combined === "BUY" ? "success.dark" : verdict?.combined === "AVOID" ? "error.dark" : "warning.dark" }}>
+      <Paper
+        sx={{
+          p: 2,
+          mt: 2,
+          bgcolor:
+            verdict?.combined === "BUY"
+              ? "success.dark"
+              : verdict?.combined === "AVOID"
+              ? "error.dark"
+              : "warning.dark",
+        }}
+      >
         <Grid container spacing={2} justifyContent="center" alignItems="center">
           <Grid item>
             <Typography variant="h5" color="white" fontWeight="bold">
@@ -109,22 +141,46 @@ const ReportView = () => {
           </Grid>
         </Grid>
         <Grid container spacing={3} justifyContent="center" mt={1}>
-          <Grid item><VerdictChip label="Darwin (Quality)" value={verdict?.darwin} /></Grid>
-          <Grid item><VerdictChip label="Graham (Value)" value={verdict?.graham} /></Grid>
-          <Grid item><VerdictChip label="Timing (RSI)" value={verdict?.timing} /></Grid>
+          <Grid item>
+            <VerdictChip label="Darwin (Quality)" value={verdict?.darwin} />
+          </Grid>
+          <Grid item>
+            <VerdictChip label="Graham (Value)" value={verdict?.graham} />
+          </Grid>
+          <Grid item>
+            <VerdictChip label="Timing (RSI)" value={verdict?.timing} />
+          </Grid>
         </Grid>
       </Paper>
 
       {/* Score Cards */}
       <Grid container spacing={2} mt={1}>
         <Grid item xs={6} md={2.4}>
-          <ScoreCard title="ROCE" value={fmtPct(darwin?.roce_avg)} subtitle={darwin?.roce_all_above_15 ? "✓ All periods >15%" : "⚠️ Not consistent"} />
+          <ScoreCard
+            title="ROCE"
+            value={fmtPct(darwin?.roce_avg)}
+            subtitle={
+              darwin?.roce_all_above_15
+                ? "✓ All periods >15%"
+                : "⚠️ Not consistent"
+            }
+          />
         </Grid>
         <Grid item xs={6} md={2.4}>
           <ScoreCard title="Graham Score" value={`${graham?.score || 0}/7`} />
         </Grid>
         <Grid item xs={6} md={2.4}>
-          <ScoreCard title="RSI(14)" value={fmt(technicals?.rsi, 0)} color={technicals?.rsi < 30 ? "success.main" : technicals?.rsi > 70 ? "error.main" : undefined} />
+          <ScoreCard
+            title="RSI(14)"
+            value={fmt(technicals?.rsi, 0)}
+            color={
+              technicals?.rsi < 30
+                ? "success.main"
+                : technicals?.rsi > 70
+                ? "error.main"
+                : undefined
+            }
+          />
         </Grid>
         <Grid item xs={6} md={2.4}>
           <ScoreCard title="PE" value={fmt(basic?.pe, 1)} />
@@ -133,10 +189,32 @@ const ReportView = () => {
           <ScoreCard title="ROE" value={fmtPct(basic?.roe)} />
         </Grid>
         <Grid item xs={6} md={2.4}>
-          <ScoreCard title="OCF/NI" value={basic?.ocf_ni_ratio ? `${fmt(basic.ocf_ni_ratio)}x` : "—"} subtitle="Cash quality (>1.0 = good)" color={basic?.ocf_ni_ratio > 1 ? "success.main" : basic?.ocf_ni_ratio < 0.7 ? "error.main" : undefined} />
+          <ScoreCard
+            title="OCF/NI"
+            value={basic?.ocf_ni_ratio ? `${fmt(basic.ocf_ni_ratio)}x` : "—"}
+            subtitle="Cash quality (>1.0 = good)"
+            color={
+              basic?.ocf_ni_ratio > 1
+                ? "success.main"
+                : basic?.ocf_ni_ratio < 0.7
+                ? "error.main"
+                : undefined
+            }
+          />
         </Grid>
         <Grid item xs={6} md={2.4}>
-          <ScoreCard title="FCF/NI" value={basic?.fcf_ni_ratio ? `${fmt(basic.fcf_ni_ratio)}x` : "—"} subtitle="Cash conversion (>1.0 = strong)" color={basic?.fcf_ni_ratio > 1 ? "success.main" : basic?.fcf_ni_ratio < 0.5 ? "error.main" : undefined} />
+          <ScoreCard
+            title="FCF/NI"
+            value={basic?.fcf_ni_ratio ? `${fmt(basic.fcf_ni_ratio)}x` : "—"}
+            subtitle="Cash conversion (>1.0 = strong)"
+            color={
+              basic?.fcf_ni_ratio > 1
+                ? "success.main"
+                : basic?.fcf_ni_ratio < 0.5
+                ? "error.main"
+                : undefined
+            }
+          />
         </Grid>
       </Grid>
 
@@ -144,9 +222,13 @@ const ReportView = () => {
       {dupont && (
         <Section title="DuPont Decomposition">
           <Typography variant="body2" sx={{ fontFamily: "monospace" }}>
-            ROE {fmt(dupont.roe, 1)}% = Margin {fmt(dupont.net_margin, 1)}% × Turnover {fmt(dupont.asset_turnover, 1)}% × Leverage {fmt(dupont.equity_multiplier)}x
+            ROE {fmt(dupont.roe, 1)}% = Margin {fmt(dupont.net_margin, 1)}% ×
+            Turnover {fmt(dupont.asset_turnover, 1)}% × Leverage{" "}
+            {fmt(dupont.equity_multiplier)}x
           </Typography>
-          <Typography variant="caption" color="text.secondary">As of {dupont.date}</Typography>
+          <Typography variant="caption" color="text.secondary">
+            As of {dupont.date}
+          </Typography>
         </Section>
       )}
 
@@ -170,7 +252,10 @@ const ReportView = () => {
                   <TableCell align="right">{fmtB(row.revenue)}</TableCell>
                   <TableCell align="right">{fmtB(row.net_income)}</TableCell>
                   <TableCell align="right">${fmt(row.eps)}</TableCell>
-                  <TableCell align="right" sx={{ color: row.margin > 20 ? "success.main" : undefined }}>
+                  <TableCell
+                    align="right"
+                    sx={{ color: row.margin > 20 ? "success.main" : undefined }}
+                  >
                     {fmtPct(row.margin)}
                   </TableCell>
                 </TableRow>
@@ -195,8 +280,12 @@ const ReportView = () => {
               ["Debt/Equity", fmt(financials.balance.debt_to_equity)],
             ].map(([label, val]) => (
               <Grid item xs={6} md={3} key={label}>
-                <Typography variant="caption" color="text.secondary">{label}</Typography>
-                <Typography variant="body1" fontWeight="bold">{val}</Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {label}
+                </Typography>
+                <Typography variant="body1" fontWeight="bold">
+                  {val}
+                </Typography>
               </Grid>
             ))}
           </Grid>
@@ -219,7 +308,10 @@ const ReportView = () => {
               {financials.cash_flow.map((row) => (
                 <TableRow key={row.date}>
                   <TableCell>{row.date}</TableCell>
-                  <TableCell align="right" sx={{ color: row.fcf > 0 ? "success.main" : "error.main" }}>
+                  <TableCell
+                    align="right"
+                    sx={{ color: row.fcf > 0 ? "success.main" : "error.main" }}
+                  >
                     {fmtB(row.fcf)}
                   </TableCell>
                   <TableCell align="right">{fmtB(row.ocf)}</TableCell>
@@ -247,10 +339,29 @@ const ReportView = () => {
               {earnings.map((e) => (
                 <TableRow key={e.date}>
                   <TableCell>{e.date}</TableCell>
-                  <TableCell align="right">{e.estimated ? `$${fmt(e.estimated)}` : "—"}</TableCell>
-                  <TableCell align="right">{e.reported ? `$${fmt(e.reported)}` : "pending"}</TableCell>
-                  <TableCell align="right" sx={{ color: e.surprise_pct > 0 ? "success.main" : e.surprise_pct < 0 ? "error.main" : undefined }}>
-                    {e.surprise_pct != null ? `${e.surprise_pct > 0 ? "+" : ""}${fmt(e.surprise_pct, 1)}%` : "—"}
+                  <TableCell align="right">
+                    {e.estimated ? `$${fmt(e.estimated)}` : "—"}
+                  </TableCell>
+                  <TableCell align="right">
+                    {e.reported ? `$${fmt(e.reported)}` : "pending"}
+                  </TableCell>
+                  <TableCell
+                    align="right"
+                    sx={{
+                      color:
+                        e.surprise_pct > 0
+                          ? "success.main"
+                          : e.surprise_pct < 0
+                          ? "error.main"
+                          : undefined,
+                    }}
+                  >
+                    {e.surprise_pct != null
+                      ? `${e.surprise_pct > 0 ? "+" : ""}${fmt(
+                          e.surprise_pct,
+                          1,
+                        )}%`
+                      : "—"}
                   </TableCell>
                 </TableRow>
               ))}
@@ -269,7 +380,13 @@ const ReportView = () => {
         <Section title="Insider Activity">
           <Chip
             label={`Sentiment: ${fmt(darwin?.insider_sentiment, 2)}`}
-            color={darwin?.insider_sentiment > 0 ? "success" : darwin?.insider_sentiment < 0 ? "error" : "default"}
+            color={
+              darwin?.insider_sentiment > 0
+                ? "success"
+                : darwin?.insider_sentiment < 0
+                ? "error"
+                : "default"
+            }
             size="small"
             sx={{ mb: 1 }}
           />
@@ -289,8 +406,20 @@ const ReportView = () => {
                   <TableCell>{t.name?.slice(0, 25)}</TableCell>
                   <TableCell>
                     <Chip
-                      label={t.type === "P" ? "BUY" : t.type === "S" ? "SELL" : t.type}
-                      color={t.type === "P" ? "success" : t.type === "S" ? "error" : "default"}
+                      label={
+                        t.type === "P"
+                          ? "BUY"
+                          : t.type === "S"
+                          ? "SELL"
+                          : t.type
+                      }
+                      color={
+                        t.type === "P"
+                          ? "success"
+                          : t.type === "S"
+                          ? "error"
+                          : "default"
+                      }
                       size="small"
                     />
                   </TableCell>
@@ -317,20 +446,35 @@ const ReportView = () => {
               ["20-Day Return", fmtPct(technicals.return_20d)],
             ].map(([label, val]) => (
               <Grid item xs={6} md={2} key={label}>
-                <Typography variant="caption" color="text.secondary">{label}</Typography>
-                <Typography variant="body1" fontWeight="bold">{val}</Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {label}
+                </Typography>
+                <Typography variant="body1" fontWeight="bold">
+                  {val}
+                </Typography>
               </Grid>
             ))}
           </Grid>
           <Box mt={2}>
             {technicals.rsi < 30 && (
-              <Chip icon={<TrendingUpIcon />} label="🔥 OVERSOLD — Potential buy zone" color="success" />
+              <Chip
+                icon={<TrendingUpIcon />}
+                label="🔥 OVERSOLD — Potential buy zone"
+                color="success"
+              />
             )}
             {technicals.rsi > 70 && (
-              <Chip icon={<TrendingDownIcon />} label="⚠️ OVERBOUGHT — Do NOT buy here" color="error" />
+              <Chip
+                icon={<TrendingDownIcon />}
+                label="⚠️ OVERBOUGHT — Do NOT buy here"
+                color="error"
+              />
             )}
             {technicals.rsi >= 30 && technicals.rsi <= 70 && (
-              <Chip label="Mid-range — wait for clearer signal" color="default" />
+              <Chip
+                label="Mid-range — wait for clearer signal"
+                color="default"
+              />
             )}
           </Box>
         </Section>
@@ -342,14 +486,21 @@ const ReportView = () => {
           {[
             ["Graham Score", `${graham?.score || 0}/7`],
             ["Graham Number", graham?.number ? `$${fmt(graham.number)}` : "—"],
-            ["Intrinsic Value", graham?.intrinsic_value ? `$${fmt(graham.intrinsic_value)}` : "—"],
+            [
+              "Intrinsic Value",
+              graham?.intrinsic_value ? `$${fmt(graham.intrinsic_value)}` : "—",
+            ],
             ["Margin of Safety", fmtPct(graham?.margin_of_safety)],
             ["PE × P/B", fmt(graham?.pe_pb_product, 1)],
             ["Net-Net Ratio", fmt(graham?.net_net_ratio)],
           ].map(([label, val]) => (
             <Grid item xs={6} md={2} key={label}>
-              <Typography variant="caption" color="text.secondary">{label}</Typography>
-              <Typography variant="body1" fontWeight="bold">{val}</Typography>
+              <Typography variant="caption" color="text.secondary">
+                {label}
+              </Typography>
+              <Typography variant="body1" fontWeight="bold">
+                {val}
+              </Typography>
             </Grid>
           ))}
         </Grid>

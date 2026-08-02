@@ -11,7 +11,7 @@ const Get = ({ uri, children, on_error, on_success, silent, ...rest }) => {
   const { data, isLoading, error } = useResource(
     enabled ? uri : "__disabled__",
     enabled ? uri : "/__disabled__",
-    { enabled }
+    { enabled },
   );
 
   if (!enabled) return null;
@@ -33,7 +33,7 @@ const Get = ({ uri, children, on_error, on_success, silent, ...rest }) => {
   return React.Children.map(children, (child) =>
     React.isValidElement(child)
       ? React.cloneElement(child, { data, ...rest })
-      : child
+      : child,
   );
 };
 

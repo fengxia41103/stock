@@ -174,7 +174,12 @@ const TreemapChart = ({ stocks, navigate }) => {
                 enabled: true,
                 align: "left",
                 verticalAlign: "top",
-                style: { fontSize: "11px", fontWeight: "bold", color: "#94a3b8", textOutline: "none" },
+                style: {
+                  fontSize: "11px",
+                  fontWeight: "bold",
+                  color: "#94a3b8",
+                  textOutline: "none",
+                },
               },
             },
             {
@@ -185,7 +190,10 @@ const TreemapChart = ({ stocks, navigate }) => {
                 enabled: true,
                 formatter: function () {
                   const ret = this.point.daily_return_pct;
-                  const retStr = ret != null ? `${ret > 0 ? "+" : ""}${ret.toFixed(1)}%` : "";
+                  const retStr =
+                    ret != null
+                      ? `${ret > 0 ? "+" : ""}${ret.toFixed(1)}%`
+                      : "";
                   return `<span style="font-size:11px;font-weight:bold">${this.point.name}</span><br/><span style="font-size:9px">${retStr}</span>`;
                 },
                 useHTML: true,
@@ -197,7 +205,8 @@ const TreemapChart = ({ stocks, navigate }) => {
           point: {
             events: {
               click: function () {
-                if (this.stockId) navigate(`/stocks/${this.stockId}/historical/price`);
+                if (this.stockId)
+                  navigate(`/stocks/${this.stockId}/historical/price`);
               },
             },
           },
@@ -215,7 +224,9 @@ const TreemapChart = ({ stocks, navigate }) => {
     <HighchartsReact
       highcharts={Highcharts}
       options={chartOptions}
-      containerProps={{ style: { height: "320px", overflow: "hidden", position: "relative" } }}
+      containerProps={{
+        style: { height: "320px", overflow: "hidden", position: "relative" },
+      }}
     />
   );
 };
@@ -346,7 +357,16 @@ const TodayDashboardView = () => {
 
           {/* Row 2: Treemap heatmap */}
           <Grid item xs={12}>
-            <Paper sx={{ bgcolor: TILE, p: 2, pb: 4, borderRadius: 2, overflow: "hidden", position: "relative" }}>
+            <Paper
+              sx={{
+                bgcolor: TILE,
+                p: 2,
+                pb: 4,
+                borderRadius: 2,
+                overflow: "hidden",
+                position: "relative",
+              }}
+            >
               <TreemapChart stocks={stocks} navigate={navigate} />
             </Paper>
           </Grid>

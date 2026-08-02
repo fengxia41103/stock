@@ -8,20 +8,20 @@ const theme = responsiveFontSizes(
     spacing: 3,
     palette: {
       mode: "light",
-      primary: { main: "#1565c0" },        // blue-800
-      secondary: { main: "#10b981" },      // emerald-500 (gains)
+      primary: { main: "#1565c0" }, // blue-800
+      secondary: { main: "#10b981" }, // emerald-500 (gains)
       background: {
-        default: "#f8fafc",                // slate-50
-        paper: "#ffffff",                  // white
+        default: "#f8fafc", // slate-50
+        paper: "#ffffff", // white
       },
       text: {
-        primary: "#1e293b",                // slate-800
-        secondary: "#64748b",              // slate-500
+        primary: "#1e293b", // slate-800
+        secondary: "#64748b", // slate-500
       },
-      success: { main: "#10b981" },        // emerald
-      error: { main: "#ef4444" },          // red-500
-      warning: { main: "#f59e0b" },        // amber-500
-      divider: "#e2e8f0",                  // slate-200
+      success: { main: "#10b981" }, // emerald
+      error: { main: "#ef4444" }, // red-500
+      warning: { main: "#f59e0b" }, // amber-500
+      divider: "#e2e8f0", // slate-200
     },
     shadows,
     typography,

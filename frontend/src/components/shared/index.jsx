@@ -92,9 +92,18 @@ export const HighlightedText = ({ children, color, highlights, text, val }) => {
   const fg = typeof highlights === "object" ? highlights?.font : undefined;
   const display = text || children;
   return (
-    <span style={{ backgroundColor: bg, color: fg, padding: "2px 6px", borderRadius: 4 }}>
+    <span
+      style={{
+        backgroundColor: bg,
+        color: fg,
+        padding: "2px 6px",
+        borderRadius: 4,
+      }}
+    >
       {display}
-      {val != null ? ` (${typeof val === "number" ? val.toFixed(2) : val})` : ""}
+      {val != null
+        ? ` (${typeof val === "number" ? val.toFixed(2) : val})`
+        : ""}
     </span>
   );
 };
@@ -108,16 +117,26 @@ export const Logo = ({ src, alt }) => (
 export const DictCard = ({ data, interests, title }) => {
   const entries = interests
     ? Object.entries(interests).filter(([k]) => data && data[k] !== undefined)
-    : data ? Object.entries(data) : [];
+    : data
+    ? Object.entries(data)
+    : [];
   return (
     <Box>
-      {title && <Typography variant="h6" mb={1}>{title}</Typography>}
+      {title && (
+        <Typography variant="h6" mb={1}>
+          {title}
+        </Typography>
+      )}
       {entries.map(([k, label]) => (
         <Box key={k} display="flex" justifyContent="space-between" py={0.5}>
-          <Typography variant="body2" color="text.secondary">{interests ? label : k}</Typography>
+          <Typography variant="body2" color="text.secondary">
+            {interests ? label : k}
+          </Typography>
           <Typography variant="body2" fontWeight={600}>
             {data && data[k] != null
-              ? typeof data[k] === "number" ? data[k].toFixed(4) : String(data[k])
+              ? typeof data[k] === "number"
+                ? data[k].toFixed(4)
+                : String(data[k])
               : "-"}
           </Typography>
         </Box>
@@ -127,22 +146,44 @@ export const DictCard = ({ data, interests, title }) => {
 };
 
 // --- HighchartGraph (Highcharts wrapper) ---
-export const HighchartGraph = ({ type, categories, data, title, xLabel, yLabel, legendEnabled }) => {
+export const HighchartGraph = ({
+  type,
+  categories,
+  data,
+  title,
+  xLabel,
+  yLabel,
+  legendEnabled,
+}) => {
   const mapType = (t) => {
     switch (t) {
-      case "column": return "column";
-      case "areaspline": return "areaspline";
-      case "bubble": return "bubble";
-      default: return t || "line";
+      case "column":
+        return "column";
+      case "areaspline":
+        return "areaspline";
+      case "bubble":
+        return "bubble";
+      default:
+        return t || "line";
     }
   };
 
   const options = {
     chart: { type: mapType(type), backgroundColor: "transparent" },
     title: { text: title || null, style: { color: "#e2e8f0" } },
-    xAxis: { categories: categories || [], title: { text: xLabel || "" }, labels: { style: { color: "#94a3b8" } } },
-    yAxis: { title: { text: yLabel || "" }, labels: { style: { color: "#94a3b8" } } },
-    legend: { enabled: legendEnabled !== false, itemStyle: { color: "#e2e8f0" } },
+    xAxis: {
+      categories: categories || [],
+      title: { text: xLabel || "" },
+      labels: { style: { color: "#94a3b8" } },
+    },
+    yAxis: {
+      title: { text: yLabel || "" },
+      labels: { style: { color: "#94a3b8" } },
+    },
+    legend: {
+      enabled: legendEnabled !== false,
+      itemStyle: { color: "#e2e8f0" },
+    },
     credits: { enabled: false },
     series: (data || []).map((s) => ({
       name: s.name,
@@ -157,11 +198,19 @@ export const HighchartGraph = ({ type, categories, data, title, xLabel, yLabel, 
 };
 
 // --- MultilineChart ---
-export const MultilineChart = ({ data, category_by, label_by, data_by, normalized, ...rest }) => {
+export const MultilineChart = ({
+  data,
+  category_by,
+  label_by,
+  data_by,
+  normalized,
+  ...rest
+}) => {
   if (data && category_by && data_by) {
-    const categories = data.length > 0
-      ? [...new Set(data[0].data.map((d) => d[category_by]))]
-      : [];
+    const categories =
+      data.length > 0
+        ? [...new Set(data[0].data.map((d) => d[category_by]))]
+        : [];
     const series = data.map((group) => {
       let values = group.data.map((d) => d[data_by]);
       if (normalized && values.length > 0 && values[0] !== 0) {
@@ -170,13 +219,26 @@ export const MultilineChart = ({ data, category_by, label_by, data_by, normalize
       }
       return { name: group[label_by] || group.symbol || "", data: values };
     });
-    return <HighchartGraph type="line" categories={categories} data={series} legendEnabled />;
+    return (
+      <HighchartGraph
+        type="line"
+        categories={categories}
+        data={series}
+        legendEnabled
+      />
+    );
   }
   return <HighchartGraph {...rest} />;
 };
 
 // --- RankChart (bar chart for rankings) ---
-export const RankChart = ({ data, categories, title, ranks, rank_val_name }) => {
+export const RankChart = ({
+  data,
+  categories,
+  title,
+  ranks,
+  rank_val_name,
+}) => {
   let chartCategories = categories;
   let chartData = data;
 
@@ -191,7 +253,10 @@ export const RankChart = ({ data, categories, title, ranks, rank_val_name }) => 
   const options = {
     chart: { type: "bar", backgroundColor: "transparent", height: 300 },
     title: { text: title || null, style: { color: "#e2e8f0" } },
-    xAxis: { categories: chartCategories || [], labels: { style: { color: "#94a3b8" } } },
+    xAxis: {
+      categories: chartCategories || [],
+      labels: { style: { color: "#94a3b8" } },
+    },
     yAxis: { title: { text: null }, labels: { style: { color: "#94a3b8" } } },
     legend: { enabled: false },
     credits: { enabled: false },
@@ -210,7 +275,10 @@ export const ABDonutChart = ({ data, title, subheader }) => {
       { name: data.B.label, y: data.B.val },
     ];
   } else {
-    pieData = (data || []).map((d) => ({ name: d.name, y: d.value || d.val || 0 }));
+    pieData = (data || []).map((d) => ({
+      name: d.name,
+      y: d.value || d.val || 0,
+    }));
   }
 
   const options = {
@@ -219,7 +287,10 @@ export const ABDonutChart = ({ data, title, subheader }) => {
     subtitle: { text: subheader || null },
     credits: { enabled: false },
     plotOptions: {
-      pie: { innerSize: "50%", dataLabels: { enabled: true, style: { color: "#e2e8f0" } } },
+      pie: {
+        innerSize: "50%",
+        dataLabels: { enabled: true, style: { color: "#e2e8f0" } },
+      },
     },
     series: [{ data: pieData }],
   };
@@ -237,7 +308,10 @@ export const DictTable = ({ data, title, interests, chart }) => {
     const formatVal = (val) => {
       if (val == null) return "-";
       if (typeof val !== "number") return String(val);
-      return val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      return val.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
     };
 
     const cellColor = (val) => {
@@ -251,7 +325,8 @@ export const DictTable = ({ data, title, interests, chart }) => {
       if (idx === 0) return null;
       const prev = data[idx - 1][key];
       const curr = data[idx][key];
-      if (!prev || typeof prev !== "number" || typeof curr !== "number") return null;
+      if (!prev || typeof prev !== "number" || typeof curr !== "number")
+        return null;
       return ((curr - prev) / Math.abs(prev)) * 100;
     };
 
@@ -261,22 +336,37 @@ export const DictTable = ({ data, title, interests, chart }) => {
       const min = Math.min(...nums);
       const max = Math.max(...nums);
       const range = max - min || 1;
-      const w = 60, h = 18;
+      const w = 60,
+        h = 18;
       const points = nums
-        .map((v, i) => `${(i / (nums.length - 1)) * w},${h - ((v - min) / range) * h}`)
+        .map(
+          (v, i) =>
+            `${(i / (nums.length - 1)) * w},${h - ((v - min) / range) * h}`,
+        )
         .join(" ");
       return (
         <svg width={w} height={h} style={{ verticalAlign: "middle" }}>
-          <polyline points={points} fill="none" stroke="#3b82f6" strokeWidth="1.5" />
+          <polyline
+            points={points}
+            fill="none"
+            stroke="#3b82f6"
+            strokeWidth="1.5"
+          />
         </svg>
       );
     };
 
-    const visibleData = data.filter((d) => fields.some(([key]) => d[key] != null && d[key] !== 0));
+    const visibleData = data.filter((d) =>
+      fields.some(([key]) => d[key] != null && d[key] !== 0),
+    );
 
     return (
       <Box>
-        {title && <Typography variant="h6" mb={1}>{title}</Typography>}
+        {title && (
+          <Typography variant="h6" mb={1}>
+            {title}
+          </Typography>
+        )}
         <Box sx={{ mb: 1 }}>
           <Button
             size="small"
@@ -288,36 +378,72 @@ export const DictTable = ({ data, title, interests, chart }) => {
           </Button>
         </Box>
         <Box sx={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              fontSize: "0.85rem",
+            }}
+          >
             <thead>
               <tr>
-                <th style={{ padding: 4, textAlign: "left", color: "#94a3b8" }}>Metric</th>
-                <th style={{ padding: 4, textAlign: "center", color: "#94a3b8" }}>Trend</th>
+                <th style={{ padding: 4, textAlign: "left", color: "#94a3b8" }}>
+                  Metric
+                </th>
+                <th
+                  style={{ padding: 4, textAlign: "center", color: "#94a3b8" }}
+                >
+                  Trend
+                </th>
                 {visibleData.map((d) => (
-                  <th key={d.on} style={{ padding: 4, textAlign: "right", color: "#94a3b8" }}>{d.on}</th>
+                  <th
+                    key={d.on}
+                    style={{ padding: 4, textAlign: "right", color: "#94a3b8" }}
+                  >
+                    {d.on}
+                  </th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {fields.map(([key, label]) => (
                 <tr key={key}>
-                  <td style={{ padding: 4, borderBottom: "1px solid #334155", color: "#e2e8f0" }}>{label}</td>
-                  <td style={{ padding: 4, borderBottom: "1px solid #334155", textAlign: "center" }}>
+                  <td
+                    style={{
+                      padding: 4,
+                      borderBottom: "1px solid #334155",
+                      color: "#e2e8f0",
+                    }}
+                  >
+                    {label}
+                  </td>
+                  <td
+                    style={{
+                      padding: 4,
+                      borderBottom: "1px solid #334155",
+                      textAlign: "center",
+                    }}
+                  >
                     <Sparkline values={visibleData.map((d) => d[key])} />
                   </td>
                   {visibleData.map((d, idx) => {
                     const val = showPctChange ? getPctChange(key, idx) : d[key];
-                    const display = showPctChange && val != null
-                      ? `${val > 0 ? "+" : ""}${val.toFixed(1)}%`
-                      : formatVal(d[key]);
+                    const display =
+                      showPctChange && val != null
+                        ? `${val > 0 ? "+" : ""}${val.toFixed(1)}%`
+                        : formatVal(d[key]);
                     return (
-                      <td key={d.on} style={{
-                        padding: 4,
-                        borderBottom: "1px solid #334155",
-                        textAlign: "right",
-                        color: cellColor(showPctChange ? val : d[key]),
-                        fontWeight: typeof d[key] === "number" ? 500 : "normal",
-                      }}>
+                      <td
+                        key={d.on}
+                        style={{
+                          padding: 4,
+                          borderBottom: "1px solid #334155",
+                          textAlign: "right",
+                          color: cellColor(showPctChange ? val : d[key]),
+                          fontWeight:
+                            typeof d[key] === "number" ? 500 : "normal",
+                        }}
+                      >
                         {showPctChange && idx === 0 ? "-" : display}
                       </td>
                     );
@@ -334,17 +460,41 @@ export const DictTable = ({ data, title, interests, chart }) => {
   // Fallback: simple key-value table
   return (
     <Box>
-      {title && <Typography variant="h6" mb={1}>{title}</Typography>}
+      {title && (
+        <Typography variant="h6" mb={1}>
+          {title}
+        </Typography>
+      )}
       <table style={{ width: "100%", borderCollapse: "collapse" }}>
         <tbody>
-          {data && Object.entries(data).map(([k, v]) => (
-            <tr key={k}>
-              <td style={{ padding: 4, borderBottom: "1px solid #334155", color: "#e2e8f0" }}>{k}</td>
-              <td style={{ padding: 4, borderBottom: "1px solid #334155", textAlign: "right", color: "#e2e8f0" }}>
-                {v != null ? (typeof v === "number" ? v.toFixed(4) : String(v)) : "-"}
-              </td>
-            </tr>
-          ))}
+          {data &&
+            Object.entries(data).map(([k, v]) => (
+              <tr key={k}>
+                <td
+                  style={{
+                    padding: 4,
+                    borderBottom: "1px solid #334155",
+                    color: "#e2e8f0",
+                  }}
+                >
+                  {k}
+                </td>
+                <td
+                  style={{
+                    padding: 4,
+                    borderBottom: "1px solid #334155",
+                    textAlign: "right",
+                    color: "#e2e8f0",
+                  }}
+                >
+                  {v != null
+                    ? typeof v === "number"
+                      ? v.toFixed(4)
+                      : String(v)
+                    : "-"}
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </Box>
@@ -359,7 +509,10 @@ export const TimeSeriesColumnChart = ({ data, name }) => {
   const options = {
     chart: { type: "column", backgroundColor: "transparent", height: 300 },
     title: { text: null },
-    xAxis: { categories, labels: { style: { color: "#94a3b8" }, rotation: -45 } },
+    xAxis: {
+      categories,
+      labels: { style: { color: "#94a3b8" }, rotation: -45 },
+    },
     yAxis: { title: { text: null }, labels: { style: { color: "#94a3b8" } } },
     legend: { enabled: false },
     credits: { enabled: false },
@@ -374,7 +527,11 @@ export const MenuBar = ({ root, title, items }) => (
   <Box display="inline-flex" alignItems="center" mr={2}>
     <DropdownMenu label={title}>
       {(items || []).map((item) => (
-        <a key={item.url} href={`${root}/${item.url}`} style={{ textDecoration: "none", color: "inherit" }}>
+        <a
+          key={item.url}
+          href={`${root}/${item.url}`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
           {item.text}
         </a>
       ))}

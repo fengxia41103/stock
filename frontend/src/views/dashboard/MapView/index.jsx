@@ -135,9 +135,13 @@ const MapView = () => {
           if (!p.price) return `<b>${p.name}</b>`;
           const ret =
             p.daily_return_pct != null
-              ? `${p.daily_return_pct > 0 ? "+" : ""}${p.daily_return_pct.toFixed(2)}%`
+              ? `${
+                  p.daily_return_pct > 0 ? "+" : ""
+                }${p.daily_return_pct.toFixed(2)}%`
               : "N/A";
-          return `<b>${p.name}</b><br/>$${p.price.toFixed(2)}<br/>Return: ${ret}`;
+          return `<b>${p.name}</b><br/>$${p.price.toFixed(
+            2,
+          )}<br/>Return: ${ret}`;
         },
       },
       credits: { enabled: false },

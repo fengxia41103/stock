@@ -17,12 +17,7 @@ import {
 } from "@mui/material";
 
 import { useDelete, useSector, useUpdate } from "@/api";
-import {
-  DropdownMenu,
-  MenuBar,
-  NotFoundView,
-  Page,
-} from "@/components/shared";
+import { DropdownMenu, MenuBar, NotFoundView, Page } from "@/components/shared";
 
 import SectorDetailContext from "./context";
 

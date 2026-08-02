@@ -90,7 +90,12 @@ const DiaryListView = () => {
         {/* Two-column layout */}
         <Grid container spacing={2} sx={{ height: "calc(100vh - 260px)" }}>
           {/* Left panel: filters + compact list */}
-          <Grid item xs={12} md={4} sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+          <Grid
+            item
+            xs={12}
+            md={4}
+            sx={{ height: "100%", display: "flex", flexDirection: "column" }}
+          >
             <DiaryFilters
               filters={filters}
               setFilters={setFilters}
@@ -116,11 +121,7 @@ const DiaryListView = () => {
                 />
               ))}
               {diaries.length === 0 && (
-                <Typography
-                  color="text.secondary"
-                  align="center"
-                  mt={4}
-                >
+                <Typography color="text.secondary" align="center" mt={4}>
                   No notes match filters
                 </Typography>
               )}

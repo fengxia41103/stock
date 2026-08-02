@@ -125,7 +125,11 @@ const SectorMacroCorrelationView = () => {
             dataLabels: {
               enabled: true,
               format: "{point.value:.2f}",
-              style: { color: "#1e293b", textOutline: "none", fontSize: "11px" },
+              style: {
+                color: "#1e293b",
+                textOutline: "none",
+                fontSize: "11px",
+              },
             },
             cursor: "pointer",
             point: {

@@ -28,7 +28,10 @@ const PollResource = ({ uri, interval = 5000, children, ...rest }) => {
 
     fetchData();
     const id = setInterval(fetchData, interval);
-    return () => { active = false; clearInterval(id); };
+    return () => {
+      active = false;
+      clearInterval(id);
+    };
   }, [uri, interval]);
 
   if (loading) return <ScaleLoader loading />;
@@ -41,7 +44,7 @@ const PollResource = ({ uri, interval = 5000, children, ...rest }) => {
   return React.Children.map(children, (child) =>
     React.isValidElement(child)
       ? React.cloneElement(child, { data, ...rest })
-      : child
+      : child,
   );
 };
 
