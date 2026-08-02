@@ -18,6 +18,7 @@ const CATEGORIES = {
   rates: "Interest Rates",
   employment: "Employment",
   inflation: "Inflation",
+  commodities: "Commodities",
   gdp: "Economic Activity",
   recession: "Recession Indicators",
   housing: "Housing",

@@ -20,6 +20,7 @@ SERIES_CONFIG = {
     "gdp": ["GDP", "INDPRO", "RSAFS"],
     "recession": ["T10Y2Y", "SAHM", "USREC"],
     "housing": ["HOUST", "MORTGAGE30US"],
+    "commodities": ["DCOILWTICO", "DCOILBRENTEU", "GOLDAMGBD228NLBM", "GASREGW", "DHHNGSP"],
 }
 
 
