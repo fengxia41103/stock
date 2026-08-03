@@ -133,9 +133,9 @@ const BriefView = () => {
         <Grid item xs={12} sm={6} md={4}>
           <Section
             icon={<WarningIcon sx={{ color: RED }} />}
-            title="Oversold (RSI <30)"
+            title="Weak / Oversold (RSI <40)"
             color={RED}
-            empty="No oversold stocks"
+            empty="No weak stocks"
           >
             {oversold?.length > 0 && (
               <List dense disablePadding>
@@ -278,7 +278,7 @@ const BriefView = () => {
         <Grid item xs={12} sm={6} md={3}>
           <Section
             icon={<WarningIcon sx={{ color: AMBER }} />}
-            title="Overbought (RSI >70)"
+            title="Overbought (RSI >65)"
             color={AMBER}
             empty="None"
           >

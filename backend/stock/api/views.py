@@ -499,17 +499,19 @@ class StockViewSet(viewsets.ModelViewSet):
         today = date.today()
         stocks = MyStock.objects.filter(sectors__user=user).distinct()
 
-        # 1. Oversold stocks (RSI < 30)
+        # 1. Oversold stocks (RSI < 40 — "weak zone")
         oversold = list(
-            StockSnapshot.objects.filter(stock__in=stocks, rsi__lt=30)
+            StockSnapshot.objects.filter(stock__in=stocks, rsi__lt=40, rsi__isnull=False)
             .select_related("stock")
+            .order_by("rsi")
             .values("stock__id", "stock__symbol", "price", "rsi", "last_lower", "verdict")[:10]
         )
 
-        # 2. Overbought stocks (RSI > 70)
+        # 2. Overbought stocks (RSI > 65)
         overbought = list(
-            StockSnapshot.objects.filter(stock__in=stocks, rsi__gt=70)
+            StockSnapshot.objects.filter(stock__in=stocks, rsi__gt=65, rsi__isnull=False)
             .select_related("stock")
+            .order_by("-rsi")
             .values("stock__id", "stock__symbol", "price", "rsi", "verdict")[:10]
         )
 
