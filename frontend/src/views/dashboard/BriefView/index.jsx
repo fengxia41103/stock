@@ -307,7 +307,7 @@ const BriefView = () => {
             icon={<PersonIcon sx={{ color: "#8b5cf6" }} />}
             title="Recent Insider Trades"
             color="#8b5cf6"
-            empty="None in last 3 days"
+            empty="None in last 14 days"
           >
             {recent_insider_trades?.length > 0 && (
               <List dense disablePadding>

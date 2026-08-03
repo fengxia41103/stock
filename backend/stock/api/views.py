@@ -559,8 +559,8 @@ class StockViewSet(viewsets.ModelViewSet):
                 "positions": positions.count(),
             }
 
-        # 7. Recent insider trades (last 3 days)
-        insider_cutoff = today - timedelta(days=3)
+        # 7. Recent insider trades (last 14 days)
+        insider_cutoff = today - timedelta(days=14)
         insider_trades = list(
             InsiderTrade.objects.filter(stock__in=stocks, trade_date__gte=insider_cutoff)
             .select_related("stock")
