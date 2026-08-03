@@ -307,7 +307,7 @@ const TodayDashboardView = () => {
           sx={{ bgcolor: TILE, borderRadius: 1, width: 200 }}
         />
       </Box>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} alignItems="stretch">
         {/* Row 1 */}
         <Grid item xs={6} sm={3}>
           <Tile
@@ -469,7 +469,7 @@ const TodayDashboardView = () => {
 
         {/* Row 4: Movers list */}
         <Grid item xs={12} sm={6}>
-          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
+          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2, height: "100%" }}>
             <Typography
               variant="caption"
               sx={{
@@ -518,7 +518,7 @@ const TodayDashboardView = () => {
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
+          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2, height: "100%" }}>
             <Typography
               variant="caption"
               sx={{
@@ -572,7 +572,7 @@ const TodayDashboardView = () => {
 
         {/* Row 5: Drop/Rebound/Volume/Volatility */}
         <Grid item xs={12} sm={6} md={3}>
-          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
+          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2, height: "100%" }}>
             <Typography
               variant="caption"
               sx={{
@@ -628,7 +628,7 @@ const TodayDashboardView = () => {
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
+          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2, height: "100%" }}>
             <Typography
               variant="caption"
               sx={{
@@ -688,7 +688,7 @@ const TodayDashboardView = () => {
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
+          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2, height: "100%" }}>
             <Typography
               variant="caption"
               sx={{
@@ -748,7 +748,7 @@ const TodayDashboardView = () => {
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2 }}>
+          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2, height: "100%" }}>
             <Typography
               variant="caption"
               sx={{
