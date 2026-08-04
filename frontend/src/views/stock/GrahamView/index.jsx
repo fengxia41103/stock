@@ -63,10 +63,10 @@ const GrahamView = () => {
         Benjamin Graham Valuation — {stock.symbol}
       </Typography>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={3} alignItems="stretch">
         {/* Score */}
         <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 2, textAlign: "center" }}>
+          <Paper sx={{ p: 2, textAlign: "center", height: "100%" }}>
             <Typography variant="h2" color="primary">
               {data.graham_score}/7
             </Typography>
@@ -78,7 +78,7 @@ const GrahamView = () => {
 
         {/* Intrinsic Value */}
         <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 2, textAlign: "center" }}>
+          <Paper sx={{ p: 2, textAlign: "center", height: "100%" }}>
             <Typography variant="h4">
               ${fmt(data.graham_intrinsic_value)}
             </Typography>
@@ -93,7 +93,7 @@ const GrahamView = () => {
 
         {/* Margin of Safety */}
         <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 2, textAlign: "center" }}>
+          <Paper sx={{ p: 2, textAlign: "center", height: "100%" }}>
             <Chip
               label={`${fmt(data.graham_margin_of_safety, 1)}%`}
               color={marginColor}
@@ -110,7 +110,7 @@ const GrahamView = () => {
 
         {/* Key Metrics */}
         <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 2 }}>
+          <Paper sx={{ p: 2, height: "100%" }}>
             <Typography variant="h6" gutterBottom>
               Valuation Metrics
             </Typography>
@@ -176,7 +176,7 @@ const GrahamView = () => {
 
         {/* Criteria Checklist */}
         <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 2 }}>
+          <Paper sx={{ p: 2, height: "100%" }}>
             <Typography variant="h6" gutterBottom>
               Screening Criteria
             </Typography>
