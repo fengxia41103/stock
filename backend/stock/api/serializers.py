@@ -522,3 +522,4 @@ class PeerGroupSerializer(serializers.ModelSerializer):
             "notes",
             "created",
         ]
+        read_only_fields = ["created"]
