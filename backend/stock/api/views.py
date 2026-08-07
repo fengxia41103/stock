@@ -1372,3 +1372,62 @@ class BacktestViewSet(viewsets.ViewSet):
                 "params": cls.params_schema(),
             })
         return Response(result)
+
+
+# --- Stock Thesis ---
+
+
+class StockThesisViewSet(viewsets.ModelViewSet):
+    """CRUD for stock investment theses (Steps 4, 5, 14, 15, 16 of deep-dive framework)."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        from stock.api.serializers import StockThesisSerializer
+        return StockThesisSerializer
+
+    def get_queryset(self):
+        from stock.models.thesis import StockThesis
+        qs = StockThesis.objects.filter(user=self.request.user).select_related("stock")
+        stock_id = self.request.query_params.get("stock")
+        if stock_id:
+            qs = qs.filter(stock_id=stock_id)
+        status = self.request.query_params.get("status")
+        if status:
+            qs = qs.filter(status=status)
+        stale = self.request.query_params.get("stale")
+        if stale == "true":
+            from datetime import date, timedelta
+            cutoff = date.today() - timedelta(days=30)
+            qs = qs.filter(last_reviewed__lt=cutoff)
+        return qs
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    @action(detail=False, methods=["get"])
+    def summary(self, request):
+        """Summary of thesis coverage: which positions have/lack thesis."""
+        from stock.models.portfolio import Position
+        from stock.models.thesis import StockThesis
+
+        open_positions = Position.objects.filter(
+            user=request.user, closed_at__isnull=True, shares__gt=0
+        ).select_related("stock")
+
+        results = []
+        for pos in open_positions:
+            thesis = StockThesis.objects.filter(stock=pos.stock, user=request.user).first()
+            results.append({
+                "stock_id": pos.stock.id,
+                "symbol": pos.stock.symbol,
+                "shares": pos.shares,
+                "has_thesis": thesis is not None,
+                "is_stale": thesis.is_stale if thesis else None,
+                "days_since_review": thesis.days_since_review if thesis else None,
+                "status": thesis.status if thesis else None,
+            })
+
+        # Sort: missing thesis first, then stale, then fresh
+        results.sort(key=lambda x: (x["has_thesis"], not (x.get("is_stale") or False)))
+        return Response(results)

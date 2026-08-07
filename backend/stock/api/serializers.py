@@ -372,3 +372,59 @@ class DividendSerializer(serializers.ModelSerializer):
         from stock.models.dividend import DividendEvent
         model = DividendEvent
         fields = ["id", "stock", "symbol", "ex_date", "pay_date", "amount"]
+
+
+class StockThesisSerializer(serializers.ModelSerializer):
+    symbol = serializers.CharField(source="stock.symbol", read_only=True)
+    expected_value = serializers.FloatField(read_only=True)
+    reward_risk_ratio = serializers.FloatField(read_only=True)
+    days_since_review = serializers.IntegerField(read_only=True)
+    is_stale = serializers.BooleanField(read_only=True)
+
+    class Meta:
+        from stock.models.thesis import StockThesis
+
+        model = StockThesis
+        fields = [
+            "id",
+            "stock",
+            "symbol",
+            # Step 1: Edge
+            "edge_type",
+            "variant_perception",
+            # Step 4: Drivers
+            "driver_1",
+            "driver_2",
+            "driver_3",
+            # Step 5: Expectations
+            "implied_growth_rate",
+            "growth_assessment",
+            # Step 14: Re-rating
+            "rerate_mechanism",
+            "rerate_timeframe",
+            "reflexivity_risk",
+            # Step 15: Scenarios
+            "bull_price",
+            "bull_probability",
+            "base_price",
+            "base_probability",
+            "bear_price",
+            "bear_probability",
+            "expected_value",
+            "reward_risk_ratio",
+            # Step 16: Kill criteria
+            "kill_criterion_1",
+            "kill_criterion_2",
+            "kill_criterion_3",
+            "stop_loss_price",
+            # Step 9: Capital cycle
+            "capital_cycle_phase",
+            # Meta
+            "status",
+            "last_reviewed",
+            "days_since_review",
+            "is_stale",
+            "created",
+            "notes",
+        ]
+        read_only_fields = ["created", "last_reviewed"]

@@ -16,6 +16,7 @@ from stock.models.portfolio import Position, Transaction
 from stock.models.sector import MySector
 from stock.models.snapshot import StockSnapshot
 from stock.models.stock import MyStock
+from stock.models.thesis import StockThesis
 from stock.models.valuation import ValuationRatio
 
 __all__ = [
@@ -42,6 +43,7 @@ __all__ = [
     "RankingCache",
     "StockMacroCorrelation",
     "StockSnapshot",
+    "StockThesis",
     "Transaction",
     "ValuationRatio",
 ]
