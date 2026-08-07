@@ -1549,3 +1549,27 @@ class StockThesisViewSet(viewsets.ModelViewSet):
         # Sort: missing thesis first, then stale, then fresh
         results.sort(key=lambda x: (x["has_thesis"], not (x.get("is_stale") or False)))
         return Response(results)
+
+
+# --- Earnings Call Notes ---
+
+
+class EarningsCallNoteViewSet(viewsets.ModelViewSet):
+    """CRUD for earnings call review notes (Step 6 of deep-dive framework)."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        from stock.api.serializers import EarningsCallNoteSerializer
+        return EarningsCallNoteSerializer
+
+    def get_queryset(self):
+        from stock.models.earnings_call_note import EarningsCallNote
+        qs = EarningsCallNote.objects.filter(user=self.request.user).select_related("stock")
+        stock_id = self.request.query_params.get("stock")
+        if stock_id:
+            qs = qs.filter(stock_id=stock_id)
+        return qs
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

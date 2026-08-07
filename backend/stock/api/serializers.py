@@ -428,3 +428,56 @@ class StockThesisSerializer(serializers.ModelSerializer):
             "notes",
         ]
         read_only_fields = ["created", "last_reviewed"]
+
+
+class EarningsCallNoteSerializer(serializers.ModelSerializer):
+    symbol = serializers.CharField(source="stock.symbol", read_only=True)
+    driver_1_label = serializers.SerializerMethodField()
+    driver_2_label = serializers.SerializerMethodField()
+    driver_3_label = serializers.SerializerMethodField()
+
+    def _get_thesis_driver(self, obj, num):
+        thesis = getattr(obj.stock, "thesis", None)
+        if thesis:
+            return getattr(thesis, f"driver_{num}", "")
+        return ""
+
+    def get_driver_1_label(self, obj):
+        return self._get_thesis_driver(obj, 1)
+
+    def get_driver_2_label(self, obj):
+        return self._get_thesis_driver(obj, 2)
+
+    def get_driver_3_label(self, obj):
+        return self._get_thesis_driver(obj, 3)
+
+    class Meta:
+        from stock.models.earnings_call_note import EarningsCallNote
+
+        model = EarningsCallNote
+        fields = [
+            "id",
+            "stock",
+            "symbol",
+            "quarter",
+            "call_date",
+            "replay_url",
+            "management_tone",
+            "key_quote",
+            "guidance_direction",
+            "driver_1_update",
+            "driver_1_label",
+            "driver_2_update",
+            "driver_2_label",
+            "driver_3_update",
+            "driver_3_label",
+            "kill_triggered",
+            "kill_notes",
+            "analyst_pushback",
+            "what_management_avoided",
+            "stock_reaction_pct",
+            "surprise_vs_consensus",
+            "created",
+            "last_updated",
+        ]
+        read_only_fields = ["created", "last_updated"]

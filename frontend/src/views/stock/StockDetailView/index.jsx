@@ -80,7 +80,10 @@ const sections = [
   },
   {
     label: "Research",
-    items: [{ url: "thesis", text: "Thesis" }],
+    items: [
+      { url: "thesis", text: "Thesis" },
+      { url: "earnings-notes", text: "Earnings Notes" },
+    ],
   },
 ];
 
