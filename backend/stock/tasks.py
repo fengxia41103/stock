@@ -480,6 +480,9 @@ def check_alerts():
         except Exception:
             continue
 
+    # Phase F: Thesis stale/missing alerts
+    _check_thesis_alerts()
+
 
 def _check_stock_alert(alert):
     """Evaluate a stock-specific alert."""
@@ -607,6 +610,57 @@ def _check_universal_alert(alert):
                 AlertEvent.objects.create(
                     alert=alert, stock=stock, value=value or 0, message=message
                 )
+
+
+def _check_thesis_alerts():
+    """Check for positions missing thesis or with stale thesis (>30 days)."""
+    from datetime import date, timedelta
+    from django.contrib.auth import get_user_model
+    from stock.models.alert import Alert, AlertEvent
+    from stock.models.portfolio import Position
+    from stock.models.thesis import StockThesis
+
+    User = get_user_model()
+
+    for user in User.objects.all():
+        open_positions = Position.objects.filter(
+            user=user, closed_at__isnull=True, shares__gt=0
+        ).select_related("stock")
+
+        for pos in open_positions:
+            thesis = StockThesis.objects.filter(stock=pos.stock, user=user).first()
+
+            if thesis is None:
+                message = f"⚠️ {pos.stock.symbol}: Position held with NO thesis documented. Define key drivers and kill criteria."
+                _create_thesis_alert_event(user, pos.stock, 0, message)
+            elif thesis.is_stale:
+                days = thesis.days_since_review
+                message = f"📋 {pos.stock.symbol}: Thesis not reviewed in {days} days. Check kill criteria against latest data."
+                _create_thesis_alert_event(user, pos.stock, days, message)
+
+
+def _create_thesis_alert_event(user, stock, value, message):
+    """Create a thesis alert event, deduped per stock per day."""
+    from datetime import date
+    from stock.models.alert import Alert, AlertEvent
+
+    # Find or create the user's thesis-stale alert (a universal one)
+    alert, _ = Alert.objects.get_or_create(
+        user=user,
+        alert_type="universal_drop",  # Reuse type — or add "thesis_stale" type
+        stock=None,
+        threshold=30,
+        defaults={"is_active": True},
+    )
+
+    # Dedupe: same stock + same day
+    already = AlertEvent.objects.filter(
+        alert=alert, stock=stock, triggered_at__date__gte=date.today()
+    ).exists()
+    if not already:
+        AlertEvent.objects.create(
+            alert=alert, stock=stock, value=value, message=message
+        )
 
 
 @app.on_after_finalize.connect

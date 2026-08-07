@@ -236,6 +236,124 @@ class StockViewSet(viewsets.ModelViewSet):
         result = compute_health(stock.symbol)
         return Response(result)
 
+    @action(detail=True, methods=["get"], url_path="reverse-dcf")
+    def reverse_dcf(self, request, pk=None):
+        """Reverse DCF: given current price, solve for implied growth rate.
+        
+        Step 5 of the deep-dive framework — diagnostic, not forecast.
+        
+        Query params:
+          wacc: weighted avg cost of capital (default 0.09)
+          terminal_growth: perpetuity growth rate (default 0.03)
+          years: projection period (default 10)
+        """
+        stock = self.get_object()
+
+        # Get current price
+        latest = stock.historicals.order_by("-on").first()
+        if not latest:
+            return Response({"error": "No price data"}, status=400)
+        price = latest.close_price
+
+        # Get latest FCF from cross_statements_model
+        cross = stock.cross_statements_model
+        fcf = None
+        if cross:
+            # Find the largest recent FCF (annual filings have higher FCF than quarterly)
+            # cross_statements_model returns newest first
+            fcf_values = [p["fcf"] for p in cross if p.get("fcf") and p["fcf"] > 0]
+            if fcf_values:
+                # Use the maximum (likely the annual figure) from recent periods
+                fcf = max(fcf_values[:8])  # Look at last 8 periods
+
+        if not fcf or not stock.shares_outstanding or stock.shares_outstanding <= 0:
+            return Response({
+                "error": "Insufficient data (need FCF and shares outstanding)",
+                "current_price": price,
+            }, status=400)
+
+        # Convert FCF from billions (app stores in billions) to absolute
+        fcf_absolute = fcf * 1e9
+        shares = stock.shares_outstanding * 1e9
+
+        wacc = float(request.query_params.get("wacc", 0.09))
+        terminal_growth = float(request.query_params.get("terminal_growth", 0.03))
+        years = int(request.query_params.get("years", 10))
+
+        # Binary search for growth rate that produces current market cap
+        market_cap = price * shares
+        implied_growth = self._solve_for_growth(
+            fcf_absolute, market_cap, wacc, terminal_growth, years
+        )
+
+        # Assessment
+        if implied_growth is None:
+            assessment = "indeterminate"
+        elif implied_growth > 0.25:
+            assessment = "extremely_aggressive"
+        elif implied_growth > 0.15:
+            assessment = "aggressive"
+        elif implied_growth > 0.08:
+            assessment = "reasonable"
+        elif implied_growth > 0.03:
+            assessment = "modest"
+        else:
+            assessment = "pessimistic"
+
+        return Response({
+            "current_price": price,
+            "implied_growth_rate": round(implied_growth, 4) if implied_growth else None,
+            "implied_growth_pct": round(implied_growth * 100, 2) if implied_growth else None,
+            "fcf_used": fcf,
+            "fcf_per_share": round(fcf_absolute / shares, 2),
+            "shares_outstanding": stock.shares_outstanding,
+            "wacc": wacc,
+            "terminal_growth": terminal_growth,
+            "projection_years": years,
+            "assessment": assessment,
+            "assessment_label": {
+                "extremely_aggressive": "Market expects >25% growth — very aggressive",
+                "aggressive": "Market expects 15-25% growth — aggressive assumptions",
+                "reasonable": "Market expects 8-15% growth — reasonable for quality compounder",
+                "modest": "Market expects 3-8% growth — modest expectations",
+                "pessimistic": "Market expects <3% growth — very pessimistic or value trap",
+                "indeterminate": "Could not solve — check inputs",
+            }.get(assessment, ""),
+        })
+
+    def _solve_for_growth(self, fcf, target_market_cap, wacc, terminal_growth, years):
+        """Binary search for growth rate that produces target market cap via DCF."""
+        low, high = -0.30, 0.80  # Search between -30% and +80% growth
+        for _ in range(100):  # Max iterations
+            mid = (low + high) / 2
+            dcf_value = self._compute_dcf_value(fcf, mid, wacc, terminal_growth, years)
+            if abs(dcf_value - target_market_cap) / target_market_cap < 0.001:
+                return mid
+            if dcf_value < target_market_cap:
+                low = mid
+            else:
+                high = mid
+        return (low + high) / 2
+
+    def _compute_dcf_value(self, fcf, growth_rate, wacc, terminal_growth, years):
+        """Compute intrinsic value via standard two-stage DCF."""
+        if wacc <= terminal_growth:
+            return float("inf")
+
+        # Stage 1: Projected FCF discounted
+        total = 0
+        projected_fcf = fcf
+        for year in range(1, years + 1):
+            projected_fcf *= (1 + growth_rate)
+            total += projected_fcf / ((1 + wacc) ** year)
+
+        # Terminal value (Gordon Growth Model)
+        terminal_fcf = projected_fcf * (1 + terminal_growth)
+        terminal_value = terminal_fcf / (wacc - terminal_growth)
+        total += terminal_value / ((1 + wacc) ** years)
+
+        return total
+
     @action(detail=True, methods=["get"])
     def report(self, request, pk=None):
         """Live analysis report — Darwin + Graham + Box Trading.
