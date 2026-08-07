@@ -1155,8 +1155,8 @@ class RiskFactor(models.Model):
 ```
                     LOW EFFORT ─────────────── HIGH EFFORT
                     │                                    │
-  HIGH VALUE        │ F. Thesis Stale Alert    A. Thesis Card    │
-  (do first)        │ B. Reverse DCF           E. Earnings Call  │
+  HIGH VALUE        │ F. Thesis Stale Alert ✅  A. Thesis Card ✅   │
+  (do first)        │ B. Reverse DCF ✅         E. Earnings Call    │
                     │                                    │
   MEDIUM VALUE      │ G. Risk Factors          C. Peer Benchmark │
                     │                          D. Capital Cycle  │
@@ -1165,16 +1165,16 @@ class RiskFactor(models.Model):
 
 ### Execution Schedule
 
-| Week | Deliverable | Hours | Framework Steps Addressed |
-|------|-------------|-------|---------------------------|
-| 1 | Phase A: StockThesis model + form + API | 5h | Steps 4, 14, 15, 16 |
-| 1 | Phase F: Thesis stale alerts | 2h | Step 17 |
-| 2 | Phase B: Reverse DCF calculator | 3h | Step 5 |
-| 2 | Phase E: Earnings Call Notes model + form | 3h | Step 6 |
-| 3 | Phase C: Peer Benchmark (extend CompareView) | 6h | Step 8 |
-| 4 | Phase D: Capital Cycle computation | 8h | Step 9 |
-| 5 | Phase G: Risk Factors tracker | 3h | Step 2 (lite) |
-| **Total** | | **30h** | Steps 2,4,5,6,8,9,14,15,16,17 |
+| Week | Deliverable | Hours | Framework Steps Addressed | Status |
+|------|-------------|-------|---------------------------|--------|
+| 1 | Phase A: StockThesis model + form + API | 5h | Steps 4, 14, 15, 16 | ✅ DONE |
+| 1 | Phase F: Thesis stale alerts | 2h | Step 17 | ✅ DONE |
+| 2 | Phase B: Reverse DCF calculator | 3h | Step 5 | ✅ DONE |
+| 2 | Phase E: Earnings Call Notes model + form | 3h | Step 6 | ⬜ NEXT |
+| 3 | Phase C: Peer Benchmark (extend CompareView) | 6h | Step 8 | ⬜ |
+| 4 | Phase D: Capital Cycle computation | 8h | Step 9 | ⬜ |
+| 5 | Phase G: Risk Factors tracker | 3h | Step 2 (lite) | ⬜ |
+| **Total** | | **30h** | Steps 2,4,5,6,8,9,14,15,16,17 | **40% done** |
 
 ---
 
@@ -1185,33 +1185,10 @@ These are NOT app features — they're research tasks that use the app + externa
 ### Week 1: Document Thesis for All >$10K Holdings
 
 ```
-□ MA — Thesis Card:
-    Edge: Behavioral (payment monopoly sold off with "fintech disruption" narrative)
-    Drivers: (1) Cross-border tx volume, (2) Domestic payment shift cash→card, (3) Fintech pricing pressure
-    Re-rating: "Q4 earnings shows cross-border +20% → travel recovery confirmed"
-    Kill: "Real-time payment networks (FedNow/UPI) take >5% card volume share"
-    Implied growth at 28x PE: ~15% for 10 yrs → reasonable for payment duopoly
-
-□ RCL — Thesis Card:
-    Edge: Behavioral (cruise stocks over-punished post-COVID, but demand exceeds 2019)
-    Drivers: (1) Net yield per cruise day, (2) Fleet expansion vs demand, (3) Fuel + interest costs
-    Re-rating: "Each quarter of yield growth above fleet growth proves pricing power"
-    Kill: "Yield declines 2 consecutive quarters OR debt-to-EBITDA rises above 4x"
-    Implied growth at 19x PE: ~10% → check if fleet expansion + pricing delivers this
-
-□ PDD — Thesis Card:
-    Edge: Analytical (market prices China regulatory risk as terminal; Temu growing 50%+)
-    Drivers: (1) Temu US regulatory outcome, (2) China consumer spending trend, (3) Take rate expansion
-    Re-rating: "Temu regulatory clarity (no ban) + margins stabilize → multiple re-rates from 8x to 12-15x"
-    Kill: "US bans Temu OR China antitrust action forces structural changes"
-    Implied growth at 8x PE: ~3-5% → FAR too pessimistic for a 50% grower. Asymmetric if risk doesn't materialize.
-
-□ SBUX — Thesis Card:
-    Edge: Analytical (Niccol turnaround will take 4-6 quarters; market impatient)
-    Drivers: (1) US same-store traffic (not avg ticket), (2) China store-level profitability, (3) Mobile order throughput
-    Re-rating: "2 consecutive quarters of positive US traffic comps → market believes turnaround"
-    Kill: "US traffic negative 3 quarters under Niccol OR China comps -10%"
-    Implied growth at 77x PE: ~30% → EXTREMELY aggressive. If turnaround fails, stock halves. Size appropriately.
+✅ DONE — All 44 stocks have thesis cards created (Aug 6, 2026)
+   15 active (current holdings)
+   22 watchlist (Darwin approved + consideration)
+   7 avoid (Kill List triggered)
 ```
 
 ### Week 2: Reverse DCF + Capital Cycle
