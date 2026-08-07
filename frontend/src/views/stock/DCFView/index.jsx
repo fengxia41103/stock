@@ -46,7 +46,8 @@ const ReverseDCFCard = ({ stockId }) => {
         Step 5: Implied Expectations (Reverse DCF)
       </Typography>
       <Typography variant="body2" color="text.secondary" mb={2}>
-        What growth rate does the current stock price imply? The DCF is a diagnostic — not a forecast.
+        What growth rate does the current stock price imply? The DCF is a
+        diagnostic — not a forecast.
       </Typography>
       <Grid container spacing={3} alignItems="center">
         <Grid item xs={12} md={3}>
@@ -66,7 +67,12 @@ const ReverseDCFCard = ({ stockId }) => {
               color={ASSESSMENT_COLORS[data.assessment] || "default"}
               sx={{ fontWeight: 600 }}
             />
-            <Typography variant="caption" display="block" mt={0.5} color="text.secondary">
+            <Typography
+              variant="caption"
+              display="block"
+              mt={0.5}
+              color="text.secondary"
+            >
               {data.assessment_label}
             </Typography>
           </Box>
@@ -74,17 +80,26 @@ const ReverseDCFCard = ({ stockId }) => {
         <Grid item xs={12} md={6}>
           <Stack spacing={0.5}>
             <Typography variant="body2">
-              <strong>Price:</strong> ${data.current_price?.toFixed(2)} | <strong>FCF/share:</strong> ${data.fcf_per_share}
+              <strong>Price:</strong> ${data.current_price?.toFixed(2)} |{" "}
+              <strong>FCF/share:</strong> ${data.fcf_per_share}
             </Typography>
             <Typography variant="body2">
-              <strong>WACC:</strong> {(data.wacc * 100).toFixed(1)}% | <strong>Terminal growth:</strong> {(data.terminal_growth * 100).toFixed(1)}% | <strong>Years:</strong> {data.projection_years}
+              <strong>WACC:</strong> {(data.wacc * 100).toFixed(1)}% |{" "}
+              <strong>Terminal growth:</strong>{" "}
+              {(data.terminal_growth * 100).toFixed(1)}% |{" "}
+              <strong>Years:</strong> {data.projection_years}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              Interpretation: Market prices {data.implied_growth_pct}% annual FCF growth for {data.projection_years} years. 
-              {data.assessment === "reasonable" && " This seems achievable for a quality compounder."}
-              {data.assessment === "aggressive" && " This may be optimistic — check base rates."}
-              {data.assessment === "pessimistic" && " Market is very pessimistic — potential asymmetric opportunity."}
-              {data.assessment === "extremely_aggressive" && " Extremely high expectations embedded — downside risk elevated."}
+              Interpretation: Market prices {data.implied_growth_pct}% annual
+              FCF growth for {data.projection_years} years.
+              {data.assessment === "reasonable" &&
+                " This seems achievable for a quality compounder."}
+              {data.assessment === "aggressive" &&
+                " This may be optimistic — check base rates."}
+              {data.assessment === "pessimistic" &&
+                " Market is very pessimistic — potential asymmetric opportunity."}
+              {data.assessment === "extremely_aggressive" &&
+                " Extremely high expectations embedded — downside risk elevated."}
             </Typography>
           </Stack>
         </Grid>
@@ -92,7 +107,6 @@ const ReverseDCFCard = ({ stockId }) => {
     </Paper>
   );
 };
-
 
 const DCFView = () => {
   const { id } = useParams();

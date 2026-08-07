@@ -85,16 +85,16 @@ const MacroCard = ({ series }) => {
   const prev = recent.length > 7 ? recent[recent.length - 8] : null;
   const delta = latest && prev ? latest.value - prev.value : null;
 
-    // Compute Y-axis range from actual data with padding
-    const chartValues = recent.map((p) => p.value);
-    const dataMin = chartValues.length > 0 ? Math.min(...chartValues) : 0;
-    const dataMax = chartValues.length > 0 ? Math.max(...chartValues) : 1;
-    const dataRange = dataMax - dataMin || 1;
-    const step = Math.pow(10, Math.floor(Math.log10(dataRange)));
-    const yMin = Math.floor((dataMin - dataRange * 0.05) / step) * step;
-    const yMax = Math.ceil((dataMax + dataRange * 0.05) / step) * step;
+  // Compute Y-axis range from actual data with padding
+  const chartValues = recent.map((p) => p.value);
+  const dataMin = chartValues.length > 0 ? Math.min(...chartValues) : 0;
+  const dataMax = chartValues.length > 0 ? Math.max(...chartValues) : 1;
+  const dataRange = dataMax - dataMin || 1;
+  const step = Math.pow(10, Math.floor(Math.log10(dataRange)));
+  const yMin = Math.floor((dataMin - dataRange * 0.05) / step) * step;
+  const yMax = Math.ceil((dataMax + dataRange * 0.05) / step) * step;
 
-    let option =
+  let option =
     recent.length > 1
       ? {
           chart: {
@@ -117,7 +117,8 @@ const MacroCard = ({ series }) => {
               style: { color: "#94a3b8", fontSize: "9px" },
               formatter: function () {
                 const v = this.value;
-                if (Math.abs(v) >= 1000000) return (v / 1000000).toFixed(1) + "M";
+                if (Math.abs(v) >= 1000000)
+                  return (v / 1000000).toFixed(1) + "M";
                 if (Math.abs(v) >= 1000) return (v / 1000).toFixed(0) + "k";
                 if (Math.abs(v) < 10) return v.toFixed(1);
                 return v.toFixed(0);
