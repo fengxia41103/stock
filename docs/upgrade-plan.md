@@ -1,6 +1,6 @@
 # Stock App — Unified Upgrade Plan
 
-**Last updated**: 2026-08-02
+**Last updated**: 2026-08-06
 **Branch**: `feat-frontend-refactor-cwis-style`
 
 ---
@@ -80,11 +80,73 @@
 
 ---
 
-## Phase 10 — Future Ideas (Not Started)
+## Phase 10 — Deep-Dive Research Framework (In Progress)
+
+Bridges the gap between the current "Darwin quality screen + RSI timing" approach and institutional-grade fundamental research. See `docs/analysis/deep-dive-framework-gap-analysis.md` for the full gap analysis.
+
+### Phase 10A: StockThesis Model + UI ✅ DONE (Aug 6, 2026)
+
+| Item | Feature | Status |
+|------|---------|--------|
+| 10A.1 | StockThesis model (edge, drivers, scenarios, kill criteria, cycle phase) | ✅ |
+| 10A.2 | Migration + API (CRUD at /api/v1/theses/) | ✅ |
+| 10A.3 | ThesisView frontend (create/edit/display modes) | ✅ |
+| 10A.4 | "Research > Thesis" tab in StockDetailView | ✅ |
+| 10A.5 | Thesis summary endpoint (coverage report for all positions) | ✅ |
+| 10A.6 | Created 44 thesis cards for all tracked stocks | ✅ |
+
+### Phase 10B: Reverse DCF Calculator ✅ DONE (Aug 6, 2026)
+
+| Item | Feature | Status |
+|------|---------|--------|
+| 10B.1 | Binary search solver for implied growth rate | ✅ |
+| 10B.2 | GET /api/v1/stocks/{id}/reverse-dcf/ endpoint | ✅ |
+| 10B.3 | ReverseDCFCard in frontend DCF view | ✅ |
+| 10B.4 | Assessment categorization (pessimistic → extremely_aggressive) | ✅ |
+
+### Phase 10F: Thesis Stale Alerts ✅ DONE (Aug 6, 2026)
+
+| Item | Feature | Status |
+|------|---------|--------|
+| 10F.1 | Thesis stale/missing check in check_alerts task | ✅ |
+| 10F.2 | Alerts fire for positions without thesis or >30 days stale | ✅ |
+
+### Phase 10C: Peer Benchmark View — NOT STARTED
+
+- Extend CompareView to load pre-defined peer groups (actual competitors)
+- PeerGroup model mapping stock → competitor symbols
+- Fetch peer data even for stocks not in portfolio
+- Effort: 5-6 hours
+
+### Phase 10D: Capital Cycle Dashboard — NOT STARTED
+
+- Aggregate capex/revenue ratio across industry peers over 10 years
+- Compute aggregate ROIC vs WACC
+- Phase indicator: Peak 🔴 / Falling 🟡 / Trough 🟢 / Rising 🔵
+- Critical for semi-cap names (AMAT, LRCX, KLAC)
+- Effort: 6-8 hours
+
+### Phase 10E: Earnings Call Notes — NOT STARTED
+
+- EarningsCallNote model (tone, guidance direction, driver updates, kill check)
+- Structured "Earnings Scorecard" form prompted after each earnings
+- Links to thesis card driver updates
+- Effort: 3-4 hours
+
+### Phase 10G: Risk Factors Tracker — NOT STARTED
+
+- RiskFactor model (category, severity, currently_materializing)
+- User-entered from annual 10-K reading
+- "Currently materializing" checkbox turns red + links to kill criteria
+- Effort: 2-3 hours
+
+---
+
+## Phase 11 — Future Ideas (Not Started)
 
 These are potential enhancements beyond the current scope. No timeline assigned.
 
-### 10.1 AI-Assisted Analysis
+### 11.1 AI-Assisted Analysis
 
 - "Generate Analysis" button on stock detail → calls LLM with financials + technicals
 - Auto-generates Darwin Kill List assessment + verdict as diary note
@@ -182,4 +244,4 @@ make shell            # Django shell
 
 ---
 
-*Plan finalized August 2, 2026.*
+*Plan finalized August 2, 2026. Updated August 6, 2026 with Phase 10 (deep-dive framework).*
