@@ -102,11 +102,13 @@ def compute_capital_cycle(stock, user):
                 nopat = inc.ebit * (1 - inc.tax_rate)
                 roic = nopat / invested_capital * 100
 
-            # Aggregate by period (quarter)
-            period_key = inc.on.isoformat()
+            # Aggregate by period (quarter — round to nearest quarter end)
+            quarter_month = ((inc.on.month - 1) // 3) * 3 + 3
+            period_key = f"{inc.on.year}-Q{quarter_month // 3}"
+            period_date = inc.on.replace(month=quarter_month, day=28)
             if period_key not in period_data:
                 period_data[period_key] = {
-                    "on": inc.on,
+                    "on": period_date,
                     "total_capex": 0,
                     "total_revenue": 0,
                     "roics": [],
@@ -139,7 +141,7 @@ def compute_capital_cycle(stock, user):
             "peer_count": p["count"],
         })
 
-    if len(capex_trend) < 4:
+    if len(capex_trend) < 3:
         return {
             "error": f"Insufficient data — need at least 4 periods with revenue data. Found {len(capex_trend)} for [{', '.join(tracked_symbols)}].",
             "all_symbols": all_symbols,
@@ -149,7 +151,7 @@ def compute_capital_cycle(stock, user):
         }
 
     # Determine trend direction (last 4 periods)
-    recent = capex_trend[-4:]
+    recent = capex_trend[-min(4, len(capex_trend)):]
     capex_values = [p["capex_to_revenue_pct"] for p in recent]
     roic_values = [p["aggregate_roic_pct"] for p in recent if p["aggregate_roic_pct"] > 0]
 
