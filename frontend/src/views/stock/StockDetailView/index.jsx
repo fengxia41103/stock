@@ -78,6 +78,12 @@ const sections = [
       { url: "institutional", text: "Institutional" },
     ],
   },
+  {
+    label: "Research",
+    items: [
+      { url: "thesis", text: "Thesis" },
+    ],
+  },
 ];
 
 const StockDetailView = () => {
