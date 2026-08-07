@@ -354,6 +354,18 @@ class StockViewSet(viewsets.ModelViewSet):
 
         return total
 
+    @action(detail=True, methods=["get"], url_path="capital-cycle")
+    def capital_cycle(self, request, pk=None):
+        """Capital cycle analysis for a stock's industry.
+
+        Step 9 of the deep-dive framework — Supply Side & Capital Cycle.
+        Aggregates capex/revenue and ROIC across peer groups to determine phase.
+        """
+        stock = self.get_object()
+        from stock.capital_cycle import compute_capital_cycle
+        result = compute_capital_cycle(stock, request.user)
+        return Response(result)
+
     @action(detail=True, methods=["get"])
     def report(self, request, pk=None):
         """Live analysis report — Darwin + Graham + Box Trading.
@@ -1600,3 +1612,56 @@ class RiskFactorViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class PeerGroupViewSet(viewsets.ModelViewSet):
+    """CRUD for peer groups (Phase C: competitive benchmarking)."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        from stock.api.serializers import PeerGroupSerializer
+        return PeerGroupSerializer
+
+    def get_queryset(self):
+        from stock.models.peer_group import PeerGroup
+        qs = PeerGroup.objects.filter(user=self.request.user).select_related("stock")
+        stock_id = self.request.query_params.get("stock")
+        if stock_id:
+            qs = qs.filter(stock_id=stock_id)
+        return qs
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    @action(detail=False, methods=["post"])
+    def populate_defaults(self, request):
+        """Auto-populate PEER_DEFAULTS for a given stock."""
+        from stock.models.peer_group import PeerGroup, PEER_DEFAULTS
+        from stock.models.stock import MyStock
+
+        stock_id = request.data.get("stock")
+        if not stock_id:
+            return Response({"error": "stock ID required"}, status=400)
+
+        try:
+            stock = MyStock.objects.get(id=stock_id)
+        except MyStock.DoesNotExist:
+            return Response({"error": "stock not found"}, status=404)
+
+        defaults = PEER_DEFAULTS.get(stock.symbol, [])
+        if not defaults:
+            return Response({"message": f"No default peers defined for {stock.symbol}", "created": 0})
+
+        created_count = 0
+        for peer_sym in defaults:
+            _, created = PeerGroup.objects.get_or_create(
+                stock=stock,
+                peer_symbol=peer_sym,
+                user=request.user,
+                defaults={"relationship": "competitor"},
+            )
+            if created:
+                created_count += 1
+
+        return Response({"message": f"Populated {created_count} peers for {stock.symbol}", "created": created_count})

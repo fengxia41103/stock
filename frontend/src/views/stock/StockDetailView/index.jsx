@@ -84,6 +84,8 @@ const sections = [
       { url: "thesis", text: "Thesis" },
       { url: "earnings-notes", text: "Earnings Notes" },
       { url: "risk-factors", text: "Risk Factors" },
+      { url: "peer-benchmark", text: "Peer Benchmark" },
+      { url: "capital-cycle", text: "Capital Cycle" },
     ],
   },
 ];

@@ -1,11 +1,11 @@
 # Stock App — Unified Upgrade Plan
 
-**Last updated**: 2026-08-06
+**Last updated**: 2026-08-07
 **Branch**: `feat-frontend-refactor-cwis-style`
 
 ---
 
-## Completed Work (Phases 1–9) ✅
+## Completed Work (Phases 1–10) ✅
 
 ### Phases 1–5 (Prior Work)
 
@@ -21,7 +21,7 @@
 
 | Item | Feature | Status |
 |------|---------|--------|
-| 6.1 | Alert System (6 types: RSI, price, insider, earnings, drop) + bell icon + drawer | ✅ |
+| 6.1 | Alert System (6 types: RSI, price, insider, earnings, drop + universal) + bell icon + drawer | ✅ |
 | 6.2 | Portfolio Tracker (positions, transactions, P&L, pie chart) | ✅ |
 | 6.3 | Notes UI Refactor (3-panel, filters, scorecard, compact cards) | ✅ |
 | 6.4 | Async Backtesting (Celery + polling + progress bar + history) | ✅ |
@@ -29,6 +29,11 @@
 | 6.6 | Technical Dashboard (RSI/SMA/BB/verdict for all stocks) | ✅ |
 | 6.7 | Stock Comparison View (normalized chart + metrics table) | ✅ |
 | 6.8 | Auto-Refresh on Market Hours (useMarketStatus hook + status dot) | ✅ |
+| 6.9 | Morning Brief (auto-generated daily summary at /brief) | ✅ |
+| 6.10 | Trade Journal (diary linked to positions via FK) | ✅ |
+| 6.11 | Backtest Comparison View (overlay equity curves) | ✅ |
+| 6.12 | Dividend Tracker (DividendEvent model + worker) | ✅ |
+| 6.13 | Performance Cache (StockSnapshot denormalized) | ✅ |
 
 ### Phase 7 — Frontend Architecture ✅
 
@@ -59,6 +64,20 @@
 | 9.3 | Earnings Price Impact (compute_earnings_impact worker) | ✅ |
 | 9.4 | Macro Correlations (compute_macro_correlations command) | ✅ |
 
+### Phase 10 — Deep-Dive Research Framework ✅ COMPLETE
+
+Bridges the gap between "Darwin quality screen + RSI timing" and institutional-grade fundamental research. 5 Research tabs in StockDetailView.
+
+| Phase | Feature | Status | Date |
+|-------|---------|--------|------|
+| 10A | StockThesis model + UI (edge, drivers, scenarios, kill criteria) | ✅ | Aug 6 |
+| 10B | Reverse DCF Calculator (implied growth from price) | ✅ | Aug 6 |
+| 10C | Peer Benchmark View (PEER_DEFAULTS for 24 stocks, populate action) | ✅ | Aug 7 |
+| 10D | Capital Cycle Dashboard (capex/ROIC aggregation, phase detection) | ✅ | Aug 7 |
+| 10E | Earnings Call Notes (structured scorecard form) | ✅ | Aug 7 |
+| 10F | Thesis Stale Alerts (>30 days = alert fires) | ✅ | Aug 6 |
+| 10G | Risk Factors Tracker (10-K risks, materializing toggle) | ✅ | Aug 7 |
+
 ---
 
 ## Key Metrics
@@ -72,140 +91,33 @@
 | Earnings events | 2,342 |
 | Insider trades | 2,723 |
 | Backtesting strategies | 11 |
-| API endpoints | 25+ |
-| Frontend routes | 40+ |
-| Backend tests | 34 |
-| JS chunks (code-split) | 72 |
+| API endpoints | 28+ |
+| Frontend routes | 45+ |
+| Backend tests | 63 (34 original + 29 new) |
+| Frontend tests | 18 |
+| JS chunks (code-split) | 75 |
 | Celery scheduled tasks | 8 |
+| Django models | 25 |
+| Django migrations | 63 |
 
 ---
 
-## Phase 10 — Deep-Dive Research Framework (In Progress)
+## Phase 11 — Future Ideas (Not Prioritized)
 
-Bridges the gap between the current "Darwin quality screen + RSI timing" approach and institutional-grade fundamental research. See `docs/analysis/deep-dive-framework-gap-analysis.md` for the full gap analysis.
+These are potential enhancements. No timeline assigned.
 
-### Phase 10A: StockThesis Model + UI ✅ DONE (Aug 6, 2026)
-
-| Item | Feature | Status |
-|------|---------|--------|
-| 10A.1 | StockThesis model (edge, drivers, scenarios, kill criteria, cycle phase) | ✅ |
-| 10A.2 | Migration + API (CRUD at /api/v1/theses/) | ✅ |
-| 10A.3 | ThesisView frontend (create/edit/display modes) | ✅ |
-| 10A.4 | "Research > Thesis" tab in StockDetailView | ✅ |
-| 10A.5 | Thesis summary endpoint (coverage report for all positions) | ✅ |
-| 10A.6 | Created 44 thesis cards for all tracked stocks | ✅ |
-
-### Phase 10B: Reverse DCF Calculator ✅ DONE (Aug 6, 2026)
-
-| Item | Feature | Status |
-|------|---------|--------|
-| 10B.1 | Binary search solver for implied growth rate | ✅ |
-| 10B.2 | GET /api/v1/stocks/{id}/reverse-dcf/ endpoint | ✅ |
-| 10B.3 | ReverseDCFCard in frontend DCF view | ✅ |
-| 10B.4 | Assessment categorization (pessimistic → extremely_aggressive) | ✅ |
-
-### Phase 10F: Thesis Stale Alerts ✅ DONE (Aug 6, 2026)
-
-| Item | Feature | Status |
-|------|---------|--------|
-| 10F.1 | Thesis stale/missing check in check_alerts task | ✅ |
-| 10F.2 | Alerts fire for positions without thesis or >30 days stale | ✅ |
-
-### Phase 10C: Peer Benchmark View — NOT STARTED
-
-- Extend CompareView to load pre-defined peer groups (actual competitors)
-- PeerGroup model mapping stock → competitor symbols
-- Fetch peer data even for stocks not in portfolio
-- Effort: 5-6 hours
-
-### Phase 10D: Capital Cycle Dashboard — NOT STARTED
-
-- Aggregate capex/revenue ratio across industry peers over 10 years
-- Compute aggregate ROIC vs WACC
-- Phase indicator: Peak 🔴 / Falling 🟡 / Trough 🟢 / Rising 🔵
-- Critical for semi-cap names (AMAT, LRCX, KLAC)
-- Effort: 6-8 hours
-
-### Phase 10E: Earnings Call Notes — NOT STARTED
-
-- EarningsCallNote model (tone, guidance direction, driver updates, kill check)
-- Structured "Earnings Scorecard" form prompted after each earnings
-- Links to thesis card driver updates
-- Effort: 3-4 hours
-
-### Phase 10G: Risk Factors Tracker — NOT STARTED
-
-- RiskFactor model (category, severity, currently_materializing)
-- User-entered from annual 10-K reading
-- "Currently materializing" checkbox turns red + links to kill criteria
-- Effort: 2-3 hours
-
----
-
-## Phase 11 — Future Ideas (Not Started)
-
-These are potential enhancements beyond the current scope. No timeline assigned.
-
-### 11.1 AI-Assisted Analysis
-
-- "Generate Analysis" button on stock detail → calls LLM with financials + technicals
-- Auto-generates Darwin Kill List assessment + verdict as diary note
-- Could use local Ollama or Claude API
-
-### 10.2 Real-Time WebSocket Prices
-
-- Replace polling with WebSocket connection during market hours
-- Live price tickers in dashboard without full page refetch
-- Requires: Django Channels + Redis pub/sub
-
-### 10.3 Social Sharing / Export
-
-- PDF report generation per stock (weasyprint)
-- Share analysis via link (public read-only view)
-- Export portfolio history as CSV
-
-### 10.4 Options Chain Integration
-
-- Fetch options data from Yahoo Finance
-- Display implied volatility, put/call ratio
-- Greeks visualization per stock
-
-### 10.5 Sector Rotation Heatmap
-
-- Calendar heatmap showing which sector leads each week
-- Visualize money flow between sectors over time
-- Highlight rotation opportunities
-
-### 10.6 Watchlist Sharing
-
-- Multiple users can share a sector/watchlist
-- Collaborative diary entries (team analysis)
-- Role-based access (viewer/editor)
-
-### 10.7 Tax Lot Tracking
-
-- FIFO/LIFO cost basis per transaction
-- Estimated tax impact of selling specific lots
-- Wash sale detection
-
-### 10.8 Dividend Tracking
-
-- Fetch dividend history per stock
-- Project annual dividend income
-- Dividend growth rate analysis
-- Ex-date calendar
-
-### 10.9 Custom Dashboard Layouts
-
-- Drag-and-drop tile arrangement
-- Save multiple dashboard configurations
-- User-configurable KPI tiles
-
-### 10.10 Browser Notifications
-
-- Service worker push notifications for alerts
-- Works when app is not open
-- Critical alerts only (RSI <20, insider cluster, earnings gap)
+| # | Feature | Effort | Value |
+|---|---------|--------|-------|
+| 11.1 | AI-Assisted Analysis (LLM generates Darwin assessment) | 4h | Medium |
+| 11.2 | PDF Report Export (weasyprint one-page stock report) | 5h | Medium |
+| 11.3 | Options Chain Integration (IV, put/call ratio, Greeks) | 6h | Low |
+| 11.4 | Sector Rotation Heatmap (calendar view of sector leadership) | 4h | Medium |
+| 11.5 | Tax Lot Tracking (FIFO/LIFO cost basis, wash sale detection) | 6h | Medium |
+| 11.6 | Browser Push Notifications (service worker for critical alerts) | 3h | Medium |
+| 11.7 | Custom Dashboard Layouts (drag-and-drop tiles) | 8h | Low |
+| 11.8 | Multi-User / Sharing (role-based access, collaborative analysis) | 10h | Low |
+| 11.9 | Real-Time WebSocket Prices (Django Channels) | 8h | Low |
+| 11.10 | Additional backend tests (alert evaluation, API contracts) | 3h | High |
 
 ---
 
@@ -216,8 +128,29 @@ Frontend: React 18 + Vite + MUI 5 + Highcharts
 Backend:  Django 5.2 + DRF + Celery + Redis + MySQL
 Infra:    Docker Compose (dev) + docker-compose.prod.yml (prod)
 Data:     Yahoo Finance + SEC EDGAR + FRED + Alpha Vantage
-Auth:     API key in localStorage
-Tests:    34 pytest (backend)
+Auth:     Token-based (DRF TokenAuthentication)
+Tests:    63 pytest (backend) + 18 vitest (frontend)
+```
+
+### StockDetailView Sections (6 tabs, 28 sub-views)
+
+```
+Price & Trends    │ Daily Prices, Last Lower, 24hr/Daily/Overnight Returns
+Tech Indicators   │ Bollinger, MACD, RSI, SAR, Stochastics, Heikin-Ashi, Elder Ray
+Financials        │ Balance Sheet, Income Statement, Cash Flow
+Valuation         │ DuPont, DCF, Ratios, NAV, Graham, Earnings, Health
+Ownership         │ Insider Trades, Institutional
+Research          │ Thesis, Earnings Notes, Risk Factors, Peer Benchmark, Capital Cycle
+```
+
+### Management Commands
+
+```bash
+python manage.py seed_peer_groups     # Populate default peer groups for 24 stocks
+python manage.py backfill_computed_fields  # Refresh denormalized fields
+python manage.py rebuild_rankings     # Rebuild ranking cache
+python manage.py compute_macro_correlations  # Stock vs macro Pearson r
+python manage.py purge_tasks          # Clean old Celery tasks
 ```
 
 ---
@@ -244,4 +177,4 @@ make shell            # Django shell
 
 ---
 
-*Plan finalized August 2, 2026. Updated August 6, 2026 with Phase 10 (deep-dive framework).*
+*Plan finalized August 2, 2026. Phase 10 completed August 7, 2026.*

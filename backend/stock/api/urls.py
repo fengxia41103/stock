@@ -22,6 +22,7 @@ from stock.api.views import (
     MacroDataPointViewSet,
     MacroSeriesViewSet,
     NewsViewSet,
+    PeerGroupViewSet,
     PortfolioViewSet,
     RiskFactorViewSet,
     SectorViewSet,
@@ -69,6 +70,7 @@ router.register(r"dividends", DividendViewSet, basename="dividend")
 router.register(r"theses", StockThesisViewSet, basename="thesis")
 router.register(r"earnings-notes", EarningsCallNoteViewSet, basename="earnings-note")
 router.register(r"risk-factors", RiskFactorViewSet, basename="risk-factor")
+router.register(r"peer-groups", PeerGroupViewSet, basename="peer-group")
 
 urlpatterns = [
     path("", include(router.urls)),

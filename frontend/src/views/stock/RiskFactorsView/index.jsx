@@ -19,7 +19,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
-import { useResource, useCreate, useUpdate } from "@/api";
+import { api, useResource, useCreate, useUpdate } from "@/api";
 import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const CATEGORIES = [
@@ -59,7 +59,7 @@ const RiskFactorsView = () => {
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState(emptyRisk);
 
-  const risks = data?.results || [];
+  const risks = Array.isArray(data) ? data : [];
   const materializing = risks.filter((r) => r.currently_materializing);
 
   const handleSave = async () => {
@@ -70,8 +70,6 @@ const RiskFactorsView = () => {
   };
 
   const toggleMaterializing = async (risk) => {
-    // Quick PATCH to toggle materializing status
-    const { api } = await import("@/api");
     await api.patch(`/risk-factors/${risk.id}/`, {
       currently_materializing: !risk.currently_materializing,
     });

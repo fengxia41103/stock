@@ -504,3 +504,21 @@ class RiskFactorSerializer(serializers.ModelSerializer):
             "created",
         ]
         read_only_fields = ["created", "last_assessed"]
+
+
+class PeerGroupSerializer(serializers.ModelSerializer):
+    symbol = serializers.CharField(source="stock.symbol", read_only=True)
+
+    class Meta:
+        from stock.models.peer_group import PeerGroup
+
+        model = PeerGroup
+        fields = [
+            "id",
+            "stock",
+            "symbol",
+            "peer_symbol",
+            "relationship",
+            "notes",
+            "created",
+        ]

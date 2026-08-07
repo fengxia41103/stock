@@ -13,6 +13,7 @@ from stock.models.insider_trade import InsiderTrade
 from stock.models.institutional_holding import InstitutionalHolding
 from stock.models.macro import MacroDataPoint, MacroSeries, StockMacroCorrelation
 from stock.models.misc import MyDiary, MyNews, MyTask, RankingCache
+from stock.models.peer_group import PeerGroup
 from stock.models.portfolio import Position, Transaction
 from stock.models.risk_factor import RiskFactor
 from stock.models.sector import MySector
@@ -42,6 +43,7 @@ __all__ = [
     "MyStock",
     "MyStockHistorical",
     "MyTask",
+    "PeerGroup",
     "Position",
     "RankingCache",
     "RiskFactor",
