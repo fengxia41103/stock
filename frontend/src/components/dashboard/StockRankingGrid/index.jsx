@@ -11,7 +11,7 @@ const StockRankingGrid = (props) => {
 
   const ranking_in_columns = map(ranks, (r) => {
     return (
-      <Grid item key={r.category} lg={1} sm={2} xs={2}>
+      <Grid item key={r.category} sx={{ minWidth: 80 }}>
         <StockRankingGridColumn
           {...{
             category: r.category,
@@ -24,7 +24,7 @@ const StockRankingGrid = (props) => {
   });
 
   return (
-    <Grid container spacing={1}>
+    <Grid container spacing={1} sx={{ overflowX: "auto", flexWrap: "nowrap", pb: 1 }}>
       {ranking_in_columns}
     </Grid>
   );
