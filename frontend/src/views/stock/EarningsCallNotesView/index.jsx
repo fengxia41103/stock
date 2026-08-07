@@ -70,7 +70,10 @@ const EarningsCallNotesView = () => {
     ["earnings-notes", String(stock.id)],
     `/earnings-notes/?stock=${stock.id}`,
   );
-  const createMutation = useCreate(`/earnings-notes/`, ["earnings-notes", String(stock.id)]);
+  const createMutation = useCreate(`/earnings-notes/`, [
+    "earnings-notes",
+    String(stock.id),
+  ]);
 
   const [creating, setCreating] = useState(false);
   const [form, setForm] = useState(emptyNote);
@@ -87,7 +90,15 @@ const EarningsCallNotesView = () => {
     refetch();
   };
 
-  const Field = ({ label, field, multiline, select, options, type = "text", helperText }) => (
+  const Field = ({
+    label,
+    field,
+    multiline,
+    select,
+    options,
+    type = "text",
+    helperText,
+  }) => (
     <TextField
       label={label}
       value={form[field] ?? ""}
@@ -113,31 +124,60 @@ const EarningsCallNotesView = () => {
 
   return (
     <Box>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        mb={2}
+      >
         <Typography variant="h5">
           Earnings Call Notes — {stock.symbol}
         </Typography>
         {!creating && (
-          <Button startIcon={<AddIcon />} variant="contained" onClick={() => setCreating(true)}>
+          <Button
+            startIcon={<AddIcon />}
+            variant="contained"
+            onClick={() => setCreating(true)}
+          >
             Add Scorecard
           </Button>
         )}
       </Stack>
 
       <Typography variant="body2" color="text.secondary" mb={2}>
-        Step 6: After each earnings call, fill in a 5-minute scorecard. Track management tone, guidance shifts, and key driver updates.
+        Step 6: After each earnings call, fill in a 5-minute scorecard. Track
+        management tone, guidance shifts, and key driver updates.
       </Typography>
 
       {/* Create form */}
       {creating && (
-        <Paper sx={{ p: 2.5, mb: 3, border: "1px solid", borderColor: "primary.main" }}>
+        <Paper
+          sx={{
+            p: 2.5,
+            mb: 3,
+            border: "1px solid",
+            borderColor: "primary.main",
+          }}
+        >
           <Stack direction="row" justifyContent="space-between" mb={2}>
-            <Typography variant="h6" color="primary">New Earnings Scorecard</Typography>
+            <Typography variant="h6" color="primary">
+              New Earnings Scorecard
+            </Typography>
             <Stack direction="row" spacing={1}>
-              <Button startIcon={<SaveIcon />} variant="contained" size="small" onClick={handleSave} disabled={createMutation.isPending}>
+              <Button
+                startIcon={<SaveIcon />}
+                variant="contained"
+                size="small"
+                onClick={handleSave}
+                disabled={createMutation.isPending}
+              >
                 Save
               </Button>
-              <Button startIcon={<CancelIcon />} size="small" onClick={() => setCreating(false)}>
+              <Button
+                startIcon={<CancelIcon />}
+                size="small"
+                onClick={() => setCreating(false)}
+              >
                 Cancel
               </Button>
             </Stack>
@@ -145,71 +185,138 @@ const EarningsCallNotesView = () => {
 
           <Grid container spacing={2}>
             <Grid item xs={6} md={3}>
-              <Field label="Quarter" field="quarter" helperText="e.g., Q4 2026" />
+              <Field
+                label="Quarter"
+                field="quarter"
+                helperText="e.g., Q4 2026"
+              />
             </Grid>
             <Grid item xs={6} md={3}>
               <Field label="Call Date" field="call_date" type="date" />
             </Grid>
             <Grid item xs={12} md={6}>
-              <Field label="Replay URL" field="replay_url" helperText="Link to transcript or replay" />
+              <Field
+                label="Replay URL"
+                field="replay_url"
+                helperText="Link to transcript or replay"
+              />
             </Grid>
 
             <Grid item xs={6} md={3}>
-              <Field label="Management Tone" field="management_tone" select options={TONE_OPTIONS} />
+              <Field
+                label="Management Tone"
+                field="management_tone"
+                select
+                options={TONE_OPTIONS}
+              />
             </Grid>
             <Grid item xs={6} md={3}>
-              <Field label="Guidance" field="guidance_direction" select options={GUIDANCE_OPTIONS} />
+              <Field
+                label="Guidance"
+                field="guidance_direction"
+                select
+                options={GUIDANCE_OPTIONS}
+              />
             </Grid>
             <Grid item xs={6} md={3}>
-              <Field label="Stock Reaction %" field="stock_reaction_pct" type="number" />
+              <Field
+                label="Stock Reaction %"
+                field="stock_reaction_pct"
+                type="number"
+              />
             </Grid>
             <Grid item xs={6} md={3}>
-              <Field label="Surprise vs Consensus" field="surprise_vs_consensus" helperText="e.g., Beat EPS +5%" />
+              <Field
+                label="Surprise vs Consensus"
+                field="surprise_vs_consensus"
+                helperText="e.g., Beat EPS +5%"
+              />
             </Grid>
 
             <Grid item xs={12}>
-              <Field label="Key Quote" field="key_quote" multiline helperText="Most important thing management said" />
+              <Field
+                label="Key Quote"
+                field="key_quote"
+                multiline
+                helperText="Most important thing management said"
+              />
             </Grid>
 
             <Grid item xs={12}>
               <Divider sx={{ my: 1 }} />
-              <Typography variant="subtitle2" color="primary" mb={1}>Thesis Driver Updates</Typography>
+              <Typography variant="subtitle2" color="primary" mb={1}>
+                Thesis Driver Updates
+              </Typography>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Field label="Driver 1 Update" field="driver_1_update" multiline helperText={notes[0]?.driver_1_label || "Primary driver"} />
+              <Field
+                label="Driver 1 Update"
+                field="driver_1_update"
+                multiline
+                helperText={notes[0]?.driver_1_label || "Primary driver"}
+              />
             </Grid>
             <Grid item xs={12} md={4}>
-              <Field label="Driver 2 Update" field="driver_2_update" multiline helperText={notes[0]?.driver_2_label || "Secondary driver"} />
+              <Field
+                label="Driver 2 Update"
+                field="driver_2_update"
+                multiline
+                helperText={notes[0]?.driver_2_label || "Secondary driver"}
+              />
             </Grid>
             <Grid item xs={12} md={4}>
-              <Field label="Driver 3 Update" field="driver_3_update" multiline helperText={notes[0]?.driver_3_label || "Tertiary driver"} />
+              <Field
+                label="Driver 3 Update"
+                field="driver_3_update"
+                multiline
+                helperText={notes[0]?.driver_3_label || "Tertiary driver"}
+              />
             </Grid>
 
             <Grid item xs={12}>
               <Divider sx={{ my: 1 }} />
-              <Typography variant="subtitle2" color="primary" mb={1}>Analyst Q&A</Typography>
+              <Typography variant="subtitle2" color="primary" mb={1}>
+                Analyst Q&A
+              </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Field label="What did analysts push back on?" field="analyst_pushback" multiline />
+              <Field
+                label="What did analysts push back on?"
+                field="analyst_pushback"
+                multiline
+              />
             </Grid>
             <Grid item xs={12} md={6}>
-              <Field label="What did management avoid answering?" field="what_management_avoided" multiline />
+              <Field
+                label="What did management avoid answering?"
+                field="what_management_avoided"
+                multiline
+              />
             </Grid>
 
             <Grid item xs={12}>
               <Divider sx={{ my: 1 }} />
-              <Typography variant="subtitle2" color="error" mb={1}>Kill Criteria Check</Typography>
+              <Typography variant="subtitle2" color="error" mb={1}>
+                Kill Criteria Check
+              </Typography>
             </Grid>
             <Grid item xs={12} md={3}>
               <Field
                 label="Kill Triggered?"
                 field="kill_triggered"
                 select
-                options={[{ value: false, label: "No" }, { value: true, label: "⚠️ YES" }]}
+                options={[
+                  { value: false, label: "No" },
+                  { value: true, label: "⚠️ YES" },
+                ]}
               />
             </Grid>
             <Grid item xs={12} md={9}>
-              <Field label="Kill Notes (if triggered)" field="kill_notes" multiline />
+              <Field
+                label="Kill Notes (if triggered)"
+                field="kill_notes"
+                multiline
+              />
             </Grid>
           </Grid>
         </Paper>
@@ -218,7 +325,8 @@ const EarningsCallNotesView = () => {
       {/* Past notes list */}
       {notes.length === 0 && !creating && (
         <Alert severity="info">
-          No earnings call notes yet. After listening to an earnings call, click "Add Scorecard" to record your observations.
+          No earnings call notes yet. After listening to an earnings call, click
+          "Add Scorecard" to record your observations.
         </Alert>
       )}
 
@@ -227,28 +335,47 @@ const EarningsCallNotesView = () => {
           <Stack direction="row" alignItems="center" spacing={2} mb={1.5}>
             <Typography variant="h6">{note.quarter}</Typography>
             <Chip
-              label={TONE_OPTIONS.find((t) => t.value === note.management_tone)?.label || note.management_tone}
+              label={
+                TONE_OPTIONS.find((t) => t.value === note.management_tone)
+                  ?.label || note.management_tone
+              }
               color={TONE_COLORS[note.management_tone] || "default"}
               size="small"
             />
             <Chip
-              label={GUIDANCE_OPTIONS.find((g) => g.value === note.guidance_direction)?.label || note.guidance_direction}
+              label={
+                GUIDANCE_OPTIONS.find(
+                  (g) => g.value === note.guidance_direction,
+                )?.label || note.guidance_direction
+              }
               size="small"
               variant="outlined"
             />
             {note.stock_reaction_pct != null && (
               <Chip
-                label={`${note.stock_reaction_pct > 0 ? "+" : ""}${note.stock_reaction_pct.toFixed(1)}%`}
+                label={`${
+                  note.stock_reaction_pct > 0 ? "+" : ""
+                }${note.stock_reaction_pct.toFixed(1)}%`}
                 color={note.stock_reaction_pct >= 0 ? "success" : "error"}
                 size="small"
               />
             )}
             {note.kill_triggered && (
-              <Chip icon={<WarningIcon />} label="KILL TRIGGERED" color="error" size="small" />
+              <Chip
+                icon={<WarningIcon />}
+                label="KILL TRIGGERED"
+                color="error"
+                size="small"
+              />
             )}
             <Box flexGrow={1} />
             {note.replay_url && (
-              <Button size="small" href={note.replay_url} target="_blank" startIcon={<OpenInNewIcon />}>
+              <Button
+                size="small"
+                href={note.replay_url}
+                target="_blank"
+                startIcon={<OpenInNewIcon />}
+              >
                 Replay
               </Button>
             )}
@@ -258,7 +385,16 @@ const EarningsCallNotesView = () => {
           </Stack>
 
           {note.key_quote && (
-            <Typography variant="body2" sx={{ fontStyle: "italic", bgcolor: "action.hover", p: 1.5, borderRadius: 1, mb: 1.5 }}>
+            <Typography
+              variant="body2"
+              sx={{
+                fontStyle: "italic",
+                bgcolor: "action.hover",
+                p: 1.5,
+                borderRadius: 1,
+                mb: 1.5,
+              }}
+            >
               "{note.key_quote}"
             </Typography>
           )}
@@ -270,26 +406,42 @@ const EarningsCallNotesView = () => {
           )}
 
           {/* Driver updates */}
-          {(note.driver_1_update || note.driver_2_update || note.driver_3_update) && (
+          {(note.driver_1_update ||
+            note.driver_2_update ||
+            note.driver_3_update) && (
             <Box mb={1.5}>
-              <Typography variant="subtitle2" color="primary" gutterBottom>Driver Updates</Typography>
+              <Typography variant="subtitle2" color="primary" gutterBottom>
+                Driver Updates
+              </Typography>
               <Grid container spacing={1}>
                 {note.driver_1_update && (
                   <Grid item xs={12} md={4}>
-                    <Typography variant="caption" color="text.secondary">{note.driver_1_label || "Driver 1"}</Typography>
-                    <Typography variant="body2">{note.driver_1_update}</Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {note.driver_1_label || "Driver 1"}
+                    </Typography>
+                    <Typography variant="body2">
+                      {note.driver_1_update}
+                    </Typography>
                   </Grid>
                 )}
                 {note.driver_2_update && (
                   <Grid item xs={12} md={4}>
-                    <Typography variant="caption" color="text.secondary">{note.driver_2_label || "Driver 2"}</Typography>
-                    <Typography variant="body2">{note.driver_2_update}</Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {note.driver_2_label || "Driver 2"}
+                    </Typography>
+                    <Typography variant="body2">
+                      {note.driver_2_update}
+                    </Typography>
                   </Grid>
                 )}
                 {note.driver_3_update && (
                   <Grid item xs={12} md={4}>
-                    <Typography variant="caption" color="text.secondary">{note.driver_3_label || "Driver 3"}</Typography>
-                    <Typography variant="body2">{note.driver_3_update}</Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {note.driver_3_label || "Driver 3"}
+                    </Typography>
+                    <Typography variant="body2">
+                      {note.driver_3_update}
+                    </Typography>
                   </Grid>
                 )}
               </Grid>
@@ -301,12 +453,14 @@ const EarningsCallNotesView = () => {
             <Box mb={1}>
               {note.analyst_pushback && (
                 <Typography variant="body2" mb={0.5}>
-                  <strong>Analysts pushed back on:</strong> {note.analyst_pushback}
+                  <strong>Analysts pushed back on:</strong>{" "}
+                  {note.analyst_pushback}
                 </Typography>
               )}
               {note.what_management_avoided && (
                 <Typography variant="body2">
-                  <strong>Management avoided:</strong> {note.what_management_avoided}
+                  <strong>Management avoided:</strong>{" "}
+                  {note.what_management_avoided}
                 </Typography>
               )}
             </Box>

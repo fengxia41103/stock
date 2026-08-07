@@ -57,7 +57,9 @@ const InstitutionalView = lazy(() => import("@Views/stock/InstitutionalView"));
 const EarningsView = lazy(() => import("@Views/stock/EarningsView"));
 const HealthView = lazy(() => import("@Views/stock/HealthView"));
 const ThesisView = lazy(() => import("@Views/stock/ThesisView"));
-const EarningsCallNotesView = lazy(() => import("@Views/stock/EarningsCallNotesView"));
+const EarningsCallNotesView = lazy(() =>
+  import("@Views/stock/EarningsCallNotesView"),
+);
 const ValuationRatiosView = lazy(() =>
   import("@Views/stock/ValuationRatiosView"),
 );
