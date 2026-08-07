@@ -98,7 +98,7 @@ const ThesisView = () => {
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState(emptyThesis);
 
-  const thesis = data?.results?.[0] || null;
+  const thesis = Array.isArray(data) ? data[0] || null : null;
 
   const updateMutation = useUpdate(thesis ? `/theses/${thesis.id}/` : "", [
     "thesis",
