@@ -60,6 +60,7 @@ const ThesisView = lazy(() => import("@Views/stock/ThesisView"));
 const EarningsCallNotesView = lazy(() =>
   import("@Views/stock/EarningsCallNotesView"),
 );
+const RiskFactorsView = lazy(() => import("@Views/stock/RiskFactorsView"));
 const ValuationRatiosView = lazy(() =>
   import("@Views/stock/ValuationRatiosView"),
 );
@@ -243,6 +244,14 @@ const routes = [
             element: (
               <S>
                 <EarningsCallNotesView />
+              </S>
+            ),
+          },
+          {
+            path: "risk-factors",
+            element: (
+              <S>
+                <RiskFactorsView />
               </S>
             ),
           },

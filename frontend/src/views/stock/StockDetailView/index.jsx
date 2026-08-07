@@ -83,6 +83,7 @@ const sections = [
     items: [
       { url: "thesis", text: "Thesis" },
       { url: "earnings-notes", text: "Earnings Notes" },
+      { url: "risk-factors", text: "Risk Factors" },
     ],
   },
 ];

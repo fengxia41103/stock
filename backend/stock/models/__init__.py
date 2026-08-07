@@ -14,6 +14,7 @@ from stock.models.institutional_holding import InstitutionalHolding
 from stock.models.macro import MacroDataPoint, MacroSeries, StockMacroCorrelation
 from stock.models.misc import MyDiary, MyNews, MyTask, RankingCache
 from stock.models.portfolio import Position, Transaction
+from stock.models.risk_factor import RiskFactor
 from stock.models.sector import MySector
 from stock.models.snapshot import StockSnapshot
 from stock.models.stock import MyStock
@@ -43,6 +44,7 @@ __all__ = [
     "MyTask",
     "Position",
     "RankingCache",
+    "RiskFactor",
     "StockMacroCorrelation",
     "StockSnapshot",
     "StockThesis",

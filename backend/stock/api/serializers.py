@@ -481,3 +481,26 @@ class EarningsCallNoteSerializer(serializers.ModelSerializer):
             "last_updated",
         ]
         read_only_fields = ["created", "last_updated"]
+
+
+class RiskFactorSerializer(serializers.ModelSerializer):
+    symbol = serializers.CharField(source="stock.symbol", read_only=True)
+
+    class Meta:
+        from stock.models.risk_factor import RiskFactor
+
+        model = RiskFactor
+        fields = [
+            "id",
+            "stock",
+            "symbol",
+            "category",
+            "description",
+            "severity",
+            "currently_materializing",
+            "materializing_evidence",
+            "source",
+            "last_assessed",
+            "created",
+        ]
+        read_only_fields = ["created", "last_assessed"]

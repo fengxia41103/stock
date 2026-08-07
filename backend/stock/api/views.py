@@ -1573,3 +1573,30 @@ class EarningsCallNoteViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+# --- Risk Factors ---
+
+
+class RiskFactorViewSet(viewsets.ModelViewSet):
+    """CRUD for risk factors (Step 2 lite of deep-dive framework)."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        from stock.api.serializers import RiskFactorSerializer
+        return RiskFactorSerializer
+
+    def get_queryset(self):
+        from stock.models.risk_factor import RiskFactor
+        qs = RiskFactor.objects.filter(user=self.request.user).select_related("stock")
+        stock_id = self.request.query_params.get("stock")
+        if stock_id:
+            qs = qs.filter(stock_id=stock_id)
+        materializing = self.request.query_params.get("materializing")
+        if materializing == "true":
+            qs = qs.filter(currently_materializing=True)
+        return qs
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
