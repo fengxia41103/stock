@@ -58,3 +58,7 @@ backup:
 # Production mode
 prod:
 	docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+
+# Backfill financial statements (income/balance/cashflow) from yfinance
+backfill-financials:
+	docker compose exec -T web python manage.py backfill_financials
