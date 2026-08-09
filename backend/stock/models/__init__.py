@@ -7,6 +7,7 @@ from stock.models.cashflow import CashFlow
 from stock.models.dividend import DividendEvent
 from stock.models.earnings import EarningsEvent, EarningsPriceImpact
 from stock.models.earnings_call_note import EarningsCallNote
+from stock.models.filing import Filing10K
 from stock.models.historical import MyStockHistorical
 from stock.models.income import IncomeStatement
 from stock.models.insider_trade import InsiderTrade

@@ -38,3 +38,7 @@ ruff>=0.8.0
 
 # PDF generation
 weasyprint>=62.0
+
+# 10-K filing reader
+edgartools>=5.16
+boto3>=1.35.0
