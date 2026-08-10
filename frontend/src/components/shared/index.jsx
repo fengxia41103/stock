@@ -280,7 +280,17 @@ export const RankChart = ({
     },
     legend: { enabled: false },
     credits: { enabled: false },
-    series: [{ data: chartData || [], color: "#3b82f6" }],
+    plotOptions: {
+      bar: {
+        colorByPoint: true,
+        colors: [
+          "#ef4444", "#f97316", "#f59e0b", "#84cc16", "#10b981",
+          "#06b6d4", "#3b82f6", "#6366f1", "#8b5cf6", "#ec4899",
+          "#14b8a6", "#f43f5e", "#a855f7", "#0ea5e9", "#22c55e",
+        ],
+      },
+    },
+    series: [{ data: chartData || [] }],
   };
 
   return <HighchartsReact highcharts={Highcharts} options={options} />;
