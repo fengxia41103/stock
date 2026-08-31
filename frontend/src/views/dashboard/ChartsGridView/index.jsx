@@ -28,24 +28,36 @@ const PerformanceChart = ({ stocks }) => {
   const [selected, setSelected] = useState(() => {
     // Default: top 5 by absolute daily return
     const sorted = [...(stocks || [])].sort(
-      (a, b) => Math.abs(b.daily_return_pct || 0) - Math.abs(a.daily_return_pct || 0),
+      (a, b) =>
+        Math.abs(b.daily_return_pct || 0) - Math.abs(a.daily_return_pct || 0),
     );
     return sorted.slice(0, 5).map((s) => s.symbol);
   });
 
-  const allSymbols = useMemo(() => (stocks || []).map((s) => s.symbol).sort(), [stocks]);
+  const allSymbols = useMemo(
+    () => (stocks || []).map((s) => s.symbol).sort(),
+    [stocks],
+  );
   const stockIds = useMemo(
-    () => (stocks || []).filter((s) => selected.includes(s.symbol)).map((s) => s.id),
+    () =>
+      (stocks || [])
+        .filter((s) => selected.includes(s.symbol))
+        .map((s) => s.id),
     [stocks, selected],
   );
 
-  const histQuery = stockIds.length > 0
-    ? `/historicals/?stock__in=${stockIds.join(",")}&ordering=on&page_size=2000&on__range=${(() => {
-        const end = new Date().toISOString().slice(0, 10);
-        const start = new Date(Date.now() - 90 * 86400000).toISOString().slice(0, 10);
-        return `${start},${end}`;
-      })()}`
-    : null;
+  const histQuery =
+    stockIds.length > 0
+      ? `/historicals/?stock__in=${stockIds.join(
+          ",",
+        )}&ordering=on&page_size=2000&on__range=${(() => {
+          const end = new Date().toISOString().slice(0, 10);
+          const start = new Date(Date.now() - 90 * 86400000)
+            .toISOString()
+            .slice(0, 10);
+          return `${start},${end}`;
+        })()}`
+      : null;
   const { data: rawHist } = useResource(
     ["perf-chart", ...selected],
     histQuery || "/__disabled__",
@@ -60,7 +72,8 @@ const PerformanceChart = ({ stocks }) => {
   }, [rawHist]);
 
   const chartOptions = useMemo(() => {
-    if (!historicals || !Array.isArray(historicals) || historicals.length === 0) return null;
+    if (!historicals || !Array.isArray(historicals) || historicals.length === 0)
+      return null;
 
     const byStock = {};
     historicals.forEach((h) => {
@@ -73,7 +86,10 @@ const PerformanceChart = ({ stocks }) => {
       const base = data[0]?.price || 1;
       return {
         name: sym,
-        data: data.map((d) => [new Date(d.date).getTime(), ((d.price - base) / base) * 100]),
+        data: data.map((d) => [
+          new Date(d.date).getTime(),
+          ((d.price - base) / base) * 100,
+        ]),
       };
     });
 
@@ -91,7 +107,13 @@ const PerformanceChart = ({ stocks }) => {
 
   return (
     <Paper sx={{ p: 2, borderRadius: 2, height: "100%" }}>
-      <Typography variant="subtitle2" color="text.secondary" textTransform="uppercase" letterSpacing={1} mb={1}>
+      <Typography
+        variant="subtitle2"
+        color="text.secondary"
+        textTransform="uppercase"
+        letterSpacing={1}
+        mb={1}
+      >
         Performance Comparison (Normalized)
       </Typography>
       <Autocomplete
@@ -100,9 +122,18 @@ const PerformanceChart = ({ stocks }) => {
         options={allSymbols}
         value={selected}
         onChange={(_, v) => setSelected(v.slice(0, 8))}
-        renderInput={(params) => <TextField {...params} placeholder="Add stocks (max 8)" />}
+        renderInput={(params) => (
+          <TextField {...params} placeholder="Add stocks (max 8)" />
+        )}
         renderTags={(value, getTagProps) =>
-          value.map((sym, i) => <Chip label={sym} size="small" {...getTagProps({ index: i })} key={sym} />)
+          value.map((sym, i) => (
+            <Chip
+              label={sym}
+              size="small"
+              {...getTagProps({ index: i })}
+              key={sym}
+            />
+          ))
         }
         sx={{ mb: 2, maxWidth: 600 }}
       />
@@ -133,33 +164,63 @@ const SectorBars = ({ stocks }) => {
     return Object.entries(groups)
       .map(([name, stks]) => {
         const returns = stks.map((s) => s.daily_return_pct || 0);
-        const avg = returns.length > 0 ? returns.reduce((a, b) => a + b, 0) / returns.length : 0;
+        const avg =
+          returns.length > 0
+            ? returns.reduce((a, b) => a + b, 0) / returns.length
+            : 0;
         return { name, avg, count: stks.length };
       })
       .sort((a, b) => b.avg - a.avg);
   }, [stocks]);
 
   const chartOptions = {
-    chart: { type: "bar", backgroundColor: "transparent", height: Math.max(200, sectors.length * 40) },
+    chart: {
+      type: "bar",
+      backgroundColor: "transparent",
+      height: Math.max(200, sectors.length * 40),
+    },
     title: { text: null },
-    xAxis: { categories: sectors.map((s) => `${s.name} (${s.count})`), labels: { style: { color: "#94a3b8" } } },
-    yAxis: { title: { text: "Avg Daily Return %" }, labels: { format: "{value}%" } },
-    series: [{
-      name: "Return",
-      data: sectors.map((s) => ({
-        y: parseFloat(s.avg.toFixed(2)),
-        color: s.avg >= 0 ? GREEN : RED,
-      })),
-    }],
+    xAxis: {
+      categories: sectors.map((s) => `${s.name} (${s.count})`),
+      labels: { style: { color: "#94a3b8" } },
+    },
+    yAxis: {
+      title: { text: "Avg Daily Return %" },
+      labels: { format: "{value}%" },
+    },
+    series: [
+      {
+        name: "Return",
+        data: sectors.map((s) => ({
+          y: parseFloat(s.avg.toFixed(2)),
+          color: s.avg >= 0 ? GREEN : RED,
+        })),
+      },
+    ],
     legend: { enabled: false },
     credits: { enabled: false },
-    plotOptions: { bar: { borderRadius: 3, dataLabels: { enabled: true, format: "{y}%", style: { color: "#f8fafc", textOutline: "none" } } } },
+    plotOptions: {
+      bar: {
+        borderRadius: 3,
+        dataLabels: {
+          enabled: true,
+          format: "{y}%",
+          style: { color: "#f8fafc", textOutline: "none" },
+        },
+      },
+    },
     tooltip: { valueSuffix: "%" },
   };
 
   return (
     <Paper sx={{ p: 2, borderRadius: 2, height: "100%" }}>
-      <Typography variant="subtitle2" color="text.secondary" textTransform="uppercase" letterSpacing={1} mb={1}>
+      <Typography
+        variant="subtitle2"
+        color="text.secondary"
+        textTransform="uppercase"
+        letterSpacing={1}
+        mb={1}
+      >
         Sector Performance
       </Typography>
       <HighchartsReact highcharts={Highcharts} options={chartOptions} />
@@ -185,32 +246,73 @@ const RsiHeatmap = ({ stocks }) => {
 
   // Sort by RSI for visual pattern
   const sorted = useMemo(
-    () => [...(stocks || [])].filter((s) => s.rsi != null).sort((a, b) => (a.rsi || 50) - (b.rsi || 50)),
+    () =>
+      [...(stocks || [])]
+        .filter((s) => s.rsi != null)
+        .sort((a, b) => (a.rsi || 50) - (b.rsi || 50)),
     [stocks],
   );
 
   return (
     <Paper sx={{ p: 2, borderRadius: 2, height: "100%" }}>
-      <Typography variant="subtitle2" color="text.secondary" textTransform="uppercase" letterSpacing={1} mb={1}>
+      <Typography
+        variant="subtitle2"
+        color="text.secondary"
+        textTransform="uppercase"
+        letterSpacing={1}
+        mb={1}
+      >
         RSI Heatmap
       </Typography>
       <Box display="flex" gap={0.5} mb={1}>
         <Box display="flex" alignItems="center" gap={0.5}>
-          <Box sx={{ width: 12, height: 12, bgcolor: "#dc2626", borderRadius: 0.5 }} />
-          <Typography variant="caption" color="text.secondary">Oversold</Typography>
+          <Box
+            sx={{
+              width: 12,
+              height: 12,
+              bgcolor: "#dc2626",
+              borderRadius: 0.5,
+            }}
+          />
+          <Typography variant="caption" color="text.secondary">
+            Oversold
+          </Typography>
         </Box>
         <Box display="flex" alignItems="center" gap={0.5} ml={2}>
-          <Box sx={{ width: 12, height: 12, bgcolor: "#6b7280", borderRadius: 0.5 }} />
-          <Typography variant="caption" color="text.secondary">Neutral</Typography>
+          <Box
+            sx={{
+              width: 12,
+              height: 12,
+              bgcolor: "#6b7280",
+              borderRadius: 0.5,
+            }}
+          />
+          <Typography variant="caption" color="text.secondary">
+            Neutral
+          </Typography>
         </Box>
         <Box display="flex" alignItems="center" gap={0.5} ml={2}>
-          <Box sx={{ width: 12, height: 12, bgcolor: "#16a34a", borderRadius: 0.5 }} />
-          <Typography variant="caption" color="text.secondary">Overbought</Typography>
+          <Box
+            sx={{
+              width: 12,
+              height: 12,
+              bgcolor: "#16a34a",
+              borderRadius: 0.5,
+            }}
+          />
+          <Typography variant="caption" color="text.secondary">
+            Overbought
+          </Typography>
         </Box>
       </Box>
       <Box display="flex" flexWrap="wrap" gap={0.5}>
         {sorted.map((s) => (
-          <Tooltip key={s.id} title={`${s.symbol}: RSI ${s.rsi?.toFixed(0)} | $${s.price?.toFixed(0)} | ${s.daily_return_pct?.toFixed(1)}%`}>
+          <Tooltip
+            key={s.id}
+            title={`${s.symbol}: RSI ${s.rsi?.toFixed(0)} | $${s.price?.toFixed(
+              0,
+            )} | ${s.daily_return_pct?.toFixed(1)}%`}
+          >
             <Box
               onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
               sx={{
@@ -227,10 +329,21 @@ const RsiHeatmap = ({ stocks }) => {
                 transition: "transform 0.1s",
               }}
             >
-              <Typography variant="caption" sx={{ color: "#fff", fontWeight: 700, fontSize: "0.65rem", lineHeight: 1 }}>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: "#fff",
+                  fontWeight: 700,
+                  fontSize: "0.65rem",
+                  lineHeight: 1,
+                }}
+              >
                 {s.symbol}
               </Typography>
-              <Typography variant="caption" sx={{ color: "#ffffffcc", fontSize: "0.6rem" }}>
+              <Typography
+                variant="caption"
+                sx={{ color: "#ffffffcc", fontSize: "0.6rem" }}
+              >
                 {s.rsi?.toFixed(0)}
               </Typography>
             </Box>
@@ -244,7 +357,10 @@ const RsiHeatmap = ({ stocks }) => {
 // --- Main View ---
 const ChartsGridView = () => {
   const { data: stocks, isLoading } = useStocksOverview();
-  const { data: techData } = useResource("stock-technicals", "/stocks/technicals/");
+  const { data: techData } = useResource(
+    "stock-technicals",
+    "/stocks/technicals/",
+  );
 
   if (isLoading) return <ScaleLoader loading />;
   if (!stocks || !Array.isArray(stocks)) return null;
@@ -253,7 +369,9 @@ const ChartsGridView = () => {
   const stocksWithRsi = useMemo(() => {
     const rsiMap = {};
     if (Array.isArray(techData)) {
-      techData.forEach((t) => { rsiMap[t.id] = t.rsi; });
+      techData.forEach((t) => {
+        rsiMap[t.id] = t.rsi;
+      });
     }
     return stocks.map((s) => ({ ...s, rsi: rsiMap[s.id] || null }));
   }, [stocks, techData]);

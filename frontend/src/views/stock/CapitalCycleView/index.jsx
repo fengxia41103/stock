@@ -17,8 +17,18 @@ import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const PHASE_CONFIG = {
   peak: { emoji: "🔴", label: "Peak", color: "#ef4444", severity: "error" },
-  falling: { emoji: "🟡", label: "Falling", color: "#f59e0b", severity: "warning" },
-  trough: { emoji: "🟢", label: "Trough", color: "#10b981", severity: "success" },
+  falling: {
+    emoji: "🟡",
+    label: "Falling",
+    color: "#f59e0b",
+    severity: "warning",
+  },
+  trough: {
+    emoji: "🟢",
+    label: "Trough",
+    color: "#10b981",
+    severity: "success",
+  },
   rising: { emoji: "🔵", label: "Rising", color: "#3b82f6", severity: "info" },
 };
 
@@ -42,7 +52,10 @@ const CapitalCycleView = () => {
         </Alert>
         {data?.tracked_symbols && (
           <Typography variant="body2" color="text.secondary" mb={1}>
-            Tracked peers in DB: {data.tracked_symbols.length > 0 ? data.tracked_symbols.join(", ") : "none"}
+            Tracked peers in DB:{" "}
+            {data.tracked_symbols.length > 0
+              ? data.tracked_symbols.join(", ")
+              : "none"}
           </Typography>
         )}
         {data?.all_symbols && (
@@ -57,9 +70,15 @@ const CapitalCycleView = () => {
         )}
         <Alert severity="info" variant="outlined" sx={{ mt: 2 }}>
           <strong>To use this analysis:</strong>
-          <br />1. Go to the <strong>Peer Benchmark</strong> tab and click "Load Defaults" to add industry peers.
-          <br />2. Peers must also be tracked in your portfolio (with financial data loaded) to compute their capex/ROIC.
-          <br />3. If no peers are available, the analysis runs on {stock.symbol} alone — but needs at least 4 quarterly income statements.
+          <br />
+          1. Go to the <strong>Peer Benchmark</strong> tab and click "Load
+          Defaults" to add industry peers.
+          <br />
+          2. Peers must also be tracked in your portfolio (with financial data
+          loaded) to compute their capex/ROIC.
+          <br />
+          3. If no peers are available, the analysis runs on {stock.symbol}{" "}
+          alone — but needs at least 4 quarterly income statements.
         </Alert>
       </Box>
     );
@@ -157,8 +176,8 @@ const CapitalCycleView = () => {
 
       <Typography variant="body2" color="text.secondary" mb={2}>
         Step 9 (Supply Side & Capital Cycle): Aggregate capex intensity and
-        returns on capital across {stock.symbol}'s competitive peers to determine
-        where the industry sits in the capital cycle.
+        returns on capital across {stock.symbol}'s competitive peers to
+        determine where the industry sits in the capital cycle.
       </Typography>
 
       {/* Signal interpretation */}
@@ -236,13 +255,12 @@ const CapitalCycleView = () => {
         </Stack>
         {data.untracked_symbols?.length > 0 && (
           <Typography variant="body2" color="text.secondary">
-            Not tracked (no data):{" "}
-            {data.untracked_symbols.join(", ")}
+            Not tracked (no data): {data.untracked_symbols.join(", ")}
           </Typography>
         )}
         <Alert severity="info" variant="outlined" sx={{ mt: 1.5 }}>
-          <strong>Capital Cycle Framework:</strong>{" "}
-          🔴 Peak (sell) → 🟡 Falling (caution) → 🟢 Trough (buy) → 🔵 Rising (hold/add)
+          <strong>Capital Cycle Framework:</strong> 🔴 Peak (sell) → 🟡 Falling
+          (caution) → 🟢 Trough (buy) → 🔵 Rising (hold/add)
         </Alert>
       </Paper>
     </Box>

@@ -24,7 +24,11 @@ const StockRankingGrid = (props) => {
   });
 
   return (
-    <Grid container spacing={1} sx={{ overflowX: "auto", flexWrap: "nowrap", pb: 1 }}>
+    <Grid
+      container
+      spacing={1}
+      sx={{ overflowX: "auto", flexWrap: "nowrap", pb: 1 }}
+    >
       {ranking_in_columns}
     </Grid>
   );

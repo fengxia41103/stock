@@ -61,12 +61,8 @@ const EarningsCallNotesView = lazy(() =>
   import("@Views/stock/EarningsCallNotesView"),
 );
 const RiskFactorsView = lazy(() => import("@Views/stock/RiskFactorsView"));
-const PeerBenchmarkView = lazy(() =>
-  import("@Views/stock/PeerBenchmarkView"),
-);
-const CapitalCycleView = lazy(() =>
-  import("@Views/stock/CapitalCycleView"),
-);
+const PeerBenchmarkView = lazy(() => import("@Views/stock/PeerBenchmarkView"));
+const CapitalCycleView = lazy(() => import("@Views/stock/CapitalCycleView"));
 const ValuationRatiosView = lazy(() =>
   import("@Views/stock/ValuationRatiosView"),
 );

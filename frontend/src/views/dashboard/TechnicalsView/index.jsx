@@ -50,7 +50,15 @@ const rsiColor = (rsi) => {
   return "text.primary";
 };
 
-const StatChip = ({ label, value, color, status, subtitle, onClick, active }) => {
+const StatChip = ({
+  label,
+  value,
+  color,
+  status,
+  subtitle,
+  onClick,
+  active,
+}) => {
   const icons = {
     success: <CheckCircleIcon color="success" />,
     error: <ErrorIcon color="error" />,
@@ -82,7 +90,11 @@ const StatChip = ({ label, value, color, status, subtitle, onClick, active }) =>
             {label}
           </Typography>
         </Box>
-        <Typography variant="h4" fontWeight={700} sx={{ color, fontSize: { xs: "1.5rem", sm: "2rem" } }}>
+        <Typography
+          variant="h4"
+          fontWeight={700}
+          sx={{ color, fontSize: { xs: "1.5rem", sm: "2rem" } }}
+        >
           {value}
         </Typography>
         {subtitle && (
@@ -109,28 +121,49 @@ const TechnicalsView = () => {
 
   // Compute stats
   const oversold = stocks.filter((s) => s.rsi != null && s.rsi < 30).length;
-  const weak = stocks.filter((s) => s.rsi != null && s.rsi >= 30 && s.rsi < 40).length;
-  const neutral = stocks.filter((s) => s.rsi != null && s.rsi >= 40 && s.rsi <= 60).length;
-  const strong = stocks.filter((s) => s.rsi != null && s.rsi > 60 && s.rsi <= 70).length;
+  const weak = stocks.filter(
+    (s) => s.rsi != null && s.rsi >= 30 && s.rsi < 40,
+  ).length;
+  const neutral = stocks.filter(
+    (s) => s.rsi != null && s.rsi >= 40 && s.rsi <= 60,
+  ).length;
+  const strong = stocks.filter(
+    (s) => s.rsi != null && s.rsi > 60 && s.rsi <= 70,
+  ).length;
   const overbought = stocks.filter((s) => s.rsi != null && s.rsi > 70).length;
-  const goldenCross = stocks.filter((s) => s.sma_signal === "golden_cross").length;
-  const deathCross = stocks.filter((s) => s.sma_signal === "death_cross").length;
-  const avgRsi = stocks.length > 0
-    ? (stocks.reduce((sum, s) => sum + (s.rsi || 50), 0) / stocks.length).toFixed(0)
-    : 0;
+  const goldenCross = stocks.filter(
+    (s) => s.sma_signal === "golden_cross",
+  ).length;
+  const deathCross = stocks.filter(
+    (s) => s.sma_signal === "death_cross",
+  ).length;
+  const avgRsi =
+    stocks.length > 0
+      ? (
+          stocks.reduce((sum, s) => sum + (s.rsi || 50), 0) / stocks.length
+        ).toFixed(0)
+      : 0;
 
   // Filter table based on active card
   const filteredStocks = filter
     ? stocks.filter((s) => {
         switch (filter) {
-          case "oversold": return s.rsi != null && s.rsi < 30;
-          case "weak": return s.rsi != null && s.rsi >= 30 && s.rsi < 40;
-          case "neutral": return s.rsi != null && s.rsi >= 40 && s.rsi <= 60;
-          case "strong": return s.rsi != null && s.rsi > 60 && s.rsi <= 70;
-          case "overbought": return s.rsi != null && s.rsi > 70;
-          case "golden": return s.sma_signal === "golden_cross";
-          case "death": return s.sma_signal === "death_cross";
-          default: return true;
+          case "oversold":
+            return s.rsi != null && s.rsi < 30;
+          case "weak":
+            return s.rsi != null && s.rsi >= 30 && s.rsi < 40;
+          case "neutral":
+            return s.rsi != null && s.rsi >= 40 && s.rsi <= 60;
+          case "strong":
+            return s.rsi != null && s.rsi > 60 && s.rsi <= 70;
+          case "overbought":
+            return s.rsi != null && s.rsi > 70;
+          case "golden":
+            return s.sma_signal === "golden_cross";
+          case "death":
+            return s.sma_signal === "death_cross";
+          default:
+            return true;
         }
       })
     : stocks;
@@ -148,40 +181,99 @@ const TechnicalsView = () => {
       {/* Stats Cards — click to filter table */}
       <Grid container spacing={1.5} mb={2}>
         <Grid item xs={6} sm={4} md={3} lg={1.5}>
-          <StatChip label="Oversold" value={oversold} color={RED} status="error" subtitle="RSI < 30"
-            onClick={() => setFilter(filter === "oversold" ? null : "oversold")} active={filter === "oversold"} />
+          <StatChip
+            label="Oversold"
+            value={oversold}
+            color={RED}
+            status="error"
+            subtitle="RSI < 30"
+            onClick={() => setFilter(filter === "oversold" ? null : "oversold")}
+            active={filter === "oversold"}
+          />
         </Grid>
         <Grid item xs={6} sm={4} md={3} lg={1.5}>
-          <StatChip label="Weak" value={weak} color={AMBER} status="warning" subtitle="RSI 30-40"
-            onClick={() => setFilter(filter === "weak" ? null : "weak")} active={filter === "weak"} />
+          <StatChip
+            label="Weak"
+            value={weak}
+            color={AMBER}
+            status="warning"
+            subtitle="RSI 30-40"
+            onClick={() => setFilter(filter === "weak" ? null : "weak")}
+            active={filter === "weak"}
+          />
         </Grid>
         <Grid item xs={6} sm={4} md={3} lg={1.5}>
-          <StatChip label="Neutral" value={neutral} color="text.secondary" subtitle="RSI 40-60"
-            onClick={() => setFilter(filter === "neutral" ? null : "neutral")} active={filter === "neutral"} />
+          <StatChip
+            label="Neutral"
+            value={neutral}
+            color="text.secondary"
+            subtitle="RSI 40-60"
+            onClick={() => setFilter(filter === "neutral" ? null : "neutral")}
+            active={filter === "neutral"}
+          />
         </Grid>
         <Grid item xs={6} sm={4} md={3} lg={1.5}>
-          <StatChip label="Strong" value={strong} color={BLUE} subtitle="RSI 60-70"
-            onClick={() => setFilter(filter === "strong" ? null : "strong")} active={filter === "strong"} />
+          <StatChip
+            label="Strong"
+            value={strong}
+            color={BLUE}
+            subtitle="RSI 60-70"
+            onClick={() => setFilter(filter === "strong" ? null : "strong")}
+            active={filter === "strong"}
+          />
         </Grid>
         <Grid item xs={6} sm={4} md={3} lg={1.5}>
-          <StatChip label="Overbought" value={overbought} color="#8b5cf6" status="warning" subtitle="RSI > 70"
-            onClick={() => setFilter(filter === "overbought" ? null : "overbought")} active={filter === "overbought"} />
+          <StatChip
+            label="Overbought"
+            value={overbought}
+            color="#8b5cf6"
+            status="warning"
+            subtitle="RSI > 70"
+            onClick={() =>
+              setFilter(filter === "overbought" ? null : "overbought")
+            }
+            active={filter === "overbought"}
+          />
         </Grid>
         <Grid item xs={6} sm={4} md={3} lg={1.5}>
-          <StatChip label="Avg RSI" value={avgRsi} color="text.primary" subtitle="All stocks" />
+          <StatChip
+            label="Avg RSI"
+            value={avgRsi}
+            color="text.primary"
+            subtitle="All stocks"
+          />
         </Grid>
         <Grid item xs={6} sm={4} md={3} lg={1.5}>
-          <StatChip label="Golden Cross" value={goldenCross} color={GREEN} status="success" subtitle="SMA50 > 200"
-            onClick={() => setFilter(filter === "golden" ? null : "golden")} active={filter === "golden"} />
+          <StatChip
+            label="Golden Cross"
+            value={goldenCross}
+            color={GREEN}
+            status="success"
+            subtitle="SMA50 > 200"
+            onClick={() => setFilter(filter === "golden" ? null : "golden")}
+            active={filter === "golden"}
+          />
         </Grid>
         <Grid item xs={6} sm={4} md={3} lg={1.5}>
-          <StatChip label="Death Cross" value={deathCross} color={RED} status="error" subtitle="SMA50 < 200"
-            onClick={() => setFilter(filter === "death" ? null : "death")} active={filter === "death"} />
+          <StatChip
+            label="Death Cross"
+            value={deathCross}
+            color={RED}
+            status="error"
+            subtitle="SMA50 < 200"
+            onClick={() => setFilter(filter === "death" ? null : "death")}
+            active={filter === "death"}
+          />
         </Grid>
       </Grid>
 
       {filter && (
-        <Chip label={`Showing: ${filter}`} onDelete={() => setFilter(null)} size="small" sx={{ mb: 1 }} />
+        <Chip
+          label={`Showing: ${filter}`}
+          onDelete={() => setFilter(null)}
+          size="small"
+          sx={{ mb: 1 }}
+        />
       )}
 
       <TableContainer component={Paper} sx={{ overflowX: "auto" }}>

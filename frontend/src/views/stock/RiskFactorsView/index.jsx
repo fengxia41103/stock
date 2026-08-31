@@ -54,7 +54,10 @@ const RiskFactorsView = () => {
     ["risk-factors", String(stock.id)],
     `/risk-factors/?stock=${stock.id}`,
   );
-  const createMutation = useCreate(`/risk-factors/`, ["risk-factors", String(stock.id)]);
+  const createMutation = useCreate(`/risk-factors/`, [
+    "risk-factors",
+    String(stock.id),
+  ]);
 
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState(emptyRisk);
@@ -80,25 +83,38 @@ const RiskFactorsView = () => {
 
   return (
     <Box>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-        <Typography variant="h5">
-          Risk Factors — {stock.symbol}
-        </Typography>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        mb={2}
+      >
+        <Typography variant="h5">Risk Factors — {stock.symbol}</Typography>
         {!adding && (
-          <Button startIcon={<AddIcon />} variant="contained" onClick={() => setAdding(true)}>
+          <Button
+            startIcon={<AddIcon />}
+            variant="contained"
+            onClick={() => setAdding(true)}
+          >
             Add Risk Factor
           </Button>
         )}
       </Stack>
 
       <Typography variant="body2" color="text.secondary" mb={2}>
-        Step 2 (lite): Curated risk factors from 10-K reading. Check "materializing" when a risk starts showing real-world evidence — link to kill criteria in thesis.
+        Step 2 (lite): Curated risk factors from 10-K reading. Check
+        "materializing" when a risk starts showing real-world evidence — link to
+        kill criteria in thesis.
       </Typography>
 
       {/* Alert banner if any risks materializing */}
       {materializing.length > 0 && (
         <Alert severity="error" icon={<WarningAmberIcon />} sx={{ mb: 2 }}>
-          <strong>{materializing.length} risk{materializing.length > 1 ? "s" : ""} currently materializing</strong> — review kill criteria in Thesis card.
+          <strong>
+            {materializing.length} risk{materializing.length > 1 ? "s" : ""}{" "}
+            currently materializing
+          </strong>{" "}
+          — review kill criteria in Thesis card.
           {materializing.map((r) => (
             <Typography key={r.id} variant="body2" sx={{ mt: 0.5 }}>
               • [{r.category}] {r.description.slice(0, 80)}
@@ -109,14 +125,33 @@ const RiskFactorsView = () => {
 
       {/* Add form */}
       {adding && (
-        <Paper sx={{ p: 2.5, mb: 3, border: "1px solid", borderColor: "primary.main" }}>
+        <Paper
+          sx={{
+            p: 2.5,
+            mb: 3,
+            border: "1px solid",
+            borderColor: "primary.main",
+          }}
+        >
           <Stack direction="row" justifyContent="space-between" mb={2}>
-            <Typography variant="h6" color="primary">New Risk Factor</Typography>
+            <Typography variant="h6" color="primary">
+              New Risk Factor
+            </Typography>
             <Stack direction="row" spacing={1}>
-              <Button startIcon={<SaveIcon />} variant="contained" size="small" onClick={handleSave} disabled={createMutation.isPending || !form.description}>
+              <Button
+                startIcon={<SaveIcon />}
+                variant="contained"
+                size="small"
+                onClick={handleSave}
+                disabled={createMutation.isPending || !form.description}
+              >
                 Save
               </Button>
-              <Button startIcon={<CancelIcon />} size="small" onClick={() => setAdding(false)}>
+              <Button
+                startIcon={<CancelIcon />}
+                size="small"
+                onClick={() => setAdding(false)}
+              >
                 Cancel
               </Button>
             </Stack>
@@ -127,9 +162,15 @@ const RiskFactorsView = () => {
                 label="Category"
                 value={form.category}
                 onChange={(e) => setForm({ ...form, category: e.target.value })}
-                select fullWidth size="small"
+                select
+                fullWidth
+                size="small"
               >
-                {CATEGORIES.map((c) => <MenuItem key={c.value} value={c.value}>{c.label}</MenuItem>)}
+                {CATEGORIES.map((c) => (
+                  <MenuItem key={c.value} value={c.value}>
+                    {c.label}
+                  </MenuItem>
+                ))}
               </TextField>
             </Grid>
             <Grid item xs={12} md={4}>
@@ -137,9 +178,15 @@ const RiskFactorsView = () => {
                 label="Severity"
                 value={form.severity}
                 onChange={(e) => setForm({ ...form, severity: e.target.value })}
-                select fullWidth size="small"
+                select
+                fullWidth
+                size="small"
               >
-                {SEVERITIES.map((s) => <MenuItem key={s.value} value={s.value}>{s.label}</MenuItem>)}
+                {SEVERITIES.map((s) => (
+                  <MenuItem key={s.value} value={s.value}>
+                    {s.label}
+                  </MenuItem>
+                ))}
               </TextField>
             </Grid>
             <Grid item xs={12} md={4}>
@@ -147,7 +194,8 @@ const RiskFactorsView = () => {
                 label="Source"
                 value={form.source}
                 onChange={(e) => setForm({ ...form, source: e.target.value })}
-                fullWidth size="small"
+                fullWidth
+                size="small"
                 helperText="10-K, proxy, earnings call, etc."
               />
             </Grid>
@@ -155,8 +203,13 @@ const RiskFactorsView = () => {
               <TextField
                 label="Risk Description"
                 value={form.description}
-                onChange={(e) => setForm({ ...form, description: e.target.value })}
-                fullWidth size="small" multiline minRows={2}
+                onChange={(e) =>
+                  setForm({ ...form, description: e.target.value })
+                }
+                fullWidth
+                size="small"
+                multiline
+                minRows={2}
                 helperText="Specific risk from 10-K (e.g., 'OpenAI may terminate partnership agreement')"
               />
             </Grid>
@@ -167,7 +220,8 @@ const RiskFactorsView = () => {
       {/* Risk factors list */}
       {risks.length === 0 && !adding && (
         <Alert severity="info">
-          No risk factors documented. Read the 10-K Risk Factors section and add the most relevant ones here.
+          No risk factors documented. Read the 10-K Risk Factors section and add
+          the most relevant ones here.
         </Alert>
       )}
 
@@ -184,11 +238,16 @@ const RiskFactorsView = () => {
               borderLeft: "4px solid",
               borderColor: risk.currently_materializing
                 ? "error.main"
-                : sevInfo.value === "existential" ? "error.dark"
-                : sevInfo.value === "high" ? "warning.main"
-                : sevInfo.value === "medium" ? "info.main"
+                : sevInfo.value === "existential"
+                ? "error.dark"
+                : sevInfo.value === "high"
+                ? "warning.main"
+                : sevInfo.value === "medium"
+                ? "info.main"
                 : "grey.500",
-              bgcolor: risk.currently_materializing ? "error.dark" : "background.paper",
+              bgcolor: risk.currently_materializing
+                ? "error.dark"
+                : "background.paper",
               opacity: risk.currently_materializing ? 1 : 0.9,
             }}
           >
@@ -207,8 +266,16 @@ const RiskFactorsView = () => {
               />
               <Box flex={1}>
                 <Stack direction="row" spacing={1} alignItems="center" mb={0.5}>
-                  <Chip label={catInfo.label || risk.category} size="small" variant="outlined" />
-                  <Chip label={sevInfo.label || risk.severity} size="small" color={sevInfo.color || "default"} />
+                  <Chip
+                    label={catInfo.label || risk.category}
+                    size="small"
+                    variant="outlined"
+                  />
+                  <Chip
+                    label={sevInfo.label || risk.severity}
+                    size="small"
+                    color={sevInfo.color || "default"}
+                  />
                   <Typography variant="caption" color="text.secondary">
                     Source: {risk.source} | Assessed: {risk.last_assessed}
                   </Typography>
@@ -220,7 +287,12 @@ const RiskFactorsView = () => {
                   {risk.description}
                 </Typography>
                 {risk.currently_materializing && risk.materializing_evidence && (
-                  <Typography variant="body2" color="error.light" mt={0.5} sx={{ fontStyle: "italic" }}>
+                  <Typography
+                    variant="body2"
+                    color="error.light"
+                    mt={0.5}
+                    sx={{ fontStyle: "italic" }}
+                  >
                     Evidence: {risk.materializing_evidence}
                   </Typography>
                 )}

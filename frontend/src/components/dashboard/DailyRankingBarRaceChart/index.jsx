@@ -32,9 +32,21 @@ const DailyRankingBarRaceChart = (props) => {
 
     // Generate distinct colors for each bar
     const COLORS = [
-      "#ef4444", "#f97316", "#f59e0b", "#84cc16", "#10b981",
-      "#06b6d4", "#3b82f6", "#6366f1", "#8b5cf6", "#ec4899",
-      "#14b8a6", "#f43f5e", "#a855f7", "#0ea5e9", "#22c55e",
+      "#ef4444",
+      "#f97316",
+      "#f59e0b",
+      "#84cc16",
+      "#10b981",
+      "#06b6d4",
+      "#3b82f6",
+      "#6366f1",
+      "#8b5cf6",
+      "#ec4899",
+      "#14b8a6",
+      "#f43f5e",
+      "#a855f7",
+      "#0ea5e9",
+      "#22c55e",
     ];
 
     const categories = data.map((d) => d.symbol);

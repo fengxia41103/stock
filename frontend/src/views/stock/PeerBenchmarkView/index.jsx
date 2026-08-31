@@ -100,9 +100,7 @@ const PeerBenchmarkView = () => {
         justifyContent="space-between"
         mb={2}
       >
-        <Typography variant="h5">
-          Peer Benchmark — {stock.symbol}
-        </Typography>
+        <Typography variant="h5">Peer Benchmark — {stock.symbol}</Typography>
         <Stack direction="row" spacing={1}>
           <Button
             startIcon={<AutoFixHighIcon />}
@@ -201,9 +199,9 @@ const PeerBenchmarkView = () => {
       {/* Peer groups display */}
       {peers.length === 0 && (
         <Alert severity="info" sx={{ mb: 2 }}>
-          No peers defined for {stock.symbol}. Click "Load Defaults" to
-          populate industry competitors from our pre-defined mappings, or add
-          custom peers manually.
+          No peers defined for {stock.symbol}. Click "Load Defaults" to populate
+          industry competitors from our pre-defined mappings, or add custom
+          peers manually.
         </Alert>
       )}
 
@@ -224,7 +222,8 @@ const PeerBenchmarkView = () => {
             <TableBody>
               {peers.map((peer) => {
                 const relInfo =
-                  RELATIONSHIPS.find((r) => r.value === peer.relationship) || {};
+                  RELATIONSHIPS.find((r) => r.value === peer.relationship) ||
+                  {};
                 return (
                   <TableRow key={peer.id} hover>
                     <TableCell>
