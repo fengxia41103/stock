@@ -187,6 +187,50 @@ make rebuild-rankings
 
 ---
 
+## Investment Philosophy
+
+**Core principle: Own quality businesses.** This is not a trading app — it's a tool to find, evaluate, and monitor monopoly/duopoly businesses that compound wealth over time.
+
+### Framework: Darwin Investing (Pulak Prasad)
+
+1. **Kill List** — Reject stocks that fail any of 10 criteria (dishonest management, high leverage, serial acquirer, fast-changing industry, turnaround, misaligned interests, state-owned, customer concentration, complex model, fraud history)
+2. **ROCE >15%** sustained over 5+ years
+3. **Clear, durable moat** — switching costs, network effects, physical monopoly, regulatory barrier, scale advantage
+4. **Buy and be extremely lazy** — only sell if the moat permanently breaks
+
+### What We Look For
+
+- **Monopolies/duopolies** — Businesses that sit on toll roads the economy must pass through (V/MA for payments, FICO for credit scoring, KLAC for chip inspection, VRSN for internet domains, UNP for railroads)
+- **High ROCE** — Capital-efficient businesses that generate excess returns (25-50%+ ROCE)
+- **Recurring revenue** — Subscription, licensing, or embedded-in-operations models that customers can't easily cancel
+- **Pricing power** — Ability to raise prices without losing customers (moat proof)
+
+### Entry Timing: Darwin + RSI
+
+- Buy Darwin-approved stocks when RSI(14) < 30 (oversold on non-fundamental reasons)
+- Historical accuracy: **93.9%** on Darwin + RSI + 30-day holds
+- Position sizing: max 5% per new position, scale in on further weakness
+- Stop losses defined per position before entry
+
+### What We Don't Do
+
+- Don't trade momentum or hype (no NVDA, no meme stocks)
+- Don't try to time the market — time individual stock entries
+- Don't panic sell on price drops if the thesis (moat + ROCE) is intact
+- Don't chase stocks above RSI 60 or above the middle of their box range
+
+### Portfolio Sectors
+
+| Sector | Purpose |
+|--------|---------|
+| Darwin完全过关 | 25 stocks passing all Kill List criteria — the buy universe |
+| Monopoly | 28 monopoly/duopoly businesses tracked for quality screening |
+| Fidelity | 11 actual IRA holdings — the real portfolio |
+| SP500 Top | 10 highest-quality S&P 500 picks |
+| Consideration | 38 general watchlist |
+
+---
+
 ## Key Design Decisions
 
 1. **Heavy computed properties** — Financial ratios calculated on-the-fly from raw stored data
