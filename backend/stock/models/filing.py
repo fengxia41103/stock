@@ -1,34 +1,35 @@
-"""SEC 10-K filing model with extracted sections and LLM summaries."""
+"""SEC 10-K annual report — structured filing metadata from data.sec.gov.
+
+Structured data only: we record the filing's identity and dates from the SEC
+submissions JSON API (accession, fiscal year, filed/period dates, primary
+document reference, XBRL flags). No narrative section text, no HTML scraping.
+Financial fundamentals live in the IncomeStatement/BalanceSheet/CashFlow
+models; this model is the authoritative index of a company's 10-K filings.
+"""
 
 from django.db import models
 
 
 class Filing10K(models.Model):
-    """SEC 10-K filing with extracted and summarized sections."""
+    """SEC 10-K annual report (structured metadata only)."""
 
     stock = models.ForeignKey(
         "stock.MyStock", on_delete=models.CASCADE, related_name="filings_10k"
     )
     fiscal_year = models.IntegerField()
-    filed_date = models.DateField(null=True, blank=True)
     accession_number = models.CharField(max_length=64, blank=True, default="")
+    filed_date = models.DateField(null=True, blank=True)
+    period_of_report = models.DateField(null=True, blank=True)  # reportDate
 
-    # Raw extracted sections (from edgartools)
-    business_description = models.TextField(blank=True, default="")  # Item 1
-    risk_factors_raw = models.TextField(blank=True, default="")      # Item 1A
-    mda_raw = models.TextField(blank=True, default="")               # Item 7
+    # Reference to the primary document on EDGAR (not fetched/scraped).
+    primary_document = models.CharField(max_length=256, blank=True, default="")
+    source_url = models.URLField(max_length=512, blank=True, default="")
 
-    # LLM-generated summaries (via AWS Bedrock)
-    business_summary = models.TextField(blank=True, default="")      # 3-5 bullet points
-    revenue_segments = models.JSONField(default=dict, blank=True)    # {segment: pct}
-    customer_concentration = models.TextField(blank=True, default="")
-    moat_assessment = models.TextField(blank=True, default="")
-    top_risks = models.JSONField(default=list, blank=True)           # [{risk, severity, category}]
-    mda_highlights = models.TextField(blank=True, default="")
-    competitive_position = models.TextField(blank=True, default="")
+    # Structured flags from the submissions API.
+    size = models.BigIntegerField(default=0)
+    is_xbrl = models.BooleanField(default=False)
+    is_inline_xbrl = models.BooleanField(default=False)
 
-    # Meta
-    summarized_at = models.DateTimeField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -37,11 +38,3 @@ class Filing10K(models.Model):
 
     def __str__(self):
         return f"{self.stock.symbol} 10-K FY{self.fiscal_year}"
-
-    @property
-    def has_raw_data(self):
-        return bool(self.business_description or self.risk_factors_raw or self.mda_raw)
-
-    @property
-    def has_summary(self):
-        return self.summarized_at is not None

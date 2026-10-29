@@ -8,6 +8,7 @@ from stock.models.dividend import DividendEvent
 from stock.models.earnings import EarningsEvent, EarningsPriceImpact
 from stock.models.earnings_call_note import EarningsCallNote
 from stock.models.filing import Filing10K
+from stock.models.filing_8k import Filing8K
 from stock.models.historical import MyStockHistorical
 from stock.models.income import IncomeStatement
 from stock.models.insider_trade import InsiderTrade
@@ -33,6 +34,8 @@ __all__ = [
     "EarningsEvent",
     "EarningsCallNote",
     "EarningsPriceImpact",
+    "Filing8K",
+    "Filing10K",
     "IncomeStatement",
     "InsiderTrade",
     "InstitutionalHolding",

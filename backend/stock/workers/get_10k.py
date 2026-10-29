@@ -1,127 +1,82 @@
-"""Download and parse SEC 10-K filings using edgartools.
+"""Fetch SEC 10-K annual-report metadata from the data.sec.gov JSON API.
 
-Extracts Item 1 (Business), Item 1A (Risk Factors), Item 7 (MD&A)
-and stores raw text in Filing10K model.
-
-Requires: pip install edgartools>=5.16
-SEC EDGAR rate limit: 10 requests/second (respected by edgartools).
+Structured data only — no HTML scraping, no narrative text. Reads filing
+metadata (accession, filing/period dates, primary document reference, XBRL
+flags) from the SEC submissions API and stores it in the Filing10K model.
+Fiscal year is derived from the period-of-report (reportDate).
 """
 
+import datetime
 import logging
-import os
 
 from stock.models import MyStock
 from stock.models.filing import Filing10K
+from stock.workers.sec_edgar_api import filing_url, get_submissions
 
 logger = logging.getLogger("stock")
 
-# SEC requires a User-Agent identifying your app
-SEC_USER_AGENT = os.environ.get(
-    "SEC_EDGAR_USER_AGENT", "StockApp/1.0 (dev@example.com)"
-)
-
 
 class Filing10KWorker:
-    """Download and parse 10-K from SEC EDGAR using edgartools."""
+    """Fetch and store 10-K metadata from data.sec.gov."""
 
     def __init__(self, symbol):
         self.stock = MyStock.objects.get(symbol=symbol)
 
-    def get(self, years=2):
-        """Fetch last N years of 10-K filings.
-        
-        Returns number of filings processed.
-        """
-        try:
-            from edgartools import Company, set_identity
-        except ImportError:
-            logger.error("edgartools not installed. Run: pip install edgartools>=5.16")
+    def get(self, years=5):
+        """Fetch the most recent `years` 10-K filings. Returns number stored."""
+        cik, _meta, rows = get_submissions(self.stock.symbol)
+        if cik is None:
+            logger.warning(f"[10-K] Could not resolve {self.stock.symbol} on SEC EDGAR")
             return 0
 
-        set_identity(SEC_USER_AGENT)
-
-        try:
-            company = Company(self.stock.symbol)
-        except Exception as e:
-            logger.warning(f"[10-K] Could not find company for {self.stock.symbol}: {e}")
-            return 0
-
-        try:
-            filings = company.get_filings(form="10-K").head(years)
-        except Exception as e:
-            logger.warning(f"[10-K] Could not get filings for {self.stock.symbol}: {e}")
-            return 0
-
+        ten_ks = [r for r in rows if r["form"] == "10-K"][:years]
         count = 0
-        for filing in filings:
+        for row in ten_ks:
             try:
-                count += self._process_filing(filing)
+                count += self._store(cik, row)
             except Exception as e:
-                logger.warning(f"[10-K] Error processing {self.stock.symbol} filing: {e}")
+                logger.warning(
+                    f"[10-K] Error storing {self.stock.symbol} "
+                    f"{row.get('accession_number')}: {e}"
+                )
                 continue
-
         return count
 
-    def _process_filing(self, filing):
-        """Process a single 10-K filing."""
-        # Check if we already have this filing
-        accession = getattr(filing, "accession_number", "") or ""
-        filing_date = getattr(filing, "filing_date", None)
-        fiscal_year = filing_date.year if filing_date else 2024
-
-        existing = Filing10K.objects.filter(
-            stock=self.stock, fiscal_year=fiscal_year
-        ).first()
-
-        # Skip if already has raw data
-        if existing and existing.has_raw_data:
+    def _store(self, cik, row):
+        accession = row["accession_number"]
+        period = self._to_date(row.get("report_date"))
+        filed = self._to_date(row.get("filing_date"))
+        # Fiscal year from period-of-report, else filing year.
+        fiscal_year = period.year if period else (filed.year if filed else None)
+        if fiscal_year is None:
             return 0
 
-        # Parse the 10-K into structured sections
-        try:
-            tenk = filing.obj()
-        except Exception as e:
-            logger.warning(f"[10-K] Could not parse {self.stock.symbol} FY{fiscal_year}: {e}")
+        if Filing10K.objects.filter(stock=self.stock, fiscal_year=fiscal_year).exists():
             return 0
 
-        # Extract key sections
-        business = self._extract_section(tenk, "item1", "Item 1")
-        risks = self._extract_section(tenk, "item1a", "Item 1A")
-        mda = self._extract_section(tenk, "item7", "Item 7")
+        url = filing_url(cik, accession, row.get("primary_document", "")) \
+            if row.get("primary_document") else ""
 
-        if not (business or risks or mda):
-            logger.info(f"[10-K] No sections extracted for {self.stock.symbol} FY{fiscal_year}")
-            return 0
-
-        # Store
-        Filing10K.objects.update_or_create(
+        Filing10K.objects.create(
             stock=self.stock,
             fiscal_year=fiscal_year,
-            defaults={
-                "filed_date": filing_date,
-                "accession_number": accession,
-                "business_description": business[:50000],
-                "risk_factors_raw": risks[:50000],
-                "mda_raw": mda[:50000],
-            },
+            accession_number=accession,
+            filed_date=filed,
+            period_of_report=period,
+            primary_document=row.get("primary_document", ""),
+            source_url=url,
+            size=row.get("size", 0) or 0,
+            is_xbrl=row.get("is_xbrl", False),
+            is_inline_xbrl=row.get("is_inline_xbrl", False),
         )
-
-        logger.info(
-            f"[10-K] {self.stock.symbol} FY{fiscal_year}: "
-            f"business={len(business)} chars, risks={len(risks)} chars, mda={len(mda)} chars"
-        )
+        logger.info(f"[10-K] {self.stock.symbol} FY{fiscal_year} {accession}")
         return 1
 
-    def _extract_section(self, tenk, attr_name, display_name):
-        """Safely extract a section from parsed 10-K."""
+    @staticmethod
+    def _to_date(value):
+        if not value:
+            return None
         try:
-            # edgartools TenK object has attributes like .item1, .item1a, .item7
-            section = getattr(tenk, attr_name, None)
-            if section is None:
-                # Try dictionary-style access
-                section = tenk.get(display_name, None) if hasattr(tenk, "get") else None
-            if section is None:
-                return ""
-            return str(section).strip()
-        except Exception:
-            return ""
+            return datetime.date.fromisoformat(str(value)[:10])
+        except (ValueError, TypeError):
+            return None
