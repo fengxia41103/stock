@@ -218,6 +218,11 @@ class BuyAndHoldStrategy:
 
     def __init__(self):
         self._entered = set()
+        # Set by the engine before run(): number of symbols in the backtest
+        # universe. Used to size positions as equal-weight across the real
+        # universe instead of a hardcoded cap (which left most cash idle on
+        # small universes / single-symbol runs).
+        self.universe_size = None
 
     def should_enter(self, symbol, bars):
         """Buy once on first available day."""
@@ -231,7 +236,18 @@ class BuyAndHoldStrategy:
         return False
 
     def position_size(self, cash, num_positions):
-        # Allocate equally across up to 20 positions
+        """Equal-weight allocation across the backtest universe.
+
+        Deploys the full initial capital: with N symbols each gets ~1/N; a
+        single-symbol run deploys 100%. Falls back to a 20-position cap only
+        when the universe size is unknown.
+        """
+        if self.universe_size and self.universe_size > 0:
+            remaining = self.universe_size - num_positions
+            if remaining <= 0:
+                return 0
+            return cash / remaining
+        # Fallback (universe size unknown): original capped behavior.
         max_positions = 20
         if num_positions >= max_positions:
             return 0

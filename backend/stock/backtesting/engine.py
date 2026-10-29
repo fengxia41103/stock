@@ -39,6 +39,14 @@ class BacktestEngine:
         if not price_data:
             return self._empty_report()
 
+        # Inform the strategy of the actual universe size so equal-weight
+        # strategies (e.g. buy & hold) can deploy full capital rather than
+        # leaving most of it idle under a hardcoded position cap.
+        try:
+            self.strategy.universe_size = len(price_data)
+        except AttributeError:
+            pass
+
         # Load earnings data if strategy needs it
         if hasattr(self.strategy, "load_earnings_data"):
             self.strategy.load_earnings_data(self.symbols, self.start_date, self.end_date)
