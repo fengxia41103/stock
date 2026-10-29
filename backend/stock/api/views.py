@@ -1171,6 +1171,126 @@ class PortfolioViewSet(viewsets.ViewSet):
             },
         })
 
+    @action(detail=False, methods=["get"])
+    def allocation(self, request):
+        """Target-allocation drift & rebalance analysis.
+
+        Groups open positions into the user's AssetClass buckets, compares the
+        current weight of each bucket to its target weight, and reports the
+        dollar trade needed to close the gap.
+
+        Optional query params let you fold in value held OUTSIDE tracked
+        positions (e.g. bonds/cash at the broker) so the percentages are
+        computed against true total investable assets:
+          - external[<asset_class_key>]=<dollars>   repeatable, e.g.
+            ?external[bonds]=50000&external[cash]=10000
+
+        This is an analysis aid, not advice: targets are user-defined.
+        """
+        from stock.models import AssetClass, AssetClassAssignment
+        from stock.models.portfolio import Position
+
+        user = request.user
+
+        # External (untracked) dollars per asset-class key, e.g. bonds/cash.
+        external = {}
+        for param, val in request.query_params.items():
+            if param.startswith("external[") and param.endswith("]"):
+                key = param[len("external["):-1]
+                try:
+                    external[key] = max(0.0, float(val))
+                except (TypeError, ValueError):
+                    continue
+
+        buckets = list(AssetClass.objects.filter(user=user))
+        if not buckets and not external:
+            return Response(
+                {
+                    "detail": "No asset-class model defined. Seed one with "
+                    "`manage.py seed_allocation_model` or create AssetClass rows.",
+                    "buckets": [],
+                },
+                status=status.HTTP_200_OK,
+            )
+
+        # Map stock_id -> asset_class_id for this user.
+        assign = {
+            a.stock_id: a.asset_class_id
+            for a in AssetClassAssignment.objects.filter(user=user)
+        }
+
+        # Accumulate market value per bucket from open positions.
+        by_class = {b.id: 0.0 for b in buckets}
+        unclassified = 0.0
+        unclassified_symbols = []
+        positions = Position.objects.filter(
+            user=user, closed_at__isnull=True, shares__gt=0
+        ).select_related("stock")
+        for p in positions:
+            mv = p.market_value or 0.0
+            ac_id = assign.get(p.stock_id)
+            if ac_id in by_class:
+                by_class[ac_id] += mv
+            else:
+                unclassified += mv
+                if mv > 0:
+                    unclassified_symbols.append(p.stock.symbol)
+
+        # Fold in external (untracked) dollars by bucket key.
+        key_to_id = {b.key: b.id for b in buckets}
+        external_unmatched = {}
+        for key, dollars in external.items():
+            if key in key_to_id:
+                by_class[key_to_id[key]] += dollars
+            else:
+                external_unmatched[key] = dollars
+
+        total = sum(by_class.values()) + unclassified + sum(external_unmatched.values())
+        if total <= 0:
+            return Response(
+                {"detail": "No portfolio value to allocate.", "buckets": []},
+                status=status.HTTP_200_OK,
+            )
+
+        rows = []
+        target_sum = 0.0
+        for b in buckets:
+            cur_val = by_class[b.id]
+            cur_pct = cur_val / total * 100
+            target_sum += b.target_pct
+            target_val = b.target_pct / 100 * total
+            drift_pct = cur_pct - b.target_pct
+            # Positive trade = BUY to reach target; negative = SELL/trim.
+            trade = target_val - cur_val
+            rows.append({
+                "key": b.key,
+                "label": b.label,
+                "current_value": round(cur_val, 2),
+                "current_pct": round(cur_pct, 2),
+                "target_pct": round(b.target_pct, 2),
+                "target_value": round(target_val, 2),
+                "drift_pct": round(drift_pct, 2),
+                "rebalance_trade": round(trade, 2),
+                "action": "BUY" if trade > 0 else ("SELL" if trade < 0 else "HOLD"),
+            })
+
+        return Response({
+            "total_value": round(total, 2),
+            "target_pct_sum": round(target_sum, 2),
+            "buckets": rows,
+            "unclassified": {
+                "value": round(unclassified, 2),
+                "pct": round(unclassified / total * 100, 2),
+                "symbols": unclassified_symbols,
+            },
+            "external_unmatched_keys": external_unmatched,
+            "disclaimer": (
+                "Analysis only, not financial advice. Target weights are "
+                "user-defined; rebalance trades assume you move cash to/from "
+                "each bucket to hit its target."
+            ),
+        })
+
     @action(detail=False, methods=["post"], url_path="add-transaction")
     def add_transaction(self, request):
         """Add a BUY or SELL transaction. Creates/updates position automatically."""
