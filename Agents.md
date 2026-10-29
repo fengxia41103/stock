@@ -246,6 +246,20 @@ RSI < 35 and "low in the range" are NECESSARY but NOT SUFFICIENT. Before buying 
 
 6. **Does cash flow confirm the quality?** — Run the Cash Flow Health Gate (above). OCF/NI ≥ 80% persistently and FCF/OCF ≥ 50%. If OCF/NI is weak, the "cheap" price may be discounting deteriorating earnings quality — a value trap in disguise. If only FCF/OCF is weak, confirm it's capex (with a payback thesis), not cash burn.
 
+### Graham + Darwin Valuation Synthesis (the "pay-up" rule)
+
+Darwin tells you WHAT to own (quality that passes the Kill List); Graham tells you whether the PRICE offers a margin of safety. Crossing them resolves the most common real-world case — an elite business that screens expensive. Compute Graham IV with `V = EPS × (8.5 + 2g) × 4.4 / Y`, where `Y` = current AAA corporate-bond yield (FRED `DAAA`), `g` = a conservative growth estimate (use well below guidance), and `EPS` = **normalized** (strip one-time/non-operating gains — see GOOGL).
+
+| | Graham PASS (price ≤ IV, real margin of safety) | Graham FAIL (price > IV) |
+|---|---|---|
+| **Darwin PASS (quality)** | ✅ **Buy** — the rare "both agree" quadrant (e.g. NFLX at ~$73 vs IV ~$73) | ⚠️ **Buy only if price is >25% below Graham IV**; otherwise WATCH. A quality compounder can be worth paying up for, but not at any price. |
+| **Darwin FAIL (Kill List trigger)** | 🚫 **Avoid — classic value trap** (cheap for a reason, e.g. PDD, SBUX) | ❌ **Avoid** |
+
+Rules that fall out of this:
+- **A big % drop is not a margin of safety if the stock fell *from a bubble*.** LRCX fell ~37% and AMAT ~41% but both still trade *above* Graham IV — the drop only removed froth, it did not create a bargain. "Oversold" (RSI) ≠ "cheap" (Graham). Verify both independently.
+- **For quality-growth names that fail strict Graham, PEG and PE-vs-own-history are the secondary read.** GOOGL fails strict IV on normalized EPS but PEG ~0.92 / ~17x earnings make it "cheap for a mega-cap" — acceptable to initiate. This is a judgment call reserved for Darwin-PASS names only.
+- **Never relax the Darwin gate to justify a cheap price.** Graham PASS + Darwin FAIL is the trap quadrant, not a buy.
+
 ### Decision Matrix (Cash Flow Health × RSI Timing)
 
 The cash-flow gate answers WHAT to own; RSI/2-year position answers WHEN. Cross them:
@@ -263,6 +277,9 @@ Notes: "Healthy CF + oversold" is the only true green light. "Weak OCF/NI + chea
 - **ODFL (rejected Sep 1)**: RSI 32 looked oversold, but 2-year position was 56% (mid-range) and PE 38x (expensive for GDP-level growth). Stuck in a $175-230 range for 5 years. LESSON: RSI without checking 2-year position + valuation is misleading.
 - **POOL (rejected Sep 2)**: RSI 42, 6% of 2-year range, 17x PE looked like a clean monopoly discount. But the -65% drop was a post-COVID construction-boom unwind (fundamental), not seasonal or rotational. Also has genuine stock-price seasonality (April +6.4%, September weak). LESSON: A big multi-year drop is usually fundamental — "cheap can get cheaper." Check WHY, and know the business's seasonality.
 - **FICO (rejected Sep 2)**: RSI 44, 12% of 2-year range, monopoly moat (90%+ US credit scoring). But in a 2-year structural downtrend (−54% from ATH): mortgage-volume collapse (rate sensitivity), CFPB pricing scrutiny, and VantageScore competition threat to the mortgage monopoly. LESSON: Even a real monopoly can be a falling knife if it faces a mortgage/rate cycle + regulatory + competitive overhang. A broken multi-year chart overrides a good moat story.
+- **LRCX / AMAT (reviewed Oct 15, buy-on-weakness but NOT full-size)**: Both are elite Darwin-quality (ROCE ~52% / ~36%, net cash, LRCX goodwill-free) and oversold (RSI 30 / 33, down ~37% / ~41%). The trap avoided here was the *inverse* of a value trap: a quality name that is oversold but still **not cheap**. Both fell *from a bubble* and still trade above Graham IV (LRCX −129% MoS at g=12%; AMAT −75%). LESSON: a 40% drop + RSI 30 is a scale-in trigger, not a backup-the-truck signal, when Graham shows no margin of safety. Start at ~1/3 target and let valuation come to you.
+- **NFLX (reviewed Oct 15, starter-only, confirm at earnings)**: First name in the recent series to actually clear Graham (IV ~$73 vs ~$73 price) after a real ~41% de-rating — but the decline is *fundamental* (growth deceleration), and it tripped a **new Kill-List #9 caution: it stopped disclosing subscriber counts** (reduced transparency is exactly what Darwin flags). Top executives (CFO, Co-CEO, CLO) also sold a cluster near the current price. LESSON: a Graham PASS that depends on sustaining the very growth rate the market now doubts is conditional — size a starter, then let the next earnings print confirm or break the growth thesis before adding. Reduced disclosure is a quality demerit, not a neutral.
+- **TSM (reviewed Oct 15, buy-but-size-down)**: The highest-quality business in the series (50% net margin, near-monopoly, widest moat) at a fair price — yet it carries a unique, un-hedgeable **geopolitical tail (Taiwan/China)**. LESSON: Darwin's Pillar 1 ("avoid big risks / a single catastrophic loss can't be recovered") means you size a name *below* what its quality alone would justify when it carries a low-probability/high-severity tail. Quality sizing and risk sizing are separate decisions.
 
 ### The Meta-Lesson
 
@@ -288,6 +305,87 @@ The truly bulletproof monopolies (V, MA, MSCI, VRSN, MCO, ADP) rarely get cheap 
 | Fidelity | 11 actual IRA holdings — the real portfolio |
 | SP500 Top | 10 highest-quality S&P 500 picks |
 | Consideration | 38 general watchlist |
+
+### Active Candidate Watchlist (as of 2026-10-15 deep-dives)
+
+Ranked by overall deep-dive score (Darwin quality + Graham valuation + technical). All five PASS the Darwin Kill-List gate; none is a full-size, no-caveat buy — each has a specific brake. See `docs/analysis/<SYM>/` for the full reports.
+
+| Sym | Score | Rating | Why / the one brake |
+|-----|-------|--------|---------------------|
+| **GOOGL** | ~8.0 | **BUY (quality at a fair price)** | Best quality/value combo: wide moat, fortress balance sheet, AI turning tailwind, ~17x PE / PEG 0.92. Brakes: AI-capex suppressing FCF (FCF/NI ~22%) + DOJ antitrust overhang. No catastrophic tail → can size larger. |
+| **TSM** | ~8.0 | **BUY (quality), size down** | Highest business quality in the series (50% net margin, near-monopoly, widest moat), fairly priced. Brake: un-hedgeable Taiwan/China geopolitical tail → size below what quality alone suggests. |
+| **LRCX** | ~7.5 | **BUY-ON-WEAKNESS, start small** | Elite semicap (ROCE ~52%, net cash, goodwill-free), oversold (RSI 30, −37%). Brake: fell *from a bubble* — still above Graham IV, no margin of safety → scale in, don't full-size. |
+| **AMAT** | ~7.5 | **BUY-ON-WEAKNESS, start small** | Broadest #1 semicap franchise, the *cheaper* of the pair (PEG 0.91, PE ~40, smaller Graham gap), oversold (RSI 33). Brakes: still fails Graham; CEO/CFO sold near the highs; $3.8B goodwill. Note ~0.49 correlation with LRCX — don't double semicap beta. |
+| **NFLX** | ~7.0 | **BUY (starter), confirm at earnings** | Only name to clear Graham (IV ~$73 vs ~$73). Brakes: decline is fundamental (growth deceleration), stopped disclosing subscriber counts (#9), insider cluster selling → starter only, let the Q3 print confirm growth before adding. |
+
+**Portfolio note:** KLAC (a semicap peer) was exited on 2026-10-15. Semicap exposure is therefore open — LRCX/AMAT would re-establish it on the dip; concentrate in the higher-conviction one rather than holding both at full size.
+
+---
+
+## Standard Pre-Trade Evaluation (MANDATORY STEP)
+
+**Run this before every buy/sell/trim/add recommendation — no exceptions.** It is the operational checklist that ties the frameworks above together. The *content* of each gate lives in the sections above; this is the *procedure* and the order to run it in. Do not skip a step to reach a conclusion faster — a skipped step is how value traps and stale-data errors get through.
+
+> **Scope reminder:** This tool produces *analysis*, not financial advice. Every step informs the user's decision; the buy/sell/size call is always theirs. State assumptions and what was and wasn't verified.
+
+### Step 0 — Data Integrity Check (DO THIS FIRST, ALWAYS)
+
+**Never trust a DB-stored ratio for a valuation decision without verifying it against a primary/independent source.** Denormalized fields (`d_pe`, `d_pb`, `d_ps`) are computed post-fetch and go stale or wrong when the underlying price/EPS/share-count drifts — and a wrong multiple silently corrupts every downstream verdict.
+
+Procedure:
+1. Pull the stored ratio *and* its raw inputs (price, EPS, shares outstanding, net income) from the DB.
+2. **Cross-check**: recompute `P/E = price / diluted_EPS` by hand. If the stored `d_pe` disagrees with `price / EPS` by more than a few percent, the stored ratio is STALE — discard it.
+3. Confirm the true EPS / share count against a primary source (company earnings release) or a reputable aggregator (web search) before proceeding.
+4. If stale, note it explicitly in the output and (optionally) trigger a recompute: refresh statements via the per-symbol statement worker, then re-read.
+
+> **Lesson (LRCX, 2026-10-19):** stored `d_pe` showed **77** against FY2026 net income of $7.27B — internally impossible (implied ~2.05B shares, EPS $3.54). The real diluted EPS was **$5.76** on ~1.26B shares → true P/E **~47.6**, not 77. A ~38% error in the headline multiple. The entire Graham verdict hinged on catching this. **A valuation built on an unverified ratio is worthless.**
+
+### Step 1 — Refresh the data
+
+Update prices (`price_daily`) and, for a valuation decision, refresh the target's statements (per-symbol statement worker: summary, balance, income, cash flow, valuation). Confirm the latest trading bar and latest fiscal period are current; note when the source simply has nothing newer (weekend/pre-filing) vs. a real gap.
+
+### Step 2 — Darwin quality gate (WHAT to own)
+
+Run the **Kill List (10 criteria)**, **ROCE ≥ 15%**, and **moat** checks (see *Framework: Darwin Investing*). Any hard Kill-List trigger ends the evaluation — do not relax the gate to justify a cheap price. A reduced-disclosure or governance demerit (e.g. NFLX dropping sub counts) is a quality demerit, not neutral.
+
+### Step 3 — Cash Flow Health Gate (is the quality real?)
+
+Apply the **Cash Flow Health Gate**: OCF > 0, FCF > 0, **OCF/NI ≥ 80%** (persistent, 4-qtr), **FCF/OCF ≥ 50%**. Weak OCF/NI is the value-trap tell (earnings not backed by cash). Low FCF/OCF alone is acceptable *only* with a capex-payback thesis. Compare within peer type, not across.
+
+### Step 4 — Balance-sheet fortress check
+
+Net cash vs. net debt, current ratio (> 2 preferred), debt/equity, goodwill as a share of assets (tangible book quality), and the receivables/inventory trend (a working-capital build is normal in a growth quarter but must be tracked, not ignored).
+
+### Step 5 — Graham valuation (the PRICE / margin of safety)
+
+Using the **verified** EPS from Step 0, compute Graham IV: `V = EPS × (8.5 + 2g) × 4.4 / Y` (normalized EPS; conservative `g` well below guidance; `Y` = AAA yield, FRED `DAAA`). Run a reverse sanity check ("what EPS growth is the current price pricing in at 20×/25×/30×?"). Then place the name in the **Graham × Darwin 2×2**:
+
+- Darwin PASS + Graham PASS → **buy** (rare).
+- Darwin PASS + Graham FAIL → **buy only if price is >25% below IV; else WATCH / scale-in starter.**
+- Darwin FAIL + Graham PASS → **value trap, avoid.**
+- Darwin FAIL + Graham FAIL → **avoid.**
+
+Remember: a big % drop is **not** a margin of safety if the stock fell *from a bubble* (RSI-oversold ≠ Graham-cheap).
+
+### Step 6 — Timing & correlation
+
+Check RSI(14) and 2-year price position (genuine discount needs < 35% of range, not just a low RSI — see *Cheap for a Reason* + *Decision Matrix*). Then check **portfolio correlation**: does this add a genuinely new driver, or does it double an existing factor? Compute daily-return correlation from the DB against current holdings (e.g. LRCX vs TXN ≈ −0.02 = different bet; MSFT/GOOGL ≈ +0.22 = shared AI factor). Hidden correlation turns "diversification" into concentration.
+
+### Step 7 — Position sizing & the Scale-In Ladder
+
+Sizing is a separate decision from quality (Darwin Pillar 1 — a catastrophic, un-hedgeable tail sizes a name *below* its quality, e.g. TSM geopolitics). For any Darwin-PASS name that fails Graham (the common "quality but not cheap" case), **do not full-size — scale in**:
+
+- Default to a **3-tranche ladder**, ~1/3 target size each.
+- **Tranche 1** at/near today's price (the starter).
+- **Tranches 2 & 3** stepped down (~−8–10% each), with the **final tranche landing near the top of the Graham IV range** so full size is only reached if a real margin of safety appears.
+- Max ~5% per new position; define the stop before entry; if the stock never pulls back you still hold a quality starter.
+- **Cash is a position.** If nothing lands in a green cell, hold cash and wait.
+
+### Step 8 — Record the decision
+
+Log a dated `MyDiary` entry (bull/bear, entry price, the governing verdict, and the one brake) and, for a full deep-dive, write the report to `docs/analysis/<TICKER>/<ticker>-deep-analysis-<date>.md` (see `skills/stock-deep-dive-framework.md`). When a decision supersedes an earlier note, append a dated `[SUPERSEDED]` marker to the old entry rather than deleting it — preserve the trade-history trail.
+
+> **Quick-reference order:** Verify data → Refresh → Darwin gate → Cash-flow gate → Balance sheet → Graham IV → Timing & correlation → Scale-in sizing → Record. A "no" at the Darwin or cash-flow gate stops the line; a Graham fail downgrades a buy to a scale-in/watch, never an auto-reject for a Darwin-PASS name.
 
 ---
 

@@ -1274,4 +1274,27 @@ Every quarter:
 
 ---
 
-*Analysis date: August 6, 2026. Updated with per-stock remediation plan and application feature roadmap.*
+## Lessons Learned — Process Rules (Added Sep 9, 2026)
+
+These rules were added after a real mistake: CDNS was characterized as a "high-quality Darwin name panic-sold for non-fundamental reasons" while the app had **zero earnings and zero insider records** for it. After backfilling, the data revealed a Q2 2026 earnings MISS (broke a 5-quarter beat streak) and insider sentiment of -1.0 (pure selling into the decline). The favorable narrative was wrong; part of the sell-off was fundamental.
+
+### Rule 1: Verify data completeness BEFORE forming a thesis
+
+Do not analyze or opine on a stock's fundamentals until its data is confirmed complete — especially **earnings history and insider trades**, which are the exact signals the framework relies on (Steps 6, 13, 16; and the MSFT critical-review process).
+
+- If earnings/insider/holdings records are missing (count == 0), **backfill first, then analyze.**
+- If data cannot be backfilled, state plainly: "I cannot assess this stock's fundamentals until X is available" — do not let a confident-sounding narrative stand on missing data.
+- Analyzing on incomplete data and sounding confident about it is itself the error, even if the final action call happens to be right.
+
+### Rule 2: "Oversold + good company" is NOT a buy thesis — distinguish fundamental vs. non-fundamental drops
+
+The framework's entire edge is distinguishing a **non-fundamental drop** (institutional rotation, panic, valuation de-rating on a still-beating business = Mr. Market opportunity) from a **fundamental drop** (earnings miss, guidance cut, moat erosion, insider selling = thesis at risk).
+
+- A low RSI + quality label is a *timing signal*, not a reason to buy. Never substitute it for checking WHY the stock dropped.
+- Before calling any oversold name a dip-buy candidate, confirm: Did it beat or miss last earnings? Are insiders buying, selling, or absent? Is the drop broad-market/rotation or company-specific?
+- Beat-and-fade (beat earnings, stock falls on valuation) = usually non-fundamental → framework's favorite setup.
+- Miss + insider selling + company-specific decline = fundamental → do NOT treat as a Darwin dip; downgrade to watchlist and require confirmation (e.g., next quarter) before entry.
+
+---
+
+*Analysis date: August 6, 2026. Updated with per-stock remediation plan and application feature roadmap. Lessons Learned section added Sep 9, 2026.*
