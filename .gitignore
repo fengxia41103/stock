@@ -107,3 +107,6 @@ ENV/
 output/
 bower_components/
 .gh.token
+
+# local credential scratch files (never commit)
+.pta.tmp
