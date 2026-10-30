@@ -24,36 +24,44 @@ from stock.models.portfolio import Position
 
 User = get_user_model()
 
-# Illustrative buckets: (key, label, target_pct, order).
-# Rough "balanced growth, pre-retirement" placeholder. ~70% equity / 30% bond+cash.
+# Buckets: (key, label, target_pct, order).
+# Source: Fidelity Wealth Services "Aggressive Growth" proposal dated 2026-10-30
+# (Feng Managed IRA, $554,754). Sub-asset-class breakdown from the proposal.
+# 85% stocks / ~12% bonds / ~1% cash / ~2% other. Edit if the plan changes.
 DEFAULT_BUCKETS = [
-    ("us_large", "US Large Cap", 30.0, 1),
-    ("us_small_mid", "US Small/Mid Cap", 8.0, 2),
-    ("intl_developed", "International Developed", 15.0, 3),
-    ("emerging", "Emerging Markets", 7.0, 4),
-    ("bonds", "Bonds / Fixed Income", 30.0, 5),
-    ("real_assets", "Real Assets (REIT/Commodity)", 3.0, 6),
-    ("cash", "Cash", 7.0, 7),
+    ("us_large", "US Large Cap", 38.3, 1),
+    ("us_mid", "US Mid Cap", 12.2, 2),
+    ("us_small", "US Small Cap", 7.2, 3),
+    ("intl_dev_large", "Intl Developed Large Cap", 21.0, 4),
+    ("intl_dev_mid", "Intl Developed Mid Cap", 2.3, 5),
+    ("emerging", "Emerging Markets", 4.3, 6),
+    ("bonds_us_ig", "US Investment-Grade Bonds", 10.6, 7),
+    ("bonds_intl", "International Bonds", 0.9, 8),
+    ("real_assets", "Real Assets / TIPS / Other", 1.8, 9),
+    ("cash", "Cash / Short Term", 0.9, 10),
 ]
 
-# Best-effort symbol -> bucket key map for the user's known holdings.
-# Anything not listed is left Unclassified (reported by the API).
+# Best-effort symbol -> bucket key map for the user's known holdings AND the
+# ingested asset-class proxy ETFs. Anything not listed is left Unclassified.
 SYMBOL_MAP = {
-    # US large cap (incl. growth ETF + broad S&P ETF)
-    "SPYG": "us_large", "VOO": "us_large",
+    # --- proxy ETFs (map to the sleeve they represent) ---
+    "SPYG": "us_large", "VOO": "us_large", "SPY": "us_large",
+    "VB": "us_small", "VEA": "intl_dev_large", "VXUS": "intl_dev_large",
+    "VWO": "emerging", "BND": "bonds_us_ig", "BNDX": "bonds_intl",
+    "TIP": "real_assets", "TLT": "bonds_us_ig", "VNQ": "real_assets",
+    "GLD": "real_assets",
+    # --- individual holdings ---
     "MSFT": "us_large", "GOOGL": "us_large", "PLTR": "us_large",
     "MA": "us_large", "V": "us_large", "SPGI": "us_large",
     "LIN": "us_large", "TXN": "us_large", "PG": "us_large",
     "PEP": "us_large", "MCD": "us_large", "SBUX": "us_large",
-    # US mid / cyclical
-    "RCL": "us_small_mid",
-    # Emerging / intl
+    "RCL": "us_mid",
     "PDD": "emerging", "TSM": "emerging",
 }
 
 
 class Command(BaseCommand):
-    help = "Seed a placeholder allocation model and classify current holdings."
+    help = "Seed the advisor's allocation model and classify current holdings."
 
     def add_arguments(self, parser):
         parser.add_argument("--user", default="fengxia")
@@ -118,7 +126,7 @@ class Command(BaseCommand):
             )
         self.stdout.write("")
         self.stdout.write(
-            "NOTE: targets are an ILLUSTRATIVE placeholder, not advice. "
-            "Edit AssetClass.target_pct to your agreed plan, then GET "
-            "/api/v1/portfolio/allocation/ for drift + rebalance trades."
+            "NOTE: targets reflect the Fidelity Aggressive Growth proposal "
+            "(2026-10-30). Edit AssetClass.target_pct if the plan changes, then "
+            "GET /api/v1/portfolio/allocation/ for drift + rebalance trades."
         )
