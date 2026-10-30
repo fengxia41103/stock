@@ -48,6 +48,24 @@ class StatementWorker:
             logger.error(f"{self.stock.symbol}: {df}")
             return
 
+        # yahooquery returns both quarterly ("3M") and trailing ("TTM") rows,
+        # sometimes for the SAME asOfDate. Because records are keyed on
+        # (stock, asOfDate), an unfiltered TTM row overwrites the quarterly
+        # row for that date with 12-month figures — corrupting the data
+        # (e.g. a quarter showing full-year revenue). Keep only the frequency
+        # we asked for. For annual ("a") statements yahooquery uses "12M".
+        if "periodType" in df.columns:
+            wanted = "12M" if self.frequency == "a" else "3M"
+            df = df[df["periodType"] == wanted]
+
+        # Drop rows without a usable period date.
+        if "asOfDate" in df.columns:
+            df = df[pd.notnull(df["asOfDate"])]
+
+        if df.empty:
+            logger.warning(f"{self.stock.symbol}: no {self.frequency} rows after filtering")
+            return
+
         df = df.where(pd.notnull(df), 0)
 
         for row in df.itertuples(index=False):
