@@ -25,43 +25,50 @@ from stock.models.portfolio import Position
 User = get_user_model()
 
 # Buckets: (key, label, target_pct, order).
-# Source: Fidelity Wealth Services "Aggressive Growth" proposal dated 2026-10-30
-# (Feng Managed IRA, $554,754). Sub-asset-class breakdown from the proposal.
-# 85% stocks / ~12% bonds / ~1% cash / ~2% other. Edit if the plan changes.
+#
+# FINAL TARGET (chosen 2026-10-30): "Aggressive-Diversified" core + satellite.
+# 90% equity / 10% bonds — stays aggressive for a ~10yr horizon while removing
+# the single-factor US-large-growth concentration. Core (~75%) = diversified
+# index ETFs; satellite (~25%) = individual conviction names, each capped ~$30K.
+# Derived from (but more aggressive than) the Fidelity "Aggressive Growth"
+# proposal dated 2026-10-30, which was 85/15 across more bond sub-classes.
+#
+# target_pct is the WHOLE-PORTFOLIO weight per sleeve (core ETFs + satellite
+# stocks both map into these sleeves via SYMBOL_MAP).
 DEFAULT_BUCKETS = [
-    ("us_large", "US Large Cap", 38.3, 1),
-    ("us_mid", "US Mid Cap", 12.2, 2),
-    ("us_small", "US Small Cap", 7.2, 3),
-    ("intl_dev_large", "Intl Developed Large Cap", 21.0, 4),
-    ("intl_dev_mid", "Intl Developed Mid Cap", 2.3, 5),
-    ("emerging", "Emerging Markets", 4.3, 6),
-    ("bonds_us_ig", "US Investment-Grade Bonds", 10.6, 7),
-    ("bonds_intl", "International Bonds", 0.9, 8),
-    ("real_assets", "Real Assets / TIPS / Other", 1.8, 9),
-    ("cash", "Cash / Short Term", 0.9, 10),
+    ("us_large", "US Large Cap", 41.0, 1),
+    ("us_mid", "US Mid Cap", 10.0, 2),
+    ("us_small", "US Small Cap", 6.0, 3),
+    ("intl_dev_large", "International Developed", 22.0, 4),
+    ("emerging", "Emerging Markets", 6.0, 5),
+    ("bonds_us_ig", "Bonds / Fixed Income", 10.0, 6),
+    ("real_assets", "Real Assets / REIT", 3.0, 7),
+    ("cash", "Cash / Short Term", 2.0, 8),
 ]
 
-# Best-effort symbol -> bucket key map for the user's known holdings AND the
-# ingested asset-class proxy ETFs. Anything not listed is left Unclassified.
+# Symbol -> sleeve. Covers the retained SATELLITE stocks, the CORE proxy ETFs,
+# and names being folded into the core (left here for classification even
+# though the plan trims/sells them). PDD/SBUX are trimmed out entirely.
 SYMBOL_MAP = {
-    # --- proxy ETFs (map to the sleeve they represent) ---
-    "SPYG": "us_large", "VOO": "us_large", "SPY": "us_large",
-    "VB": "us_small", "VEA": "intl_dev_large", "VXUS": "intl_dev_large",
-    "VWO": "emerging", "BND": "bonds_us_ig", "BNDX": "bonds_intl",
-    "TIP": "real_assets", "TLT": "bonds_us_ig", "VNQ": "real_assets",
-    "GLD": "real_assets",
-    # --- individual holdings ---
-    "MSFT": "us_large", "GOOGL": "us_large", "PLTR": "us_large",
-    "MA": "us_large", "V": "us_large", "SPGI": "us_large",
-    "LIN": "us_large", "TXN": "us_large", "PG": "us_large",
-    "PEP": "us_large", "MCD": "us_large", "SBUX": "us_large",
-    "RCL": "us_mid",
-    "PDD": "emerging", "TSM": "emerging",
+    # --- core proxy ETFs ---
+    "VOO": "us_large", "SPY": "us_large", "SPYG": "us_large",
+    "VO": "us_mid", "VB": "us_small",
+    "VEA": "intl_dev_large", "VXUS": "intl_dev_large",
+    "VWO": "emerging", "BND": "bonds_us_ig", "BNDX": "bonds_us_ig",
+    "VNQ": "real_assets", "TIP": "real_assets",
+    # --- retained satellite (conviction names, capped ~$30K each) ---
+    "MSFT": "us_large", "GOOGL": "us_large", "MA": "us_large",
+    "V": "us_large", "PLTR": "us_large", "TXN": "us_large",
+    "RCL": "us_mid", "TSM": "emerging",
+    # --- folded into core / trimmed (classified for drift reporting) ---
+    "SPGI": "us_large", "LIN": "us_large", "PG": "us_large",
+    "PEP": "us_large", "MCD": "us_large",
+    "PDD": "emerging", "SBUX": "us_large",
 }
 
 
 class Command(BaseCommand):
-    help = "Seed the advisor's allocation model and classify current holdings."
+    help = "Seed the Aggressive-Diversified target model and classify holdings."
 
     def add_arguments(self, parser):
         parser.add_argument("--user", default="fengxia")
@@ -126,7 +133,8 @@ class Command(BaseCommand):
             )
         self.stdout.write("")
         self.stdout.write(
-            "NOTE: targets reflect the Fidelity Aggressive Growth proposal "
-            "(2026-10-30). Edit AssetClass.target_pct if the plan changes, then "
-            "GET /api/v1/portfolio/allocation/ for drift + rebalance trades."
+            "NOTE: targets = the chosen Aggressive-Diversified plan (2026-10-30): "
+            "90% equity / 10% bonds, 75% index core + 25% capped satellite. Edit "
+            "AssetClass.target_pct to adjust, then GET /api/v1/portfolio/allocation/ "
+            "for drift + rebalance trades."
         )
