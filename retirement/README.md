@@ -10,6 +10,10 @@ with an asset-allocation glidepath, and finds the income-optimal retirement age.
 No third-party dependencies for the model/server — pure Python 3 standard
 library. (The Excel template generator uses `openpyxl`, if you want it.)
 
+> **Resuming planning in a later session?** See
+> [`CONTINUATION_GUIDE.md`](CONTINUATION_GUIDE.md) — how to refresh your numbers
+> and what to ask the AI to recompute.
+
 ## Your private numbers stay out of git
 
 The code ships with **generic placeholder** defaults only. Put your real figures
@@ -46,3 +50,7 @@ python3 retirement/retirement_model.py --json          # machine-readable
 - `retirement_model.py` — the model (core functions + CLI).
 - `server.py` — stdlib HTTP server exposing `/api/compute` and `/api/optimize`.
 - `index.html` — the single-page UI (vanilla JS, no build step).
+- `household_allocation.py` — household IRA + DC-plan allocation analysis.
+- `build_template.py` — generates the Excel input template.
+- `my_inputs.example.json` — example inputs (copy to `my_inputs.json`).
+- `CONTINUATION_GUIDE.md` — runbook for resuming planning in a later session.
