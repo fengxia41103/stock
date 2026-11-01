@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from rest_framework import status, viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
@@ -129,6 +130,18 @@ def health_check(request):
 
 
 # --- ViewSets ---
+
+
+class LargeResultsPagination(PageNumberPagination):
+    """Pagination that lets the client request a larger page via ?page_size=.
+
+    Used by endpoints that feed multi-series charts (e.g. comparing several
+    stocks' historicals) where the default 200-row page would truncate the
+    result to a single series. Capped to keep responses bounded.
+    """
+
+    page_size_query_param = "page_size"
+    max_page_size = 5000
 
 
 class SectorViewSet(viewsets.ModelViewSet):
@@ -714,6 +727,7 @@ class StockViewSet(viewsets.ModelViewSet):
 class HistoricalViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = HistoricalSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = LargeResultsPagination
     filterset_fields = {"on": ["exact", "range"], "stock": ["exact", "in"]}
     ordering_fields = ["on"]
     ordering = ["on"]
