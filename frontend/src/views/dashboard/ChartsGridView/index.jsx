@@ -177,7 +177,11 @@ const SectorBars = ({ stocks }) => {
     chart: {
       type: "bar",
       backgroundColor: "transparent",
-      height: Math.max(200, sectors.length * 40),
+      // Fill the card: let the chart size to its container rather than a fixed
+      // pixel height. A sensible min keeps it usable when few sectors exist.
+      height: null,
+      reflow: true,
+      spacing: [8, 8, 8, 8],
     },
     title: { text: null },
     xAxis: {
@@ -213,7 +217,15 @@ const SectorBars = ({ stocks }) => {
   };
 
   return (
-    <Paper sx={{ p: 2, borderRadius: 2, height: "100%" }}>
+    <Paper
+      sx={{
+        p: 2,
+        borderRadius: 2,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Typography
         variant="subtitle2"
         color="text.secondary"
@@ -223,7 +235,19 @@ const SectorBars = ({ stocks }) => {
       >
         Sector Performance
       </Typography>
-      <HighchartsReact highcharts={Highcharts} options={chartOptions} />
+      <Box
+        sx={{
+          flexGrow: 1,
+          minHeight: Math.max(220, sectors.length * 40),
+          "& > div, & .highcharts-container": { height: "100% !important" },
+        }}
+      >
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={chartOptions}
+          containerProps={{ style: { height: "100%" } }}
+        />
+      </Box>
     </Paper>
   );
 };
