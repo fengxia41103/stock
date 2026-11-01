@@ -4,11 +4,18 @@ import React, { createContext, useContext, useMemo, useState } from "react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 
 import { createAppTheme } from "./index";
+import useHighchartsTheme from "./useHighchartsTheme";
 
 const STORAGE_KEY = "colorMode";
 const ColorModeContext = createContext({ mode: "dark", toggle: () => {} });
 
 export const useColorMode = () => useContext(ColorModeContext);
+
+// Applies the mode-aware global Highcharts theme; must live inside ThemeProvider.
+const HighchartsThemeSync = () => {
+  useHighchartsTheme();
+  return null;
+};
 
 export const ColorModeProvider = ({ children }) => {
   const [mode, setMode] = useState(() => {
@@ -42,6 +49,7 @@ export const ColorModeProvider = ({ children }) => {
     <ColorModeContext.Provider value={value}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <HighchartsThemeSync />
         {children}
       </ThemeProvider>
     </ColorModeContext.Provider>

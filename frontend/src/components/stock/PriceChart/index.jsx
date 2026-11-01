@@ -29,7 +29,7 @@ const PriceChart = ({ data, earnings }) => {
             e.surprise_pct != null
               ? `${e.surprise_pct > 0 ? "+" : ""}${e.surprise_pct.toFixed(1)}%`
               : "📅",
-          style: { color: "#94a3b8", fontSize: "10px", fontWeight: "bold" },
+          style: { fontSize: "10px", fontWeight: "bold" },
           rotation: 0,
           y: 12,
         },
@@ -45,7 +45,7 @@ const PriceChart = ({ data, earnings }) => {
       xAxis: {
         categories: dates,
         labels: {
-          style: { color: "#94a3b8" },
+          style: {},
           rotation: -45,
           step: Math.ceil(dates.length / 20),
         },
@@ -54,14 +54,14 @@ const PriceChart = ({ data, earnings }) => {
       yAxis: {
         title: { text: null },
         labels: {
-          style: { color: "#94a3b8" },
+          style: {},
           formatter: function () {
             return "$" + this.value;
           },
         },
         gridLineColor: "#334155",
       },
-      legend: { itemStyle: { color: "#e2e8f0" } },
+      legend: { itemStyle: {} },
       credits: { enabled: false },
       tooltip: {
         shared: true,

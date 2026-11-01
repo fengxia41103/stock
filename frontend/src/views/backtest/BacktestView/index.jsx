@@ -150,7 +150,7 @@ const BacktestView = () => {
       xAxis: {
         categories: results.equity_curve.map((d) => d.date),
         labels: {
-          style: { color: "#94a3b8" },
+          style: {},
           step: Math.ceil(results.equity_curve.length / 15),
           rotation: -45,
         },
@@ -158,14 +158,14 @@ const BacktestView = () => {
       yAxis: {
         title: { text: null },
         labels: {
-          style: { color: "#94a3b8" },
+          style: {},
           formatter: function () {
             return "$" + Highcharts.numberFormat(this.value, 0);
           },
         },
         gridLineColor: "#334155",
       },
-      legend: { itemStyle: { color: "#e2e8f0" } },
+      legend: { itemStyle: {} },
       tooltip: {
         shared: true,
         backgroundColor: "#1e293b",

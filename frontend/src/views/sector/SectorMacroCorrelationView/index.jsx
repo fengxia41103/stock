@@ -73,7 +73,7 @@ const SectorMacroCorrelationView = () => {
           categories: seriesIds,
           labels: {
             rotation: -30,
-            style: { color: "#94a3b8", fontSize: "11px" },
+            style: { fontSize: "11px" },
           },
           opposite: true,
           lineColor: "#334155",
@@ -108,7 +108,7 @@ const SectorMacroCorrelationView = () => {
               `<br/>r = ${this.point.value}`
             );
           },
-          style: { color: "#94a3b8" },
+          style: {},
           backgroundColor: "#1e293b",
           borderColor: "#334155",
         },
@@ -116,7 +116,7 @@ const SectorMacroCorrelationView = () => {
           align: "center",
           verticalAlign: "bottom",
           layout: "horizontal",
-          itemStyle: { color: "#94a3b8" },
+          itemStyle: {},
         },
         plotOptions: {
           heatmap: {

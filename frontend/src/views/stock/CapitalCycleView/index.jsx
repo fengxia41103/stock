@@ -98,7 +98,7 @@ const CapitalCycleView = () => {
       categories: trend.map((t) => t.on),
       labels: {
         rotation: -45,
-        style: { color: "#94a3b8", fontSize: "10px" },
+        style: { fontSize: "10px" },
         step: Math.max(1, Math.floor(trend.length / 12)),
       },
     },
@@ -115,7 +115,7 @@ const CapitalCycleView = () => {
     ],
     legend: {
       enabled: true,
-      itemStyle: { color: "#94a3b8" },
+      itemStyle: {},
     },
     plotOptions: {
       line: { marker: { enabled: false } },

@@ -39,7 +39,7 @@ const InstitutionalView = () => {
       title: { text: undefined },
       tooltip: {
         pointFormat: "{point.y:,.0f} shares ({point.percentage:.1f}%)",
-        style: { color: "#94a3b8" },
+        style: {},
         backgroundColor: "#1e293b",
         borderColor: "#334155",
       },
@@ -49,7 +49,7 @@ const InstitutionalView = () => {
           dataLabels: {
             enabled: true,
             format: "{point.name}<br/>{point.percentage:.1f}%",
-            style: { color: "#94a3b8", textOutline: "none" },
+            style: { textOutline: "none" },
           },
         },
       },

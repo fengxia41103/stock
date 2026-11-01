@@ -94,20 +94,20 @@ const TechIndicatorView = () => {
       xAxis: { gridLineColor: "#334155" },
       yAxis: [
         {
-          labels: { style: { color: "#94a3b8" } },
+          labels: {},
           gridLineColor: "#334155",
           height: "60%",
           resize: { enabled: true },
         },
         {
-          labels: { style: { color: "#94a3b8" } },
+          labels: {},
           gridLineColor: "#334155",
           top: "65%",
           height: "15%",
           offset: 0,
         },
       ],
-      legend: { enabled: true, itemStyle: { color: "#e2e8f0" } },
+      legend: { enabled: true, itemStyle: {} },
       series: [
         {
           type: "candlestick",
@@ -140,7 +140,7 @@ const TechIndicatorView = () => {
       });
     } else if (type === "macd") {
       baseOptions.yAxis.push({
-        labels: { style: { color: "#94a3b8" } },
+        labels: {},
         gridLineColor: "#334155",
         top: "82%",
         height: "18%",
@@ -157,7 +157,7 @@ const TechIndicatorView = () => {
       });
     } else if (type === "rsi") {
       baseOptions.yAxis.push({
-        labels: { style: { color: "#94a3b8" } },
+        labels: {},
         gridLineColor: "#334155",
         top: "82%",
         height: "18%",

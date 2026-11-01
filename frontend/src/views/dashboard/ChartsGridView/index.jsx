@@ -99,7 +99,7 @@ const PerformanceChart = ({ stocks }) => {
       xAxis: { type: "datetime" },
       yAxis: { title: { text: "% Change" }, labels: { format: "{value}%" } },
       series,
-      legend: { enabled: true, itemStyle: { color: "#94a3b8" } },
+      legend: { enabled: true, itemStyle: {} },
       credits: { enabled: false },
       tooltip: { shared: true, valueSuffix: "%", valueDecimals: 1 },
     };
@@ -186,7 +186,7 @@ const SectorBars = ({ stocks }) => {
     title: { text: null },
     xAxis: {
       categories: sectors.map((s) => `${s.name} (${s.count})`),
-      labels: { style: { color: "#94a3b8" } },
+      labels: {},
     },
     yAxis: {
       title: { text: "Avg Daily Return %" },

@@ -114,7 +114,7 @@ const MacroCard = ({ series }) => {
             min: yMin,
             max: yMax,
             labels: {
-              style: { color: "#94a3b8", fontSize: "9px" },
+              style: { fontSize: "9px" },
               formatter: function () {
                 const v = this.value;
                 if (Math.abs(v) >= 1000000)
@@ -127,7 +127,7 @@ const MacroCard = ({ series }) => {
             gridLineColor: "#334155",
           },
           tooltip: {
-            style: { color: "#94a3b8" },
+            style: {},
             backgroundColor: "#1e293b",
             borderColor: "#334155",
             headerFormat: "{point.x}<br/>",

@@ -111,15 +111,15 @@ const MacroSeriesChart = ({ seriesId, label, color, startDate, priceData }) => {
       xAxis: {
         categories: allDates,
         labels: {
-          style: { color: "#94a3b8" },
+          style: {},
           rotation: -45,
           step: Math.ceil(allDates.length / 15),
         },
       },
       yAxis: [
         {
-          title: { text: "Price ($)", style: { color: "#94a3b8" } },
-          labels: { style: { color: "#94a3b8" } },
+          title: { text: "Price ($)", style: {} },
+          labels: {},
           gridLineColor: "#334155",
         },
         {
@@ -129,7 +129,7 @@ const MacroSeriesChart = ({ seriesId, label, color, startDate, priceData }) => {
           gridLineWidth: 0,
         },
       ],
-      legend: { itemStyle: { color: "#e2e8f0" } },
+      legend: { itemStyle: {} },
       credits: { enabled: false },
       tooltip: {
         shared: true,

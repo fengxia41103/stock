@@ -71,7 +71,7 @@ const DailyRankingBarRaceChart = (props) => {
       xAxis: {
         categories,
         labels: {
-          style: { color: "#94a3b8" },
+          style: {},
           enabled: !negative,
         },
         lineColor: "#334155",
@@ -82,7 +82,7 @@ const DailyRankingBarRaceChart = (props) => {
         min: Math.floor(minBy(data, (d) => d[order_by])?.[order_by] || 0),
         max: Math.ceil(maxBy(data, (d) => d[order_by])?.[order_by] || 0),
         labels: {
-          style: { color: "#94a3b8" },
+          style: {},
           formatter: function () {
             return Math.round(this.value);
           },
@@ -90,7 +90,7 @@ const DailyRankingBarRaceChart = (props) => {
         gridLineColor: "#334155",
       },
       tooltip: {
-        style: { color: "#94a3b8" },
+        style: {},
         backgroundColor: "#1e293b",
         borderColor: "#334155",
       },

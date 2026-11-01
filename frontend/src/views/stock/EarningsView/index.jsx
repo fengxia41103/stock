@@ -48,17 +48,17 @@ const EarningsView = () => {
               categories: sorted.map((e) => e.report_date),
               labels: {
                 rotation: -45,
-                style: { color: "#94a3b8" },
+                style: {},
               },
               lineColor: "#334155",
             },
             yAxis: {
-              title: { text: "Surprise %", style: { color: "#94a3b8" } },
-              labels: { style: { color: "#94a3b8" } },
+              title: { text: "Surprise %", style: {} },
+              labels: {},
               gridLineColor: "#334155",
             },
             tooltip: {
-              style: { color: "#94a3b8" },
+              style: {},
               backgroundColor: "#1e293b",
               borderColor: "#334155",
               pointFormat: "Surprise: <b>{point.y:.1f}%</b>",

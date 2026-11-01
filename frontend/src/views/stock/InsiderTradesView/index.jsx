@@ -57,13 +57,13 @@ const InsiderTradesView = () => {
       title: { text: undefined },
       xAxis: {
         categories: months,
-        labels: { style: { color: "#94a3b8" } },
+        labels: {},
         lineColor: "#334155",
       },
       yAxis: {
         title: { text: null },
         labels: {
-          style: { color: "#94a3b8" },
+          style: {},
           formatter: function () {
             const v = Math.abs(this.value);
             return v >= 1e6
@@ -75,12 +75,12 @@ const InsiderTradesView = () => {
       },
       tooltip: {
         shared: true,
-        style: { color: "#94a3b8" },
+        style: {},
         backgroundColor: "#1e293b",
         borderColor: "#334155",
       },
       legend: {
-        itemStyle: { color: "#94a3b8" },
+        itemStyle: {},
       },
       plotOptions: {
         bar: {

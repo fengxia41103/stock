@@ -170,16 +170,16 @@ export const HighchartGraph = ({
 
   const options = {
     chart: { type: mapType(type), backgroundColor: "transparent" },
-    title: { text: title || null, style: { color: "#1e293b" } },
+    title: { text: title || null, style: {} },
     xAxis: {
       categories: categories || [],
       title: { text: xLabel || "" },
-      labels: { style: { color: "#64748b" } },
+      labels: {},
     },
     yAxis: {
       title: { text: yLabel || "" },
       labels: {
-        style: { color: "#64748b" },
+        style: {},
         formatter: function () {
           return typeof this.value === "number"
             ? this.value.toFixed(2)
@@ -189,7 +189,7 @@ export const HighchartGraph = ({
     },
     legend: {
       enabled: legendEnabled !== false,
-      itemStyle: { color: "#1e293b" },
+      itemStyle: {},
     },
     credits: { enabled: false },
     series: (data || []).map((s) => ({
@@ -262,15 +262,15 @@ export const RankChart = ({
 
   const options = {
     chart: { type: "bar", backgroundColor: "transparent", height: 300 },
-    title: { text: title || null, style: { color: "#1e293b" } },
+    title: { text: title || null, style: {} },
     xAxis: {
       categories: chartCategories || [],
-      labels: { style: { color: "#1e293b" } },
+      labels: {},
     },
     yAxis: {
       title: { text: null },
       labels: {
-        style: { color: "#64748b" },
+        style: {},
         formatter: function () {
           return typeof this.value === "number"
             ? this.value.toFixed(2)
@@ -325,13 +325,13 @@ export const ABDonutChart = ({ data, title, subheader }) => {
 
   const options = {
     chart: { type: "pie", backgroundColor: "transparent", height: 250 },
-    title: { text: data?.name || title || null, style: { color: "#1e293b" } },
-    subtitle: { text: subheader || null, style: { color: "#64748b" } },
+    title: { text: data?.name || title || null, style: {} },
+    subtitle: { text: subheader || null, style: {} },
     credits: { enabled: false },
     plotOptions: {
       pie: {
         innerSize: "50%",
-        dataLabels: { enabled: true, style: { color: "#1e293b" } },
+        dataLabels: { enabled: true, style: {} },
       },
     },
     series: [{ data: pieData }],
@@ -553,9 +553,9 @@ export const TimeSeriesColumnChart = ({ data, name }) => {
     title: { text: null },
     xAxis: {
       categories,
-      labels: { style: { color: "#64748b" }, rotation: -45 },
+      labels: { style: {}, rotation: -45 },
     },
-    yAxis: { title: { text: null }, labels: { style: { color: "#64748b" } } },
+    yAxis: { title: { text: null }, labels: {} },
     legend: { enabled: false },
     credits: { enabled: false },
     series: [{ name: name || "", data: values, color: "#3b82f6" }],
