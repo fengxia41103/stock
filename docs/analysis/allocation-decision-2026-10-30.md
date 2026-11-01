@@ -145,4 +145,18 @@ TXN $9K, GOOGL $8K, PEP $7K, TSM $7K, SPGI $5K.
       (~24 sh @ ~$234). LRCX > TSM (lower geopolitical tail; peers on fundamentals).
       Keeps semi sleeve ~same size; satellite stays 29.9%. See diary 2026-11-01.
 - [ ] Stage the rebalance; raise bonds toward 20-25% on a glide path toward 2036.
-- [ ] Track drift via GET /api/v1/portfolio/allocation/ after execution.
+
+---
+
+# NOTE — 2026-11-01: account for external DC plans (household view)
+
+Private numbers intentionally omitted (kept out of the repo). The analysis lives
+in `retirement/household_allocation.py`, which reads a gitignored
+`my_inputs.json`.
+
+Finding (no figures): the household view (brokerage/IRA + employer 401(k)/457)
+still shows a large US-large-cap concentration because the brokerage account
+dominates the book; the DC plans' bonds/international help only at the margin.
+So this rebalance **stands**. The only adjustment is a slightly smaller bond
+(BND) buy, since the DC plans already hold fixed income that counts toward the
+household bond target. Run the script locally for the exact, private numbers.
