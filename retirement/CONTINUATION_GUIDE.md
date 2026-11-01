@@ -36,7 +36,7 @@ Update whichever you prefer; both feed the same model.
 
 **Fresh source documents to download (re-save privately, not in repo):**
 - Brokerage positions CSV (e.g. Fidelity "Portfolio Positions" export).
-- NC 401(k)/457 statement (Empower / myNCPlans) — for current fund balances.
+- Employer DC-plan statement (401(k)/457 provider portal) — current fund balances.
 - Latest Social Security estimate from **ssa.gov/myaccount** (the 62/67/70
   monthly figures), since these change with another year of earnings.
 - Pension: confirm years of service and the current salary.
