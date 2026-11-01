@@ -11,8 +11,6 @@ import {
   Grid,
   Paper,
   TextField,
-  ToggleButton,
-  ToggleButtonGroup,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -21,7 +19,6 @@ import { useResource, useStocksOverview } from "@/api";
 
 const GREEN = "#10b981";
 const RED = "#ef4444";
-const AMBER = "#f59e0b";
 
 // --- Section 1: Multi-stock normalized performance chart ---
 const PerformanceChart = ({ stocks }) => {
@@ -150,7 +147,6 @@ const PerformanceChart = ({ stocks }) => {
 
 // --- Section 2: Sector performance bars ---
 const SectorBars = ({ stocks }) => {
-  const [period, setPeriod] = useState("daily");
 
   // Group by sector
   const sectors = useMemo(() => {
@@ -386,11 +382,10 @@ const ChartsGridView = () => {
     "/stocks/technicals/",
   );
 
-  if (isLoading) return <ScaleLoader loading />;
-  if (!stocks || !Array.isArray(stocks)) return null;
-
-  // Merge RSI data from technicals endpoint into stocks
+  // Merge RSI data from technicals into stocks. Computed before any early
+  // return so the hook order stays stable across renders.
   const stocksWithRsi = useMemo(() => {
+    if (!Array.isArray(stocks)) return [];
     const rsiMap = {};
     if (Array.isArray(techData)) {
       techData.forEach((t) => {
@@ -399,6 +394,9 @@ const ChartsGridView = () => {
     }
     return stocks.map((s) => ({ ...s, rsi: rsiMap[s.id] || null }));
   }, [stocks, techData]);
+
+  if (isLoading) return <ScaleLoader loading />;
+  if (!stocks || !Array.isArray(stocks)) return null;
 
   return (
     <Box p={3}>
