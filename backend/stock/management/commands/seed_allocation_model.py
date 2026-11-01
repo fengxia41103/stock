@@ -26,29 +26,31 @@ User = get_user_model()
 
 # Buckets: (key, label, target_pct, order).
 #
-# FINAL TARGET (chosen 2026-10-30): "Aggressive-Diversified" core + satellite.
+# TARGET (revised 2026-11-01): "Aggressive-Diversified" core + satellite, 70/30.
 # 90% equity / 10% bonds — stays aggressive for a ~10yr horizon while removing
-# the single-factor US-large-growth concentration. Core (~75%) = diversified
-# index ETFs; satellite (~25%) = individual conviction names, each capped ~$30K.
-# Derived from (but more aggressive than) the Fidelity "Aggressive Growth"
-# proposal dated 2026-10-30, which was 85/15 across more bond sub-classes.
+# the single-factor US-large-growth concentration. Core (~70%) = diversified
+# index ETFs; satellite (~30%) = 11 individual conviction names, each capped
+# ~$30K. Revised from the 2026-10-30 75/25 cut to RETAIN quality compounders
+# (LIN, SPGI, PG, PEP) and TXN (documented analog-duopoly thesis, panning out),
+# trimming only PLTR (unplanned one-off win), PDD, SBUX.
 #
 # target_pct is the WHOLE-PORTFOLIO weight per sleeve (core ETFs + satellite
 # stocks both map into these sleeves via SYMBOL_MAP).
 DEFAULT_BUCKETS = [
-    ("us_large", "US Large Cap", 41.0, 1),
-    ("us_mid", "US Mid Cap", 10.0, 2),
+    ("us_large", "US Large Cap", 42.0, 1),
+    ("us_mid", "US Mid Cap", 8.0, 2),
     ("us_small", "US Small Cap", 6.0, 3),
-    ("intl_dev_large", "International Developed", 22.0, 4),
-    ("emerging", "Emerging Markets", 6.0, 5),
+    ("intl_dev_large", "International Developed", 20.0, 4),
+    ("emerging", "Emerging Markets", 7.0, 5),
     ("bonds_us_ig", "Bonds / Fixed Income", 10.0, 6),
-    ("real_assets", "Real Assets / REIT", 3.0, 7),
-    ("cash", "Cash / Short Term", 2.0, 8),
+    ("real_assets", "Real Assets / REIT", 4.0, 7),
+    ("cash", "Cash / Short Term", 3.0, 8),
 ]
 
 # Symbol -> sleeve. Covers the retained SATELLITE stocks, the CORE proxy ETFs,
-# and names being folded into the core (left here for classification even
-# though the plan trims/sells them). PDD/SBUX are trimmed out entirely.
+# and names being trimmed (left here for drift classification).
+# RETAINED satellite (11): MSFT, MA, V, RCL, GOOGL, TXN, TSM, LIN, SPGI, PEP, PG.
+# TRIMMED OUT: PLTR (unplanned one-off), PDD, SBUX. MCD folded into core index.
 SYMBOL_MAP = {
     # --- core proxy ETFs ---
     "VOO": "us_large", "SPY": "us_large", "SPYG": "us_large",
@@ -58,11 +60,11 @@ SYMBOL_MAP = {
     "VNQ": "real_assets", "TIP": "real_assets",
     # --- retained satellite (conviction names, capped ~$30K each) ---
     "MSFT": "us_large", "GOOGL": "us_large", "MA": "us_large",
-    "V": "us_large", "PLTR": "us_large", "TXN": "us_large",
+    "V": "us_large", "TXN": "us_large", "LIN": "us_large",
+    "SPGI": "us_large", "PEP": "us_large", "PG": "us_large",
     "RCL": "us_mid", "TSM": "emerging",
-    # --- folded into core / trimmed (classified for drift reporting) ---
-    "SPGI": "us_large", "LIN": "us_large", "PG": "us_large",
-    "PEP": "us_large", "MCD": "us_large",
+    # --- trimmed / folded to core (classified for drift reporting) ---
+    "PLTR": "us_large", "MCD": "us_large",
     "PDD": "emerging", "SBUX": "us_large",
 }
 
@@ -134,7 +136,7 @@ class Command(BaseCommand):
         self.stdout.write("")
         self.stdout.write(
             "NOTE: targets = the chosen Aggressive-Diversified plan (2026-10-30): "
-            "90% equity / 10% bonds, 75% index core + 25% capped satellite. Edit "
+            "90% equity / 10% bonds, 70% index core + 30% capped satellite. Edit "
             "AssetClass.target_pct to adjust, then GET /api/v1/portfolio/allocation/ "
             "for drift + rebalance trades."
         )

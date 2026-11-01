@@ -1,6 +1,6 @@
 # Final Allocation Decision — Aggressive-Diversified Core + Satellite
 
-Date: 2026-10-30 | Owner: fengxia | Status: TARGET SET (execution pending)
+Date: 2026-10-30 | Owner: fengxia | Status: SUPERSEDED by 2026-11-01 revision (see end)
 
 > Analysis, not advice. Targets are the user's chosen plan; the buy/sell/size
 > calls are the user's. Prices as of 2026-10-30.
@@ -77,4 +77,70 @@ PLTR $8K, TSM $7K.
 ## Next
 - [ ] Execute the trades (user's call, staged).
 - [ ] Add LRCX starter (Oct-30 thesis confirmed).
+- [ ] Track drift via GET /api/v1/portfolio/allocation/ after execution.
+
+---
+
+# REVISION — 2026-11-01: 70/30, retain quality winners + TXN
+
+Status: TARGET SET (execution pending; LRCX to be bought Mon 2026-11-03).
+
+## What changed and why
+Reviewing the 10-30 plan, the user flagged that the 75/25 cut folded four
+**quality winners** into the core: LIN (+6.4%, rev +9.2% YoY), SPGI (+14.7%,
++6.8%), PG (+13.5%, +4.0%), PEP (−1.5%, +5.6%). All are green/growing at
+reasonable multiples — and crucially **non-tech** (industrials, financial-data,
+staples), so they *diversify* the satellite rather than concentrate it. Selling
+them would have made the remaining satellite MORE tech-heavy. Decision: keep.
+
+**TXN retained — thesis checked against past verdicts** (diaries 2026-06-22,
+08-04/05/07/10, 08-30): analog duopoly (TXN+ADI), doesn't follow Moore's law so
+the competitive structure is stable for decades; 300mm wafer cost advantage =
+"10-year moat"; 25-35% ROCE; entered Aug-2026 in tranches on the inventory-cycle
+turn. Aug-30 hold check: rev +16.6% YoY, 6/7 earnings beats, kill-criterion
+(rev decline >10% for 3+ qtrs) NOT triggered. Clean quarterly data now shows
+revenue still reaccelerating. Thesis is panning out → keep.
+
+**PLTR trimmed** — user: "one-off win, never planned"; no entry thesis in the
+diaries; +675% = outsized single-stock risk. Take the profit. **PDD, SBUX**
+still trimmed (losers failing the Darwin gate). **MCD** folds into core.
+
+## Revised split: 70% core / 30% satellite
+Keeping all 11 conviction names at current size (MSFT capped $30K) lands the
+satellite at ~29.4%. Chosen 70/30 rather than forcing 25% — the user is an
+active, thesis-driven picker, and 30% across 11 diversified-sector names is an
+active sleeve, not a concentration risk. The real fix (killing the SPYG/growth
+over-weight) is unchanged.
+
+## Revised whole-portfolio target (sums to 100)
+| Sleeve | Target |
+|--------|-------:|
+| US Large Cap | 42% |
+| US Mid Cap | 8% |
+| US Small Cap | 6% |
+| International Developed | 20% |
+| Emerging Markets | 7% |
+| Bonds / Fixed Income | 10% |
+| Real Assets / REIT | 4% |
+| Cash / Short Term | 3% |
+
+Satellite (30%, ≤$30K/name): MSFT, MA, V, RCL, LIN, PG, TXN, GOOGL, PEP, TSM,
+SPGI. (+ LRCX starter to add Monday.)
+
+## Revised DIY execution list (IRA — tax-free; sells = buys = $259,769)
+SELLS:
+- SPYG trim ~$176K (US-large core 262K → 86K; keep VOO)
+- MSFT trim ~$48K (→ $30K cap)
+- PLTR ~$8K (take profit), PDD ~$11K, SBUX ~$12K (losers), MCD ~$5K (→ core)
+
+BUYS:
+- VEA (intl) ~$98K · BND (bonds) ~$49K · VB (small) ~$29K · VWO (EM) ~$28K
+- VO (mid) ~$22K · VNQ (REIT) ~$20K · cash ~$15K
+
+KEEP (satellite): MSFT $30K, MA $24K, V $19K, RCL $17K, LIN $9K, PG $9K,
+TXN $9K, GOOGL $8K, PEP $7K, TSM $7K, SPGI $5K.
+
+## Next
+- [ ] Execute LRCX starter Monday 2026-11-03 (market was closed when decided).
+- [ ] Stage the rebalance; raise bonds toward 20-25% on a glide path toward 2036.
 - [ ] Track drift via GET /api/v1/portfolio/allocation/ after execution.
