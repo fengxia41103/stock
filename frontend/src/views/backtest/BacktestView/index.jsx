@@ -36,7 +36,7 @@ import { Page } from "@/components/shared";
 
 const StatCard = ({ label, value, color }) => (
   <Paper
-    sx={{ p: 2, textAlign: "center", bgcolor: "#ffffff", borderRadius: 2 }}
+    sx={{ p: 2, textAlign: "center", bgcolor: "background.paper", borderRadius: 2 }}
   >
     <Typography
       variant="caption"
@@ -199,7 +199,7 @@ const BacktestView = () => {
         <Grid container spacing={2}>
           {/* Left: Setup */}
           <Grid item xs={12} md={3}>
-            <Paper sx={{ p: 2, bgcolor: "#ffffff", borderRadius: 2 }}>
+            <Paper sx={{ p: 2, bgcolor: "background.paper", borderRadius: 2 }}>
               <Typography variant="h6" gutterBottom>
                 Strategy Setup
               </Typography>
@@ -370,7 +370,7 @@ const BacktestView = () => {
               <Paper
                 sx={{
                   p: 3,
-                  bgcolor: "#ffffff",
+                  bgcolor: "background.paper",
                   borderRadius: 2,
                   textAlign: "center",
                 }}
@@ -601,7 +601,7 @@ const BacktestView = () => {
 
             {/* Optimization Results */}
             {optimizeResults && !loading && (
-              <Paper sx={{ p: 2, bgcolor: "#ffffff", borderRadius: 2, mt: 2 }}>
+              <Paper sx={{ p: 2, bgcolor: "background.paper", borderRadius: 2, mt: 2 }}>
                 <Typography variant="h6" gutterBottom>
                   🔍 Optimization Results ({optimizeResults.combinations_tested}{" "}
                   combinations tested)

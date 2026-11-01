@@ -4,6 +4,8 @@ import { Link as RouterLink } from "react-router-dom";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 import {
   AppBar,
   Badge,
@@ -16,12 +18,14 @@ import {
   ListItemText,
   Stack,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 
 import { DropdownMenu, Logo } from "@/components/shared";
 import { useTriggeredAlerts } from "@/api";
 import { useMarketStatus } from "@/hooks/useMarketStatus";
+import { useColorMode } from "@/theme/ColorModeProvider";
 
 import LogoutIcon from "@Components/auth/LogoutIcon";
 import AddNewStockDialog from "@Components/stock/AddNewStockDialog";
@@ -65,6 +69,7 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { data: triggeredAlerts } = useTriggeredAlerts();
   const { isOpen: marketOpen, label: marketLabel } = useMarketStatus();
+  const { mode, toggle } = useColorMode();
   const alertCount = Array.isArray(triggeredAlerts)
     ? triggeredAlerts.length
     : 0;
@@ -104,6 +109,11 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
         />
         <Box flexGrow={1} />
         <DropdownMenu title="Management" content={actions} />
+        <Tooltip title={mode === "dark" ? "Switch to light" : "Switch to dark"}>
+          <IconButton color="inherit" onClick={toggle}>
+            {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+          </IconButton>
+        </Tooltip>
         <IconButton color="inherit" onClick={handleOpenAlerts}>
           <Badge badgeContent={alertCount} color="error">
             <NotificationsIcon />
