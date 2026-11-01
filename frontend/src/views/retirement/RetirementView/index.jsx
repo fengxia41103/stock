@@ -12,6 +12,7 @@ import {
   CircularProgress,
   Divider,
   Grid,
+  InputAdornment,
   Paper,
   Stack,
   Table,
@@ -32,7 +33,7 @@ const money = (v) =>
     ? "-"
     : `$${Number(v).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 
-// Profile fields grouped for the form. [key, label, step]
+// Profile fields grouped for the form. See the field-tuple note below.
 const FORM_GROUPS = [
   {
     title: "Timeline",
@@ -46,8 +47,8 @@ const FORM_GROUPS = [
     title: "Income & pension",
     fields: [
       ["salary", "Salary", 1000],
-      ["salary_growth", "Salary growth", 0.005],
-      ["pension_accrual", "Pension accrual", 0.0001],
+      ["salary_growth", "Salary growth", 0.1, true],
+      ["pension_accrual", "Pension accrual", 0.01, true],
       ["pension_vesting_years", "Vesting years", 1],
     ],
   },
@@ -59,20 +60,38 @@ const FORM_GROUPS = [
       ["nc_401k_balance", "401(k) balance", 1000],
       ["nc_457_balance", "457 balance", 1000],
       ["nc_annual_contribution", "DC contribution/yr", 500],
-      ["withdrawal_rate", "Withdrawal rate", 0.005],
+      ["withdrawal_rate", "Withdrawal rate", 0.1, true],
     ],
   },
   {
     title: "Returns & taxes",
     fields: [
-      ["equity_return", "Equity return", 0.005],
-      ["bond_return", "Bond return", 0.005],
-      ["nc_blended_return", "DC blended return", 0.005],
-      ["ss_cola", "SS COLA", 0.005],
-      ["state_tax_rate", "State tax rate", 0.0005],
+      ["equity_return", "Equity return", 0.1, true],
+      ["bond_return", "Bond return", 0.1, true],
+      ["nc_blended_return", "DC blended return", 0.1, true],
+      ["ss_cola", "SS COLA", 0.1, true],
+      ["state_tax_rate", "State tax rate", 0.05, true],
     ],
   },
 ];
+
+// A field tuple is [key, label, step, isPercent?]. Percent fields are stored as
+// decimals (0.0182) but shown/edited as percents (1.82%) for readability.
+const PCT_DECIMALS = 3; // enough for 1.82%, 4.25%, etc.
+
+const toDisplay = (key, value, isPercent) => {
+  if (value === "" || value == null) return "";
+  if (!isPercent) return value;
+  // Round to avoid float noise like 1.8199999999.
+  return Number((Number(value) * 100).toFixed(PCT_DECIMALS));
+};
+
+const fromDisplay = (raw, isPercent) => {
+  if (raw === "") return "";
+  const n = Number(raw);
+  if (isNaN(n)) return "";
+  return isPercent ? n / 100 : n;
+};
 
 const SummaryStat = ({ label, value, accent }) => (
   <Paper sx={{ p: 1.5, textAlign: "center", height: "100%" }}>
@@ -119,8 +138,8 @@ const RetirementView = () => {
     };
   }, []);
 
-  const setField = (key, raw) =>
-    setProfile((p) => ({ ...p, [key]: raw === "" ? "" : Number(raw) }));
+  const setField = (key, raw, isPercent) =>
+    setProfile((p) => ({ ...p, [key]: fromDisplay(raw, isPercent) }));
 
   const saveProfile = async () => {
     setSaving(true);
@@ -307,15 +326,24 @@ const RetirementView = () => {
                   {group.title}
                 </Typography>
                 <Grid container spacing={1} sx={{ mt: 0.25 }}>
-                  {group.fields.map(([key, label, step]) => (
+                  {group.fields.map(([key, label, step, isPercent]) => (
                     <Grid item xs={6} key={key}>
                       <TextField
                         label={label}
                         type="number"
                         fullWidth
                         inputProps={{ step }}
-                        value={profile?.[key] ?? ""}
-                        onChange={(e) => setField(key, e.target.value)}
+                        InputProps={
+                          isPercent
+                            ? {
+                                endAdornment: (
+                                  <InputAdornment position="end">%</InputAdornment>
+                                ),
+                              }
+                            : undefined
+                        }
+                        value={toDisplay(key, profile?.[key] ?? "", isPercent)}
+                        onChange={(e) => setField(key, e.target.value, isPercent)}
                       />
                     </Grid>
                   ))}
