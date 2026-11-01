@@ -189,13 +189,22 @@ class DiaryListSerializer(serializers.ModelSerializer):
     price = serializers.FloatField(read_only=True)
     is_correct = serializers.BooleanField(read_only=True)
     stock_symbol = serializers.SerializerMethodField()
+    title = serializers.SerializerMethodField()
 
     def get_stock_symbol(self, obj):
         return obj.stock.symbol if obj.stock else None
 
+    def get_title(self, obj):
+        """First meaningful line of the note, for compact-card display."""
+        for raw in (obj.content or "").splitlines():
+            line = raw.lstrip("#").strip()
+            if line:
+                return line[:80]
+        return ""
+
     class Meta:
         model = MyDiary
-        fields = ["id", "stock", "stock_symbol", "position", "created", "last_updated", "judgement", "price", "is_correct"]
+        fields = ["id", "stock", "stock_symbol", "title", "position", "created", "last_updated", "judgement", "price", "is_correct"]
 
 
 class DiaryDetailSerializer(DiaryListSerializer):

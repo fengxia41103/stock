@@ -22,6 +22,7 @@ const DiaryListView = () => {
   const [selected, setSelected] = useState(null);
   const [filters, setFilters] = useState({
     search: "",
+    type: "all",
     judgement: "all",
     correct: "all",
     stock: "",
@@ -46,6 +47,10 @@ const DiaryListView = () => {
   // Apply filters
   const diaries = useMemo(() => {
     let list = allDiaries;
+    if (filters.type === "stock")
+      list = list.filter((d) => d.stock_symbol);
+    if (filters.type === "general")
+      list = list.filter((d) => !d.stock_symbol);
     if (filters.judgement === "bull")
       list = list.filter((d) => d.judgement === 1);
     if (filters.judgement === "bear")
@@ -57,8 +62,12 @@ const DiaryListView = () => {
     if (filters.stock)
       list = list.filter((d) => d.stock_symbol === filters.stock);
     if (filters.search) {
-      const s = filters.search.toUpperCase();
-      list = list.filter((d) => d.stock_symbol && d.stock_symbol.includes(s));
+      const s = filters.search.toLowerCase();
+      list = list.filter((d) => {
+        const sym = (d.stock_symbol || "").toLowerCase();
+        const title = (d.title || "").toLowerCase();
+        return sym.includes(s) || title.includes(s);
+      });
     }
     if (filters.period !== "all") {
       const days = { "7d": 7, "30d": 30, "90d": 90 }[filters.period];

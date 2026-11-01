@@ -14,7 +14,11 @@ const DiaryStockTag = (props) => {
   const { diary } = props;
 
   let matched_stocks = filter(stocks, (s) => {
-    return diary.content.includes(s.symbol);
+    if (!s.symbol || !diary.content) return false;
+    // Word-boundary match so "V" doesn't match inside words and short
+    // tickers (MA, ON, ALL) aren't caught as substrings of English text.
+    const re = new RegExp(`\\b${s.symbol}\\b`);
+    return re.test(diary.content);
   });
   matched_stocks = sortBy(matched_stocks, (s) => s.symbol);
 

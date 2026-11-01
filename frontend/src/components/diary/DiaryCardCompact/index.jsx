@@ -20,27 +20,44 @@ const DiaryCardCompact = ({ diary, selected, onClick }) => {
         transition: "all 0.1s",
       }}
     >
-      <Box display="flex" alignItems="center" gap={1} px={1.5} py={1}>
-        {isBull ? (
-          <TrendingUpIcon fontSize="small" color="success" />
-        ) : (
-          <TrendingDownIcon fontSize="small" color="error" />
-        )}
-        <Typography variant="subtitle2" fontWeight={600} sx={{ minWidth: 50 }}>
-          {diary.stock_symbol || "GEN"}
-        </Typography>
-        <Typography variant="caption" color="text.secondary">
-          {dayjs(diary.created).format("MMM D")}
-        </Typography>
-        <Box flexGrow={1} />
-        {diary.is_correct !== null && diary.is_correct !== undefined && (
-          <Chip
-            label={diary.is_correct ? "✅" : "❌"}
-            size="small"
-            variant="outlined"
-            color={diary.is_correct ? "success" : "error"}
-            sx={{ height: 22, fontSize: "0.7rem" }}
-          />
+      <Box display="flex" flexDirection="column" px={1.5} py={1} gap={0.5}>
+        <Box display="flex" alignItems="center" gap={1}>
+          {isBull ? (
+            <TrendingUpIcon fontSize="small" color="success" />
+          ) : (
+            <TrendingDownIcon fontSize="small" color="error" />
+          )}
+          <Typography variant="subtitle2" fontWeight={600} sx={{ minWidth: 50 }}>
+            {diary.stock_symbol || "GEN"}
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            {dayjs(diary.created).format("MMM D")}
+          </Typography>
+          <Box flexGrow={1} />
+          {diary.is_correct !== null && diary.is_correct !== undefined && (
+            <Chip
+              label={diary.is_correct ? "✅" : "❌"}
+              size="small"
+              variant="outlined"
+              color={diary.is_correct ? "success" : "error"}
+              sx={{ height: 22, fontSize: "0.7rem" }}
+            />
+          )}
+        </Box>
+        {diary.title && (
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            sx={{
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              lineHeight: 1.3,
+            }}
+          >
+            {diary.title}
+          </Typography>
         )}
       </Box>
     </Card>

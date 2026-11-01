@@ -17,11 +17,22 @@ const DiaryFilters = ({ filters, setFilters, stocks }) => {
     <Stack direction="row" spacing={1} flexWrap="wrap" mb={2} useFlexGap>
       <TextField
         size="small"
-        placeholder="Search symbol..."
+        placeholder="Search notes..."
         value={filters.search}
         onChange={(e) => update("search", e.target.value)}
-        sx={{ minWidth: 120 }}
+        sx={{ minWidth: 140 }}
       />
+
+      <ToggleButtonGroup
+        size="small"
+        exclusive
+        value={filters.type}
+        onChange={(_, v) => v !== null && update("type", v)}
+      >
+        <ToggleButton value="all">All</ToggleButton>
+        <ToggleButton value="stock">Stock</ToggleButton>
+        <ToggleButton value="general">Strategy</ToggleButton>
+      </ToggleButtonGroup>
 
       <ToggleButtonGroup
         size="small"
