@@ -39,7 +39,7 @@ const RetirementHistoryView = () => {
   const [metric, setMetric] = useState("net_monthly");
 
   const { data, isLoading } = useRetirementTimeseries(age);
-  const points = data?.points || [];
+  const points = useMemo(() => data?.points || [], [data]);
 
   const chart = useMemo(() => {
     const categories = points.map(

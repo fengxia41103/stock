@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:run": "vitest run",
-    "lint": "eslint src --ext .js,.jsx"
+    "lint": "eslint src"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

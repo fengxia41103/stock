@@ -108,7 +108,7 @@ const RetirementView = () => {
         if (!active) return;
         setProfile(data);
         await runCompute();
-      } catch (e) {
+      } catch {
         if (active) setError("Could not load retirement profile.");
       } finally {
         if (active) setLoading(false);
@@ -117,7 +117,6 @@ const RetirementView = () => {
     return () => {
       active = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setField = (key, raw) =>
@@ -132,7 +131,7 @@ const RetirementView = () => {
       setProfile(data);
       setMsg("Profile saved.");
       await runCompute();
-    } catch (e) {
+    } catch {
       setError("Save failed.");
     } finally {
       setSaving(false);
@@ -201,7 +200,7 @@ const RetirementView = () => {
         holdings,
       });
       setMsg("Snapshot saved. View it in History.");
-    } catch (e) {
+    } catch {
       setError("Could not save snapshot.");
     } finally {
       setBusy(false);

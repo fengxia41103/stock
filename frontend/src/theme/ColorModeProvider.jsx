@@ -10,7 +10,7 @@ const ColorModeContext = createContext({ mode: "dark", toggle: () => {} });
 
 export const useColorMode = () => useContext(ColorModeContext);
 
-export function ColorModeProvider({ children }) {
+export const ColorModeProvider = ({ children }) => {
   const [mode, setMode] = useState(() => {
     try {
       return localStorage.getItem(STORAGE_KEY) || "dark";
@@ -46,7 +46,7 @@ export function ColorModeProvider({ children }) {
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
-}
+};
 
 ColorModeProvider.propTypes = {
   children: PropTypes.node,
