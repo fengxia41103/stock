@@ -111,6 +111,10 @@ const BacktestCompareView = lazy(() =>
   import("@Views/backtest/BacktestCompareView"),
 );
 const PortfolioView = lazy(() => import("@Views/portfolio/PortfolioView"));
+const RetirementView = lazy(() => import("@Views/retirement/RetirementView"));
+const RetirementHistoryView = lazy(() =>
+  import("@Views/retirement/RetirementHistoryView"),
+);
 const CompareView = lazy(() => import("@Views/stock/CompareView"));
 const TechnicalsView = lazy(() => import("@Views/dashboard/TechnicalsView"));
 
@@ -596,6 +600,22 @@ const routes = [
         element: (
           <S>
             <PortfolioView />
+          </S>
+        ),
+      },
+      {
+        path: "retirement",
+        element: (
+          <S>
+            <RetirementView />
+          </S>
+        ),
+      },
+      {
+        path: "retirement/history",
+        element: (
+          <S>
+            <RetirementHistoryView />
           </S>
         ),
       },

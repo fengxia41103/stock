@@ -14,6 +14,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import GridViewIcon from "@mui/icons-material/GridView";
+import SavingsIcon from "@mui/icons-material/Savings";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import SortIcon from "@mui/icons-material/Sort";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
@@ -37,6 +38,7 @@ export const navItems = [
     icon: <AccountBalanceWalletIcon />,
     title: "Portfolio",
   },
+  { href: "/retirement", icon: <SavingsIcon />, title: "Retirement" },
   { href: "/backtest", icon: <AnalyticsIcon />, title: "Backtest" },
   { href: "/notes", icon: <EventNoteIcon />, title: "Notes" },
 ];

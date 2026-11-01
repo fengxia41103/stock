@@ -203,3 +203,21 @@ export function useTriggeredAlerts() {
     refetchInterval: 30000,
   });
 }
+
+// --- Retirement ---
+
+export function useRetirementProfile(options = {}) {
+  return useResource("retirement-profile", "/retirement/profile/", options);
+}
+
+export function useRetirementSnapshots(options = {}) {
+  return useResource("retirement-snapshots", "/retirement/snapshots/", options);
+}
+
+export function useRetirementTimeseries(age: number, options = {}) {
+  return useResource(
+    ["retirement-timeseries", String(age)],
+    `/retirement/timeseries/?age=${age}`,
+    options,
+  );
+}
