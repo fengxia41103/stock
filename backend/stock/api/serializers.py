@@ -99,6 +99,23 @@ class HistoricalSerializer(serializers.ModelSerializer):
         ]
 
 
+class HistoricalLightSerializer(serializers.ModelSerializer):
+    """OHLCV only — omits the computed last_lower / last_better / next_better /
+    gain_probability properties, each of which triggers extra per-row DB
+    queries. Use for charts (e.g. multi-stock compare) that need prices, not
+    the derived day-count signals."""
+
+    symbol = serializers.CharField(source="stock.symbol", read_only=True)
+    stock_id = serializers.IntegerField(source="stock.id", read_only=True)
+
+    class Meta:
+        model = MyStockHistorical
+        fields = [
+            "id", "stock", "on", "open_price", "high_price", "low_price",
+            "close_price", "adj_close", "vol", "symbol", "stock_id",
+        ]
+
+
 class IncomeStatementSerializer(serializers.ModelSerializer):
     symbol = serializers.CharField(source="stock.symbol", read_only=True)
     close_price = serializers.FloatField(read_only=True)

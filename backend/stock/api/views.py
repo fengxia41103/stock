@@ -19,6 +19,7 @@ from stock.api.serializers import (
     DiaryListSerializer,
     EarningsEventSerializer,
     HistoricalSerializer,
+    HistoricalLightSerializer,
     IncomeStatementSerializer,
     InsiderTradeSerializer,
     InstitutionalHoldingSerializer,
@@ -732,9 +733,16 @@ class HistoricalViewSet(viewsets.ReadOnlyModelViewSet):
     ordering_fields = ["on"]
     ordering = ["on"]
 
+    def get_serializer_class(self):
+        # ?light=1 returns OHLCV only, skipping the expensive computed
+        # last_lower / gain_probability properties (big win for chart queries).
+        if self.request.query_params.get("light") in ("1", "true", "True"):
+            return HistoricalLightSerializer
+        return HistoricalSerializer
+
     def get_queryset(self):
         stocks = MyStock.objects.filter(sectors__user=self.request.user).values_list("id", flat=True)
-        return MyStockHistorical.objects.filter(stock__in=stocks)
+        return MyStockHistorical.objects.filter(stock__in=stocks).select_related("stock")
 
 
 class IncomeStatementViewSet(viewsets.ReadOnlyModelViewSet):

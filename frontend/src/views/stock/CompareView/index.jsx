@@ -73,7 +73,7 @@ const CompareView = () => {
   const histQuery =
     stockIds.length > 0
       ? `/historicals/?stock__in=${stockIds.join(",")}` +
-        `&on__range=${since},2100-01-01&ordering=on&page_size=5000`
+        `&on__range=${since},2100-01-01&ordering=on&page_size=5000&light=1`
       : null;
   const { data: historicals, isLoading: histLoading } = useResource(
     ["compare-hist", ...selectedSymbols],
