@@ -581,62 +581,6 @@ const TodayDashboardView = () => {
                 letterSpacing: 1,
               }}
             >
-              Biggest Drops (days)
-            </Typography>
-            <Typography
-              variant="caption"
-              display="block"
-              sx={{ color: "text.secondary", mb: 1 }}
-            >
-              days since a lower price
-            </Typography>
-            <Stack spacing={0.5}>
-              {oversold.slice(0, 5).map((s) => (
-                <Stack
-                  key={s.id}
-                  direction="row"
-                  justifyContent="space-between"
-                  sx={{
-                    cursor: "pointer",
-                    p: 0.5,
-                    borderRadius: 1,
-                    "&:hover": { bgcolor: "action.hover" },
-                  }}
-                  onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
-                >
-                  <Typography
-                    sx={{
-                      color: "text.primary",
-                      fontWeight: 600,
-                      fontSize: "0.85rem",
-                    }}
-                  >
-                    {s.symbol}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: AMBER,
-                      fontWeight: 700,
-                      fontSize: "0.85rem",
-                    }}
-                  >
-                    {s.last_lower}d
-                  </Typography>
-                </Stack>
-              ))}
-            </Stack>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Paper sx={{ bgcolor: TILE, p: 2, borderRadius: 2, height: "100%" }}>
-            <Typography
-              variant="caption"
-              sx={{
-                color: "text.secondary",
-                textTransform: "uppercase",
-                letterSpacing: 1,
-              }}
-            >
               Drop Scale (days)
             </Typography>
             <Typography
