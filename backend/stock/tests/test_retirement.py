@@ -231,3 +231,138 @@ class TestParsers:
         syms = {h["symbol"] for h in out["holdings"]}
         assert syms == {"AAA", "CCC"}  # HSA excluded, footer ignored
         assert out["ira_balance"] == 1250.00
+
+
+# ---------------------------------------------------------------------------
+# API endpoint tests
+# ---------------------------------------------------------------------------
+
+from rest_framework import status
+
+
+@pytest.mark.django_db
+class TestRetirementAPI:
+    BASE = "/api/v1/retirement"
+
+    def test_profile_auto_created_on_get(self, api_client):
+        resp = api_client.get(f"{self.BASE}/profile/")
+        assert resp.status_code == status.HTTP_200_OK
+        body = resp.json()
+        # Generic defaults present
+        assert body["current_age"] == 50
+        assert body["withdrawal_rate"] == 0.04
+
+    def test_profile_update(self, api_client):
+        resp = api_client.put(
+            f"{self.BASE}/profile/",
+            {"current_age": 55, "salary": 120000},
+            format="json",
+        )
+        assert resp.status_code == status.HTTP_200_OK
+        assert resp.json()["current_age"] == 55
+        assert resp.json()["salary"] == 120000
+
+    def test_compute_returns_scenarios(self, api_client):
+        resp = api_client.post(
+            f"{self.BASE}/compute/", {"ages": [67]}, format="json"
+        )
+        assert resp.status_code == status.HTTP_200_OK
+        body = resp.json()
+        assert body["ages"] == [67]
+        assert len(body["scenarios"]) == 1
+        # Golden value from generic defaults
+        assert body["scenarios"][0]["first_year_net_monthly"] == 11114
+
+    def test_compute_with_overrides_is_transient(self, api_client):
+        resp = api_client.post(
+            f"{self.BASE}/compute/",
+            {"ages": [67], "overrides": {"ira_balance": 1_000_000}},
+            format="json",
+        )
+        assert resp.status_code == status.HTTP_200_OK
+        # Profile not mutated
+        prof = api_client.get(f"{self.BASE}/profile/").json()
+        assert prof["ira_balance"] == 300000.0
+
+    def test_optimize_returns_best_ages(self, api_client):
+        resp = api_client.post(f"{self.BASE}/optimize/", {}, format="json")
+        assert resp.status_code == status.HTTP_200_OK
+        body = resp.json()
+        assert body["best_pv"]["retire_age"] == 68
+        assert body["best_nominal"]["retire_age"] == 70
+
+    def test_allocation_rolls_in_dc_plans(self, api_client):
+        payload = {
+            "holdings": [
+                {"account": "IRA", "symbol": "VOO", "quantity": 1, "value": 1000.0}
+            ],
+            "dc_plans": {"401k": {"NC Fixed Income Fund": 1000.0}},
+        }
+        resp = api_client.post(f"{self.BASE}/allocation/", payload, format="json")
+        assert resp.status_code == status.HTTP_200_OK
+        body = resp.json()
+        assert body["allocation"]["total"] == 2000.0
+
+    def test_upload_csv(self, api_client):
+        from django.core.files.uploadedfile import SimpleUploadedFile
+
+        csv = (
+            "Account Number,Account name,Symbol,Quantity,Current value\n"
+            "X1,Brokerage,AAA,10,1000.00\n"
+        )
+        f = SimpleUploadedFile("positions.csv", csv.encode("utf-8"), "text/csv")
+        resp = api_client.post(
+            f"{self.BASE}/upload/", {"file": f}, format="multipart"
+        )
+        assert resp.status_code == status.HTTP_200_OK
+        body = resp.json()
+        assert body["kind"] == "csv"
+        assert body["normalized"]["ira_balance"] == 1000.00
+
+    def test_upload_missing_file_is_400(self, api_client):
+        resp = api_client.post(f"{self.BASE}/upload/", {}, format="multipart")
+        assert resp.status_code == status.HTTP_400_BAD_REQUEST
+
+    def test_snapshot_create_and_list(self, api_client):
+        create = api_client.post(
+            f"{self.BASE}/snapshots/",
+            {
+                "ages": [67],
+                "label": "first",
+                "holdings": [
+                    {"symbol": "VOO", "quantity": 1, "price": 100.0,
+                     "value": 100.0, "sleeve": "US Large Cap", "source": "live"}
+                ],
+            },
+            format="json",
+        )
+        assert create.status_code == status.HTTP_201_CREATED
+        snap = create.json()
+        assert snap["label"] == "first"
+        assert len(snap["holdings"]) == 1
+        # Per-year rows stripped to keep snapshots lean
+        assert "rows" not in snap["results"]["scenarios"][0]
+
+        listing = api_client.get(f"{self.BASE}/snapshots/")
+        assert listing.status_code == status.HTTP_200_OK
+        assert len(listing.json()) == 1
+
+    def test_timeseries_returns_points(self, api_client):
+        api_client.post(
+            f"{self.BASE}/snapshots/", {"ages": [67], "label": "s1"}, format="json"
+        )
+        api_client.post(
+            f"{self.BASE}/snapshots/", {"ages": [67], "label": "s2"}, format="json"
+        )
+        resp = api_client.get(f"{self.BASE}/timeseries/?age=67")
+        assert resp.status_code == status.HTTP_200_OK
+        body = resp.json()
+        assert body["age"] == 67
+        assert len(body["points"]) == 2
+        assert body["points"][0]["net_monthly"] == 11114
+
+    def test_requires_auth(self):
+        from rest_framework.test import APIClient
+
+        resp = APIClient().get(f"{self.BASE}/profile/")
+        assert resp.status_code == status.HTTP_401_UNAUTHORIZED

@@ -3,6 +3,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
+from stock.api.retirement import RetirementViewSet
 from stock.api.views import (
     AlertViewSet,
     BacktestViewSet,
@@ -71,6 +72,7 @@ router.register(r"theses", StockThesisViewSet, basename="thesis")
 router.register(r"earnings-notes", EarningsCallNoteViewSet, basename="earnings-note")
 router.register(r"risk-factors", RiskFactorViewSet, basename="risk-factor")
 router.register(r"peer-groups", PeerGroupViewSet, basename="peer-group")
+router.register(r"retirement", RetirementViewSet, basename="retirement")
 
 urlpatterns = [
     path("", include(router.urls)),
