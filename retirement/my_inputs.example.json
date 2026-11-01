@@ -1,0 +1,45 @@
+{
+  "_comment": "Copy this to my_inputs.json (gitignored) and put YOUR real numbers in. The model + household_allocation read it automatically. Nothing here is committed except this generic example.",
+
+  "current_age": 50,
+  "current_year": 2026,
+  "life_expectancy": 90,
+
+  "employment_start": "2020-01-01",
+  "salary": 100000,
+  "salary_growth": 0.025,
+  "pension_accrual": 0.0182,
+  "pension_vesting_years": 5,
+  "pension_cola": 0.0,
+
+  "ss_by_claim_age": {"62": 2000, "63": 2150, "67": 2900, "70": 3600},
+  "ss_cola": 0.02,
+
+  "ira_balance": 300000,
+  "roth_balance": 10000,
+  "annual_contribution": 0,
+  "withdrawal_rate": 0.04,
+
+  "nc_401k_balance": 50000,
+  "nc_457_balance": 25000,
+  "nc_annual_contribution": 20000,
+  "nc_blended_return": 0.062,
+
+  "equity_return": 0.075,
+  "bond_return": 0.035,
+  "state_tax_rate": 0.0425,
+
+  "positions_csv": "~/Downloads/your_brokerage_positions.csv",
+  "skip_accounts": ["529 Plan", "Health Savings Account"],
+  "dc_plans": {
+    "401k": {
+      "NC International Fund": 20000,
+      "NC Large Cap Index Fund": 18000,
+      "NC Fixed Income Fund": 12000
+    },
+    "457": {
+      "NC Large Cap Index Fund": 15000,
+      "NC Fixed Income Fund": 10000
+    }
+  }
+}

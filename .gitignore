@@ -110,3 +110,12 @@ bower_components/
 
 # local credential scratch files (never commit)
 .pta.tmp
+
+# retirement planner — PRIVATE financial inputs (never commit)
+retirement/my_inputs.json
+retirement/*.xlsx
+retirement/my_inputs_template.xlsx
+# the example file IS safe to commit:
+!retirement/my_inputs.example.json
+# personal retirement writeup with real numbers (keep local / Google Drive)
+docs/analysis/retirement-plan-2026-11-01.md
