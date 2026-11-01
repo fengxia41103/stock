@@ -1,0 +1,29 @@
+# Dev image for the frontend — runs the Vite dev server with HMR.
+# Source is bind-mounted at runtime (see docker-compose.override.yml), so edits
+# on the host hot-reload in the browser. node_modules stays inside the container
+# (anonymous volume) so host/container platform differences don't clash.
+FROM node:20-slim
+
+ARG NPM_TOKEN
+ENV NODE_OPTIONS=--max_old_space_size=2048
+
+WORKDIR /code
+
+COPY package.json yarn.lock* .npmrc ./
+
+# Same token-or-stub fallback as the production Dockerfile, so installs work
+# with or without the private @fengxia41103/storybook token.
+RUN NPM_TOKEN=${NPM_TOKEN} npm install --legacy-peer-deps 2>/dev/null \
+    || ( \
+      sed -i '/"@fengxia41103\/storybook"/d' package.json && \
+      rm -f .npmrc && \
+      npm install --legacy-peer-deps && \
+      mkdir -p node_modules/@fengxia41103/storybook && \
+      printf '{"name":"@fengxia41103/storybook","version":"0.0.0","main":"index.js"}' > node_modules/@fengxia41103/storybook/package.json && \
+      echo 'const R=require("react");const s=p=>R.createElement("div",null,p.children);module.exports=new Proxy({},{get:()=>s});' > node_modules/@fengxia41103/storybook/index.js \
+    ) && rm -f .npmrc
+
+EXPOSE 5173
+
+# Bind to 0.0.0.0 so the port is reachable from the host.
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]

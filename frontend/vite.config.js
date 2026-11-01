@@ -14,12 +14,20 @@ export default defineConfig({
     },
   },
   server: {
+    host: true,
     port: 5173,
+    // In Docker, VITE_PROXY_TARGET points at the backend-proxy service.
+    // Native dev falls back to localhost:8083.
     proxy: {
       "/api": {
-        target: "http://localhost:8083",
+        target: process.env.VITE_PROXY_TARGET || "http://localhost:8083",
         changeOrigin: true,
       },
+    },
+    watch: {
+      // usePolling helps file-change detection work reliably on mounted
+      // volumes (Docker Desktop / some Linux bind mounts).
+      usePolling: true,
     },
   },
   build: {

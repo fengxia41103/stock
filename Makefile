@@ -1,8 +1,12 @@
-.PHONY: dev test build backfill rebuild-rankings lint
+.PHONY: dev dev-hot test build backfill rebuild-rankings lint
 
-# Start all services
+# Start all services (production-grade frontend: static build served by nginx)
 dev:
 	docker compose up -d
+
+# Start with HOT-RELOAD frontend (Vite dev server at :8085, mounted source). Dev only.
+dev-hot:
+	docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
 # Run backend tests
 test:
