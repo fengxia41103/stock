@@ -11,10 +11,10 @@ import StockDetailContext from "@Views/stock/StockDetailView/context";
 const BalanceView = () => {
   const { id } = useParams();
   const stock = useContext(StockDetailContext);
+  const [resource] = useState(`/balances?stock=${id}`);
+
   if (!stock || !stock.symbol) return null;
   const { symbol } = stock;
-
-  const [resource] = useState(`/balances?stock=${id}`);
 
   const reported = {
     share_issued: "Share Issued",

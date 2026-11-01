@@ -11,10 +11,10 @@ import StockDetailContext from "@Views/stock/StockDetailView/context";
 const CashFlowView = () => {
   const { id } = useParams();
   const stock = useContext(StockDetailContext);
+  const [resource] = useState(`/cashes?stock=${id}`);
+
   if (!stock || !stock.symbol) return null;
   const { symbol } = stock;
-
-  const [resource] = useState(`/cashes?stock=${id}`);
 
   const reported = {
     beginning_cash: "Beggining Cash",

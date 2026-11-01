@@ -111,7 +111,6 @@ const ReverseDCFCard = ({ stockId }) => {
 const DCFView = () => {
   const { id } = useParams();
   const stock = useContext(StockDetailContext);
-  if (!stock || !stock.symbol) return null;
 
   const { data: cross_statements_model, isLoading } = useResource(
     ["cross-statements", id],
@@ -128,6 +127,8 @@ const DCFView = () => {
   const [growth_rate, setGrowthRate] = useState(7);
   const [project_year, setProjectYear] = useState(5);
   const [terminal_growth_rate, setTerminalGrowthRate] = useState(1);
+
+  if (!stock || !stock.symbol) return null;
 
   const risk_free_change = (event) => {
     setRiskFree(event.target.value);

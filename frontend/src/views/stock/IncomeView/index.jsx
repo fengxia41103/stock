@@ -11,10 +11,10 @@ import StockDetailContext from "@Views/stock/StockDetailView/context";
 const IncomeView = () => {
   const { id } = useParams();
   const stock = useContext(StockDetailContext);
+  const [resource] = useState(`/incomes?stock=${id}`);
+
   if (!stock || !stock.symbol) return null;
   const { symbol } = stock;
-
-  const [resource] = useState(`/incomes?stock=${id}`);
 
   const reported = {
     basic_eps: "Basic EPS",

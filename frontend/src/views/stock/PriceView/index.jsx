@@ -27,6 +27,11 @@ import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
 
 const PriceView = () => {
   const data = useContext(StockHistoricalContext);
+  const stockId = Array.isArray(data) ? data[0]?.stock_id : undefined;
+
+  // Earnings markers — hook must run before any early return.
+  const { data: earnings } = useEarnings(stockId);
+
   if (!Array.isArray(data) || data.length === 0) return null;
   const [first_data] = data;
   const { symbol } = first_data;
@@ -35,10 +40,6 @@ const PriceView = () => {
     return { ...d, week: dayjs(d.on).week() };
   });
 
-  const stockId = data[0]?.stock_id;
-
-  // Earnings markers
-  const { data: earnings } = useEarnings(stockId);
   const earningsInRange = (earnings || []).filter((e) => {
     const d = e.report_date;
     return (
