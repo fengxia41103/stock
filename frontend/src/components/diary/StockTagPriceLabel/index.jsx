@@ -60,6 +60,10 @@ const StockTagPriceLabel = (props) => {
     const runUp = pct(priceBefore, priceAtDiary); // context leading into the note
     const since = pct(priceAtDiary, priceNow); // outcome after the note
 
+    // Only meaningful once there is price history AFTER the diary date; for
+    // same-day / brand-new entries priceNow === priceAtDiary (always 0.00%).
+    const hasSinceData = after.length > 1 && since !== null;
+
     return (
       <Stack spacing={0.5}>
         {/* Context before the diary */}
@@ -80,25 +84,28 @@ const StockTagPriceLabel = (props) => {
           </Stack>
         </Box>
 
-        <Divider flexItem />
-
-        {/* Outcome since the diary (reference) */}
-        <Box>
-          <Typography variant="caption" color="text.secondary">
-            since note → now
-          </Typography>
-          <Stack
-            direction="row"
-            spacing={1}
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <ColoredNumber val={priceAtDiary || 0} />
-            <Typography variant="caption">→</Typography>
-            <ColoredNumber val={priceNow || 0} />
-            {since !== null && <ColoredNumber val={since} unit="%" />}
-          </Stack>
-        </Box>
+        {/* Outcome since the diary (reference) — only when we have after-diary data */}
+        {hasSinceData && (
+          <>
+            <Divider flexItem />
+            <Box>
+              <Typography variant="caption" color="text.secondary">
+                since note → now
+              </Typography>
+              <Stack
+                direction="row"
+                spacing={1}
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <ColoredNumber val={priceAtDiary || 0} />
+                <Typography variant="caption">→</Typography>
+                <ColoredNumber val={priceNow || 0} />
+                <ColoredNumber val={since} unit="%" />
+              </Stack>
+            </Box>
+          </>
+        )}
       </Stack>
     );
   };
