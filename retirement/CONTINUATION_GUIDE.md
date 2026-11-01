@@ -27,6 +27,16 @@ Update whichever you prefer; both feed the same model.
 - For the household allocation, also refresh `positions_csv` (path to a fresh
   brokerage export) and the `dc_plans` fund balances.
 
+**Option C — upload in the UI + refresh live prices (easiest for a refresh)**
+- Start the stock app (for live prices) and the planner: `python3 retirement/server.py`.
+- In the UI, **Upload** your fresh Fidelity `.csv`, Empower `.pdf`, or master
+  `.json`. The form fills in automatically.
+- Click **🔄 Refresh live prices** to re-price brokerage holdings against the
+  app's live prices (recomputes projection + household allocation drift).
+- Click **💾 Save to my_inputs.json** to persist. Requires `django_token` /
+  `django_base_url` in `my_inputs.json` (or env) for live pricing; falls back to
+  statement values if the app is down.
+
 **Option B — use the Excel**
 - Generate a blank template: `python3 retirement/build_template.py`
   → `my_inputs_template.xlsx`

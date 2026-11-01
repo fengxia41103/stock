@@ -114,6 +114,25 @@
       <button type="button" class="primary" id="btnCompute">Compute</button>
       <button type="button" class="ghost" id="btnOptimize">Optimize age</button>
     </div>
+
+    <h2 style="margin-top:20px">Live data</h2>
+    <div class="btns" style="margin-top:6px">
+      <label class="ghost" for="loadfile"
+             style="text-align:center; line-height:1.4; cursor:pointer; padding:10px; border-radius:7px; flex:1;">
+        ⬆ Load file (.csv / .pdf / .json)
+        <input id="loadfile" type="file" accept=".csv,.pdf,.json"
+               style="display:none">
+      </label>
+    </div>
+    <div class="note">Fidelity positions CSV, Empower 401(k)/457 PDF, or a
+      master JSON. Parsed in-session only — not stored until you Save.</div>
+    <div class="btns" style="margin-top:8px">
+      <button type="button" class="ghost" id="btnRefresh">🔄 Refresh live prices</button>
+      <button type="button" class="ghost" id="btnSave">💾 Save to my_inputs.json</button>
+    </div>
+    <div id="dataSource" class="note"></div>
+
+    <h2 style="margin-top:20px">Excel template</h2>
     <div class="btns" style="margin-top:6px">
       <label class="ghost" for="xlsx"
              style="text-align:center; line-height:1.4; cursor:pointer; padding:10px; border-radius:7px; flex:1;">
@@ -129,6 +148,19 @@
 
   <!-- RESULTS -->
   <div class="stack">
+    <div class="panel" id="livePanel" style="display:none">
+      <h2>Live holdings &amp; allocation <span id="liveHint" class="note"></span></h2>
+      <div id="liveSummary" class="note"></div>
+      <table id="allocTable" style="margin-top:8px"><thead><tr>
+        <th>Sleeve</th><th>$ now</th><th>Now %</th><th>Target %</th>
+        <th>Drift</th><th>$ to target</th>
+      </tr></thead><tbody></tbody></table>
+      <table id="holdTable" style="margin-top:12px"><thead><tr>
+        <th>Ticker</th><th>Qty</th><th>Live price</th><th>Value</th>
+        <th>Source</th><th>As of</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+
     <div class="panel">
       <h2>Scenario comparison <span id="computeHint" class="note"></span></h2>
       <table id="scenTable"><thead><tr>
@@ -309,8 +341,116 @@ async function uploadExcel(file) {
   } catch (e) { $("err").textContent = e.message; }
 }
 
+// ---- Live data: load file, refresh prices, save ----
+let currentHoldings = [];   // parsed holdings, kept in-session only
+
+function kindFromName(name) {
+  const n = (name || "").toLowerCase();
+  if (n.endsWith(".csv")) return "csv";
+  if (n.endsWith(".pdf")) return "pdf";
+  if (n.endsWith(".json")) return "json";
+  return "";
+}
+
+async function loadFile(file) {
+  $("err").textContent = "";
+  try {
+    const buf = await file.arrayBuffer();
+    const kind = kindFromName(file.name);
+    const qs = new URLSearchParams();
+    if (kind) qs.set("type", kind);
+    if (file.name) qs.set("filename", file.name);
+    const r = await fetch("/api/load?" + qs.toString(), {
+      method: "POST",
+      headers: {"Content-Type": "application/octet-stream"},
+      body: buf
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || r.statusText);
+    currentHoldings = data.holdings || [];
+    fillForm(data.assumptions || {});
+    const s = data.source || {};
+    let msg = `Loaded ${data.kind.toUpperCase()}: `;
+    if (s.holdings_count) msg += `${s.holdings_count} holdings`;
+    if (s.ira_balance != null) msg += ` (IRA ≈ ${money(s.ira_balance)})`;
+    if (s.has_dc_plans) msg += `; DC plans 401k ${money(s.nc_401k_balance||0)} / 457 ${money(s.nc_457_balance||0)}`;
+    $("dataSource").textContent = msg + " — not saved yet.";
+    compute(); optimize();
+    if (currentHoldings.length) refreshPrices();
+  } catch (e) { $("err").textContent = e.message; }
+}
+
+async function refreshPrices() {
+  $("err").textContent = "";
+  if (!currentHoldings.length) {
+    $("dataSource").textContent = "Load a positions CSV first, then refresh.";
+    return;
+  }
+  try {
+    const data = await post("/api/refresh", {
+      holdings: currentHoldings,
+      assumptions: assumptions()
+    });
+    // Update IRA balance field from live total.
+    if (data.ira_balance != null) {
+      const el = $("ira_balance"); if (el) el.value = Math.round(data.ira_balance);
+    }
+    // Source summary + as-of.
+    const src = data.sources || {};
+    const asOf = (data.per_ticker || []).map(t => t.as_of).filter(Boolean).sort().pop();
+    $("liveHint").textContent =
+      `${src.live||0} live / ${src.fallback||0} fallback` +
+      (asOf ? ` · as of ${asOf}` : "");
+    $("liveSummary").innerHTML =
+      `Live IRA/brokerage balance: <b>${money(data.ira_balance)}</b>. ` +
+      (src.fallback ? `<span class="pill no">${src.fallback} fallback</span> ` : "") +
+      (src.live ? `<span class="pill yes">${src.live} live</span>` : "");
+    // Allocation drift table.
+    const ab = $("allocTable").querySelector("tbody"); ab.innerHTML = "";
+    (data.allocation.rows || []).forEach(row => {
+      const tr = document.createElement("tr");
+      tr.innerHTML =
+        `<td>${row.sleeve}</td><td>${money(row.now_dollars)}</td>
+         <td>${row.now_pct.toFixed(1)}%</td><td>${row.target_pct}%</td>
+         <td>${row.drift_pct>0?'+':''}${row.drift_pct.toFixed(1)}%</td>
+         <td>${money(row.dollars_to_target)}</td>`;
+      ab.appendChild(tr);
+    });
+    // Per-ticker table.
+    const hb = $("holdTable").querySelector("tbody"); hb.innerHTML = "";
+    (data.per_ticker || []).forEach(t => {
+      const tr = document.createElement("tr");
+      tr.innerHTML =
+        `<td>${t.symbol}</td><td>${t.quantity!=null?t.quantity:'—'}</td>
+         <td>${t.live_price!=null?money(t.live_price):'—'}</td>
+         <td>${t.value!=null?money(t.value):'—'}</td>
+         <td><span class="pill ${t.source==='live'?'yes':'no'}">${t.source}</span></td>
+         <td>${t.as_of||'—'}</td>`;
+      hb.appendChild(tr);
+    });
+    $("livePanel").style.display = "";
+    compute(); optimize();
+  } catch (e) { $("err").textContent = e.message; }
+}
+
+async function saveInputs() {
+  $("err").textContent = "";
+  try {
+    const payload = { assumptions: assumptions() };
+    if (currentHoldings.length) payload.holdings = currentHoldings;
+    const data = await post("/api/save", payload);
+    $("dataSource").textContent =
+      `Saved to my_inputs.json (gitignored): ${(data.keys||[]).length} keys.`;
+  } catch (e) { $("err").textContent = e.message; }
+}
+
 $("btnCompute").addEventListener("click", compute);
 $("btnOptimize").addEventListener("click", optimize);
+$("btnRefresh").addEventListener("click", refreshPrices);
+$("btnSave").addEventListener("click", saveInputs);
+$("loadfile").addEventListener("change", e => {
+  if (e.target.files && e.target.files[0]) loadFile(e.target.files[0]);
+});
 $("xlsx").addEventListener("change", e => {
   if (e.target.files && e.target.files[0]) uploadExcel(e.target.files[0]);
 });

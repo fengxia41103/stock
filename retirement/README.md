@@ -36,6 +36,27 @@ discount), then:
 
 The page auto-runs both on load with the default assumptions.
 
+### Load latest numbers (live data)
+
+Use the **Upload** control to load current figures from any of three sources:
+- **Fidelity `.csv`** (Portfolio Positions export) → brokerage holdings
+- **Empower `.pdf`** (401(k)/457 statement) → DC-plan balances
+- **Master `.json`** (`my_inputs.json`) → everything
+
+Then:
+- **🔄 Refresh live prices** re-prices the brokerage holdings against the stock
+  app's live `latest_close_price` (on-demand), recomputes the projection, and
+  shows the household allocation drift + a per-ticker table (live vs fallback,
+  with an "as of" date). Tickers not tracked by the app or cash sweeps fall back
+  to the statement value, clearly flagged.
+- **💾 Save to my_inputs.json** persists the current inputs (gitignored).
+
+Live pricing needs the stock Django app running (default
+`http://localhost:8083/api/v1`) and an API token. Put `django_base_url` and
+`django_token` in `my_inputs.json`, or set `RETIRE_DJANGO_URL` /
+`RETIRE_DJANGO_TOKEN`. If the app is down, everything degrades to statement
+values — the tool still works.
+
 ## Command line
 
 ```bash
@@ -48,9 +69,12 @@ python3 retirement/retirement_model.py --json          # machine-readable
 
 ## Files
 - `retirement_model.py` — the model (core functions + CLI).
-- `server.py` — stdlib HTTP server exposing `/api/compute` and `/api/optimize`.
+- `server.py` — stdlib HTTP server (compute, optimize, load, refresh, save).
 - `index.html` — the single-page UI (vanilla JS, no build step).
 - `household_allocation.py` — household IRA + DC-plan allocation analysis.
+- `parsers.py` — parse Fidelity CSV / Empower PDF / master JSON uploads.
+- `live_prices.py` — fetch live prices from the stock app (token + fallback).
+- `reprice.py` — re-price holdings and roll up the household allocation.
 - `build_template.py` — generates the Excel input template.
 - `my_inputs.example.json` — example inputs (copy to `my_inputs.json`).
 - `CONTINUATION_GUIDE.md` — runbook for resuming planning in a later session.
