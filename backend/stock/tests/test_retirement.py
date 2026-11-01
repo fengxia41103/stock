@@ -97,6 +97,22 @@ class TestPensionRules:
         assert m.early_reduction_factor(assumptions, 62, 10) == pytest.approx(0.85)
 
 
+class TestVesting:
+    def test_not_yet_vested_reports_years_remaining(self):
+        a = m.Assumptions(employment_start=date(2020, 1, 15), pension_vesting_years=5)
+        v = m.vesting_status(a, as_of=date(2023, 1, 15))  # exactly 3 years in
+        assert v["vested"] is False
+        assert v["service_years"] == pytest.approx(3.0, abs=0.02)
+        assert v["years_remaining"] == pytest.approx(2.0, abs=0.02)
+        assert v["vested_on"] == "2025-01-15"
+
+    def test_vested_after_requirement(self):
+        a = m.Assumptions(employment_start=date(2018, 1, 1), pension_vesting_years=5)
+        v = m.vesting_status(a, as_of=date(2026, 1, 1))  # 8 years in
+        assert v["vested"] is True
+        assert v["years_remaining"] == 0.0
+
+
 class TestSocialSecurity:
     def test_exact_schedule_age(self, assumptions):
         assert m.ss_monthly_at_claim(assumptions, 67) == 2900.0
@@ -283,6 +299,21 @@ class TestRetirementAPI:
         # Profile not mutated
         prof = api_client.get(f"{self.BASE}/profile/").json()
         assert prof["ira_balance"] == 300000.0
+
+    def test_vesting_reports_progress(self, api_client):
+        # Set an employment start, then query vesting.
+        api_client.put(
+            f"{self.BASE}/profile/",
+            {"employment_start": "2020-01-15", "pension_vesting_years": 5},
+            format="json",
+        )
+        resp = api_client.get(f"{self.BASE}/vesting/")
+        assert resp.status_code == status.HTTP_200_OK
+        body = resp.json()
+        assert body["vesting_years_required"] == 5
+        assert body["vested_on"] == "2025-01-15"
+        assert "years_remaining" in body
+        assert "service_years" in body
 
     def test_optimize_returns_best_ages(self, api_client):
         resp = api_client.post(f"{self.BASE}/optimize/", {}, format="json")

@@ -11,6 +11,7 @@ from stock.retirement.model import (
     optimize_retirement_age,
     project,
     scenario_summary,
+    vesting_status,
 )
 from stock.retirement.service import assumptions_from_profile
 
@@ -21,4 +22,5 @@ __all__ = [
     "optimize_retirement_age",
     "project",
     "scenario_summary",
+    "vesting_status",
 ]

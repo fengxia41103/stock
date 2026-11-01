@@ -113,6 +113,7 @@ const RetirementView = () => {
 
   const [scenarios, setScenarios] = useState([]);
   const [optimal, setOptimal] = useState(null);
+  const [vesting, setVesting] = useState(null);
   const [allocation, setAllocation] = useState(null);
   const [perTicker, setPerTicker] = useState([]);
   const [busy, setBusy] = useState(false);
@@ -146,12 +147,14 @@ const RetirementView = () => {
   // a transient what-if, so the user can iterate freely before saving.
   const runCompute = async (overrides) => {
     const body = overrides ? { overrides } : {};
-    const [{ data: c }, { data: o }] = await Promise.all([
+    const [{ data: c }, { data: o }, { data: v }] = await Promise.all([
       api.post("/retirement/compute/", { ages: [62, 67, 70], ...body }),
       api.post("/retirement/optimize/", body),
+      api.post("/retirement/vesting/", body),
     ]);
     setScenarios(c.scenarios || []);
     setOptimal(o);
+    setVesting(v);
   };
 
   // Transient recompute from the current (possibly unsaved) form inputs.
@@ -340,6 +343,59 @@ const RetirementView = () => {
             <Typography variant="subtitle1" fontWeight={700} gutterBottom>
               Assumptions
             </Typography>
+
+            {/* Employment start drives pension years-of-service + vesting. */}
+            <Box sx={{ mb: 1.5 }}>
+              <Typography variant="caption" color="text.secondary">
+                Pension
+              </Typography>
+              <Grid container spacing={1} sx={{ mt: 0.25 }}>
+                <Grid item xs={6}>
+                  <TextField
+                    label="Employment start"
+                    type="date"
+                    fullWidth
+                    InputLabelProps={{ shrink: true }}
+                    value={profile?.employment_start ?? ""}
+                    onChange={(e) =>
+                      setProfile((p) => ({
+                        ...p,
+                        employment_start: e.target.value,
+                      }))
+                    }
+                  />
+                </Grid>
+              </Grid>
+              {vesting && (
+                <Box sx={{ mt: 1 }}>
+                  {vesting.vested ? (
+                    <Chip
+                      label={`Vested — ${vesting.service_years} yrs of service`}
+                      size="small"
+                      color="success"
+                    />
+                  ) : (
+                    <Chip
+                      label={`${vesting.years_remaining} yr${
+                        vesting.years_remaining === 1 ? "" : "s"
+                      } to vest (vests ${vesting.vested_on})`}
+                      size="small"
+                      color="warning"
+                    />
+                  )}
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ display: "block", mt: 0.5 }}
+                  >
+                    {vesting.service_years} of {vesting.vesting_years_required}{" "}
+                    years of service as of today. No pension benefit until
+                    vested.
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+
             {FORM_GROUPS.map((group) => (
               <Box key={group.title} sx={{ mb: 1.5 }}>
                 <Typography variant="caption" color="text.secondary">

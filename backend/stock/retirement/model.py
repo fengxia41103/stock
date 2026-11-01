@@ -92,6 +92,32 @@ def years_of_service(a: Assumptions, retire_year: int) -> float:
     return max(0.0, (retire - a.employment_start).days / 365.25)
 
 
+def vesting_status(a: Assumptions, as_of: date | None = None) -> dict:
+    """Vesting progress as of a date (default today): completed years of
+    service, the vesting requirement, whether vested yet, how many more years
+    are needed, and the calendar date vesting is reached."""
+    if as_of is None:
+        as_of = date.today()
+    start = a.employment_start
+    service_years = max(0.0, (as_of - start).days / 365.25)
+    required = a.pension_vesting_years
+    vested = service_years >= required
+    years_remaining = max(0.0, required - service_years)
+    # The date at which the required years of service are completed.
+    vested_on = date(
+        start.year + required, start.month, min(start.day, 28)
+    )
+    return {
+        "employment_start": start.isoformat(),
+        "as_of": as_of.isoformat(),
+        "service_years": round(service_years, 2),
+        "vesting_years_required": required,
+        "vested": vested,
+        "years_remaining": round(years_remaining, 2),
+        "vested_on": vested_on.isoformat(),
+    }
+
+
 def final_avg_salary(a: Assumptions, retire_age: int) -> float:
     """Average of the highest (final) N years of salary with annual growth."""
     years_from_now = retire_age - a.current_age

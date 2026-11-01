@@ -17,6 +17,7 @@ from stock.retirement import (
     assumptions_from_profile,
     optimize_retirement_age,
     scenario_summary,
+    vesting_status,
 )
 from stock.retirement import parsers as rp_parsers
 from stock.retirement import pricing as rp_pricing
@@ -102,6 +103,18 @@ class RetirementViewSet(viewsets.ViewSet):
         ages = self._ages(request)
         scenarios = [scenario_summary(a, age) for age in ages]
         return Response({"ages": ages, "scenarios": scenarios})
+
+    # -- vesting (GET / POST) -------------------------------------------------
+
+    @action(detail=False, methods=["get", "post"])
+    def vesting(self, request):
+        """Pension vesting progress as of today: years of service so far, years
+        remaining until vested, and the vesting date. Accepts optional
+        ``overrides`` (e.g. a what-if employment_start) on POST."""
+        profile = self._get_profile(request)
+        overrides = request.data.get("overrides") or {} if request.method == "POST" else {}
+        a = assumptions_from_profile(profile, overrides=overrides)
+        return Response(vesting_status(a))
 
     # -- optimize (POST) ------------------------------------------------------
 
