@@ -4,7 +4,8 @@
 dev:
 	docker compose up -d
 
-# Start with HOT-RELOAD frontend (Vite dev server at :8085, mounted source). Dev only.
+# Start the DEV stack: hot-reload frontend (Vite at :8085) with mounted
+# source. Dev only.
 dev-hot:
 	docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 

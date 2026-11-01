@@ -13,6 +13,10 @@
 # Both run on their own host port:
 #   production (nginx static, base file): http://localhost:8084
 #   hot-reload dev server (this file):    http://localhost:8085
+#
+# The retirement planner is now a first-class feature of the app itself
+# (route /retirement), so there is no separate dev service for it.
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
 services:
   frontend:
