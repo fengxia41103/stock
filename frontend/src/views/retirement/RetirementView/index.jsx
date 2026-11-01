@@ -141,6 +141,35 @@ const RetirementView = () => {
   const setField = (key, raw, isPercent) =>
     setProfile((p) => ({ ...p, [key]: fromDisplay(raw, isPercent) }));
 
+  // Recompute from the given inputs WITHOUT persisting. When passed the current
+  // form state as overrides, the backend layers them over the saved profile for
+  // a transient what-if, so the user can iterate freely before saving.
+  const runCompute = async (overrides) => {
+    const body = overrides ? { overrides } : {};
+    const [{ data: c }, { data: o }] = await Promise.all([
+      api.post("/retirement/compute/", { ages: [62, 67, 70], ...body }),
+      api.post("/retirement/optimize/", body),
+    ]);
+    setScenarios(c.scenarios || []);
+    setOptimal(o);
+  };
+
+  // Transient recompute from the current (possibly unsaved) form inputs.
+  const recompute = async () => {
+    setBusy(true);
+    setError("");
+    setMsg("");
+    try {
+      await runCompute(profile);
+      setMsg("Recomputed from current inputs (not saved).");
+    } catch {
+      setError("Recompute failed.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  // Persist the profile, then recompute from the saved state.
   const saveProfile = async () => {
     setSaving(true);
     setError("");
@@ -148,22 +177,13 @@ const RetirementView = () => {
     try {
       const { data } = await api.put("/retirement/profile/", profile);
       setProfile(data);
-      setMsg("Profile saved.");
       await runCompute();
+      setMsg("Profile saved.");
     } catch {
       setError("Save failed.");
     } finally {
       setSaving(false);
     }
-  };
-
-  const runCompute = async () => {
-    const [{ data: c }, { data: o }] = await Promise.all([
-      api.post("/retirement/compute/", { ages: [62, 67, 70] }),
-      api.post("/retirement/optimize/", {}),
-    ]);
-    setScenarios(c.scenarios || []);
-    setOptimal(o);
   };
 
   const handleUpload = async (e) => {
@@ -350,14 +370,30 @@ const RetirementView = () => {
                 </Grid>
               </Box>
             ))}
-            <Button
-              variant="contained"
-              onClick={saveProfile}
-              disabled={saving}
-              sx={{ mt: 1 }}
+            <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
+              <Button
+                variant="outlined"
+                onClick={recompute}
+                disabled={busy || saving}
+              >
+                Recompute
+              </Button>
+              <Button
+                variant="contained"
+                onClick={saveProfile}
+                disabled={saving || busy}
+              >
+                {saving ? "Saving…" : "Save profile"}
+              </Button>
+            </Stack>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ display: "block", mt: 0.75 }}
             >
-              {saving ? "Saving…" : "Save & recompute"}
-            </Button>
+              Recompute previews current inputs without saving. Save profile
+              persists them.
+            </Typography>
           </Paper>
         </Grid>
 
