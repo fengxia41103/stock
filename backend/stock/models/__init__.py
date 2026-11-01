@@ -18,6 +18,11 @@ from stock.models.macro import MacroDataPoint, MacroSeries, StockMacroCorrelatio
 from stock.models.misc import MyDiary, MyNews, MyTask, RankingCache
 from stock.models.peer_group import PeerGroup
 from stock.models.portfolio import Position, Transaction
+from stock.models.retirement import (
+    RetirementHolding,
+    RetirementProfile,
+    RetirementSnapshot,
+)
 from stock.models.risk_factor import RiskFactor
 from stock.models.sector import MySector
 from stock.models.snapshot import StockSnapshot
@@ -53,6 +58,9 @@ __all__ = [
     "PeerGroup",
     "Position",
     "RankingCache",
+    "RetirementHolding",
+    "RetirementProfile",
+    "RetirementSnapshot",
     "RiskFactor",
     "StockMacroCorrelation",
     "StockSnapshot",
