@@ -141,6 +141,8 @@ KEEP (satellite): MSFT $30K, MA $24K, V $19K, RCL $17K, LIN $9K, PG $9K,
 TXN $9K, GOOGL $8K, PEP $7K, TSM $7K, SPGI $5K.
 
 ## Next
-- [ ] Execute LRCX starter Monday 2026-11-03 (market was closed when decided).
+- [ ] Monday 2026-11-03: SWAP, not add — TRIM TSM $6.7K→$3.5K, START LRCX ~$5.5K
+      (~24 sh @ ~$234). LRCX > TSM (lower geopolitical tail; peers on fundamentals).
+      Keeps semi sleeve ~same size; satellite stays 29.9%. See diary 2026-11-01.
 - [ ] Stage the rebalance; raise bonds toward 20-25% on a glide path toward 2036.
 - [ ] Track drift via GET /api/v1/portfolio/allocation/ after execution.

@@ -62,7 +62,7 @@ SYMBOL_MAP = {
     "MSFT": "us_large", "GOOGL": "us_large", "MA": "us_large",
     "V": "us_large", "TXN": "us_large", "LIN": "us_large",
     "SPGI": "us_large", "PEP": "us_large", "PG": "us_large",
-    "RCL": "us_mid", "TSM": "emerging",
+    "LRCX": "us_large", "RCL": "us_mid", "TSM": "emerging",
     # --- trimmed / folded to core (classified for drift reporting) ---
     "PLTR": "us_large", "MCD": "us_large",
     "PDD": "emerging", "SBUX": "us_large",
