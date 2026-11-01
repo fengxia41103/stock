@@ -30,7 +30,25 @@ const EditDiaryEditor = ({ diary, inEditing }) => {
     );
   };
 
-  if (!inEditing) return <MDEditor.Markdown source={comment} />;
+  if (!inEditing)
+    return (
+      <Box
+        sx={{
+          "& .wmde-markdown": {
+            fontSize: "1.0625rem",
+            lineHeight: 1.75,
+            background: "transparent",
+          },
+          "& .wmde-markdown p": { marginBottom: "1em" },
+          "& .wmde-markdown li": { marginBottom: "0.35em" },
+          "& .wmde-markdown h1, & .wmde-markdown h2, & .wmde-markdown h3": {
+            marginTop: "1.25em",
+          },
+        }}
+      >
+        <MDEditor.Markdown source={comment} />
+      </Box>
+    );
 
   return (
     <>

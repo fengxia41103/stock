@@ -59,9 +59,17 @@ const DiaryDetail = ({ diaryId, stocks }) => {
   };
 
   return (
-    <Box sx={{ p: 3, height: "100%", overflow: "auto" }}>
+    <Box
+      sx={{
+        px: { xs: 3, md: 6 },
+        py: { xs: 3, md: 5 },
+        height: "100%",
+        overflow: "auto",
+      }}
+    >
+      <Box sx={{ maxWidth: 820, mx: "auto" }}>
       {/* Header */}
-      <Stack direction="row" alignItems="center" spacing={2} mb={2}>
+      <Stack direction="row" alignItems="center" spacing={2} mb={3}>
         <Typography variant="h5" fontWeight={700}>
           {diary.stock_symbol || "General"}
         </Typography>
@@ -97,7 +105,7 @@ const DiaryDetail = ({ diaryId, stocks }) => {
         </Typography>
       )}
 
-      <Divider sx={{ mb: 2 }} />
+      <Divider sx={{ mb: 3 }} />
 
       {/* Content */}
       <EditDiaryEditor diary={diary} inEditing={inEditing} />
@@ -115,11 +123,12 @@ const DiaryDetail = ({ diaryId, stocks }) => {
       )}
 
       {/* Stock Tags */}
-      <Box mt={3}>
+      <Box mt={4}>
         <DiaryStockTag diary={diary} />
       </Box>
 
       {notification && <SimpleSnackbar msg={notification} />}
+      </Box>
     </Box>
   );
 };
