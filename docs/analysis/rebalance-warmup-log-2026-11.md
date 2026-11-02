@@ -159,3 +159,23 @@ Bookkeeping:
 Remaining Day-1 (11-10): PLTR (full exit), SBUX (full exit), MSFT trim, TSM
 trim. (PLTR/SBUX still eligible to pull forward on a ≥~2-3% up-day; neither
 qualified today — PLTR +0.9%, SBUX −1.1%.)
+
+#### 11-02 ~10:56am — EXECUTED: BND buy (first diversification tranche)
+
+Bought BND **350.459 sh @ $71.33 = $24,999** (bonds 0 -> 4.53% of IRA).
+App DB: BND position auto-created on CSV import.
+
+Rationale: cash-funded diversification started early (plan allows — buys don't
+wait on SPYG settlement). BND chosen as the first buy because it was the
+cleanest entry (flat +0.06%, bottom of day range) and is pure de-risking
+(bonds 0 -> 10% target). This FRONT-LOADS the buy side; does NOT reduce the
+need to still trim SPYG on schedule.
+
+Cash accounting (watch): FDRXX still shows $54,530 (buy not yet drawn);
+Pending activity flipped to -$8,246 = +$16,754 PDD/MCD proceeds - $24,999 BND.
+So BND recycled the realized proceeds + ~$8.2K of base cash. Effective cash
+after settle ~$46,284 — still above the ~$15K sleeve, but base cash now tapped.
+Keep remaining same-day buys modest so cash stays > $15K sleeve.
+
+Progress toward 10% bonds: $24,999 of ~$55,168 target (~$30K remaining, to
+complete alongside the SPYG tranches).
