@@ -15,6 +15,7 @@ from stock.models.income import IncomeStatement
 from stock.models.insider_trade import InsiderTrade
 from stock.models.institutional_holding import InstitutionalHolding
 from stock.models.macro import MacroDataPoint, MacroSeries, StockMacroCorrelation
+from stock.models.market_snapshot import MarketSnapshot
 from stock.models.misc import MyDiary, MyNews, MyTask, RankingCache
 from stock.models.peer_group import PeerGroup
 from stock.models.portfolio import Position, Transaction
@@ -49,6 +50,7 @@ __all__ = [
     "InstitutionalHolding",
     "MacroDataPoint",
     "MacroSeries",
+    "MarketSnapshot",
     "MyDiary",
     "MyNews",
     "MySector",
