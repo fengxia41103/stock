@@ -65,7 +65,7 @@ pressure):
 
 Weeks 2-4 stay one SPYG tranche each Monday (11-17, 11-24, 12-01).
 
-### Step 1 — SELLS (do these first) · raises ~$68,900
+### Step 1 — SELLS (do these first) · ~$57,028 remaining on 11-10 (PDD ~$11,872 done early)
 
 | # | Ticker | Action | Order type | Amount | Why |
 |---|--------|--------|-----------|-------:|-----|
