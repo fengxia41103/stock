@@ -25,6 +25,7 @@ from stock.api.views import (
     NewsViewSet,
     PeerGroupViewSet,
     PortfolioViewSet,
+    MarketSnapshotViewSet,
     RiskFactorViewSet,
     SectorViewSet,
     SignalRankViewSet,
@@ -67,6 +68,7 @@ router.register(r"valuation-ranks", ValuationRankViewSet, basename="valuation-ra
 router.register(r"backtest", BacktestViewSet, basename="backtest")
 router.register(r"alerts", AlertViewSet, basename="alert")
 router.register(r"portfolio", PortfolioViewSet, basename="portfolio")
+router.register(r"market-snapshots", MarketSnapshotViewSet, basename="market-snapshot")
 router.register(r"dividends", DividendViewSet, basename="dividend")
 router.register(r"theses", StockThesisViewSet, basename="thesis")
 router.register(r"earnings-notes", EarningsCallNoteViewSet, basename="earnings-note")

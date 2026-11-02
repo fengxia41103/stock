@@ -549,3 +549,30 @@ class PeerGroupSerializer(serializers.ModelSerializer):
             "created",
         ]
         read_only_fields = ["created"]
+
+
+class MarketSnapshotSerializer(serializers.ModelSerializer):
+    symbol = serializers.CharField(source="stock.symbol", read_only=True)
+    effective_price = serializers.FloatField(read_only=True)
+    overnight_change_pct = serializers.FloatField(read_only=True)
+
+    class Meta:
+        from stock.models import MarketSnapshot
+
+        model = MarketSnapshot
+        fields = [
+            "id",
+            "symbol",
+            "captured_at",
+            "market_state",
+            "regular_price",
+            "regular_change_pct",
+            "regular_previous_close",
+            "pre_price",
+            "pre_change_pct",
+            "post_price",
+            "post_change_pct",
+            "effective_price",
+            "overnight_change_pct",
+            "source",
+        ]

@@ -227,3 +227,14 @@ export function useRetirementTimeseries(age: number, options = {}) {
 export function usePortfolioHoldings(options = {}) {
   return useResource("portfolio-holdings", "/portfolio/holdings/", options);
 }
+
+// Global overnight proxies (US futures, Asia/Europe indices, VIX) with an
+// interpretive read of the 'wind' for tomorrow's US open.
+export function useWorldOvernight(options = {}) {
+  return useResource("market-world", "/market-snapshots/world/", options);
+}
+
+// Most-recent captured snapshot per holding (pre/post-market moves).
+export function useOvernightSnapshots(options = {}) {
+  return useResource("market-latest", "/market-snapshots/latest/", options);
+}

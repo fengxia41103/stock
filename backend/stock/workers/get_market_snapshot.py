@@ -20,9 +20,12 @@ logger = logging.getLogger("stock")
 
 
 class MarketSnapshotWorker:
-    def __init__(self, symbols):
+    def __init__(self, symbols, allow_create=False):
         # Normalize to a de-duplicated, upper-cased list.
         self.symbols = sorted({str(s).upper() for s in symbols if s})
+        # When True, auto-create a MyStock for symbols not yet tracked (used for
+        # global index/future proxies like ES=F, ^N225 that aren't holdings).
+        self.allow_create = allow_create
 
     def _num(self, val):
         try:
@@ -58,7 +61,15 @@ class MarketSnapshotWorker:
                 continue
 
             try:
-                stock = MyStock.objects.get(symbol=sym)
+                if self.allow_create:
+                    stock, _ = MyStock.objects.get_or_create(symbol=sym)
+                    # Give global proxies a readable name on first creation.
+                    label = WORLD_LABELS.get(sym) or data.get("shortName") or ""
+                    if label and not stock.name:
+                        stock.name = label
+                        stock.save(update_fields=["name"])
+                else:
+                    stock = MyStock.objects.get(symbol=sym)
             except MyStock.DoesNotExist:
                 logger.warning("MarketSnapshot: %s not in MyStock; skipping", sym)
                 continue
@@ -100,3 +111,32 @@ def default_symbols():
         .distinct()
     )
     return sorted({s for s in held if s})
+
+
+# Global overnight proxies that trade while the US is closed — the real "wind"
+# for tomorrow's US open. yahooquery resolves all of these.
+WORLD_OVERNIGHT = [
+    # US index futures (trade ~23h — the most direct tell)
+    "ES=F", "NQ=F", "YM=F",
+    # Asia (US night)
+    "^N225", "^HSI", "000001.SS", "^KS11",
+    # Europe (US early morning)
+    "^FTSE", "^GDAXI", "^STOXX50E",
+    # Risk / tone
+    "^VIX",
+]
+
+WORLD_LABELS = {
+    "ES=F": "S&P 500 future",
+    "NQ=F": "Nasdaq-100 future",
+    "YM=F": "Dow future",
+    "^N225": "Nikkei (Japan)",
+    "^HSI": "Hang Seng (HK)",
+    "000001.SS": "Shanghai",
+    "^KS11": "KOSPI (Korea)",
+    "^FTSE": "FTSE 100 (UK)",
+    "^GDAXI": "DAX (Germany)",
+    "^STOXX50E": "Euro Stoxx 50",
+    "^VIX": "VIX (volatility)",
+}
+

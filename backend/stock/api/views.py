@@ -25,6 +25,7 @@ from stock.api.serializers import (
     InstitutionalHoldingSerializer,
     MacroDataPointSerializer,
     MacroSeriesSerializer,
+    MarketSnapshotSerializer,
     NewsSerializer,
     SectorCreateSerializer,
     SectorSerializer,
@@ -1807,3 +1808,102 @@ class PeerGroupViewSet(viewsets.ModelViewSet):
                 created_count += 1
 
         return Response({"message": f"Populated {created_count} peers for {stock.symbol}", "created": created_count})
+
+
+class MarketSnapshotViewSet(viewsets.ViewSet):
+    """Captured pre-/post-market and world-market snapshots (the 'overnight
+    wind' for the next US session). Read-only."""
+
+    permission_classes = [IsAuthenticated]
+
+    def _latest_per_symbol(self, symbols=None):
+        from stock.models import MarketSnapshot
+
+        qs = MarketSnapshot.objects.select_related("stock").order_by(
+            "stock_id", "-captured_at"
+        )
+        if symbols:
+            qs = qs.filter(stock__symbol__in=symbols)
+        seen = set()
+        latest = []
+        for snap in qs:
+            if snap.stock_id in seen:
+                continue
+            seen.add(snap.stock_id)
+            latest.append(snap)
+        return latest
+
+    @action(detail=False, methods=["get"])
+    def latest(self, request):
+        """Most-recent snapshot per holding, sorted by overnight move size."""
+        snaps = self._latest_per_symbol()
+        data = MarketSnapshotSerializer(snaps, many=True).data
+        data.sort(
+            key=lambda d: abs(d.get("overnight_change_pct") or 0), reverse=True
+        )
+        return Response({"snapshots": data})
+
+    @action(detail=False, methods=["get"])
+    def world(self, request):
+        """Global overnight proxies (US futures, Asia/Europe indices, VIX) with
+        a plain-language read of what they imply for tomorrow's US open."""
+        from stock.workers.get_market_snapshot import WORLD_LABELS, WORLD_OVERNIGHT
+
+        snaps = self._latest_per_symbol(symbols=WORLD_OVERNIGHT)
+        rows = []
+        for s in snaps:
+            chg = s.regular_change_pct
+            rows.append(
+                {
+                    "symbol": s.stock.symbol,
+                    "label": WORLD_LABELS.get(s.stock.symbol, s.stock.symbol),
+                    "market_state": s.market_state,
+                    "price": s.regular_price,
+                    "change_pct": chg,
+                    "captured_at": s.captured_at,
+                }
+            )
+
+        # Interpretive read from the US futures + VIX.
+        def chg_for(sym):
+            for r in rows:
+                if r["symbol"] == sym:
+                    return r["change_pct"]
+            return None
+
+        es = chg_for("ES=F")
+        nq = chg_for("NQ=F")
+        vix = chg_for("^VIX")
+        headline = "No futures data yet — capture a snapshot."
+        tone = "neutral"
+        if es is not None and nq is not None:
+            avg = (es + nq) / 2
+            if avg >= 0.4:
+                tone, headline = "good", (
+                    f"Futures point UP for the US open (S&P {es:+.2f}%, "
+                    f"Nasdaq {nq:+.2f}%)."
+                )
+            elif avg <= -0.4:
+                tone, headline = "bad", (
+                    f"Futures point DOWN for the US open (S&P {es:+.2f}%, "
+                    f"Nasdaq {nq:+.2f}%)."
+                )
+            else:
+                tone, headline = "neutral", (
+                    f"Futures ~flat for the US open (S&P {es:+.2f}%, "
+                    f"Nasdaq {nq:+.2f}%)."
+                )
+            if vix is not None and vix >= 8:
+                headline += f" Note: VIX {vix:+.1f}% — rising fear, treat green with caution."
+
+        captured = rows[0]["captured_at"] if rows else None
+        return Response(
+            {
+                "headline": headline,
+                "tone": tone,
+                "captured_at": captured,
+                "markets": rows,
+                "disclaimer": "Overnight/world markets are a rough tell, not a "
+                "prediction; futures can reverse by the open. Analysis, not advice.",
+            }
+        )
