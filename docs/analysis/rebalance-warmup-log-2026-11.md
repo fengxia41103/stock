@@ -90,3 +90,28 @@ sizing checks, NOT orders to place today):
 Caveats: opening-minute prints are volatile; a ~9:45 or after-close recapture
 gives steadier numbers. Share counts are approximate — finalize at the screen
 on 11-10 against that day's prices.
+
+#### 11-02 mid-morning — Fidelity CSV (10:15am ET marks)
+
+Imported `Portfolio_Positions_Nov-02-2026.csv` (18 prices updated; 0 position
+changes — no trades, same share counts as 11-01).
+
+Rollover IRA (230806312) vs 11-01 baseline:
+- IRA total: ~$545,284 -> **~$551,683** (broad +1% tape lifted the book).
+- MSFT: $78,026 (14.3%) -> **$78,493 (14.23%)**, 149.5 sh @ $525.04 (+0.59%).
+- SPYG: $212,006 (38.9%) -> **$214,145 (38.82%)**, 1,821.04 sh @ $117.60 (+1.00%).
+- FDRXX cash: **$54,530 (9.88%)** unchanged (~$39.5K excess vs 3% target still
+  available to fund 11-10 buys).
+
+Recomputed sizes (sizing checks only; execution 11-10):
+- MSFT trim: keep ~$48K -> sell ~$30,493 ≈ **~58 sh** @ $525.04 (of 149.5).
+- SPYG tranche: ~$44K -> **~374 sh** @ $117.60; 4-tranche cadence unchanged.
+- LRCX: ~$232-234 limit holds; TSM soft (+0.56% today), semis mixed — no chase.
+
+Drift read: nothing moved enough to change a decision. MSFT/SPYG overweights
+intact; the rally lifted everything roughly proportionally. Plan holds for
+11-10 as scheduled.
+
+Tooling note: fixed a snapshot bug today — day-change % now computed from
+price vs prior close (yahooquery's % field was lagging the live price; e.g.
+TSM was wrongly shown positive while actually down).
