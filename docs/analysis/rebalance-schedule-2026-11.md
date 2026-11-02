@@ -20,6 +20,16 @@ Rollover IRA 230806312 (tax-free to rebalance) | Prices ~2026-11-01
   SPYG trim (only selling SPYG cuts the large-cap-growth overweight). Keep ~$15K
   as the cash sleeve.
 - **Schedule shifted out one week** from the original 2026-11-03 start.
+- **Two tempos — not everything is on one Monday:** the one-time block (thesis
+  sells incl. MSFT/TSM trims, LRCX start, VWO/VO/VNQ buys) is done in a single
+  session on 11-10 — these are decisions, not timing bets. Only the SPYG→
+  VEA/BND/VB shift is staged (4 Mondays). If you'd rather be done, 1-2 larger
+  SPYG tranches is also defensible; staging just avoids selling all $176K at
+  one morning's price.
+- **MSFT kept larger (Option B):** MSFT gets a higher personal cap (~$48K,
+  ~8.8%) than the $30K satellite cap — it's the highest-conviction long-term
+  winner — but is still trimmed from ~14.3% so the rebalance meaningfully cuts
+  the large-cap-growth concentration.
 
 ## Order-type cheatsheet
 - **ETF buys/sells**: market or marketable-limit. Trade **after ~9:45 AM**
@@ -33,16 +43,20 @@ Rollover IRA 230806312 (tax-free to rebalance) | Prices ~2026-11-01
 
 ---
 
-## MONDAY 2026-11-10 — one-time block
+## WEEK OF 2026-11-10 — split across days (provisional; finalize w/ live prices)
 
-> Rule of the day: **do all SELLS first, then BUYS**. With ~$54.5K IRA cash on
-> hand the buys are fully funded regardless of settlement, so there's no
-> same-day settlement risk. Trade ETFs **after ~9:45 AM**. All $ are from
-> ~2026-11-01 prices — recompute shares at the screen (amount ÷ live price).
-> This includes the Week-1 SPYG tranche (see the staged section below) done the
-> same session.
+Not everything on one day. Proposed sequencing (amounts refreshed tomorrow AM
+with live prices; sells before buys; the ~$54.5K cash buffer removes settlement
+pressure):
 
-### Step 1 — SELLS (do these first) · raises ~$86,875
+- **Day 1 — Mon 11-10 — SELLS only:** Step 1 below (PLTR/PDD/SBUX/MCD + MSFT &
+  TSM trims). No buys today; cash already covers them.
+- **Day 2 — Tue 11-11 — BUYS:** Step 2 below (LRCX start, VWO, VO, VNQ).
+- **Day 3 — Wed 11-12 — SPYG tranche 1:** Step 3 below (SELL SPYG → VEA/BND/VB).
+
+Weeks 2-4 stay one SPYG tranche each Monday (11-17, 11-24, 12-01).
+
+### Step 1 — SELLS (do these first) · raises ~$68,900
 
 | # | Ticker | Action | Order type | Amount | Why |
 |---|--------|--------|-----------|-------:|-----|
@@ -50,9 +64,9 @@ Rollover IRA 230806312 (tax-free to rebalance) | Prices ~2026-11-01
 | 2 | PDD | Sell ALL | market — don't anchor on cost | ~$11,318 | Loser, Darwin gate fail |
 | 3 | SBUX | Sell ALL | market — don't anchor on cost | ~$11,663 | Loser, Darwin gate fail |
 | 4 | MCD | Sell ALL | market/marketable-limit | ~$4,810 | Fold into index core |
-| 5 | MSFT | TRIM to $30K cap | marketable-limit | ~$47,912 | Enforce per-name cap |
+| 5 | MSFT | TRIM to **$48K cap** | marketable-limit | ~$30,026 | Keep ~$48K (~8.8%); higher cap for highest-conviction winner (Option B) |
 | 6 | TSM | TRIM to $3.5K | marketable-limit | ~$3,223 | Geopolitical-tail down-size |
-|   |   |   | **Sells subtotal** | **~$86,875** |   |
+|   |   |   | **Sells subtotal** | **~$68,900** |   |
 
 ### Step 2 — BUYS (funded by cash on hand) · deploys ~$74,325
 
@@ -64,7 +78,7 @@ Rollover IRA 230806312 (tax-free to rebalance) | Prices ~2026-11-01
 | 10 | VNQ | Buy | marketable-limit, after 9:45 | ~$19,584 | REIT / real assets |
 |   |   |   | **Buys subtotal** | **~$74,325** |   |
 
-### Step 3 — Week-1 SPYG tranche (same session) · see staged section
+### Step 3 — Week-1 SPYG tranche (Day 3, Wed 11-12) · see staged section
 
 | # | Ticker | Action | Order type | Amount |
 |---|--------|--------|-----------|-------:|
@@ -78,28 +92,34 @@ Rollover IRA 230806312 (tax-free to rebalance) | Prices ~2026-11-01
 | Bucket | Cash in | Cash out |
 |--------|--------:|---------:|
 | Starting IRA cash (FDRXX) | +$54,530 | — |
-| Step 1 sells | +$86,875 | — |
+| Step 1 sells | +$68,900 | — |
 | Step 2 buys | — | −$74,325 |
 | Step 3 (SPYG sell − buys) | +$44,029 | −$44,064 |
-| **End cash** | **~$67,045** (buys fully cash-covered on the spot) | |
+| **End cash** | **~$49,070** (buys fully cash-covered on the spot) | |
 
 The over-target cash is absorbed as the Weeks 2-4 SPYG tranches buy more
 VEA/BND/VB; trim toward the ~3% (~$15K) cash sleeve by the final week.
 
-### Monday step checklist
+### Week-1 checklist (by day)
+
+Day 1 — Mon 11-10 (sells):
 - [ ] 1. Sell PLTR (all)
 - [ ] 2. Sell PDD (all)
 - [ ] 3. Sell SBUX (all)
 - [ ] 4. Sell MCD (all)
-- [ ] 5. Trim MSFT → $30K cap
+- [ ] 5. Trim MSFT → $48K cap (~$30,026)
 - [ ] 6. Trim TSM → $3.5K
+
+Day 2 — Tue 11-11 (buys):
 - [ ] 7. Start LRCX (limit ~$232-234)
 - [ ] 8. Buy VWO
 - [ ] 9. Buy VO
 - [ ] 10. Buy VNQ
+
+Day 3 — Wed 11-12 (SPYG tranche 1):
 - [ ] 11. Sell SPYG tranche 1 (~$44,029)
 - [ ] 12. Buy VEA · 13. Buy BND · 14. Buy VB
-- [ ] After close: GET /api/v1/portfolio/allocation/ to confirm drift closing
+- [ ] After each day: GET /api/v1/portfolio/allocation/ to confirm drift closing
 
 ---
 
@@ -120,12 +140,13 @@ Each Monday (2026-11-10, 2026-11-17, 2026-11-24, 2026-12-01), repeat:
 | **Total** | | **$176,117** | $97,920 | $48,960 | $29,376 |
 
 ## After completion (target end-state)
-Satellite ~30% (12 names, each ≤$30K: MSFT, MA, V, RCL, LIN, PG, TXN, GOOGL,
+Satellite ~30% (12 names, ≤$30K each EXCEPT MSFT ~$48K by Option B: MSFT, MA,
+V, RCL, LIN, PG, TXN, GOOGL,
 PEP, SPGI, LRCX, TSM). Core ~70% diversified index (VOO/VO/VB/VEA/VWO/BND/VNQ).
 Whole portfolio ~90% equity / 10% bonds.
 
 ## Checklist
-- [ ] Mon 2026-11-10: one-time block + Week-1 SPYG tranche
+- [ ] Week of 11-10: Day 1 sells (Mon) · Day 2 buys (Tue) · Day 3 SPYG tranche 1 (Wed)
 - [ ] Mon 2026-11-17: Week-2 tranche
 - [ ] Mon 2026-11-24: Week-3 tranche
 - [ ] Mon 2026-12-01: Week-4 tranche (final)
@@ -145,6 +166,6 @@ position + price updates** to sanity-check the plan against live data:
 - Re-check the per-name $ (esp. MSFT trim size, SPYG tranche, LRCX entry) and
   the allocation drift (GET /api/v1/portfolio/allocation/) against targets.
 - Confirm no thesis changed (earnings, news) that should alter a sell/buy.
-- If the numbers hold up through the week, execute the one-time block + Week-1
-  tranche on **Mon 2026-11-10** as scheduled. If something material shifts,
-  revise here first.
+- If the numbers hold up through the week, execute the Week-1 day-by-day plan
+  (Mon–Wed, 11-10 → 11-12), then SPYG tranches 2–4 on 11-17 / 11-24 / 12-01. If
+  something material shifts, revise here first.
