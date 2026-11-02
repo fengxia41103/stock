@@ -61,7 +61,7 @@ Weeks 2-4 stay one SPYG tranche each Monday (11-17, 11-24, 12-01).
 | # | Ticker | Action | Order type | Amount | Why |
 |---|--------|--------|-----------|-------:|-----|
 | 1 | PLTR | Sell ALL | market/marketable-limit | ~$7,949 | Take profit (unplanned winner) |
-| 2 | PDD | Sell ALL | market — don't anchor on cost | ~$11,318 | Loser, Darwin gate fail |
+| 2 | PDD | ✅ DONE 11-02 (pulled fwd) | — | ~$11,872 filled | Loser, Darwin gate fail — sold into +5% up-day (tax-free IRA) |
 | 3 | SBUX | Sell ALL | market — don't anchor on cost | ~$11,663 | Loser, Darwin gate fail |
 | 4 | MCD | Sell ALL | market/marketable-limit | ~$4,810 | Fold into index core |
 | 5 | MSFT | TRIM to **$48K cap** | marketable-limit | ~$30,026 | Keep ~$48K (~8.8%); higher cap for highest-conviction winner (Option B) |

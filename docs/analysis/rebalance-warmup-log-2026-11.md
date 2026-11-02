@@ -115,3 +115,25 @@ intact; the rally lifted everything roughly proportionally. Plan holds for
 Tooling note: fixed a snapshot bug today — day-change % now computed from
 price vs prior close (yahooquery's % field was lagging the live price; e.g.
 TSM was wrongly shown positive while actually down).
+
+#### 11-02 ~10:29am — EXECUTED: PDD full exit (pulled forward from 11-10)
+
+Sold ALL PDD (~143.642 sh). Fill ≈ **$82.65** (proceeds $11,872.48 shown as
+"Pending activity", settling into FDRXX). Fill landed in the $82.3-82.7 target
+zone. Sold into a +5% up-day.
+
+Rationale (plan-consistent): PDD was already a committed full exit (broken
+thesis / Darwin gate fail). Pulled forward because (a) tax-free IRA = no cost
+to timing, (b) PDD rarely follows through on consecutive up-days, so selling
+the pop beats chasing it lower next week. This is NOT a new decision — just a
+better execution moment within the locked plan.
+
+Bookkeeping:
+- App DB: PDD position closed (matches Fidelity).
+- Schedule Step 1: PDD marked DONE so 11-10 Day-1 does NOT double-count it.
+- Cash: +$11,872 proceeds ADD to the ~$54.5K sleeve; does NOT change 11-10 buy
+  funding (buys were cash-funded regardless). One fewer sell on Day-1 11-10.
+- SBUX (other full-exit) left on the 11-10 schedule — it was -0.72% today, no
+  strength to sell into.
+
+Remaining Day-1 (11-10) sells: PLTR, SBUX, MCD, MSFT trim, TSM trim.
