@@ -223,3 +223,26 @@ Bookkeeping:
 
 Remaining Day-1 (11-10): SBUX (full exit), MSFT trim, TSM trim. SBUX still
 eligible to pull forward on a ≥~2-3% up-day (was -0.94% today).
+
+#### 11-02 ~11:10am — RESTING ORDER (pending, NOT filled): TSM trim
+
+Set a **GTC limit SELL on TSM @ $414** for the TRIM quantity (~8.2 sh of
+16.672, to land at the ~$3.5K keep — NOT a full exit). Target is ~+1.2% above
+the current ~$408.6, near today's high. If it fills: trim done early at a good
+price. If not: leave it; executes on 11-10 as planned.
+
+Status: NOT filled (TSM $408.60 < $414). Positions CSV does NOT show open
+orders, so TSM still reads 16.672 sh in the app — expected, not a discrepancy.
+Will reconcile when a future CSV shows TSM shares dropping to ~8.45.
+
+Coordination: TSM trim is paired with the LRCX start (the swap). LRCX ~$239 is
+still ABOVE the $232-234 limit, so even if the TSM order fills this week, the
+LRCX buy can wait until it comes into range — don't forget the LRCX leg stays
+open.
+
+Wait decisions logged today:
+- SBUX (full exit): -0.9% today — don't sell a loser into weakness; hold for a
+  ≥~2-3% up-day or execute 11-10.
+- TSM (trim): waiting is right for STRUCTURAL reasons (keeper-trim, paired with
+  LRCX not triggering) — NOT because it's red. In a tax-free IRA a realized loss
+  gives no benefit; the -2.6% is a sunk cost, not a reason to wait.
