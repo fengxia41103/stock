@@ -60,24 +60,24 @@ Not everything on one day. Proposed sequencing (amounts refreshed tomorrow AM
 with live prices; sells before buys; the ~$54.5K cash buffer removes settlement
 pressure):
 
-- **Day 1 — Mon 11-10 — SELLS only:** Step 1 below (PLTR/PDD/SBUX/MCD + MSFT &
+- **Day 1 — Mon 11-10 — SELLS only:** Step 1 below (PLTR/SBUX + MSFT &
   TSM trims). No buys today; cash already covers them.
 - **Day 2 — Tue 11-11 — BUYS:** Step 2 below (LRCX start, VWO, VO, VNQ).
 - **Day 3 — Wed 11-12 — SPYG tranche 1:** Step 3 below (SELL SPYG → VEA/BND/VB).
 
 Weeks 2-4 stay one SPYG tranche each Monday (11-17, 11-24, 12-01).
 
-### Step 1 — SELLS (do these first) · ~$57,028 remaining on 11-10 (PDD ~$11,872 done early)
+### Step 1 — SELLS (do these first) · ~$52,146 remaining on 11-10 (PDD ~$11,872 + MCD ~$4,882 done early)
 
 | # | Ticker | Action | Order type | Amount | Why |
 |---|--------|--------|-----------|-------:|-----|
 | 1 | PLTR | Sell ALL | market/marketable-limit | ~$7,949 | Take profit (unplanned winner) |
 | 2 | PDD | ✅ DONE 11-02 (pulled fwd) | — | ~$11,872 filled | Loser, Darwin gate fail — sold into +5% up-day (tax-free IRA) |
 | 3 | SBUX | Sell ALL | market — don't anchor on cost | ~$11,663 | Loser, Darwin gate fail |
-| 4 | MCD | Sell ALL | market/marketable-limit | ~$4,810 | Fold into index core |
+| 4 | MCD | ✅ DONE 11-02 (pulled fwd) | — | ~$4,882 filled | Fold into index core — sold into +1.9% up-day (tax-free IRA) |
 | 5 | MSFT | TRIM to **$48K cap** | marketable-limit | ~$30,026 | Keep ~$48K (~8.8%); higher cap for highest-conviction winner (Option B) |
 | 6 | TSM | TRIM to $3.5K | marketable-limit | ~$3,223 | Geopolitical-tail down-size |
-|   |   |   | **Sells subtotal** | **~$68,900** (PDD ~$11,872 DONE 11-02; **~$57,028 remaining on 11-10**) |   |
+|   |   |   | **Sells subtotal** | **~$68,900** (PDD ~$11,872 + MCD ~$4,882 DONE 11-02; **~$52,146 remaining on 11-10**) |   |
 
 ### Step 2 — BUYS (funded by cash on hand) · deploys ~$74,325
 
@@ -103,8 +103,8 @@ Weeks 2-4 stay one SPYG tranche each Monday (11-17, 11-24, 12-01).
 | Bucket | Cash in | Cash out |
 |--------|--------:|---------:|
 | Starting IRA cash (FDRXX) | +$54,530 | — |
-| PDD exit (already DONE 11-02, settling) | +$11,872 | — |
-| Step 1 remaining sells (PLTR/SBUX/MCD/MSFT/TSM trims) | +$57,028 | — |
+| PDD + MCD exits (DONE 11-02, settling) | +$16,754 | — |
+| Step 1 remaining sells (PLTR/SBUX/MSFT/TSM trims) | +$52,146 | — |
 | Step 2 buys | — | −$74,325 |
 | Step 3 (SPYG sell − buys) | +$44,029 | −$44,064 |
 | **End cash** | **~$49,070** (unchanged; PDD just moved ~$11.9K from the 11-10 column into cash-on-hand early) | |
@@ -116,14 +116,14 @@ VEA/BND/VB; trim toward the ~3% (~$15K) cash sleeve by the final week.
 
 Day 1 — Mon 11-10 (sells):
 - [x] PDD (all) — ✅ DONE 11-02, pulled forward into +5% up-day (~$11,872)
+- [x] MCD (all) — ✅ DONE 11-02, pulled forward into +1.9% up-day (~$4,882)
 - [ ] 1. Sell PLTR (all)
 - [ ] 2. Sell SBUX (all)
-- [ ] 3. Sell MCD (all)
-- [ ] 4. Trim MSFT → $48K cap (~$30,026)
-- [ ] 5. Trim TSM → $3.5K
+- [ ] 3. Trim MSFT → $48K cap (~$30,026)
+- [ ] 4. Trim TSM → $3.5K
 
 Day 2 — Tue 11-11 (buys):
-- [ ] 6. Start LRCX (limit ~$232-234)
+- [ ] 5. Start LRCX (limit ~$232-234)
 - [ ] 7. Buy VWO
 - [ ] 8. Buy VO
 - [ ] 9. Buy VNQ

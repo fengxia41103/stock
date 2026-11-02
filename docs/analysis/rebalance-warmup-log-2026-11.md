@@ -137,3 +137,25 @@ Bookkeeping:
   strength to sell into.
 
 Remaining Day-1 (11-10) sells: PLTR, SBUX, MCD, MSFT trim, TSM trim.
+
+#### 11-02 ~10:43am — EXECUTED: MCD full exit (pulled forward from 11-10)
+
+Sold ALL MCD (~18.577 sh). Fill ≈ **$262.8** (proceeds ~$4,882; Pending
+activity now $16,754 = PDD $11,872 + MCD $4,882). Sold into +1.9% up-day.
+
+Rationale (plan-consistent): MCD is a committed FULL exit in the governing
+70/30 doc ("fold into index core" — one of the few from the SPGI/LIN/PEP/PG
+group that stayed a sell; the others are KEEPS). +1.9% is a softer trigger than
+PDD's +5% and just under the ~2-3% guardrail, but MCD is low-vol (won't pop 5%)
+and it's a committed exit, so selling green is defensible — not front-running a
+keeper. User ready.
+
+Bookkeeping:
+- App DB: MCD position closed (matches Fidelity).
+- Schedule: MCD marked DONE (table/subtotal/header/cash-flow/Day-1 checklist);
+  remaining 11-10 sells now ~$52,146.
+- Cash: +$4,882 adds to the sleeve; does NOT change 11-10 buy funding.
+
+Remaining Day-1 (11-10): PLTR (full exit), SBUX (full exit), MSFT trim, TSM
+trim. (PLTR/SBUX still eligible to pull forward on a ≥~2-3% up-day; neither
+qualified today — PLTR +0.9%, SBUX −1.1%.)
