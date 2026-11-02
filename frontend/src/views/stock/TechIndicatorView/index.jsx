@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { dispose, init } from "klinecharts";
 
+import { usePortfolioHoldings } from "@/api";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import StarIcon from "@mui/icons-material/Star";
 import {
@@ -71,6 +72,7 @@ const TechIndicatorView = () => {
   const data = useContext(StockHistoricalContext);
   const stock = useContext(StockDetailContext);
   const symbol = stock && stock.symbol;
+  const { data: holdings } = usePortfolioHoldings();
   const containerRef = useRef(null);
   const chartRef = useRef(null);
 
@@ -106,8 +108,8 @@ const TechIndicatorView = () => {
   const overall = useMemo(() => {
     if (!Array.isArray(data) || data.length === 0) return null;
     const v = combinedVerdict(toKLineData(data));
-    return applyStrategy(v, symbol);
-  }, [data, symbol]);
+    return applyStrategy(v, symbol, holdings);
+  }, [data, symbol, holdings]);
 
   const handleChange = (e) => {
     const key = e.target.value;
@@ -231,8 +233,8 @@ const TechIndicatorView = () => {
                   color={
                     overall.planRole === "satellite"
                       ? "primary"
-                      : overall.planRole === "sell"
-                        ? "error"
+                      : overall.planRole === "core"
+                        ? "success"
                         : "default"
                   }
                   variant="outlined"

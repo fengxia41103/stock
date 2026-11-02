@@ -1,95 +1,101 @@
-// Maps a ticker to the user's own strategy + allocation plan so the chart's
-// combined verdict can speak in the plan's language, not generic TA.
+// Aligns the chart's combined verdict with the user's strategy + allocation,
+// reading the LIVE portfolio (the source of truth) rather than a static plan.
 //
-// Source of truth: docs/analysis/allocation-decision-2026-10-30.md
-// (incl. the 2026-11-01 70/30 revision) and the Oct-30 bad-day-dip notes.
-// This is the user's chosen plan, re-stated for the UI — analysis, not advice.
+// Role is derived from current holdings so it self-maintains after a rebalance:
+//   • not held          -> research only (no thesis / not in the book yet)
+//   • held, broad ETF   -> core index sleeve: rebalance on schedule, not on TA
+//   • held, single name -> satellite (conviction): weakness feeds scale-in,
+//                          sized within the per-name cap; show room vs cap
 //
-// role:
-//   "core"      index ETFs — don't time with TA; rebalance on the schedule.
-//   "satellite" conviction single names, each capped ~$30K; add on weakness.
-//   "sell"      losers / take-profit — being exited; TA dips are not buys.
+// Forward intent like "being exited" is NOT guessed from holdings — once a
+// position is sold the symbol simply drops to "not held", which is correct.
 //
-// note: a short, stock-specific reminder appended to the verdict advice.
+// Reference data that does NOT drift with the portfolio: the set of broad
+// index ETFs (an ETF stays an ETF) and the per-name satellite cap. These are
+// policy constants, not position data. Update CAP if the plan's cap changes.
 
-const PLAN = {
-  // --- Core index sleeve (~70%): do not time these ---
-  VOO: { role: "core" },
-  SPYG: { role: "core", note: "Being staged down (SPYG→diversified over 4 weeks). Follow the schedule, not the chart." },
-  VO: { role: "core" },
-  VB: { role: "core" },
-  VEA: { role: "core", note: "A buy target in the rebalance (int'l developed, under-weight). Accumulate on the schedule." },
-  VWO: { role: "core" },
-  BND: { role: "core", note: "Bond sleeve — glide toward 20-25% by 2036. TA doesn't apply." },
-  VNQ: { role: "core" },
+// Per-name satellite cap from the allocation plan (~$30K/name).
+const SATELLITE_CAP = 30000;
 
-  // --- Satellite sleeve (~30%, ≤$30K/name): add quality on weakness ---
-  MSFT: { role: "satellite", note: "At the $30K cap — hold, don't add even on weakness (cap controls concentration)." },
-  MA: { role: "satellite" },
-  V: { role: "satellite" },
-  RCL: { role: "satellite" },
-  LIN: { role: "satellite", note: "Quality non-tech compounder kept for diversification." },
-  PG: { role: "satellite", note: "Quality non-tech staple kept for diversification." },
-  PEP: { role: "satellite", note: "Quality non-tech staple kept for diversification." },
-  SPGI: { role: "satellite", note: "Quality non-tech (financial data) kept for diversification." },
-  TXN: { role: "satellite", note: "Thesis confirmed (analog-duopoly moat); entered on the inventory-cycle turn." },
-  GOOGL: { role: "satellite", note: "Under-weight + pre-authorized staged add toward 5-6% (Darwin PASS, clean PE ~14). Weakness is a tranche opportunity IF the capex-payback thesis holds." },
-  LRCX: { role: "satellite", note: "Small starter with room to add lower until the AI-capex question resolves — weakness improves the entry." },
-  TSM: { role: "satellite", note: "Geopolitical-tail rule: keep small, accumulate only on further weakness; being trimmed toward ~$3.5K." },
+// Broad index ETFs used as the core sleeve. This is instrument reference data
+// (stable), not holdings data — holdings/values come from the API.
+const CORE_ETFS = new Set([
+  "VOO", "SPYG", "VO", "VB", "VEA", "VWO", "BND", "VNQ", "VTI", "SPY", "QQQ",
+  "AGG", "SCHB", "IVV",
+]);
 
-  // --- Being exited: dips are not buy signals here ---
-  PLTR: { role: "sell", note: "Taking profit (unplanned +675% winner, no entry thesis) — exiting, not adding." },
-  PDD: { role: "sell", note: "Loser failing the Darwin gate — being sold. A dip is not a buy." },
-  SBUX: { role: "sell", note: "Trim/exit candidate — resolve on a calm day, not a panic dip." },
-  MCD: { role: "sell", note: "Folding into the index core — not a satellite add." },
-};
-
-export function planFor(symbol) {
-  if (!symbol) return null;
-  return PLAN[String(symbol).toUpperCase()] || null;
+// Given live holdings { positions: [...] }, build symbol -> position lookup.
+export function indexHoldings(holdings) {
+  const map = {};
+  const positions = (holdings && holdings.positions) || [];
+  for (const p of positions) {
+    if (p && p.symbol) map[String(p.symbol).toUpperCase()] = p;
+  }
+  return map;
 }
 
-// Overlay the plan onto a combined verdict: adjust the "what to do" line so it
-// reflects this stock's role in the allocation, not just the TA reading.
-export function applyStrategy(verdict, symbol) {
+const fmtUsd = (n) =>
+  n == null
+    ? ""
+    : `$${Math.round(n).toLocaleString("en-US")}`;
+
+// Overlay the plan onto a combined verdict using live holdings.
+export function applyStrategy(verdict, symbol, holdings) {
   if (!verdict) return verdict;
-  const plan = planFor(symbol);
-  if (!plan) {
-    // Unknown ticker (e.g. a watchlist name not in the plan).
+  const sym = symbol ? String(symbol).toUpperCase() : null;
+  const bySym = indexHoldings(holdings);
+  const pos = sym ? bySym[sym] : null;
+  const held = pos && (pos.market_value || 0) > 0;
+
+  // Not held -> research only.
+  if (!held) {
     return {
       ...verdict,
-      planLabel: "Not in your plan",
-      advice: `${verdict.advice} (This name isn't in your allocation plan — treat as research only until it earns a thesis.)`,
+      planLabel: "Not held",
+      planRole: "none",
+      advice: `${verdict.advice} (You don't hold ${sym || "this name"} — treat as research only until it earns a thesis and a place in the plan.)`,
     };
   }
 
-  const roleLabel =
-    plan.role === "core"
-      ? "Core / index"
-      : plan.role === "satellite"
-        ? "Satellite (conviction)"
-        : "Being exited";
+  const mv = pos.market_value || 0;
+  const isCore = CORE_ETFS.has(sym);
 
-  let lead;
-  if (plan.role === "core") {
-    lead =
-      "This is a core index holding — you rebalance it on a fixed schedule, you don't trade it on technicals. The chart is context only.";
-  } else if (plan.role === "sell") {
-    lead =
-      "This is on your exit list — a technical dip is NOT a buy signal here; it's being sold per the plan.";
-  } else {
-    // satellite: TA actually feeds the scale-in decision
-    lead =
-      verdict.tone === "good"
-        ? "Satellite name on weakness — the setup your scale-in rule likes. Size within the ~$30K cap and confirm valuation (margin of safety) before adding."
-        : verdict.tone === "warn"
-          ? "Satellite name — hold; don't add here. Wait for weakness + a valuation case within the ~$30K cap."
-          : "Satellite name — let valuation lead; the chart alone isn't a trigger.";
+  if (isCore) {
+    return {
+      ...verdict,
+      planLabel: "Core / index",
+      planRole: "core",
+      advice: `This is a core index holding (${fmtUsd(mv)}) — you rebalance it on your fixed schedule, you don't trade it on technicals. The chart is context only. TA read: ${verdict.advice}`,
+    };
   }
 
-  const advice = plan.note
-    ? `${lead} ${plan.note} — TA read: ${verdict.advice}`
-    : `${lead} TA read: ${verdict.advice}`;
+  // Satellite (conviction single name): TA feeds the scale-in decision.
+  const room = SATELLITE_CAP - mv;
+  const capNote =
+    room > 1000
+      ? `Room to add ~${fmtUsd(room)} within the ${fmtUsd(SATELLITE_CAP)} cap.`
+      : room > 0
+        ? `Near the ${fmtUsd(SATELLITE_CAP)} cap — little room left.`
+        : `At/over the ${fmtUsd(SATELLITE_CAP)} cap — hold, don't add.`;
 
-  return { ...verdict, planLabel: roleLabel, planRole: plan.role, advice };
+  let lead;
+  if (room <= 0) {
+    lead =
+      "Satellite name at its cap — hold; the cap controls concentration, so don't add even on weakness.";
+  } else if (verdict.tone === "good") {
+    lead =
+      "Satellite name on weakness — the setup your scale-in rule likes. Confirm valuation (margin of safety) before adding.";
+  } else if (verdict.tone === "warn") {
+    lead =
+      "Satellite name — hold; don't add here. Wait for weakness plus a valuation case.";
+  } else {
+    lead = "Satellite name — let valuation lead; the chart alone isn't a trigger.";
+  }
+
+  return {
+    ...verdict,
+    planLabel: "Satellite (conviction)",
+    planRole: "satellite",
+    advice: `${lead} Current: ${fmtUsd(mv)}. ${capNote} TA read: ${verdict.advice}`,
+  };
 }

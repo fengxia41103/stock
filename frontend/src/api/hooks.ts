@@ -221,3 +221,9 @@ export function useRetirementTimeseries(age: number, options = {}) {
     options,
   );
 }
+
+// Live portfolio positions (source of truth for holdings/values). Returns
+// { positions: [{ symbol, market_value, total_cost, pnl_pct, ... }], summary }.
+export function usePortfolioHoldings(options = {}) {
+  return useResource("portfolio-holdings", "/portfolio/holdings/", options);
+}
