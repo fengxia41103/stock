@@ -200,3 +200,26 @@ tranche proceeds per schedule.
 
 Today's diversification progress: BND 4.5% + VEA 3.6% started from zero.
 Remaining non-US/bond/real-asset legs resume 11-10.
+
+#### 11-02 ~11:03am — EXECUTED: PLTR full exit (take profit, pulled forward)
+
+Sold ALL PLTR (43 sh). Fill ≈ **$185.2** (proceeds ~$7,963). Total G/L was
++675% on a ~$1,025 cost basis.
+
+Rationale: PLTR is a committed FULL exit in the governing strategy ("take
+profit — one-off win, never planned; no entry thesis"). Today's move was only
++0.4% (below the ~2-3% guardrail), so this was NOT a "sell into strength" call
+— it was a deliberate risk-reduction exit of an outsized +675% winner with real
+give-back risk. User decided. Honest note: with a committed full exit, the
+guardrail is advisory; the exit itself is plan-consistent regardless of the
+day's move.
+
+Bookkeeping:
+- App DB: PLTR position closed (matches Fidelity).
+- Schedule: PLTR marked DONE (table/subtotal/header/cash-flow/Day-1 checklist);
+  remaining 11-10 sells now ~$44,183.
+- Cash: +$7,963 proceeds REBUILT the cushion — pending moved -$28,246 ->
+  -$20,283; effective cash ~$34,247, comfortably above the ~$15K sleeve.
+
+Remaining Day-1 (11-10): SBUX (full exit), MSFT trim, TSM trim. SBUX still
+eligible to pull forward on a ≥~2-3% up-day (was -0.94% today).
