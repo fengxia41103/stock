@@ -346,3 +346,164 @@ export function summarizeIndicator(spec, bars) {
     scope: `Based on ${bars.length} bars in view.`,
   };
 }
+
+// --- combined verdict ------------------------------------------------------
+//
+// Fuses the four dimensions below into ONE clear top-line call, so a user
+// doesn't need to know which chart to read in which context:
+//   • Trend   (MA 10 vs 30, price vs averages)  -> direction
+//   • Momentum(RSI, MACD histogram)             -> oversold / overbought / rolling
+//   • Stretch (Bollinger %B, BIAS)              -> how extended vs its own range
+//   • Volume  (latest vs avg, up/down)          -> conviction behind the move
+//
+// Decision logic mirrors the strategy: DIRECTION first, then STRETCH, then the
+// valuation caveat. "Down but oversold" => caution (falling knife), not a buy.
+
+function trendState(bars) {
+  const c = closes(bars);
+  const fast = sma(c, 10);
+  const slow = sma(c, 30);
+  if (fast == null || slow == null) return 0;
+  const price = last(c);
+  if (fast > slow && price > slow) return 1; // up
+  if (fast < slow && price < slow) return -1; // down
+  return 0; // mixed
+}
+
+function momentumState(bars) {
+  const v = rsi(closes(bars));
+  if (v == null) return { score: 0, rsi: null };
+  let score = 0;
+  if (v < 30) score = -2; // oversold (selling exhausted)
+  else if (v <= 40) score = -1;
+  else if (v >= 70) score = 2; // overbought
+  else if (v >= 55) score = 1;
+  return { score, rsi: round(v, 1) };
+}
+
+function stretchState(bars) {
+  const c = closes(bars);
+  const mid = sma(c, 20);
+  const sd = stdev(c, 20);
+  if (mid == null || sd == null) return 0;
+  const pctB = (last(c) - (mid - 2 * sd)) / (4 * sd); // 0 low band .. 1 high band
+  if (pctB <= 0.1) return -1; // stretched low
+  if (pctB >= 0.9) return 1; // stretched high
+  return 0;
+}
+
+function volumeState(bars) {
+  const vols = bars.map((b) => b.volume || 0);
+  const avg = sma(vols, Math.min(20, vols.length));
+  if (!avg) return { heavy: false, up: null };
+  const ratio = last(vols) / avg;
+  return { heavy: ratio >= 1.5, up: last(bars).close >= last(bars).open };
+}
+
+export function combinedVerdict(bars) {
+  if (!bars || bars.length < 15) return null;
+
+  const trend = trendState(bars); // -1 / 0 / 1
+  const mom = momentumState(bars); // {score, rsi}
+  const stretch = stretchState(bars); // -1 / 0 / 1
+  const vol = volumeState(bars); // {heavy, up}
+
+  const factors = [];
+  factors.push({
+    label: "Trend",
+    text: trend > 0 ? "Uptrend" : trend < 0 ? "Downtrend" : "Sideways / turning",
+    tone: trend > 0 ? "good" : trend < 0 ? "bad" : "warn",
+  });
+  factors.push({
+    label: "Momentum",
+    text:
+      mom.rsi == null
+        ? "n/a"
+        : mom.score <= -2
+          ? `Oversold (RSI ${mom.rsi})`
+          : mom.score >= 2
+            ? `Overbought (RSI ${mom.rsi})`
+            : `Neutral (RSI ${mom.rsi})`,
+    tone: mom.score <= -2 ? "good" : mom.score >= 2 ? "warn" : "neutral",
+  });
+  factors.push({
+    label: "Stretch",
+    text:
+      stretch < 0
+        ? "Stretched low"
+        : stretch > 0
+          ? "Stretched high"
+          : "Mid-range",
+    tone: stretch < 0 ? "good" : stretch > 0 ? "warn" : "neutral",
+  });
+  factors.push({
+    label: "Volume",
+    text: vol.heavy
+      ? vol.up
+        ? "Heavy buying"
+        : "Heavy selling"
+      : "Normal",
+    tone: vol.heavy ? (vol.up ? "good" : "bad") : "neutral",
+  });
+
+  // --- decide the single headline (direction first) ---
+  let tone;
+  let headline;
+  let advice;
+
+  if (trend > 0) {
+    // Uptrend
+    if (mom.score >= 2 || stretch > 0) {
+      tone = "warn";
+      headline = "Uptrend, but extended";
+      advice =
+        "Healthy trend yet stretched to the upside. Hold; don't chase — a better add comes on a pullback.";
+    } else if (mom.score <= -2 || stretch < 0) {
+      tone = "good";
+      headline = "Uptrend, pulled back";
+      advice =
+        "The best setup for your style: a quality name in an uptrend that just dipped. Confirm valuation, then this is a candidate to scale in.";
+    } else {
+      tone = "good";
+      headline = "Healthy uptrend";
+      advice = "Trend is up and not stretched. Fine to hold; add on dips, not here.";
+    }
+  } else if (trend < 0) {
+    // Downtrend
+    if (mom.score <= -2 || stretch < 0) {
+      tone = "warn";
+      headline = "Falling, but oversold";
+      advice =
+        "This is the tricky one: price is in a downtrend AND oversold — a possible bounce, but 'oversold can stay oversold.' Do NOT buy on the oversold reading alone. Your rule: RSI-oversold is not Graham-cheap if it fell from a bubble. Do the valuation work first.";
+    } else if (vol.heavy && !vol.up) {
+      tone = "bad";
+      headline = "Falling on heavy volume";
+      advice =
+        "Downtrend with conviction selling behind it — an alarming combination. Stand aside; let it stabilize before considering anything.";
+    } else {
+      tone = "bad";
+      headline = "Downtrend";
+      advice =
+        "Direction is down and not yet stretched. Catching this is a falling knife — wait for stabilization or a clear valuation case.";
+    }
+  } else {
+    // Sideways / transitioning
+    if (mom.score <= -2 || stretch < 0) {
+      tone = "neutral";
+      headline = "Basing, leaning oversold";
+      advice =
+        "No clear trend, but momentum is washed out. Watch for a turn; a confirmed uptrend off this base is a cleaner entry than guessing the bottom.";
+    } else if (mom.score >= 2 || stretch > 0) {
+      tone = "warn";
+      headline = "Rangebound, near the top";
+      advice = "Choppy and extended within its range. No edge to act on — wait.";
+    } else {
+      tone = "neutral";
+      headline = "No clear signal";
+      advice =
+        "Trend and momentum are both neutral. Nothing actionable from the charts right now; let valuation drive the decision.";
+    }
+  }
+
+  return { tone, headline, advice, factors, scope: `Based on ${bars.length} bars.` };
+}

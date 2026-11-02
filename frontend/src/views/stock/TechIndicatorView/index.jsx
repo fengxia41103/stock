@@ -22,7 +22,7 @@ import {
 import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
 
 import { INDICATOR_MAP, INDICATORS, STARTERS } from "./indicators";
-import { summarizeIndicator } from "./summarize";
+import { summarizeIndicator, combinedVerdict } from "./summarize";
 
 // Legacy route keys from the old nav menu -> registry keys.
 const LEGACY_ALIAS = { stochastics: "kdj", elder: "ema", sar: "sar" };
@@ -96,6 +96,12 @@ const TechIndicatorView = () => {
     const scoped = spec.special === "heikin" ? toHeikinAshi(bars) : bars;
     return summarizeIndicator(spec, scoped);
   }, [data, spec]);
+
+  // Combined, indicator-independent top-line verdict over the full window.
+  const overall = useMemo(() => {
+    if (!Array.isArray(data) || data.length === 0) return null;
+    return combinedVerdict(toKLineData(data));
+  }, [data]);
 
   const handleChange = (e) => {
     const key = e.target.value;
@@ -187,6 +193,59 @@ const TechIndicatorView = () => {
   return (
     <Card>
       <CardContent>
+        {overall && (
+          <Box
+            sx={{
+              mb: 2,
+              p: 2,
+              borderRadius: 1,
+              border: 2,
+              borderColor: TONE[overall.tone].color,
+              bgcolor: "action.hover",
+            }}
+          >
+            <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5 }}>
+              <Typography sx={{ fontSize: 22, lineHeight: 1 }}>
+                {TONE[overall.tone].emoji}
+              </Typography>
+              <Typography
+                variant="h6"
+                fontWeight={800}
+                sx={{ color: TONE[overall.tone].color }}
+              >
+                {overall.headline}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                · overall read
+              </Typography>
+            </Stack>
+            <Typography variant="body2" sx={{ color: "text.primary", mb: 1 }}>
+              {overall.advice}
+            </Typography>
+            <Stack
+              direction="row"
+              spacing={1}
+              useFlexGap
+              flexWrap="wrap"
+              sx={{ mb: 0.5 }}
+            >
+              {overall.factors.map((f) => (
+                <Chip
+                  key={f.label}
+                  size="small"
+                  variant="outlined"
+                  label={`${f.label}: ${f.text}`}
+                  sx={{ borderColor: TONE[f.tone].color, color: TONE[f.tone].color }}
+                />
+              ))}
+            </Stack>
+            <Typography variant="caption" color="text.secondary">
+              {overall.scope} Combines trend, momentum, stretch and volume. A
+              data read of the chart, not financial advice.
+            </Typography>
+          </Box>
+        )}
+
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={2}
