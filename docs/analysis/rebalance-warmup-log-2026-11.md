@@ -68,7 +68,25 @@ Monitoring note: the overnight `monitor_overnight` loop was NOT left running
 last night, so there is no intraday time-series — only point captures. Leave
 it running tonight for the evolving view.
 
-TODO today: re-capture HOLDINGS after 9:30 (ideally ~9:45) for an accurate
-per-name open read; update this entry with how the names actually opened and
-recompute the rebalance trade sizes (MSFT trim, SPYG tranche, LRCX entry)
-against live prices.
+Live open read (~9:31am ET, first REGULAR-session prints) — broad risk-on,
+semis & growth leading, confirming the overnight wind:
+- Leaders: PDD +2.12%, PLTR +1.87%, TSM +1.46% (Korea tell paid off),
+  RCL +1.24%, TXN +0.97%.
+- Mega/core: GOOGL +0.74%, MSFT +0.73% ($525.17), SPYG +0.54% ($117.18),
+  VOO +0.33%, V +0.10%.
+- Defensives muted (PEP +0.12%, PG +0.39%), MCD −0.07% lone red — classic
+  risk-on signature. No ugly gaps anywhere in the book.
+
+Recomputed trade sizes vs live open prices (execution is 11-10; these are
+sizing checks, NOT orders to place today):
+- **MSFT trim:** value ≈ $78,596 (base $78,026 × +0.73%). Option-B keep ~$48K
+  → sell ≈ **$30,600 ≈ ~58 sh** at $525.17 (leaves ~$48K / ~8.8%).
+- **SPYG tranche:** fixed ~$44K per tranche → ≈ **~375 sh** at $117.18.
+  Cadence unchanged (4 tranches: 11-12, 11-17, 11-24, 12-01).
+- **LRCX entry:** limit ~$232-234 still sensible. Semis running hot at the
+  open (TSM/TXN up ~1-1.5%) — do NOT chase; keep the limit, add lower if it
+  doesn't fill.
+
+Caveats: opening-minute prints are volatile; a ~9:45 or after-close recapture
+gives steadier numbers. Share counts are approximate — finalize at the screen
+on 11-10 against that day's prices.
