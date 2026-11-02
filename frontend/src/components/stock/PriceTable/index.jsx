@@ -7,54 +7,70 @@ const PriceTable = (props) => {
   const { data } = props;
 
   const columns = [
-    { field: "on", headerName: "Date", width: 150 },
+    { field: "on", headerName: "Date", flex: 1, minWidth: 110 },
     {
       field: "open_price",
       headerName: "Open",
       type: "number",
       sortable: true,
+      flex: 1,
+      minWidth: 90,
     },
     {
       field: "close_price",
       headerName: "Close",
       type: "number",
       sortable: true,
+      flex: 1,
+      minWidth: 90,
     },
     {
       field: "high_price",
       headerName: "High",
       type: "number",
       sortable: true,
+      flex: 1,
+      minWidth: 90,
     },
     {
       field: "low_price",
       headerName: "Low",
       type: "number",
       sortable: true,
+      flex: 1,
+      minWidth: 90,
     },
     {
       field: "adj_close",
       headerName: "Adjusted Close",
       type: "number",
       sortable: true,
+      flex: 1,
+      minWidth: 120,
     },
     {
       field: "vol",
       headerName: "Volumn (000)",
       type: "number",
       sortable: true,
+      flex: 1,
+      minWidth: 110,
     },
     {
       field: "last_lower",
       headerName: "Last Lower (days)",
       type: "number",
       sortable: true,
+      flex: 1,
+      minWidth: 130,
     },
     {
       field: "next_better",
       headerName: "Next Better (days)",
       type: "number",
       sortable: true,
+      flex: 1,
+      minWidth: 140,
     },
   ];
 
