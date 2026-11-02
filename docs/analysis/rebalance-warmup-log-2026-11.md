@@ -48,3 +48,27 @@ bonds; ~3% (~$15K) cash sleeve. Full plan:
   (execute week of 11-10); Week-1 split Day1 sells / Day2 buys / Day3 SPYG.
 - Next check: Mon 2026-11-02 after close (first live data point of the
   warm-up week).
+
+### 2026-11-02 (Mon) — pre-open read (~9:20am ET)
+
+World / overnight wind (fresh capture): **constructive, tech-led.**
+- US futures green into the open: S&P (ES=F) ~7,655, Nasdaq (NQ=F) ~28,770,
+  Dow (YM=F) ~52,271; firmer than the 7:30am read. VIX ~19.1 and falling —
+  risk appetite improving.
+- Asia (closed): KOSPI +2.24%, Shanghai +1.08%, Hang Seng +0.42% — risk-on,
+  Korean semis strong (tell for TSM/LRCX/TXN). Nikkei −0.33% laggard.
+- Europe (open): FTSE/DAX/Euro Stoxx ~flat-to-slightly-green — no drag.
+- Net: mild tailwind for the semi sleeve + tech (MSFT/GOOGL) at the open.
+
+Data caveat: individual-stock PRE-market prints from yahooquery were stale
+at 9:20am (echoing prior close + last night's after-hours), so NO reliable
+per-name pre-market read yet. Reliable signal pre-open = index futures only.
+
+Monitoring note: the overnight `monitor_overnight` loop was NOT left running
+last night, so there is no intraday time-series — only point captures. Leave
+it running tonight for the evolving view.
+
+TODO today: re-capture HOLDINGS after 9:30 (ideally ~9:45) for an accurate
+per-name open read; update this entry with how the names actually opened and
+recompute the rebalance trade sizes (MSFT trim, SPYG tranche, LRCX entry)
+against live prices.
