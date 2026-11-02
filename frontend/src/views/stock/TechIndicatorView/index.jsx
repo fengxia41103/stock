@@ -20,9 +20,11 @@ import {
 } from "@mui/material";
 
 import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
+import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 import { INDICATOR_MAP, INDICATORS, STARTERS } from "./indicators";
 import { summarizeIndicator, combinedVerdict } from "./summarize";
+import { applyStrategy } from "./strategy";
 
 // Legacy route keys from the old nav menu -> registry keys.
 const LEGACY_ALIAS = { stochastics: "kdj", elder: "ema", sar: "sar" };
@@ -67,6 +69,8 @@ const TechIndicatorView = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const data = useContext(StockHistoricalContext);
+  const stock = useContext(StockDetailContext);
+  const symbol = stock && stock.symbol;
   const containerRef = useRef(null);
   const chartRef = useRef(null);
 
@@ -97,11 +101,13 @@ const TechIndicatorView = () => {
     return summarizeIndicator(spec, scoped);
   }, [data, spec]);
 
-  // Combined, indicator-independent top-line verdict over the full window.
+  // Combined, indicator-independent top-line verdict over the full window,
+  // then overlaid with this stock's role in the user's allocation plan.
   const overall = useMemo(() => {
     if (!Array.isArray(data) || data.length === 0) return null;
-    return combinedVerdict(toKLineData(data));
-  }, [data]);
+    const v = combinedVerdict(toKLineData(data));
+    return applyStrategy(v, symbol);
+  }, [data, symbol]);
 
   const handleChange = (e) => {
     const key = e.target.value;
@@ -218,6 +224,20 @@ const TechIndicatorView = () => {
               <Typography variant="caption" color="text.secondary">
                 · overall read
               </Typography>
+              {overall.planLabel && (
+                <Chip
+                  size="small"
+                  label={overall.planLabel}
+                  color={
+                    overall.planRole === "satellite"
+                      ? "primary"
+                      : overall.planRole === "sell"
+                        ? "error"
+                        : "default"
+                  }
+                  variant="outlined"
+                />
+              )}
             </Stack>
             <Typography variant="body2" sx={{ color: "text.primary", mb: 1 }}>
               {overall.advice}
