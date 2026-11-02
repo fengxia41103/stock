@@ -33,6 +33,7 @@ import {
 import { useResource } from "@/api";
 import api from "@/api/client";
 import { Page } from "@/components/shared";
+import PageHelp from "@/components/shared/PageHelp";
 
 const StatCard = ({ label, value, color }) => (
   <Paper
@@ -195,6 +196,7 @@ const BacktestView = () => {
 
   return (
     <Page title="Backtest">
+      <PageHelp pageName="Backtest" />
       <Container maxWidth={false}>
         <Grid container spacing={2}>
           {/* Left: Setup */}

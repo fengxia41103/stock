@@ -21,6 +21,7 @@ import {
 
 import { useRetirementTimeseries } from "@/api";
 import { HighchartGraph, Page } from "@/components/shared";
+import PageHelp from "@/components/shared/PageHelp";
 
 // Chartable metrics; label + whether it's a dollar or currency/month value.
 const METRICS = [
@@ -56,6 +57,7 @@ const RetirementHistoryView = () => {
 
   return (
     <Page title="Retirement History">
+      <PageHelp pageName="RetirementHistory" />
       <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
         <Button
           variant="outlined"

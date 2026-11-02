@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 
 import { useResource, useStocksOverview } from "@/api";
+import PageHelp from "@/components/shared/PageHelp";
 
 const GREEN = "#10b981";
 const RED = "#ef4444";
@@ -403,6 +404,8 @@ const ChartsGridView = () => {
       <Typography variant="h5" fontWeight={700} mb={2}>
         Charts & Analysis
       </Typography>
+
+      <PageHelp pageName="Charts" />
 
       <Grid container spacing={2} alignItems="stretch">
         {/* RSI Heatmap */}

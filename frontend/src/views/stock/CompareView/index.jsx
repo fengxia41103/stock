@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 
 import { useResource, useStocksOverview } from "@/api";
+import PageHelp from "@/components/shared/PageHelp";
 
 const GREEN = "#10b981";
 const RED = "#ef4444";
@@ -254,6 +255,8 @@ const CompareView = () => {
       <Typography variant="h5" fontWeight={700} mb={2}>
         Compare Stocks
       </Typography>
+
+      <PageHelp pageName="Compare" />
 
       <Autocomplete
         multiple

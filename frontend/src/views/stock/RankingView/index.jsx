@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 
 import { Page } from "@/components/shared";
+import PageHelp from "@/components/shared/PageHelp";
 
 import StockRanking from "@Components/stock/StockRanking";
 
@@ -89,6 +90,7 @@ const RankingView = () => {
   // render
   return (
     <Page title="Rankings">
+      <PageHelp pageName="Rankings" />
       <Container maxWidth={false}>
         <Typography variant="h1">Stock Rankings</Typography>
         <Box mt={3}>

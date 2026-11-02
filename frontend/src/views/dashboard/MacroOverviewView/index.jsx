@@ -13,6 +13,7 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useResource } from "@/api";
 import { Page } from "@/components/shared";
+import PageHelp from "@/components/shared/PageHelp";
 
 const CATEGORIES = {
   rates: "Interest Rates",
@@ -49,6 +50,7 @@ const MacroOverviewView = () => {
 
   return (
     <Page title="Macro Indicators">
+      <PageHelp pageName="Macro" />
       <Container maxWidth={false}>
         {Object.entries(CATEGORIES).map(([cat, title]) => {
           const items = grouped[cat];

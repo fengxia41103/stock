@@ -7,6 +7,7 @@ import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material";
 
 import { useDiaries, useDiaryStats, useStocks } from "@/api";
 import { Page } from "@/components/shared";
+import PageHelp from "@/components/shared/PageHelp";
 
 import DiaryCardCompact from "@Components/diary/DiaryCardCompact";
 import DiaryDetail from "@Components/diary/DiaryDetail";
@@ -83,6 +84,7 @@ const DiaryListView = () => {
   if (diariesLoading || stocksLoading) {
     return (
       <Page title="Notes">
+      <PageHelp pageName="Notes" />
         <Container maxWidth={false}>
           <ScaleLoader loading />
         </Container>

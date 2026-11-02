@@ -1,0 +1,189 @@
+{
+  "Retirement": {
+    "title": "About the retirement planner",
+    "sections": [
+      {
+        "heading": "What this page does",
+        "content": "Projects your retirement income year by year from four separate sources — **Social Security**, a **defined-benefit pension**, your **rollover/IRA**, and employer **DC plans (401(k)/457)** — then compares retiring at different ages and finds the income-optimal age.\n\nThis is a **planning model, not financial or tax advice**. Verify pension rules with your plan administrator and Social Security figures at ssa.gov."
+      },
+      {
+        "heading": "Assumptions",
+        "content": "Edit your inputs on the left. Rate fields (pension accrual, salary growth, withdrawal rate, returns, COLA, tax) are entered as **percentages** but stored internally as decimals.\n\n- **Recompute** previews the current inputs *without saving* — iterate freely on what-ifs.\n- **Save profile** persists the inputs to your account, then recomputes."
+      },
+      {
+        "heading": "Pension & vesting",
+        "content": "Your pension uses an **employment start date** + years of service. The vesting chip shows how many more years you need before you qualify for any pension benefit, and the date you reach it. The pension formula is `final-average-salary × accrual × years of service ÷ 12`, with an early-retirement reduction if you retire before the unreduced-eligibility milestones."
+      },
+      {
+        "heading": "Scenarios & optimal age",
+        "content": "The scenario table compares retiring at 62 / 67 / 70: service years, the combined pool at retirement, pension, Social Security, and first-year net monthly income. The optimizer sweeps ages and reports the age that maximizes **present-value** lifetime net income and the age that maximizes **nominal** total — working longer grows the pool and benefits, but each extra year buys less."
+      },
+      {
+        "heading": "Allocation & snapshots",
+        "content": "Upload a positions statement (Fidelity CSV / Empower PDF) to reprice your holdings against the app's own live prices and see your **household allocation vs target**, with drift and the dollars needed to rebalance.\n\n**Save snapshot** freezes the current inputs + results so you can chart how your outlook changes over time under **History**."
+      },
+      {
+        "heading": "Privacy",
+        "content": "Your real financial numbers live only in your local database, scoped to your account. Uploaded statements are parsed in memory and never stored."
+      }
+    ]
+  },
+  "RetirementHistory": {
+    "title": "About retirement history",
+    "sections": [
+      {
+        "heading": "What it shows",
+        "content": "Each time you click **Save snapshot** on the planner, a timestamped point is stored. This page charts a chosen metric across those snapshots so you can see how your retirement outlook trends over time as markets move and you update assumptions."
+      },
+      {
+        "heading": "Toggles",
+        "content": "- **Retire age** (62 / 67 / 70) selects which scenario's numbers to plot.\n- **Metric** switches between net/mo, gross/mo, pool, IRA, DC, and pension. The table below lists every snapshot with its key figures and the optimal age at the time."
+      }
+    ]
+  },
+  "Compare": {
+    "title": "About comparing stocks",
+    "sections": [
+      {
+        "heading": "What this page does",
+        "content": "Pick up to 5 stocks and compare them side by side across price performance, returns, and fundamentals. Each stock keeps a consistent color across every chart and the table."
+      },
+      {
+        "heading": "Normalized price performance",
+        "content": "All selected stocks are **rebased to 100** at the start of the window (about one year), so you compare *percentage* moves rather than absolute dollar prices. A line above 100 is up over the period; the dashed line marks the starting level."
+      },
+      {
+        "heading": "Return over period & fundamentals",
+        "content": "- **Return over period** bars show each stock's total price change (first → last close), green for gains and red for losses.\n- The **valuation & quality** bars compare P/E, P/B, ROE, and Beta so you can see which name is cheaper or higher quality at a glance.\n- The table below gives the exact numbers, including daily return, last-lower days, and insider sentiment."
+      }
+    ]
+  },
+  "Charts": {
+    "title": "About the charts grid",
+    "sections": [
+      {
+        "heading": "What it shows",
+        "content": "A dashboard of your tracked stocks: an **RSI heatmap** (momentum), **sector performance**, and a multi-stock performance comparison — a quick visual scan of where things stand today."
+      },
+      {
+        "heading": "RSI heatmap",
+        "content": "RSI (Relative Strength Index, 14-day) measures momentum on a 0–100 scale. Roughly: **above 70** is often considered overbought, **below 30** oversold. The heatmap colors each stock by its current RSI so extremes stand out."
+      },
+      {
+        "heading": "Sector performance",
+        "content": "Groups your stocks by sector and shows each sector's average daily return, so you can see which parts of your watchlist are leading or lagging."
+      }
+    ]
+  },
+  "Technicals": {
+    "title": "About technicals",
+    "sections": [
+      {
+        "heading": "What it shows",
+        "content": "Computes technical indicators across all your tracked stocks: **RSI(14)**, **SMA50 / SMA200** (50- and 200-day simple moving averages), and **Bollinger Band position**. Use it to screen for momentum and trend conditions in one place."
+      },
+      {
+        "heading": "Reading the signals",
+        "content": "- **Price vs SMA50/SMA200**: price above both is a classic uptrend; a 50-crossing-above-200 is a \"golden cross.\"\n- **RSI**: >70 overbought, <30 oversold.\n- **Bollinger position**: where price sits between the lower (0%) and upper (100%) band — near 100% is stretched high, near 0% stretched low."
+      }
+    ]
+  },
+  "Screener": {
+    "title": "About the screener",
+    "sections": [
+      {
+        "heading": "What it does",
+        "content": "Filters your tracked stocks by fundamental and technical criteria so you can narrow a watchlist down to names that meet your conditions. Adjust the filters and the list updates to show only matches."
+      }
+    ]
+  },
+  "Backtest": {
+    "title": "About backtesting",
+    "sections": [
+      {
+        "heading": "What it does",
+        "content": "Runs a trading strategy over historical prices for the symbols and date range you choose, starting from an initial cash balance, and reports how the strategy would have performed. Use it to sanity-check an idea before risking capital — **past performance does not guarantee future results**."
+      },
+      {
+        "heading": "Run vs optimize",
+        "content": "- **Run** executes the strategy once with the parameters you set and shows the equity curve and trade stats.\n- **Optimize** sweeps parameter combinations to find the best-performing settings over the chosen history. Beware over-fitting: a strategy tuned perfectly to the past often disappoints out of sample."
+      }
+    ]
+  },
+  "Portfolio": {
+    "title": "About your portfolio",
+    "sections": [
+      {
+        "heading": "What it shows",
+        "content": "Your open positions with current market value, cost basis, and unrealized P&L, plus an allocation view that groups holdings into asset-class buckets and compares current weights to your targets — showing the dollar trades needed to rebalance toward plan."
+      },
+      {
+        "heading": "Allocation drift",
+        "content": "Each bucket shows its current weight vs target and the **drift**. You can fold in value held outside tracked positions (e.g. bonds/cash at the broker) so the percentages reflect your true total investable assets. This is an analysis aid, not advice — the targets are yours to set."
+      }
+    ]
+  },
+  "Brief": {
+    "title": "About the brief",
+    "sections": [
+      {
+        "heading": "What it shows",
+        "content": "A daily, human-friendly snapshot of your watchlist — the headline movers and context — designed to answer \"what matters today?\" without wading through raw numbers. It is the app's default landing view."
+      }
+    ]
+  },
+  "Dashboard": {
+    "title": "About the dashboard",
+    "sections": [
+      {
+        "heading": "What it shows",
+        "content": "Today's overview of your tracked stocks — prices, daily moves, and key signals — in a compact grid so you can scan the whole watchlist at once."
+      }
+    ]
+  },
+  "Macro": {
+    "title": "About macro indicators",
+    "sections": [
+      {
+        "heading": "What it shows",
+        "content": "Economy-wide indicators (interest rates, employment, inflation, commodities, GDP/activity, housing, recession signals) sourced from FRED. Macro context helps explain why sectors or the broad market are moving, independent of any single company."
+      }
+    ]
+  },
+  "Rankings": {
+    "title": "About rankings",
+    "sections": [
+      {
+        "heading": "What it shows",
+        "content": "Ranks your tracked stocks on a chosen metric (e.g. valuation, balance-sheet strength, income quality, cash flow, or a composite signal) so you can see the relative leaders and laggards. Use the ranking type to switch the lens."
+      }
+    ]
+  },
+  "Winners": {
+    "title": "About winners & losers",
+    "sections": [
+      {
+        "heading": "What it shows",
+        "content": "The biggest gainers and decliners across your watchlist over the chosen period, so the day's or week's extremes are immediately visible."
+      }
+    ]
+  },
+  "Notes": {
+    "title": "About the trading journal",
+    "sections": [
+      {
+        "heading": "What it does",
+        "content": "A journal for your bull/bear calls on a stock. Each entry records the price at the time and your judgement, so later the app can tell you whether the call was right versus the current price — a feedback loop on your own decisions."
+      }
+    ]
+  },
+  "LastLower": {
+    "title": "About \"last lower / next better\"",
+    "sections": [
+      {
+        "heading": "The idea",
+        "content": "This analysis puts a price move in human terms. Instead of \"down 5% today,\" it answers **\"the last time I saw a price lower than this was N days ago\"** — so a drop that erased 30 days of gains *feels* different from one that erased 3. It helps you judge whether a move is a lot or a little relative to the stock's own recent history."
+      }
+    ]
+  }
+}

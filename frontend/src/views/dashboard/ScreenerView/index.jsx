@@ -18,6 +18,7 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useStocksOverview } from "@/api";
 import { Page } from "@/components/shared";
+import PageHelp from "@/components/shared/PageHelp";
 
 const columns = [
   { id: "symbol", label: "Symbol", numeric: false },
@@ -107,6 +108,7 @@ const ScreenerView = () => {
 
   return (
     <Page title="Screener">
+      <PageHelp pageName="Screener" />
       <Container maxWidth={false}>
         <Box mb={2}>
           <TextField

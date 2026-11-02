@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 
 import { useResource } from "@/api";
+import PageHelp from "@/components/shared/PageHelp";
 
 const GREEN = "#10b981";
 const RED = "#ef4444";
@@ -177,6 +178,8 @@ const TechnicalsView = () => {
         RSI, Bollinger Band position, SMA crossovers, and trading verdicts for
         all stocks. Sorted by RSI (most oversold first).
       </Typography>
+
+      <PageHelp pageName="Technicals" />
 
       {/* Stats Cards — click to filter table */}
       <Grid container spacing={1.5} mb={2}>

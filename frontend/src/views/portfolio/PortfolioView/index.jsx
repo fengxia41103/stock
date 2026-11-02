@@ -31,6 +31,7 @@ import {
 
 import { useResource, useStocks } from "@/api";
 import api from "@/api/client";
+import PageHelp from "@/components/shared/PageHelp";
 
 const GREEN = "#10b981";
 const RED = "#ef4444";
@@ -232,6 +233,8 @@ const PortfolioView = () => {
           Add Transaction
         </Button>
       </Stack>
+
+      <PageHelp pageName="Portfolio" />
 
       {/* Summary cards */}
       <Grid container spacing={2} mb={3}>

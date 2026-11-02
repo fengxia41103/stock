@@ -27,6 +27,7 @@ import {
 
 import { api } from "@/api";
 import { Page } from "@/components/shared";
+import PageHelp from "@/components/shared/PageHelp";
 
 const money = (v) =>
   v == null || isNaN(v)
@@ -261,6 +262,7 @@ const RetirementView = () => {
 
   return (
     <Page title="Retirement Planner">
+      <PageHelp pageName="Retirement" />
       <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
         <Button
           variant="outlined"
