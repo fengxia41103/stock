@@ -24,6 +24,7 @@
     "highcharts": "^11.4.0",
     "highcharts-react-official": "^3.2.1",
     "jstat": "^1.9.6",
+    "klinecharts": "^9.8.12",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
