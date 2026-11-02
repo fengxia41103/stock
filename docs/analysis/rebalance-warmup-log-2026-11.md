@@ -179,3 +179,24 @@ Keep remaining same-day buys modest so cash stays > $15K sleeve.
 
 Progress toward 10% bonds: $24,999 of ~$55,168 target (~$30K remaining, to
 complete alongside the SPYG tranches).
+
+#### 11-02 ~11:00am — EXECUTED: VEA buy (international developed, #1 gap)
+
+Bought VEA **285.449 sh @ $70.07 = $20,001** (intl developed 0 -> ~3.6% of IRA;
+non-US exposure off zero). App DB: VEA position auto-created on import.
+
+Rationale: VEA is the single biggest allocation gap (non-US, 20% target).
+Entry mid-range (+0.9%). Cash-funded front-load of the buy side; does NOT
+reduce the need to still trim SPYG on schedule.
+
+Cash accounting: Pending now -$28,246 = +$16,754 (PDD+MCD) - $24,999 (BND)
+- $20,001 (VEA). FDRXX $54,530 - $28,246 = effective cash ~$26,284. Still
+above the ~$15K sleeve (~$11K headroom), but realized proceeds fully consumed
+and ~half of base cash now in use.
+
+DECISION: STOP cash buys for today to protect the ~$15K sleeve. Fund the rest
+(remaining BND ~$30K, VWO, VO, VNQ, VB, LRCX start) from the 11-10 SPYG
+tranche proceeds per schedule.
+
+Today's diversification progress: BND 4.5% + VEA 3.6% started from zero.
+Remaining non-US/bond/real-asset legs resume 11-10.
