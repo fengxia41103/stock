@@ -1,25 +1,31 @@
-import React, { useContext, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { dispose, init } from "klinecharts";
 
-import { Box, Card, CardContent, useTheme } from "@mui/material";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import StarIcon from "@mui/icons-material/Star";
+import {
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  FormControl,
+  InputLabel,
+  ListSubheader,
+  MenuItem,
+  Select,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 
 import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
 
-// Map our route :type to a klinecharts built-in indicator. Each entry says
-// which indicator to create and whether it goes on the main candle pane
-// (overlay) or its own sub-pane.
-const INDICATOR_BY_TYPE = {
-  bollinger: { name: "BOLL", overlay: true },
-  macd: { name: "MACD", overlay: false },
-  rsi: { name: "RSI", overlay: false },
-  sar: { name: "SAR", overlay: true },
-  stochastics: { name: "KDJ", overlay: false },
-  elder: { name: "MA", overlay: true },
-  heikin: { name: "MA", overlay: true }, // candles are converted to Heikin-Ashi
-};
+import { INDICATOR_MAP, INDICATORS, STARTERS } from "./indicators";
 
-// Convert our historical rows to klinecharts kline data.
+// Legacy route keys from the old nav menu -> registry keys.
+const LEGACY_ALIAS = { stochastics: "kdj", elder: "ema", sar: "sar" };
+
 const toKLineData = (rows) =>
   rows
     .map((d) => ({
@@ -32,19 +38,14 @@ const toKLineData = (rows) =>
     }))
     .sort((a, b) => a.timestamp - b.timestamp);
 
-// Transform OHLC into Heikin-Ashi candles (smoothed trend candles).
-//   HA close = (O+H+L+C)/4
-//   HA open  = (prev HA open + prev HA close)/2  (seeded with (O+C)/2)
-//   HA high  = max(H, HA open, HA close);  HA low = min(L, HA open, HA close)
+// OHLC -> Heikin-Ashi candles.
 const toHeikinAshi = (bars) => {
   const out = [];
   for (let i = 0; i < bars.length; i++) {
     const b = bars[i];
     const haClose = (b.open + b.high + b.low + b.close) / 4;
     const haOpen =
-      i === 0
-        ? (b.open + b.close) / 2
-        : (out[i - 1].open + out[i - 1].close) / 2;
+      i === 0 ? (b.open + b.close) / 2 : (out[i - 1].open + out[i - 1].close) / 2;
     out.push({
       timestamp: b.timestamp,
       open: haOpen,
@@ -57,12 +58,34 @@ const toHeikinAshi = (bars) => {
   return out;
 };
 
+// Build the grouped <Select> options: starters first, then by group.
+const GROUPS = ["Trend", "Volatility", "Momentum", "Volume", "Candle style"];
+
 const TechIndicatorView = () => {
   const { type } = useParams();
+  const navigate = useNavigate();
   const theme = useTheme();
   const data = useContext(StockHistoricalContext);
   const containerRef = useRef(null);
   const chartRef = useRef(null);
+
+  // Resolve the initial indicator key from the route (with legacy aliases).
+  const initialKey = useMemo(() => {
+    const k = LEGACY_ALIAS[type] || type;
+    return INDICATOR_MAP[k] ? k : "rsi";
+  }, [type]);
+
+  const [selected, setSelected] = useState(initialKey);
+  useEffect(() => setSelected(initialKey), [initialKey]);
+
+  const spec = INDICATOR_MAP[selected] || INDICATOR_MAP.rsi;
+
+  const handleChange = (e) => {
+    const key = e.target.value;
+    setSelected(key);
+    // Keep the URL in sync so links/back work.
+    navigate(`../indicator/${key}`, { relative: "path", replace: true });
+  };
 
   useEffect(() => {
     const el = containerRef.current;
@@ -82,15 +105,8 @@ const TechIndicatorView = () => {
         },
         candle: {
           type: "candle_solid",
-          bar: {
-            upColor: up,
-            downColor: down,
-            noChangeColor: axisText,
-          },
-          priceMark: {
-            high: { color: axisText },
-            low: { color: axisText },
-          },
+          bar: { upColor: up, downColor: down, noChangeColor: axisText },
+          priceMark: { high: { color: axisText }, low: { color: axisText } },
           tooltip: { text: { color: theme.palette.text.primary } },
         },
         indicator: {
@@ -107,40 +123,35 @@ const TechIndicatorView = () => {
     chartRef.current = chart;
 
     const bars = toKLineData(data);
-    const klineData = type === "heikin" ? toHeikinAshi(bars) : bars;
+    const klineData = spec.special === "heikin" ? toHeikinAshi(bars) : bars;
     chart.applyNewData(klineData);
 
-    // Fit the data to the full chart width: size each bar so the whole series
-    // spans the container (klinecharts otherwise shows the most-recent bars at
-    // a fixed bar width, squeezing short series to the right). Keep a small
-    // floor/ceiling so very short or very long series stay usable.
     const fitToWidth = () => {
       const { width } = chart.getSize("candle_pane", "main") || { width: 0 };
       if (width > 0 && klineData.length > 0) {
-        const space = Math.min(
-          30,
-          Math.max(2, (width - 8) / klineData.length),
+        chart.setBarSpace(
+          Math.min(30, Math.max(2, (width - 8) / klineData.length)),
         );
-        chart.setBarSpace(space);
       }
     };
     chart.setOffsetRightDistance(0);
     fitToWidth();
 
-    // Always show volume in its own pane.
-    chart.createIndicator("VOL", false, { id: "pane_vol" });
-
-    // Add the indicator for the current route type.
-    const spec = INDICATOR_BY_TYPE[type] || INDICATOR_BY_TYPE.elder;
-    if (spec.overlay) {
-      // Overlay on the main candle pane.
-      chart.createIndicator(spec.name, true, { id: "candle_pane" });
-    } else {
-      // Own sub-pane below price/volume.
-      chart.createIndicator(spec.name, false, { id: `pane_${spec.name}` });
+    // Always show volume unless the selected indicator IS volume-based in-pane.
+    if (spec.name !== "VOL") {
+      chart.createIndicator("VOL", false, { id: "pane_vol" });
     }
 
-    // Re-fit after indicator panes change the layout, and on container resize.
+    // Heikin-Ashi is a candle style, not an indicator; everything else maps to
+    // a klinecharts built-in placed on the candle pane (overlay) or its own.
+    if (spec.special !== "heikin") {
+      if (spec.overlay) {
+        chart.createIndicator(spec.name, true, { id: "candle_pane" });
+      } else {
+        chart.createIndicator(spec.name, false, { id: `pane_${spec.name}` });
+      }
+    }
+
     fitToWidth();
     const ro = new ResizeObserver(() => {
       chart.resize();
@@ -153,16 +164,84 @@ const TechIndicatorView = () => {
       dispose(el);
       chartRef.current = null;
     };
-  }, [data, type, theme]);
+  }, [data, spec, theme]);
 
   return (
     <Card>
       <CardContent>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={2}
+          alignItems={{ sm: "center" }}
+          sx={{ mb: 1.5 }}
+        >
+          <FormControl size="small" sx={{ minWidth: 260 }}>
+            <InputLabel id="indicator-label">Indicator</InputLabel>
+            <Select
+              labelId="indicator-label"
+              label="Indicator"
+              value={selected}
+              onChange={handleChange}
+            >
+              <ListSubheader>★ Starters (match your strategy)</ListSubheader>
+              {STARTERS.map((i) => (
+                <MenuItem key={`s-${i.key}`} value={i.key}>
+                  <StarIcon
+                    fontSize="inherit"
+                    sx={{ mr: 1, color: "warning.main" }}
+                  />
+                  {i.label}
+                </MenuItem>
+              ))}
+              {GROUPS.flatMap((g) => {
+                const items = INDICATORS.filter((i) => i.group === g);
+                if (!items.length) return [];
+                return [
+                  <ListSubheader key={`h-${g}`}>{g}</ListSubheader>,
+                  ...items.map((i) => (
+                    <MenuItem key={i.key} value={i.key}>
+                      {i.label}
+                    </MenuItem>
+                  )),
+                ];
+              })}
+            </Select>
+          </FormControl>
+
+          {spec.starter && (
+            <Chip
+              icon={<StarIcon />}
+              label="Starter for your strategy"
+              size="small"
+              color="warning"
+              variant="outlined"
+            />
+          )}
+        </Stack>
+
         <Box
-          ref={containerRef}
-          sx={{ width: "100%", height: 600 }}
-          data-testid="kline-chart"
-        />
+          sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: 1,
+            mb: 1.5,
+            p: 1.5,
+            borderRadius: 1,
+            bgcolor: "action.hover",
+          }}
+        >
+          <InfoOutlinedIcon fontSize="small" sx={{ color: "primary.main", mt: 0.25 }} />
+          <Box>
+            <Typography variant="subtitle2" fontWeight={700}>
+              {spec.label}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {spec.desc}
+            </Typography>
+          </Box>
+        </Box>
+
+        <Box ref={containerRef} sx={{ width: "100%", height: 560 }} />
       </CardContent>
     </Card>
   );
