@@ -62,7 +62,7 @@ const toHeikinAshi = (bars) => {
 const GROUPS = ["Trend", "Volatility", "Momentum", "Volume", "Candle style"];
 
 const TechIndicatorView = () => {
-  const { type } = useParams();
+  const { id, type } = useParams();
   const navigate = useNavigate();
   const theme = useTheme();
   const data = useContext(StockHistoricalContext);
@@ -83,8 +83,9 @@ const TechIndicatorView = () => {
   const handleChange = (e) => {
     const key = e.target.value;
     setSelected(key);
-    // Keep the URL in sync so links/back work.
-    navigate(`../indicator/${key}`, { relative: "path", replace: true });
+    // Keep the URL in sync so links/back work. Absolute path avoids relative
+    // resolution stacking onto the current :type segment.
+    navigate(`/stocks/${id}/historical/indicator/${key}`, { replace: true });
   };
 
   useEffect(() => {
