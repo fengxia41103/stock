@@ -12,12 +12,15 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
+  useTheme,
 } from "@mui/material";
 
 import { useUpdate } from "@/api";
 import { SimpleSnackbar } from "@/components/shared";
 
 const EditDiaryEditor = ({ diary, inEditing }) => {
+  const theme = useTheme();
+  const colorMode = theme.palette.mode; // "light" | "dark"
   const [comment, setComment] = useState(diary.content);
   const [notification, setNotification] = useState("");
   const [prediction, setPrediction] = useState(diary.judgement);
@@ -33,6 +36,7 @@ const EditDiaryEditor = ({ diary, inEditing }) => {
   if (!inEditing)
     return (
       <Box
+        data-color-mode={colorMode}
         sx={{
           "& .wmde-markdown": {
             fontSize: "1.0625rem",
@@ -51,7 +55,7 @@ const EditDiaryEditor = ({ diary, inEditing }) => {
     );
 
   return (
-    <>
+    <Box data-color-mode={colorMode}>
       <MDEditor
         value={comment}
         onChange={setComment}
@@ -85,7 +89,7 @@ const EditDiaryEditor = ({ diary, inEditing }) => {
         </Button>
       </Box>
       {notification && <SimpleSnackbar msg={notification} />}
-    </>
+    </Box>
   );
 };
 
