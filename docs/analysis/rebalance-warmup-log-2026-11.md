@@ -246,3 +246,34 @@ Wait decisions logged today:
 - TSM (trim): waiting is right for STRUCTURAL reasons (keeper-trim, paired with
   LRCX not triggering) — NOT because it's red. In a tax-free IRA a realized loss
   gives no benefit; the -2.6% is a sunk cost, not a reason to wait.
+
+#### 11-02 ~4:00pm — CLOSE (official end-of-day warm-up data point)
+
+Tape: growth-fade day with LATE selling into the close; broad tape mixed-to-
+green but mega-cap growth dragged.
+- Value/cyclical led all day: MA +3.1%, V +2.9%, RCL +4.5%, PEP +2.2%,
+  SPGI +1.9%, TXN +0.7%.
+- Mega-cap growth faded: MSFT the big loser (close ~$507), VOO -0.47%,
+  SPYG/TSM red. Final hour rolled over (MSFT $514->$507, VOO -0.04%->-0.47%).
+- Diversifiers held: VEA +0.5% (recovered from midday red), BND +0.1% ballast.
+
+Risk gauges at close:
+- VIX 21.27, +9.5% — climbed all day (-2% am -> +9.5% pm), closed ABOVE 20
+  (first time today). Nervousness/hedging.
+- HYG -0.13% (credit CALM) — so NOT a real risk-off turn. Per the anchor rule
+  (real risk-off = VIX 22-25 WITH HYG dropping hard), we have the VIX half but
+  NOT the credit half. Cautious close, not a turn. WATCH.
+
+After-hours flag: MSFT -2.74% in POST — likely a post-close headline. If it
+holds into tomorrow it shrinks the eventual MSFT trim-to-$48K (fewer dollars),
+but does NOT change the decision. Check MSFT AH news before tomorrow.
+
+Plan impact: NONE. Remaining sells (SBUX + MSFT/TSM trims) stay on 11-10; TSM
+$414 resting order unfilled (TSM closed ~$399, far below). SBUX +0.8% — no
+pull-forward strength. This day is a textbook "why diversify" illustration:
+the two biggest positions (MSFT, SPYG/VOO) dragged while the smaller
+diversified names carried the account — exactly the concentration the rebalance
+is cutting.
+
+End-of-day position state: today's early executions (PDD/MCD/PLTR exits, BND +
+VEA buys) all settled as expected; no new fills since.
