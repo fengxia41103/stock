@@ -1,27 +1,6 @@
 import { map } from "lodash";
 import dayjs from "dayjs";
 
-export const randomId = (prefix = "FX") => {
-  return prefix + (Math.random() * 1e32).toString(12);
-};
-
-export const randomColorGenerator = () => {
-  const randomColor = `${Math.random().toString(16)}0000000`;
-
-  return `#${randomColor.slice(2, 8)}`;
-};
-
-export const days_in_between = (start, end) => {
-  const date1 = new Date(start);
-  const date2 = new Date(end);
-
-  // To calculate the time difference of two dates
-  const difference_in_time = date2.getTime() - date1.getTime();
-
-  // To calculate the no. of days between two dates
-  return difference_in_time / (1000 * 3600 * 24);
-};
-
 const get_contrast = (background) => {
   // func to compute font color to contrast w/ background color
   return parseInt(background, 16) > 0xffffff / 2 ? "black" : "white";
@@ -58,10 +37,6 @@ const DATE_FORMAT = "YYYY-MM-DD";
 
 export const get_today_string = () => {
   return dayjs().format(DATE_FORMAT);
-};
-
-export const get_last_week_string = () => {
-  return dayjs().subtract(1, "week").format(DATE_FORMAT);
 };
 
 export const get_last_month_string = () => {

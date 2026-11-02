@@ -72,7 +72,7 @@ export function twenty_four_hour_stats(prices) {
   return compute_stats(data);
 }
 
-export function compute_stats(data) {
+function compute_stats(data) {
   // For strict statstics functions, I will use them directly. Here
   // are the ones by my wits.
   const positives = filter(data, (x) => x > 0);
@@ -111,21 +111,4 @@ export function compute_stats(data) {
     positive_mean,
     negative_mean,
   };
-}
-
-export function stock_stats(prices) {
-  return [
-    {
-      name: "Returns during trading day",
-      stats: daily_return_stats(prices),
-    },
-    {
-      name: "Returs overnight",
-      stats: overnight_return_stats(prices),
-    },
-    {
-      name: "Returns over 24-hour",
-      stats: twenty_four_hour_stats(prices),
-    },
-  ];
 }

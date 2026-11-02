@@ -25,7 +25,7 @@ const CORE_ETFS = new Set([
 ]);
 
 // Given live holdings { positions: [...] }, build symbol -> position lookup.
-export function indexHoldings(holdings) {
+function indexHoldings(holdings) {
   const map = {};
   const positions = (holdings && holdings.positions) || [];
   for (const p of positions) {
