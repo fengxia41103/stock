@@ -1,4 +1,3 @@
-import { map } from "lodash";
 import React, { useContext, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import Highcharts from "highcharts/highstock";
@@ -7,8 +6,11 @@ import indicatorsModule from "highcharts/indicators/indicators";
 import bollingerModule from "highcharts/indicators/bollinger-bands";
 import macdModule from "highcharts/indicators/macd";
 import rsiModule from "highcharts/indicators/rsi";
+import psarModule from "highcharts/indicators/psar";
+import stochasticModule from "highcharts/indicators/stochastic";
+import heikinashiModule from "highcharts/modules/heikinashi";
 
-import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
+import { Box, Card, CardContent } from "@mui/material";
 
 import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
 
@@ -17,6 +19,9 @@ indicatorsModule(Highcharts);
 bollingerModule(Highcharts);
 macdModule(Highcharts);
 rsiModule(Highcharts);
+psarModule(Highcharts);
+stochasticModule(Highcharts);
+heikinashiModule(Highcharts);
 
 // Simple moving average (for fallback indicators)
 const sma = (data, period) => {
@@ -191,8 +196,47 @@ const TechIndicatorView = () => {
         params: { period: 14 },
         color: "#8b5cf6",
       });
+    } else if (type === "sar") {
+      // Parabolic SAR dots overlaid on price.
+      baseOptions.series.push({
+        type: "psar",
+        linkedTo: "price",
+        color: "#f59e0b",
+        marker: { radius: 2 },
+      });
+    } else if (type === "stochastics") {
+      baseOptions.yAxis.push({
+        labels: {},
+        gridLineColor: "#334155",
+        top: "82%",
+        height: "18%",
+        offset: 0,
+        min: 0,
+        max: 100,
+      });
+      baseOptions.yAxis[0].height = "50%";
+      baseOptions.yAxis[1].top = "55%";
+      baseOptions.yAxis[1].height = "12%";
+      baseOptions.series.push({
+        type: "stochastic",
+        linkedTo: "price",
+        yAxis: 2,
+        params: { periods: [14, 3] },
+      });
+    } else if (type === "heikin") {
+      // Heikin-Ashi: replace the candlestick price series with an HA series.
+      baseOptions.series[0] = {
+        type: "heikinashi",
+        id: "price",
+        name: "Heikin-Ashi",
+        data: ohlc,
+        color: "#ef4444",
+        upColor: "#10b981",
+        lineColor: "#ef4444",
+        upLineColor: "#10b981",
+      };
     } else {
-      // Default: SMA overlays
+      // Default / elder: SMA overlays
       const sma20 = sma(closes, 20);
       const sma50 = sma(closes, 50);
       baseOptions.series.push(
@@ -225,6 +269,7 @@ const TechIndicatorView = () => {
       <CardContent>
         <Box>
           <HighchartsReact
+            key={type}
             highcharts={Highcharts}
             constructorType="stockChart"
             options={options}
