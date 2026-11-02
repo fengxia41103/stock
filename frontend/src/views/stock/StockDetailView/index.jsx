@@ -199,26 +199,29 @@ const StockDetailView = () => {
           ))}
         </Tabs>
 
-        {/* Sub-navigation tabs */}
-        <Tabs
-          value={activeItem}
-          onChange={(_, v) =>
-            navigate(`${basePath}/${currentSection.items[v].url}`)
-          }
-          variant="scrollable"
-          scrollButtons="auto"
-          textColor="secondary"
-          indicatorColor="secondary"
-          sx={{ mb: 2 }}
-        >
-          {currentSection.items.map((item) => (
-            <Tab
-              key={item.url}
-              label={item.text}
-              sx={{ textTransform: "none", minHeight: 36, py: 0 }}
-            />
-          ))}
-        </Tabs>
+        {/* Sub-navigation tabs (hidden when a section has a single item,
+            since a lone tab just repeats the section name). */}
+        {currentSection.items.length > 1 && (
+          <Tabs
+            value={activeItem}
+            onChange={(_, v) =>
+              navigate(`${basePath}/${currentSection.items[v].url}`)
+            }
+            variant="scrollable"
+            scrollButtons="auto"
+            textColor="secondary"
+            indicatorColor="secondary"
+            sx={{ mb: 2 }}
+          >
+            {currentSection.items.map((item) => (
+              <Tab
+                key={item.url}
+                label={item.text}
+                sx={{ textTransform: "none", minHeight: 36, py: 0 }}
+              />
+            ))}
+          </Tabs>
+        )}
 
         <Divider />
 
