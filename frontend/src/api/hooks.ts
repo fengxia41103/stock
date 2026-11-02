@@ -232,6 +232,15 @@ export function usePortfolioHoldings(options = {}) {
   return useResource("portfolio-holdings", "/portfolio/holdings/", options);
 }
 
+// Each holding's dollar contribution to today's P&L, ranked (shares x move).
+export function useDayContribution(options = {}) {
+  return useResource(
+    "portfolio-day-contribution",
+    "/portfolio/day-contribution/",
+    options,
+  );
+}
+
 // Global overnight proxies (US futures, Asia/Europe indices, VIX) with an
 // interpretive read of the 'wind' for tomorrow's US open.
 export function useWorldOvernight(options = {}) {

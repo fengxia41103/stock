@@ -1212,6 +1212,55 @@ class PortfolioViewSet(viewsets.ViewSet):
             },
         })
 
+    @action(detail=False, methods=["get"], url_path="day-contribution")
+    def day_contribution(self, request):
+        """Each open holding's DOLLAR contribution to today's P&L, ranked.
+
+        dollar gain = shares x (latest close - prior close). Illustrates that
+        a day's dollar P&L is driven by position_size x percent_move — a large
+        position with a tiny move can contribute less than a small position
+        with a big move.
+        """
+        from stock.models.portfolio import Position
+
+        positions = Position.objects.filter(
+            user=request.user, closed_at__isnull=True, shares__gt=0
+        ).select_related("stock")
+
+        rows = []
+        total = 0.0
+        for pos in positions:
+            bars = list(
+                pos.stock.historicals.order_by("-on").values_list(
+                    "close_price", flat=True
+                )[:2]
+            )
+            if len(bars) < 2 or not bars[1]:
+                continue
+            last, prev = bars[0], bars[1]
+            day_pct = (last / prev - 1) * 100 if prev else None
+            dollar = pos.shares * (last - prev)
+            value = pos.shares * last
+            total += dollar
+            rows.append(
+                {
+                    "symbol": pos.stock.symbol,
+                    "value": round(value, 2),
+                    "day_pct": round(day_pct, 2) if day_pct is not None else None,
+                    "dollar_gain": round(dollar, 2),
+                }
+            )
+
+        rows.sort(key=lambda r: r["dollar_gain"], reverse=True)
+        return Response(
+            {
+                "contributions": rows,
+                "total_dollar_gain": round(total, 2),
+                "note": "Dollar gain = shares x price move. Based on the two most "
+                "recent daily bars (prior close -> latest). Not real-time.",
+            }
+        )
+
     @action(detail=False, methods=["get"])
     def allocation(self, request):
         """Target-allocation drift & rebalance analysis.

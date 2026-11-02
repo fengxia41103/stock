@@ -16,6 +16,7 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useResource, useStocksOverview } from "@/api";
 import { useMarketStatus } from "@/hooks/useMarketStatus";
+import DayContribution from "@Components/dashboard/DayContribution";
 import MarketRiskGauges from "@Components/dashboard/MarketRiskGauges";
 import WorldOvernight from "@Components/dashboard/WorldOvernight";
 
@@ -310,6 +311,7 @@ const TodayDashboardView = () => {
       </Box>
       <MarketRiskGauges />
       <WorldOvernight />
+      <DayContribution />
       <Grid container spacing={2} alignItems="stretch">
         {/* Row 1 */}
         <Grid item xs={6} sm={3}>
