@@ -42,13 +42,8 @@ const sections = [
   {
     label: "Tech Indicators",
     items: [
-      { url: "historical/indicator/bollinger", text: "Bollinger" },
-      { url: "historical/indicator/macd", text: "MACD" },
-      { url: "historical/indicator/rsi", text: "RSI" },
-      { url: "historical/indicator/sar", text: "SAR" },
-      { url: "historical/indicator/stochastics", text: "Stochastics" },
-      { url: "historical/indicator/heikin", text: "Heikin-Ashi" },
-      { url: "historical/indicator/elder", text: "Elder Ray" },
+      // Single entry: the view has an in-page dropdown to pick any indicator.
+      { url: "historical/indicator/rsi", text: "Tech Indicators" },
     ],
   },
   {
