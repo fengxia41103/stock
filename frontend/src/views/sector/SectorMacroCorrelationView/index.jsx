@@ -27,7 +27,7 @@ const SectorMacroCorrelationView = () => {
     return map;
   }, [sector]);
 
-  const { option, visibleSymbols } = useMemo(() => {
+  const { option } = useMemo(() => {
     if (
       !correlations ||
       !Array.isArray(correlations) ||

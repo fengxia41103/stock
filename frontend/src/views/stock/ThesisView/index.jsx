@@ -178,7 +178,7 @@ const ThesisView = () => {
           Investment Thesis — {stock.symbol}
         </Typography>
         <Alert severity="warning" sx={{ mb: 2 }}>
-          No thesis documented for this position. You're flying blind on key
+          No thesis documented for this position. You&apos;re flying blind on key
           drivers, kill criteria, and re-rating mechanism.
         </Alert>
         <Button variant="contained" onClick={startEdit}>
@@ -248,7 +248,7 @@ const ThesisView = () => {
                   borderRadius: 1,
                 }}
               >
-                "{thesis.variant_perception || "Not documented"}"
+                &quot;{thesis.variant_perception || "Not documented"}&quot;
               </Typography>
             </Section>
           </Grid>

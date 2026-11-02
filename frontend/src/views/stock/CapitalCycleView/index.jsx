@@ -71,8 +71,8 @@ const CapitalCycleView = () => {
         <Alert severity="info" variant="outlined" sx={{ mt: 2 }}>
           <strong>To use this analysis:</strong>
           <br />
-          1. Go to the <strong>Peer Benchmark</strong> tab and click "Load
-          Defaults" to add industry peers.
+          1. Go to the <strong>Peer Benchmark</strong> tab and click &quot;Load
+          Defaults&quot; to add industry peers.
           <br />
           2. Peers must also be tracked in your portfolio (with financial data
           loaded) to compute their capex/ROIC.
@@ -176,7 +176,7 @@ const CapitalCycleView = () => {
 
       <Typography variant="body2" color="text.secondary" mb={2}>
         Step 9 (Supply Side & Capital Cycle): Aggregate capex intensity and
-        returns on capital across {stock.symbol}'s competitive peers to
+        returns on capital across {stock.symbol}&apos;s competitive peers to
         determine where the industry sits in the capital cycle.
       </Typography>
 

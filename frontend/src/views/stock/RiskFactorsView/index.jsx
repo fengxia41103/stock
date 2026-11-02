@@ -19,7 +19,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
-import { api, useResource, useCreate, useUpdate } from "@/api";
+import { api, useResource, useCreate } from "@/api";
 import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const CATEGORIES = [
@@ -103,7 +103,7 @@ const RiskFactorsView = () => {
 
       <Typography variant="body2" color="text.secondary" mb={2}>
         Step 2 (lite): Curated risk factors from 10-K reading. Check
-        "materializing" when a risk starts showing real-world evidence — link to
+        &quot;materializing&quot; when a risk starts showing real-world evidence — link to
         kill criteria in thesis.
       </Typography>
 

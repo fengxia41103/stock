@@ -14,7 +14,6 @@ const CashFlowView = () => {
   const [resource] = useState(`/cashes?stock=${id}`);
 
   if (!stock || !stock.symbol) return null;
-  const { symbol } = stock;
 
   const reported = {
     beginning_cash: "Beggining Cash",

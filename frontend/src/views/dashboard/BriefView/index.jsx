@@ -11,12 +11,9 @@ import PersonIcon from "@mui/icons-material/Person";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import {
   Box,
-  Chip,
-  Divider,
   Grid,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   Paper,
   Stack,

@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { useLocation } from "react-router-dom";
 
 import {
   Box,
@@ -9,7 +8,6 @@ import {
   List,
   Typography,
   Avatar,
-  Stack,
 } from "@mui/material";
 
 import NavItem from "@Layouts/NavBarItem";

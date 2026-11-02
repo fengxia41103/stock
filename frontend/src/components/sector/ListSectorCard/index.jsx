@@ -29,8 +29,8 @@ const ListSectorCard = (props) => {
         Comparison analysis
       </Button>,
 
-      <EditSectorDialog {...me} existings={existing_names} />,
-      <DeleteSectorDialog {...sector} />,
+      <EditSectorDialog key="edit" {...me} existings={existing_names} />,
+      <DeleteSectorDialog key="delete" {...sector} />,
     ];
 
     const stocks = sortBy(sector.stocks_detail, (s) => s.symbol);

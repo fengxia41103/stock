@@ -326,7 +326,7 @@ const EarningsCallNotesView = () => {
       {notes.length === 0 && !creating && (
         <Alert severity="info">
           No earnings call notes yet. After listening to an earnings call, click
-          "Add Scorecard" to record your observations.
+          &quot;Add Scorecard&quot; to record your observations.
         </Alert>
       )}
 
@@ -395,7 +395,7 @@ const EarningsCallNotesView = () => {
                 mb: 1.5,
               }}
             >
-              "{note.key_quote}"
+              &quot;{note.key_quote}&quot;
             </Typography>
           )}
 

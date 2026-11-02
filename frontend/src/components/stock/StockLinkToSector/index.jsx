@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { useSectors, useUpdate } from "@/api";
+import { useSectors } from "@/api";
 import { SimpleSnackbar } from "@/components/shared";
 import DeleteStock from "@Components/stock/DeleteStock";
 import UpdateStock from "@Components/stock/UpdateStock";
@@ -26,12 +26,6 @@ const StockLinkToSector = (props) => {
   const [notification, setNotification] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const { data, isLoading } = useSectors();
-
-  // We need a generic update that can target any sector
-  const { mutate: updateSector } = useUpdate("/sectors/", [
-    "sectors",
-    "stocks",
-  ]);
 
   const open = Boolean(anchorEl);
   const sectors = data?.results || data || [];

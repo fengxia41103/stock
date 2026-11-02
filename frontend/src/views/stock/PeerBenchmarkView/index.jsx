@@ -24,7 +24,7 @@ import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 
-import { api, useResource, useCreate, useDelete } from "@/api";
+import { api, useResource, useCreate } from "@/api";
 import StockDetailContext from "@Views/stock/StockDetailView/context";
 
 const RELATIONSHIPS = [
@@ -199,7 +199,7 @@ const PeerBenchmarkView = () => {
       {/* Peer groups display */}
       {peers.length === 0 && (
         <Alert severity="info" sx={{ mb: 2 }}>
-          No peers defined for {stock.symbol}. Click "Load Defaults" to populate
+          No peers defined for {stock.symbol}. Click &quot;Load Defaults&quot; to populate
           industry competitors from our pre-defined mappings, or add custom
           peers manually.
         </Alert>
@@ -288,7 +288,7 @@ const PeerBenchmarkView = () => {
                 Organic Growth
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Revenue growth ex-acquisitions. Who's growing faster?
+                Revenue growth ex-acquisitions. Who&apos;s growing faster?
               </Typography>
             </Grid>
             <Grid item xs={12} md={3}>
@@ -296,7 +296,7 @@ const PeerBenchmarkView = () => {
                 Operating Margins
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                On comparable basis (adjust SBC, restructuring). Who's more
+                On comparable basis (adjust SBC, restructuring). Who&apos;s more
                 efficient?
               </Typography>
             </Grid>

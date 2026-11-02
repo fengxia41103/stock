@@ -3,7 +3,6 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 import {
   Box,
   Chip,
-  Divider,
   Grid,
   Paper,
   Table,
@@ -15,9 +14,6 @@ import {
 } from "@mui/material";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
-import WarningIcon from "@mui/icons-material/Warning";
 
 import { useResource } from "@/api";
 import StockDetailContext from "@Views/stock/StockDetailView/context";

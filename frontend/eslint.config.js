@@ -11,6 +11,7 @@ import js from "@eslint/js";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
+import tsParser from "@typescript-eslint/parser";
 
 export default [
   // Ignored paths (replaces .eslintignore).
@@ -81,6 +82,19 @@ export default [
       "no-use-before-define": "off",
       "no-unused-vars": ["error", { args: "none" }],
       "no-console": ["error", { allow: ["warn", "error", "debug"] }],
+    },
+  },
+
+  // TypeScript sources: use the TS parser so generics/type annotations parse.
+  // We keep the same (JS) rule set rather than adopting the full typescript-
+  // eslint ruleset — the goal is to lint TS files, not to add new TS rules.
+  {
+    files: ["src/**/*.{ts,tsx}"],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+      },
     },
   },
 ];

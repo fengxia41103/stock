@@ -1,6 +1,6 @@
 import { isEmpty, isNull, isUndefined, map } from "lodash";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   Button,
@@ -24,14 +24,14 @@ const ListNewsCard = (props) => {
 
   const limit_count = isUndefined(limit) ? 10 : limit;
 
-  const get_uri = () => {
+  const get_uri = useCallback(() => {
     let base_uri = `/news?topic=${topic}&limit=${limit_count}`;
     if (searching !== "") {
       base_uri += `&title__contains=${searching}`;
     }
 
     return base_uri;
-  };
+  }, [topic, limit_count, searching]);
 
   // MUST: use effect to set initial URI because of searching string.
   useEffect(() => {

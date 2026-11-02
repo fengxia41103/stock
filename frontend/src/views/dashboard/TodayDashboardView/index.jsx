@@ -22,7 +22,6 @@ treemapModule(Highcharts);
 
 const BG = "background.default";
 const TILE = "background.paper";
-const TEXT = "text.primary";
 const TEXT2 = "text.secondary";
 const GREEN = "#10b981";
 const RED = "#ef4444";
@@ -237,7 +236,7 @@ const TodayDashboardView = () => {
     selectedDate || undefined,
     { refetchInterval: selectedDate ? false : refetchInterval },
   );
-  const { data: macroSeries } = useResource("macro-series", "/macro-series/");
+  useResource("macro-series", "/macro-series/");
   const { data: earnings } = useResource(
     "earnings-upcoming",
     "/earnings/upcoming/",

@@ -1,14 +1,11 @@
 import React, { useCallback, useMemo, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import ScaleLoader from "react-spinners/ScaleLoader";
 
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import {
   Box,
   Button,
-  Card,
-  CardContent,
   Chip,
   Container,
   Divider,
@@ -123,7 +120,7 @@ const BacktestView = () => {
             setError(taskError || "Backtest failed");
             setLoading(false);
           }
-        } catch (e) {
+        } catch {
           clearInterval(poll);
           setError("Polling failed");
           setLoading(false);
@@ -341,7 +338,7 @@ const BacktestView = () => {
                           setError(s.data.error || "Optimization failed");
                           setLoading(false);
                         }
-                      } catch (e) {
+                      } catch {
                         clearInterval(poll);
                         setError("Polling failed");
                         setLoading(false);
@@ -596,7 +593,7 @@ const BacktestView = () => {
                 height={400}
               >
                 <Typography color="text.secondary" variant="h6">
-                  Configure strategy and click "Run Backtest"
+                  Configure strategy and click &quot;Run Backtest&quot;
                 </Typography>
               </Box>
             )}

@@ -9,8 +9,6 @@ import {
   Container,
   Divider,
   IconButton,
-  List,
-  ListItem,
   Menu,
   MenuItem,
   Stack,
@@ -21,7 +19,6 @@ import {
 
 import { useStock } from "@/api";
 import { NotFoundView, Page } from "@/components/shared";
-import AddDiaryEditor from "@Components/diary/AddDiaryEditor";
 import DeleteStock from "@Components/stock/DeleteStock";
 import StockLinkToSector from "@Components/stock/StockLinkToSector";
 import UpdateStock from "@Components/stock/UpdateStock";

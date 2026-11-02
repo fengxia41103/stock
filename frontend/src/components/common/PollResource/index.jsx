@@ -43,7 +43,7 @@ const PollResource = ({
           setData(json);
           setLoading(false);
         }
-      } catch (e) {
+      } catch {
         // silently retry
       }
     };

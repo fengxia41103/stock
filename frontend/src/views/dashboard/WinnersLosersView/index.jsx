@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import {
   Avatar,
   Box,
-  Chip,
   Grid,
   LinearProgress,
   Paper,
@@ -39,28 +38,6 @@ const WinnersLosersView = () => {
     .filter((s) => s.insider_sentiment > 0)
     .sort((a, b) => b.insider_sentiment - a.insider_sentiment)
     .slice(0, 5);
-
-  const StockChip = ({ s, showReturn = true }) => (
-    <Chip
-      label={`${s.symbol} ${
-        showReturn && s.daily_return_pct != null
-          ? (s.daily_return_pct > 0 ? "+" : "") +
-            s.daily_return_pct.toFixed(1) +
-            "%"
-          : ""
-      }`}
-      size="small"
-      color={
-        s.daily_return_pct > 0
-          ? "success"
-          : s.daily_return_pct < 0
-          ? "error"
-          : "default"
-      }
-      onClick={() => navigate(`/stocks/${s.id}/historical/price`)}
-      sx={{ cursor: "pointer", fontWeight: 600 }}
-    />
-  );
 
   return (
     <Box>

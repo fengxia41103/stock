@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Drawer, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 import ShowResource from "@Components/common/ShowResource";
 import FinancialCard from "@Components/stock/FinancialCard";
@@ -14,7 +14,6 @@ const BalanceView = () => {
   const [resource] = useState(`/balances?stock=${id}`);
 
   if (!stock || !stock.symbol) return null;
-  const { symbol } = stock;
 
   const reported = {
     share_issued: "Share Issued",
