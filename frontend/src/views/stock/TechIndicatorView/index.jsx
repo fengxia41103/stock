@@ -22,6 +22,7 @@ import {
 import StockHistoricalContext from "@Views/stock/StockHistoricalView/context";
 
 import { INDICATOR_MAP, INDICATORS, STARTERS } from "./indicators";
+import { summarizeIndicator } from "./summarize";
 
 // Legacy route keys from the old nav menu -> registry keys.
 const LEGACY_ALIAS = { stochastics: "kdj", elder: "ema", sar: "sar" };
@@ -69,6 +70,14 @@ const TechIndicatorView = () => {
   const containerRef = useRef(null);
   const chartRef = useRef(null);
 
+  // Tone -> emoji + color for the summary card.
+  const TONE = {
+    good: { emoji: "🟢", color: theme.palette.success.main },
+    warn: { emoji: "⚠️", color: theme.palette.warning.main },
+    bad: { emoji: "🔴", color: theme.palette.error.main },
+    neutral: { emoji: "⚪", color: theme.palette.text.secondary },
+  };
+
   // Resolve the initial indicator key from the route (with legacy aliases).
   const initialKey = useMemo(() => {
     const k = LEGACY_ALIAS[type] || type;
@@ -79,6 +88,14 @@ const TechIndicatorView = () => {
   useEffect(() => setSelected(initialKey), [initialKey]);
 
   const spec = INDICATOR_MAP[selected] || INDICATOR_MAP.rsi;
+
+  // Plain-language read of the selected indicator over the in-scope bars.
+  const summary = useMemo(() => {
+    if (!Array.isArray(data) || data.length === 0) return null;
+    const bars = toKLineData(data);
+    const scoped = spec.special === "heikin" ? toHeikinAshi(bars) : bars;
+    return summarizeIndicator(spec, scoped);
+  }, [data, spec]);
 
   const handleChange = (e) => {
     const key = e.target.value;
@@ -243,6 +260,55 @@ const TechIndicatorView = () => {
         </Box>
 
         <Box ref={containerRef} sx={{ width: "100%", height: 560 }} />
+
+        {summary && (
+          <Box
+            sx={{
+              mt: 2,
+              p: 1.5,
+              borderRadius: 1,
+              border: 1,
+              borderColor: TONE[summary.tone].color,
+              bgcolor: "action.hover",
+            }}
+          >
+            <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5 }}>
+              <Typography sx={{ fontSize: 18, lineHeight: 1 }}>
+                {TONE[summary.tone].emoji}
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                fontWeight={800}
+                sx={{ color: TONE[summary.tone].color }}
+              >
+                {summary.headline}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                · {spec.label}
+              </Typography>
+            </Stack>
+            <Box component="ul" sx={{ m: 0, pl: 2.5 }}>
+              {summary.points.map((p, idx) => (
+                <Typography
+                  key={idx}
+                  component="li"
+                  variant="body2"
+                  sx={{ color: "text.primary", mb: 0.25 }}
+                >
+                  {p}
+                </Typography>
+              ))}
+            </Box>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ display: "block", mt: 0.75 }}
+            >
+              {summary.scope} This is a data read of the chart, not financial
+              advice.
+            </Typography>
+          </Box>
+        )}
       </CardContent>
     </Card>
   );
