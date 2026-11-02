@@ -12,13 +12,13 @@ import {
 
 import ShowResource from "@Components/common/ShowResource";
 
-import { get_last_month_string, get_today_string } from "@Utils/helper";
+import { get_last_quarter_string, get_today_string } from "@Utils/helper";
 
 import StockHistoricalContext from "./context";
 
 const StockHistoricalView = () => {
   const { id } = useParams();
-  const [start, setStart] = useState(get_last_month_string());
+  const [start, setStart] = useState(get_last_quarter_string());
   const [end, setEnd] = useState(get_today_string());
   const resource = `/historicals?stock=${id}&on__range=${start},${end}`;
 

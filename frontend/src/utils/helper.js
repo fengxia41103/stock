@@ -67,3 +67,7 @@ export const get_last_week_string = () => {
 export const get_last_month_string = () => {
   return dayjs().subtract(1, "month").format(DATE_FORMAT);
 };
+
+export const get_last_quarter_string = () => {
+  return dayjs().subtract(3, "month").format(DATE_FORMAT);
+};
