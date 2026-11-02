@@ -1,6 +1,7 @@
 # Rebalance Execution Schedule — Staged
 
-Created: 2026-11-01 | Account: Managed IRA (tax-free to rebalance) | Prices ~2026-10-30
+Created: 2026-11-01 | Revised 2026-11-01 (cash-funded, +1 week) | Account:
+Rollover IRA 230806312 (tax-free to rebalance) | Prices ~2026-11-01
 
 > Execution mechanics, not investment advice. Order types are general best
 > practice for liquid ETFs/stocks; limit prices and tranche sizes are your call
@@ -12,7 +13,13 @@ Created: 2026-11-01 | Account: Managed IRA (tax-free to rebalance) | Prices ~202
   $176K into last week's weakness in one shot — a fixed schedule, not a timing
   bet. If SPYG bounces you capture some; if it falls you've de-risked some.
 - The one-time trades (loser sells, MSFT/TSM trims, LRCX start, and the
-  EM/mid/REIT buys they fund) go **Monday 11-03** — no reason to stage these.
+  EM/mid/REIT buys) go **Monday 2026-11-10** — no reason to stage these.
+- **Cash funding:** the IRA holds ~$54,530 cash (FDRXX, ~10% vs a 3% target).
+  Use the ~$39.5K excess to FUND the diversifying buys so nothing waits on sale
+  settlement. Cash does NOT cancel the thesis sells and does NOT replace the
+  SPYG trim (only selling SPYG cuts the large-cap-growth overweight). Keep ~$15K
+  as the cash sleeve.
+- **Schedule shifted out one week** from the original 2026-11-03 start.
 
 ## Order-type cheatsheet
 - **ETF buys/sells**: market or marketable-limit. Trade **after ~9:45 AM**
@@ -21,16 +28,19 @@ Created: 2026-11-01 | Account: Managed IRA (tax-free to rebalance) | Prices ~202
 - **Loser sells (PDD/SBUX)**: just execute — don't anchor on cost.
 - **LRCX start**: **limit** at/just below the open (~$232-234). No urgency;
   don't chase.
-- **Sequencing**: do sells before buys each session so cash is available.
+- **Sequencing**: sells before buys; the cash buffer means no same-day
+  settlement risk either way.
 
 ---
 
-## MONDAY 2026-11-03 — one-time block
+## MONDAY 2026-11-10 — one-time block
 
-> Rule of the day: **do all SELLS first, then BUYS** so settled cash is
-> available. Trade ETFs **after ~9:45 AM**. All $ are from 2026-10-30 prices —
-> recompute shares at the screen (amount ÷ live price). This includes the
-> Week-1 SPYG tranche (see the staged section below) done the same session.
+> Rule of the day: **do all SELLS first, then BUYS**. With ~$54.5K IRA cash on
+> hand the buys are fully funded regardless of settlement, so there's no
+> same-day settlement risk. Trade ETFs **after ~9:45 AM**. All $ are from
+> ~2026-11-01 prices — recompute shares at the screen (amount ÷ live price).
+> This includes the Week-1 SPYG tranche (see the staged section below) done the
+> same session.
 
 ### Step 1 — SELLS (do these first) · raises ~$86,875
 
@@ -44,7 +54,7 @@ Created: 2026-11-01 | Account: Managed IRA (tax-free to rebalance) | Prices ~202
 | 6 | TSM | TRIM to $3.5K | marketable-limit | ~$3,223 | Geopolitical-tail down-size |
 |   |   |   | **Sells subtotal** | **~$86,875** |   |
 
-### Step 2 — BUYS (after sells settle) · deploys ~$74,325
+### Step 2 — BUYS (funded by cash on hand) · deploys ~$74,325
 
 | # | Ticker | Action | Order type | Amount | Notes |
 |---|--------|--------|-----------|-------:|-------|
@@ -63,14 +73,18 @@ Created: 2026-11-01 | Account: Managed IRA (tax-free to rebalance) | Prices ~202
 | 13 | BND | Buy | after 9:45 | ~$12,240 |
 | 14 | VB | Buy | after 9:45 | ~$7,344 |
 
-### Cash flow for the day
+### Cash flow for the day (with the ~$54.5K IRA cash in play)
 
 | Bucket | Cash in | Cash out |
 |--------|--------:|---------:|
+| Starting IRA cash (FDRXX) | +$54,530 | — |
 | Step 1 sells | +$86,875 | — |
 | Step 2 buys | — | −$74,325 |
 | Step 3 (SPYG sell − buys) | +$44,029 | −$44,064 |
-| **Net** | **~+$12,515 left as cash** (rolls to Week-2) | |
+| **End cash** | **~$67,045** (buys fully cash-covered on the spot) | |
+
+The over-target cash is absorbed as the Weeks 2-4 SPYG tranches buy more
+VEA/BND/VB; trim toward the ~3% (~$15K) cash sleeve by the final week.
 
 ### Monday step checklist
 - [ ] 1. Sell PLTR (all)
@@ -91,7 +105,7 @@ Created: 2026-11-01 | Account: Managed IRA (tax-free to rebalance) | Prices ~202
 
 ## WEEKS 1-4 — staged SPYG reallocation (~$44K/week)
 
-Each Monday (11-03, 11-10, 11-17, 11-24), repeat:
+Each Monday (2026-11-10, 2026-11-17, 2026-11-24, 2026-12-01), repeat:
 - **SELL SPYG ~$44,029**
 - **BUY VEA ~$24,480** (international developed)
 - **BUY BND ~$12,240** (bonds)
@@ -99,10 +113,10 @@ Each Monday (11-03, 11-10, 11-17, 11-24), repeat:
 
 | Week | Date | SPYG sell | VEA | BND | VB |
 |------|------|----------:|----:|----:|---:|
-| 1 | Mon 11-03 | $44,029 | $24,480 | $12,240 | $7,344 |
-| 2 | Mon 11-10 | $44,029 | $24,480 | $12,240 | $7,344 |
-| 3 | Mon 11-17 | $44,029 | $24,480 | $12,240 | $7,344 |
-| 4 | Mon 11-24 | $44,029 | $24,480 | $12,240 | $7,344 |
+| 1 | Mon 2026-11-10 | $44,029 | $24,480 | $12,240 | $7,344 |
+| 2 | Mon 2026-11-17 | $44,029 | $24,480 | $12,240 | $7,344 |
+| 3 | Mon 2026-11-24 | $44,029 | $24,480 | $12,240 | $7,344 |
+| 4 | Mon 2026-12-01 | $44,029 | $24,480 | $12,240 | $7,344 |
 | **Total** | | **$176,117** | $97,920 | $48,960 | $29,376 |
 
 ## After completion (target end-state)
@@ -111,15 +125,26 @@ PEP, SPGI, LRCX, TSM). Core ~70% diversified index (VOO/VO/VB/VEA/VWO/BND/VNQ).
 Whole portfolio ~90% equity / 10% bonds.
 
 ## Checklist
-- [ ] Mon 11-03: one-time block + Week-1 SPYG tranche
-- [ ] Mon 11-10: Week-2 tranche
-- [ ] Mon 11-17: Week-3 tranche
-- [ ] Mon 11-24: Week-4 tranche (final)
+- [ ] Mon 2026-11-10: one-time block + Week-1 SPYG tranche
+- [ ] Mon 2026-11-17: Week-2 tranche
+- [ ] Mon 2026-11-24: Week-3 tranche
+- [ ] Mon 2026-12-01: Week-4 tranche (final)
 - [ ] After each: GET /api/v1/portfolio/allocation/ to confirm drift closing
 - [ ] If SPYG moves a lot, DO NOT change the cadence — the point is to not time it
 
 ## Caveats
-- Dollar amounts are from 2026-10-30 prices; share counts shift with Monday
-  prices. Recompute shares at the screen (amount ÷ live price).
-- Confirm your broker lets unsettled IRA sale proceeds fund same-day buys
-  (Fidelity usually does); if not, buy the day after each sell.
+- Dollar amounts are from ~2026-11-01 prices; share counts shift with the
+  execution-day prices. Recompute shares at the screen (amount ÷ live price).
+- With ~$54.5K IRA cash, buys don't depend on sale settlement — but still do
+  sells first out of habit; proceeds also settle tax-free in the IRA.
+
+## Warm-up validation week (2026-11-03 → 11-07)
+Before executing a ~$260K two-sided shift, spend the week feeding **daily
+position + price updates** to sanity-check the plan against live data:
+- Update prices + re-import the Fidelity positions CSV each day.
+- Re-check the per-name $ (esp. MSFT trim size, SPYG tranche, LRCX entry) and
+  the allocation drift (GET /api/v1/portfolio/allocation/) against targets.
+- Confirm no thesis changed (earnings, news) that should alter a sell/buy.
+- If the numbers hold up through the week, execute the one-time block + Week-1
+  tranche on **Mon 2026-11-10** as scheduled. If something material shifts,
+  revise here first.
