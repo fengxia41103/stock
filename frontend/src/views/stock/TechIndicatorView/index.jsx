@@ -16,7 +16,7 @@ const INDICATOR_BY_TYPE = {
   sar: { name: "SAR", overlay: true },
   stochastics: { name: "KDJ", overlay: false },
   elder: { name: "MA", overlay: true },
-  heikin: { name: "MA", overlay: true }, // v9 has no native Heikin-Ashi candle
+  heikin: { name: "MA", overlay: true }, // candles are converted to Heikin-Ashi
 };
 
 // Convert our historical rows to klinecharts kline data.
@@ -31,6 +31,31 @@ const toKLineData = (rows) =>
       volume: d.vol,
     }))
     .sort((a, b) => a.timestamp - b.timestamp);
+
+// Transform OHLC into Heikin-Ashi candles (smoothed trend candles).
+//   HA close = (O+H+L+C)/4
+//   HA open  = (prev HA open + prev HA close)/2  (seeded with (O+C)/2)
+//   HA high  = max(H, HA open, HA close);  HA low = min(L, HA open, HA close)
+const toHeikinAshi = (bars) => {
+  const out = [];
+  for (let i = 0; i < bars.length; i++) {
+    const b = bars[i];
+    const haClose = (b.open + b.high + b.low + b.close) / 4;
+    const haOpen =
+      i === 0
+        ? (b.open + b.close) / 2
+        : (out[i - 1].open + out[i - 1].close) / 2;
+    out.push({
+      timestamp: b.timestamp,
+      open: haOpen,
+      close: haClose,
+      high: Math.max(b.high, haOpen, haClose),
+      low: Math.min(b.low, haOpen, haClose),
+      volume: b.volume,
+    });
+  }
+  return out;
+};
 
 const TechIndicatorView = () => {
   const { type } = useParams();
@@ -81,7 +106,26 @@ const TechIndicatorView = () => {
     });
     chartRef.current = chart;
 
-    chart.applyNewData(toKLineData(data));
+    const bars = toKLineData(data);
+    const klineData = type === "heikin" ? toHeikinAshi(bars) : bars;
+    chart.applyNewData(klineData);
+
+    // Fit the data to the full chart width: size each bar so the whole series
+    // spans the container (klinecharts otherwise shows the most-recent bars at
+    // a fixed bar width, squeezing short series to the right). Keep a small
+    // floor/ceiling so very short or very long series stay usable.
+    const fitToWidth = () => {
+      const { width } = chart.getSize("candle_pane", "main") || { width: 0 };
+      if (width > 0 && klineData.length > 0) {
+        const space = Math.min(
+          30,
+          Math.max(2, (width - 8) / klineData.length),
+        );
+        chart.setBarSpace(space);
+      }
+    };
+    chart.setOffsetRightDistance(0);
+    fitToWidth();
 
     // Always show volume in its own pane.
     chart.createIndicator("VOL", false, { id: "pane_vol" });
@@ -96,7 +140,16 @@ const TechIndicatorView = () => {
       chart.createIndicator(spec.name, false, { id: `pane_${spec.name}` });
     }
 
+    // Re-fit after indicator panes change the layout, and on container resize.
+    fitToWidth();
+    const ro = new ResizeObserver(() => {
+      chart.resize();
+      fitToWidth();
+    });
+    ro.observe(el);
+
     return () => {
+      ro.disconnect();
       dispose(el);
       chartRef.current = null;
     };
