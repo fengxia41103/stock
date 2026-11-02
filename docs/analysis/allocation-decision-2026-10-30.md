@@ -34,6 +34,9 @@ large-cap growth). Structure: **core + satellite**.
 
 Satellite (25%, capped ~$30K each): MSFT, MA, V, RCL, GOOGL, TXN, PLTR, TSM.
 (LRCX is a pending add from the Oct-30 thesis work.)
+> ⚠️ SUPERSEDED by the "Revised split: 70% core / 30% satellite" section below.
+> In the governing final revision PLTR is a full EXIT (take profit) and is NOT
+> in the satellite keep list. Use the keep list under the revised split.
 
 ## Backtest (allocation backtester, annual rebalance, 2020-2026 incl. 2022)
 
@@ -101,9 +104,11 @@ turn. Aug-30 hold check: rev +16.6% YoY, 6/7 earnings beats, kill-criterion
 (rev decline >10% for 3+ qtrs) NOT triggered. Clean quarterly data now shows
 revenue still reaccelerating. Thesis is panning out → keep.
 
-**PLTR trimmed** — user: "one-off win, never planned"; no entry thesis in the
-diaries; +675% = outsized single-stock risk. Take the profit. **PDD, SBUX**
-still trimmed (losers failing the Darwin gate). **MCD** folds into core.
+**PLTR — full EXIT (take profit, NOT retained)** — user: "one-off win, never
+planned"; no entry thesis in the diaries; +675% = outsized single-stock risk.
+Sell the entire position; PLTR is dropped from the satellite keep list (it does
+NOT get a capped slice). **PDD, SBUX** sold entirely (losers failing the Darwin
+gate). **MCD** folds into core.
 
 ## Revised split: 70% core / 30% satellite
 Keeping all 11 conviction names at current size (MSFT capped $30K) lands the

@@ -43,8 +43,10 @@ Rollover IRA 230806312 (tax-free to rebalance) | Prices ~2026-11-01
   so timing has no tax cost; (c) the name is up meaningfully that day (rule of
   thumb ≥ ~+2-3%). Use a marketable-limit ~$0.10-0.20 below the live last for a
   prompt fill. This is NOT market-timing a keeper — it's choosing a better exit
-  moment for a decision already made. Does NOT apply to trims of names you're
-  keeping (MSFT/TSM/PLTR/MCD) — those stay on the 11-10 schedule.
+  moment for a decision already made. Does NOT apply to TRIMS of names you're
+  keeping (MSFT → $48K, TSM → $3.5K) — those stay on the 11-10 schedule. (PLTR
+  and MCD are FULL exits, so they, like PDD/SBUX, are eligible to pull forward
+  on a strong up-day.)
 - **LRCX start**: **limit** at/just below the open (~$232-234). No urgency;
   don't chase.
 - **Sequencing**: sells before buys; the cash buffer means no same-day
