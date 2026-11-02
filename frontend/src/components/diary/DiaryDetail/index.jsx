@@ -108,7 +108,7 @@ const DiaryDetail = ({ diaryId, stocks }) => {
       <Divider sx={{ mb: 3 }} />
 
       {/* Content */}
-      <EditDiaryEditor diary={diary} inEditing={inEditing} />
+      <EditDiaryEditor key={diary.id} diary={diary} inEditing={inEditing} />
 
       {inEditing && (
         <Box mt={1}>
