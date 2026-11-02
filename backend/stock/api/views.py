@@ -1925,3 +1925,63 @@ class MarketSnapshotViewSet(viewsets.ViewSet):
                 "prediction; futures can reverse by the open. Analysis, not advice.",
             }
         )
+
+    @action(detail=False, methods=["get"])
+    def risk(self, request):
+        """Home-page market-risk gauges (VIX, 10Y yield, DXY, high-yield credit).
+
+        Captures a fresh snapshot on each call so polling reflects current
+        values (point-in-time, not streaming). Pass ?capture=0 to skip the
+        fetch and just read the latest stored snapshot.
+        """
+        from stock.workers.get_market_snapshot import (
+            MarketSnapshotWorker,
+            RISK_GAUGES,
+            RISK_LABELS,
+            RISK_META,
+        )
+
+        if request.query_params.get("capture") != "0":
+            try:
+                MarketSnapshotWorker(RISK_GAUGES, allow_create=True).capture()
+            except Exception as exc:  # fetch failure shouldn't 500 the gauge
+                logger.warning("risk gauge capture failed: %s", exc)
+
+        snaps = self._latest_per_symbol(symbols=RISK_GAUGES)
+        gauges = []
+        for s in snaps:
+            meta = RISK_META.get(s.stock.symbol, {})
+            gauges.append(
+                {
+                    "symbol": s.stock.symbol,
+                    "label": RISK_LABELS.get(s.stock.symbol, s.stock.symbol),
+                    "price": s.regular_price,
+                    "change_pct": s.regular_change_pct,
+                    "rise_is": meta.get("rise_is", "neutral"),
+                    "hint": meta.get("hint", ""),
+                    "captured_at": s.captured_at,
+                }
+            )
+        # Keep a stable display order matching RISK_GAUGES.
+        order = {sym: i for i, sym in enumerate(RISK_GAUGES)}
+        gauges.sort(key=lambda g: order.get(g["symbol"], 99))
+
+        # Overall tone from VIX level + credit direction.
+        vix = next((g for g in gauges if g["symbol"] == "^VIX"), None)
+        hyg = next((g for g in gauges if g["symbol"] == "HYG"), None)
+        tone = "neutral"
+        if vix and vix["price"] is not None:
+            if vix["price"] >= 25 or (hyg and (hyg["change_pct"] or 0) <= -1):
+                tone = "bad"
+            elif vix["price"] < 18:
+                tone = "good"
+        captured = gauges[0]["captured_at"] if gauges else None
+        return Response(
+            {
+                "tone": tone,
+                "captured_at": captured,
+                "gauges": gauges,
+                "disclaimer": "Point-in-time snapshots (polled, not streaming). "
+                "Risk context, not advice.",
+            }
+        )

@@ -238,6 +238,15 @@ export function useWorldOvernight(options = {}) {
   return useResource("market-world", "/market-snapshots/world/", options);
 }
 
+// Home-page risk gauges (VIX, 10Y, DXY, HYG). Polls on an interval —
+// yahooquery has no websocket, so this is "streaming-like" polling, not ticks.
+export function useMarketRisk(refetchMs = 60000) {
+  return useResource("market-risk", "/market-snapshots/risk/", {
+    refetchInterval: refetchMs,
+    refetchIntervalInBackground: false,
+  });
+}
+
 // Most-recent captured snapshot per holding (pre/post-market moves).
 export function useOvernightSnapshots(options = {}) {
   return useResource("market-latest", "/market-snapshots/latest/", options);

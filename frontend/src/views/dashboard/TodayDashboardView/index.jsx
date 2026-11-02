@@ -16,6 +16,7 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useResource, useStocksOverview } from "@/api";
 import { useMarketStatus } from "@/hooks/useMarketStatus";
+import MarketRiskGauges from "@Components/dashboard/MarketRiskGauges";
 import WorldOvernight from "@Components/dashboard/WorldOvernight";
 
 // Initialize Highcharts treemap module
@@ -307,6 +308,7 @@ const TodayDashboardView = () => {
           sx={{ bgcolor: TILE, borderRadius: 1, width: 200 }}
         />
       </Box>
+      <MarketRiskGauges />
       <WorldOvernight />
       <Grid container spacing={2} alignItems="stretch">
         {/* Row 1 */}

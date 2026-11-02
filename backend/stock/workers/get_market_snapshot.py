@@ -166,3 +166,24 @@ WORLD_LABELS = {
     "^VIX": "VIX (volatility)",
 }
 
+# Home-page risk gauges — the "market weather" at a glance. All resolve in
+# yahooquery. These are point-in-time snapshots (polled), not streaming ticks.
+RISK_GAUGES = ["^VIX", "^TNX", "DX-Y.NYB", "HYG"]
+
+RISK_LABELS = {
+    "^VIX": "VIX — equity fear gauge",
+    "^TNX": "10Y Treasury yield",
+    "DX-Y.NYB": "US Dollar (DXY)",
+    "HYG": "High-yield credit (HYG)",
+}
+
+# Per-gauge meaning + whether a RISE is risk-on (good) or risk-off (bad), so the
+# UI can color them consistently. VIX up = fear up (bad); HYG up = credit calm
+# (good); 10Y and DXY are context (neutral — big moves either way are notable).
+RISK_META = {
+    "^VIX": {"rise_is": "bad", "hint": "Above ~20 = rising fear; below = calm."},
+    "^TNX": {"rise_is": "neutral", "hint": "Higher yields pressure stock valuations."},
+    "DX-Y.NYB": {"rise_is": "neutral", "hint": "Strong dollar pressures EM (VWO) + multinationals."},
+    "HYG": {"rise_is": "good", "hint": "Falling hard = credit stress / risk-off."},
+}
+
