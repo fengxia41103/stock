@@ -15,6 +15,7 @@ import { useSectors } from "@/api";
 import { Page } from "@/components/shared";
 import AddNewSectorDialog from "@Components/sector/AddNewSectorDialog";
 import ListSectorCard from "@Components/sector/ListSectorCard";
+import SectorComparison from "@Components/sector/SectorComparison";
 
 const SectorListView = () => {
   const [searching, setSearching] = useState("");
@@ -42,6 +43,9 @@ const SectorListView = () => {
               />
             </CardContent>
           </Card>
+        </Box>
+        <Box mt={1}>
+          <SectorComparison />
         </Box>
         <Box mt={1}>
           <Grid container spacing={1}>

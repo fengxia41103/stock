@@ -11,6 +11,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
+from stock.api.sector_compare import compare_sectors
 from stock.api.serializers import (
     BalanceSheetSerializer,
     CashFlowSerializer,
@@ -166,6 +167,23 @@ class SectorViewSet(viewsets.ModelViewSet):
         for stock in sector.stocks.all():
             batch_update_helper(request.user, stock.symbol)
         return response
+
+    @action(detail=False, methods=["get"])
+    def compare(self, request):
+        """Whole-portfolio comparison stats (equal-weight) across the user's
+        sectors: return (1m/3m/1y), annualized volatility, avg P/E, avg ROE,
+        and pairwise stock overlap.
+
+        Pure computation (see api/sector_compare.compare_sectors) so it can be
+        moved to a Celery task + cache if it gets heavy.
+        """
+        sectors = (
+            MySector.objects.filter(user=request.user)
+            .prefetch_related("stocks")
+            .order_by("name")
+        )
+        data = compare_sectors(sectors)
+        return Response(data)
 
 
 class StockViewSet(viewsets.ModelViewSet):

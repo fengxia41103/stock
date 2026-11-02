@@ -66,6 +66,10 @@ export function useSectors() {
   return useResource("sectors", "/sectors/");
 }
 
+export function useSectorCompare() {
+  return useResource("sector-compare", "/sectors/compare/");
+}
+
 export function useSector(id: string | number) {
   return useResource(["sector", String(id)], `/sectors/${id}/`);
 }
