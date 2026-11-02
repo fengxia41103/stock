@@ -40,6 +40,21 @@ class MarketSnapshotWorker:
         n = self._num(val)
         return n * 100 if n is not None else None
 
+    def _computed_pct(self, price, prev_close, yahoo_pct):
+        """Change pct vs previous close.
+
+        yahooquery's `*ChangePercent` fields can LAG the live price by a cycle
+        (observed intraday: price updates but the pct field stays frozen at an
+        earlier value). When we have both a live price and a previous close we
+        compute the pct ourselves so it is always consistent with the stored
+        price; otherwise we fall back to yahoo's reported pct.
+        """
+        p = self._num(price)
+        pc = self._num(prev_close)
+        if p is not None and pc not in (None, 0):
+            return round((p / pc - 1) * 100, 4)
+        return self._pct(yahoo_pct)
+
     def capture(self):
         """Fetch quotes and write one MarketSnapshot per resolvable symbol.
 
@@ -74,19 +89,30 @@ class MarketSnapshotWorker:
                 logger.warning("MarketSnapshot: %s not in MyStock; skipping", sym)
                 continue
 
+            prev_close = data.get("regularMarketPreviousClose")
             snap = MarketSnapshot.objects.create(
                 stock=stock,
                 captured_at=now,
                 market_state=data.get("marketState") or "",
                 regular_price=self._num(data.get("regularMarketPrice")),
-                regular_change_pct=self._pct(data.get("regularMarketChangePercent")),
-                regular_previous_close=self._num(
-                    data.get("regularMarketPreviousClose")
+                regular_change_pct=self._computed_pct(
+                    data.get("regularMarketPrice"),
+                    prev_close,
+                    data.get("regularMarketChangePercent"),
                 ),
+                regular_previous_close=self._num(prev_close),
                 pre_price=self._num(data.get("preMarketPrice")),
-                pre_change_pct=self._pct(data.get("preMarketChangePercent")),
+                pre_change_pct=self._computed_pct(
+                    data.get("preMarketPrice"),
+                    prev_close,
+                    data.get("preMarketChangePercent"),
+                ),
                 post_price=self._num(data.get("postMarketPrice")),
-                post_change_pct=self._pct(data.get("postMarketChangePercent")),
+                post_change_pct=self._computed_pct(
+                    data.get("postMarketPrice"),
+                    prev_close,
+                    data.get("postMarketChangePercent"),
+                ),
                 source="yahooquery",
             )
             created.append(snap)

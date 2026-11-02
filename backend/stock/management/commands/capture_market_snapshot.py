@@ -52,9 +52,16 @@ class Command(BaseCommand):
             )
         )
         for snap in created:
-            on = snap.overnight_change_pct
-            on_txt = f"{on:+.2f}% o/n" if on is not None else "no o/n"
+            # During regular hours show the regular-session change; pre/post
+            # otherwise. (overnight_change_pct is only meaningful off-hours.)
+            if snap.market_state == "REGULAR":
+                chg = snap.regular_change_pct
+                tag = "day"
+            else:
+                chg = snap.overnight_change_pct
+                tag = "o/n"
+            chg_txt = f"{chg:+.2f}% {tag}" if chg is not None else f"no {tag}"
             self.stdout.write(
                 f"  {snap.stock.symbol:6s} {snap.market_state:8s} "
-                f"reg={snap.regular_price} {on_txt}"
+                f"reg={snap.regular_price} {chg_txt}"
             )
