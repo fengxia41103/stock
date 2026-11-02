@@ -25,20 +25,67 @@ Created: 2026-11-01 | Account: Managed IRA (tax-free to rebalance) | Prices ~202
 
 ---
 
-## MONDAY 2026-11-03 — one-time block (do sells first)
+## MONDAY 2026-11-03 — one-time block
 
-SELLS (~$86,875):
-- PLTR — sell all ~$7,949 (take profit on the unplanned winner)
-- PDD — sell all ~$11,318 · SBUX — sell all ~$11,663 (losers)
-- MCD — sell all ~$4,810 (fold into core)
-- MSFT — trim to $30K cap → sell ~$47,912
-- TSM — trim to $3.5K → sell ~$3,223
+> Rule of the day: **do all SELLS first, then BUYS** so settled cash is
+> available. Trade ETFs **after ~9:45 AM**. All $ are from 2026-10-30 prices —
+> recompute shares at the screen (amount ÷ live price). This includes the
+> Week-1 SPYG tranche (see the staged section below) done the same session.
 
-BUYS (~$74,325):
-- LRCX — start ~$5,500 (~24 sh, **limit** ~$232-234)
-- VWO (emerging) ~$27,549 · VO (US mid) ~$21,692 · VNQ (REIT) ~$19,584
+### Step 1 — SELLS (do these first) · raises ~$86,875
 
-(Monday sells exceed buys by ~$12.5K — rolls into Week-1 cash for the SPYG buys.)
+| # | Ticker | Action | Order type | Amount | Why |
+|---|--------|--------|-----------|-------:|-----|
+| 1 | PLTR | Sell ALL | market/marketable-limit | ~$7,949 | Take profit (unplanned winner) |
+| 2 | PDD | Sell ALL | market — don't anchor on cost | ~$11,318 | Loser, Darwin gate fail |
+| 3 | SBUX | Sell ALL | market — don't anchor on cost | ~$11,663 | Loser, Darwin gate fail |
+| 4 | MCD | Sell ALL | market/marketable-limit | ~$4,810 | Fold into index core |
+| 5 | MSFT | TRIM to $30K cap | marketable-limit | ~$47,912 | Enforce per-name cap |
+| 6 | TSM | TRIM to $3.5K | marketable-limit | ~$3,223 | Geopolitical-tail down-size |
+|   |   |   | **Sells subtotal** | **~$86,875** |   |
+
+### Step 2 — BUYS (after sells settle) · deploys ~$74,325
+
+| # | Ticker | Action | Order type | Amount | Notes |
+|---|--------|--------|-----------|-------:|-------|
+| 7 | LRCX | START (new) | **limit ~$232-234**, don't chase | ~$5,500 | ~24 sh; room to add lower later |
+| 8 | VWO | Buy | marketable-limit, after 9:45 | ~$27,549 | Emerging markets |
+| 9 | VO | Buy | marketable-limit, after 9:45 | ~$21,692 | US mid cap |
+| 10 | VNQ | Buy | marketable-limit, after 9:45 | ~$19,584 | REIT / real assets |
+|   |   |   | **Buys subtotal** | **~$74,325** |   |
+
+### Step 3 — Week-1 SPYG tranche (same session) · see staged section
+
+| # | Ticker | Action | Order type | Amount |
+|---|--------|--------|-----------|-------:|
+| 11 | SPYG | SELL tranche 1 of 4 | marketable-limit | ~$44,029 |
+| 12 | VEA | Buy | after 9:45 | ~$24,480 |
+| 13 | BND | Buy | after 9:45 | ~$12,240 |
+| 14 | VB | Buy | after 9:45 | ~$7,344 |
+
+### Cash flow for the day
+
+| Bucket | Cash in | Cash out |
+|--------|--------:|---------:|
+| Step 1 sells | +$86,875 | — |
+| Step 2 buys | — | −$74,325 |
+| Step 3 (SPYG sell − buys) | +$44,029 | −$44,064 |
+| **Net** | **~+$12,515 left as cash** (rolls to Week-2) | |
+
+### Monday step checklist
+- [ ] 1. Sell PLTR (all)
+- [ ] 2. Sell PDD (all)
+- [ ] 3. Sell SBUX (all)
+- [ ] 4. Sell MCD (all)
+- [ ] 5. Trim MSFT → $30K cap
+- [ ] 6. Trim TSM → $3.5K
+- [ ] 7. Start LRCX (limit ~$232-234)
+- [ ] 8. Buy VWO
+- [ ] 9. Buy VO
+- [ ] 10. Buy VNQ
+- [ ] 11. Sell SPYG tranche 1 (~$44,029)
+- [ ] 12. Buy VEA · 13. Buy BND · 14. Buy VB
+- [ ] After close: GET /api/v1/portfolio/allocation/ to confirm drift closing
 
 ---
 
