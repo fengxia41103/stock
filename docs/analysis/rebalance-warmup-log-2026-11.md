@@ -330,3 +330,31 @@ now BOTH legs done. GTC $414 order should be CANCELLED (superseded by this
 market trim) — confirm it's not still resting.
 
 Remaining on 11-10: SBUX (full exit) + MSFT trim → $48K (~$40,934 total).
+
+#### 11-03 ~4:00pm — CLOSE (official end-of-day data point)
+
+Growth-led green day — the MIRROR of Monday's growth-fade.
+- Growth/tech/semis led: MSFT +2.8% (fully recovered from Mon AH scare), SPYG
+  +1.0%, VOO +0.2-0.4%; semis ran hard — TXN +3.8%, TSM +3.4%, LRCX +3.3%.
+- Value gave back: MA/V/SPGI/RCL/PEP all red (exact inverse of Monday).
+- VIX ~20.8 (sideways, just above 20), HYG calm — no stress; Monday's
+  nervousness has unwound.
+
+Two-day pattern (the thesis, live): Mon value-up/growth-down; Tue growth-up/
+value-down. Opposite leadership both days, diversified book green-ish both =
+exactly why single-factor concentration is the risk the rebalance cuts.
+
+Executions today (Tue 11-03):
+- LRCX STARTED 23.582 sh @ $233.22 ($5,500) — auto-classified us_large ✅.
+- TSM TRIMMED 8.0 sh @ ~$406 (~$3,249), kept 8.672 sh ~$3.5K. GTC $414
+  cancelled (confirmed). The LRCX+TSM semi swap is now BOTH legs done.
+- SBUX NOT pulled forward — never found strength (ranged -0.1% to -0.3% all
+  day). Stays on 11-10.
+
+Mild note: semis ran after the TSM trim (TSM $406->$404 close but +3.4% intraday
+high zone; LRCX +3.3%). Left a little on the TSM sell slice, but that's noise on
+a planned trim; LRCX green validates the swap timing.
+
+Remaining: SBUX full exit + MSFT trim ->$48K (11-10); VWO/VO/VNQ (SPYG-funded);
+SPYG tranches 11-12/17/24, 12-01. Cash ~$32K effective after TSM proceeds settle
+(above $15K sleeve). Plan impact: none — all on schedule.
