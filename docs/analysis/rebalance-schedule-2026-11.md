@@ -76,8 +76,8 @@ Weeks 2-4 stay one SPYG tranche each Monday (11-17, 11-24, 12-01).
 | 3 | SBUX | Sell ALL | market — don't anchor on cost | ~$11,663 | Loser, Darwin gate fail |
 | 4 | MCD | ✅ DONE 11-02 (pulled fwd) | — | ~$4,882 filled | Fold into index core — sold into +1.9% up-day (tax-free IRA) |
 | 5 | MSFT | TRIM to **$48K cap** | marketable-limit | ~$30,026 | Keep ~$48K (~8.8%); higher cap for highest-conviction winner (Option B) |
-| 6 | TSM | TRIM to $3.5K | marketable-limit | ~$3,223 | Geopolitical-tail down-size |
-|   |   |   | **Sells subtotal** | **~$68,900** (PDD ~$11,872 + MCD ~$4,882 + PLTR ~$7,963 DONE 11-02; **~$44,183 remaining on 11-10**) |   |
+| 6 | TSM | ✅ TRIMMED 11-03 (pulled fwd) | — | sold 8.0 sh ~$3,249 | Geopolitical-tail down-size; kept 8.672 sh ~$3.5K. Trimmed early into a bounce within a downtrend (sell slice better sooner) — paired w/ LRCX start |
+|   |   |   | **Sells subtotal** | **~$68,900** (PDD+MCD+PLTR+TSM-trim done early ~$27,966; **SBUX+MSFT-trim ~$40,934 remaining on 11-10**) |   |
 
 ### Step 2 — BUYS (funded by cash on hand) · deploys ~$74,325
 
@@ -118,6 +118,7 @@ Day 1 — Mon 11-10 (sells):
 - [x] PDD (all) — ✅ DONE 11-02, pulled forward into +5% up-day (~$11,872)
 - [x] MCD (all) — ✅ DONE 11-02, pulled forward into +1.9% up-day (~$4,882)
 - [x] PLTR (all) — ✅ DONE 11-02, take profit (~$7,963)
+- [x] TSM trim — ✅ DONE 11-03, sold 8.0 sh ~$3,249, kept ~$3.5K (8.672 sh)
 - [ ] 1. Sell SBUX (all)
 - [ ] 2. Trim MSFT → $48K cap (~$30,026)
 - [ ] 3. Trim TSM → $3.5K

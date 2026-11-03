@@ -305,3 +305,28 @@ Cash: prior exits settled, FDRXX now $34,248; pending -$5,500 (LRCX settling);
 effective cash ~$28,748 after settle — above the ~$15K sleeve (~$13.7K
 headroom). CONFIRMS: no more cash buys — remaining VWO/VO/VNQ (~$69K) wait for
 SPYG proceeds or the sleeve breaks.
+
+#### 11-03 ~11:49am — EXECUTED: TSM trim (pulled forward from 11-10)
+
+Sold **8.0 sh TSM @ ~$406 = ~$3,249**; kept **8.672 sh ≈ $3,523** (the planned
+~$3.5K keep). Partial TRIM, NOT a full exit. TSM position now 8.672 sh in app.
+
+Reasoning (the good version, decided fresh — NOT anchored to yesterday's stale
+$414 limit): TSM is in a downtrend (1w -6.9%, 1m -16.3%); today's +1.85% is a
+bounce within that downtrend. For the slice being SOLD, sooner is a better exit
+than waiting into likely further weakness — same "I'm leaving this, take the
+better price" logic as the PDD pop, just the mirror (sell before more downside
+vs sell into strength). User's own insight drove this: "if it's a bounce in a
+downtrend, wouldn't waiting be worse?" — correct for the sell slice.
+
+Discipline note: did NOT panic-sell the whole position. Kept the ~$3.5K as the
+deliberate small semi/EM exposure — the TSM THESIS hasn't broken (−16% is a
+drawdown on a volatile semi, not a broken story), so no reason to exit fully.
+Trimming to plan = good; dumping all on red = the reactivity the anchor warns
+against. Held the line.
+
+Swap status: LRCX start (11-03) + TSM trim (11-03) — the paired semi SWAP is
+now BOTH legs done. GTC $414 order should be CANCELLED (superseded by this
+market trim) — confirm it's not still resting.
+
+Remaining on 11-10: SBUX (full exit) + MSFT trim → $48K (~$40,934 total).
