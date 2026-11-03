@@ -172,6 +172,16 @@ class Command(BaseCommand):
                             avg_cost=avg_cost,
                             opened_at=target_date,
                         )
+                        # Auto-classify the new holding into its asset-class
+                        # bucket so it appears correctly in allocation drift
+                        # (prevents the "unclassified new ETF" bug).
+                        from stock.retirement.auto_classify import classify_symbol
+
+                        assigned_key = classify_symbol(user, stock)
+                        if assigned_key:
+                            self.stdout.write(
+                                f"  CLASSIFIED {symbol} -> {assigned_key}"
+                            )
                     self.stdout.write(
                         f"  CREATED position {symbol}: "
                         f"{shares:.3f} shares @ ${avg_cost:.2f}"

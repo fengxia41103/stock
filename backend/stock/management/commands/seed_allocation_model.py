@@ -21,6 +21,7 @@ from django.core.management.base import BaseCommand
 
 from stock.models import AssetClass, AssetClassAssignment
 from stock.models.portfolio import Position
+from stock.retirement.auto_classify import SYMBOL_MAP
 
 User = get_user_model()
 
@@ -47,26 +48,8 @@ DEFAULT_BUCKETS = [
     ("cash", "Cash / Short Term", 3.0, 8),
 ]
 
-# Symbol -> sleeve. Covers the retained SATELLITE stocks, the CORE proxy ETFs,
-# and names being trimmed (left here for drift classification).
-# RETAINED satellite (11): MSFT, MA, V, RCL, GOOGL, TXN, TSM, LIN, SPGI, PEP, PG.
-# TRIMMED OUT: PLTR (unplanned one-off), PDD, SBUX. MCD folded into core index.
-SYMBOL_MAP = {
-    # --- core proxy ETFs ---
-    "VOO": "us_large", "SPY": "us_large", "SPYG": "us_large",
-    "VO": "us_mid", "VB": "us_small",
-    "VEA": "intl_dev_large", "VXUS": "intl_dev_large",
-    "VWO": "emerging", "BND": "bonds_us_ig", "BNDX": "bonds_us_ig",
-    "VNQ": "real_assets", "TIP": "real_assets",
-    # --- retained satellite (conviction names, capped ~$30K each) ---
-    "MSFT": "us_large", "GOOGL": "us_large", "MA": "us_large",
-    "V": "us_large", "TXN": "us_large", "LIN": "us_large",
-    "SPGI": "us_large", "PEP": "us_large", "PG": "us_large",
-    "LRCX": "us_large", "RCL": "us_mid", "TSM": "emerging",
-    # --- trimmed / folded to core (classified for drift reporting) ---
-    "PLTR": "us_large", "MCD": "us_large",
-    "PDD": "emerging", "SBUX": "us_large",
-}
+# SYMBOL_MAP now lives in stock.retirement.auto_classify (shared with the CSV
+# import so new holdings auto-classify). Imported above.
 
 
 class Command(BaseCommand):
