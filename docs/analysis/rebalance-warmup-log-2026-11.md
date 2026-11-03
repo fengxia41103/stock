@@ -277,3 +277,23 @@ is cutting.
 
 End-of-day position state: today's early executions (PDD/MCD/PLTR exits, BND +
 VEA buys) all settled as expected; no new fills since.
+
+### 2026-11-03 (Tue) — warm-up day 1
+
+#### 11-03 ~11:16am — EXECUTED: LRCX start (pulled forward from 11-11)
+
+Bought LRCX ~$5,500 at MARKET (~24 sh @ ~$233-234). Pulled forward because it
+came into the $232-234 target range today (was $239 on 11-02 — "don't chase"
+held, and it came to us). This starts the only NEW position in the plan.
+
+Order-type note: plan specified a LIMIT on LRCX ("don't chase"); executed at
+market. Fine here since it was already in-range and liquid, but a limit is
+preferred on LRCX specifically for future adds.
+
+Exact fill + auto-classification PENDING a fresh Nov-03 CSV (the one in
+~/Downloads was still the Nov-02 file). Will reconcile shares/price and confirm
+LRCX auto-maps to us_large on the next import.
+
+Still open on the semi sleeve: TSM trim (GTC $414 resting, TSM ~$408, unfilled)
+is the paired SWAP with this LRCX start — LRCX now started, TSM trim still
+pending its limit.

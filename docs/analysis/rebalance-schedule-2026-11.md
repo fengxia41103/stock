@@ -83,7 +83,7 @@ Weeks 2-4 stay one SPYG tranche each Monday (11-17, 11-24, 12-01).
 
 | # | Ticker | Action | Order type | Amount | Notes |
 |---|--------|--------|-----------|-------:|-------|
-| 7 | LRCX | START (new) | **limit ~$232-234**, don't chase | ~$5,500 | ~24 sh; room to add lower later |
+| 7 | LRCX | ✅ STARTED 11-03 (pulled fwd) | market @ ~$233-234 | ~$5,500 | ~24 sh; in-range ($232-234), started early. Room to add lower later |
 | 8 | VWO | Buy | marketable-limit, after 9:45 | ~$27,549 | Emerging markets |
 | 9 | VO | Buy | marketable-limit, after 9:45 | ~$21,692 | US mid cap |
 | 10 | VNQ | Buy | marketable-limit, after 9:45 | ~$19,584 | REIT / real assets |
@@ -123,10 +123,10 @@ Day 1 — Mon 11-10 (sells):
 - [ ] 3. Trim TSM → $3.5K
 
 Day 2 — Tue 11-11 (buys):
-- [ ] 4. Start LRCX (limit ~$232-234)
-- [ ] 7. Buy VWO
-- [ ] 8. Buy VO
-- [ ] 9. Buy VNQ
+- [x] LRCX — ✅ STARTED 11-03, ~$5,500 market @ ~$233-234 (in-range, pulled fwd)
+- [ ] 5. Buy VWO
+- [ ] 6. Buy VO
+- [ ] 7. Buy VNQ
 
 Day 3 — Wed 11-12 (SPYG tranche 1):
 - [ ] 11. Sell SPYG tranche 1 (~$44,029)
