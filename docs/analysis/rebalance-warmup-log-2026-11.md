@@ -297,3 +297,11 @@ LRCX auto-maps to us_large on the next import.
 Still open on the semi sleeve: TSM trim (GTC $414 resting, TSM ~$408, unfilled)
 is the paired SWAP with this LRCX start — LRCX now started, TSM trim still
 pending its limit.
+
+RECONCILED (Nov-03 CSV, 11:18am): LRCX **23.582 sh @ $233.22 = $5,500**
+confirmed. Auto-classify WORKED on first real test — import printed
+"CLASSIFIED LRCX -> us_large" automatically (no manual step; the bug fix holds).
+Cash: prior exits settled, FDRXX now $34,248; pending -$5,500 (LRCX settling);
+effective cash ~$28,748 after settle — above the ~$15K sleeve (~$13.7K
+headroom). CONFIRMS: no more cash buys — remaining VWO/VO/VNQ (~$69K) wait for
+SPYG proceeds or the sleeve breaks.
