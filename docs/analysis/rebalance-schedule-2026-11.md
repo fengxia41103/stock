@@ -135,6 +135,38 @@ Day 3 — Wed 11-12 (SPYG tranche 1):
 
 ---
 
+## CURRENT DRIFT — live snapshot 2026-11-03 (after Day-1 early execution)
+
+Source: GET /api/v1/portfolio/allocation/ (asset-class map fixed 11-03 so
+BND/VEA classify correctly — unclassified now $0). IRA ~$511,359.
+
+| Asset class | Current | Target | Drift | Remaining trade |
+|---|--:|--:|--:|--:|
+| US Large Cap | 86.4% | 42% | +44.4% | SELL ~$227,141 |
+| International Developed | 3.9% | 20% | −16.1% | BUY ~$82,403 |
+| Bonds / Fixed Income | 4.9% | 10% | −5.1% | BUY ~$26,192 |
+| US Small Cap | 0.0% | 6% | −6.0% | BUY ~$30,682 |
+| Emerging Markets | 1.3% | 7% | −5.7% | BUY ~$29,043 |
+| US Mid Cap | 3.5% | 8% | −4.5% | BUY ~$23,026 |
+| Real Assets / REIT | 0.0% | 4% | −4.0% | BUY ~$20,454 |
+| Cash / Short Term | 0.0%* | 3% | −3.0% | hold ~$15,341 |
+
+*Cash shows 0% because the allocation endpoint only counts equity positions
+(FDRXX sweep isn't a tracked position); actual IRA cash ~$54.5K pre-deployment.
+
+Progress vs 11-01: BND 0→4.9%, VEA 0→3.9% (both off zero ✅). US Large still
+86.4% — the big cut is the staged SPYG trim (below) + the MSFT trim (11-10),
+still ahead. Early PDD/MCD/PLTR exits done; the US-large overweight barely
+moved because those were small vs SPYG+MSFT (~$290K).
+
+Done early (11-02, reduce the remaining trades above):
+- Exits: PDD, MCD, PLTR (~$24.7K raised).
+- Buys: BND +$25K (bonds now 4.9%), VEA +$20K (intl now 3.9%).
+So remaining Intl buy ~$82K (not the full ~$102K); remaining Bonds ~$26K
+(not ~$51K). The big SELL is still ~$227K from US-large (SPYG staged + MSFT).
+
+---
+
 ## WEEKS 1-4 — staged SPYG reallocation (~$44K/week)
 
 Each Monday (2026-11-10, 2026-11-17, 2026-11-24, 2026-12-01), repeat:
