@@ -414,3 +414,15 @@ the dollars — re-derive from the live gap before each tranche.
 
 Also corrected weekday labels in the schedule (11-10 is a Tuesday; 11-12 a
 Thursday; 11-17/11-24/12-01 are Tuesdays).
+
+## Wed 11-04 — Decision: tranche 1 stays on Thu 11-12 (10:44am ET)
+
+Considered running SPYG tranche 1 today (SPYG +1.7%, VIX 17). Decided to wait:
+- Staging spreads timing risk; going early only compresses the four weeks.
+- The pull-forward rule covers full-exit losers only. SPYG tranches are
+  scheduled trims (like MSFT, which was already a discretionary exception).
+- SBUX/MSFT proceeds (~$46.9K) will have settled by 11-12; cleaner cash.
+- Warm-up week is for validating the revised numbers first.
+Today's VWO/VO/VNQ buys are already netted out of the revised tranche amounts.
+Process decision, not a market call. Plan unchanged: Thu 11-12, then Tue 11-17,
+11-24, 12-01 (revised amounts in the schedule).
