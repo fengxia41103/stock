@@ -84,9 +84,9 @@ Weeks 2-4 stay one SPYG tranche each Monday (11-17, 11-24, 12-01).
 | # | Ticker | Action | Order type | Amount | Notes |
 |---|--------|--------|-----------|-------:|-------|
 | 7 | LRCX | ✅ STARTED 11-03 (pulled fwd) | market @ ~$233-234 | ~$5,500 | ~24 sh; in-range ($232-234), started early. Room to add lower later |
-| 8 | VWO | Buy | marketable-limit, after 9:45 | ~$27,549 | Emerging markets |
-| 9 | VO | Buy | marketable-limit, after 9:45 | ~$21,692 | US mid cap |
-| 10 | VNQ | Buy | marketable-limit, after 9:45 | ~$19,584 | REIT / real assets |
+| 8 | VWO | ✅ DONE 11-04 (pulled fwd) | — | 488 sh @ $56.44 = $27,545 | Emerging markets (cash-funded) |
+| 9 | VO | ✅ DONE 11-04 (pulled fwd) | — | 265 sh @ $81.88 = $21,697 | US mid cap (cash-funded) |
+| 10 | VNQ | ✅ DONE 11-04 (pulled fwd) | — | 204 sh @ $96.32 = $19,649 | REIT / real assets (cash-funded) |
 |   |   |   | **Buys subtotal** | **~$74,325** |   |
 
 ### Step 3 — Week-1 SPYG tranche (Day 3, Wed 11-12) · see staged section
@@ -125,9 +125,9 @@ Day 1 — Mon 11-10 (sells):
 
 Day 2 — Tue 11-11 (buys):
 - [x] LRCX — ✅ STARTED 11-03, ~$5,500 market @ ~$233-234 (in-range, pulled fwd)
-- [ ] 5. Buy VWO
-- [ ] 6. Buy VO
-- [ ] 7. Buy VNQ
+- [x] 5. Buy VWO — ✅ DONE 11-04, 488 sh @ $56.44
+- [x] 6. Buy VO — ✅ DONE 11-04, 265 sh @ $81.88
+- [x] 7. Buy VNQ — ✅ DONE 11-04, 204 sh @ $96.32
 
 Day 3 — Wed 11-12 (SPYG tranche 1):
 - [ ] 11. Sell SPYG tranche 1 (~$44,029)

@@ -379,3 +379,22 @@ Cash: FDRXX $31,997 settled + $46,914 pending = ~$78.9K (well above the ~$15K
 sleeve), waiting for the VWO/VO/VNQ buys and SPYG tranches.
 
 Remaining: VWO/VO/VNQ buys; SPYG tranches 11-12/17/24, 12-01 (+VEA/BND/VB).
+
+## Wed 11-04 — VWO / VO / VNQ buys executed (10:20am ET)
+
+Fills (reconciled from Fidelity CSV; all auto-classified):
+- VWO 488 sh @ $56.44 = $27,545 -> emerging
+- VO  265 sh @ $81.88 = $21,697 -> us_mid
+- VNQ 204 sh @ $96.32 = $19,649 -> real_assets
+- Total $68,891 (plan ~$68.8K). Bought into the rally day; each ~flat vs fill.
+
+Step 2 is now fully done. All Step 1 sells and Step 2 buys are complete, a
+week ahead of the 11-10 schedule.
+
+Cash: FDRXX $31,997 settled, pending -$21,977 (SBUX+MSFT proceeds +$46,914
+less buys $68,891) => effective ~$10,020. That is ~$5K BELOW the ~$15K sleeve
+(flagged before executing; user chose to proceed). Not a problem for the plan —
+SPYG tranche proceeds fund the next buys — but the sleeve is thin until rebuilt.
+
+Remaining: SPYG tranches 11-12/17/24, 12-01 with VEA/BND/VB buys. Tranche 1
+buys ($44,064) ~= sell ($44,029), so cash stays ~$10K unless a buy is trimmed.
