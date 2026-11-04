@@ -8,22 +8,27 @@ Rollover IRA 230806312 (tax-free to rebalance) | Prices ~2026-11-01
 > at the screen. This is a PRE-COMMITTED schedule, not a "wait for recovery"
 > condition — follow the cadence regardless of short-term price moves.
 
+> **UPDATE 2026-11-04:** all Step 1 sells and Step 2 buys were executed early
+> (11-02 → 11-04). Only the 4 SPYG tranches remain, and their amounts were
+> REVISED to hit the target % (see "WEEKS 1-4"). Weekday labels corrected
+> (11-10 is a Tuesday; 11-12 a Thursday; 11-17/11-24/12-01 are Tuesdays).
+
 ## Principle
 - The big SPYG→diversified shift is **staged over 4 weeks** to avoid dumping
   $176K into last week's weakness in one shot — a fixed schedule, not a timing
   bet. If SPYG bounces you capture some; if it falls you've de-risked some.
 - The one-time trades (loser sells, MSFT/TSM trims, LRCX start, and the
-  EM/mid/REIT buys) go **Monday 2026-11-10** — no reason to stage these.
+  EM/mid/REIT buys) go **Tuesday 2026-11-10** — no reason to stage these.
 - **Cash funding:** the IRA holds ~$54,530 cash (FDRXX, ~10% vs a 3% target).
   Use the ~$39.5K excess to FUND the diversifying buys so nothing waits on sale
   settlement. Cash does NOT cancel the thesis sells and does NOT replace the
   SPYG trim (only selling SPYG cuts the large-cap-growth overweight). Keep ~$15K
   as the cash sleeve.
 - **Schedule shifted out one week** from the original 2026-11-03 start.
-- **Two tempos — not everything is on one Monday:** the one-time block (thesis
+- **Two tempos — not everything is on one day:** the one-time block (thesis
   sells incl. MSFT/TSM trims, LRCX start, VWO/VO/VNQ buys) is done in a single
   session on 11-10 — these are decisions, not timing bets. Only the SPYG→
-  VEA/BND/VB shift is staged (4 Mondays). If you'd rather be done, 1-2 larger
+  VEA/BND/VB shift is staged (4 tranche days). If you'd rather be done, 1-2 larger
   SPYG tranches is also defensible; staging just avoids selling all $176K at
   one morning's price.
 - **MSFT kept larger (Option B):** MSFT gets a higher personal cap (~$48K,
@@ -60,12 +65,12 @@ Not everything on one day. Proposed sequencing (amounts refreshed tomorrow AM
 with live prices; sells before buys; the ~$54.5K cash buffer removes settlement
 pressure):
 
-- **Day 1 — Mon 11-10 — SELLS only:** Step 1 below (SBUX + MSFT &
+- **Day 1 — Tue 11-10 — SELLS only:** Step 1 below (SBUX + MSFT &
   TSM trims). No buys today; cash already covers them.
-- **Day 2 — Tue 11-11 — BUYS:** Step 2 below (LRCX start, VWO, VO, VNQ).
-- **Day 3 — Wed 11-12 — SPYG tranche 1:** Step 3 below (SELL SPYG → VEA/BND/VB).
+- **Day 2 — Wed 11-11 — BUYS:** Step 2 below (LRCX start, VWO, VO, VNQ).
+- **Day 3 — Thu 11-12 — SPYG tranche 1:** Step 3 below (SELL SPYG → VEA/BND/VB).
 
-Weeks 2-4 stay one SPYG tranche each Monday (11-17, 11-24, 12-01).
+Weeks 2-4 stay one SPYG tranche each Tuesday (11-17, 11-24, 12-01).
 
 ### Step 1 — SELLS (do these first) · ALL DONE EARLY (PDD ~$11,872 + MCD ~$4,882 + PLTR ~$7,963 done early)
 
@@ -89,14 +94,18 @@ Weeks 2-4 stay one SPYG tranche each Monday (11-17, 11-24, 12-01).
 | 10 | VNQ | ✅ DONE 11-04 (pulled fwd) | — | 204 sh @ $96.32 = $19,649 | REIT / real assets (cash-funded) |
 |   |   |   | **Buys subtotal** | **~$74,325** |   |
 
-### Step 3 — Week-1 SPYG tranche (Day 3, Wed 11-12) · see staged section
+### Step 3 — Week-1 SPYG tranche (Day 3, Thu 11-12) · see staged section
 
 | # | Ticker | Action | Order type | Amount |
 |---|--------|--------|-----------|-------:|
-| 11 | SPYG | SELL tranche 1 of 4 | marketable-limit | ~$44,029 |
-| 12 | VEA | Buy | after 9:45 | ~$24,480 |
-| 13 | BND | Buy | after 9:45 | ~$12,240 |
-| 14 | VB | Buy | after 9:45 | ~$7,344 |
+| 11 | SPYG | SELL tranche 1 of 4 | marketable-limit | ~$44,800 |
+| 12 | VEA | Buy | after 9:45 | ~$23,000 |
+| 13 | BND | Buy | after 9:45 | ~$7,800 |
+| 14 | VB | Buy | after 9:45 | ~$8,400 |
+| 15 | VO | Top-up buy | after 9:45 | ~$1,200 |
+| 16 | VWO | Top-up buy | after 9:45 | ~$2,000 |
+| 17 | VNQ | Top-up buy | after 9:45 | ~$700 |
+|   | (hold) | cash sleeve rebuild | — | ~$1,700 stays in FDRXX |
 
 ### Cash flow for the day (with the ~$54.5K IRA cash in play)
 
@@ -106,7 +115,7 @@ Weeks 2-4 stay one SPYG tranche each Monday (11-17, 11-24, 12-01).
 | PDD + MCD + PLTR exits (DONE 11-02, settling) | +$24,717 | — |
 | Step 1 remaining sells (SBUX + MSFT/TSM trims) | +$44,183 | — |
 | Step 2 buys | — | −$74,325 |
-| Step 3 (SPYG sell − buys) | +$44,029 | −$44,064 |
+| Step 3 (SPYG sell − buys; REVISED 11-04) | +$44,800 | −$43,100 (hold ~$1,700) |
 | **End cash** | **~$49,070** (unchanged; PDD just moved ~$11.9K from the 11-10 column into cash-on-hand early) | |
 
 The over-target cash is absorbed as the Weeks 2-4 SPYG tranches buy more
@@ -114,7 +123,7 @@ VEA/BND/VB; trim toward the ~3% (~$15K) cash sleeve by the final week.
 
 ### Week-1 checklist (by day)
 
-Day 1 — Mon 11-10 (sells):
+Day 1 — Tue 11-10 (sells):
 - [x] PDD (all) — ✅ DONE 11-02, pulled forward into +5% up-day (~$11,872)
 - [x] MCD (all) — ✅ DONE 11-02, pulled forward into +1.9% up-day (~$4,882)
 - [x] PLTR (all) — ✅ DONE 11-02, take profit (~$7,963)
@@ -123,14 +132,14 @@ Day 1 — Mon 11-10 (sells):
 - [x] 2. Trim MSFT → $48K cap — ✅ DONE 11-04, sold 63.0 sh (~$34.9K), kept 86.5 sh
 - [ ] 3. Trim TSM → $3.5K
 
-Day 2 — Tue 11-11 (buys):
+Day 2 — Wed 11-11 (buys):
 - [x] LRCX — ✅ STARTED 11-03, ~$5,500 market @ ~$233-234 (in-range, pulled fwd)
 - [x] 5. Buy VWO — ✅ DONE 11-04, 488 sh @ $56.44
 - [x] 6. Buy VO — ✅ DONE 11-04, 265 sh @ $81.88
 - [x] 7. Buy VNQ — ✅ DONE 11-04, 204 sh @ $96.32
 
-Day 3 — Wed 11-12 (SPYG tranche 1):
-- [ ] 11. Sell SPYG tranche 1 (~$44,029)
+Day 3 — Thu 11-12 (SPYG tranche 1):
+- [ ] 11. Sell SPYG tranche 1 (~$44,800; REVISED 11-04, see Weeks 1-4)
 - [ ] 12. Buy VEA · 13. Buy BND · 14. Buy VB
 - [ ] After each day: GET /api/v1/portfolio/allocation/ to confirm drift closing
 
@@ -168,21 +177,46 @@ So remaining Intl buy ~$82K (not the full ~$102K); remaining Bonds ~$26K
 
 ---
 
-## WEEKS 1-4 — staged SPYG reallocation (~$44K/week)
+## WEEKS 1-4 — staged SPYG reallocation (~$44.8K/week) — REVISED 2026-11-04
 
-Each Monday (2026-11-10, 2026-11-17, 2026-11-24, 2026-12-01), repeat:
-- **SELL SPYG ~$44,029**
-- **BUY VEA ~$24,480** (international developed)
-- **BUY BND ~$12,240** (bonds)
-- **BUY VB ~$7,344** (US small cap)
+Revised after the 11-04 early executions (all Step 1 sells + Step 2 buys done).
+Recomputed against the TARGET % on the live app positions (allocation endpoint,
+prices ~10:25am 11-04). Total basis = positions $550,277 + effective cash
+~$10,020 = ~$560,297. The ORIGINAL amounts ($44,029 / $24,480 / $12,240 /
+$7,344) would have over-bought BND (13.4% vs 10% target — the $25K BND bought
+11-02 was not netted out) and under-filled mid/EM/REIT/small and the cash sleeve.
 
-| Week | Date | SPYG sell | VEA | BND | VB |
-|------|------|----------:|----:|----:|---:|
-| 1 | Mon 2026-11-10 | $44,029 | $24,480 | $12,240 | $7,344 |
-| 2 | Mon 2026-11-17 | $44,029 | $24,480 | $12,240 | $7,344 |
-| 3 | Mon 2026-11-24 | $44,029 | $24,480 | $12,240 | $7,344 |
-| 4 | Mon 2026-12-01 | $44,029 | $24,480 | $12,240 | $7,344 |
-| **Total** | | **$176,117** | $97,920 | $48,960 | $29,376 |
+Remaining gap to target (full plan, 4 tranches):
+
+| Bucket | Now | Target | Trade |
+|--------|----:|-------:|------:|
+| US Large (SPYG sell) | 75.3% | 42% | SELL ~$179.1K |
+| Intl Developed (VEA) | 3.7% | 20% | BUY ~$91.9K |
+| Bonds (BND) | 4.5% | 10% | BUY ~$31.1K |
+| US Small (VB) | 0% | 6% | BUY ~$33.6K |
+| US Mid (VO) | 7.3% | 8% | BUY ~$4.8K |
+| Emerging (VWO) | 5.6% | 7% | BUY ~$8.2K |
+| REIT (VNQ) | 3.6% | 4% | BUY ~$2.8K |
+| Cash sleeve | ~1.8% | 3% | HOLD +~$6.8K |
+
+Each Tuesday (2026-11-17, 11-24, 12-01) plus Thu 2026-11-12, repeat:
+- **SELL SPYG ~$44,800**
+- **BUY VEA ~$23,000** · **BND ~$7,800** · **VB ~$8,400**
+- **BUY top-ups: VO ~$1,200 · VWO ~$2,000 · VNQ ~$700** (tiny lots may be
+  rolled into the next tranche if you prefer fewer tickets)
+- **HOLD ~$1,700** in FDRXX (rebuilds the sleeve toward ~$16.8K / 3%)
+
+| Week | Date | SPYG sell | VEA | BND | VB | VO | VWO | VNQ | Hold |
+|------|------|----------:|----:|----:|---:|---:|----:|----:|-----:|
+| 1 | Thu 2026-11-12 | $44,800 | $23,000 | $7,800 | $8,400 | $1,200 | $2,000 | $700 | $1,700 |
+| 2 | Tue 2026-11-17 | $44,800 | $23,000 | $7,800 | $8,400 | $1,200 | $2,000 | $700 | $1,700 |
+| 3 | Tue 2026-11-24 | $44,800 | $23,000 | $7,800 | $8,400 | $1,200 | $2,000 | $700 | $1,700 |
+| 4 | Tue 2026-12-01 | $44,800 | $23,000 | $7,800 | $8,400 | $1,200 | $2,000 | $700 | $1,700 |
+| **Total** | | **$179,200** | $92,000 | $31,200 | $33,600 | $4,800 | $8,000 | $2,800 | $6,800 |
+
+Re-run GET /api/v1/portfolio/allocation/ before each tranche and re-derive the
+dollars from the live gap (gap ÷ tranches remaining). Amounts drift with prices
+and with MSFT/GOOGL moves — the TARGET %, not these dollars, is the rule.
 
 ## After completion (target end-state)
 Satellite ~30% (12 names, ≤$30K each EXCEPT MSFT ~$48K by Option B: MSFT, MA,
@@ -191,10 +225,11 @@ PEP, SPGI, LRCX, TSM). Core ~70% diversified index (VOO/VO/VB/VEA/VWO/BND/VNQ).
 Whole portfolio ~90% equity / 10% bonds.
 
 ## Checklist
-- [ ] Week of 11-10: Day 1 sells (Mon) · Day 2 buys (Tue) · Day 3 SPYG tranche 1 (Wed)
-- [ ] Mon 2026-11-17: Week-2 tranche
-- [ ] Mon 2026-11-24: Week-3 tranche
-- [ ] Mon 2026-12-01: Week-4 tranche (final)
+- [x] Day 1 sells + Day 2 buys — ✅ ALL DONE EARLY (11-02 → 11-04)
+- [ ] Thu 2026-11-12: Week-1 tranche
+- [ ] Tue 2026-11-17: Week-2 tranche
+- [ ] Tue 2026-11-24: Week-3 tranche
+- [ ] Tue 2026-12-01: Week-4 tranche (final)
 - [ ] After each: GET /api/v1/portfolio/allocation/ to confirm drift closing
 - [ ] If SPYG moves a lot, DO NOT change the cadence — the point is to not time it
 
@@ -212,5 +247,5 @@ position + price updates** to sanity-check the plan against live data:
   the allocation drift (GET /api/v1/portfolio/allocation/) against targets.
 - Confirm no thesis changed (earnings, news) that should alter a sell/buy.
 - If the numbers hold up through the week, execute the Week-1 day-by-day plan
-  (Mon–Wed, 11-10 → 11-12), then SPYG tranches 2–4 on 11-17 / 11-24 / 12-01. If
+  (Tue–Thu, 11-10 → 11-12), then SPYG tranches 2–4 on 11-17 / 11-24 / 12-01. If
   something material shifts, revise here first.

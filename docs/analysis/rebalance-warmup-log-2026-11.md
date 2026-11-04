@@ -398,3 +398,19 @@ SPYG tranche proceeds fund the next buys — but the sleeve is thin until rebuil
 
 Remaining: SPYG tranches 11-12/17/24, 12-01 with VEA/BND/VB buys. Tranche 1
 buys ($44,064) ~= sell ($44,029), so cash stays ~$10K unless a buy is trimmed.
+
+## Wed 11-04 — Plan recomputed against target % (10:30am ET)
+
+Recomputed the remaining plan on the live app positions (positions $550,277 +
+~$10,020 effective cash). The original SPYG tranche amounts over-bought BND
+(plan end-state 13.4% vs 10% target — the $25K BND bought 11-02 was not netted
+out) and left mid/EM/REIT/small and the cash sleeve short.
+
+Revised per tranche (x4: Thu 11-12, Tue 11-17, 11-24, 12-01): SELL SPYG ~$44.8K;
+BUY VEA ~$23.0K, BND ~$7.8K, VB ~$8.4K, top-ups VO ~$1.2K / VWO ~$2.0K /
+VNQ ~$0.7K; HOLD ~$1.7K cash. Totals: SPYG $179.2K, VEA $92K, BND $31.2K,
+VB $33.6K, VO $4.8K, VWO $8K, VNQ $2.8K, cash +$6.8K. Rule: the target %, not
+the dollars — re-derive from the live gap before each tranche.
+
+Also corrected weekday labels in the schedule (11-10 is a Tuesday; 11-12 a
+Thursday; 11-17/11-24/12-01 are Tuesdays).
