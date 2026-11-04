@@ -358,3 +358,24 @@ a planned trim; LRCX green validates the swap timing.
 Remaining: SBUX full exit + MSFT trim ->$48K (11-10); VWO/VO/VNQ (SPYG-funded);
 SPYG tranches 11-12/17/24, 12-01. Cash ~$32K effective after TSM proceeds settle
 (above $15K sleeve). Plan impact: none — all on schedule.
+
+## Wed 11-04 — SBUX exit + MSFT trim executed (10:15am ET)
+
+Tape: broad risk-on rally. VOO +1.8%, SPYG +2.1%, VIX 17.2 (-17%, from 20.8),
+HYG +0.4%, 10Y 4.93%, DXY 101.4. Value and growth both up (semis lagged:
+LRCX/TSM +0.5%).
+
+Executions (reconciled from Fidelity CSV, pending proceeds +$46,913.57):
+- SBUX FULL EXIT — sold all 111.88 sh (~$12.0K) into +2.6% up-day. Meets the
+  validated pull-forward rule (committed full-exit loser, up-day >=2-3%).
+  Position closed in app.
+- MSFT TRIM — sold 63.0 sh (~$34.9K) @ ~$554; kept 86.5 sh (~$47.9K, Option B
+  $48K cap). NOT covered by the pull-forward rule (MSFT is a keeper-trim,
+  which stays on schedule); done at user discretion after a +6.4% pop. The
+  larger share count vs plan (63 vs 56.5) is because MSFT appreciated.
+
+Result: ALL Step 1 sells are now complete. Nothing is left for Mon 11-10 sells.
+Cash: FDRXX $31,997 settled + $46,914 pending = ~$78.9K (well above the ~$15K
+sleeve), waiting for the VWO/VO/VNQ buys and SPYG tranches.
+
+Remaining: VWO/VO/VNQ buys; SPYG tranches 11-12/17/24, 12-01 (+VEA/BND/VB).
