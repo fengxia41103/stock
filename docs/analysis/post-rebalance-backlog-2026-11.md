@@ -30,6 +30,41 @@ NC 401k/457). Key questions when we take this up:
 - Put bonds/REIT in tax-advantaged; keep taxable sleeves tax-efficient
   (broad index, international for foreign-tax-credit if taxable).
 
+### Account-type analysis for the ~$110K CD (added 2026-11-05)
+HARD CONSTRAINT: the $110K CANNOT be bulk-moved into an IRA. IRA contributions
+need EARNED INCOME and are capped (~$7-8K/yr with the 50+ catch-up). A
+"rollover" only applies to money already in a retirement plan; after-tax bank
+CD cash is NOT rollover-eligible. So "put it in the Rollover IRA / another IRA"
+is off the table for the bulk.
+
+Realistic destinations, in priority order:
+1. MAX tax-advantaged space first, using the CD as the funding source:
+   - This year's IRA/Roth (~$8K, if earned income; + spousal if applicable).
+   - Increase NC 401k/457 payroll deferral toward the max and live on CD cash
+     to cover the paycheck gap — this effectively shifts CD money into
+     sheltered space dollar-for-dollar (a direct transfer can't).
+   - HSA if eligible and not maxed (most tax-advantaged account there is).
+2. Remainder -> a TAXABLE brokerage account (no cap, fully liquid, gains taxed).
+
+WHERE TO OPEN: lean FIDELITY taxable (same login as the IRA -> one dashboard,
+easy household rebalancing + reconcile). IBKR only if the live/pre-market data
+feed, cheaper margin, or broader instruments are wanted; downside is holdings
+split across two brokers.
+
+TAX-LOCATION PAYOFF (the real win): with a taxable account added,
+- bonds + REITs live in the IRA (ordinary-income -> shelter),
+- taxable holds tax-efficient broad equity index, and ideally the INTERNATIONAL
+  sleeve so the FOREIGN TAX CREDIT (wasted inside an IRA) can be claimed.
+The $110K is a SLOT in the household allocation, not a standalone portfolio.
+
+BEFORE ACTING:
+- Confirm account-type + sheltered-space math with Fidelity / a tax advisor
+  (earned income, spouse, HSA eligibility change the numbers). After-tax money
+  is hard to re-characterize.
+- STAGE the entry (lump-sum timing risk) like the SPYG tranches; keep a slice
+  in T-bills / money-market as the principal-certainty portion.
+- Post-rebalance project; does NOT affect tranche 1 (11-12).
+
 ## 3. Glidepath mechanics (DEFERRED by user — revisit near retirement, years out)
 How bonds ramp 10% -> 25% -> 40%: linear vs stepped, and prefer de-risking via
 new-contribution flow rather than selling equity. User: defer until ~pre-retirement.
