@@ -9,10 +9,11 @@ ENV NODE_OPTIONS=--max_old_space_size=2048
 
 WORKDIR /code
 
-COPY package.json yarn.lock* .npmrc ./
+COPY package.json package-lock.json* yarn.lock* .npmrc ./
 
 # Same token-or-stub fallback as the production Dockerfile, so installs work
-# with or without the private @fengxia41103/storybook token.
+# with or without the private @fengxia41103/storybook token. Uses the committed
+# lockfile when present (reproducible), so deps like klinecharts are guaranteed.
 RUN NPM_TOKEN=${NPM_TOKEN} npm install --legacy-peer-deps 2>/dev/null \
     || ( \
       sed -i '/"@fengxia41103\/storybook"/d' package.json && \
