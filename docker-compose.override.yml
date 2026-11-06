@@ -1,0 +1,44 @@
+# Frontend HOT-RELOAD dev override — AUTO-MERGED (this is the DEFAULT).
+# Compose automatically merges docker-compose.override.yml on a bare
+# `docker compose up`, so hot-reload on :8085 is what you get by default.
+# Compose is LOCAL-DEV ONLY in this repo (no CI/deploy runs `docker compose`).
+#
+# Default (hot-reload Vite dev server, host source bind-mounted):
+#   docker compose up -d                         # auto-merges this file
+#   -> http://localhost:8085   (HMR; reflects live source edits)
+#
+# Production static build (EXPLICIT opt-in — ignore this override):
+#   docker compose -f docker-compose.yml up -d   # nginx static, no node_modules
+#   -> http://localhost:8084
+#
+# NOTE: the base file binds 8084->80 (nginx). In dev the container runs Vite on
+# 5173, so we `!reset` the inherited ports and publish ONLY 8085->5173 to avoid
+# a dead 8084 binding pointing at a non-listening container port 80.
+#
+# The retirement planner is a first-class feature of the app (route /retirement);
+# there is no separate dev service for it.
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile.dev
+      args:
+        NPM_TOKEN: ${NPM_TOKEN}
+    # Vite dev server (HMR) instead of the nginx static build.
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+    environment:
+      # Proxy /api calls to the backend-proxy service inside the compose network.
+      VITE_PROXY_TARGET: http://backend-proxy:80
+    # Drop the inherited 8084->80 binding from the base file, then publish only
+    # the Vite dev port. !override replaces the inherited list (Compose v2.24+).
+    ports: !override
+      - "8085:5173"
+    volumes:
+      # Mount source for hot-reload; keep container-built node_modules.
+      - ./frontend:/code
+      - /code/node_modules
+    networks:
+      - management
+    depends_on:
+      - backend-proxy
