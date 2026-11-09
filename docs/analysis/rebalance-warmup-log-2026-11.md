@@ -426,3 +426,27 @@ Considered running SPYG tranche 1 today (SPYG +1.7%, VIX 17). Decided to wait:
 Today's VWO/VO/VNQ buys are already netted out of the revised tranche amounts.
 Process decision, not a market call. Plan unchanged: Thu 11-12, then Tue 11-17,
 11-24, 12-01 (revised amounts in the schedule).
+
+## Mon 11-09 — SPYG tranche 1 executed (10:24am ET, pulled forward)
+
+Discretionary pull-forward: tranche 1 was scheduled Thu 11-12; user chose to run
+it on a green day (VOO +1.7%, SPYG +2%, VIX 21.4 down from 23.6). NOT covered by
+the pull-forward rule (that's for full-exit losers; SPYG tranches are scheduled
+trims). Swap was ~price-neutral — sold strength, bought strength. Remaining 3
+tranches stay on their Tuesdays (11-17, 11-24, 12-01).
+
+Order-entry catch: user initially set SPYG sell qty=114.41 (that was the PRICE)
+with limit $115 (above market, wouldn't fill). Corrected to 379 sh @ ~$114.45.
+
+Fills (reconciled from Fidelity CSV):
+- SPYG SELL 379 sh @ ~$114.75  (1821.041 -> 1442.041)
+- VEA  +313 sh @ $69.71   (-> 598.449)
+- BND  +98 sh  @ ~$71.40  (-> 448.459)
+- VB   +28 sh  @ $291.67  (NEW, auto-classified us_small)
+- VWO  +30 sh  @ $56.45   (-> 518)
+- VO   +9 sh   @ $81.85   (-> 274)
+- VNQ  +4 sh   @ $96.34   (-> 208)
+Sold ~$43.5K, bought ~$39.5K; ~$3.8K stayed in cash.
+
+Cash: FDRXX $10,052 settled + $3,756 pending = ~$13,808 effective (rebuilding
+toward the $15K sleeve). Remaining: tranches 2-4 (11-17, 11-24, 12-01).

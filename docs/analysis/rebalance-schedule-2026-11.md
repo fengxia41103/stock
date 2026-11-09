@@ -208,7 +208,7 @@ Each Tuesday (2026-11-17, 11-24, 12-01) plus Thu 2026-11-12, repeat:
 
 | Week | Date | SPYG sell | VEA | BND | VB | VO | VWO | VNQ | Hold |
 |------|------|----------:|----:|----:|---:|---:|----:|----:|-----:|
-| 1 | Thu 2026-11-12 | $44,800 | $23,000 | $7,800 | $8,400 | $1,200 | $2,000 | $700 | $1,700 |
+| 1 | ✅ DONE Mon 2026-11-09 (pulled fwd, discretionary) — SPYG -379sh ~$43.5K; VEA +313, BND +98, VB +28, VWO +30, VO +9, VNQ +4 | | | | | | | |
 | 2 | Tue 2026-11-17 | $44,800 | $23,000 | $7,800 | $8,400 | $1,200 | $2,000 | $700 | $1,700 |
 | 3 | Tue 2026-11-24 | $44,800 | $23,000 | $7,800 | $8,400 | $1,200 | $2,000 | $700 | $1,700 |
 | 4 | Tue 2026-12-01 | $44,800 | $23,000 | $7,800 | $8,400 | $1,200 | $2,000 | $700 | $1,700 |
@@ -226,7 +226,7 @@ Whole portfolio ~90% equity / 10% bonds.
 
 ## Checklist
 - [x] Day 1 sells + Day 2 buys — ✅ ALL DONE EARLY (11-02 → 11-04)
-- [ ] Thu 2026-11-12: Week-1 tranche
+- [x] Week-1 tranche — ✅ DONE Mon 2026-11-09 (pulled fwd, discretionary)
 - [ ] Tue 2026-11-17: Week-2 tranche
 - [ ] Tue 2026-11-24: Week-3 tranche
 - [ ] Tue 2026-12-01: Week-4 tranche (final)
