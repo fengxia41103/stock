@@ -450,3 +450,33 @@ Sold ~$43.5K, bought ~$39.5K; ~$3.8K stayed in cash.
 
 Cash: FDRXX $10,052 settled + $3,756 pending = ~$13,808 effective (rebuilding
 toward the $15K sleeve). Remaining: tranches 2-4 (11-17, 11-24, 12-01).
+
+## Tue 11-17 — SPYG tranche 2 executed (10:34-10:43am ET, on schedule)
+
+On the scheduled day, not pulled forward. Market was down (SPYG ~$110.7 vs
+$114.45 at tranche 1; VOO -1.4% the day before); cadence kept regardless of
+price per the conviction anchor. NVDA reports after the close tonight; all
+orders filled during the session, before the print.
+
+Sizing: live gap on total value incl. cash ($534.9K) / 3 tranches remaining.
+The SPYG sell came in ~$3K under the schedule's $44.8K because the US-large
+overweight shrank in dollar terms with the market.
+
+Fills (reconciled from Fidelity CSV, fill prices derived from pending activity):
+- SPYG SELL 376 sh @ ~$110.47  (1442.041 -> 1066.041), proceeds $41,535.86
+- VEA  +328 sh @ ~$67.56  (-> 926.449)
+- BND  +103 sh @ ~$70.68  (-> 551.459)
+- VB   +28 sh  @ ~$284.2  (-> 56; avg cost $287.94)
+- VWO  +38 sh  (-> 556)
+- VO   +12 sh  (-> 286)
+- VNQ  +5 sh   @ ~$95.57  (-> 213)
+Sold ~$41.5K, bought ~$40.9K; ~$0.6K stayed in cash.
+
+Cash: FDRXX $13,914 settled + $642 pending = ~$14,556 (2.7% of total).
+
+Allocation after tranche 2 (total incl. cash ~$532.4K): US Large 57.5% (tgt 42),
+Intl Dev 11.7% (20), Bonds 7.3% (10), US Small 3.0% (6), Mid 7.6% (8),
+EM 6.2% (7), REIT 3.8% (4). Remaining: tranches 3-4 (11-24, 12-01); live gap
+/ 2 is ~SPYG -$41K, VEA +$22K, VB +$8K, BND +$7K, EM +$2K, Mid +$0.9K,
+REIT +$0.5K.
+

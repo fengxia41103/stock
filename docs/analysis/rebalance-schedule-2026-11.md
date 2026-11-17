@@ -209,7 +209,7 @@ Each Tuesday (2026-11-17, 11-24, 12-01) plus Thu 2026-11-12, repeat:
 | Week | Date | SPYG sell | VEA | BND | VB | VO | VWO | VNQ | Hold |
 |------|------|----------:|----:|----:|---:|---:|----:|----:|-----:|
 | 1 | ✅ DONE Mon 2026-11-09 (pulled fwd, discretionary) — SPYG -379sh ~$43.5K; VEA +313, BND +98, VB +28, VWO +30, VO +9, VNQ +4 | | | | | | | |
-| 2 | Tue 2026-11-17 | $44,800 | $23,000 | $7,800 | $8,400 | $1,200 | $2,000 | $700 | $1,700 |
+| 2 | ✅ DONE Tue 2026-11-17 (on schedule) — SPYG -376sh ~$41.5K; VEA +328, BND +103, VB +28, VWO +38, VO +12, VNQ +5 | | | | | | | |
 | 3 | Tue 2026-11-24 | $44,800 | $23,000 | $7,800 | $8,400 | $1,200 | $2,000 | $700 | $1,700 |
 | 4 | Tue 2026-12-01 | $44,800 | $23,000 | $7,800 | $8,400 | $1,200 | $2,000 | $700 | $1,700 |
 | **Total** | | **$179,200** | $92,000 | $31,200 | $33,600 | $4,800 | $8,000 | $2,800 | $6,800 |
@@ -227,7 +227,7 @@ Whole portfolio ~90% equity / 10% bonds.
 ## Checklist
 - [x] Day 1 sells + Day 2 buys — ✅ ALL DONE EARLY (11-02 → 11-04)
 - [x] Week-1 tranche — ✅ DONE Mon 2026-11-09 (pulled fwd, discretionary)
-- [ ] Tue 2026-11-17: Week-2 tranche
+- [x] Tue 2026-11-17: Week-2 tranche — ✅ DONE (on schedule)
 - [ ] Tue 2026-11-24: Week-3 tranche
 - [ ] Tue 2026-12-01: Week-4 tranche (final)
 - [ ] After each: GET /api/v1/portfolio/allocation/ to confirm drift closing
