@@ -79,9 +79,66 @@ sleeve (tends to rise as USD falls). Not a change now; user macro call.
 ## 5. Factor tilts (CLOSED) — none unless a clear trend/winner emerges. Current
 plan deliberately moves away from single-factor bets.
 
-## 6. Alternatives / TIPS (CLOSED for now) — TIPS have a case vs the flat-nominal
-pension, but equities are the better inflation hedge at a 14-17 yr horizon.
-Possible small TIPS sliver near drawdown.
+## 6. Alternatives / TIPS (REOPENED 2026-11-19 as a post-12-01 bond-sleeve decision)
+
+Original note: TIPS have a case vs the flat-nominal pension, but equities are
+the better inflation hedge at a 14-17 yr horizon.
+
+Question raised 11-19: should TIPS be considered? Framework (analysis, not a
+recommendation; decide AFTER the rebalance finishes 12-01, not during):
+
+- **What TIPS protect against:** inflation, not equity drawdowns. In a growth
+  scare like 11-17/11-19 nominal Treasuries tend to do better than TIPS. In
+  2022 both fell (TIPS funds with long duration lost ~12%). TIPS do not defend
+  the scenario in item 8.
+- **Why they fit this household:** the pension is flat-nominal, so the family
+  is already short inflation. TIPS are the direct offset to that exposure.
+- **Account fit:** the IRA is the right place. TIPS inflation accruals are
+  taxed as phantom income in a taxable account, not in an IRA.
+- **Where they sit:** inside the 10% bond sleeve (about $53K at target), not
+  on top of it. Options to compare: (a) all BND (today), (b) BND plus a TIPS
+  fund (e.g. a broad TIPS ETF) in some split, (c) later, a TIPS ladder.
+- **Duration matters:** a broad TIPS ETF carries real-rate duration risk; a
+  short-term TIPS ETF has little. Match to purpose.
+- **Check before deciding:** the current 10-year real yield (not verified in
+  this note) against the nominal 10Y (~5.05% on 11-19). Positive real yields
+  make locking in a real return meaningful.
+- **Natural home: the 2038-2043 ladder** already planned for retirement (see
+  item 3). A TIPS ladder is the classic inflation-protected spending floor.
+- **Position to date:** BND now; revisit the split after 12-01 and again
+  when the ladder is built. No change during the tranches.
+
+Open: user to decide whether to add a TIPS sliver to the bond sleeve now or
+only in the ladder phase.
 
 ## 7. Downside hedging (CLOSED) — not for a long-horizon accumulator; cost drag
 outweighs protection. Real hedge = time + diversification.
+
+## 8. Drawdown playbook (PROPOSED 2026-11-19 — user to confirm or edit)
+
+Trigger: broad selloff where stocks, international and defensives fall together
+(11-17/11-19: VIX 26 -> 28.4, VOO about -8% from its peak close). Purpose: decide
+the response NOW so it is not made in a panic.
+
+Reference: VOO peak close **$716.20 (2026-10-06)**; intraday high $718.47.
+
+| VOO level | Drawdown | Proposed response |
+|-----------|---------:|-------------------|
+| $644.58 | -10% | No change. Continue SPYG tranches on schedule. Re-read note #136. |
+| $608.77 | -15% | Continue tranches. After 12-01, consider staging the first part of the CD money (account type per item 2). |
+| $572.96 | -20% | Run the item-1 band check and rebalance into weakness. Review satellites against their written thesis-break rules (not price). |
+| $501.34 | -30% | No preset action. Review the equity % itself (the 90/10 choice) before anything else. |
+
+Standing rules:
+- Never change the SPYG tranche cadence because of price.
+- No new hedges after a drop (VIX is high, protection is expensive; item 7).
+- No stop-losses on price. Single names use thesis-break rules only.
+- Log each level crossed as a dated diary entry.
+
+What actually defends (in order): equity % chosen up front; not being forced to
+sell (income, pension); dry powder (cash sleeve ~$14.6K plus the staged CD);
+rebalancing bands; thesis-break rules. Bonds cushion but do not protect
+(2022). Defensive stocks did not hold up on 11-19.
+
+Open: confirm the proposed responses per level.
+
